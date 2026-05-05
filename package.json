@@ -1,16 +1,36 @@
 {
-  "name": "sons-of-mountains-temp",
+  "name": "sons-of-mountains",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "payload": "payload",
+    "seed": "bun src/data/seed/index.ts",
+    "seed:pages": "bun src/data/seed/pages.ts"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "@payloadcms/db-postgres": "^3.84.1",
+    "@payloadcms/email-resend": "^3.84.1",
+    "@payloadcms/live-preview": "^3.84.1",
+    "@payloadcms/live-preview-react": "^3.84.1",
+    "@payloadcms/next": "^3.84.1",
+    "@payloadcms/richtext-lexical": "^3.84.1",
+    "@payloadcms/ui": "^3.84.1",
+    "@puckeditor/core": "^0.21.2",
+    "motion": "^12.38.0",
     "next": "16.2.4",
+    "payload": "^3.84.1",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "react-hook-form": "^7.74.0",
+    "resend": "^6.12.2",
+    "sharp": "^0.34.5",
+    "stripe": "^22.1.0",
+    "tsx": "^4.21.0",
+    "zod": "^4.4.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -18,6 +38,6 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5.9.3"
   }
 }
