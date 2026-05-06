@@ -1,3 +1,5 @@
+'use client'
+
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
 
 interface EmbedBlockProps {

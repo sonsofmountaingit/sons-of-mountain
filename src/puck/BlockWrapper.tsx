@@ -31,6 +31,15 @@ export interface BlockStyleProps {
   fontWeight?: string
   letterSpacing?: string
   lineHeight?: string
+  width?: string
+  height?: string
+  minHeight?: string
+  maxHeight?: string
+  marginTop?: string
+  marginBottom?: string
+  overflow?: string
+  position?: string
+  zIndex?: string
 }
 
 const SHADOW_MAP: Record<string, string | undefined> = {
@@ -81,7 +90,7 @@ export function BlockWrapper({ props, children, className = '', innerClassName =
   ].filter(Boolean).join(' ')
 
   const sectionStyle: React.CSSProperties = {
-    position: hasBgImage ? 'relative' : undefined,
+    position: (props.position as React.CSSProperties['position']) || (hasBgImage ? 'relative' : undefined),
     background: !hasBgImage ? background : undefined,
     color: props.textColor || undefined,
     paddingTop: noDefaultPadding ? (props.paddingTop || undefined) : (props.paddingTop || '4rem'),
@@ -98,7 +107,14 @@ export function BlockWrapper({ props, children, className = '', innerClassName =
     fontWeight: props.fontWeight as React.CSSProperties['fontWeight'] || undefined,
     letterSpacing: props.letterSpacing || undefined,
     lineHeight: props.lineHeight || undefined,
-    overflow: hasBgImage ? 'hidden' : undefined,
+    overflow: (props.overflow as React.CSSProperties['overflow']) || (hasBgImage ? 'hidden' : undefined),
+    width: props.width || undefined,
+    height: props.height || undefined,
+    minHeight: props.minHeight || undefined,
+    maxHeight: props.maxHeight || undefined,
+    marginTop: props.marginTop || undefined,
+    marginBottom: props.marginBottom || undefined,
+    zIndex: props.zIndex ? Number(props.zIndex) : undefined,
   }
 
   const Outer = anim ? motion.section : 'section'

@@ -1,27 +1,27 @@
+'use client'
+
 import Link from 'next/link'
+import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
 
 interface CTABlockProps {
-  block: {
+  block: BlockStyleProps & {
     headline: string
     body?: string | null
     buttonText?: string | null
     buttonLink?: string | null
-    bgColor?: string | null
-    textColor?: string | null
     variant?: string | null
+    backgroundImage?: { url?: string | null; alt: string } | null
   }
 }
 
 export function CTABlockRenderer({ block }: CTABlockProps) {
+  const innerClass = block.variant === 'centered' || !block.variant
+    ? 'text-center max-w-2xl mx-auto'
+    : 'max-w-5xl mx-auto'
+
   return (
-    <section
-      className="py-20 px-6"
-      style={{
-        backgroundColor: block.bgColor ?? '#111111',
-        color: block.textColor ?? '#ffffff',
-      }}
-    >
-      <div className={block.variant === 'centered' || !block.variant ? 'text-center max-w-2xl mx-auto' : 'max-w-5xl mx-auto'}>
+    <BlockWrapper props={{ ...block, bgImage: block.bgImage || block.backgroundImage?.url || '' }}>
+      <div className={innerClass}>
         <h2 className="text-3xl md:text-5xl font-bold mb-4">{block.headline}</h2>
         {block.body && (
           <p className="text-base text-white/60 mb-8 max-w-xl mx-auto">{block.body}</p>
@@ -35,6 +35,6 @@ export function CTABlockRenderer({ block }: CTABlockProps) {
           </Link>
         )}
       </div>
-    </section>
+    </BlockWrapper>
   )
 }

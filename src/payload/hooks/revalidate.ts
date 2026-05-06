@@ -36,6 +36,17 @@ export const revalidateGlobal = (path: string) => {
   return ({ doc }: { doc: unknown }) => {
     safeAfter(() => {
       revalidatePath(path, 'layout')
+      revalidatePath('/(frontend)', 'layout')
+    })
+    return doc
+  }
+}
+
+export const revalidateFooter = () => {
+  return ({ doc }: { doc: unknown }) => {
+    safeAfter(() => {
+      // Revalidate every frontend route so footer updates are instant
+      revalidatePath('/', 'layout')
     })
     return doc
   }

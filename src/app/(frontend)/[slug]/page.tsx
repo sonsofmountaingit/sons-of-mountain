@@ -6,7 +6,7 @@ import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { BlockRenderer } from '@/components/blocks/BlockRenderer'
 import { LivePreviewBlocks } from '@/components/blocks/LivePreviewBlocks'
-import { PuckPageRenderer } from '@/components/blocks/PuckPageRenderer'
+import { PuckRender } from '@/components/blocks/PuckRender'
 import type { Data } from '@puckeditor/core'
 
 type Args = { params: Promise<{ slug: string }> }
@@ -54,7 +54,7 @@ async function PageContent({ paramsPromise }: { paramsPromise: Promise<{ slug: s
   const puckData = (page as { puckData?: unknown }).puckData as Data | null | undefined
 
   if (puckData?.content?.length) {
-    return <PuckPageRenderer data={puckData} />
+    return <PuckRender data={puckData} />
   }
 
   const layout = ((page as { layout?: unknown[] }).layout ?? []) as Parameters<

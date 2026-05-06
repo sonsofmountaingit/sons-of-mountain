@@ -1,5 +1,15 @@
 import type { CollectionConfig } from 'payload'
 import { revalidateCollection, revalidateCollectionDelete } from '../hooks/revalidate'
+import { revalidateTag } from 'next/cache'
+import { after } from 'next/server'
+
+const revalidateFooterTrips = ({ doc }: { doc: unknown }) => {
+  try { after(() => { revalidateTag('trips') }) } catch { /* noop */ }
+  return doc
+}
+const revalidateFooterTripsDelete = () => {
+  try { after(() => { revalidateTag('trips') }) } catch { /* noop */ }
+}
 
 export const Trips: CollectionConfig = {
   slug: 'trips',
@@ -83,7 +93,7 @@ export const Trips: CollectionConfig = {
     },
   ],
   hooks: {
-    afterChange: [revalidateCollection('trips', '/destinations')],
-    afterDelete: [revalidateCollectionDelete('trips', '/destinations')],
+    afterChange: [revalidateCollection('trips', '/destinations'), revalidateFooterTrips],
+    afterDelete: [revalidateCollectionDelete('trips', '/destinations'), revalidateFooterTripsDelete],
   },
 }

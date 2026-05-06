@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "payload": "payload",
+    "migrate": "node --import tsx/esm --experimental-specifier-resolution=node node_modules/.bin/payload migrate",
     "seed": "bun src/data/seed/index.ts",
     "seed:pages": "bun src/data/seed/pages.ts"
   },
@@ -20,6 +21,7 @@
     "@payloadcms/richtext-lexical": "^3.84.1",
     "@payloadcms/ui": "^3.84.1",
     "@puckeditor/core": "^0.21.2",
+    "gsap": "^3.15.0",
     "motion": "^12.38.0",
     "next": "16.2.4",
     "payload": "^3.84.1",

@@ -9,23 +9,31 @@ export const colorField = (label: string, labelIcon?: React.ReactElement): Custo
   label,
   labelIcon,
   render: ({ value, onChange }) => (
-    <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-      <input
-        type="color"
-        value={value && /^#[0-9a-fA-F]{3,8}$/.test(value) ? value : '#000000'}
-        onChange={(e) => onChange(e.target.value)}
-        style={{ width: 32, height: 32, padding: 2, border: '1px solid rgba(0,0,0,0.15)', borderRadius: 4, cursor: 'pointer', flexShrink: 0 }}
-      />
-      <input
-        type="text"
-        value={value ?? ''}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder="e.g. #fff or rgba(0,0,0,0.5)"
-        style={{ flex: 1, padding: '4px 8px', fontSize: 13, border: '1px solid rgba(0,0,0,0.15)', borderRadius: 4, minWidth: 0 }}
-      />
-      {value && (
-        <button onClick={() => onChange('')} style={{ border: 'none', background: 'none', cursor: 'pointer', fontSize: 16, color: 'rgba(0,0,0,0.4)', padding: 0, lineHeight: 1 }}>×</button>
-      )}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+      <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4, minWidth: 32 }}>
+          {labelIcon}
+          <span style={{ fontSize: 12, fontWeight: 500, color: 'rgba(0,0,0,0.6)' }}>{label}</span>
+        </div>
+      </div>
+      <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+        <input
+          type="color"
+          value={value && /^#[0-9a-fA-F]{3,8}$/.test(value) ? value : '#000000'}
+          onChange={(e) => onChange(e.target.value)}
+          style={{ width: 32, height: 32, padding: 2, border: '1px solid rgba(0,0,0,0.15)', borderRadius: 4, cursor: 'pointer', flexShrink: 0 }}
+        />
+        <input
+          type="text"
+          value={value ?? ''}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder="e.g. #fff or rgba(0,0,0,0.5)"
+          style={{ flex: 1, padding: '4px 8px', fontSize: 13, border: '1px solid rgba(0,0,0,0.15)', borderRadius: 4, minWidth: 0 }}
+        />
+        {value && (
+          <button onClick={() => onChange('')} style={{ border: 'none', background: 'none', cursor: 'pointer', fontSize: 16, color: 'rgba(0,0,0,0.4)', padding: 0, lineHeight: 1 }}>×</button>
+        )}
+      </div>
     </div>
   ),
 })
@@ -85,6 +93,49 @@ const MAX_WIDTH_OPTIONS = [
   { value: '1200px', label: 'Large (1200px)' },
   { value: '1440px', label: 'Wide (1440px)' },
 ]
+
+const SIZE_OPTIONS = [
+  { value: '', label: 'Auto' },
+  { value: '100px', label: '100px' },
+  { value: '200px', label: '200px' },
+  { value: '300px', label: '300px' },
+  { value: '400px', label: '400px' },
+  { value: '500px', label: '500px' },
+  { value: '600px', label: '600px' },
+  { value: '800px', label: '800px' },
+  { value: '100%', label: '100%' },
+  { value: '50vh', label: '50vh' },
+  { value: '75vh', label: '75vh' },
+  { value: '100vh', label: '100vh' },
+]
+
+const MARGIN_OPTIONS = [
+  { value: '', label: 'None' },
+  { value: 'auto', label: 'Auto' },
+  { value: '0.5rem', label: '0.5rem' },
+  { value: '1rem', label: '1rem' },
+  { value: '2rem', label: '2rem' },
+  { value: '3rem', label: '3rem' },
+  { value: '4rem', label: '4rem' },
+  { value: '6rem', label: '6rem' },
+  { value: '8rem', label: '8rem' },
+]
+
+// ── Free-value dimension field (text input with unit) ─────────────────────────
+
+export const dimensionField = (label: string): CustomField<string> => ({
+  type: 'custom',
+  label,
+  render: ({ value, onChange }) => (
+    <input
+      type="text"
+      value={value ?? ''}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder="e.g. 400px, 50vh, 100%, auto"
+      style={{ width: '100%', padding: '4px 8px', fontSize: 13, border: '1px solid rgba(0,0,0,0.15)', borderRadius: 4 }}
+    />
+  ),
+})
 
 // ── All style fields (spread into any block's fields) ─────────────────────────
 
@@ -200,6 +251,46 @@ export function allStyleFields() {
         { value: 'lg', label: 'Large' }, { value: 'xl', label: 'XL' }, { value: 'glow', label: 'Glow' },
       ],
     },
+    // ── Sizing ──────────────────────────────────────────────────────────────
+    width: dimensionField('Width'),
+    height: dimensionField('Height'),
+    minHeight: { type: 'select' as const, label: 'Min Height', options: SIZE_OPTIONS },
+    maxHeight: { type: 'select' as const, label: 'Max Height', options: SIZE_OPTIONS },
+    // ── Margin ──────────────────────────────────────────────────────────────
+    marginTop: { type: 'select' as const, label: 'Margin Top', options: MARGIN_OPTIONS },
+    marginBottom: { type: 'select' as const, label: 'Margin Bottom', options: MARGIN_OPTIONS },
+    // ── Overflow & Position ──────────────────────────────────────────────────
+    overflow: {
+      type: 'select' as const,
+      label: 'Overflow',
+      options: [
+        { value: '', label: 'Default' },
+        { value: 'hidden', label: 'Hidden' },
+        { value: 'auto', label: 'Auto (scroll)' },
+        { value: 'visible', label: 'Visible' },
+      ],
+    },
+    position: {
+      type: 'select' as const,
+      label: 'Position',
+      options: [
+        { value: '', label: 'Default' },
+        { value: 'relative', label: 'Relative' },
+        { value: 'sticky', label: 'Sticky' },
+      ],
+    },
+    zIndex: {
+      type: 'select' as const,
+      label: 'Z-Index',
+      options: [
+        { value: '', label: 'Default' },
+        { value: '0', label: '0' },
+        { value: '10', label: '10' },
+        { value: '20', label: '20' },
+        { value: '50', label: '50' },
+        { value: '100', label: '100' },
+      ],
+    },
     // ── Visibility ──────────────────────────────────────────────────────────
     hideOnMobile: {
       type: 'radio' as const,
@@ -261,6 +352,15 @@ export function allStyleDefaults() {
     borderWidth: 'none',
     borderColor: '',
     boxShadow: 'none',
+    width: '',
+    height: '',
+    minHeight: '',
+    maxHeight: '',
+    marginTop: '',
+    marginBottom: '',
+    overflow: '',
+    position: '',
+    zIndex: '',
     hideOnMobile: 'false',
     hideOnTablet: 'false',
     hideOnDesktop: 'false',
@@ -270,3 +370,68 @@ export function allStyleDefaults() {
 }
 
 export type AllStyleDefaults = ReturnType<typeof allStyleDefaults>
+
+// ── applyBlockStyles ─────────────────────────────────────────────────────────
+// Converts all AllStyleDefaults props into a CSSProperties object.
+// Pass this as the `style` of the block's root <section>/<div>.
+
+const SHADOW_MAP: Record<string, string> = {
+  sm: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
+  md: '0 4px 6px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06)',
+  lg: '0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05)',
+  xl: '0 20px 25px rgba(0,0,0,0.15), 0 10px 10px rgba(0,0,0,0.04)',
+  glow: '0 0 24px rgba(232,213,176,0.35)',
+  none: 'none',
+}
+
+export function applyBlockStyles(s: Partial<AllStyleDefaults>): React.CSSProperties {
+  const bg = s.bgGradientFrom && s.bgGradientTo
+    ? `linear-gradient(${s.bgGradientDir || '180deg'}, ${s.bgGradientFrom}, ${s.bgGradientTo})`
+    : s.bgColor || undefined
+
+  const bgImage = s.bgImage
+    ? s.bgGradientFrom
+      ? `linear-gradient(${s.bgGradientDir || '180deg'}, ${s.bgGradientFrom}CC, ${s.bgGradientTo || s.bgGradientFrom}CC), url(${s.bgImage})`
+      : s.bgImageOverlayColor && s.bgImageOverlayOpacity && s.bgImageOverlayOpacity !== '0'
+        ? `linear-gradient(rgba(${hexToRgb(s.bgImageOverlayColor)},${s.bgImageOverlayOpacity}), rgba(${hexToRgb(s.bgImageOverlayColor)},${s.bgImageOverlayOpacity})), url(${s.bgImage})`
+        : `url(${s.bgImage})`
+    : undefined
+
+  return {
+    ...(bgImage
+      ? { backgroundImage: bgImage, backgroundSize: 'cover', backgroundPosition: s.bgImagePosition || 'center' }
+      : bg ? { background: bg } : {}),
+    color: s.textColor || undefined,
+    textAlign: (s.textAlign as React.CSSProperties['textAlign']) || undefined,
+    fontSize: s.fontSize || undefined,
+    fontWeight: s.fontWeight ? Number(s.fontWeight) as React.CSSProperties['fontWeight'] : undefined,
+    letterSpacing: s.letterSpacing || undefined,
+    lineHeight: s.lineHeight || undefined,
+    paddingTop: s.paddingTop || undefined,
+    paddingBottom: s.paddingBottom || undefined,
+    paddingLeft: s.paddingX || undefined,
+    paddingRight: s.paddingX || undefined,
+    borderRadius: s.borderRadius || undefined,
+    border: s.borderWidth && s.borderWidth !== 'none'
+      ? `${s.borderWidth} solid ${s.borderColor || 'currentColor'}`
+      : undefined,
+    boxShadow: s.boxShadow && s.boxShadow !== 'none' ? SHADOW_MAP[s.boxShadow] || s.boxShadow : undefined,
+    width: s.width || undefined,
+    height: s.height || undefined,
+    minHeight: s.minHeight || undefined,
+    maxHeight: s.maxHeight || undefined,
+    marginTop: s.marginTop || undefined,
+    marginBottom: s.marginBottom || undefined,
+    overflow: (s.overflow as React.CSSProperties['overflow']) || undefined,
+    position: (s.position as React.CSSProperties['position']) || undefined,
+    zIndex: s.zIndex ? Number(s.zIndex) : undefined,
+  }
+}
+
+function hexToRgb(hex: string): string {
+  const h = hex.replace('#', '')
+  if (h.length === 3) {
+    return [parseInt(h[0]+h[0],16), parseInt(h[1]+h[1],16), parseInt(h[2]+h[2],16)].join(',')
+  }
+  return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)].join(',')
+}

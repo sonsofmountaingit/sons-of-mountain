@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
 

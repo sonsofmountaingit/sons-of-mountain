@@ -1,18 +1,18 @@
 'use client'
 
 import { useRef, useState } from 'react'
+import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
 
 interface VideoBlockProps {
-  block: {
+  block: BlockStyleProps & {
     url: string
     poster?: { url?: string | null; alt: string } | null
+    posterImage?: string | null
     caption?: string | null
     autoPlay?: boolean | null
     muted?: boolean | null
-    bgColor?: string | null
-    textColor?: string | null
-    paddingTop?: string | null
-    paddingBottom?: string | null
+    loop?: boolean | null
+    controls?: boolean | null
   }
 }
 
@@ -30,28 +30,23 @@ export function VideoBlockRenderer({ block }: VideoBlockProps) {
     setPlaying(!playing)
   }
 
+  const posterUrl = block.posterImage || block.poster?.url || undefined
+
   return (
-    <section
-      className="px-6"
-      style={{
-        backgroundColor: block.bgColor || undefined,
-        color: block.textColor || undefined,
-        paddingTop: block.paddingTop ?? '4rem',
-        paddingBottom: block.paddingBottom ?? '4rem',
-      }}
-    >
-      <div className="max-w-4xl mx-auto">
-        <div className="relative rounded-lg overflow-hidden bg-black aspect-video">
-          <video
-            ref={videoRef}
-            src={block.url}
-            autoPlay={block.autoPlay ?? false}
-            muted={block.muted ?? true}
-            loop
-            playsInline
-            className="w-full h-full object-cover"
-            poster={block.poster?.url ?? undefined}
-          />
+    <BlockWrapper props={block} innerClassName="max-w-4xl mx-auto">
+      <div className="relative rounded-lg overflow-hidden bg-black aspect-video">
+        <video
+          ref={videoRef}
+          src={block.url}
+          autoPlay={block.autoPlay ?? false}
+          muted={block.muted ?? true}
+          loop={block.loop ?? true}
+          controls={block.controls ?? false}
+          playsInline
+          className="w-full h-full object-cover"
+          poster={posterUrl}
+        />
+        {!(block.controls ?? false) && (
           <button
             onClick={toggle}
             className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 hover:opacity-100 transition-opacity"
@@ -69,11 +64,11 @@ export function VideoBlockRenderer({ block }: VideoBlockProps) {
               )}
             </div>
           </button>
-        </div>
-        {block.caption && (
-          <p className="text-sm text-white/40 mt-3 text-center">{block.caption}</p>
         )}
       </div>
-    </section>
+      {block.caption && (
+        <p className="text-sm text-white/40 mt-3 text-center">{block.caption}</p>
+      )}
+    </BlockWrapper>
   )
 }

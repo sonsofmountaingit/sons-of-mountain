@@ -3,6 +3,7 @@
 import { useRef } from 'react'
 import { motion } from 'motion/react'
 import { StoryCard } from '@/components/ui/StoryCard'
+import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
 
 interface Story {
   id: string
@@ -14,18 +15,15 @@ interface Story {
 }
 
 interface StoriesBlockProps {
-  block: {
+  block: BlockStyleProps & {
     title?: string | null
     stories?: Story[] | null
-    bgColor?: string | null
-    textColor?: string | null
-    paddingTop?: string | null
-    paddingBottom?: string | null
+    _stories?: Story[] | null
   }
 }
 
 export function StoriesBlockRenderer({ block }: StoriesBlockProps) {
-  const stories = block.stories ?? []
+  const stories = block.stories ?? block._stories ?? []
   const scrollRef = useRef<HTMLDivElement>(null)
 
   function scroll(dir: 'left' | 'right') {
@@ -34,15 +32,7 @@ export function StoriesBlockRenderer({ block }: StoriesBlockProps) {
   }
 
   return (
-    <section
-      className="overflow-hidden"
-      style={{
-        backgroundColor: block.bgColor || undefined,
-        color: block.textColor || undefined,
-        paddingTop: block.paddingTop ?? '4rem',
-        paddingBottom: block.paddingBottom ?? '4rem',
-      }}
-    >
+    <BlockWrapper props={{ ...block, overflow: block.overflow || 'hidden' }} noDefaultPadding={false}>
       <div className="flex items-center justify-between px-6 mb-8 max-w-[1440px] mx-auto">
         {block.title && <h2 className="text-3xl font-bold">{block.title}</h2>}
         <div className="flex gap-2">
@@ -81,6 +71,6 @@ export function StoriesBlockRenderer({ block }: StoriesBlockProps) {
           />
         ))}
       </motion.div>
-    </section>
+    </BlockWrapper>
   )
 }

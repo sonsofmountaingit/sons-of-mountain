@@ -6,6 +6,7 @@ import { Slot } from '@puckeditor/core'
 import { HeroBlockRenderer } from '@/components/blocks/HeroBlockRenderer'
 import { TextBlockRenderer } from '@/components/blocks/TextBlockRenderer'
 import { CTABlockRenderer } from '@/components/blocks/CTABlockRenderer'
+import { RichTextBlockRenderer } from '@/components/blocks/RichTextBlockRenderer'
 import { QuoteBlockRenderer } from '@/components/blocks/QuoteBlockRenderer'
 import { VideoBlockRenderer } from '@/components/blocks/VideoBlockRenderer'
 import { StoriesBlockRenderer } from '@/components/blocks/StoriesBlockRenderer'
@@ -29,10 +30,12 @@ import { GalleryLightboxBlockRenderer } from '@/components/blocks/GalleryLightbo
 import { BookingWidgetBlockRenderer } from '@/components/blocks/BookingWidgetBlockRenderer'
 import { BlogPostsBlockRenderer } from '@/components/blocks/BlogPostsBlockRenderer'
 import { SocialFeedBlockRenderer } from '@/components/blocks/SocialFeedBlockRenderer'
+import { FooterBlockRenderer } from '@/components/blocks/FooterBlockRenderer'
 
 import {
   allStyleFields,
   allStyleDefaults,
+  applyBlockStyles,
   colorField,
   payloadMediaField,
   BG_ICON,
@@ -45,7 +48,7 @@ import {
 
 function FAQEditorBlock({ title, items, ...style }: { title?: string; items: { question: string; answer: string }[] } & AllStyleDefaults) {
   return (
-    <section className="px-6" style={{ backgroundColor: style.bgColor || undefined, color: style.textColor || undefined, paddingTop: style.paddingTop ?? '4rem', paddingBottom: style.paddingBottom ?? '4rem' }}>
+    <section style={{ ...applyBlockStyles(style), paddingLeft: style.paddingX || '1.5rem', paddingRight: style.paddingX || '1.5rem' }}>
       <div className="max-w-3xl mx-auto">
         {title && <h2 className="text-3xl font-bold mb-10">{title}</h2>}
         <div className="space-y-2">
@@ -64,9 +67,8 @@ function FAQEditorBlock({ title, items, ...style }: { title?: string; items: { q
 
 function ImageGalleryEditorBlock({ title, images, layout, ...style }: { title?: string; images: { url: string; alt: string; caption?: string }[]; layout?: string } & AllStyleDefaults) {
   const valid = images.filter((i) => i.url)
-  const sectionStyle = { backgroundColor: style.bgColor || undefined, color: style.textColor || undefined, paddingTop: style.paddingTop ?? '4rem', paddingBottom: style.paddingBottom ?? '4rem' }
   return (
-    <section style={sectionStyle} className={layout === 'grid' ? 'px-6' : 'overflow-hidden'}>
+    <section style={{ ...applyBlockStyles(style), ...(layout !== 'grid' ? { overflow: style.overflow || 'hidden' } : { paddingLeft: style.paddingX || '1.5rem', paddingRight: style.paddingX || '1.5rem' }) }}>
       {title && <h2 className={`text-3xl font-bold mb-8 ${layout !== 'grid' ? 'px-6 max-w-[1440px] mx-auto' : ''}`}>{title}</h2>}
       <div className={layout === 'grid' ? 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 max-w-[1440px] mx-auto' : 'flex gap-3 px-6 overflow-x-auto pb-2'} style={{ scrollbarWidth: 'none' }}>
         {valid.map((img, i) => (
@@ -83,7 +85,7 @@ function ImageGalleryEditorBlock({ title, images, layout, ...style }: { title?: 
 
 function TeamEditorBlock({ title, members, ...style }: { title?: string; members: { name: string; role?: string; bio?: string; photoUrl?: string }[] } & AllStyleDefaults) {
   return (
-    <section className="px-6" style={{ backgroundColor: style.bgColor || undefined, color: style.textColor || undefined, paddingTop: style.paddingTop ?? '4rem', paddingBottom: style.paddingBottom ?? '4rem' }}>
+    <section style={{ ...applyBlockStyles(style), paddingLeft: style.paddingX || '1.5rem', paddingRight: style.paddingX || '1.5rem' }}>
       <div className="max-w-[1440px] mx-auto">
         {title && <h2 className="text-3xl font-bold mb-10">{title}</h2>}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
@@ -108,7 +110,7 @@ function TeamEditorBlock({ title, members, ...style }: { title?: string; members
 
 function MediaLogosEditorBlock({ title, logos, ...style }: { title?: string; logos: { name: string; url?: string }[] } & AllStyleDefaults) {
   return (
-    <section className="px-6 border-y border-white/10" style={{ backgroundColor: style.bgColor || undefined, color: style.textColor || undefined, paddingTop: style.paddingTop ?? '3rem', paddingBottom: style.paddingBottom ?? '3rem' }}>
+    <section className="border-y border-white/10" style={{ ...applyBlockStyles(style), paddingLeft: style.paddingX || '1.5rem', paddingRight: style.paddingX || '1.5rem' }}>
       <div className="max-w-[1440px] mx-auto">
         {title && <p className="text-xs font-semibold tracking-widest opacity-30 uppercase text-center mb-8">{title}</p>}
         <div className="flex items-center justify-center gap-10 flex-wrap">
@@ -125,11 +127,11 @@ function MediaLogosEditorBlock({ title, logos, ...style }: { title?: string; log
 type StyleProps = AllStyleDefaults
 
 export type PuckBlocks = {
-  Section: { bgColor: string; textColor: string; paddingTop: string; paddingBottom: string; maxWidth: string; content: never }
-  HeroBlock: { headline: string; subheadline: string; backgroundImage: string; ctaText: string; ctaLink: string; bgColor: string; textColor: string; variant: string; overlayOpacity: string }
-  TextBlock: { heading: string; content: string; alignment: 'left' | 'center' | 'right'; variant: string; bgColor: string; textColor: string; padding: string; ctaText: string; ctaLink: string }
-  RichTextBlock: { content: unknown; variant: string; bgColor: string; textColor: string }
-  CTABlock: { headline: string; body: string; buttonText: string; buttonLink: string; backgroundImage: string; bgColor: string; textColor: string; variant: string }
+  Section: { layout: string; gap: string; bgColor: string; textColor: string; paddingTop: string; paddingBottom: string; maxWidth: string; locked: string; content: never }
+  HeroBlock: StyleProps & { headline: string; subheadline: string; backgroundImage: string; ctaText: string; ctaLink: string; variant: string; overlayOpacity: string }
+  TextBlock: StyleProps & { heading: string; content: string; alignment: 'left' | 'center' | 'right'; variant: string; padding: string; ctaText: string; ctaLink: string }
+  RichTextBlock: StyleProps & { content: unknown; variant: string }
+  CTABlock: StyleProps & { headline: string; body: string; buttonText: string; buttonLink: string; backgroundImage: string; variant: string }
   QuoteBlock: StyleProps & { quote: string; author: string; role: string; avatar: string }
   FAQBlock: StyleProps & { title: string; items: { question: string; answer: string }[] }
   ImageGalleryBlock: StyleProps & { title: string; images: { url: string; alt: string; caption: string }[]; layout: string; columns: string }
@@ -142,7 +144,7 @@ export type PuckBlocks = {
   PricingBlock: StyleProps & { title: string; tiers: { name: string; price: string; period: string; description: string; features: string; highlighted: string; ctaText: string; ctaLink: string }[] }
   CounterBlock: StyleProps & { title: string; stats: { number: string; suffix: string; label: string; description: string }[] }
   TimelineBlock: StyleProps & { title: string; events: { year: string; title: string; description: string; imageUrl: string }[] }
-  MapBlock: StyleProps & { embedUrl: string; height: string; title: string; caption: string }
+  MapBlock: StyleProps & { embedUrl: string; mapHeight: string; title: string; caption: string }
   NewsletterBlock: StyleProps & { heading: string; subheading: string; placeholder: string; buttonText: string; formAction: string; successMessage: string }
   ContactFormBlock: StyleProps & { heading: string; subheading: string; showPhone: string; showSubject: string; buttonText: string; formAction: string; successMessage: string }
   TabbedContentBlock: StyleProps & { title: string; tabs: { label: string; content: string }[] }
@@ -152,12 +154,13 @@ export type PuckBlocks = {
   IconGridBlock: StyleProps & { title: string; items: { icon: string; heading: string; description: string; link: string }[]; columns: string }
   FeatureCardsBlock: StyleProps & { title: string; cards: { imageUrl: string; heading: string; text: string; ctaText: string; ctaLink: string }[]; columns: string }
   BeforeAfterBlock: StyleProps & { beforeImageUrl: string; afterImageUrl: string; beforeLabel: string; afterLabel: string; title: string; caption: string }
-  EmbedBlock: StyleProps & { embedUrl: string; height: string; title: string; allowFullscreen: string }
+  EmbedBlock: StyleProps & { embedUrl: string; embedHeight: string; title: string; allowFullscreen: string }
   TestimonialsGridBlock: StyleProps & { title: string; testimonials: { quote: string; author: string; role: string; avatarUrl: string; rating: string }[]; columns: string }
   GalleryLightboxBlock: StyleProps & { title: string; images: { url: string; alt: string; caption: string }[]; columns: string }
-  BookingWidgetBlock: StyleProps & { heading: string; subheading: string; embedUrl: string; height: string }
+  BookingWidgetBlock: StyleProps & { heading: string; subheading: string; embedUrl: string; widgetHeight: string }
   BlogPostsBlock: StyleProps & { title: string; limit: number; layout: string; ctaText: string; ctaLink: string; _posts: unknown[] }
   SocialFeedBlock: StyleProps & { title: string; posts: { platform: string; handle: string; content: string; imageUrl: string; likes: string; url: string; date: string }[]; columns: string }
+  FooterBlock: Record<string, never>
 }
 
 // ─── Config ───────────────────────────────────────────────────────────────────
@@ -170,6 +173,7 @@ export const puckConfig: Config<PuckBlocks> = {
     media: { title: 'Media', components: ['ImageGalleryBlock', 'GalleryLightboxBlock', 'VideoBlock', 'BeforeAfterBlock', 'EmbedBlock', 'MapBlock'], defaultExpanded: false },
     brand: { title: 'Team & Brand', components: ['TeamBlock', 'MediaLogosBlock', 'FAQBlock', 'AccordionBlock', 'TestimonialsGridBlock', 'IconGridBlock', 'FeatureCardsBlock', 'CounterBlock', 'TimelineBlock', 'TabbedContentBlock'], defaultExpanded: false },
     dynamic: { title: 'Dynamic (Live Data)', components: ['StoriesBlock', 'BlogPostsBlock', 'DestinationCarouselBlock', 'SocialFeedBlock'], defaultExpanded: false },
+    global: { title: 'Global', components: ['FooterBlock'], defaultExpanded: false },
   },
 
   components: {
@@ -179,18 +183,48 @@ export const puckConfig: Config<PuckBlocks> = {
       label: 'Section / Container',
       fields: {
         content: { type: 'slot', label: 'Content (drop blocks here)' },
+        layout: { type: 'select', label: 'Layout Type', options: [{ value: 'single', label: 'Single Column' }, { value: 'two-col', label: 'Two Columns' }, { value: 'three-col', label: 'Three Columns' }, { value: 'four-col', label: 'Four Columns' }, { value: 'grid', label: 'Auto Grid' }] },
+        gap: { type: 'select', label: 'Column Gap', options: [{ value: '8px', label: 'XS (8px)' }, { value: '16px', label: 'Small (16px)' }, { value: '24px', label: 'Medium (24px)' }, { value: '32px', label: 'Large (32px)' }, { value: '48px', label: 'XL (48px)' }] },
         bgColor: colorField('Background Color', BG_ICON),
         textColor: colorField('Text Color', TEXT_ICON),
         paddingTop: { type: 'select', label: 'Padding Top', options: [{ value: '0', label: 'None' }, { value: '2rem', label: 'Small' }, { value: '4rem', label: 'Medium' }, { value: '6rem', label: 'Large' }, { value: '10rem', label: 'XL' }] },
         paddingBottom: { type: 'select', label: 'Padding Bottom', options: [{ value: '0', label: 'None' }, { value: '2rem', label: 'Small' }, { value: '4rem', label: 'Medium' }, { value: '6rem', label: 'Large' }, { value: '10rem', label: 'XL' }] },
         maxWidth: { type: 'select', label: 'Max Width', options: [{ value: '100%', label: 'Full Width' }, { value: '1440px', label: 'Wide (1440px)' }, { value: '1200px', label: 'Large (1200px)' }, { value: '960px', label: 'Medium (960px)' }, { value: '768px', label: 'Narrow (768px)' }] },
+        locked: { type: 'radio', label: 'Lock this section', options: [{ value: 'false', label: 'Unlocked' }, { value: 'true', label: 'Locked' }] },
       },
-      defaultProps: { content: undefined as never, bgColor: '', textColor: '', paddingTop: '4rem', paddingBottom: '4rem', maxWidth: '1440px' },
-      render: ({ content: Content, bgColor, textColor, paddingTop, paddingBottom, maxWidth }) => {
+      defaultProps: { content: undefined as never, layout: 'single', gap: '24px', bgColor: '', textColor: '', paddingTop: '4rem', paddingBottom: '4rem', maxWidth: '1440px', locked: 'false' },
+      resolvePermissions: (data, { permissions }) => {
+        if (data.props.locked === 'true') {
+          return {
+            delete: false,
+            duplicate: false,
+            edit: false,
+          }
+        }
+        return permissions
+      },
+      render: ({ content: Content, layout, gap, maxWidth, ...styleProps }) => {
         const C = Content as React.ElementType
+        const gridColsMap: Record<string, string> = {
+          'single': '1fr',
+          'two-col': '1fr 1fr',
+          'three-col': '1fr 1fr 1fr',
+          'four-col': '1fr 1fr 1fr 1fr',
+          'grid': 'repeat(auto-fit, minmax(300px, 1fr))',
+        }
+        const cols = gridColsMap[layout] || '1fr'
+        const sectionStyle = applyBlockStyles(styleProps as Partial<AllStyleDefaults>)
         return (
-          <section style={{ backgroundColor: bgColor || undefined, color: textColor || undefined, paddingTop, paddingBottom }}>
-            <div style={{ maxWidth, margin: '0 auto', paddingLeft: 24, paddingRight: 24 }}>
+          <section style={sectionStyle}>
+            <div style={{
+              maxWidth: maxWidth || undefined,
+              margin: '0 auto',
+              paddingLeft: (styleProps as AllStyleDefaults).paddingX || 24,
+              paddingRight: (styleProps as AllStyleDefaults).paddingX || 24,
+              display: layout === 'single' ? 'block' : 'grid',
+              gridTemplateColumns: layout === 'single' ? undefined : cols,
+              gap: layout === 'single' ? undefined : gap || '24px',
+            }}>
               <C />
             </div>
           </section>
@@ -202,39 +236,42 @@ export const puckConfig: Config<PuckBlocks> = {
     HeroBlock: {
       label: 'Hero / Banner',
       fields: {
-        headline: { type: 'text', label: 'Headline', placeholder: 'Your bold headline', contentEditable: true },
-        subheadline: { type: 'textarea', label: 'Subheadline', placeholder: 'Supporting copy…', contentEditable: true },
+        headline: { type: 'text', label: 'Headline', placeholder: 'Your bold headline' },
+        subheadline: { type: 'textarea', label: 'Subheadline', placeholder: 'Supporting copy…' },
         backgroundImage: payloadMediaField('Background Image'),
-        ctaText: { type: 'text', label: 'CTA Button Text', labelIcon: LINK_ICON, placeholder: 'Book Now' },
-        ctaLink: { type: 'text', label: 'CTA Button Link', placeholder: '/shop' },
         variant: { type: 'select', label: 'Style Variant', options: [{ value: 'fullscreen', label: 'Fullscreen (100vh)' }, { value: 'split', label: 'Split (text + image)' }, { value: 'minimal', label: 'Minimal (auto-height)' }] },
         overlayOpacity: { type: 'select', label: 'Image Overlay Darkness', options: [{ value: '0', label: 'None' }, { value: '0.2', label: '20%' }, { value: '0.4', label: '40%' }, { value: '0.6', label: '60%' }, { value: '0.8', label: '80%' }] },
-        bgColor: colorField('Fallback Background Color', BG_ICON),
-        textColor: colorField('Text Color', TEXT_ICON),
+        ctaText: { type: 'text', label: 'CTA Button Text', labelIcon: LINK_ICON, placeholder: 'Book Now' },
+        ctaLink: { type: 'text', label: 'CTA Button Link', placeholder: '/shop' },
+        ...allStyleFields(),
       },
-      defaultProps: { headline: 'Your Headline Here', subheadline: '', backgroundImage: '', ctaText: '', ctaLink: '', bgColor: '#0a0a0a', textColor: '#ffffff', variant: 'fullscreen', overlayOpacity: '0.5' },
-      render: ({ headline, subheadline, backgroundImage, ctaText, ctaLink, bgColor, textColor }) => (
-        <HeroBlockRenderer block={{ headline, subheadline: subheadline || null, ctaText: ctaText || null, ctaLink: ctaLink || null, backgroundImage: backgroundImage ? { url: backgroundImage, alt: headline } : null, bgColor: bgColor || null, textColor: textColor || null }} />
-      ),
+      defaultProps: { headline: 'Your Headline Here', subheadline: 'Your subheadline here', backgroundImage: null, ctaText: '', ctaLink: '', variant: 'fullscreen', overlayOpacity: '0', ...allStyleDefaults(), bgColor: '#0a0a0a', textColor: '#ffffff' },
+      render: ({ headline, subheadline, backgroundImage, ctaText, ctaLink, overlayOpacity, variant, ...style }) => {
+        const cleanHeadline = String(headline || '').trim()
+        const cleanSubheadline = String(subheadline || '').trim() || null
+        const bgImageObj = typeof backgroundImage === 'string' && backgroundImage ? { url: backgroundImage, alt: cleanHeadline } : null
+        return (
+          <HeroBlockRenderer block={{ headline: cleanHeadline, subheadline: cleanSubheadline, ctaText: ctaText || null, ctaLink: ctaLink || null, backgroundImage: bgImageObj, overlayOpacity: overlayOpacity || null, variant: variant || null, ...style }} />
+        )
+      },
     },
 
     // ── TEXT ─────────────────────────────────────────────────────────────────
     TextBlock: {
       label: 'Text / Copy',
       fields: {
-        heading: { type: 'text', label: 'Heading', placeholder: 'Section heading…', contentEditable: true },
-        content: { type: 'textarea', label: 'Body Text', placeholder: 'Write your copy here…', contentEditable: true },
+        heading: { type: 'text', label: 'Heading', placeholder: 'Section heading…' },
+        content: { type: 'textarea', label: 'Body Text', placeholder: 'Write your copy here…' },
         alignment: { type: 'radio', label: 'Alignment', options: [{ value: 'left', label: 'Left' }, { value: 'center', label: 'Center' }, { value: 'right', label: 'Right' }] },
         variant: { type: 'select', label: 'Layout', options: [{ value: 'contained', label: 'Contained (max 3xl)' }, { value: 'full-width', label: 'Full Width' }, { value: 'two-column', label: 'Two Column' }, { value: 'centered', label: 'Centered (max 2xl)' }] },
         padding: { type: 'select', label: 'Vertical Padding', options: [{ value: 'none', label: 'None' }, { value: 'sm', label: 'Small' }, { value: 'md', label: 'Medium' }, { value: 'lg', label: 'Large' }, { value: 'xl', label: 'XL' }] },
-        bgColor: colorField('Background Color', BG_ICON),
-        textColor: colorField('Text Color', TEXT_ICON),
         ctaText: { type: 'text', label: 'Button Text', labelIcon: LINK_ICON, placeholder: 'Book Now' },
         ctaLink: { type: 'text', label: 'Button URL', placeholder: '/shop' },
+        ...allStyleFields(),
       },
-      defaultProps: { heading: '', content: '', alignment: 'left', variant: 'contained', padding: 'md', bgColor: '', textColor: '', ctaText: '', ctaLink: '' },
-      render: ({ heading, content, alignment, variant, padding, bgColor, textColor, ctaText, ctaLink }) => (
-        <TextBlockRenderer block={{ heading: heading || null, content: content || null, alignment, variant, padding, bgColor: bgColor || null, textColor: textColor || null, ctaText: ctaText || null, ctaLink: ctaLink || null }} />
+      defaultProps: { heading: '', content: '', alignment: 'left', variant: 'contained', padding: 'md', ctaText: '', ctaLink: '', ...allStyleDefaults() },
+      render: ({ heading, content, alignment, variant, padding, ctaText, ctaLink, ...style }) => (
+        <TextBlockRenderer block={{ heading: heading || null, content: content || null, alignment, variant, padding, ctaText: ctaText || null, ctaLink: ctaLink || null, ...style }} />
       ),
     },
 
@@ -242,22 +279,40 @@ export const puckConfig: Config<PuckBlocks> = {
     RichTextBlock: {
       label: 'Rich Text (WYSIWYG)',
       fields: {
-        content: { type: 'richtext', label: 'Content', initialHeight: 200, options: {} },
+        content: {
+          type: 'richtext',
+          label: 'Content',
+          initialHeight: 200,
+          options: {
+            bold: true,
+            italic: true,
+            underline: true,
+            strikethrough: true,
+            link: true,
+            blockquote: true,
+            code: true,
+            codeBlock: true,
+            horizontalRule: true,
+            h1: true,
+            h2: true,
+            h3: true,
+            h4: true,
+            h5: true,
+            h6: true,
+            ul: true,
+            ol: true,
+            align: ['left', 'center', 'right'],
+            sup: true,
+            sub: true,
+          }
+        },
         variant: { type: 'select', label: 'Width', options: [{ value: 'contained', label: 'Contained' }, { value: 'full-width', label: 'Full Width' }, { value: 'centered', label: 'Centered' }] },
-        bgColor: colorField('Background Color', BG_ICON),
-        textColor: colorField('Text Color', TEXT_ICON),
+        ...allStyleFields(),
       },
-      defaultProps: { content: '' as unknown, variant: 'contained', bgColor: '', textColor: '' },
-      render: ({ content, variant, bgColor, textColor }) => {
-        const variantMap: Record<string, string> = { 'full-width': 'w-full', contained: 'max-w-3xl mx-auto', centered: 'max-w-2xl mx-auto text-center' }
-        return (
-          <section className="py-16 px-6" style={{ backgroundColor: bgColor || undefined, color: textColor || undefined }}>
-            <div className={`${variantMap[variant] ?? 'max-w-3xl mx-auto'} prose prose-invert max-w-none`}>
-              {content ? null : <p className="opacity-40">Click to add rich text content…</p>}
-            </div>
-          </section>
-        )
-      },
+      defaultProps: { content: '' as unknown, variant: 'contained', ...allStyleDefaults() },
+      render: ({ content, variant, ...style }) => (
+        <RichTextBlockRenderer block={{ content: content || null, variant, ...style }} />
+      ),
     },
 
     // ── CTA ───────────────────────────────────────────────────────────────────
@@ -270,12 +325,11 @@ export const puckConfig: Config<PuckBlocks> = {
         buttonLink: { type: 'text', label: 'Button URL', placeholder: '/shop' },
         backgroundImage: payloadMediaField('Background Image (optional)'),
         variant: { type: 'radio', label: 'Alignment', options: [{ value: 'centered', label: 'Centered' }, { value: 'left', label: 'Left' }] },
-        bgColor: colorField('Background Color', BG_ICON),
-        textColor: colorField('Text Color', TEXT_ICON),
+        ...allStyleFields(),
       },
-      defaultProps: { headline: 'Ready to start your adventure?', body: '', buttonText: 'Book Now', buttonLink: '/shop', backgroundImage: '', bgColor: '#111111', textColor: '#ffffff', variant: 'centered' },
-      render: ({ headline, body, buttonText, buttonLink, bgColor, textColor, variant }) => (
-        <CTABlockRenderer block={{ headline, body: body || null, buttonText: buttonText || null, buttonLink: buttonLink || null, bgColor: bgColor || null, textColor: textColor || null, variant }} />
+      defaultProps: { headline: 'Ready to start your adventure?', body: '', buttonText: 'Book Now', buttonLink: '/shop', backgroundImage: '', variant: 'centered', ...allStyleDefaults(), bgColor: '#111111', textColor: '#ffffff' },
+      render: ({ headline, body, buttonText, buttonLink, backgroundImage, variant, ...style }) => (
+        <CTABlockRenderer block={{ headline, body: body || null, buttonText: buttonText || null, buttonLink: buttonLink || null, backgroundImage: backgroundImage ? { url: backgroundImage, alt: headline } : null, variant, ...style }} />
       ),
     },
 
@@ -580,13 +634,13 @@ export const puckConfig: Config<PuckBlocks> = {
       fields: {
         title: { type: 'text', label: 'Section Title', contentEditable: true },
         embedUrl: { type: 'text', label: 'Google Maps Embed URL', placeholder: 'https://www.google.com/maps/embed?pb=…' },
-        height: { type: 'select', label: 'Map Height', options: [{ value: '320px', label: '320px' }, { value: '480px', label: '480px' }, { value: '600px', label: '600px' }, { value: '800px', label: '800px' }] },
+        mapHeight: { type: 'select', label: 'Map Height', options: [{ value: '320px', label: '320px' }, { value: '480px', label: '480px' }, { value: '600px', label: '600px' }, { value: '800px', label: '800px' }] },
         caption: { type: 'text', label: 'Caption', contentEditable: true },
         ...allStyleFields(),
       },
-      defaultProps: { title: '', embedUrl: '', height: '480px', caption: '', ...allStyleDefaults() },
-      render: ({ title, embedUrl, height, caption, ...style }) => (
-        <MapBlockRenderer block={{ embedUrl: embedUrl || '', height: height || null, title: title || null, caption: caption || null, ...style }} />
+      defaultProps: { title: '', embedUrl: '', mapHeight: '480px', caption: '', ...allStyleDefaults() },
+      render: ({ title, embedUrl, mapHeight, caption, height: _h, ...style }) => (
+        <MapBlockRenderer block={{ embedUrl: embedUrl || '', height: mapHeight || null, title: title || null, caption: caption || null, ...style }} />
       ),
     },
 
@@ -798,13 +852,13 @@ export const puckConfig: Config<PuckBlocks> = {
       fields: {
         title: { type: 'text', label: 'Title', contentEditable: true },
         embedUrl: { type: 'text', label: 'Embed URL', placeholder: 'https://www.youtube.com/embed/…' },
-        height: { type: 'select', label: 'Height', options: [{ value: '320px', label: '320px' }, { value: '480px', label: '480px' }, { value: '600px', label: '600px' }, { value: '80vh', label: '80vh' }] },
+        embedHeight: { type: 'select', label: 'Height', options: [{ value: '320px', label: '320px' }, { value: '480px', label: '480px' }, { value: '600px', label: '600px' }, { value: '80vh', label: '80vh' }] },
         allowFullscreen: { type: 'radio', label: 'Allow Fullscreen', options: [{ value: 'true', label: 'Yes' }, { value: 'false', label: 'No' }] },
         ...allStyleFields(),
       },
-      defaultProps: { title: '', embedUrl: '', height: '480px', allowFullscreen: 'true', ...allStyleDefaults() },
-      render: ({ title, embedUrl, height, allowFullscreen, ...style }) => (
-        <EmbedBlockRenderer block={{ title: title || null, embedUrl: embedUrl || null, height: height || null, allowFullscreen: allowFullscreen || null, ...style }} />
+      defaultProps: { title: '', embedUrl: '', embedHeight: '480px', allowFullscreen: 'true', ...allStyleDefaults() },
+      render: ({ title, embedUrl, embedHeight, allowFullscreen, height: _h, ...style }) => (
+        <EmbedBlockRenderer block={{ title: title || null, embedUrl: embedUrl || null, height: embedHeight || null, allowFullscreen: allowFullscreen || null, ...style }} />
       ),
     },
 
@@ -876,12 +930,12 @@ export const puckConfig: Config<PuckBlocks> = {
         heading: { type: 'text', label: 'Heading', contentEditable: true },
         subheading: { type: 'textarea', label: 'Subheading', contentEditable: true },
         embedUrl: { type: 'text', label: 'Widget Embed URL', placeholder: 'https://calendly.com/…' },
-        height: { type: 'select', label: 'Widget Height', options: [{ value: '400px', label: '400px' }, { value: '600px', label: '600px' }, { value: '800px', label: '800px' }, { value: '100vh', label: 'Full Screen' }] },
+        widgetHeight: { type: 'select', label: 'Widget Height', options: [{ value: '400px', label: '400px' }, { value: '600px', label: '600px' }, { value: '800px', label: '800px' }, { value: '100vh', label: 'Full Screen' }] },
         ...allStyleFields(),
       },
-      defaultProps: { heading: 'Book Your Adventure', subheading: '', embedUrl: '', height: '600px', ...allStyleDefaults() },
-      render: ({ heading, subheading, embedUrl, height, ...style }) => (
-        <BookingWidgetBlockRenderer block={{ heading: heading || null, subheading: subheading || null, embedUrl: embedUrl || null, height: height || null, ...style }} />
+      defaultProps: { heading: 'Book Your Adventure', subheading: '', embedUrl: '', widgetHeight: '600px', ...allStyleDefaults() },
+      render: ({ heading, subheading, embedUrl, widgetHeight, height: _h, ...style }) => (
+        <BookingWidgetBlockRenderer block={{ heading: heading || null, subheading: subheading || null, embedUrl: embedUrl || null, height: widgetHeight || null, ...style }} />
       ),
     },
 
@@ -956,18 +1010,68 @@ export const puckConfig: Config<PuckBlocks> = {
         <SocialFeedBlockRenderer block={{ title: title || null, columns: columns || null, posts: posts.map((p) => ({ platform: p.platform, handle: p.handle, content: p.content, imageUrl: p.imageUrl || null, likes: p.likes || null, url: p.url || null, date: p.date || null })), ...style }} />
       ),
     },
+
+    // ── FOOTER ────────────────────────────────────────────────────────────────
+    FooterBlock: {
+      label: 'Footer (Global)',
+      fields: {},
+      defaultProps: {},
+      render: () => <FooterBlockRenderer />,
+    },
   },
 
   // ── Root ──────────────────────────────────────────────────────────────────
   root: {
     fields: {
       bgColor: colorField('Page Background Color', BG_ICON),
+      fontFamily: { type: 'select', label: 'Font Family', options: [{ value: 'system', label: 'System' }, { value: 'serif', label: 'Serif' }, { value: 'mono', label: 'Monospace' }] },
+      maxWidth: { type: 'select', label: 'Max Width', options: [{ value: '100%', label: 'Full' }, { value: '1440px', label: '1440px' }] },
     },
-    defaultProps: { bgColor: '#0a0a0a' },
-    render: ({ children, bgColor }) => (
-      <div style={{ backgroundColor: bgColor || '#0a0a0a', minHeight: '100vh' }}>
-        {children}
+    defaultProps: { bgColor: '#0a0a0a', fontFamily: 'system', maxWidth: '100%' },
+    render: ({ children, bgColor, fontFamily, maxWidth }: any) => {
+      const fontMap: Record<string, string> = {
+        system: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+        serif: 'Georgia, serif',
+        mono: '"Courier New", monospace',
+      }
+      return (
+        <div style={{
+          backgroundColor: bgColor || '#0a0a0a',
+          minHeight: '100vh',
+          fontFamily: fontMap[fontFamily] || fontMap.system,
+        }}>
+          <div style={{ maxWidth: maxWidth || '100%', margin: '0 auto', width: '100%' }}>
+            {children}
+          </div>
+        </div>
+      )
+    },
+  },
+}
+
+// ── Multi-column Layout Component ──────────────────────────────────────────────
+export function createLayoutConfig(columns: number) {
+  const columnOptions = Array.from({ length: 12 }, (_, i) => ({ value: String(i + 1), label: `${i + 1} col` }))
+
+  return {
+    label: `Grid Layout (${columns} cols)`,
+    fields: {
+      gap: { type: 'select', label: 'Gap', options: [{ value: '8px', label: 'XS (8px)' }, { value: '16px', label: 'Small (16px)' }, { value: '24px', label: 'Medium (24px)' }, { value: '32px', label: 'Large (32px)' }] },
+      ...allStyleFields(),
+    },
+    defaultProps: { gap: '24px', ...allStyleDefaults() },
+    render: ({ gap, children, ...style }: any) => (
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: `repeat(${columns}, 1fr)`,
+        gap: gap || '24px',
+        backgroundColor: style.bgColor || undefined,
+        color: style.textColor || undefined,
+        padding: `${style.paddingTop || '0'} ${style.paddingX || '0'} ${style.paddingBottom || '0'}`,
+        borderRadius: style.borderRadius || undefined,
+      }}>
+        {Array.isArray(children) ? children : [children]}
       </div>
     ),
-  },
+  }
 }

@@ -1,5 +1,12 @@
 import type { GlobalConfig } from 'payload'
+import { revalidateTag } from 'next/cache'
+import { after } from 'next/server'
 import { revalidateGlobal } from '../hooks/revalidate'
+
+const revalidateNavigationTag = ({ doc }: { doc: unknown }) => {
+  try { after(() => { revalidateTag('navigation') }) } catch { /* noop */ }
+  return doc
+}
 
 export const Navigation: GlobalConfig = {
   slug: 'navigation',
@@ -45,6 +52,6 @@ export const Navigation: GlobalConfig = {
     },
   ],
   hooks: {
-    afterChange: [revalidateGlobal('/')],
+    afterChange: [revalidateNavigationTag, revalidateGlobal('/')],
   },
 }

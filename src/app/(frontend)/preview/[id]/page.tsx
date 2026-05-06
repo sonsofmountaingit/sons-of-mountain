@@ -2,23 +2,21 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { headers } from 'next/headers'
 import { notFound, redirect } from 'next/navigation'
-import { PuckPageRenderer } from '@/components/blocks/PuckPageRenderer'
+import { Suspense } from 'react'
+import { PuckRender } from '@/components/blocks/PuckRender'
 import type { Data } from '@puckeditor/core'
 
 type Args = { params: Promise<{ id: string }> }
 
-export default async function PuckPreviewPage({ params }: Args) {
+async function PageContent({ params }: Args) {
   const { id } = await params
   const payload = await getPayload({ config })
-
-  // Auth-protected — only logged-in Payload users can preview
   const requestHeaders = await headers()
   const { user } = await payload.auth({ headers: requestHeaders })
   if (!user) redirect('/admin')
 
   let page: Record<string, unknown> | null = null
   try {
-    // draft: true returns the latest auto-saved draft so preview shows unsaved changes
     page = (await payload.findByID({ collection: 'pages', id, draft: true })) as Record<string, unknown>
   } catch {
     notFound()
@@ -34,5 +32,13 @@ export default async function PuckPreviewPage({ params }: Args) {
     )
   }
 
-  return <PuckPageRenderer data={puckData} />
+  return <PuckRender data={puckData} />
+}
+
+export default async function PuckPreviewPage({ params }: Args) {
+  return (
+    <Suspense fallback={<div style={{ padding: '4rem' }}>Loading...</div>}>
+      <PageContent params={params} />
+    </Suspense>
+  )
 }

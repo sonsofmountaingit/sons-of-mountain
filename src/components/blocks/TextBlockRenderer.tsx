@@ -1,12 +1,7 @@
-import Link from 'next/link'
+'use client'
 
-const paddingMap: Record<string, string> = {
-  none: 'py-0',
-  sm: 'py-8',
-  md: 'py-16',
-  lg: 'py-24',
-  xl: 'py-32',
-}
+import Link from 'next/link'
+import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
 
 const variantMap: Record<string, string> = {
   'full-width': 'w-full',
@@ -16,13 +11,11 @@ const variantMap: Record<string, string> = {
 }
 
 interface TextBlockProps {
-  block: {
+  block: BlockStyleProps & {
     heading?: string | null
     content?: string | null
     alignment?: string | null
     variant?: string | null
-    bgColor?: string | null
-    textColor?: string | null
     padding?: string | null
     ctaText?: string | null
     ctaLink?: string | null
@@ -30,18 +23,10 @@ interface TextBlockProps {
 }
 
 export function TextBlockRenderer({ block }: TextBlockProps) {
-  const padding = paddingMap[block.padding ?? 'md'] ?? 'py-16'
   const innerClass = variantMap[block.variant ?? 'contained'] ?? 'max-w-3xl mx-auto'
 
   return (
-    <section
-      className={`${padding} px-6`}
-      style={{
-        backgroundColor: block.bgColor ?? undefined,
-        color: block.textColor ?? undefined,
-        textAlign: (block.alignment as 'left' | 'center' | 'right') ?? 'left',
-      }}
-    >
+    <BlockWrapper props={block}>
       <div className={innerClass}>
         {block.heading && (
           <h2 className="text-3xl md:text-4xl font-bold mb-6">{block.heading}</h2>
@@ -58,6 +43,6 @@ export function TextBlockRenderer({ block }: TextBlockProps) {
           </Link>
         )}
       </div>
-    </section>
+    </BlockWrapper>
   )
 }
