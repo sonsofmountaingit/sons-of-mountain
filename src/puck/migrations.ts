@@ -1,5 +1,5 @@
 import { migrate, transformProps, walkTree } from '@puckeditor/core'
-import type { Data } from '@puckeditor/core'
+import type { Data, Config } from '@puckeditor/core'
 
 // Example: Migrate legacy data to new Puck versions
 export function migrateData(data: Data) {
@@ -34,8 +34,8 @@ export function transformDataWithMigrations(data: Data) {
 
 // Walk through tree and apply custom transformations
 export function walkAndTransformData(data: Data, transformer: (item: any) => any) {
-  return walkTree(data, ({ item }) => {
-    return transformer(item)
+  return walkTree(data, {} as Config, (content) => {
+    return content.map((item: any) => transformer(item))
   })
 }
 

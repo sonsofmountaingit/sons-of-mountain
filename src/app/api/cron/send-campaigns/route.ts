@@ -3,13 +3,12 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 export async function GET(req: NextRequest) {
   const authHeader = req.headers.get('authorization')
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
+  const resend = new Resend(process.env.RESEND_API_KEY ?? 'placeholder')
 
   const payload = await getPayload({ config })
 

@@ -8,9 +8,12 @@ import { RichText } from '@payloadcms/richtext-lexical/react'
 interface Props { params: Promise<{ slug: string }> }
 
 export async function generateStaticParams() {
-  const payload = await getPayload({ config })
-  const { docs } = await payload.find({ collection: 'blog-posts', limit: 200 })
-  return docs.map((p) => ({ slug: p.slug }))
+  try {
+    const payload = await getPayload({ config })
+    const { docs } = await payload.find({ collection: 'blog-posts', limit: 200 })
+    if (docs.length > 0) return docs.map((p) => ({ slug: p.slug }))
+  } catch {}
+  return [{ slug: '_placeholder' }]
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -23,6 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BlogPostPage({ params }: Props) {
+  'use cache'
   const { slug } = await params
   const payload = await getPayload({ config })
 

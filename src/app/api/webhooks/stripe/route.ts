@@ -4,11 +4,10 @@ import config from '@payload-config'
 import Stripe from 'stripe'
 import { revalidatePath, revalidateTag } from 'next/cache'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? '', {
-  apiVersion: '2026-04-22.dahlia',
-})
-
 export async function POST(req: NextRequest) {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? 'sk_test_placeholder', {
+    apiVersion: '2026-04-22.dahlia',
+  })
   const body = await req.text()
   const sig = req.headers.get('stripe-signature') ?? ''
 

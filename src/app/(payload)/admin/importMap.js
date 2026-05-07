@@ -24,6 +24,8 @@ import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { NavigationVisualEditorButton as NavigationVisualEditorButton_b9cb51eadd8bf8f36713a101ae714844 } from '@/components/admin/NavigationVisualEditorButton'
 import { FooterVisualEditorButton as FooterVisualEditorButton_8c719505c9cdba2136f714cc4d646569 } from '@/components/admin/FooterVisualEditorButton'
+import { HeroVisualEditorButton as HeroVisualEditorButton_9245e5b8807f79c816821b0933667935 } from '@/components/admin/HeroVisualEditorButton'
+import { DestinationCarouselVisualEditorButton as DestinationCarouselVisualEditorButton_b8d861d0ab54cbeef1477a9b4e522cd9 } from '@/components/admin/DestinationCarouselVisualEditorButton'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 /** @type import('payload').ImportMap */
@@ -54,5 +56,7 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@/components/admin/NavigationVisualEditorButton#NavigationVisualEditorButton": NavigationVisualEditorButton_b9cb51eadd8bf8f36713a101ae714844,
   "@/components/admin/FooterVisualEditorButton#FooterVisualEditorButton": FooterVisualEditorButton_8c719505c9cdba2136f714cc4d646569,
+  "@/components/admin/HeroVisualEditorButton#HeroVisualEditorButton": HeroVisualEditorButton_9245e5b8807f79c816821b0933667935,
+  "@/components/admin/DestinationCarouselVisualEditorButton#DestinationCarouselVisualEditorButton": DestinationCarouselVisualEditorButton_b8d861d0ab54cbeef1477a9b4e522cd9,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

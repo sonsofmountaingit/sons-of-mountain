@@ -8,6 +8,7 @@ export const metadata: Metadata = { title: 'Календар' }
 const MONTHS_BG = ['Януари','Февруари','Март','Април','Май','Юни','Юли','Август','Септември','Октомври','Ноември','Декември']
 
 export default async function CalendarPage() {
+  'use cache'
   const payload = await getPayload({ config })
 
   const { docs: trips } = await payload.find({

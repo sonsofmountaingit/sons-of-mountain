@@ -4,11 +4,11 @@ import { revalidateTag } from 'next/cache'
 import { after } from 'next/server'
 
 const revalidateFooterTrips = ({ doc }: { doc: unknown }) => {
-  try { after(() => { revalidateTag('trips') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('trips', 'default') }) } catch { /* noop */ }
   return doc
 }
 const revalidateFooterTripsDelete = () => {
-  try { after(() => { revalidateTag('trips') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('trips', 'default') }) } catch { /* noop */ }
 }
 
 export const Trips: CollectionConfig = {

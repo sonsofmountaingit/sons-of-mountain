@@ -14,11 +14,12 @@ export const serverComponentsConfig = {
 }
 
 export function markComponentAsServerComponent<T extends Record<string, any>>(
-  config: Config<T>,
+  config: Config<any>,
   componentName: keyof T,
 ) {
-  if (config.components && config.components[componentName]) {
-    (config.components[componentName] as any)._isServerComponent = true
+  const components = config.components as Record<string, any> | undefined
+  if (components && components[componentName as string]) {
+    components[componentName as string]._isServerComponent = true
   }
   return config
 }

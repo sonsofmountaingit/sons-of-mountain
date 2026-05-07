@@ -37,7 +37,7 @@ export async function PATCH(request: Request) {
     overrideAccess: true,
   })
 
-  revalidateTag('navigation')
+  revalidateTag('navigation', 'default')
 
   return Response.json({ ok: true })
 }

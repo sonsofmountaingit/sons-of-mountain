@@ -11,9 +11,12 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const payload = await getPayload({ config })
-  const { docs } = await payload.find({ collection: 'destinations', limit: 100 })
-  return docs.map((d) => ({ slug: d.slug }))
+  try {
+    const payload = await getPayload({ config })
+    const { docs } = await payload.find({ collection: 'destinations', limit: 100 })
+    if (docs.length > 0) return docs.map((d) => ({ slug: d.slug }))
+  } catch {}
+  return [{ slug: '_placeholder' }]
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -33,6 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function DestinationPage({ params }: Props) {
+  'use cache'
   const { slug } = await params
   const payload = await getPayload({ config })
 

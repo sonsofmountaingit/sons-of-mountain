@@ -32,6 +32,8 @@ import { BlogPostsBlockRenderer } from '@/components/blocks/BlogPostsBlockRender
 import { SocialFeedBlockRenderer } from '@/components/blocks/SocialFeedBlockRenderer'
 import { FooterBlockRenderer } from '@/components/blocks/FooterBlockRenderer'
 import { NavigationLinksBlock } from '@/components/blocks/navigation/NavigationLinksBlock'
+import { HeroMainBlock } from '@/components/blocks/hero/HeroMainBlock'
+import { DestinationCarouselBlock as HomeDestinationCarouselBlock } from '@/components/blocks/destination-carousel/DestinationCarouselBlock'
 import { FooterSubscribeBlock } from '@/components/blocks/footer/FooterSubscribeBlock'
 import { FooterFollowBlock } from '@/components/blocks/footer/FooterFollowBlock'
 import { FooterTravelBlock } from '@/components/blocks/footer/FooterTravelBlock'
@@ -168,6 +170,13 @@ export type PuckBlocks = {
   BlogPostsBlock: StyleProps & { title: string; limit: number; layout: string; ctaText: string; ctaLink: string; _posts: unknown[] }
   SocialFeedBlock: StyleProps & { title: string; posts: { platform: string; handle: string; content: string; imageUrl: string; likes: string; url: string; date: string }[]; columns: string }
   FooterBlock: Record<string, never>
+  FooterSubscribeBlock: { subscribeHeading: string; subscribeSubtext: string; submitLabel: string; firstNamePlaceholder: string; lastNamePlaceholder: string; emailPlaceholder: string; consentText: string; consentLinkText: string; privacyUrl: string }
+  FooterFollowBlock: { followHeading: string; followSubtext: string; facebookUrl: string; facebookFollowers: string; instagramUrl: string; instagramFollowers: string }
+  FooterTravelBlock: { travelSectionHeading: string }
+  FooterNavBlock: { navSectionHeading: string }
+  FooterBottomBlock: { copyright: string; licenseText: string; insuranceText: string; logoUrl: string; termsLabel: string; termsUrl: string; privacyLabel: string; privacyUrl: string; creditPrefix: string; creditName: string; creditUrl: string }
+  HeroMainBlock: { headline: string; subtext: string; ctaLabel: string; ctaUrl: string; backgroundImageUrl: string }
+  HomeDestCarouselBlock: { sectionTitle: string; destinations: { id: string; name: string; slug: string; month: string; spotsLabel: string }[] }
 }
 
 // ─── Config ───────────────────────────────────────────────────────────────────
@@ -226,8 +235,8 @@ export const puckConfig: Config<PuckBlocks> = {
             <div style={{
               maxWidth: maxWidth || undefined,
               margin: '0 auto',
-              paddingLeft: (styleProps as AllStyleDefaults).paddingX || 24,
-              paddingRight: (styleProps as AllStyleDefaults).paddingX || 24,
+              paddingLeft: (styleProps as unknown as AllStyleDefaults).paddingX || 24,
+              paddingRight: (styleProps as unknown as AllStyleDefaults).paddingX || 24,
               display: layout === 'single' ? 'block' : 'grid',
               gridTemplateColumns: layout === 'single' ? undefined : cols,
               gap: layout === 'single' ? undefined : gap || '24px',
@@ -252,7 +261,7 @@ export const puckConfig: Config<PuckBlocks> = {
         ctaLink: { type: 'text', label: 'CTA Button Link', placeholder: '/shop' },
         ...allStyleFields(),
       },
-      defaultProps: { headline: 'Your Headline Here', subheadline: 'Your subheadline here', backgroundImage: null, ctaText: '', ctaLink: '', variant: 'fullscreen', overlayOpacity: '0', ...allStyleDefaults(), bgColor: '#0a0a0a', textColor: '#ffffff' },
+      defaultProps: { headline: 'Your Headline Here', subheadline: 'Your subheadline here', backgroundImage: '', ctaText: '', ctaLink: '', variant: 'fullscreen', overlayOpacity: '0', ...allStyleDefaults(), bgColor: '#0a0a0a', textColor: '#ffffff' },
       render: ({ headline, subheadline, backgroundImage, ctaText, ctaLink, overlayOpacity, variant, ...style }) => {
         const cleanHeadline = String(headline || '').trim()
         const cleanSubheadline = String(subheadline || '').trim() || null
@@ -291,27 +300,23 @@ export const puckConfig: Config<PuckBlocks> = {
           label: 'Content',
           initialHeight: 200,
           options: {
-            bold: true,
-            italic: true,
-            underline: true,
-            strikethrough: true,
-            link: true,
-            blockquote: true,
-            code: true,
-            codeBlock: true,
-            horizontalRule: true,
-            h1: true,
-            h2: true,
-            h3: true,
-            h4: true,
-            h5: true,
-            h6: true,
-            ul: true,
-            ol: true,
-            align: ['left', 'center', 'right'],
-            sup: true,
-            sub: true,
-          }
+            bold: {} as any,
+            italic: {} as any,
+            underline: {} as any,
+            link: {} as any,
+            blockquote: {} as any,
+            code: {} as any,
+            codeBlock: {} as any,
+            horizontalRule: {} as any,
+            h1: {} as any,
+            h2: {} as any,
+            h3: {} as any,
+            h4: {} as any,
+            h5: {} as any,
+            h6: {} as any,
+            ul: {} as any,
+            ol: {} as any,
+          } as any
         },
         variant: { type: 'select', label: 'Width', options: [{ value: 'contained', label: 'Contained' }, { value: 'full-width', label: 'Full Width' }, { value: 'centered', label: 'Centered' }] },
         ...allStyleFields(),
@@ -647,7 +652,7 @@ export const puckConfig: Config<PuckBlocks> = {
       },
       defaultProps: { title: '', embedUrl: '', mapHeight: '480px', caption: '', ...allStyleDefaults() },
       render: ({ title, embedUrl, mapHeight, caption, height: _h, ...style }) => (
-        <MapBlockRenderer block={{ embedUrl: embedUrl || '', height: mapHeight || null, title: title || null, caption: caption || null, ...style }} />
+        <MapBlockRenderer block={{ embedUrl: embedUrl || '', height: mapHeight || undefined, title: title || null, caption: caption || null, ...style }} />
       ),
     },
 
@@ -865,7 +870,7 @@ export const puckConfig: Config<PuckBlocks> = {
       },
       defaultProps: { title: '', embedUrl: '', embedHeight: '480px', allowFullscreen: 'true', ...allStyleDefaults() },
       render: ({ title, embedUrl, embedHeight, allowFullscreen, height: _h, ...style }) => (
-        <EmbedBlockRenderer block={{ title: title || null, embedUrl: embedUrl || null, height: embedHeight || null, allowFullscreen: allowFullscreen || null, ...style }} />
+        <EmbedBlockRenderer block={{ title: title || null, embedUrl: embedUrl || undefined, height: embedHeight || undefined, allowFullscreen: allowFullscreen || null, ...style }} />
       ),
     },
 
@@ -942,7 +947,7 @@ export const puckConfig: Config<PuckBlocks> = {
       },
       defaultProps: { heading: 'Book Your Adventure', subheading: '', embedUrl: '', widgetHeight: '600px', ...allStyleDefaults() },
       render: ({ heading, subheading, embedUrl, widgetHeight, height: _h, ...style }) => (
-        <BookingWidgetBlockRenderer block={{ heading: heading || null, subheading: subheading || null, embedUrl: embedUrl || null, height: widgetHeight || null, ...style }} />
+        <BookingWidgetBlockRenderer block={{ heading: heading || null, subheading: subheading || null, embedUrl: embedUrl || undefined, height: widgetHeight || undefined, ...style }} />
       ),
     },
 
@@ -1065,6 +1070,40 @@ export const puckConfig: Config<PuckBlocks> = {
         logoLightUrl: '',
       },
       render: (props) => <NavigationLinksBlock {...props} />,
+    },
+
+    // ── HERO ─────────────────────────────────────────────────────────────────
+    HeroMainBlock: {
+      label: 'Hero — Main',
+      fields: {
+        headline: { type: 'text', label: 'Headline', contentEditable: true },
+        subtext: { type: 'textarea', label: 'Subtext' },
+        ctaLabel: { type: 'text', label: 'CTA Button Label' },
+        ctaUrl: { type: 'text', label: 'CTA URL' },
+        backgroundImageUrl: { type: 'text', label: 'Background Image URL' },
+      },
+      defaultProps: {
+        headline: 'Преоткривай света с нас!',
+        subtext: 'Пътувай с Panic Frame там, където комфортът среща приключението.',
+        ctaLabel: 'Виж всички дестинации',
+        ctaUrl: '/destinations',
+        backgroundImageUrl: '',
+      },
+      render: (props) => <HeroMainBlock {...props} />,
+    },
+
+    // ── HOME DESTINATION CAROUSEL ─────────────────────────────────────────────
+    HomeDestCarouselBlock: {
+      label: 'Home — Destination Carousel',
+      fields: {
+        sectionTitle: { type: 'text', label: 'Section Title' },
+        destinations: { type: 'custom', label: '', visible: false, render: () => <></> },
+      },
+      defaultProps: {
+        sectionTitle: 'Дестинации',
+        destinations: [],
+      },
+      render: (props: any) => <HomeDestinationCarouselBlock sectionTitle={props.sectionTitle} destinations={props.destinations ?? []} />,
     },
 
     // ── FOOTER ────────────────────────────────────────────────────────────────

@@ -23,6 +23,8 @@ import { Campaigns } from './collections/Campaigns'
 import { Navigation } from './globals/Navigation'
 import { Footer } from './globals/Footer'
 import { SiteSettings } from './globals/SiteSettings'
+import { Hero } from './globals/Hero'
+import { DestinationCarousel } from './globals/DestinationCarousel'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -68,7 +70,7 @@ export default buildConfig({
     EmailTemplates,
     Campaigns,
   ],
-  globals: [Navigation, Footer, SiteSettings],
+  globals: [Navigation, Footer, SiteSettings, Hero, DestinationCarousel],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET ?? 'fallback-secret',
   typescript: {

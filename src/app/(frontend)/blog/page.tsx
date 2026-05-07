@@ -7,6 +7,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = { title: 'Блог' }
 
 export default async function BlogPage() {
+  'use cache'
   const payload = await getPayload({ config })
 
   const { docs: posts } = await payload.find({

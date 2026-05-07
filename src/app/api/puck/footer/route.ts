@@ -64,7 +64,7 @@ export async function PATCH(request: Request) {
     overrideAccess: true,
   })
 
-  revalidateTag('footer')
+  revalidateTag('footer', 'default')
 
   return Response.json({ ok: true })
 }

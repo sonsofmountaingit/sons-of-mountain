@@ -101,8 +101,8 @@ async function renderBlock(item: PuckItem, index: number): Promise<React.ReactNo
           ctaText: (p.ctaText as string) || null,
           ctaLink: (p.ctaLink as string) || null,
           backgroundImage: (p.backgroundImage as string) ? { url: p.backgroundImage as string, alt: (p.headline as string) ?? '' } : null,
-          bgColor: (p.bgColor as string) || null,
-          textColor: (p.textColor as string) || null,
+          bgColor: (p.bgColor as string) || undefined,
+          textColor: (p.textColor as string) || undefined,
           variant: (p.variant as string) || null,
         }} />
       )
@@ -114,8 +114,8 @@ async function renderBlock(item: PuckItem, index: number): Promise<React.ReactNo
           content: (p.content as string) || null,
           alignment: (p.alignment as string) || null,
           variant: (p.variant as string) || null,
-          bgColor: (p.bgColor as string) || null,
-          textColor: (p.textColor as string) || null,
+          bgColor: (p.bgColor as string) || undefined,
+          textColor: (p.textColor as string) || undefined,
           padding: (p.padding as string) || null,
           ctaText: (p.ctaText as string) || null,
           ctaLink: (p.ctaLink as string) || null,
@@ -129,8 +129,8 @@ async function renderBlock(item: PuckItem, index: number): Promise<React.ReactNo
             ? { root: { type: 'root', children: (p.content as string).split('\n').map((line) => ({ type: 'paragraph', version: 1, children: [{ type: 'text', text: line, version: 1 }] })), direction: 'ltr' as const, format: '' as const, indent: 0, version: 1 } }
             : null,
           variant: (p.variant as string) || null,
-          bgColor: (p.bgColor as string) || null,
-          textColor: (p.textColor as string) || null,
+          bgColor: (p.bgColor as string) || undefined,
+          textColor: (p.textColor as string) || undefined,
         }} />
       )
 
@@ -141,8 +141,8 @@ async function renderBlock(item: PuckItem, index: number): Promise<React.ReactNo
           body: (p.body as string) || null,
           buttonText: (p.buttonText as string) || null,
           buttonLink: (p.buttonLink as string) || null,
-          bgColor: (p.bgColor as string) || null,
-          textColor: (p.textColor as string) || null,
+          bgColor: (p.bgColor as string) || undefined,
+          textColor: (p.textColor as string) || undefined,
           variant: (p.variant as string) || null,
         }} />
       )
@@ -231,7 +231,7 @@ async function renderBlock(item: PuckItem, index: number): Promise<React.ReactNo
     }
 
     case 'MapBlock':
-      return <MapBlockRenderer key={index} block={{ embedUrl: (p.embedUrl as string) || '', height: (p.height as string) || null, title: (p.title as string) || null, caption: (p.caption as string) || null, ...sp(p) }} />
+      return <MapBlockRenderer key={index} block={{ embedUrl: (p.embedUrl as string) || '', height: (p.height as string) || undefined, title: (p.title as string) || null, caption: (p.caption as string) || null, ...sp(p) }} />
 
     case 'NewsletterBlock':
       return <NewsletterBlockRenderer key={index} block={{ heading: (p.heading as string) || null, subheading: (p.subheading as string) || null, placeholder: (p.placeholder as string) || null, buttonText: (p.buttonText as string) || null, formAction: (p.formAction as string) || null, successMessage: (p.successMessage as string) || null, ...sp(p) }} />
@@ -269,7 +269,7 @@ async function renderBlock(item: PuckItem, index: number): Promise<React.ReactNo
       return <BeforeAfterBlockRenderer key={index} block={{ beforeImageUrl: (p.beforeImageUrl as string) || '', afterImageUrl: (p.afterImageUrl as string) || '', beforeLabel: (p.beforeLabel as string) || null, afterLabel: (p.afterLabel as string) || null, title: (p.title as string) || null, caption: (p.caption as string) || null, ...sp(p) }} />
 
     case 'EmbedBlock':
-      return <EmbedBlockRenderer key={index} block={{ embedUrl: (p.embedUrl as string) || null, height: (p.height as string) || null, title: (p.title as string) || null, allowFullscreen: (p.allowFullscreen as string) || null, ...sp(p) }} />
+      return <EmbedBlockRenderer key={index} block={{ embedUrl: (p.embedUrl as string) || undefined, height: (p.height as string) || undefined, title: (p.title as string) || null, allowFullscreen: (p.allowFullscreen as string) || null, ...sp(p) }} />
 
     case 'TestimonialsGridBlock': {
       const testimonials = ((p.testimonials as { quote: string; author: string; role?: string; avatarUrl?: string; rating?: string }[]) ?? []).map((t) => ({ quote: t.quote, author: t.author, role: t.role || null, avatarUrl: t.avatarUrl || null, rating: t.rating || null }))
@@ -282,7 +282,7 @@ async function renderBlock(item: PuckItem, index: number): Promise<React.ReactNo
     }
 
     case 'BookingWidgetBlock':
-      return <BookingWidgetBlockRenderer key={index} block={{ heading: (p.heading as string) || null, subheading: (p.subheading as string) || null, embedUrl: (p.embedUrl as string) || null, height: (p.height as string) || null, ...sp(p) }} />
+      return <BookingWidgetBlockRenderer key={index} block={{ heading: (p.heading as string) || null, subheading: (p.subheading as string) || null, embedUrl: (p.embedUrl as string) || undefined, height: (p.height as string) || undefined, ...sp(p) }} />
 
     case 'BlogPostsBlock': {
       const payload = await getPayload({ config })

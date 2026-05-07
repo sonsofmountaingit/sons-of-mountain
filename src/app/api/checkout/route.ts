@@ -3,12 +3,11 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import Stripe from 'stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? '', {
-  apiVersion: '2026-04-22.dahlia',
-})
-
 export async function POST(req: NextRequest) {
   try {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? 'sk_test_placeholder', {
+      apiVersion: '2026-04-22.dahlia',
+    })
     const body = await req.json()
     const { tripId, orderId, amount, currency = 'eur', description } = body
 

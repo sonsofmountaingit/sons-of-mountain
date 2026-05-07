@@ -2,31 +2,19 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import Link from 'next/link'
 import { Suspense } from 'react'
-import { HeroSection } from '@/components/ui/HeroSection'
-import { DestinationCarouselSection } from '@/components/ui/DestinationCarouselSection'
+import { Hero } from '@/components/ui/Hero'
+import { DestinationCarousel } from '@/components/ui/DestinationCarousel'
 import { StoriesCarouselSection } from '@/components/ui/StoriesCarouselSection'
 
-async function getHomeData() {
+async function getStoriesData() {
   'use cache'
   const payload = await getPayload({ config })
-  const [{ docs: destinations }, { docs: stories }] = await Promise.all([
-    payload.find({ collection: 'destinations', limit: 20, sort: 'name' }),
-    payload.find({ collection: 'stories', limit: 10, sort: '-createdAt' }),
-  ])
-  return { destinations, stories }
-}
-
-async function DestinationsSection() {
-  const { destinations } = await getHomeData()
-  return (
-    <DestinationCarouselSection
-      destinations={destinations as Parameters<typeof DestinationCarouselSection>[0]['destinations']}
-    />
-  )
+  const { docs: stories } = await payload.find({ collection: 'stories', limit: 10, sort: '-createdAt' })
+  return { stories }
 }
 
 async function StoriesSection() {
-  const { stories } = await getHomeData()
+  const { stories } = await getStoriesData()
   return (
     <StoriesCarouselSection
       stories={stories as Parameters<typeof StoriesCarouselSection>[0]['stories']}
@@ -37,9 +25,11 @@ async function StoriesSection() {
 export default function HomePage() {
   return (
     <div>
-      <HeroSection />
       <Suspense fallback={null}>
-        <DestinationsSection />
+        <Hero />
+      </Suspense>
+      <Suspense fallback={null}>
+        <DestinationCarousel />
       </Suspense>
 
       <section className="py-20 px-6">
