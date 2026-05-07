@@ -17,7 +17,6 @@ interface NavbarClientProps {
 
 export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebookUrl, tiktokUrl, logoDarkUrl, logoLightUrl }: NavbarClientProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [visible, setVisible] = useState(true)
   const [scrolled, setScrolled] = useState(false)
   const lastScrollY = useRef(0)
   const { scrollY } = useScroll()
@@ -26,13 +25,10 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
   const allLinks = [...(navLinksLeft ?? []), ...(navLinksRight ?? [])]
 
   useMotionValueEvent(scrollY, 'change', (current) => {
-    const previous = lastScrollY.current
     if (current < 50) {
-      setVisible(true)
       setScrolled(false)
     } else {
       setScrolled(true)
-      setVisible(current < previous)
     }
     lastScrollY.current = current
   })
@@ -49,14 +45,14 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
   return (
     <>
       <motion.header
-        animate={{ y: visible ? 0 : -100 }}
+        animate={{ y: 0 }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
         className={[
           'fixed top-0 left-0 right-0 z-50 transition-colors duration-300',
           scrolled ? 'backdrop-blur-md bg-black/60' : 'bg-transparent',
         ].join(' ')}
       >
-        <nav className="mx-auto max-w-[1440px] px-6 h-20 flex items-center justify-between">
+        <nav className={['mx-auto max-w-[1440px] px-6 flex items-center justify-between transition-all duration-300', scrolled ? 'h-14' : 'h-20'].join(' ')}>
           <div className="hidden lg:flex items-center gap-8 flex-1">
             {navLinksLeft.map((link, i) => (
               <Link
@@ -76,7 +72,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
               width={140}
               height={64}
               priority
-              className="h-16 w-auto"
+              className={['w-auto transition-all duration-300', scrolled ? 'h-9' : 'h-14'].join(' ')}
               unoptimized
             />
           </Link>
