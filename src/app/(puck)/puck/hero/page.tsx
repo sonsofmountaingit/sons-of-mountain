@@ -24,14 +24,49 @@ async function EditorContent() {
         type: 'HeroMainBlock',
         props: {
           id: 'hero-main',
-          headline: h?.headline ?? 'Преоткривай света с нас!',
-          subtext: h?.subtext ?? 'Пътувай с Panic Frame там, където комфортът среща приключението.',
-          ctaLabel: h?.ctaLabel ?? 'Виж всички дестинации',
-          ctaUrl: h?.ctaUrl ?? '/destinations',
           backgroundImageUrl: bgUrl,
+          overlayOpacity: 40,
+          contentAlign: 'bottom-center',
+          height: 'screen',
         },
       },
     ],
+    zones: {
+      'hero-main:hero-content': [
+        {
+          type: 'HeroHeadlineBlock',
+          props: {
+            id: 'hero-headline',
+            text: h?.headline ?? 'Преоткривай света с нас!',
+            fontSize: '4rem',
+            color: '#ffffff',
+            fontWeight: '700',
+            textAlign: 'center',
+          },
+        },
+        {
+          type: 'HeroSubtextBlock',
+          props: {
+            id: 'hero-subtext',
+            text: h?.subtext ?? 'Пътувай с Panic Frame там, където комфортът среща приключението.',
+            fontSize: '1rem',
+            color: 'rgba(255,255,255,0.65)',
+            textAlign: 'center',
+          },
+        },
+        {
+          type: 'HeroCtaBlock',
+          props: {
+            id: 'hero-cta',
+            label: h?.ctaLabel ?? 'Виж всички дестинации',
+            url: h?.ctaUrl ?? '/destinations',
+            style: 'filled-white',
+            fontSize: '0.75rem',
+            align: 'center',
+          },
+        },
+      ],
+    },
   }
 
   return <PuckHeroEditorClient initialData={puckData} />

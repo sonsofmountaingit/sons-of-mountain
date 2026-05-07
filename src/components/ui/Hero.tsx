@@ -1,8 +1,13 @@
 import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { PuckRender } from '@/components/blocks/PuckRender'
 import { HeroMainBlock } from '@/components/blocks/hero/HeroMainBlock'
+import { HeroHeadlineBlock } from '@/components/blocks/hero/HeroHeadlineBlock'
+import { HeroSubtextBlock } from '@/components/blocks/hero/HeroSubtextBlock'
+import { HeroCtaBlock } from '@/components/blocks/hero/HeroCtaBlock'
 import { HeroEditButton } from './HeroEditButton'
+import type { Data } from '@puckeditor/core'
 
 const getHeroData = unstable_cache(
   async () => {
@@ -19,19 +24,29 @@ const getHeroData = unstable_cache(
 
 export async function Hero() {
   const h = await getHeroData()
-  const bgUrl = (typeof h?.backgroundImage === 'object' && h.backgroundImage?.url)
+  const bgUrl = (typeof h?.backgroundImage === 'object' && h?.backgroundImage?.url)
     ? h.backgroundImage.url
     : (h?.backgroundImageUrl ?? '')
 
+  const puckData: Data | null = h?.puckData?.content?.length ? h.puckData as Data : null
+
+  if (puckData) {
+    return (
+      <>
+        <PuckRender data={puckData} />
+        <HeroEditButton />
+      </>
+    )
+  }
+
+  // Fallback: render without puckData
   return (
     <>
-      <HeroMainBlock
-        headline={h?.headline ?? 'Преоткривай света с нас!'}
-        subtext={h?.subtext ?? 'Пътувай с Panic Frame там, където комфортът среща приключението.'}
-        ctaLabel={h?.ctaLabel ?? 'Виж всички дестинации'}
-        ctaUrl={h?.ctaUrl ?? '/destinations'}
-        backgroundImageUrl={bgUrl}
-      />
+      <HeroMainBlock backgroundImageUrl={bgUrl}>
+        <HeroHeadlineBlock text={h?.headline ?? 'Преоткривай света с нас!'} />
+        <HeroSubtextBlock text={h?.subtext ?? 'Пътувай с Panic Frame там, където комфортът среща приключението.'} />
+        <HeroCtaBlock label={h?.ctaLabel ?? 'Виж всички дестинации'} url={h?.ctaUrl ?? '/destinations'} />
+      </HeroMainBlock>
       <HeroEditButton />
     </>
   )

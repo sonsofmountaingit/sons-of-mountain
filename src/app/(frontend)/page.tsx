@@ -25,12 +25,14 @@ async function StoriesSection() {
 export default function HomePage() {
   return (
     <div>
-      <Suspense fallback={null}>
-        <Hero />
-      </Suspense>
-      <Suspense fallback={null}>
-        <DestinationCarousel />
-      </Suspense>
+      <div className="relative">
+        <Suspense fallback={null}>
+          <Hero />
+        </Suspense>
+        <Suspense fallback={null}>
+          <DestinationCarousel />
+        </Suspense>
+      </div>
 
       <section className="py-20 px-6">
         <div className="max-w-3xl mx-auto">

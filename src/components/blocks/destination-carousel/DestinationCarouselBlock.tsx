@@ -113,7 +113,7 @@ export function DestinationCarouselBlock({
   function onMouseUp() { isDragging.current = false }
 
   return (
-    <section className="py-16 overflow-hidden bg-transparent">
+    <section className="relative z-10 -mt-56 pb-16 overflow-hidden bg-transparent">
       <div
         ref={trackRef}
         className="flex gap-4 px-6 md:px-16 overflow-x-auto pb-4 select-none"

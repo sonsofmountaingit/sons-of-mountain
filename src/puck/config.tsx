@@ -33,6 +33,9 @@ import { SocialFeedBlockRenderer } from '@/components/blocks/SocialFeedBlockRend
 import { FooterBlockRenderer } from '@/components/blocks/FooterBlockRenderer'
 import { NavigationLinksBlock } from '@/components/blocks/navigation/NavigationLinksBlock'
 import { HeroMainBlock } from '@/components/blocks/hero/HeroMainBlock'
+import { HeroHeadlineBlock } from '@/components/blocks/hero/HeroHeadlineBlock'
+import { HeroSubtextBlock } from '@/components/blocks/hero/HeroSubtextBlock'
+import { HeroCtaBlock } from '@/components/blocks/hero/HeroCtaBlock'
 import { DestinationCarouselBlock as HomeDestinationCarouselBlock } from '@/components/blocks/destination-carousel/DestinationCarouselBlock'
 import { FooterSubscribeBlock } from '@/components/blocks/footer/FooterSubscribeBlock'
 import { FooterFollowBlock } from '@/components/blocks/footer/FooterFollowBlock'
@@ -175,7 +178,10 @@ export type PuckBlocks = {
   FooterTravelBlock: { travelSectionHeading: string }
   FooterNavBlock: { navSectionHeading: string }
   FooterBottomBlock: { copyright: string; licenseText: string; insuranceText: string; logoUrl: string; termsLabel: string; termsUrl: string; privacyLabel: string; privacyUrl: string; creditPrefix: string; creditName: string; creditUrl: string }
-  HeroMainBlock: { headline: string; subtext: string; ctaLabel: string; ctaUrl: string; backgroundImageUrl: string }
+  HeroMainBlock: { backgroundImageUrl: string; backgroundImage: any; overlayOpacity: number; contentAlign: string; height: string }
+  HeroHeadlineBlock: { text: string; fontSize: string; color: string; fontWeight: string; textAlign: string }
+  HeroSubtextBlock: { text: string; fontSize: string; color: string; textAlign: string }
+  HeroCtaBlock: { label: string; url: string; style: string; fontSize: string; align: string }
   HomeDestCarouselBlock: { sectionTitle: string; destinations: { id: string; name: string; slug: string; month: string; spotsLabel: string }[] }
 }
 
@@ -1076,20 +1082,131 @@ export const puckConfig: Config<PuckBlocks> = {
     HeroMainBlock: {
       label: 'Hero — Main',
       fields: {
-        headline: { type: 'text', label: 'Headline', contentEditable: true },
-        subtext: { type: 'textarea', label: 'Subtext' },
-        ctaLabel: { type: 'text', label: 'CTA Button Label' },
-        ctaUrl: { type: 'text', label: 'CTA URL' },
-        backgroundImageUrl: { type: 'text', label: 'Background Image URL' },
+        backgroundImage: payloadMediaField('Background Image'),
+        backgroundImageUrl: { type: 'text', label: 'Background Image URL (fallback)' },
+        overlayOpacity: { type: 'number', label: 'Overlay Opacity (0–100)', min: 0, max: 100 },
+        contentAlign: {
+          type: 'select', label: 'Content Alignment',
+          options: [
+            { value: 'center', label: 'Center' },
+            { value: 'bottom-center', label: 'Bottom Center' },
+            { value: 'bottom-left', label: 'Bottom Left' },
+          ],
+        },
+        height: {
+          type: 'select', label: 'Section Height',
+          options: [
+            { value: 'screen', label: 'Full screen' },
+            { value: '80vh', label: '80vh' },
+            { value: '60vh', label: '60vh' },
+          ],
+        },
       },
       defaultProps: {
-        headline: 'Преоткривай света с нас!',
-        subtext: 'Пътувай с Panic Frame там, където комфортът среща приключението.',
-        ctaLabel: 'Виж всички дестинации',
-        ctaUrl: '/destinations',
         backgroundImageUrl: '',
+        backgroundImage: '',
+        overlayOpacity: 40,
+        contentAlign: 'bottom-center',
+        height: 'screen',
       },
-      render: (props) => <HeroMainBlock {...props} />,
+      render: (props) => {
+        const bgUrl = (typeof props.backgroundImage === 'object' && props.backgroundImage !== null
+          ? (props.backgroundImage as { url?: string }).url
+          : props.backgroundImageUrl) ?? props.backgroundImageUrl ?? ''
+        return <HeroMainBlock {...props} backgroundImageUrl={bgUrl} />
+      },
+    },
+
+    HeroHeadlineBlock: {
+      label: 'Hero — Headline',
+      fields: {
+        text: { type: 'text', label: 'Headline Text' },
+        fontSize: { type: 'text', label: 'Font Size (e.g. 4rem, 72px)' },
+        color: { type: 'text', label: 'Color (CSS)' },
+        fontWeight: {
+          type: 'select', label: 'Font Weight',
+          options: [
+            { value: '400', label: 'Regular' },
+            { value: '600', label: 'Semi-bold' },
+            { value: '700', label: 'Bold' },
+            { value: '800', label: 'Extra-bold' },
+            { value: '900', label: 'Black' },
+          ],
+        },
+        textAlign: {
+          type: 'select', label: 'Text Align',
+          options: [
+            { value: 'left', label: 'Left' },
+            { value: 'center', label: 'Center' },
+            { value: 'right', label: 'Right' },
+          ],
+        },
+      },
+      defaultProps: {
+        text: 'Преоткривай света с нас!',
+        fontSize: '4rem',
+        color: '#ffffff',
+        fontWeight: '700',
+        textAlign: 'center',
+      },
+      render: (props) => <HeroHeadlineBlock {...props} />,
+    },
+
+    HeroSubtextBlock: {
+      label: 'Hero — Subtext',
+      fields: {
+        text: { type: 'textarea', label: 'Subtext' },
+        fontSize: { type: 'text', label: 'Font Size (e.g. 1rem, 18px)' },
+        color: { type: 'text', label: 'Color (CSS)' },
+        textAlign: {
+          type: 'select', label: 'Text Align',
+          options: [
+            { value: 'left', label: 'Left' },
+            { value: 'center', label: 'Center' },
+            { value: 'right', label: 'Right' },
+          ],
+        },
+      },
+      defaultProps: {
+        text: 'Пътувай с Panic Frame там, където комфортът среща приключението.',
+        fontSize: '1rem',
+        color: 'rgba(255,255,255,0.65)',
+        textAlign: 'center',
+      },
+      render: (props) => <HeroSubtextBlock {...props} />,
+    },
+
+    HeroCtaBlock: {
+      label: 'Hero — CTA Button',
+      fields: {
+        label: { type: 'text', label: 'Button Label' },
+        url: { type: 'text', label: 'URL' },
+        style: {
+          type: 'select', label: 'Style',
+          options: [
+            { value: 'filled-white', label: 'White filled' },
+            { value: 'filled-black', label: 'Black filled' },
+            { value: 'outline-white', label: 'White outline' },
+          ],
+        },
+        fontSize: { type: 'text', label: 'Font Size' },
+        align: {
+          type: 'select', label: 'Alignment',
+          options: [
+            { value: 'left', label: 'Left' },
+            { value: 'center', label: 'Center' },
+            { value: 'right', label: 'Right' },
+          ],
+        },
+      },
+      defaultProps: {
+        label: 'Виж всички дестинации',
+        url: '/destinations',
+        style: 'filled-white',
+        fontSize: '0.75rem',
+        align: 'center',
+      },
+      render: (props) => <HeroCtaBlock {...props} />,
     },
 
     // ── HOME DESTINATION CAROUSEL ─────────────────────────────────────────────
