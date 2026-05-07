@@ -17,6 +17,15 @@ export const Footer: GlobalConfig = {
   admin: { group: 'Site Settings' },
   fields: [
     {
+      name: 'openVisualEditor',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: '@/components/admin/FooterVisualEditorButton#FooterVisualEditorButton',
+        },
+      },
+    },
+    {
       name: 'subscribeHeading',
       type: 'text',
       defaultValue: 'Абонирай се',
@@ -226,6 +235,11 @@ export const Footer: GlobalConfig = {
       type: 'text',
       admin: { hidden: true },
       defaultValue: 'Дизайн и разработка от Netinsky',
+    },
+    {
+      name: 'puckData',
+      type: 'json',
+      admin: { hidden: true },
     },
   ],
   hooks: {

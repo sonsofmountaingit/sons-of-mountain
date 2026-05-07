@@ -98,6 +98,11 @@ const componentToCategory: Record<string, string> = {
   BlogPostsBlock: 'dynamic',
   DestinationCarouselBlock: 'dynamic',
   SocialFeedBlock: 'dynamic',
+  FooterSubscribeBlock: 'global',
+  FooterFollowBlock: 'global',
+  FooterTravelBlock: 'global',
+  FooterNavBlock: 'global',
+  FooterBottomBlock: 'global',
 }
 
 const knownTypes = new Set(Object.keys(puckConfig.components))

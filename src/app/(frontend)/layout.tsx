@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Space_Grotesk } from 'next/font/google'
 import { Suspense } from 'react'
-import { Navbar } from '@/components/ui/Navbar'
+import { Navigation } from '@/components/ui/Navigation'
 import { Footer } from '@/components/ui/Footer'
 import '../globals.css'
 
@@ -24,7 +24,7 @@ export default function FrontendLayout({ children }: { children: React.ReactNode
   return (
     <html lang="bg" className={spaceGrotesk.variable} suppressHydrationWarning>
       <body suppressHydrationWarning>
-        <Navbar />
+        <Navigation />
         <main>{children}</main>
         <Suspense fallback={null}>
           <Footer />

@@ -31,6 +31,12 @@ import { BookingWidgetBlockRenderer } from '@/components/blocks/BookingWidgetBlo
 import { BlogPostsBlockRenderer } from '@/components/blocks/BlogPostsBlockRenderer'
 import { SocialFeedBlockRenderer } from '@/components/blocks/SocialFeedBlockRenderer'
 import { FooterBlockRenderer } from '@/components/blocks/FooterBlockRenderer'
+import { NavigationLinksBlock } from '@/components/blocks/navigation/NavigationLinksBlock'
+import { FooterSubscribeBlock } from '@/components/blocks/footer/FooterSubscribeBlock'
+import { FooterFollowBlock } from '@/components/blocks/footer/FooterFollowBlock'
+import { FooterTravelBlock } from '@/components/blocks/footer/FooterTravelBlock'
+import { FooterNavBlock } from '@/components/blocks/footer/FooterNavBlock'
+import { FooterBottomBlock } from '@/components/blocks/footer/FooterBottomBlock'
 
 import {
   allStyleFields,
@@ -127,6 +133,7 @@ function MediaLogosEditorBlock({ title, logos, ...style }: { title?: string; log
 type StyleProps = AllStyleDefaults
 
 export type PuckBlocks = {
+  NavigationLinksBlock: { navLinksLeft: { label: string; href: string }[]; navLinksRight: { label: string; href: string }[]; instagramUrl: string; facebookUrl: string; tiktokUrl: string; logoDarkUrl: string; logoLightUrl: string }
   Section: { layout: string; gap: string; bgColor: string; textColor: string; paddingTop: string; paddingBottom: string; maxWidth: string; locked: string; content: never }
   HeroBlock: StyleProps & { headline: string; subheadline: string; backgroundImage: string; ctaText: string; ctaLink: string; variant: string; overlayOpacity: string }
   TextBlock: StyleProps & { heading: string; content: string; alignment: 'left' | 'center' | 'right'; variant: string; padding: string; ctaText: string; ctaLink: string }
@@ -173,7 +180,7 @@ export const puckConfig: Config<PuckBlocks> = {
     media: { title: 'Media', components: ['ImageGalleryBlock', 'GalleryLightboxBlock', 'VideoBlock', 'BeforeAfterBlock', 'EmbedBlock', 'MapBlock'], defaultExpanded: false },
     brand: { title: 'Team & Brand', components: ['TeamBlock', 'MediaLogosBlock', 'FAQBlock', 'AccordionBlock', 'TestimonialsGridBlock', 'IconGridBlock', 'FeatureCardsBlock', 'CounterBlock', 'TimelineBlock', 'TabbedContentBlock'], defaultExpanded: false },
     dynamic: { title: 'Dynamic (Live Data)', components: ['StoriesBlock', 'BlogPostsBlock', 'DestinationCarouselBlock', 'SocialFeedBlock'], defaultExpanded: false },
-    global: { title: 'Global', components: ['FooterBlock'], defaultExpanded: false },
+    global: { title: 'Global', components: ['FooterBlock', 'NavigationLinksBlock'], defaultExpanded: false },
   },
 
   components: {
@@ -1011,12 +1018,162 @@ export const puckConfig: Config<PuckBlocks> = {
       ),
     },
 
+    // ── NAVIGATION ────────────────────────────────────────────────────────────
+    NavigationLinksBlock: {
+      label: 'Navigation (Global)',
+      fields: {
+        navLinksLeft: {
+          type: 'array', label: 'Left Links',
+          arrayFields: {
+            label: { type: 'text', label: 'Label', placeholder: 'ДЕСТИНАЦИИ' },
+            href: { type: 'text', label: 'URL', placeholder: '/destinations' },
+          },
+          defaultItemProps: { label: '', href: '' },
+          getItemSummary: (item: { label: string }) => item.label || 'Link',
+        },
+        navLinksRight: {
+          type: 'array', label: 'Right Links',
+          arrayFields: {
+            label: { type: 'text', label: 'Label', placeholder: 'ГАЛЕРИЯ' },
+            href: { type: 'text', label: 'URL', placeholder: '/gallery' },
+          },
+          defaultItemProps: { label: '', href: '' },
+          getItemSummary: (item: { label: string }) => item.label || 'Link',
+        },
+        instagramUrl: { type: 'text', label: 'Instagram URL' },
+        facebookUrl: { type: 'text', label: 'Facebook URL' },
+        tiktokUrl: { type: 'text', label: 'TikTok URL' },
+        logoDarkUrl: { type: 'text', label: 'Logo (dark bg) URL' },
+        logoLightUrl: { type: 'text', label: 'Logo (light bg) URL' },
+      },
+      defaultProps: {
+        navLinksLeft: [
+          { label: 'ДЕСТИНАЦИИ', href: '/destinations' },
+          { label: 'КАЛЕНДАР', href: '/calendar' },
+          { label: 'ИСТОРИИ', href: '/stories' },
+        ],
+        navLinksRight: [
+          { label: 'ГАЛЕРИЯ', href: '/gallery' },
+          { label: 'БЛОГ', href: '/blog' },
+          { label: 'ЗА НАС', href: '/about' },
+          { label: 'КОНТАКТИ', href: '/contact' },
+        ],
+        instagramUrl: 'https://instagram.com/panicframe',
+        facebookUrl: 'https://facebook.com/panicframe',
+        tiktokUrl: '',
+        logoDarkUrl: 'https://framerusercontent.com/images/sQ2kYkKWnh9M8mP6NCkfgP6bXuE.png',
+        logoLightUrl: '',
+      },
+      render: (props) => <NavigationLinksBlock {...props} />,
+    },
+
     // ── FOOTER ────────────────────────────────────────────────────────────────
     FooterBlock: {
       label: 'Footer (Global)',
       fields: {},
       defaultProps: {},
       render: () => <FooterBlockRenderer />,
+    },
+
+    FooterSubscribeBlock: {
+      label: 'Footer — Subscribe',
+      fields: {
+        subscribeHeading: { type: 'text', label: 'Heading' },
+        subscribeSubtext: { type: 'textarea', label: 'Subtext' },
+        submitLabel: { type: 'text', label: 'Button Label' },
+        firstNamePlaceholder: { type: 'text', label: 'First Name Placeholder' },
+        lastNamePlaceholder: { type: 'text', label: 'Last Name Placeholder' },
+        emailPlaceholder: { type: 'text', label: 'Email Placeholder' },
+        consentText: { type: 'text', label: 'Consent Text' },
+        consentLinkText: { type: 'text', label: 'Consent Link Text' },
+        privacyUrl: { type: 'text', label: 'Privacy URL' },
+      },
+      defaultProps: {
+        subscribeHeading: 'Абонирай се',
+        subscribeSubtext: 'Научавай първи за предстоящи пътешествия, отстъпки и събития.',
+        submitLabel: 'Абонирай се',
+        firstNamePlaceholder: 'Име',
+        lastNamePlaceholder: 'Фамилия',
+        emailPlaceholder: 'E-mail адрес',
+        consentText: 'С натискането на бутона "Абонирай се" се съгласяваш с',
+        consentLinkText: 'Политиката ни за поверителност',
+        privacyUrl: '/legal/cookies',
+      },
+      render: (props) => <FooterSubscribeBlock {...props} />,
+    },
+
+    FooterFollowBlock: {
+      label: 'Footer — Follow Us',
+      fields: {
+        followHeading: { type: 'text', label: 'Heading' },
+        followSubtext: { type: 'textarea', label: 'Subtext' },
+        facebookUrl: { type: 'text', label: 'Facebook URL' },
+        facebookFollowers: { type: 'text', label: 'Facebook Followers' },
+        instagramUrl: { type: 'text', label: 'Instagram URL' },
+        instagramFollowers: { type: 'text', label: 'Instagram Followers' },
+      },
+      defaultProps: {
+        followHeading: 'Последвай ни!',
+        followSubtext: 'Стани част от нашата общност и следи приключенията ни отблизо.',
+        facebookUrl: 'https://facebook.com/panicframe',
+        facebookFollowers: '20.2K',
+        instagramUrl: 'https://instagram.com/panicframe',
+        instagramFollowers: '23.8K',
+      },
+      render: (props) => <FooterFollowBlock {...props} />,
+    },
+
+    FooterTravelBlock: {
+      label: 'Footer — Travel Links',
+      fields: {
+        travelSectionHeading: { type: 'text', label: 'Section Heading' },
+      },
+      defaultProps: {
+        travelSectionHeading: 'ПЪТУВАЙ С НАС',
+      },
+      render: (props) => <FooterTravelBlock {...props} />,
+    },
+
+    FooterNavBlock: {
+      label: 'Footer — Navigation',
+      fields: {
+        navSectionHeading: { type: 'text', label: 'Section Heading' },
+      },
+      defaultProps: {
+        navSectionHeading: 'НАВИГАЦИЯ',
+      },
+      render: (props) => <FooterNavBlock {...props} />,
+    },
+
+    FooterBottomBlock: {
+      label: 'Footer — Bottom Bar',
+      fields: {
+        copyright: { type: 'text', label: 'Copyright' },
+        licenseText: { type: 'text', label: 'License Text' },
+        insuranceText: { type: 'text', label: 'Insurance Text' },
+        logoUrl: { type: 'text', label: 'Logo URL' },
+        termsLabel: { type: 'text', label: 'Terms Label' },
+        termsUrl: { type: 'text', label: 'Terms URL' },
+        privacyLabel: { type: 'text', label: 'Privacy Label' },
+        privacyUrl: { type: 'text', label: 'Privacy URL' },
+        creditPrefix: { type: 'text', label: 'Credit Prefix' },
+        creditName: { type: 'text', label: 'Credit Name' },
+        creditUrl: { type: 'text', label: 'Credit URL' },
+      },
+      defaultProps: {
+        copyright: '© 2018-2026 Паник Фрейм енд Травел',
+        licenseText: 'Номер на лиценз: РК-01-8245 / 28.07.2022',
+        insuranceText: 'Номер на застрахователна полица: 03700100005995 / 31.08.2025',
+        logoUrl: 'https://framerusercontent.com/images/xAELSxhOFDDnqiDsAfvMhSuuw.png',
+        termsLabel: 'Общи условия',
+        termsUrl: '/legal/terms',
+        privacyLabel: 'Политика за поверителност',
+        privacyUrl: '/legal/cookies',
+        creditPrefix: 'Дизайн и разработка от',
+        creditName: 'Netinsky',
+        creditUrl: 'https://netinsky.com',
+      },
+      render: (props) => <FooterBottomBlock {...props} />,
     },
   },
 

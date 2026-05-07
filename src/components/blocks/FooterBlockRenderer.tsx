@@ -21,10 +21,10 @@ type FooterData = {
   navLinks?: { label: string; href: string }[]
   logo?: { url?: string }
   logoGif?: string
+  logoUrl?: string
   copyright?: string
   licenseText?: string
   insuranceText?: string
-  credit?: string
   creditPrefix?: string
   creditName?: string
   creditUrl?: string
@@ -40,17 +40,22 @@ type FooterData = {
   consentLinkText?: string
 }
 
-export function FooterBlockRenderer() {
+type Props = {
+  overrides?: Partial<FooterData>
+}
+
+export function FooterBlockRenderer({ overrides }: Props = {}) {
   const [data, setData] = useState<FooterData | null>(null)
 
   useEffect(() => {
-    fetch('/api/globals/footer', { credentials: 'include' })
+    fetch('/api/footer-data', { credentials: 'include' })
       .then((r) => r.json())
       .then(setData)
       .catch(() => setData({}))
   }, [])
 
-  const d = data ?? {}
+  const d: FooterData = { ...(data ?? {}), ...(overrides ?? {}) }
+
   const subscribeHeading = d.subscribeHeading ?? 'Абонирай се'
   const subscribeSubtext = d.subscribeSubtext ?? 'Научавай първи за предстоящи пътешествия, отстъпки и събития.'
   const followHeading = d.followHeading ?? 'Последвай ни!'
@@ -63,7 +68,7 @@ export function FooterBlockRenderer() {
   const navSectionHeading = d.navSectionHeading ?? 'НАВИГАЦИЯ'
   const travelLinks = d.travelLinks ?? []
   const navLinks = d.navLinks ?? []
-  const logoGif = d.logo?.url ?? d.logoGif ?? 'https://framerusercontent.com/images/xAELSxhOFDDnqiDsAfvMhSuuw.png'
+  const logoGif = d.logoUrl ?? d.logo?.url ?? d.logoGif ?? 'https://framerusercontent.com/images/xAELSxhOFDDnqiDsAfvMhSuuw.png'
   const copyright = d.copyright ?? '© 2018-2026 Паник Фрейм енд Травел'
   const licenseText = d.licenseText ?? 'Номер на лиценз: РК-01-8245 / 28.07.2022'
   const insuranceText = d.insuranceText ?? 'Номер на застрахователна полица: 03700100005995 / 31.08.2025'

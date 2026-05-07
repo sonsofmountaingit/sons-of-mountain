@@ -5,6 +5,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { FooterForm } from './FooterForm'
 import { ShakingCredit } from './ShakingCredit'
+import { FooterEditButton } from './FooterEditButton'
 
 const BG_MONTHS = ['януари','февруари','март','април','май','юни','юли','август','септември','октомври','ноември','декември']
 
@@ -145,90 +146,107 @@ export async function Footer() {
   const travelCol1 = travelLinks.slice(0, half)
   const travelCol2 = travelLinks.slice(half)
 
-
   return (
-    <footer style={{ backgroundColor: '#111111', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '4rem', paddingBottom: '2rem' }}>
-      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 1.5rem' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '360px 1fr 220px', gap: '3rem', paddingBottom: '3rem', borderBottom: '1px solid rgba(255,255,255,0.08)', alignItems: 'start' }}>
+    <>
+      <footer style={{ backgroundColor: '#111111', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '4rem', paddingBottom: '2rem' }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 1.5rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '360px 1fr 220px', gap: '3rem', paddingBottom: '3rem', borderBottom: '1px solid rgba(255,255,255,0.08)', alignItems: 'start' }}>
 
-          {/* Left: Subscribe + Follow cards */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <div style={{ backgroundColor: '#1c1c1c', borderRadius: '1rem', padding: '1.5rem' }}>
-              <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#ffffff', margin: '0 0 0.75rem 0' }}>
-                {subscribeHeading}
-              </h3>
-              <p style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.5)', margin: '0 0 1.25rem 0', lineHeight: 1.55 }}>
-                {subscribeSubtext}
-              </p>
-              <FooterForm
-                privacyUrl={privacyUrl}
-                submitLabel={submitLabel}
-                firstNamePlaceholder={firstNamePlaceholder}
-                lastNamePlaceholder={lastNamePlaceholder}
-                emailPlaceholder={emailPlaceholder}
-                consentText={consentText}
-                consentLinkText={consentLinkText}
-              />
-            </div>
+            {/* Left: Subscribe + Follow cards */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div style={{ backgroundColor: '#1c1c1c', borderRadius: '1rem', padding: '1.5rem' }}>
+                <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#ffffff', margin: '0 0 0.75rem 0' }}>
+                  {subscribeHeading}
+                </h3>
+                <p style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.5)', margin: '0 0 1.25rem 0', lineHeight: 1.55 }}>
+                  {subscribeSubtext}
+                </p>
+                <FooterForm
+                  privacyUrl={privacyUrl}
+                  submitLabel={submitLabel}
+                  firstNamePlaceholder={firstNamePlaceholder}
+                  lastNamePlaceholder={lastNamePlaceholder}
+                  emailPlaceholder={emailPlaceholder}
+                  consentText={consentText}
+                  consentLinkText={consentLinkText}
+                />
+              </div>
 
-            <div style={{ backgroundColor: '#1c1c1c', borderRadius: '1rem', padding: '1.5rem' }}>
-              <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#ffffff', margin: '0 0 0.5rem 0' }}>
-                {followHeading}
-              </h3>
-              <p style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.5)', margin: '0 0 1.25rem 0', lineHeight: 1.55 }}>
-                {followSubtext}
-              </p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-                <a href={facebookUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', color: '#ffffff' }}>
-                  <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="34" height="34" rx="8" fill="#1877F2"/>
-                    <path d="M23 17c0-3.314-2.686-6-6-6s-6 2.686-6 6c0 2.995 2.193 5.477 5.063 5.927V18.89h-1.524V17h1.524v-1.323c0-1.504.896-2.334 2.265-2.334.656 0 1.342.117 1.342.117v1.476h-.756c-.744 0-.976.462-.976.936V17h1.66l-.265 1.89h-1.395v4.037C20.807 22.477 23 19.995 23 17z" fill="white"/>
-                  </svg>
-                  <span style={{ fontSize: '1.5rem', fontWeight: 700 }}>{facebookFollowers}</span>
-                </a>
-                <a href={instagramUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', color: '#ffffff' }}>
-                  <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                      <radialGradient id="ig-footer" cx="30%" cy="107%" r="120%">
-                        <stop offset="0%" stopColor="#ffd600"/>
-                        <stop offset="30%" stopColor="#ff6930"/>
-                        <stop offset="60%" stopColor="#fe3b93"/>
-                        <stop offset="100%" stopColor="#9e34d4"/>
-                      </radialGradient>
-                    </defs>
-                    <rect width="34" height="34" rx="8" fill="url(#ig-footer)"/>
-                    <rect x="9" y="9" width="16" height="16" rx="4.5" stroke="white" strokeWidth="1.5" fill="none"/>
-                    <circle cx="17" cy="17" r="4" stroke="white" strokeWidth="1.5" fill="none"/>
-                    <circle cx="22" cy="12" r="1" fill="white"/>
-                  </svg>
-                  <span style={{ fontSize: '1.5rem', fontWeight: 700 }}>{instagramFollowers}</span>
-                </a>
+              <div style={{ backgroundColor: '#1c1c1c', borderRadius: '1rem', padding: '1.5rem' }}>
+                <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#ffffff', margin: '0 0 0.5rem 0' }}>
+                  {followHeading}
+                </h3>
+                <p style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.5)', margin: '0 0 1.25rem 0', lineHeight: 1.55 }}>
+                  {followSubtext}
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+                  <a href={facebookUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', color: '#ffffff' }}>
+                    <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="34" height="34" rx="8" fill="#1877F2"/>
+                      <path d="M23 17c0-3.314-2.686-6-6-6s-6 2.686-6 6c0 2.995 2.193 5.477 5.063 5.927V18.89h-1.524V17h1.524v-1.323c0-1.504.896-2.334 2.265-2.334.656 0 1.342.117 1.342.117v1.476h-.756c-.744 0-.976.462-.976.936V17h1.66l-.265 1.89h-1.395v4.037C20.807 22.477 23 19.995 23 17z" fill="white"/>
+                    </svg>
+                    <span style={{ fontSize: '1.5rem', fontWeight: 700 }}>{facebookFollowers}</span>
+                  </a>
+                  <a href={instagramUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', color: '#ffffff' }}>
+                    <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                        <radialGradient id="ig-footer" cx="30%" cy="107%" r="120%">
+                          <stop offset="0%" stopColor="#ffd600"/>
+                          <stop offset="30%" stopColor="#ff6930"/>
+                          <stop offset="60%" stopColor="#fe3b93"/>
+                          <stop offset="100%" stopColor="#9e34d4"/>
+                        </radialGradient>
+                      </defs>
+                      <rect width="34" height="34" rx="8" fill="url(#ig-footer)"/>
+                      <rect x="9" y="9" width="16" height="16" rx="4.5" stroke="white" strokeWidth="1.5" fill="none"/>
+                      <circle cx="17" cy="17" r="4" stroke="white" strokeWidth="1.5" fill="none"/>
+                      <circle cx="22" cy="12" r="1" fill="white"/>
+                    </svg>
+                    <span style={{ fontSize: '1.5rem', fontWeight: 700 }}>{instagramFollowers}</span>
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Middle: Travel links in 2 sub-columns */}
-          <div>
-            <p style={{ fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', margin: '0 0 1.5rem 0' }}>
-              {travelSectionHeading}
-            </p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 2rem' }}>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                {travelCol1.map((link) => (
-                  <li key={link.href + link.name}>
-                    <Link href={link.href} style={{ textDecoration: 'none' }}>
-                      <span style={{ display: 'block', fontSize: '1rem', fontWeight: 600, color: '#ffffff' }}>{link.name}</span>
-                      {link.month && <span style={{ display: 'block', fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', marginTop: '0.1rem' }}>{link.month}</span>}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                {travelCol2.map((link) => (
-                  <li key={link.href + link.name}>
-                    <Link href={link.href} style={{ textDecoration: 'none' }}>
-                      <span style={{ display: 'block', fontSize: '1rem', fontWeight: 600, color: '#ffffff' }}>{link.name}</span>
-                      {link.month && <span style={{ display: 'block', fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', marginTop: '0.1rem' }}>{link.month}</span>}
+            {/* Middle: Travel links in 2 sub-columns */}
+            <div>
+              <p style={{ fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', margin: '0 0 1.5rem 0' }}>
+                {travelSectionHeading}
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 2rem' }}>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                  {travelCol1.map((link) => (
+                    <li key={link.href + link.name}>
+                      <Link href={link.href} style={{ textDecoration: 'none' }}>
+                        <span style={{ display: 'block', fontSize: '1rem', fontWeight: 600, color: '#ffffff' }}>{link.name}</span>
+                        {link.month && <span style={{ display: 'block', fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', marginTop: '0.1rem' }}>{link.month}</span>}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                  {travelCol2.map((link) => (
+                    <li key={link.href + link.name}>
+                      <Link href={link.href} style={{ textDecoration: 'none' }}>
+                        <span style={{ display: 'block', fontSize: '1rem', fontWeight: 600, color: '#ffffff' }}>{link.name}</span>
+                        {link.month && <span style={{ display: 'block', fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', marginTop: '0.1rem' }}>{link.month}</span>}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Right: Navigation */}
+            <div>
+              <p style={{ fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', margin: '0 0 1.5rem 0' }}>
+                {navSectionHeading}
+              </p>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
+                {navLinks.map((link, i) => (
+                  <li key={`nav-${i}`}>
+                    <Link href={link.href} style={{ fontSize: '1rem', color: '#ffffff', textDecoration: 'none' }}>
+                      {link.label}
                     </Link>
                   </li>
                 ))}
@@ -236,56 +254,41 @@ export async function Footer() {
             </div>
           </div>
 
-          {/* Right: Navigation */}
-          <div>
-            <p style={{ fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', margin: '0 0 1.5rem 0' }}>
-              {navSectionHeading}
-            </p>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} style={{ fontSize: '1rem', color: '#ffffff', textDecoration: 'none' }}>
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Bottom bar */}
-        <div style={{ paddingTop: '2rem', display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', gap: '1.5rem' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-            <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', margin: 0 }}>{copyright}</p>
-            <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.3)', margin: 0 }}>{licenseText}</p>
-            <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.3)', margin: 0 }}>{insuranceText}</p>
-          </div>
-
-          <Image
-            src={logoGif}
-            alt="Panic Frame"
-            width={80}
-            height={80}
-            style={{ opacity: 0.55 }}
-            unoptimized
-          />
-
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.4rem' }}>
-            <div style={{ display: 'flex', gap: '1.5rem' }}>
-              <Link href={termsUrl} style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>
-                {termsLabel}
-              </Link>
-              <Link href={privacyUrl} style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>
-                {privacyLabel}
-              </Link>
+          {/* Bottom bar */}
+          <div style={{ paddingTop: '2rem', display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', gap: '1.5rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+              <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', margin: 0 }}>{copyright}</p>
+              <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.3)', margin: 0 }}>{licenseText}</p>
+              <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.3)', margin: 0 }}>{insuranceText}</p>
             </div>
-            <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.25)', margin: 0 }}>
-              {creditPrefix}{' '}
-              <ShakingCredit name={creditName} href={creditUrl} />
-            </p>
+
+            <Image
+              src={logoGif}
+              alt="Panic Frame"
+              width={80}
+              height={80}
+              style={{ opacity: 0.55 }}
+              unoptimized
+            />
+
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.4rem' }}>
+              <div style={{ display: 'flex', gap: '1.5rem' }}>
+                <Link href={termsUrl} style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>
+                  {termsLabel}
+                </Link>
+                <Link href={privacyUrl} style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>
+                  {privacyLabel}
+                </Link>
+              </div>
+              <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.25)', margin: 0 }}>
+                {creditPrefix}{' '}
+                <ShakingCredit name={creditName} href={creditUrl} />
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+      <FooterEditButton />
+    </>
   )
 }

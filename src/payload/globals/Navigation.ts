@@ -13,6 +13,15 @@ export const Navigation: GlobalConfig = {
   admin: { group: 'Site Settings' },
   fields: [
     {
+      name: 'openVisualEditor',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: '@/components/admin/NavigationVisualEditorButton#NavigationVisualEditorButton',
+        },
+      },
+    },
+    {
       name: 'logoDark',
       type: 'upload',
       relationTo: 'media',
@@ -49,6 +58,15 @@ export const Navigation: GlobalConfig = {
     {
       name: 'facebookUrl',
       type: 'text',
+    },
+    {
+      name: 'tiktokUrl',
+      type: 'text',
+    },
+    {
+      name: 'puckData',
+      type: 'json',
+      admin: { hidden: true },
     },
   ],
   hooks: {
