@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# dependency graph output
+graph.html
+graph-changed.html
+graph-nav.html

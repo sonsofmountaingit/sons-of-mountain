@@ -10,7 +10,10 @@
     "migrate": "node --import tsx/esm --experimental-specifier-resolution=node node_modules/.bin/payload migrate",
     "seed": "bun src/data/seed/index.ts",
     "seed:pages": "bun src/data/seed/pages.ts",
-    "seed:destinations": "bun src/payload/seeds/destinations.ts"
+    "seed:destinations": "bun src/payload/seeds/destinations.ts",
+    "graph": "bun scripts/graph.ts",
+    "graph:focus": "bun scripts/graph.ts --focus",
+    "graph:changed": "bun scripts/graph.ts --changed --out graph-changed.html"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

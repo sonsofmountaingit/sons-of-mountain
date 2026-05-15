@@ -24,10 +24,32 @@ export const Destinations: CollectionConfig = {
       admin: { position: 'sidebar' },
     },
     {
+      name: 'type',
+      type: 'select',
+      options: [
+        { label: 'В България', value: 'bulgaria' },
+        { label: 'В чужбина', value: 'abroad' },
+      ],
+      defaultValue: 'bulgaria',
+      required: true,
+      admin: { position: 'sidebar', description: 'Used to categorise the destination in the navigation megamenu' },
+    },
+    {
       name: 'heroImage',
       type: 'upload',
       relationTo: 'media',
       required: true,
+    },
+    {
+      name: 'month',
+      type: 'text',
+      admin: { position: 'sidebar', description: 'e.g. юли' },
+    },
+    {
+      name: 'availableSpots',
+      type: 'number',
+      min: 0,
+      admin: { position: 'sidebar', description: 'Leave empty to hide the badge' },
     },
     {
       name: 'introText',

@@ -1,0 +1,2340 @@
+{
+  "nodes": [
+    {
+      "id": "src/app/(puck)/layout.tsx",
+      "label": "(puck)/layout.tsx",
+      "group": "puck",
+      "size": 4
+    },
+    {
+      "id": "src/app/(puck)/puck/footer/PuckFooterEditorClient.tsx",
+      "label": "footer/PuckFooterEditorClient.tsx",
+      "group": "puck",
+      "size": 6
+    },
+    {
+      "id": "src/app/(puck)/puck/footer/page.tsx",
+      "label": "footer/page.tsx",
+      "group": "puck",
+      "size": 4
+    },
+    {
+      "id": "src/app/(puck)/puck/destination-carousel/PuckDestinationCarouselEditorClient.tsx",
+      "label": "destination-carousel/PuckDestinationCarouselEditorClient.tsx",
+      "group": "puck",
+      "size": 6
+    },
+    {
+      "id": "src/app/(puck)/puck/destination-carousel/page.tsx",
+      "label": "destination-carousel/page.tsx",
+      "group": "puck",
+      "size": 4
+    },
+    {
+      "id": "src/app/(puck)/puck/navigation/PuckNavigationEditorClient.tsx",
+      "label": "navigation/PuckNavigationEditorClient.tsx",
+      "group": "puck",
+      "size": 6
+    },
+    {
+      "id": "src/app/(puck)/puck/navigation/page.tsx",
+      "label": "navigation/page.tsx",
+      "group": "puck",
+      "size": 4
+    },
+    {
+      "id": "src/app/(puck)/puck/hero/PuckHeroEditorClient.tsx",
+      "label": "hero/PuckHeroEditorClient.tsx",
+      "group": "puck",
+      "size": 6
+    },
+    {
+      "id": "src/app/(puck)/puck/hero/page.tsx",
+      "label": "hero/page.tsx",
+      "group": "puck",
+      "size": 4
+    },
+    {
+      "id": "src/app/(puck)/puck/pages/[id]/PuckEditorClient.tsx",
+      "label": "[id]/PuckEditorClient.tsx",
+      "group": "puck",
+      "size": 6
+    },
+    {
+      "id": "src/app/(puck)/puck/pages/[id]/page.tsx",
+      "label": "[id]/page.tsx",
+      "group": "puck",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/draft/route.ts",
+      "label": "draft/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/destination-carousel-data/route.ts",
+      "label": "destination-carousel-data/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/contact/route.ts",
+      "label": "contact/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/booking/route.ts",
+      "label": "booking/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/navigation-data/route.ts",
+      "label": "navigation-data/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/footer-data/route.ts",
+      "label": "footer-data/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/unsubscribe/route.ts",
+      "label": "unsubscribe/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/checkout/route.ts",
+      "label": "checkout/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/subscribe/route.ts",
+      "label": "subscribe/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/gift-voucher/route.ts",
+      "label": "gift-voucher/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/hero-data/route.ts",
+      "label": "hero-data/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/webhooks/resend/route.ts",
+      "label": "resend/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/webhooks/stripe/route.ts",
+      "label": "stripe/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/puck/footer/route.ts",
+      "label": "footer/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/puck/destination-carousel/route.ts",
+      "label": "destination-carousel/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/puck/navigation/route.ts",
+      "label": "navigation/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/puck/hero/route.ts",
+      "label": "hero/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/puck/[id]/route.ts",
+      "label": "[id]/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/cron/send-campaigns/route.ts",
+      "label": "send-campaigns/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/robots.ts",
+      "label": "(frontend)/robots.ts",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/contact/page.tsx",
+      "label": "contact/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/nolimit/catamarans/page.tsx",
+      "label": "catamarans/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/nolimit/sign-up/page.tsx",
+      "label": "sign-up/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/nolimit/gallery/page.tsx",
+      "label": "gallery/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/nolimit/layout.tsx",
+      "label": "nolimit/layout.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/nolimit/itinerary/page.tsx",
+      "label": "itinerary/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/nolimit/page.tsx",
+      "label": "nolimit/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/nolimit/nextgen/page.tsx",
+      "label": "nextgen/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/calendar/page.tsx",
+      "label": "calendar/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/destinations/page.tsx",
+      "label": "destinations/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "label": "[slug]/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/gallery/page.tsx",
+      "label": "gallery/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/shop/[tripId]/success/page.tsx",
+      "label": "success/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/shop/[tripId]/page.tsx",
+      "label": "[tripId]/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/shop/page.tsx",
+      "label": "shop/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/about/page.tsx",
+      "label": "about/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/blog/page.tsx",
+      "label": "blog/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/blog/[slug]/page.tsx",
+      "label": "[slug]/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/gift/page.tsx",
+      "label": "gift/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/stories/page.tsx",
+      "label": "stories/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/stories/[slug]/page.tsx",
+      "label": "[slug]/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/sitemap.ts",
+      "label": "(frontend)/sitemap.ts",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/layout.tsx",
+      "label": "(frontend)/layout.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/preview/[id]/page.tsx",
+      "label": "[id]/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/empire/page.tsx",
+      "label": "empire/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/legal/terms/page.tsx",
+      "label": "terms/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/legal/cookies/page.tsx",
+      "label": "cookies/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/photos/page.tsx",
+      "label": "photos/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/page.tsx",
+      "label": "(frontend)/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/[slug]/page.tsx",
+      "label": "[slug]/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(payload)/admin/[[...segments]]/page.tsx",
+      "label": "[[...segments]]/page.tsx",
+      "group": "payload-app",
+      "size": 4
+    },
+    {
+      "id": "src/app/(payload)/admin/[[...segments]]/not-found.tsx",
+      "label": "[[...segments]]/not-found.tsx",
+      "group": "payload-app",
+      "size": 4
+    },
+    {
+      "id": "src/app/(payload)/admin/importMap.js",
+      "label": "admin/importMap.js",
+      "group": "payload-app",
+      "size": 10
+    },
+    {
+      "id": "src/app/(payload)/layout.tsx",
+      "label": "(payload)/layout.tsx",
+      "group": "payload-app",
+      "size": 4
+    },
+    {
+      "id": "src/app/(payload)/api/[...slug]/route.ts",
+      "label": "[...slug]/route.ts",
+      "group": "payload-app",
+      "size": 4
+    },
+    {
+      "id": "src/app/(payload)/api/preview/route.ts",
+      "label": "preview/route.ts",
+      "group": "payload-app",
+      "size": 4
+    },
+    {
+      "id": "src/app/(payload)/importMap.ts",
+      "label": "(payload)/importMap.ts",
+      "group": "payload-app",
+      "size": 4
+    },
+    {
+      "id": "src/app/\\(puck\\)/puck/pages/\\[id\\]/PuckEditorClient.tsx",
+      "label": "\\[id\\]/PuckEditorClient.tsx",
+      "group": "app",
+      "size": 4
+    },
+    {
+      "id": "src/payload/blocks/CTABlock.ts",
+      "label": "blocks/CTABlock.ts",
+      "group": "payload-blocks",
+      "size": 6
+    },
+    {
+      "id": "src/payload/blocks/DestinationCarouselBlock.ts",
+      "label": "blocks/DestinationCarouselBlock.ts",
+      "group": "payload-blocks",
+      "size": 6
+    },
+    {
+      "id": "src/payload/blocks/StoriesBlock.ts",
+      "label": "blocks/StoriesBlock.ts",
+      "group": "payload-blocks",
+      "size": 6
+    },
+    {
+      "id": "src/payload/blocks/HeroBlock.ts",
+      "label": "blocks/HeroBlock.ts",
+      "group": "payload-blocks",
+      "size": 6
+    },
+    {
+      "id": "src/payload/blocks/FAQBlock.ts",
+      "label": "blocks/FAQBlock.ts",
+      "group": "payload-blocks",
+      "size": 6
+    },
+    {
+      "id": "src/payload/blocks/TeamBlock.ts",
+      "label": "blocks/TeamBlock.ts",
+      "group": "payload-blocks",
+      "size": 6
+    },
+    {
+      "id": "src/payload/blocks/MediaLogosBlock.ts",
+      "label": "blocks/MediaLogosBlock.ts",
+      "group": "payload-blocks",
+      "size": 6
+    },
+    {
+      "id": "src/payload/blocks/QuoteBlock.ts",
+      "label": "blocks/QuoteBlock.ts",
+      "group": "payload-blocks",
+      "size": 6
+    },
+    {
+      "id": "src/payload/blocks/ImageGalleryBlock.ts",
+      "label": "blocks/ImageGalleryBlock.ts",
+      "group": "payload-blocks",
+      "size": 6
+    },
+    {
+      "id": "src/payload/blocks/VideoBlock.ts",
+      "label": "blocks/VideoBlock.ts",
+      "group": "payload-blocks",
+      "size": 6
+    },
+    {
+      "id": "src/payload/blocks/TextBlock.ts",
+      "label": "blocks/TextBlock.ts",
+      "group": "payload-blocks",
+      "size": 6
+    },
+    {
+      "id": "src/payload/blocks/RichTextBlock.ts",
+      "label": "blocks/RichTextBlock.ts",
+      "group": "payload-blocks",
+      "size": 6
+    },
+    {
+      "id": "src/payload/globals/Hero.ts",
+      "label": "globals/Hero.ts",
+      "group": "globals",
+      "size": 6
+    },
+    {
+      "id": "src/payload/globals/Navigation.ts",
+      "label": "globals/Navigation.ts",
+      "group": "globals",
+      "size": 6
+    },
+    {
+      "id": "src/payload/globals/Footer.ts",
+      "label": "globals/Footer.ts",
+      "group": "globals",
+      "size": 6
+    },
+    {
+      "id": "src/payload/globals/DestinationCarousel.ts",
+      "label": "globals/DestinationCarousel.ts",
+      "group": "globals",
+      "size": 6
+    },
+    {
+      "id": "src/payload/globals/SiteSettings.ts",
+      "label": "globals/SiteSettings.ts",
+      "group": "globals",
+      "size": 6
+    },
+    {
+      "id": "src/payload/payload.config.ts",
+      "label": "payload/payload.config.ts",
+      "group": "payload",
+      "size": 20
+    },
+    {
+      "id": "src/payload/seeds/hero.ts",
+      "label": "seeds/hero.ts",
+      "group": "payload",
+      "size": 4
+    },
+    {
+      "id": "src/payload/seeds/fix-media-urls.ts",
+      "label": "seeds/fix-media-urls.ts",
+      "group": "payload",
+      "size": 4
+    },
+    {
+      "id": "src/payload/seeds/reset-hero-puck.ts",
+      "label": "seeds/reset-hero-puck.ts",
+      "group": "payload",
+      "size": 4
+    },
+    {
+      "id": "src/payload/seeds/destinations.ts",
+      "label": "seeds/destinations.ts",
+      "group": "payload",
+      "size": 4
+    },
+    {
+      "id": "src/payload/hooks/revalidate.ts",
+      "label": "hooks/revalidate.ts",
+      "group": "payload",
+      "size": 20
+    },
+    {
+      "id": "src/payload/collections/Trips.ts",
+      "label": "collections/Trips.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/EmailTemplates.ts",
+      "label": "collections/EmailTemplates.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/Subscribers.ts",
+      "label": "collections/Subscribers.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/Pages.ts",
+      "label": "collections/Pages.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/Campaigns.ts",
+      "label": "collections/Campaigns.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/Orders.ts",
+      "label": "collections/Orders.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/Stories.ts",
+      "label": "collections/Stories.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/Segments.ts",
+      "label": "collections/Segments.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/Users.ts",
+      "label": "collections/Users.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/BlogCategories.ts",
+      "label": "collections/BlogCategories.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/Media.ts",
+      "label": "collections/Media.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/BlogPosts.ts",
+      "label": "collections/BlogPosts.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/Destinations.ts",
+      "label": "collections/Destinations.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/components/blocks/FAQBlockRenderer.tsx",
+      "label": "blocks/FAQBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 10
+    },
+    {
+      "id": "src/components/blocks/ClientBlockRenderer.tsx",
+      "label": "blocks/ClientBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 6
+    },
+    {
+      "id": "src/components/blocks/MediaLogosRenderer.tsx",
+      "label": "blocks/MediaLogosRenderer.tsx",
+      "group": "blocks",
+      "size": 10
+    },
+    {
+      "id": "src/components/blocks/HeroBlockRenderer.tsx",
+      "label": "blocks/HeroBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 12
+    },
+    {
+      "id": "src/components/blocks/BookingWidgetBlockRenderer.tsx",
+      "label": "blocks/BookingWidgetBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/footer/FooterFollowBlock.tsx",
+      "label": "footer/FooterFollowBlock.tsx",
+      "group": "blocks",
+      "size": 6
+    },
+    {
+      "id": "src/components/blocks/footer/FooterNavBlock.tsx",
+      "label": "footer/FooterNavBlock.tsx",
+      "group": "blocks",
+      "size": 6
+    },
+    {
+      "id": "src/components/blocks/footer/FooterTravelBlock.tsx",
+      "label": "footer/FooterTravelBlock.tsx",
+      "group": "blocks",
+      "size": 6
+    },
+    {
+      "id": "src/components/blocks/footer/FooterBottomBlock.tsx",
+      "label": "footer/FooterBottomBlock.tsx",
+      "group": "blocks",
+      "size": 6
+    },
+    {
+      "id": "src/components/blocks/footer/FooterSubscribeBlock.tsx",
+      "label": "footer/FooterSubscribeBlock.tsx",
+      "group": "blocks",
+      "size": 6
+    },
+    {
+      "id": "src/components/blocks/destination-carousel/DestinationCarouselBlock.tsx",
+      "label": "destination-carousel/DestinationCarouselBlock.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/LivePreviewBlocks.tsx",
+      "label": "blocks/LivePreviewBlocks.tsx",
+      "group": "blocks",
+      "size": 6
+    },
+    {
+      "id": "src/components/blocks/CounterBlockRenderer.tsx",
+      "label": "blocks/CounterBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/TeamBlockRenderer.tsx",
+      "label": "blocks/TeamBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 10
+    },
+    {
+      "id": "src/components/blocks/EmbedBlockRenderer.tsx",
+      "label": "blocks/EmbedBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/PuckPageRenderer.tsx",
+      "label": "blocks/PuckPageRenderer.tsx",
+      "group": "blocks",
+      "size": 4
+    },
+    {
+      "id": "src/components/blocks/AccordionBlockRenderer.tsx",
+      "label": "blocks/AccordionBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/MapBlockRenderer.tsx",
+      "label": "blocks/MapBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/SocialFeedBlockRenderer.tsx",
+      "label": "blocks/SocialFeedBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/PricingBlockRenderer.tsx",
+      "label": "blocks/PricingBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/StoriesBlockRenderer.tsx",
+      "label": "blocks/StoriesBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 12
+    },
+    {
+      "id": "src/components/blocks/FeatureCardsBlockRenderer.tsx",
+      "label": "blocks/FeatureCardsBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/navigation/NavigationLinksBlock.tsx",
+      "label": "navigation/NavigationLinksBlock.tsx",
+      "group": "blocks",
+      "size": 6
+    },
+    {
+      "id": "src/components/blocks/FooterBlockRenderer.tsx",
+      "label": "blocks/FooterBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 6
+    },
+    {
+      "id": "src/components/blocks/BannerBlockRenderer.tsx",
+      "label": "blocks/BannerBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/IconGridBlockRenderer.tsx",
+      "label": "blocks/IconGridBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/NewsletterBlockRenderer.tsx",
+      "label": "blocks/NewsletterBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/BlockRenderer.tsx",
+      "label": "blocks/BlockRenderer.tsx",
+      "group": "blocks",
+      "size": 6
+    },
+    {
+      "id": "src/components/blocks/QuoteBlockRenderer.tsx",
+      "label": "blocks/QuoteBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 12
+    },
+    {
+      "id": "src/components/blocks/BlogPostsBlockRenderer.tsx",
+      "label": "blocks/BlogPostsBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/SeparatorBlockRenderer.tsx",
+      "label": "blocks/SeparatorBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/ImageGalleryRenderer.tsx",
+      "label": "blocks/ImageGalleryRenderer.tsx",
+      "group": "blocks",
+      "size": 10
+    },
+    {
+      "id": "src/components/blocks/PuckRender.tsx",
+      "label": "blocks/PuckRender.tsx",
+      "group": "blocks",
+      "size": 10
+    },
+    {
+      "id": "src/components/blocks/DestinationCarouselRenderer.tsx",
+      "label": "blocks/DestinationCarouselRenderer.tsx",
+      "group": "blocks",
+      "size": 12
+    },
+    {
+      "id": "src/components/blocks/TabbedContentBlockRenderer.tsx",
+      "label": "blocks/TabbedContentBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/TestimonialsGridBlockRenderer.tsx",
+      "label": "blocks/TestimonialsGridBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/TextBlockRenderer.tsx",
+      "label": "blocks/TextBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 12
+    },
+    {
+      "id": "src/components/blocks/TimelineBlockRenderer.tsx",
+      "label": "blocks/TimelineBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/CTABlockRenderer.tsx",
+      "label": "blocks/CTABlockRenderer.tsx",
+      "group": "blocks",
+      "size": 12
+    },
+    {
+      "id": "src/components/blocks/GalleryLightboxBlockRenderer.tsx",
+      "label": "blocks/GalleryLightboxBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/hero/HeroSubtextBlock.tsx",
+      "label": "hero/HeroSubtextBlock.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/hero/HeroMainBlock.tsx",
+      "label": "hero/HeroMainBlock.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/hero/HeroHeadlineBlock.tsx",
+      "label": "hero/HeroHeadlineBlock.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/hero/HeroCtaBlock.tsx",
+      "label": "hero/HeroCtaBlock.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/RichTextBlockRenderer.tsx",
+      "label": "blocks/RichTextBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 12
+    },
+    {
+      "id": "src/components/blocks/ContactFormBlockRenderer.tsx",
+      "label": "blocks/ContactFormBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/BeforeAfterBlockRenderer.tsx",
+      "label": "blocks/BeforeAfterBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/VideoBlockRenderer.tsx",
+      "label": "blocks/VideoBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 12
+    },
+    {
+      "id": "src/components/ui/HeroEditButton.tsx",
+      "label": "ui/HeroEditButton.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
+      "id": "src/components/ui/Hero.tsx",
+      "label": "ui/Hero.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
+      "id": "src/components/ui/Navbar.tsx",
+      "label": "ui/Navbar.tsx",
+      "group": "ui",
+      "size": 4
+    },
+    {
+      "id": "src/components/ui/ShakingCredit.tsx",
+      "label": "ui/ShakingCredit.tsx",
+      "group": "ui",
+      "size": 10
+    },
+    {
+      "id": "src/components/ui/NavbarClient.tsx",
+      "label": "ui/NavbarClient.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
+      "id": "src/components/ui/DestinationCarousel.tsx",
+      "label": "ui/DestinationCarousel.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
+      "id": "src/components/ui/TripCard.tsx",
+      "label": "ui/TripCard.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
+      "id": "src/components/ui/Footer.tsx",
+      "label": "ui/Footer.tsx",
+      "group": "ui",
+      "size": 8
+    },
+    {
+      "id": "src/components/ui/DestinationCard.tsx",
+      "label": "ui/DestinationCard.tsx",
+      "group": "ui",
+      "size": 10
+    },
+    {
+      "id": "src/components/ui/StoryCard.tsx",
+      "label": "ui/StoryCard.tsx",
+      "group": "ui",
+      "size": 10
+    },
+    {
+      "id": "src/components/ui/StoriesCarouselSection.tsx",
+      "label": "ui/StoriesCarouselSection.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
+      "id": "src/components/ui/NavigationEditButton.tsx",
+      "label": "ui/NavigationEditButton.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
+      "id": "src/components/ui/DestinationCarouselSection.tsx",
+      "label": "ui/DestinationCarouselSection.tsx",
+      "group": "ui",
+      "size": 4
+    },
+    {
+      "id": "src/components/ui/DestinationCarouselEditButton.tsx",
+      "label": "ui/DestinationCarouselEditButton.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
+      "id": "src/components/ui/HeroSection.tsx",
+      "label": "ui/HeroSection.tsx",
+      "group": "ui",
+      "size": 4
+    },
+    {
+      "id": "src/components/ui/NolimitNavbar.tsx",
+      "label": "ui/NolimitNavbar.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
+      "id": "src/components/ui/FooterEditButton.tsx",
+      "label": "ui/FooterEditButton.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
+      "id": "src/components/ui/FooterForm.tsx",
+      "label": "ui/FooterForm.tsx",
+      "group": "ui",
+      "size": 10
+    },
+    {
+      "id": "src/components/ui/Navigation.tsx",
+      "label": "ui/Navigation.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
+      "id": "src/components/forms/BookingFormWrapper.tsx",
+      "label": "forms/BookingFormWrapper.tsx",
+      "group": "components",
+      "size": 8
+    },
+    {
+      "id": "src/components/forms/SubscribeForm.tsx",
+      "label": "forms/SubscribeForm.tsx",
+      "group": "components",
+      "size": 4
+    },
+    {
+      "id": "src/components/forms/ContactForm.tsx",
+      "label": "forms/ContactForm.tsx",
+      "group": "components",
+      "size": 8
+    },
+    {
+      "id": "src/components/forms/GiftVoucherForm.tsx",
+      "label": "forms/GiftVoucherForm.tsx",
+      "group": "components",
+      "size": 6
+    },
+    {
+      "id": "src/components/forms/BookingFormModal.tsx",
+      "label": "forms/BookingFormModal.tsx",
+      "group": "components",
+      "size": 6
+    },
+    {
+      "id": "src/components/admin/VisualEditorButton.tsx",
+      "label": "admin/VisualEditorButton.tsx",
+      "group": "admin",
+      "size": 6
+    },
+    {
+      "id": "src/components/admin/DestinationCarouselVisualEditorButton.tsx",
+      "label": "admin/DestinationCarouselVisualEditorButton.tsx",
+      "group": "admin",
+      "size": 6
+    },
+    {
+      "id": "src/components/admin/NavigationVisualEditorButton.tsx",
+      "label": "admin/NavigationVisualEditorButton.tsx",
+      "group": "admin",
+      "size": 6
+    },
+    {
+      "id": "src/components/admin/HeroVisualEditorButton.tsx",
+      "label": "admin/HeroVisualEditorButton.tsx",
+      "group": "admin",
+      "size": 6
+    },
+    {
+      "id": "src/components/admin/FooterVisualEditorButton.tsx",
+      "label": "admin/FooterVisualEditorButton.tsx",
+      "group": "admin",
+      "size": 6
+    },
+    {
+      "id": "src/lib/stripe.ts",
+      "label": "lib/stripe.ts",
+      "group": "lib",
+      "size": 4
+    },
+    {
+      "id": "src/lib/resend.ts",
+      "label": "lib/resend.ts",
+      "group": "lib",
+      "size": 4
+    },
+    {
+      "id": "src/lib/metadata.ts",
+      "label": "lib/metadata.ts",
+      "group": "lib",
+      "size": 4
+    },
+    {
+      "id": "src/lib/animations.ts",
+      "label": "lib/animations.ts",
+      "group": "lib",
+      "size": 8
+    },
+    {
+      "id": "src/puck/customFields.tsx",
+      "label": "puck/customFields.tsx",
+      "group": "other",
+      "size": 6
+    },
+    {
+      "id": "src/puck/fields.tsx",
+      "label": "puck/fields.tsx",
+      "group": "other",
+      "size": 4
+    },
+    {
+      "id": "src/puck/BlockWrapper.tsx",
+      "label": "puck/BlockWrapper.tsx",
+      "group": "other",
+      "size": 20
+    },
+    {
+      "id": "src/puck/styleFields.tsx",
+      "label": "puck/styleFields.tsx",
+      "group": "other",
+      "size": 6
+    },
+    {
+      "id": "src/puck/migrations.ts",
+      "label": "puck/migrations.ts",
+      "group": "other",
+      "size": 4
+    },
+    {
+      "id": "src/puck/config.tsx",
+      "label": "puck/config.tsx",
+      "group": "other",
+      "size": 18
+    },
+    {
+      "id": "src/puck/puckAI.ts",
+      "label": "puck/puckAI.ts",
+      "group": "other",
+      "size": 4
+    },
+    {
+      "id": "src/puck/converter.ts",
+      "label": "puck/converter.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
+      "id": "src/puck/configRSC.tsx",
+      "label": "puck/configRSC.tsx",
+      "group": "other",
+      "size": 4
+    },
+    {
+      "id": "src/puck/theme.ts",
+      "label": "puck/theme.ts",
+      "group": "other",
+      "size": 4
+    },
+    {
+      "id": "src/puck/serverComponents.ts",
+      "label": "puck/serverComponents.ts",
+      "group": "other",
+      "size": 4
+    },
+    {
+      "id": "src/data/seed/pages.ts",
+      "label": "seed/pages.ts",
+      "group": "data",
+      "size": 4
+    },
+    {
+      "id": "src/data/seed/clear-pages.ts",
+      "label": "seed/clear-pages.ts",
+      "group": "data",
+      "size": 4
+    },
+    {
+      "id": "src/data/seed/index.ts",
+      "label": "seed/index.ts",
+      "group": "data",
+      "size": 4
+    }
+  ],
+  "edges": [
+    {
+      "source": "src/app/(puck)/puck/footer/PuckFooterEditorClient.tsx",
+      "target": "src/puck/config.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/footer/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/footer/page.tsx",
+      "target": "src/app/(puck)/puck/footer/PuckFooterEditorClient.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/destination-carousel/PuckDestinationCarouselEditorClient.tsx",
+      "target": "src/puck/config.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/destination-carousel/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/destination-carousel/page.tsx",
+      "target": "src/app/(puck)/puck/destination-carousel/PuckDestinationCarouselEditorClient.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/navigation/PuckNavigationEditorClient.tsx",
+      "target": "src/puck/config.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/navigation/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/navigation/page.tsx",
+      "target": "src/app/(puck)/puck/navigation/PuckNavigationEditorClient.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/hero/PuckHeroEditorClient.tsx",
+      "target": "src/puck/config.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/hero/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/hero/page.tsx",
+      "target": "src/app/(puck)/puck/hero/PuckHeroEditorClient.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/pages/[id]/PuckEditorClient.tsx",
+      "target": "src/puck/config.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/pages/[id]/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/pages/[id]/page.tsx",
+      "target": "src/app/(puck)/puck/pages/[id]/PuckEditorClient.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/pages/[id]/page.tsx",
+      "target": "src/puck/converter.ts"
+    },
+    {
+      "source": "src/app/api/destination-carousel-data/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/booking/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/navigation-data/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/footer-data/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/unsubscribe/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/checkout/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/subscribe/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/hero-data/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/webhooks/resend/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/webhooks/stripe/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/footer/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/destination-carousel/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/navigation/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/hero/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/[id]/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/cron/send-campaigns/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/contact/page.tsx",
+      "target": "src/components/forms/ContactForm.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/nolimit/sign-up/page.tsx",
+      "target": "src/components/forms/ContactForm.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/nolimit/layout.tsx",
+      "target": "src/components/ui/NolimitNavbar.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/nolimit/layout.tsx",
+      "target": "src/components/ui/Footer.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/calendar/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/page.tsx",
+      "target": "src/components/ui/DestinationCard.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/components/ui/TripCard.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/components/forms/BookingFormWrapper.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/gallery/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
+      "target": "src/components/forms/BookingFormWrapper.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/blog/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/blog/[slug]/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/gift/page.tsx",
+      "target": "src/components/forms/GiftVoucherForm.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/stories/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/stories/page.tsx",
+      "target": "src/components/ui/StoryCard.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/stories/[slug]/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/sitemap.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/layout.tsx",
+      "target": "src/components/ui/Navigation.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/layout.tsx",
+      "target": "src/components/ui/Footer.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/preview/[id]/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/preview/[id]/page.tsx",
+      "target": "src/components/blocks/PuckRender.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/photos/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/page.tsx",
+      "target": "src/components/ui/Hero.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/page.tsx",
+      "target": "src/components/ui/DestinationCarousel.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/page.tsx",
+      "target": "src/components/ui/StoriesCarouselSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/[slug]/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/[slug]/page.tsx",
+      "target": "src/components/blocks/BlockRenderer.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/[slug]/page.tsx",
+      "target": "src/components/blocks/LivePreviewBlocks.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/[slug]/page.tsx",
+      "target": "src/components/blocks/PuckRender.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/[[...segments]]/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(payload)/admin/[[...segments]]/page.tsx",
+      "target": "src/app/(payload)/admin/importMap.js"
+    },
+    {
+      "source": "src/app/(payload)/admin/[[...segments]]/not-found.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(payload)/admin/[[...segments]]/not-found.tsx",
+      "target": "src/app/(payload)/admin/importMap.js"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/VisualEditorButton.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/NavigationVisualEditorButton.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/FooterVisualEditorButton.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/HeroVisualEditorButton.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/DestinationCarouselVisualEditorButton.tsx"
+    },
+    {
+      "source": "src/app/(payload)/layout.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(payload)/layout.tsx",
+      "target": "src/app/(payload)/admin/importMap.js"
+    },
+    {
+      "source": "src/app/(payload)/api/[...slug]/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(payload)/api/preview/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/\\(puck\\)/puck/pages/\\[id\\]/PuckEditorClient.tsx",
+      "target": "src/puck/config.tsx"
+    },
+    {
+      "source": "src/app/\\(puck\\)/puck/pages/\\[id\\]/PuckEditorClient.tsx",
+      "target": "src/puck/customFields.tsx"
+    },
+    {
+      "source": "src/payload/globals/Hero.ts",
+      "target": "src/payload/hooks/revalidate.ts"
+    },
+    {
+      "source": "src/payload/globals/Navigation.ts",
+      "target": "src/payload/hooks/revalidate.ts"
+    },
+    {
+      "source": "src/payload/globals/Footer.ts",
+      "target": "src/payload/hooks/revalidate.ts"
+    },
+    {
+      "source": "src/payload/globals/DestinationCarousel.ts",
+      "target": "src/payload/hooks/revalidate.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/Pages.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/Destinations.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/Trips.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/Stories.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/BlogPosts.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/BlogCategories.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/Media.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/Orders.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/Users.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/Subscribers.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/Segments.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/EmailTemplates.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/Campaigns.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/Navigation.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/Footer.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/SiteSettings.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/Hero.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/DestinationCarousel.ts"
+    },
+    {
+      "source": "src/payload/seeds/hero.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/payload/seeds/fix-media-urls.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/payload/seeds/reset-hero-puck.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/payload/seeds/destinations.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/payload/collections/Trips.ts",
+      "target": "src/payload/hooks/revalidate.ts"
+    },
+    {
+      "source": "src/payload/collections/Pages.ts",
+      "target": "src/payload/hooks/revalidate.ts"
+    },
+    {
+      "source": "src/payload/collections/Pages.ts",
+      "target": "src/payload/blocks/CTABlock.ts"
+    },
+    {
+      "source": "src/payload/collections/Pages.ts",
+      "target": "src/payload/blocks/DestinationCarouselBlock.ts"
+    },
+    {
+      "source": "src/payload/collections/Pages.ts",
+      "target": "src/payload/blocks/FAQBlock.ts"
+    },
+    {
+      "source": "src/payload/collections/Pages.ts",
+      "target": "src/payload/blocks/HeroBlock.ts"
+    },
+    {
+      "source": "src/payload/collections/Pages.ts",
+      "target": "src/payload/blocks/ImageGalleryBlock.ts"
+    },
+    {
+      "source": "src/payload/collections/Pages.ts",
+      "target": "src/payload/blocks/MediaLogosBlock.ts"
+    },
+    {
+      "source": "src/payload/collections/Pages.ts",
+      "target": "src/payload/blocks/QuoteBlock.ts"
+    },
+    {
+      "source": "src/payload/collections/Pages.ts",
+      "target": "src/payload/blocks/RichTextBlock.ts"
+    },
+    {
+      "source": "src/payload/collections/Pages.ts",
+      "target": "src/payload/blocks/StoriesBlock.ts"
+    },
+    {
+      "source": "src/payload/collections/Pages.ts",
+      "target": "src/payload/blocks/TeamBlock.ts"
+    },
+    {
+      "source": "src/payload/collections/Pages.ts",
+      "target": "src/payload/blocks/TextBlock.ts"
+    },
+    {
+      "source": "src/payload/collections/Pages.ts",
+      "target": "src/payload/blocks/VideoBlock.ts"
+    },
+    {
+      "source": "src/payload/collections/Stories.ts",
+      "target": "src/payload/hooks/revalidate.ts"
+    },
+    {
+      "source": "src/payload/collections/BlogPosts.ts",
+      "target": "src/payload/hooks/revalidate.ts"
+    },
+    {
+      "source": "src/payload/collections/Destinations.ts",
+      "target": "src/payload/hooks/revalidate.ts"
+    },
+    {
+      "source": "src/components/blocks/FAQBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/ClientBlockRenderer.tsx",
+      "target": "src/components/blocks/HeroBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/ClientBlockRenderer.tsx",
+      "target": "src/components/blocks/DestinationCarouselRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/ClientBlockRenderer.tsx",
+      "target": "src/components/blocks/TextBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/ClientBlockRenderer.tsx",
+      "target": "src/components/blocks/RichTextBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/ClientBlockRenderer.tsx",
+      "target": "src/components/blocks/ImageGalleryRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/ClientBlockRenderer.tsx",
+      "target": "src/components/blocks/FAQBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/ClientBlockRenderer.tsx",
+      "target": "src/components/blocks/CTABlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/ClientBlockRenderer.tsx",
+      "target": "src/components/blocks/StoriesBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/ClientBlockRenderer.tsx",
+      "target": "src/components/blocks/TeamBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/ClientBlockRenderer.tsx",
+      "target": "src/components/blocks/MediaLogosRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/ClientBlockRenderer.tsx",
+      "target": "src/components/blocks/QuoteBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/ClientBlockRenderer.tsx",
+      "target": "src/components/blocks/VideoBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/MediaLogosRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/HeroBlockRenderer.tsx",
+      "target": "src/lib/animations.ts"
+    },
+    {
+      "source": "src/components/blocks/HeroBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/BookingWidgetBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/footer/FooterBottomBlock.tsx",
+      "target": "src/components/ui/ShakingCredit.tsx"
+    },
+    {
+      "source": "src/components/blocks/footer/FooterSubscribeBlock.tsx",
+      "target": "src/components/ui/FooterForm.tsx"
+    },
+    {
+      "source": "src/components/blocks/LivePreviewBlocks.tsx",
+      "target": "src/components/blocks/ClientBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/CounterBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/TeamBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/EmbedBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/HeroBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/TextBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/CTABlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/QuoteBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/VideoBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/FAQBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/StoriesBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/DestinationCarouselRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/ImageGalleryRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/TeamBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/MediaLogosRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/RichTextBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/PricingBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/CounterBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/TimelineBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/MapBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/NewsletterBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/ContactFormBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/TabbedContentBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/AccordionBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/BannerBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/SeparatorBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/IconGridBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/FeatureCardsBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/BeforeAfterBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/EmbedBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/TestimonialsGridBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/GalleryLightboxBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/BookingWidgetBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/BlogPostsBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckPageRenderer.tsx",
+      "target": "src/components/blocks/SocialFeedBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/AccordionBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/MapBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/SocialFeedBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/PricingBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/StoriesBlockRenderer.tsx",
+      "target": "src/components/ui/StoryCard.tsx"
+    },
+    {
+      "source": "src/components/blocks/StoriesBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/FeatureCardsBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/FooterBlockRenderer.tsx",
+      "target": "src/components/ui/FooterForm.tsx"
+    },
+    {
+      "source": "src/components/blocks/FooterBlockRenderer.tsx",
+      "target": "src/components/ui/ShakingCredit.tsx"
+    },
+    {
+      "source": "src/components/blocks/BannerBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/IconGridBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/NewsletterBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/BlockRenderer.tsx",
+      "target": "src/components/blocks/HeroBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/BlockRenderer.tsx",
+      "target": "src/components/blocks/DestinationCarouselRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/BlockRenderer.tsx",
+      "target": "src/components/blocks/TextBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/BlockRenderer.tsx",
+      "target": "src/components/blocks/RichTextBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/BlockRenderer.tsx",
+      "target": "src/components/blocks/ImageGalleryRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/BlockRenderer.tsx",
+      "target": "src/components/blocks/FAQBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/BlockRenderer.tsx",
+      "target": "src/components/blocks/CTABlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/BlockRenderer.tsx",
+      "target": "src/components/blocks/StoriesBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/BlockRenderer.tsx",
+      "target": "src/components/blocks/TeamBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/BlockRenderer.tsx",
+      "target": "src/components/blocks/MediaLogosRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/BlockRenderer.tsx",
+      "target": "src/components/blocks/QuoteBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/BlockRenderer.tsx",
+      "target": "src/components/blocks/VideoBlockRenderer.tsx"
+    },
+    {
+      "source": "src/components/blocks/QuoteBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/BlogPostsBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/SeparatorBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/ImageGalleryRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/PuckRender.tsx",
+      "target": "src/puck/config.tsx"
+    },
+    {
+      "source": "src/components/blocks/DestinationCarouselRenderer.tsx",
+      "target": "src/components/ui/DestinationCard.tsx"
+    },
+    {
+      "source": "src/components/blocks/DestinationCarouselRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/TabbedContentBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/TestimonialsGridBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/TextBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/TimelineBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/CTABlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/GalleryLightboxBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/RichTextBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/ContactFormBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/BeforeAfterBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/VideoBlockRenderer.tsx",
+      "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/ui/Hero.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/components/ui/Hero.tsx",
+      "target": "src/components/blocks/PuckRender.tsx"
+    },
+    {
+      "source": "src/components/ui/Hero.tsx",
+      "target": "src/components/blocks/hero/HeroMainBlock.tsx"
+    },
+    {
+      "source": "src/components/ui/Hero.tsx",
+      "target": "src/components/blocks/hero/HeroHeadlineBlock.tsx"
+    },
+    {
+      "source": "src/components/ui/Hero.tsx",
+      "target": "src/components/blocks/hero/HeroSubtextBlock.tsx"
+    },
+    {
+      "source": "src/components/ui/Hero.tsx",
+      "target": "src/components/blocks/hero/HeroCtaBlock.tsx"
+    },
+    {
+      "source": "src/components/ui/Hero.tsx",
+      "target": "src/components/ui/HeroEditButton.tsx"
+    },
+    {
+      "source": "src/components/ui/DestinationCarousel.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/components/ui/DestinationCarousel.tsx",
+      "target": "src/components/blocks/destination-carousel/DestinationCarouselBlock.tsx"
+    },
+    {
+      "source": "src/components/ui/DestinationCarousel.tsx",
+      "target": "src/components/ui/DestinationCarouselEditButton.tsx"
+    },
+    {
+      "source": "src/components/ui/Footer.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/components/ui/Footer.tsx",
+      "target": "src/components/ui/FooterForm.tsx"
+    },
+    {
+      "source": "src/components/ui/Footer.tsx",
+      "target": "src/components/ui/ShakingCredit.tsx"
+    },
+    {
+      "source": "src/components/ui/Footer.tsx",
+      "target": "src/components/ui/FooterEditButton.tsx"
+    },
+    {
+      "source": "src/components/ui/StoriesCarouselSection.tsx",
+      "target": "src/components/ui/StoryCard.tsx"
+    },
+    {
+      "source": "src/components/ui/DestinationCarouselSection.tsx",
+      "target": "src/components/ui/DestinationCard.tsx"
+    },
+    {
+      "source": "src/components/ui/HeroSection.tsx",
+      "target": "src/lib/animations.ts"
+    },
+    {
+      "source": "src/components/ui/Navigation.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/components/ui/Navigation.tsx",
+      "target": "src/components/ui/NavbarClient.tsx"
+    },
+    {
+      "source": "src/components/ui/Navigation.tsx",
+      "target": "src/components/ui/NavigationEditButton.tsx"
+    },
+    {
+      "source": "src/components/forms/BookingFormWrapper.tsx",
+      "target": "src/components/forms/BookingFormModal.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/HeroBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/TextBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/CTABlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/RichTextBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/QuoteBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/VideoBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/StoriesBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/DestinationCarouselRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/PricingBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/CounterBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/TimelineBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/MapBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/NewsletterBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/ContactFormBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/TabbedContentBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/AccordionBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/BannerBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/SeparatorBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/IconGridBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/FeatureCardsBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/BeforeAfterBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/EmbedBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/TestimonialsGridBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/GalleryLightboxBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/BookingWidgetBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/BlogPostsBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/SocialFeedBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/FooterBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/navigation/NavigationLinksBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/hero/HeroMainBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/hero/HeroHeadlineBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/hero/HeroSubtextBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/hero/HeroCtaBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/destination-carousel/DestinationCarouselBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/footer/FooterSubscribeBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/footer/FooterFollowBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/footer/FooterTravelBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/footer/FooterNavBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/footer/FooterBottomBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/puck/styleFields.tsx"
+    },
+    {
+      "source": "src/data/seed/pages.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/data/seed/clear-pages.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/data/seed/index.ts",
+      "target": "src/payload/payload.config.ts"
+    }
+  ],
+  "builtAt": "2026-05-07T16:44:25.300Z",
+  "fileCount": 200
+}

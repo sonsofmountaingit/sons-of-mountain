@@ -1,0 +1,38 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"\nconst {execSync}=require('child_process');\nconst ROOT='/Users/stanchito/sons-of-mountains';\ntry{\n  // Changed files since last commit\n  const changed=execSync('git -C '+ROOT+' diff --name-only HEAD 2>/dev/null && git -C '+ROOT+' diff --name-only --cached 2>/dev/null',{encoding:'utf8'}).trim().split('\\n').filter(f=>f.endsWith('.ts')||f.endsWith('.tsx'));\n  // Graph summary\n  const gj=execSync('cd '+ROOT+' && bun scripts/graph.ts --json 2>/dev/null',{encoding:'utf8',timeout:12000});\n  const g=JSON.parse(gj);\n  const inDeg=new Map();\n  g.edges.forEach(e=>inDeg.set(e.target,(inDeg.get(e.target)||0)+1));\n  const byId=new Map(g.nodes.map(n=>[n.id,n]));\n  const top=[...inDeg.entries()].sort((a,b)=>b[1]-a[1]).slice(0,10).map(([id,n])=>{const nd=byId.get(id);return nd?n+'x '+nd.label:''}).filter(Boolean);\n  const lines=['=== CODEBASE: '+g.nodes.length+' nodes '+g.edges.length+' edges ==='];\n  if(changed.length)lines.push('CHANGED: '+changed.join(', '));\n  lines.push('TOP IMPORTED: '+top.join(' | '));\n  lines.push('QUERY: bun scripts/graph.ts --focus <path> --json');\n  console.log(lines.join('\\n'));\n}catch(e){console.log('graph: unavailable');}\n\""
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node /Users/stanchito/sons-of-mountains/.claude/hooks/intercept-read.js"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node /Users/stanchito/sons-of-mountains/.claude/hooks/intercept-imports.js"
+          },
+          {
+            "type": "command",
+            "command": "node /Users/stanchito/sons-of-mountains/.claude/hooks/intercept-cat.js"
+          }
+        ]
+      }
+    ]
+  }
+}

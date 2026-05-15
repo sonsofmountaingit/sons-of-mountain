@@ -29,8 +29,8 @@ export async function DestinationCarousel() {
     name: d.name,
     slug: d.slug,
     heroImage: typeof d.heroImage === 'object' ? d.heroImage : null,
-    month: undefined as string | undefined,
-    spotsLabel: undefined as string | undefined,
+    month: d.month ?? undefined,
+    spotsLabel: d.availableSpots != null ? `Само ${d.availableSpots} места` : undefined,
   }))
 
   return (

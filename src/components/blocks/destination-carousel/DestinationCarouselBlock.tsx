@@ -71,7 +71,7 @@ function DestCard({ dest, index }: { dest: Destination; index: number }) {
       )}
 
       {dest.spotsLabel && (
-        <div className="absolute top-3 left-3">
+        <div className="absolute top-3 right-3">
           <span className="px-3 py-1 text-xs font-bold bg-[#f5d000] text-black rounded-full uppercase tracking-wide">
             {dest.spotsLabel}
           </span>

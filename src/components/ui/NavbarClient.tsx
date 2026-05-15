@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'motion/react'
+import { ProgramsMegaMenu } from './ProgramsMegaMenu'
 
 interface NavbarClientProps {
   navLinksLeft: { label: string; href: string }[]
@@ -17,6 +18,8 @@ interface NavbarClientProps {
 
 export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebookUrl, tiktokUrl, logoDarkUrl, logoLightUrl }: NavbarClientProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [megaOpen, setMegaOpen] = useState(false)
+  const [mobileProgramsOpen, setMobileProgramsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const lastScrollY = useRef(0)
   const { scrollY } = useScroll()
@@ -54,6 +57,25 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
       >
         <nav className={['mx-auto max-w-[1440px] px-6 flex items-center justify-between transition-all duration-300', scrolled ? 'h-14' : 'h-20'].join(' ')}>
           <div className="hidden lg:flex items-center gap-8 flex-1">
+            {/* Програми megamenu trigger */}
+            <button
+              onClick={() => setMegaOpen((v) => !v)}
+              className={[
+                'flex items-center gap-1.5 text-xs font-medium tracking-widest transition-colors duration-200',
+                megaOpen ? 'text-white' : 'text-white/80 hover:text-white',
+              ].join(' ')}
+            >
+              Програми
+              <svg
+                width="10"
+                height="6"
+                viewBox="0 0 10 6"
+                fill="none"
+                className={['transition-transform duration-200', megaOpen ? 'rotate-180' : ''].join(' ')}
+              >
+                <path d="M1 1l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+            </button>
             {navLinksLeft.map((link, i) => (
               <Link
                 key={`left-${i}`}
@@ -149,6 +171,9 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
         </nav>
       </motion.header>
 
+      {/* Desktop megamenu */}
+      <ProgramsMegaMenu open={megaOpen} onClose={() => setMegaOpen(false)} />
+
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -180,7 +205,51 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                 </svg>
               </button>
             </div>
-            <nav className="flex flex-col gap-2 px-6 pt-8">
+            <nav className="flex flex-col gap-0 px-6 pt-8 overflow-y-auto">
+              {/* Програми accordion */}
+              <div className="border-b border-white/10">
+                <button
+                  onClick={() => setMobileProgramsOpen((v) => !v)}
+                  className="flex items-center justify-between w-full text-2xl font-medium py-3 text-white/80 hover:text-white transition-colors"
+                >
+                  Програми
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 10 6"
+                    fill="none"
+                    className={['transition-transform duration-200', mobileProgramsOpen ? 'rotate-180' : ''].join(' ')}
+                  >
+                    <path d="M1 1l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
+                </button>
+                <AnimatePresence>
+                  {mobileProgramsOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden"
+                    >
+                      {[
+                        { label: 'В БЪЛГАРИЯ', href: '/destinations?type=bulgaria' },
+                        { label: 'В ЧУЖБИНА', href: '/destinations?type=abroad' },
+                        { label: 'ИНДИВИДУАЛНО ПРИКЛЮЧЕНИЕ', href: '/destinations?type=trips' },
+                      ].map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => setMobileOpen(false)}
+                          className="block pl-4 py-3 text-base font-medium text-white/60 hover:text-white transition-colors border-b border-white/5"
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
               {allLinks.map((link, i) => (
                 <motion.div
                   key={`mobile-${i}`}
