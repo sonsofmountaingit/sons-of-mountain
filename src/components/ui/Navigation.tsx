@@ -22,12 +22,10 @@ const getNavigationData = unstable_cache(
     } catch {
       return {
         navLinksLeft: [
-          { label: 'ДЕСТИНАЦИИ', href: '/destinations' },
           { label: 'КАЛЕНДАР', href: '/calendar' },
-          { label: 'ИСТОРИИ', href: '/stories' },
+          { label: 'ГАЛЕРИЯ', href: '/gallery' },
         ],
         navLinksRight: [
-          { label: 'ГАЛЕРИЯ', href: '/gallery' },
           { label: 'БЛОГ', href: '/blog' },
           { label: 'ЗА НАС', href: '/about' },
           { label: 'КОНТАКТИ', href: '/contact' },

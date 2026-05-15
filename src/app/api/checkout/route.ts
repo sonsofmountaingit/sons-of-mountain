@@ -3,17 +3,39 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import Stripe from 'stripe'
 
+type CheckoutType = 'registration' | 'order' | 'voucher'
+
+const COLLECTION_MAP: Record<CheckoutType, 'registrations' | 'orders' | 'gift-vouchers'> = {
+  registration: 'registrations',
+  order: 'orders',
+  voucher: 'gift-vouchers',
+}
+
 export async function POST(req: NextRequest) {
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? 'sk_test_placeholder', {
       apiVersion: '2026-04-22.dahlia',
     })
     const body = await req.json()
-    const { tripId, orderId, amount, currency = 'eur', description } = body
+    const {
+      type = 'registration' as CheckoutType,
+      recordId,
+      // legacy support
+      orderId,
+      tripId,
+      amount,
+      currency = 'eur',
+      description,
+      successPath,
+      cancelPath,
+    } = body
 
-    if (!tripId || !orderId || !amount) {
+    const id = recordId ?? orderId
+    if (!id || !amount) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
+
+    const base = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
 
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
@@ -22,21 +44,25 @@ export async function POST(req: NextRequest) {
         {
           price_data: {
             currency,
-            product_data: { name: description ?? 'Trip Deposit' },
+            product_data: { name: description ?? 'Sons of Mountains' },
             unit_amount: Math.round(amount * 100),
           },
           quantity: 1,
         },
       ],
-      success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/shop/${tripId}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/shop/${tripId}`,
-      metadata: { orderId, tripId },
+      success_url: successPath
+        ? `${base}${successPath}?session_id={CHECKOUT_SESSION_ID}`
+        : `${base}/dashboard/registrations?paid=1&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: cancelPath ? `${base}${cancelPath}` : `${base}/`,
+      metadata: { recordId: id, type, tripId: tripId ?? '' },
     })
 
     const payload = await getPayload({ config })
+    const collection = COLLECTION_MAP[type as CheckoutType] ?? 'registrations'
+
     await payload.update({
-      collection: 'orders',
-      id: orderId,
+      collection,
+      id,
       data: { stripeSessionId: session.id },
     })
 

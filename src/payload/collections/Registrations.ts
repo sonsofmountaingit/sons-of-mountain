@@ -1,11 +1,11 @@
 import type { CollectionConfig } from 'payload'
 
-export const Orders: CollectionConfig = {
-  slug: 'orders',
+export const Registrations: CollectionConfig = {
+  slug: 'registrations',
   admin: {
     useAsTitle: 'email',
-    defaultColumns: ['email', 'status', 'totalAmount', 'createdAt'],
-    group: 'Shop',
+    defaultColumns: ['email', 'trip', 'destination', 'status', 'totalAmount', 'createdAt'],
+    group: 'Регистрации',
   },
   fields: [
     {
@@ -17,20 +17,27 @@ export const Orders: CollectionConfig = {
       name: 'customer',
       type: 'relationship',
       relationTo: 'customers',
-      admin: { readOnly: true },
+      admin: { readOnly: true, description: 'Клиент (ако е регистриран)' },
     },
     {
-      name: 'productType',
-      type: 'text',
-      admin: { description: 'Тип продукт (за бъдещ магазин)' },
+      name: 'destination',
+      type: 'relationship',
+      relationTo: 'destinations',
+    },
+    {
+      name: 'trip',
+      type: 'relationship',
+      relationTo: 'trips',
     },
     {
       name: 'status',
       type: 'select',
       options: [
         { label: 'Чакащ', value: 'pending' },
+        { label: 'Потвърден', value: 'confirmed' },
         { label: 'Платен', value: 'paid' },
         { label: 'Отказан', value: 'cancelled' },
+        { label: 'Върнат', value: 'refunded' },
       ],
       defaultValue: 'pending',
       required: true,
@@ -54,6 +61,24 @@ export const Orders: CollectionConfig = {
       name: 'phone',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'participantCount',
+      type: 'number',
+      defaultValue: 1,
+    },
+    {
+      name: 'dietaryNotes',
+      type: 'textarea',
+    },
+    {
+      name: 'questions',
+      type: 'textarea',
+    },
+    {
+      name: 'agreedToTerms',
+      type: 'checkbox',
+      defaultValue: false,
     },
     {
       name: 'stripeSessionId',

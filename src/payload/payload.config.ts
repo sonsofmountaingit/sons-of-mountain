@@ -13,7 +13,10 @@ import { Stories } from './collections/Stories'
 import { BlogPosts } from './collections/BlogPosts'
 import { BlogCategories } from './collections/BlogCategories'
 import { Media } from './collections/Media'
+import { Customers } from './collections/Customers'
 import { Orders } from './collections/Orders'
+import { Registrations } from './collections/Registrations'
+import { GiftVouchers } from './collections/GiftVouchers'
 import { Users } from './collections/Users'
 import { Subscribers } from './collections/Subscribers'
 import { Segments } from './collections/Segments'
@@ -63,7 +66,10 @@ export default buildConfig({
     BlogPosts,
     BlogCategories,
     Media,
+    Customers,
     Orders,
+    Registrations,
+    GiftVouchers,
     Users,
     Subscribers,
     Segments,
@@ -80,6 +86,8 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI ?? '',
     },
+    // Exclude Better Auth tables from Payload's Drizzle schema management
+    tablesFilter: ['!user', '!session', '!account', '!verification'],
   }),
   upload: {
     limits: {
