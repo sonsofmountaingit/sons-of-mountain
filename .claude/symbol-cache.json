@@ -818,7 +818,7 @@
       "react",
       "gsap"
     ],
-    "lines": 99,
+    "lines": 102,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/vouchers/page.tsx": {
@@ -849,7 +849,7 @@
       "react",
       "gsap"
     ],
-    "lines": 50,
+    "lines": 53,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/orders/page.tsx": {
@@ -914,7 +914,7 @@
       "react",
       "gsap"
     ],
-    "lines": 71,
+    "lines": 70,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/registrations/page.tsx": {
@@ -2542,7 +2542,7 @@
       "./ProgramsMegaMenu",
       "@/lib/auth-client"
     ],
-    "lines": 470,
+    "lines": 471,
     "group": "ui"
   },
   "src/components/ui/DestinationCarousel.tsx": {
