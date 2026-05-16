@@ -24,6 +24,7 @@ import { EmailTemplates } from './collections/EmailTemplates'
 import { Campaigns } from './collections/Campaigns'
 import { CustomerMedia } from './collections/CustomerMedia'
 import { CustomerRatings } from './collections/CustomerRatings'
+import { Programs } from './collections/Programs'
 
 import { Navigation } from './globals/Navigation'
 import { Footer } from './globals/Footer'
@@ -37,6 +38,13 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   admin: {
     user: Users.slug,
+    components: {
+      graphics: {
+        Logo: '@/components/admin/AdminLogo#AdminLogo',
+        Icon: '@/components/admin/AdminLogo#AdminLogo',
+      },
+      beforeLogin: ['@/components/admin/AdminLoginBackground#AdminLoginBackground'],
+    },
     importMap: {
       baseDir: path.resolve(dirname),
     },
@@ -79,6 +87,7 @@ export default buildConfig({
     Campaigns,
     CustomerMedia,
     CustomerRatings,
+    Programs,
   ],
   globals: [Navigation, Footer, SiteSettings, Hero, DestinationCarousel],
   editor: lexicalEditor(),

@@ -112,9 +112,8 @@ export async function Footer() {
     const slug = typeof dest === 'object' ? dest?.slug : null
     const date = trip.startDate ? new Date(trip.startDate) : null
     const year = date ? date.getFullYear() : null
-    const currentYear = new Date().getFullYear()
     const month = date ? BG_MONTHS[date.getMonth()] : ''
-    const monthLabel = year && year > currentYear ? `${month} ${year}` : month
+    const monthLabel = year && year > 2025 ? `${month} ${year}` : month
     return {
       name: name ?? trip.title,
       month: monthLabel,
@@ -138,9 +137,15 @@ export async function Footer() {
   const consentText = (data as any)?.consentText ?? 'С натискането на бутона "Абонирай се" се съгласяваш с'
   const consentLinkText = (data as any)?.consentLinkText ?? 'Политиката ни за поверителност'
 
-  const half = Math.ceil(travelLinks.length / 2)
-  const travelCol1 = travelLinks.slice(0, half)
-  const travelCol2 = travelLinks.slice(half)
+  const seenHrefs = new Set<string>()
+  const uniqueTravelLinks = travelLinks.filter((l) => {
+    if (seenHrefs.has(l.href)) return false
+    seenHrefs.add(l.href)
+    return true
+  })
+  const half = Math.ceil(uniqueTravelLinks.length / 2)
+  const travelCol1 = uniqueTravelLinks.slice(0, half)
+  const travelCol2 = uniqueTravelLinks.slice(half)
 
   return (
     <>
@@ -211,8 +216,8 @@ export async function Footer() {
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 2rem' }}>
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                  {travelCol1.map((link) => (
-                    <li key={link.href + link.name}>
+                  {travelCol1.map((link, i) => (
+                    <li key={`col1-${i}`}>
                       <Link href={link.href} style={{ textDecoration: 'none' }}>
                         <span style={{ display: 'block', fontSize: '1rem', fontWeight: 600, color: '#ffffff' }}>{link.name}</span>
                         {link.month && <span style={{ display: 'block', fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', marginTop: '0.1rem' }}>{link.month}</span>}
@@ -221,8 +226,8 @@ export async function Footer() {
                   ))}
                 </ul>
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                  {travelCol2.map((link) => (
-                    <li key={link.href + link.name}>
+                  {travelCol2.map((link, i) => (
+                    <li key={`col2-${i}`}>
                       <Link href={link.href} style={{ textDecoration: 'none' }}>
                         <span style={{ display: 'block', fontSize: '1rem', fontWeight: 600, color: '#ffffff' }}>{link.name}</span>
                         {link.month && <span style={{ display: 'block', fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', marginTop: '0.1rem' }}>{link.month}</span>}

@@ -13,6 +13,7 @@ const NAV = [
   { label: 'ВАУЧЕРИ', href: '/dashboard/vouchers' },
   { label: 'МЕДИЯ', href: '/dashboard/media' },
   { label: 'ОЦЕНКИ', href: '/dashboard/ratings' },
+  { label: 'ЛЮБИМИ', href: '/dashboard/wishlist' },
 ]
 
 export function DashboardNav({ name, email }: { name: string; email: string }) {

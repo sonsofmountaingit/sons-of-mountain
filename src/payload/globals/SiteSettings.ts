@@ -24,5 +24,12 @@ export const SiteSettings: GlobalConfig = {
       type: 'checkbox',
       defaultValue: false,
     },
+    {
+      name: 'loginBackground',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Admin Login Background (image or video)',
+      admin: { description: 'Shown as the background on the Payload admin login page.' },
+    },
   ],
 }

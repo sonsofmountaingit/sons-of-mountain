@@ -16,6 +16,7 @@ export const Trips: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'destination', 'startDate', 'status', 'spotsAvailable'],
+    group: 'Пътувания',
   },
   fields: [
     {
@@ -90,6 +91,33 @@ export const Trips: CollectionConfig = {
       defaultValue: 'active',
       required: true,
       admin: { position: 'sidebar' },
+    },
+    {
+      name: 'earlyBirdPrice',
+      type: 'number',
+      admin: { description: 'Early bird discounted price' },
+    },
+    {
+      name: 'earlyBirdUntil',
+      type: 'date',
+      admin: { description: 'Early bird deadline' },
+    },
+    {
+      name: 'earlyBirdSpots',
+      type: 'number',
+      admin: { description: 'Number of early bird spots' },
+    },
+    {
+      name: 'maxParticipantsPerRegistration',
+      type: 'number',
+      defaultValue: 4,
+      admin: { description: 'Max participants per booking' },
+    },
+    {
+      name: 'viewCount',
+      type: 'number',
+      defaultValue: 0,
+      admin: { readOnly: true, description: 'Page view count' },
     },
   ],
   hooks: {

@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { syncSpotsAfterChange, syncSpotsAfterDelete } from '../hooks/syncTripSpots'
 
 export const Registrations: CollectionConfig = {
   slug: 'registrations',
@@ -6,6 +7,10 @@ export const Registrations: CollectionConfig = {
     useAsTitle: 'email',
     defaultColumns: ['email', 'trip', 'destination', 'status', 'totalAmount', 'createdAt'],
     group: 'Регистрации',
+  },
+  hooks: {
+    afterChange: [syncSpotsAfterChange],
+    afterDelete: [syncSpotsAfterDelete],
   },
   fields: [
     {
@@ -28,6 +33,11 @@ export const Registrations: CollectionConfig = {
       name: 'trip',
       type: 'relationship',
       relationTo: 'trips',
+    },
+    {
+      name: 'program',
+      type: 'relationship',
+      relationTo: 'programs',
     },
     {
       name: 'status',

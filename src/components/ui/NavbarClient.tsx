@@ -104,17 +104,17 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
         animate={{ y: 0 }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
         className={[
-          'fixed left-0 right-0 z-50 transition-all duration-300',
+          'fixed left-0 right-0 z-50 transition-all duration-300 overflow-visible',
           scrolled ? 'top-0 backdrop-blur-md bg-black/60' : 'top-2 bg-transparent',
         ].join(' ')}
       >
-        <nav className={['mx-auto max-w-[1440px] px-4 flex items-center justify-between transition-all duration-300 whitespace-nowrap overflow-visible', scrolled ? 'h-16' : 'h-24'].join(' ')}>
+        <nav className={['relative w-full px-14 flex items-center justify-between transition-all duration-300 whitespace-nowrap overflow-visible', scrolled ? 'h-[56px]' : 'h-[88px]'].join(' ')}>
 
           {/* Left */}
           <div className="hidden lg:flex items-center gap-5 flex-1">
             <button
               onClick={() => { setMegaOpen((v) => !v); setSearchOpen(false); setLangOpen(false) }}
-              className={['flex items-center gap-1.5 text-xs font-medium tracking-widest transition-colors duration-200', megaOpen ? 'text-white' : 'text-white/80 hover:text-white'].join(' ')}
+              className={['flex items-center gap-1.5 text-sm font-medium tracking-widest transition-colors duration-200', megaOpen ? 'text-white' : 'text-white/80 hover:text-white'].join(' ')}
             >
               Програми
               <svg width="10" height="6" viewBox="0 0 10 6" fill="none" className={['transition-transform duration-200', megaOpen ? 'rotate-180' : ''].join(' ')}>
@@ -122,21 +122,19 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
               </svg>
             </button>
             {navLinksLeft.map((link, i) => (
-              <Link key={`left-${i}`} href={link.href} className="text-xs font-medium tracking-wider text-white/80 hover:text-white transition-colors duration-200">
+              <Link key={`left-${i}`} href={link.href} className="text-sm font-medium tracking-wider text-white/80 hover:text-white transition-colors duration-200">
                 {link.label}
               </Link>
             ))}
           </div>
 
-          {/* Logo */}
-          <Link href="/" className="flex-shrink-0 mx-4" onMouseEnter={() => setLogoHovered(true)} onMouseLeave={() => setLogoHovered(false)}>
-            <Image src={logoSrc} alt="Logo" width={140} height={64} priority className={['w-auto transition-all duration-300', scrolled ? 'h-10' : 'h-24'].join(' ')} unoptimized />
-          </Link>
+          {/* Logo placeholder to keep flex spacing */}
+          <div className={['flex-shrink-0 mx-4 transition-all duration-300', scrolled ? 'w-10' : 'w-20'].join(' ')} />
 
           {/* Right */}
           <div className="hidden lg:flex items-center gap-4 flex-1 justify-end">
             {navLinksRight.map((link, i) => (
-              <Link key={`right-${i}`} href={link.href} className="text-xs font-medium tracking-wider text-white/80 hover:text-white transition-colors duration-200">
+              <Link key={`right-${i}`} href={link.href} className="text-sm font-medium tracking-wider text-white/80 hover:text-white transition-colors duration-200">
                 {link.label}
               </Link>
             ))}
@@ -145,7 +143,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
               <div data-panel="profile" className="relative">
                 <button
                   onClick={() => { setProfileOpen((v) => !v); setSearchOpen(false); setLangOpen(false) }}
-                  className="flex items-center gap-2 px-3 py-1.5 text-xs font-medium tracking-widest border border-white/30 text-white/80 hover:text-white hover:border-white transition-colors duration-200 rounded-sm"
+                  className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium tracking-widest border border-white/30 text-white/80 hover:text-white hover:border-white transition-colors duration-200 rounded-sm"
                 >
                   <span className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-[10px]">
                     {(session.user.name?.[0] ?? session.user.email[0]).toUpperCase()}
@@ -190,7 +188,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                 </AnimatePresence>
               </div>
             ) : (
-              <Link href="/login" className="px-4 py-1.5 text-xs font-medium tracking-widest border border-white/40 text-white/80 hover:text-white hover:border-white transition-colors duration-200 rounded-sm">
+              <Link href="/login" className="px-4 py-1.5 text-sm font-medium tracking-widest border border-white/40 text-white/80 hover:text-white hover:border-white transition-colors duration-200 rounded-sm">
                 ВХОД
               </Link>
             )}
@@ -222,7 +220,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
               <div data-panel="lang" className="relative">
                 <button
                   onClick={() => { setLangOpen((v) => !v); setSearchOpen(false) }}
-                  className={['flex items-center gap-1 text-xs font-medium tracking-widest transition-colors', langOpen ? 'text-white' : 'text-white/70 hover:text-white'].join(' ')}
+                  className={['flex items-center gap-1 text-sm font-medium tracking-widest transition-colors', langOpen ? 'text-white' : 'text-white/70 hover:text-white'].join(' ')}
                 >
                   {activeLang}
                   <svg width="8" height="5" viewBox="0 0 10 6" fill="none" className={['transition-transform duration-200', langOpen ? 'rotate-180' : ''].join(' ')}>
@@ -300,6 +298,16 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
           </button>
         </nav>
       </motion.header>
+
+      {/* Logo — separate fixed element so backdrop-filter on header cannot clip it */}
+      <Link
+        href="/"
+        className="fixed left-1/2 -translate-x-1/2 top-2 z-[51] flex items-center justify-center"
+        onMouseEnter={() => setLogoHovered(true)}
+        onMouseLeave={() => setLogoHovered(false)}
+      >
+        <Image src={logoSrc} alt="Logo" width={140} height={140} priority className={['w-auto transition-all duration-300', scrolled ? 'h-10' : 'h-20'].join(' ')} unoptimized />
+      </Link>
 
       {/* Desktop megamenu */}
       <ProgramsMegaMenu open={megaOpen} onClose={() => setMegaOpen(false)} />

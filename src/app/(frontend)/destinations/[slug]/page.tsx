@@ -5,6 +5,7 @@ import Image from 'next/image'
 import type { Metadata } from 'next'
 import { TripCard } from '@/components/ui/TripCard'
 import { BookingFormWrapper } from '@/components/forms/BookingFormWrapper'
+import { TrackRecentlyViewed } from '@/components/ui/TrackRecentlyViewed'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -66,6 +67,7 @@ export default async function DestinationPage({ params }: Props) {
 
   return (
     <article>
+      <TrackRecentlyViewed id={String(destination.id)} />
       <div className="relative h-screen">
         {heroImage?.url && (
           <Image

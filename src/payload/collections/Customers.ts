@@ -126,5 +126,36 @@ export const Customers: CollectionConfig = {
       on: 'customer',
       admin: { description: 'Оценки на дестинации и пътувания' },
     },
+    {
+      name: 'wishlist',
+      type: 'array',
+      fields: [
+        {
+          name: 'itemType',
+          type: 'select',
+          options: [
+            { label: 'Пътуване', value: 'trip' },
+            { label: 'Програма', value: 'program' },
+          ],
+          required: true,
+        },
+        {
+          name: 'trip',
+          type: 'relationship',
+          relationTo: 'trips',
+          admin: {
+            condition: (_, siblingData) => siblingData?.itemType === 'trip',
+          },
+        },
+        {
+          name: 'program',
+          type: 'relationship',
+          relationTo: 'programs',
+          admin: {
+            condition: (_, siblingData) => siblingData?.itemType === 'program',
+          },
+        },
+      ],
+    },
   ],
 }

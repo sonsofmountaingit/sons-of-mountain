@@ -26,6 +26,8 @@ import { NavigationVisualEditorButton as NavigationVisualEditorButton_b9cb51eadd
 import { FooterVisualEditorButton as FooterVisualEditorButton_8c719505c9cdba2136f714cc4d646569 } from '@/components/admin/FooterVisualEditorButton'
 import { HeroVisualEditorButton as HeroVisualEditorButton_9245e5b8807f79c816821b0933667935 } from '@/components/admin/HeroVisualEditorButton'
 import { DestinationCarouselVisualEditorButton as DestinationCarouselVisualEditorButton_b8d861d0ab54cbeef1477a9b4e522cd9 } from '@/components/admin/DestinationCarouselVisualEditorButton'
+import { AdminLogo as AdminLogo_b80a86fce1072afc84cd6a430a965697 } from '@/components/admin/AdminLogo'
+import { AdminLoginBackground as AdminLoginBackground_baef77fc865ae3a00a6eb857b0b83031 } from '@/components/admin/AdminLoginBackground'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 /** @type import('payload').ImportMap */
@@ -58,5 +60,7 @@ export const importMap = {
   "@/components/admin/FooterVisualEditorButton#FooterVisualEditorButton": FooterVisualEditorButton_8c719505c9cdba2136f714cc4d646569,
   "@/components/admin/HeroVisualEditorButton#HeroVisualEditorButton": HeroVisualEditorButton_9245e5b8807f79c816821b0933667935,
   "@/components/admin/DestinationCarouselVisualEditorButton#DestinationCarouselVisualEditorButton": DestinationCarouselVisualEditorButton_b8d861d0ab54cbeef1477a9b4e522cd9,
+  "@/components/admin/AdminLogo#AdminLogo": AdminLogo_b80a86fce1072afc84cd6a430a965697,
+  "@/components/admin/AdminLoginBackground#AdminLoginBackground": AdminLoginBackground_baef77fc865ae3a00a6eb857b0b83031,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

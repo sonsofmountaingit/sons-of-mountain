@@ -25,7 +25,7 @@ export default function FrontendLayout({ children }: { children: React.ReactNode
     <html lang="bg" className={spaceGrotesk.variable} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body suppressHydrationWarning>
         <Navigation />
-        <main className="pt-16">{children}</main>
+        <main>{children}</main>
         <Suspense fallback={null}>
           <Footer />
         </Suspense>

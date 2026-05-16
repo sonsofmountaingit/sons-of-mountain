@@ -52,11 +52,11 @@ export function Navbar() {
         animate={{ y: visible ? 0 : -100 }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
         className={[
-          'fixed top-0 left-0 right-0 z-50 transition-colors duration-300',
+          'fixed top-0 left-0 right-0 w-full z-50 transition-colors duration-300',
           scrolled ? 'backdrop-blur-md bg-black/60' : 'bg-transparent',
         ].join(' ')}
       >
-        <nav className="mx-auto max-w-[1440px] px-6 h-16 flex items-center justify-between">
+        <nav className="w-full px-6 h-20 flex items-center justify-between">
           <div className="hidden lg:flex items-center gap-8 flex-1">
             {LEFT_LINKS.map((link) => (
               <Link
@@ -76,7 +76,7 @@ export function Navbar() {
               width={140}
               height={40}
               priority
-              className="h-8 w-auto"
+              className="h-14 w-auto"
             />
           </Link>
 

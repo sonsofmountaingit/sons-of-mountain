@@ -5,7 +5,8 @@ export const Destinations: CollectionConfig = {
   slug: 'destinations',
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'slug', 'updatedAt'],
+    defaultColumns: ['name', 'slug', 'type', 'updatedAt'],
+    group: 'Пътувания',
   },
   versions: {
     drafts: { autosave: { interval: 375 } },
@@ -100,6 +101,16 @@ export const Destinations: CollectionConfig = {
         { name: 'content', type: 'richText' },
         { name: 'image', type: 'upload', relationTo: 'media' },
       ],
+    },
+    {
+      name: 'latitude',
+      type: 'number',
+      admin: { position: 'sidebar', description: 'Map latitude' },
+    },
+    {
+      name: 'longitude',
+      type: 'number',
+      admin: { position: 'sidebar', description: 'Map longitude' },
     },
     {
       name: 'meta',
