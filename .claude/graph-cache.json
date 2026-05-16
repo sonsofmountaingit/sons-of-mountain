@@ -1159,6 +1159,12 @@
       "size": 4
     },
     {
+      "id": "src/components/ui/FooterLogo.tsx",
+      "label": "ui/FooterLogo.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
       "id": "src/components/ui/DestinationCarouselEditButton.tsx",
       "label": "ui/DestinationCarouselEditButton.tsx",
       "group": "ui",
@@ -2479,6 +2485,10 @@
       "target": "src/components/ui/FooterEditButton.tsx"
     },
     {
+      "source": "src/components/ui/Footer.tsx",
+      "target": "src/components/ui/FooterLogo.tsx"
+    },
+    {
       "source": "src/components/ui/StoriesCarouselSection.tsx",
       "target": "src/components/ui/StoryCard.tsx"
     },
@@ -2683,6 +2693,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-05-16T09:28:25.234Z",
-  "fileCount": 230
+  "builtAt": "2026-05-16T09:33:12.001Z",
+  "fileCount": 231
 }

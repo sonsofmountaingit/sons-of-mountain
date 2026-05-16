@@ -1,11 +1,11 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { FooterForm } from './FooterForm'
 import { ShakingCredit } from './ShakingCredit'
 import { FooterEditButton } from './FooterEditButton'
+import { FooterLogo } from './FooterLogo'
 
 const BG_MONTHS = ['януари','февруари','март','април','май','юни','юли','август','септември','октомври','ноември','декември']
 
@@ -121,10 +121,6 @@ export async function Footer() {
       href: slug ? `/destinations/${slug}` : '/destinations',
     }
   })
-  const logoField = (data as any)?.logo
-  const logoGif = typeof logoField === 'object' && logoField?.url
-    ? logoField.url
-    : (data as any)?.logoGif ?? 'https://framerusercontent.com/images/xAELSxhOFDDnqiDsAfvMhSuuw.png'
   const copyright = (data as any)?.copyright ?? '© 2018-2026 Паник Фрейм енд Травел'
   const licenseText = (data as any)?.licenseText ?? 'Номер на лиценз: РК-01-8245 / 28.07.2022'
   const insuranceText = (data as any)?.insuranceText ?? 'Номер на застрахователна полица: 03700100005995 / 31.08.2025'
@@ -262,14 +258,7 @@ export async function Footer() {
               <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.3)', margin: 0 }}>{insuranceText}</p>
             </div>
 
-            <Image
-              src={logoGif}
-              alt="Panic Frame"
-              width={80}
-              height={80}
-              style={{ opacity: 0.55 }}
-              unoptimized
-            />
+            <FooterLogo />
 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.4rem' }}>
               <div style={{ display: 'flex', gap: '1.5rem' }}>

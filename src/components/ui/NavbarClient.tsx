@@ -102,11 +102,11 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
         animate={{ y: 0 }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
         className={[
-          'fixed top-4 left-0 right-0 z-50 transition-colors duration-300',
-          scrolled ? 'backdrop-blur-md bg-black/60' : 'bg-transparent',
+          'fixed left-0 right-0 z-50 transition-all duration-300',
+          scrolled ? 'top-0 backdrop-blur-md bg-black/60' : 'top-2 bg-transparent',
         ].join(' ')}
       >
-        <nav className={['mx-auto max-w-[1440px] px-4 flex items-center justify-between transition-all duration-300 whitespace-nowrap', scrolled ? 'h-14' : 'h-20'].join(' ')}>
+        <nav className={['mx-auto max-w-[1440px] px-4 flex items-center justify-between transition-all duration-300 whitespace-nowrap overflow-visible', scrolled ? 'h-16' : 'h-24'].join(' ')}>
 
           {/* Left */}
           <div className="hidden lg:flex items-center gap-5 flex-1">
@@ -128,7 +128,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
 
           {/* Logo */}
           <Link href="/" className="flex-shrink-0 mx-4" onMouseEnter={() => setLogoHovered(true)} onMouseLeave={() => setLogoHovered(false)}>
-            <Image src={logoSrc} alt="Logo" width={140} height={64} priority className={['w-auto transition-all duration-300', scrolled ? 'h-14' : 'h-24'].join(' ')} unoptimized />
+            <Image src={logoSrc} alt="Logo" width={140} height={64} priority className={['w-auto transition-all duration-300', scrolled ? 'h-10' : 'h-24'].join(' ')} unoptimized />
           </Link>
 
           {/* Right */}

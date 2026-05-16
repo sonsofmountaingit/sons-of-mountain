@@ -1944,9 +1944,10 @@
     "imports": [
       "next/image",
       "next/link",
+      "react",
       "@/components/ui/ShakingCredit"
     ],
-    "lines": 55,
+    "lines": 59,
     "group": "blocks"
   },
   "src/components/blocks/footer/FooterSubscribeBlock.tsx": {
@@ -2166,7 +2167,7 @@
       "@/components/ui/FooterForm",
       "@/components/ui/ShakingCredit"
     ],
-    "lines": 187,
+    "lines": 189,
     "group": "blocks"
   },
   "src/components/blocks/BannerBlockRenderer.tsx": {
@@ -2576,15 +2577,15 @@
     "types": [],
     "imports": [
       "next/link",
-      "next/image",
       "next/cache",
       "payload",
       "@payload-config",
       "./FooterForm",
       "./ShakingCredit",
-      "./FooterEditButton"
+      "./FooterEditButton",
+      "./FooterLogo"
     ],
-    "lines": 295,
+    "lines": 284,
     "group": "ui"
   },
   "src/components/ui/DestinationCard.tsx": {
@@ -2646,6 +2647,18 @@
       "./DestinationCard"
     ],
     "lines": 42,
+    "group": "ui"
+  },
+  "src/components/ui/FooterLogo.tsx": {
+    "exports": [
+      "FooterLogo"
+    ],
+    "types": [],
+    "imports": [
+      "next/image",
+      "react"
+    ],
+    "lines": 21,
     "group": "ui"
   },
   "src/components/ui/DestinationCarouselEditButton.tsx": {

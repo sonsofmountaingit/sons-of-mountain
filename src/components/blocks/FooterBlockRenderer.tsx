@@ -46,6 +46,8 @@ type Props = {
 
 export function FooterBlockRenderer({ overrides }: Props = {}) {
   const [data, setData] = useState<FooterData | null>(null)
+  const [logoHovered, setLogoHovered] = useState(false)
+  const logoSrc = logoHovered ? '/colored-logo.svg' : '/white-logo.svg'
 
   useEffect(() => {
     fetch('/api/footer-data', { credentials: 'include' })
@@ -168,7 +170,7 @@ export function FooterBlockRenderer({ overrides }: Props = {}) {
             <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.3)', margin: 0 }}>{licenseText}</p>
             <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.3)', margin: 0 }}>{insuranceText}</p>
           </div>
-          <Image src={logoGif} alt="Panic Frame" width={80} height={80} style={{ opacity: 0.55 }} unoptimized />
+          <Image src={logoSrc} alt="Logo" width={120} height={120} unoptimized onMouseEnter={() => setLogoHovered(true)} onMouseLeave={() => setLogoHovered(false)} style={{ cursor: 'pointer' }} />
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.4rem' }}>
             <div style={{ display: 'flex', gap: '1.5rem' }}>
               <Link href={termsUrl} style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>{termsLabel}</Link>

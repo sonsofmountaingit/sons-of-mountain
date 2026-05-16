@@ -1320,7 +1320,7 @@ export const puckConfig: Config<PuckBlocks> = {
         copyright: '© 2018-2026 Паник Фрейм енд Травел',
         licenseText: 'Номер на лиценз: РК-01-8245 / 28.07.2022',
         insuranceText: 'Номер на застрахователна полица: 03700100005995 / 31.08.2025',
-        logoUrl: 'https://framerusercontent.com/images/xAELSxhOFDDnqiDsAfvMhSuuw.png',
+        logoUrl: '/white-logo.svg',
         termsLabel: 'Общи условия',
         termsUrl: '/legal/terms',
         privacyLabel: 'Политика за поверителност',
