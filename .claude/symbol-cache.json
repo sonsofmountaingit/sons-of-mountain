@@ -204,6 +204,16 @@
     "lines": 31,
     "group": "api"
   },
+  "src/app/api/auth/[...all]/route.ts": {
+    "exports": [],
+    "types": [],
+    "imports": [
+      "@/lib/auth",
+      "better-auth/next-js"
+    ],
+    "lines": 5,
+    "group": "api"
+  },
   "src/app/api/booking/route.ts": {
     "exports": [
       "POST"
@@ -213,9 +223,10 @@
       "next/server",
       "payload",
       "@payload-config",
-      "resend"
+      "resend",
+      "@/lib/auth"
     ],
-    "lines": 64,
+    "lines": 86,
     "group": "api"
   },
   "src/app/api/navigation-data/route.ts": {
@@ -229,6 +240,20 @@
       "@payload-config"
     ],
     "lines": 23,
+    "group": "api"
+  },
+  "src/app/api/admin/block-user/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "@/lib/auth"
+    ],
+    "lines": 26,
     "group": "api"
   },
   "src/app/api/footer-data/route.ts": {
@@ -268,7 +293,7 @@
       "@payload-config",
       "stripe"
     ],
-    "lines": 49,
+    "lines": 75,
     "group": "api"
   },
   "src/app/api/subscribe/route.ts": {
@@ -306,6 +331,35 @@
       "@payload-config"
     ],
     "lines": 13,
+    "group": "api"
+  },
+  "src/app/api/voucher/route.ts": {
+    "exports": [
+      "POST",
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "@/lib/auth"
+    ],
+    "lines": 103,
+    "group": "api"
+  },
+  "src/app/api/megamenu/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/cache",
+      "next/server"
+    ],
+    "lines": 68,
     "group": "api"
   },
   "src/app/api/webhooks/resend/route.ts": {
@@ -578,6 +632,34 @@
     "lines": 175,
     "group": "frontend"
   },
+  "src/app/(frontend)/signup/SignupClient.tsx": {
+    "exports": [
+      "SignupClient"
+    ],
+    "types": [],
+    "imports": [
+      "next/link",
+      "next/navigation",
+      "zod",
+      "@/components/auth/AuthForm",
+      "@/lib/auth-client"
+    ],
+    "lines": 44,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/signup/page.tsx": {
+    "exports": [
+      "metadata",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "next",
+      "next/dynamic"
+    ],
+    "lines": 25,
+    "group": "frontend"
+  },
   "src/app/(frontend)/gallery/page.tsx": {
     "exports": [
       "metadata",
@@ -695,6 +777,178 @@
     "lines": 18,
     "group": "frontend"
   },
+  "src/app/(frontend)/dashboard/profile/page.tsx": {
+    "exports": [
+      "metadata",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "next",
+      "react",
+      "next/headers",
+      "next/navigation",
+      "@/lib/auth",
+      "./ProfileClient"
+    ],
+    "lines": 26,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/dashboard/profile/ProfileClient.tsx": {
+    "exports": [
+      "ProfileClient"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "next/navigation",
+      "zod",
+      "gsap",
+      "@/lib/auth-client"
+    ],
+    "lines": 89,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/dashboard/vouchers/VouchersClient.tsx": {
+    "exports": [
+      "VouchersClient"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "gsap"
+    ],
+    "lines": 99,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/dashboard/vouchers/page.tsx": {
+    "exports": [
+      "metadata",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "next",
+      "react",
+      "next/headers",
+      "next/navigation",
+      "payload",
+      "@payload-config",
+      "@/lib/auth",
+      "./VouchersClient"
+    ],
+    "lines": 37,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/dashboard/orders/OrdersClient.tsx": {
+    "exports": [
+      "OrdersClient"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "gsap"
+    ],
+    "lines": 50,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/dashboard/orders/page.tsx": {
+    "exports": [
+      "metadata",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "next",
+      "react",
+      "next/headers",
+      "next/navigation",
+      "payload",
+      "@payload-config",
+      "@/lib/auth",
+      "./OrdersClient"
+    ],
+    "lines": 37,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/dashboard/DashboardClient.tsx": {
+    "exports": [
+      "DashboardClient"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "next/link",
+      "gsap",
+      "@/lib/auth-client",
+      "next/navigation"
+    ],
+    "lines": 184,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/dashboard/page.tsx": {
+    "exports": [
+      "metadata",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "next",
+      "react",
+      "next/headers",
+      "next/navigation",
+      "payload",
+      "@payload-config",
+      "@/lib/auth",
+      "./DashboardClient"
+    ],
+    "lines": 46,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/dashboard/registrations/RegistrationsClient.tsx": {
+    "exports": [
+      "RegistrationsClient"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "gsap"
+    ],
+    "lines": 71,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/dashboard/registrations/page.tsx": {
+    "exports": [
+      "metadata",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "next",
+      "react",
+      "next/headers",
+      "next/navigation",
+      "payload",
+      "@payload-config",
+      "@/lib/auth",
+      "./RegistrationsClient"
+    ],
+    "lines": 37,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/verify-email/page.tsx": {
+    "exports": [
+      "metadata",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "next",
+      "next/navigation"
+    ],
+    "lines": 22,
+    "group": "frontend"
+  },
   "src/app/(frontend)/stories/page.tsx": {
     "exports": [
       "metadata",
@@ -742,6 +996,34 @@
     "lines": 53,
     "group": "frontend"
   },
+  "src/app/(frontend)/forgot-password/ForgotClient.tsx": {
+    "exports": [
+      "ForgotClient"
+    ],
+    "types": [],
+    "imports": [
+      "next/link",
+      "react",
+      "zod",
+      "@/components/auth/AuthForm",
+      "@/lib/auth-client"
+    ],
+    "lines": 43,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/forgot-password/page.tsx": {
+    "exports": [
+      "metadata",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "next",
+      "next/dynamic"
+    ],
+    "lines": 24,
+    "group": "frontend"
+  },
   "src/app/(frontend)/layout.tsx": {
     "exports": [
       "metadata",
@@ -756,6 +1038,33 @@
       "@/components/ui/Footer"
     ],
     "lines": 36,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/reset-password/ResetClient.tsx": {
+    "exports": [
+      "ResetClient"
+    ],
+    "types": [],
+    "imports": [
+      "next/navigation",
+      "zod",
+      "@/components/auth/AuthForm",
+      "@/lib/auth-client"
+    ],
+    "lines": 38,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/reset-password/page.tsx": {
+    "exports": [
+      "metadata",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "next",
+      "next/dynamic"
+    ],
+    "lines": 23,
     "group": "frontend"
   },
   "src/app/(frontend)/preview/[id]/page.tsx": {
@@ -864,6 +1173,34 @@
       "@puckeditor/core"
     ],
     "lines": 79,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/login/LoginClient.tsx": {
+    "exports": [
+      "LoginClient"
+    ],
+    "types": [],
+    "imports": [
+      "next/link",
+      "next/navigation",
+      "zod",
+      "@/components/auth/AuthForm",
+      "@/lib/auth-client"
+    ],
+    "lines": 45,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/login/page.tsx": {
+    "exports": [
+      "metadata",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "next",
+      "next/dynamic"
+    ],
+    "lines": 25,
     "group": "frontend"
   },
   "src/app/(payload)/admin/[[...segments]]/page.tsx": {
@@ -1223,7 +1560,10 @@
       "./collections/BlogPosts",
       "./collections/BlogCategories",
       "./collections/Media",
+      "./collections/Customers",
       "./collections/Orders",
+      "./collections/Registrations",
+      "./collections/GiftVouchers",
       "./collections/Users",
       "./collections/Subscribers",
       "./collections/Segments",
@@ -1235,7 +1575,7 @@
       "./globals/Hero",
       "./globals/DestinationCarousel"
     ],
-    "lines": 97,
+    "lines": 105,
     "group": "payload"
   },
   "src/payload/seeds/hero.ts": {
@@ -1330,6 +1670,28 @@
     "lines": 48,
     "group": "collections"
   },
+  "src/payload/collections/Customers.ts": {
+    "exports": [
+      "Customers"
+    ],
+    "types": [],
+    "imports": [
+      "payload"
+    ],
+    "lines": 116,
+    "group": "collections"
+  },
+  "src/payload/collections/Registrations.ts": {
+    "exports": [
+      "Registrations"
+    ],
+    "types": [],
+    "imports": [
+      "payload"
+    ],
+    "lines": 109,
+    "group": "collections"
+  },
   "src/payload/collections/Pages.ts": {
     "exports": [
       "Pages"
@@ -1373,7 +1735,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 81,
+    "lines": 84,
     "group": "collections"
   },
   "src/payload/collections/Stories.ts": {
@@ -1408,6 +1770,17 @@
       "payload"
     ],
     "lines": 27,
+    "group": "collections"
+  },
+  "src/payload/collections/GiftVouchers.ts": {
+    "exports": [
+      "GiftVouchers"
+    ],
+    "types": [],
+    "imports": [
+      "payload"
+    ],
+    "lines": 114,
     "group": "collections"
   },
   "src/payload/collections/BlogCategories.ts": {
@@ -1453,7 +1826,7 @@
       "payload",
       "../hooks/revalidate"
     ],
-    "lines": 97,
+    "lines": 119,
     "group": "collections"
   },
   "src/components/blocks/FAQBlockRenderer.tsx": {
@@ -2116,6 +2489,20 @@
     "lines": 54,
     "group": "ui"
   },
+  "src/components/ui/ProgramsMegaMenu.tsx": {
+    "exports": [
+      "ProgramsMegaMenu"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "next/link",
+      "next/image",
+      "motion/react"
+    ],
+    "lines": 217,
+    "group": "ui"
+  },
   "src/components/ui/Navbar.tsx": {
     "exports": [
       "Navbar"
@@ -2151,9 +2538,11 @@
       "next/link",
       "next/image",
       "react",
-      "motion/react"
+      "motion/react",
+      "./ProgramsMegaMenu",
+      "@/lib/auth-client"
     ],
-    "lines": 232,
+    "lines": 470,
     "group": "ui"
   },
   "src/components/ui/DestinationCarousel.tsx": {
@@ -2331,7 +2720,7 @@
       "./NavbarClient",
       "./NavigationEditButton"
     ],
-    "lines": 56,
+    "lines": 54,
     "group": "ui"
   },
   "src/components/forms/BookingFormWrapper.tsx": {
@@ -2397,6 +2786,21 @@
       "motion/react"
     ],
     "lines": 277,
+    "group": "components"
+  },
+  "src/components/auth/AuthForm.tsx": {
+    "exports": [
+      "AuthForm"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "react-hook-form",
+      "@hookform/resolvers/zod",
+      "zod",
+      "gsap"
+    ],
+    "lines": 116,
     "group": "components"
   },
   "src/components/admin/VisualEditorButton.tsx": {
@@ -2482,6 +2886,20 @@
     "lines": 40,
     "group": "lib"
   },
+  "src/lib/auth.ts": {
+    "exports": [
+      "auth"
+    ],
+    "types": [],
+    "imports": [
+      "better-auth",
+      "@better-auth/kysely-adapter",
+      "kysely",
+      "pg"
+    ],
+    "lines": 100,
+    "group": "lib"
+  },
   "src/lib/animations.ts": {
     "exports": [
       "fadeInUp",
@@ -2496,6 +2914,17 @@
       "motion/react"
     ],
     "lines": 57,
+    "group": "lib"
+  },
+  "src/lib/auth-client.ts": {
+    "exports": [
+      "authClient"
+    ],
+    "types": [],
+    "imports": [
+      "better-auth/react"
+    ],
+    "lines": 10,
     "group": "lib"
   },
   "src/puck/customFields.tsx": {

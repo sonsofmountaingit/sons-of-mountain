@@ -85,6 +85,12 @@
       "size": 4
     },
     {
+      "id": "src/app/api/auth/[...all]/route.ts",
+      "label": "[...all]/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/booking/route.ts",
       "label": "booking/route.ts",
       "group": "api",
@@ -93,6 +99,12 @@
     {
       "id": "src/app/api/navigation-data/route.ts",
       "label": "navigation-data/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/admin/block-user/route.ts",
+      "label": "block-user/route.ts",
       "group": "api",
       "size": 4
     },
@@ -129,6 +141,18 @@
     {
       "id": "src/app/api/hero-data/route.ts",
       "label": "hero-data/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/voucher/route.ts",
+      "label": "voucher/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/megamenu/route.ts",
+      "label": "megamenu/route.ts",
       "group": "api",
       "size": 4
     },
@@ -253,6 +277,18 @@
       "size": 4
     },
     {
+      "id": "src/app/(frontend)/signup/SignupClient.tsx",
+      "label": "signup/SignupClient.tsx",
+      "group": "frontend",
+      "size": 6
+    },
+    {
+      "id": "src/app/(frontend)/signup/page.tsx",
+      "label": "signup/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
       "id": "src/app/(frontend)/gallery/page.tsx",
       "label": "gallery/page.tsx",
       "group": "frontend",
@@ -301,6 +337,72 @@
       "size": 4
     },
     {
+      "id": "src/app/(frontend)/dashboard/profile/page.tsx",
+      "label": "profile/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/dashboard/profile/ProfileClient.tsx",
+      "label": "profile/ProfileClient.tsx",
+      "group": "frontend",
+      "size": 6
+    },
+    {
+      "id": "src/app/(frontend)/dashboard/vouchers/VouchersClient.tsx",
+      "label": "vouchers/VouchersClient.tsx",
+      "group": "frontend",
+      "size": 6
+    },
+    {
+      "id": "src/app/(frontend)/dashboard/vouchers/page.tsx",
+      "label": "vouchers/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/dashboard/orders/OrdersClient.tsx",
+      "label": "orders/OrdersClient.tsx",
+      "group": "frontend",
+      "size": 6
+    },
+    {
+      "id": "src/app/(frontend)/dashboard/orders/page.tsx",
+      "label": "orders/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/dashboard/DashboardClient.tsx",
+      "label": "dashboard/DashboardClient.tsx",
+      "group": "frontend",
+      "size": 6
+    },
+    {
+      "id": "src/app/(frontend)/dashboard/page.tsx",
+      "label": "dashboard/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/dashboard/registrations/RegistrationsClient.tsx",
+      "label": "registrations/RegistrationsClient.tsx",
+      "group": "frontend",
+      "size": 6
+    },
+    {
+      "id": "src/app/(frontend)/dashboard/registrations/page.tsx",
+      "label": "registrations/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/verify-email/page.tsx",
+      "label": "verify-email/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
       "id": "src/app/(frontend)/stories/page.tsx",
       "label": "stories/page.tsx",
       "group": "frontend",
@@ -319,8 +421,32 @@
       "size": 4
     },
     {
+      "id": "src/app/(frontend)/forgot-password/ForgotClient.tsx",
+      "label": "forgot-password/ForgotClient.tsx",
+      "group": "frontend",
+      "size": 6
+    },
+    {
+      "id": "src/app/(frontend)/forgot-password/page.tsx",
+      "label": "forgot-password/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
       "id": "src/app/(frontend)/layout.tsx",
       "label": "(frontend)/layout.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/reset-password/ResetClient.tsx",
+      "label": "reset-password/ResetClient.tsx",
+      "group": "frontend",
+      "size": 6
+    },
+    {
+      "id": "src/app/(frontend)/reset-password/page.tsx",
+      "label": "reset-password/page.tsx",
       "group": "frontend",
       "size": 4
     },
@@ -363,6 +489,18 @@
     {
       "id": "src/app/(frontend)/[slug]/page.tsx",
       "label": "[slug]/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/login/LoginClient.tsx",
+      "label": "login/LoginClient.tsx",
+      "group": "frontend",
+      "size": 6
+    },
+    {
+      "id": "src/app/(frontend)/login/page.tsx",
+      "label": "login/page.tsx",
       "group": "frontend",
       "size": 4
     },
@@ -571,6 +709,18 @@
       "size": 6
     },
     {
+      "id": "src/payload/collections/Customers.ts",
+      "label": "collections/Customers.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/Registrations.ts",
+      "label": "collections/Registrations.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
       "id": "src/payload/collections/Pages.ts",
       "label": "collections/Pages.ts",
       "group": "collections",
@@ -603,6 +753,12 @@
     {
       "id": "src/payload/collections/Users.ts",
       "label": "collections/Users.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/GiftVouchers.ts",
+      "label": "collections/GiftVouchers.ts",
       "group": "collections",
       "size": 6
     },
@@ -931,6 +1087,12 @@
       "size": 6
     },
     {
+      "id": "src/components/ui/ProgramsMegaMenu.tsx",
+      "label": "ui/ProgramsMegaMenu.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
       "id": "src/components/ui/Navbar.tsx",
       "label": "ui/Navbar.tsx",
       "group": "ui",
@@ -1063,6 +1225,12 @@
       "size": 6
     },
     {
+      "id": "src/components/auth/AuthForm.tsx",
+      "label": "auth/AuthForm.tsx",
+      "group": "components",
+      "size": 12
+    },
+    {
       "id": "src/components/admin/VisualEditorButton.tsx",
       "label": "admin/VisualEditorButton.tsx",
       "group": "admin",
@@ -1111,10 +1279,22 @@
       "size": 4
     },
     {
+      "id": "src/lib/auth.ts",
+      "label": "lib/auth.ts",
+      "group": "lib",
+      "size": 20
+    },
+    {
       "id": "src/lib/animations.ts",
       "label": "lib/animations.ts",
       "group": "lib",
       "size": 8
+    },
+    {
+      "id": "src/lib/auth-client.ts",
+      "label": "lib/auth-client.ts",
+      "group": "lib",
+      "size": 18
     },
     {
       "id": "src/puck/customFields.tsx",
@@ -1271,12 +1451,28 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/auth/[...all]/route.ts",
+      "target": "src/lib/auth.ts"
+    },
+    {
       "source": "src/app/api/booking/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/booking/route.ts",
+      "target": "src/lib/auth.ts"
+    },
+    {
       "source": "src/app/api/navigation-data/route.ts",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/admin/block-user/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/admin/block-user/route.ts",
+      "target": "src/lib/auth.ts"
     },
     {
       "source": "src/app/api/footer-data/route.ts",
@@ -1296,6 +1492,18 @@
     },
     {
       "source": "src/app/api/hero-data/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/voucher/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/voucher/route.ts",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/api/megamenu/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
@@ -1371,6 +1579,18 @@
       "target": "src/components/forms/BookingFormWrapper.tsx"
     },
     {
+      "source": "src/app/(frontend)/signup/SignupClient.tsx",
+      "target": "src/components/auth/AuthForm.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/signup/SignupClient.tsx",
+      "target": "src/lib/auth-client.ts"
+    },
+    {
+      "source": "src/app/(frontend)/signup/page.tsx",
+      "target": "src/app/(frontend)/signup/SignupClient.tsx"
+    },
+    {
       "source": "src/app/(frontend)/gallery/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -1395,6 +1615,70 @@
       "target": "src/components/forms/GiftVoucherForm.tsx"
     },
     {
+      "source": "src/app/(frontend)/dashboard/profile/page.tsx",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/(frontend)/dashboard/profile/page.tsx",
+      "target": "src/app/(frontend)/dashboard/profile/ProfileClient.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/dashboard/profile/ProfileClient.tsx",
+      "target": "src/lib/auth-client.ts"
+    },
+    {
+      "source": "src/app/(frontend)/dashboard/vouchers/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/dashboard/vouchers/page.tsx",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/(frontend)/dashboard/vouchers/page.tsx",
+      "target": "src/app/(frontend)/dashboard/vouchers/VouchersClient.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/dashboard/orders/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/dashboard/orders/page.tsx",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/(frontend)/dashboard/orders/page.tsx",
+      "target": "src/app/(frontend)/dashboard/orders/OrdersClient.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/dashboard/DashboardClient.tsx",
+      "target": "src/lib/auth-client.ts"
+    },
+    {
+      "source": "src/app/(frontend)/dashboard/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/dashboard/page.tsx",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/(frontend)/dashboard/page.tsx",
+      "target": "src/app/(frontend)/dashboard/DashboardClient.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/dashboard/registrations/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/dashboard/registrations/page.tsx",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/(frontend)/dashboard/registrations/page.tsx",
+      "target": "src/app/(frontend)/dashboard/registrations/RegistrationsClient.tsx"
+    },
+    {
       "source": "src/app/(frontend)/stories/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -1411,12 +1695,36 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/(frontend)/forgot-password/ForgotClient.tsx",
+      "target": "src/components/auth/AuthForm.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/forgot-password/ForgotClient.tsx",
+      "target": "src/lib/auth-client.ts"
+    },
+    {
+      "source": "src/app/(frontend)/forgot-password/page.tsx",
+      "target": "src/app/(frontend)/forgot-password/ForgotClient.tsx"
+    },
+    {
       "source": "src/app/(frontend)/layout.tsx",
       "target": "src/components/ui/Navigation.tsx"
     },
     {
       "source": "src/app/(frontend)/layout.tsx",
       "target": "src/components/ui/Footer.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/reset-password/ResetClient.tsx",
+      "target": "src/components/auth/AuthForm.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/reset-password/ResetClient.tsx",
+      "target": "src/lib/auth-client.ts"
+    },
+    {
+      "source": "src/app/(frontend)/reset-password/page.tsx",
+      "target": "src/app/(frontend)/reset-password/ResetClient.tsx"
     },
     {
       "source": "src/app/(frontend)/preview/[id]/page.tsx",
@@ -1461,6 +1769,18 @@
     {
       "source": "src/app/(frontend)/[slug]/page.tsx",
       "target": "src/components/blocks/PuckRender.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/login/LoginClient.tsx",
+      "target": "src/components/auth/AuthForm.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/login/LoginClient.tsx",
+      "target": "src/lib/auth-client.ts"
+    },
+    {
+      "source": "src/app/(frontend)/login/page.tsx",
+      "target": "src/app/(frontend)/login/LoginClient.tsx"
     },
     {
       "source": "src/app/(payload)/admin/[[...segments]]/page.tsx",
@@ -1568,7 +1888,19 @@
     },
     {
       "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/Customers.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
       "target": "src/payload/collections/Orders.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/Registrations.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/GiftVouchers.ts"
     },
     {
       "source": "src/payload/payload.config.ts",
@@ -1629,6 +1961,10 @@
     {
       "source": "src/payload/collections/Trips.ts",
       "target": "src/payload/hooks/revalidate.ts"
+    },
+    {
+      "source": "src/payload/collections/Customers.ts",
+      "target": "src/lib/auth.ts"
     },
     {
       "source": "src/payload/collections/Pages.ts",
@@ -2107,6 +2443,14 @@
       "target": "src/components/ui/HeroEditButton.tsx"
     },
     {
+      "source": "src/components/ui/NavbarClient.tsx",
+      "target": "src/components/ui/ProgramsMegaMenu.tsx"
+    },
+    {
+      "source": "src/components/ui/NavbarClient.tsx",
+      "target": "src/lib/auth-client.ts"
+    },
+    {
       "source": "src/components/ui/DestinationCarousel.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -2161,6 +2505,10 @@
     {
       "source": "src/components/forms/BookingFormWrapper.tsx",
       "target": "src/components/forms/BookingFormModal.tsx"
+    },
+    {
+      "source": "src/lib/auth.ts",
+      "target": "src/payload/payload.config.ts"
     },
     {
       "source": "src/puck/config.tsx",
@@ -2335,6 +2683,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-05-07T16:44:25.300Z",
-  "fileCount": 200
+  "builtAt": "2026-05-15T14:45:50.321Z",
+  "fileCount": 230
 }

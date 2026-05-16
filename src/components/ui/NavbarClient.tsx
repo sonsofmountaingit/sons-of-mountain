@@ -44,7 +44,8 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
   const { scrollY } = useScroll()
   const { data: session } = useSession()
 
-  const logoSrc = logoDarkUrl || logoLightUrl || 'https://framerusercontent.com/images/sQ2kYkKWnh9M8mP6NCkfgP6bXuE.png'
+  const [logoHovered, setLogoHovered] = useState(false)
+  const logoSrc = logoHovered ? '/colored-logo.svg' : '/white-logo.svg'
   const allLinks = [...(navLinksLeft ?? []), ...(navLinksRight ?? [])]
 
   useMotionValueEvent(scrollY, 'change', (current) => {
@@ -101,7 +102,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
         animate={{ y: 0 }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
         className={[
-          'fixed top-0 left-0 right-0 z-50 transition-colors duration-300',
+          'fixed top-4 left-0 right-0 z-50 transition-colors duration-300',
           scrolled ? 'backdrop-blur-md bg-black/60' : 'bg-transparent',
         ].join(' ')}
       >
@@ -126,8 +127,8 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
           </div>
 
           {/* Logo */}
-          <Link href="/" className="flex-shrink-0 mx-4">
-            <Image src={logoSrc} alt="Logo" width={140} height={64} priority className={['w-auto transition-all duration-300', scrolled ? 'h-9' : 'h-14'].join(' ')} unoptimized />
+          <Link href="/" className="flex-shrink-0 mx-4" onMouseEnter={() => setLogoHovered(true)} onMouseLeave={() => setLogoHovered(false)}>
+            <Image src={logoSrc} alt="Logo" width={140} height={64} priority className={['w-auto transition-all duration-300', scrolled ? 'h-14' : 'h-24'].join(' ')} unoptimized />
           </Link>
 
           {/* Right */}

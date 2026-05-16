@@ -28,11 +28,14 @@ export function VouchersClient({ vouchers }: { vouchers: Voucher[] }) {
   const [redeeming, setRedeeming] = useState(false)
 
   useEffect(() => {
+    if (!listRef.current || vouchers.length === 0) return
+    const rows = listRef.current.querySelectorAll('.voucher-row')
+    if (!rows.length) return
     const ctx = gsap.context(() => {
-      gsap.fromTo('.voucher-row', { opacity: 0, y: 10 }, { opacity: 1, y: 0, stagger: 0.07, duration: 0.4, ease: 'power2.out' })
+      gsap.fromTo(rows, { opacity: 0, y: 10 }, { opacity: 1, y: 0, stagger: 0.07, duration: 0.4, ease: 'power2.out' })
     }, listRef)
     return () => ctx.revert()
-  }, [])
+  }, [vouchers.length])
 
   async function redeemVoucher(e: React.FormEvent) {
     e.preventDefault()

@@ -16,11 +16,14 @@ export function OrdersClient({ orders }: { orders: Order[] }) {
   const listRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (!listRef.current || orders.length === 0) return
+    const rows = listRef.current.querySelectorAll('.order-row')
+    if (!rows.length) return
     const ctx = gsap.context(() => {
-      gsap.fromTo('.order-row', { opacity: 0, x: -12 }, { opacity: 1, x: 0, stagger: 0.06, duration: 0.4, ease: 'power2.out' })
+      gsap.fromTo(rows, { opacity: 0, x: -12 }, { opacity: 1, x: 0, stagger: 0.06, duration: 0.4, ease: 'power2.out' })
     }, listRef)
     return () => ctx.revert()
-  }, [])
+  }, [orders.length])
 
   return (
     <div className="min-h-screen bg-black text-white px-4 py-16 max-w-3xl mx-auto">

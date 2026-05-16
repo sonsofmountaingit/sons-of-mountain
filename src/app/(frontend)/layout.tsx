@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function FrontendLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="bg" className={spaceGrotesk.variable} suppressHydrationWarning>
+    <html lang="bg" className={spaceGrotesk.variable} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body suppressHydrationWarning>
         <Navigation />
         <main>{children}</main>
