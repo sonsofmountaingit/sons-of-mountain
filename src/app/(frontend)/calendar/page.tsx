@@ -1,12 +1,13 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { headers, cookies } from 'next/headers'
 import type { Metadata } from 'next'
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
-import { auth } from '@/lib/auth'
+import { cacheLife } from 'next/dist/server/use-cache/cache-life'
+import { mediaUrl } from '@/lib/media-url'
 import { CalendarGrid, type MonthGroup } from '@/components/ui/CalendarGrid'
 import type { CalendarItem } from '@/components/ui/CalendarTripCard'
 import Script from 'next/script'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = {
   title: 'Календар с пътувания 2026 | Sons of Mountains',
@@ -66,6 +67,7 @@ async function fetchCalendarData() {
   'use cache'
   cacheTag('trips')
   cacheTag('programs')
+  cacheLife('days')
 
   const payload = await getPayload({ config })
 
@@ -89,7 +91,7 @@ async function fetchCalendarData() {
       title: trip.title ?? (dest?.name ?? ''),
       destinationName: dest?.name ?? '',
       destinationSlug: dest?.slug ?? null,
-      imageUrl: heroImg?.url ?? null,
+      imageUrl: mediaUrl(heroImg?.url) ?? null,
       imageAlt: heroImg?.alt ?? dest?.name ?? '',
       startDate: trip.startDate,
       endDate: trip.endDate ?? trip.startDate,
@@ -114,7 +116,7 @@ async function fetchCalendarData() {
       title: prog.title ?? '',
       destinationName: typeof prog.destination === 'object' ? (prog.destination?.name ?? '') : '',
       destinationSlug: typeof prog.destination === 'object' ? (prog.destination?.slug ?? null) : null,
-      imageUrl: heroImg?.url ?? null,
+      imageUrl: mediaUrl(heroImg?.url) ?? null,
       imageAlt: heroImg?.alt ?? prog.title ?? '',
       startDate: prog.startDate,
       endDate: prog.endDate ?? prog.startDate,
@@ -150,30 +152,8 @@ async function fetchCalendarData() {
   return { groups, firstImage, events: items, itemCoords }
 }
 
-export default async function CalendarPage() {
-  const h = await headers()
-  const cookieStore = await cookies()
-
-  const [{ groups, firstImage, events, itemCoords }, session] = await Promise.all([
-    fetchCalendarData(),
-    auth.api.getSession({ headers: h }).catch(() => null),
-  ])
-
-  let initialWishlist: string[] = []
-  if (session?.user?.id) {
-    try {
-      const base = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
-      const res = await fetch(`${base}/api/wishlist`, {
-        headers: { cookie: cookieStore.toString() },
-        cache: 'no-store',
-      })
-      const data = await res.json() as { wishlist?: { itemType: string; trip?: { id?: string } | string; program?: { id?: string } | string }[] }
-      initialWishlist = (data.wishlist ?? []).map((w) => {
-        if (w.itemType === 'trip') return typeof w.trip === 'object' ? (w.trip?.id ?? '') : (w.trip ?? '')
-        return typeof w.program === 'object' ? (w.program?.id ?? '') : (w.program ?? '')
-      }).filter(Boolean)
-    } catch { /* best-effort */ }
-  }
+async function CalendarContent() {
+  const { groups, firstImage, events, itemCoords } = await fetchCalendarData()
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -198,13 +178,21 @@ export default async function CalendarPage() {
   return (
     <>
       <Script id="calendar-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <div className="pt-24 pb-20 px-6 min-h-screen">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4">Календар</h1>
-          <p className="text-white/50 mb-12 text-lg">Предстоящи пътувания и програми по месец</p>
-          <CalendarGrid groups={groups} initialWishlist={initialWishlist} loggedIn={!!session?.user} allItems={events} itemCoords={itemCoords} />
-        </div>
-      </div>
+      <CalendarGrid groups={groups} initialWishlist={[]} loggedIn={false} allItems={events} itemCoords={itemCoords} />
     </>
+  )
+}
+
+export default function CalendarPage() {
+  return (
+    <div className="pt-24 pb-20 px-6 min-h-screen">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-5xl md:text-6xl font-bold mb-4">Календар</h1>
+        <p className="text-white/50 mb-12 text-lg">Предстоящи пътувания и програми по месец</p>
+        <Suspense fallback={<div className="text-white/30 text-sm">Зареждане...</div>}>
+          <CalendarContent />
+        </Suspense>
+      </div>
+    </div>
   )
 }

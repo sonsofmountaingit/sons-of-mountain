@@ -42,6 +42,8 @@ import { FooterFollowBlock } from '@/components/blocks/footer/FooterFollowBlock'
 import { FooterTravelBlock } from '@/components/blocks/footer/FooterTravelBlock'
 import { FooterNavBlock } from '@/components/blocks/footer/FooterNavBlock'
 import { FooterBottomBlock } from '@/components/blocks/footer/FooterBottomBlock'
+import { GalleryHeroBlock } from '@/components/blocks/gallery/GalleryHeroBlock'
+import { GalleryGridBlock } from '@/components/blocks/gallery/GalleryGridBlock'
 
 import {
   allStyleFields,
@@ -183,6 +185,8 @@ export type PuckBlocks = {
   HeroSubtextBlock: { text: string; fontSize: string; color: string; textAlign: string }
   HeroCtaBlock: { label: string; url: string; style: string; fontSize: string; align: string }
   HomeDestCarouselBlock: { sectionTitle: string; destinations: { id: string; name: string; slug: string; month: string; spotsLabel: string }[] }
+  GalleryHeroBlock: { heading: string; subheading: string; ctaLabel: string }
+  GalleryGridBlock: Record<string, never>
 }
 
 // ─── Config ───────────────────────────────────────────────────────────────────
@@ -194,7 +198,7 @@ export const puckConfig: Config<PuckBlocks> = {
     conversion: { title: 'Conversion', components: ['PricingBlock', 'NewsletterBlock', 'ContactFormBlock', 'BookingWidgetBlock', 'CTABlock'], defaultExpanded: false },
     media: { title: 'Media', components: ['ImageGalleryBlock', 'GalleryLightboxBlock', 'VideoBlock', 'BeforeAfterBlock', 'EmbedBlock', 'MapBlock'], defaultExpanded: false },
     brand: { title: 'Team & Brand', components: ['TeamBlock', 'MediaLogosBlock', 'FAQBlock', 'AccordionBlock', 'TestimonialsGridBlock', 'IconGridBlock', 'FeatureCardsBlock', 'CounterBlock', 'TimelineBlock', 'TabbedContentBlock'], defaultExpanded: false },
-    dynamic: { title: 'Dynamic (Live Data)', components: ['StoriesBlock', 'BlogPostsBlock', 'DestinationCarouselBlock', 'SocialFeedBlock'], defaultExpanded: false },
+    dynamic: { title: 'Dynamic (Live Data)', components: ['StoriesBlock', 'BlogPostsBlock', 'DestinationCarouselBlock', 'SocialFeedBlock', 'GalleryHeroBlock', 'GalleryGridBlock'], defaultExpanded: false },
     global: { title: 'Global', components: ['FooterBlock', 'NavigationLinksBlock'], defaultExpanded: false },
   },
 
@@ -1330,6 +1334,32 @@ export const puckConfig: Config<PuckBlocks> = {
         creditUrl: 'https://netinsky.com',
       },
       render: (props) => <FooterBottomBlock {...props} />,
+    },
+
+    GalleryHeroBlock: {
+      label: 'Gallery Hero',
+      fields: {
+        heading: { type: 'text', label: 'Heading', contentEditable: true },
+        subheading: { type: 'textarea', label: 'Subheading' },
+        ctaLabel: { type: 'text', label: 'CTA Label' },
+      },
+      defaultProps: {
+        heading: 'Фото галерии от нашите дестинации',
+        subheading: 'Разгледай снимки от наши приключения по света.',
+        ctaLabel: 'Виж всички снимки',
+      },
+      render: (props: any) => <GalleryHeroBlock {...props} />,
+    },
+
+    GalleryGridBlock: {
+      label: 'Gallery Grid',
+      fields: {},
+      defaultProps: {},
+      render: () => (
+        <div className="px-6 py-8 text-white/40 text-sm text-center">
+          Gallery Grid — collections pulled from Payload Gallery global
+        </div>
+      ),
     },
   },
 

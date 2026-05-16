@@ -345,10 +345,34 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
   const [mapView, setMapView] = useState(false)
   const [hydrated, setHydrated] = useState(false)
   const [compareIds, setCompareIds] = useState<Set<string>>(new Set())
+  const [isLoggedIn, setIsLoggedIn] = useState(loggedIn)
   const gridRef = useRef<HTMLDivElement>(null)
   const filterBarRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => { setHydrated(true) }, [])
+
+  // Fetch session + wishlist client-side so the server component can be cached
+  useEffect(() => {
+    fetch('/api/users/me', { credentials: 'include' })
+      .then((r) => r.ok ? r.json() : null)
+      .then((data) => {
+        if (!data?.user) return
+        setIsLoggedIn(true)
+        fetch('/api/wishlist', { credentials: 'include' })
+          .then((r) => r.ok ? r.json() : null)
+          .then((wdata) => {
+            if (!wdata?.wishlist) return
+            const ids = (wdata.wishlist as { itemType: string; trip?: { id?: string } | string; program?: { id?: string } | string }[])
+              .map((w) => {
+                if (w.itemType === 'trip') return typeof w.trip === 'object' ? (w.trip?.id ?? '') : (w.trip ?? '')
+                return typeof w.program === 'object' ? (w.program?.id ?? '') : (w.program ?? '')
+              }).filter(Boolean) as string[]
+            setWishlistIds(new Set(ids))
+          })
+          .catch(() => {})
+      })
+      .catch(() => {})
+  }, [])
 
   // Filter bar entrance on mount
   useEffect(() => {
@@ -567,7 +591,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
               >
                 САМО СВОБОДНИ
               </button>
-              {loggedIn && (
+              {isLoggedIn && (
                 <button
                   onClick={() => setOnlyWishlisted((p) => !p)}
                   className={[
@@ -643,7 +667,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
                         return next
                       })}
                       wishlistIds={wishlistIds}
-                      loggedIn={loggedIn}
+                      loggedIn={isLoggedIn}
                       onWishlistToggle={toggleWishlist}
                       compareIds={compareIds}
                       onCompareToggle={toggleCompare}

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { mediaUrl } from '@/lib/media-url'
 
 interface DestinationCardProps {
   name: string
@@ -26,13 +27,14 @@ export function DestinationCard({
       href={`/destinations/${slug}`}
       className="group relative flex-shrink-0 w-[280px] aspect-[3/4] rounded-lg overflow-hidden block"
     >
-      {heroImage?.url && (
+      {mediaUrl(heroImage?.url) && (
         <Image
-          src={heroImage.url}
+          src={mediaUrl(heroImage!.url)!}
           alt={heroImage.alt}
           fill
+          quality={80}
           className="object-cover transition-transform duration-700 group-hover:scale-105"
-          sizes="280px"
+          sizes="(max-width: 640px) 50vw, 280px"
         />
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />

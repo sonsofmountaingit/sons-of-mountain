@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useRef, useState } from 'react'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
+import { mediaUrl } from '@/lib/media-url'
 
 interface BeforeAfterBlockProps {
   block: {
@@ -39,12 +40,12 @@ export function BeforeAfterBlockRenderer({ block }: BeforeAfterBlockProps) {
       >
         {afterImageUrl && (
           <div className="absolute inset-0">
-            <Image src={afterImageUrl} alt={afterLabel || 'After'} fill className="object-cover" sizes="900px" />
+            <Image src={mediaUrl(afterImageUrl) ?? afterImageUrl} alt={afterLabel || 'After'} fill className="object-cover" sizes="900px" />
           </div>
         )}
         {beforeImageUrl && (
           <div className="absolute inset-0 overflow-hidden" style={{ width: `${position}%` }}>
-            <Image src={beforeImageUrl} alt={beforeLabel || 'Before'} fill className="object-cover" sizes="900px" />
+            <Image src={mediaUrl(beforeImageUrl) ?? beforeImageUrl} alt={beforeLabel || 'Before'} fill className="object-cover" sizes="900px" />
           </div>
         )}
         {/* Divider */}

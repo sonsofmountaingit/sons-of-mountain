@@ -5,9 +5,13 @@ import { Suspense } from 'react'
 import { Hero } from '@/components/ui/Hero'
 import { DestinationCarousel } from '@/components/ui/DestinationCarousel'
 import { StoriesCarouselSection } from '@/components/ui/StoriesCarouselSection'
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
+import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 
 async function getStoriesData() {
   'use cache'
+  cacheTag('stories')
+  cacheLife('days')
   const payload = await getPayload({ config })
   const { docs: stories } = await payload.find({ collection: 'stories', limit: 10, sort: '-createdAt' })
   return { stories }

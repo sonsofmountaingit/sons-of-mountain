@@ -6,50 +6,45 @@ import type { Metadata } from 'next'
 import { TripCard } from '@/components/ui/TripCard'
 import { BookingFormWrapper } from '@/components/forms/BookingFormWrapper'
 import { TrackRecentlyViewed } from '@/components/ui/TrackRecentlyViewed'
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
+import { cacheLife } from 'next/dist/server/use-cache/cache-life'
+import { mediaUrl } from '@/lib/media-url'
 
 interface Props {
   params: Promise<{ slug: string }>
 }
 
+let _staticParamsCache: Promise<{ slug: string }[]> | null = null
 export async function generateStaticParams() {
-  try {
-    const payload = await getPayload({ config })
-    const { docs } = await payload.find({ collection: 'destinations', limit: 100 })
-    if (docs.length > 0) return docs.map((d) => ({ slug: d.slug }))
-  } catch {}
-  return [{ slug: '_placeholder' }]
-}
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  'use cache'
-  const { slug } = await params
-  const payload = await getPayload({ config })
-  const { docs } = await payload.find({
-    collection: 'destinations',
-    where: { slug: { equals: slug } },
-    limit: 1,
-  })
-  const dest = docs[0]
-  if (!dest) return { title: 'Дестинация' }
-  return {
-    title: dest.name,
-    description: dest.introText,
+  if (!_staticParamsCache) {
+    _staticParamsCache = (async () => {
+      try {
+        const payload = await getPayload({ config })
+        const { docs } = await payload.find({ collection: 'destinations', limit: 100, select: { slug: true } })
+        if (docs.length > 0) return docs.map((d) => ({ slug: d.slug }))
+      } catch {}
+      return [{ slug: '_placeholder' }]
+    })()
   }
+  return _staticParamsCache
 }
 
-export default async function DestinationPage({ params }: Props) {
+async function getDestinationData(slug: string) {
   'use cache'
-  const { slug } = await params
+  cacheTag('destinations')
+  cacheTag('trips')
+  cacheLife('days')
   const payload = await getPayload({ config })
 
   const { docs } = await payload.find({
     collection: 'destinations',
     where: { slug: { equals: slug } },
     limit: 1,
+    depth: 1,
   })
 
-  const destination = docs[0]
-  if (!destination) notFound()
+  const destination = docs[0] ?? null
+  if (!destination) return null
 
   const { docs: trips } = await payload.find({
     collection: 'trips',
@@ -61,20 +56,41 @@ export default async function DestinationPage({ params }: Props) {
     },
     sort: 'startDate',
     limit: 20,
+    depth: 0,
   })
 
+  return { destination, trips }
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params
+  const data = await getDestinationData(slug)
+  if (!data) return { title: 'Дестинация' }
+  return {
+    title: data.destination.name,
+    description: data.destination.introText,
+  }
+}
+
+export default async function DestinationPage({ params }: Props) {
+  const { slug } = await params
+  const data = await getDestinationData(slug)
+  if (!data) notFound()
+
+  const { destination, trips } = data
   const heroImage = destination.heroImage as { url?: string | null; alt: string } | null
 
   return (
     <article>
       <TrackRecentlyViewed id={String(destination.id)} />
       <div className="relative h-screen">
-        {heroImage?.url && (
+        {mediaUrl(heroImage?.url) && (
           <Image
-            src={heroImage.url}
-            alt={heroImage.alt}
+            src={mediaUrl(heroImage!.url)!}
+            alt={heroImage!.alt}
             fill
             priority
+            quality={90}
             className="object-cover"
             sizes="100vw"
           />
@@ -90,9 +106,9 @@ export default async function DestinationPage({ params }: Props) {
         <div className="py-10 overflow-hidden">
           <div className="flex gap-3 px-6 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
             {(destination.gallery as { image: { url?: string | null; alt: string } | null }[]).map((item, i) =>
-              item.image?.url ? (
+              mediaUrl(item.image?.url) ? (
                 <div key={i} className="relative flex-shrink-0 w-48 aspect-[3/4] rounded-lg overflow-hidden">
-                  <Image src={item.image.url} alt={item.image.alt} fill className="object-cover" sizes="192px" />
+                  <Image src={mediaUrl(item.image!.url)!} alt={item.image!.alt} fill quality={80} className="object-cover" sizes="192px" />
                 </div>
               ) : null
             )}

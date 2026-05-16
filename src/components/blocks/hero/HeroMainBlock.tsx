@@ -3,6 +3,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { DropZone } from '@puckeditor/core'
+import { mediaUrl } from '@/lib/media-url'
 
 interface HeroMainBlockProps {
   backgroundImageUrl?: string
@@ -37,9 +38,9 @@ export function HeroMainBlock({
 
   return (
     <section className="relative overflow-hidden bg-[#0a0a0a]" style={{ height: sectionHeight }}>
-      {backgroundImageUrl && (
+      {(mediaUrl(backgroundImageUrl) ?? backgroundImageUrl) && (
         <Image
-          src={backgroundImageUrl}
+          src={mediaUrl(backgroundImageUrl) ?? backgroundImageUrl!}
           alt="Hero background"
           fill
           className="object-cover"

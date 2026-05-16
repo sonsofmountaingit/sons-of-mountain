@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
+import { mediaUrl } from '@/lib/media-url'
 
 interface SocialPost {
   platform: string
@@ -54,9 +55,9 @@ export function SocialFeedBlockRenderer({ block }: SocialFeedBlockProps) {
           const icon = PLATFORM_ICONS[platformKey] || platformKey.slice(0, 2).toUpperCase()
           const card = (
             <div key={i} className="rounded-2xl border border-white/10 bg-white/3 overflow-hidden flex flex-col group hover:border-white/20 transition-colors">
-              {post.imageUrl && (
+              {mediaUrl(post.imageUrl) && (
                 <div className="relative aspect-square overflow-hidden">
-                  <Image src={post.imageUrl} alt={post.content.slice(0, 40)} fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 100vw, 33vw" />
+                  <Image src={mediaUrl(post.imageUrl)!} alt={post.content.slice(0, 40)} fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 100vw, 33vw" />
                 </div>
               )}
               <div className="p-4 flex flex-col gap-3 flex-1">

@@ -3,11 +3,16 @@ import config from '@payload-config'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { Metadata } from 'next'
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
+import { cacheLife } from 'next/dist/server/use-cache/cache-life'
+import { mediaUrl } from '@/lib/media-url'
 
 export const metadata: Metadata = { title: 'Блог' }
 
 export default async function BlogPage() {
   'use cache'
+  cacheTag('blog-posts')
+  cacheLife('days')
   const payload = await getPayload({ config })
 
   const { docs: posts } = await payload.find({
@@ -26,14 +31,15 @@ export default async function BlogPage() {
             const heroImage = post.heroImage as { url?: string | null; alt: string } | null
             return (
               <Link key={post.id} href={`/blog/${post.slug}`} className="group block">
-                {heroImage?.url && (
+                {mediaUrl(heroImage?.url) && (
                   <div className="relative aspect-video rounded-lg overflow-hidden mb-4">
                     <Image
-                      src={heroImage.url}
-                      alt={heroImage.alt}
+                      src={mediaUrl(heroImage!.url)!}
+                      alt={heroImage!.alt}
                       fill
+                      quality={80}
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 768px) 100vw, 33vw"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </div>
                 )}

@@ -119,6 +119,12 @@ export const Trips: CollectionConfig = {
       defaultValue: 0,
       admin: { readOnly: true, description: 'Page view count' },
     },
+    {
+      name: 'photographer',
+      type: 'relationship',
+      relationTo: 'users',
+      admin: { position: 'sidebar', description: 'Photographer/creator for this trip' },
+    },
   ],
   hooks: {
     afterChange: [revalidateCollection('trips', '/destinations'), revalidateFooterTrips],

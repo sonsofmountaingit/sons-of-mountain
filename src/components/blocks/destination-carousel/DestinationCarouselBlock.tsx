@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import gsap from 'gsap'
+import { mediaUrl } from '@/lib/media-url'
 
 interface Destination {
   id: string
@@ -49,9 +50,9 @@ function DestCard({ dest, index }: { dest: Destination; index: number }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {dest.heroImage?.url ? (
+      {mediaUrl(dest.heroImage?.url) ? (
         <Image
-          src={dest.heroImage.url}
+          src={mediaUrl(dest.heroImage!.url)!}
           alt={dest.name}
           fill
           className="object-cover transition-transform duration-700 group-hover:scale-105"

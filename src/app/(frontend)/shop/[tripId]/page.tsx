@@ -4,16 +4,24 @@ import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { BookingFormWrapper } from '@/components/forms/BookingFormWrapper'
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
+import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 
 interface Props { params: Promise<{ tripId: string }> }
 
+let _staticParamsCache: Promise<{ tripId: string }[]> | null = null
 export async function generateStaticParams() {
-  try {
-    const payload = await getPayload({ config })
-    const { docs } = await payload.find({ collection: 'trips', limit: 200 })
-    if (docs.length > 0) return docs.map((t) => ({ tripId: String(t.id) }))
-  } catch {}
-  return [{ tripId: '_placeholder' }]
+  if (!_staticParamsCache) {
+    _staticParamsCache = (async () => {
+      try {
+        const payload = await getPayload({ config })
+        const { docs } = await payload.find({ collection: 'trips', limit: 200, select: { id: true } })
+        if (docs.length > 0) return docs.map((t) => ({ tripId: String(t.id) }))
+      } catch {}
+      return [{ tripId: '_placeholder' }]
+    })()
+  }
+  return _staticParamsCache
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -22,9 +30,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 async function getTrip(tripId: string) {
   'use cache'
+  cacheTag('trips')
+  cacheLife('days')
   const payload = await getPayload({ config })
   try {
-    return await payload.findByID({ collection: 'trips', id: tripId, depth: 2 })
+    return await payload.findByID({ collection: 'trips', id: tripId, depth: 1 })
   } catch {
     return null
   }

@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
+import { mediaUrl } from '@/lib/media-url'
 
 interface BlogPost {
   id: string
@@ -42,9 +43,9 @@ export function BlogPostsBlockRenderer({ block }: BlogPostsBlockProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {items.map((post) => (
             <Link key={post.id} href={`/stories/${post.slug}`} className="group flex flex-col rounded-2xl overflow-hidden border border-white/10 hover:border-white/30 transition-colors bg-white/3">
-              {post.heroImage?.url && (
+              {mediaUrl(post.heroImage?.url) && (
                 <div className="relative aspect-[16/9] overflow-hidden">
-                  <Image src={post.heroImage.url} alt={post.heroImage.alt} fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 100vw, 33vw" />
+                  <Image src={mediaUrl(post.heroImage!.url)!} alt={post.heroImage!.alt} fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 100vw, 33vw" />
                 </div>
               )}
               <div className="p-5 flex flex-col flex-1">
@@ -63,9 +64,9 @@ export function BlogPostsBlockRenderer({ block }: BlogPostsBlockProps) {
         <div className="space-y-4">
           {items.map((post) => (
             <Link key={post.id} href={`/stories/${post.slug}`} className="group flex gap-4 p-4 rounded-xl border border-white/10 hover:bg-white/5 transition-colors">
-              {post.heroImage?.url && (
+              {mediaUrl(post.heroImage?.url) && (
                 <div className="relative w-24 h-16 rounded-lg overflow-hidden shrink-0">
-                  <Image src={post.heroImage.url} alt={post.heroImage.alt} fill className="object-cover" sizes="96px" />
+                  <Image src={mediaUrl(post.heroImage!.url)!} alt={post.heroImage!.alt} fill className="object-cover" sizes="96px" />
                 </div>
               )}
               <div className="flex-1 min-w-0">

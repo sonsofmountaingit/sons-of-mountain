@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
+import { mediaUrl } from '@/lib/media-url'
 
 interface GalleryImage {
   url: string
@@ -27,7 +28,7 @@ export function GalleryLightboxBlockRenderer({ block }: GalleryLightboxBlockProp
       <div className={`grid grid-cols-2 gap-2 ${gridClass}`}>
         {images.map((img, i) => (
           <button key={i} onClick={() => setLightbox(i)} className="relative aspect-square rounded-lg overflow-hidden group">
-            <Image src={img.url} alt={img.alt} fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 50vw, 33vw" />
+            <Image src={mediaUrl(img.url) ?? img.url} alt={img.alt} fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 50vw, 33vw" />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="opacity-0 group-hover:opacity-100 transition-opacity">
                 <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
@@ -55,7 +56,7 @@ export function GalleryLightboxBlockRenderer({ block }: GalleryLightboxBlockProp
               className="relative max-w-4xl max-h-[80vh] w-full aspect-[4/3]"
               onClick={(e) => e.stopPropagation()}
             >
-              <Image src={images[lightbox].url} alt={images[lightbox].alt} fill className="object-contain" sizes="1200px" />
+              <Image src={mediaUrl(images[lightbox].url) ?? images[lightbox].url} alt={images[lightbox].alt} fill className="object-contain" sizes="1200px" />
             </motion.div>
             {images[lightbox]?.caption && (
               <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-sm text-white/50">{images[lightbox].caption}</p>

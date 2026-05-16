@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { mediaUrl } from '@/lib/media-url'
 import { motion } from 'motion/react'
 import { wordAnimation, staggerContainer } from '@/lib/animations'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
@@ -36,12 +37,13 @@ export function HeroBlockRenderer({ block }: HeroBlockProps) {
       className="flex items-center justify-center"
       innerClassName="text-center px-6 max-w-4xl mx-auto w-full"
     >
-      {block.backgroundImage?.url && !block.bgImage && (
+      {mediaUrl(block.backgroundImage?.url) && !block.bgImage && (
         <Image
-          src={block.backgroundImage.url}
+          src={mediaUrl(block.backgroundImage!.url)!}
           alt={block.backgroundImage.alt}
           fill
           priority
+          quality={90}
           className="object-cover"
           sizes="100vw"
           style={{ position: 'absolute', inset: 0, zIndex: 0 }}

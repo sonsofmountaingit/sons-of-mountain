@@ -14,6 +14,7 @@ const NAV = [
   { label: 'МЕДИЯ', href: '/dashboard/media' },
   { label: 'ОЦЕНКИ', href: '/dashboard/ratings' },
   { label: 'ЛЮБИМИ', href: '/dashboard/wishlist' },
+  { label: 'ГАЛЕРИИ', href: '/dashboard/gallery' },
 ]
 
 export function DashboardNav({ name, email }: { name: string; email: string }) {

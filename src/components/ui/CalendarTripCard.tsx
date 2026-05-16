@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { signIn } from '@/lib/auth-client'
+import { mediaUrl } from '@/lib/media-url'
 
 export type CalendarItem = {
   id: string
@@ -277,9 +278,9 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
               onMouseLeave={handleMouseLeave}
               className="flex items-center gap-3 p-3"
             >
-              {item.imageUrl && (
+              {mediaUrl(item.imageUrl) && (
                 <div className="flex-shrink-0 w-14 h-14 rounded-md overflow-hidden bg-white/5">
-                  <Image src={item.imageUrl} alt={item.imageAlt} width={56} height={56} className="object-cover w-full h-full" />
+                  <Image src={mediaUrl(item.imageUrl)!} alt={item.imageAlt} width={56} height={56} className="object-cover w-full h-full" />
                 </div>
               )}
               <div className="flex-1 min-w-0">

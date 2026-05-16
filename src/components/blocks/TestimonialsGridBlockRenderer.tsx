@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
+import { mediaUrl } from '@/lib/media-url'
 
 interface Testimonial {
   quote: string
@@ -37,9 +38,9 @@ export function TestimonialsGridBlockRenderer({ block }: TestimonialsGridBlockPr
             )}
             <blockquote className="text-sm opacity-80 leading-relaxed flex-1">&ldquo;{t.quote}&rdquo;</blockquote>
             <div className="flex items-center gap-3">
-              {t.avatarUrl ? (
+              {mediaUrl(t.avatarUrl) ? (
                 <div className="relative w-9 h-9 rounded-full overflow-hidden shrink-0">
-                  <Image src={t.avatarUrl} alt={t.author} fill className="object-cover" sizes="36px" />
+                  <Image src={mediaUrl(t.avatarUrl)!} alt={t.author} fill className="object-cover" sizes="36px" />
                 </div>
               ) : (
                 <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-sm font-bold shrink-0">{t.author[0]}</div>

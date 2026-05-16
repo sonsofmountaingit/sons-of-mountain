@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
+import { mediaUrl } from '@/lib/media-url'
 
 interface TimelineEvent {
   year: string
@@ -32,9 +33,9 @@ export function TimelineBlockRenderer({ block }: TimelineBlockProps) {
                 <div className="pb-2">
                   <h3 className="font-bold text-lg mb-1">{event.title}</h3>
                   {event.description && <p className="text-sm opacity-60 leading-relaxed">{event.description}</p>}
-                  {event.imageUrl && (
+                  {mediaUrl(event.imageUrl) && (
                     <div className="relative mt-3 rounded-lg overflow-hidden aspect-video max-w-sm">
-                      <Image src={event.imageUrl} alt={event.title} fill className="object-cover" sizes="400px" />
+                      <Image src={mediaUrl(event.imageUrl)!} alt={event.title} fill className="object-cover" sizes="400px" />
                     </div>
                   )}
                 </div>

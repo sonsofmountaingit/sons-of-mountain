@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
+import { mediaUrl } from '@/lib/media-url'
 
 interface TeamMember {
   name: string
@@ -35,7 +36,7 @@ export function TeamBlockRenderer({ block }: TeamBlockProps) {
       )}
       <div className={`grid ${gridClass} gap-8`}>
         {block.members.map((member, i) => {
-          const photoSrc = member.photo?.url || member.photoUrl || null
+          const photoSrc = mediaUrl(member.photo?.url || member.photoUrl)
           return (
             <div key={i} className="text-center">
               {photoSrc ? (

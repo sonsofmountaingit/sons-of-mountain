@@ -43,6 +43,7 @@ export function VideoBlockRenderer({ block }: VideoBlockProps) {
           loop={block.loop ?? true}
           controls={block.controls ?? false}
           playsInline
+          preload={block.autoPlay ? 'auto' : 'none'}
           className="w-full h-full object-cover"
           poster={posterUrl}
         />

@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
+import { mediaUrl } from '@/lib/media-url'
 
 interface FeatureCard {
   imageUrl?: string | null
@@ -27,9 +28,9 @@ export function FeatureCardsBlockRenderer({ block }: FeatureCardsBlockProps) {
       <div className={`grid grid-cols-1 gap-6 ${gridClass}`}>
         {cards.map((card, i) => (
           <div key={i} className="flex flex-col rounded-2xl overflow-hidden border border-white/10 bg-white/3 hover:bg-white/8 transition-colors group">
-            {card.imageUrl && (
+            {mediaUrl(card.imageUrl) && (
               <div className="relative aspect-[16/9] overflow-hidden">
-                <Image src={card.imageUrl} alt={card.heading} fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 100vw, 33vw" />
+                <Image src={mediaUrl(card.imageUrl)!} alt={card.heading} fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 100vw, 33vw" />
               </div>
             )}
             <div className="p-6 flex flex-col flex-1">

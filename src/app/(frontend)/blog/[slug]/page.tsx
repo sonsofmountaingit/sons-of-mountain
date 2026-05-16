@@ -4,40 +4,46 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import type { Metadata } from 'next'
 import { RichText } from '@payloadcms/richtext-lexical/react'
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
+import { cacheLife } from 'next/dist/server/use-cache/cache-life'
+import { mediaUrl } from '@/lib/media-url'
 
 interface Props { params: Promise<{ slug: string }> }
 
+let _staticParamsCache: Promise<{ slug: string }[]> | null = null
 export async function generateStaticParams() {
-  try {
-    const payload = await getPayload({ config })
-    const { docs } = await payload.find({ collection: 'blog-posts', limit: 200 })
-    if (docs.length > 0) return docs.map((p) => ({ slug: p.slug }))
-  } catch {}
-  return [{ slug: '_placeholder' }]
+  if (!_staticParamsCache) {
+    _staticParamsCache = (async () => {
+      try {
+        const payload = await getPayload({ config })
+        const { docs } = await payload.find({ collection: 'blog-posts', limit: 200, select: { slug: true } })
+        if (docs.length > 0) return docs.map((p) => ({ slug: p.slug }))
+      } catch {}
+      return [{ slug: '_placeholder' }]
+    })()
+  }
+  return _staticParamsCache
+}
+
+async function getBlogPost(slug: string) {
+  'use cache'
+  cacheTag('blog-posts')
+  cacheLife('days')
+  const payload = await getPayload({ config })
+  const { docs } = await payload.find({ collection: 'blog-posts', where: { slug: { equals: slug } }, limit: 1, depth: 1 })
+  return docs[0] ?? null
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  'use cache'
   const { slug } = await params
-  const payload = await getPayload({ config })
-  const { docs } = await payload.find({ collection: 'blog-posts', where: { slug: { equals: slug } }, limit: 1 })
-  const post = docs[0]
+  const post = await getBlogPost(slug)
   if (!post) return { title: 'Пост' }
   return { title: post.title, description: post.excerpt ?? undefined }
 }
 
 export default async function BlogPostPage({ params }: Props) {
-  'use cache'
   const { slug } = await params
-  const payload = await getPayload({ config })
-
-  const { docs } = await payload.find({
-    collection: 'blog-posts',
-    where: { slug: { equals: slug } },
-    limit: 1,
-  })
-
-  const post = docs[0]
+  const post = await getBlogPost(slug)
   if (!post) notFound()
 
   const heroImage = post.heroImage as { url?: string | null; alt: string } | null
@@ -45,9 +51,9 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <article className="pt-24 pb-20 px-6 min-h-screen">
       <div className="max-w-3xl mx-auto">
-        {heroImage?.url && (
+        {mediaUrl(heroImage?.url) && (
           <div className="relative aspect-video rounded-lg overflow-hidden mb-8">
-            <Image src={heroImage.url} alt={heroImage.alt} fill priority className="object-cover" sizes="(max-width: 768px) 100vw, 768px" />
+            <Image src={mediaUrl(heroImage!.url)!} alt={heroImage!.alt} fill priority quality={88} className="object-cover" sizes="(max-width: 768px) 100vw, 768px" />
           </div>
         )}
         <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">{post.title}</h1>

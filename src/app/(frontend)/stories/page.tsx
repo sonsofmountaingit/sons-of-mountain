@@ -2,11 +2,15 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { StoryCard } from '@/components/ui/StoryCard'
 import type { Metadata } from 'next'
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
+import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 
 export const metadata: Metadata = { title: 'Истории' }
 
 export default async function StoriesPage() {
   'use cache'
+  cacheTag('stories')
+  cacheLife('days')
   const payload = await getPayload({ config })
 
   const { docs: stories } = await payload.find({

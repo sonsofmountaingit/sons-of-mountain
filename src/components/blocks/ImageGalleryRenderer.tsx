@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useRef } from 'react'
 import { motion } from 'motion/react'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
+import { mediaUrl } from '@/lib/media-url'
 
 interface GalleryImage {
   image: { url?: string | null; alt: string } | null
@@ -28,11 +29,11 @@ export function ImageGalleryRenderer({ block }: ImageGalleryProps) {
         {title && <h2 className="text-3xl font-bold mb-8">{title}</h2>}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {images.map((item, i) =>
-            item.image?.url ? (
+            mediaUrl(item.image?.url) ? (
               <div key={i} className="relative aspect-square rounded-lg overflow-hidden">
                 <Image
-                  src={item.image.url}
-                  alt={item.image.alt}
+                  src={mediaUrl(item.image!.url)!}
+                  alt={item.image!.alt}
                   fill
                   className="object-cover hover:scale-105 transition-transform duration-500"
                   sizes="(max-width: 768px) 50vw, 25vw"
@@ -60,11 +61,11 @@ export function ImageGalleryRenderer({ block }: ImageGalleryProps) {
           dragElastic={0.1}
         >
           {images.map((item, i) =>
-            item.image?.url ? (
+            mediaUrl(item.image?.url) ? (
               <div key={i} className="relative flex-shrink-0 w-52 aspect-[3/4] rounded-lg overflow-hidden">
                 <Image
-                  src={item.image.url}
-                  alt={item.image.alt}
+                  src={mediaUrl(item.image!.url)!}
+                  alt={item.image!.alt}
                   fill
                   className="object-cover"
                   sizes="208px"

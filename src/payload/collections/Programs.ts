@@ -201,6 +201,12 @@ export const Programs: CollectionConfig = {
       ],
     },
     {
+      name: 'photographer',
+      type: 'relationship',
+      relationTo: 'users',
+      admin: { position: 'sidebar', description: 'Photographer/creator for this program' },
+    },
+    {
       name: 'puckData',
       type: 'json',
       admin: { hidden: true },

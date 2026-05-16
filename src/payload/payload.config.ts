@@ -25,12 +25,15 @@ import { Campaigns } from './collections/Campaigns'
 import { CustomerMedia } from './collections/CustomerMedia'
 import { CustomerRatings } from './collections/CustomerRatings'
 import { Programs } from './collections/Programs'
+import { GalleryCollections } from './collections/GalleryCollections'
+import { Favorites } from './collections/Favorites'
 
 import { Navigation } from './globals/Navigation'
 import { Footer } from './globals/Footer'
 import { SiteSettings } from './globals/SiteSettings'
 import { Hero } from './globals/Hero'
 import { DestinationCarousel } from './globals/DestinationCarousel'
+import { Gallery } from './globals/Gallery'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -88,8 +91,10 @@ export default buildConfig({
     CustomerMedia,
     CustomerRatings,
     Programs,
+    GalleryCollections,
+    Favorites,
   ],
-  globals: [Navigation, Footer, SiteSettings, Hero, DestinationCarousel],
+  globals: [Navigation, Footer, SiteSettings, Hero, DestinationCarousel, Gallery],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET ?? 'fallback-secret',
   typescript: {
