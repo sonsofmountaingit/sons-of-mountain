@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'motion/react'
 import { ProgramsMegaMenu } from './ProgramsMegaMenu'
 import { useSession, signOut } from '@/lib/auth-client'
@@ -26,11 +27,12 @@ const LANGUAGES = [
 
 const PANEL_VARIANTS = {
   hidden: { opacity: 0, y: -8, scale: 0.98 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.22, ease: [0.16, 1, 0.3, 1] } },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.22, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
   exit: { opacity: 0, y: -6, scale: 0.97, transition: { duration: 0.15 } },
 }
 
 export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebookUrl, tiktokUrl, logoDarkUrl, logoLightUrl }: NavbarClientProps) {
+  const router = useRouter()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [megaOpen, setMegaOpen] = useState(false)
   const [mobileProgramsOpen, setMobileProgramsOpen] = useState(false)
@@ -176,7 +178,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                       ))}
                       <div className="border-t border-white/8 mt-1">
                         <button
-                          onClick={() => { setProfileOpen(false); signOut() }}
+                          onClick={async () => { setProfileOpen(false); await signOut(); router.push('/login'); router.refresh() }}
                           className="block w-full text-left px-4 py-2.5 text-sm text-red-400/70 hover:text-red-400 hover:bg-white/4 transition-colors"
                         >
                           Изход
@@ -318,7 +320,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
               initial={{ opacity: 0, y: -16, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.97 }}
-              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
               data-panel="search"
               className="fixed left-1/2 -translate-x-1/2 top-[var(--nav-height,80px)] z-50 w-full max-w-[600px] px-4"
             >

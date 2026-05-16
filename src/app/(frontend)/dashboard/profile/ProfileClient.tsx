@@ -30,7 +30,7 @@ export function ProfileClient({ name: initialName, email }: Props) {
   async function saveProfile(e: React.FormEvent) {
     e.preventDefault()
     const parsed = nameSchema.safeParse({ name })
-    if (!parsed.success) { setMessage(parsed.error.errors[0].message); return }
+    if (!parsed.success) { setMessage(parsed.error.issues[0].message); return }
     setSaving(true)
     // Profile update via Better Auth (update user name)
     const res = await fetch('/api/auth/update-user', {
@@ -44,13 +44,13 @@ export function ProfileClient({ name: initialName, email }: Props) {
 
   async function logout() {
     await signOut()
-    router.push('/')
+    router.push('/login')
+    router.refresh()
   }
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-black text-white px-4 py-16 max-w-lg mx-auto opacity-0">
-      <a href="/dashboard" className="text-xs text-white/30 hover:text-white/60 transition-colors tracking-widest">← НАЗАД</a>
-      <h1 className="text-2xl font-light tracking-widest mt-6 mb-10 uppercase">Профил</h1>
+    <div ref={containerRef} className="px-6 lg:px-10 py-10 max-w-lg pb-24 lg:pb-10 opacity-0">
+      <h1 className="text-2xl font-light tracking-widest mb-10 uppercase">Профил</h1>
 
       <form onSubmit={saveProfile} className="flex flex-col gap-5 mb-10">
         <div className="flex flex-col gap-1.5">

@@ -48,9 +48,8 @@ export function VouchersClient({ vouchers }: { vouchers: Voucher[] }) {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white px-4 py-16 max-w-3xl mx-auto">
-      <a href="/dashboard" className="text-xs text-white/30 hover:text-white/60 transition-colors tracking-widest">← НАЗАД</a>
-      <h1 className="text-2xl font-light tracking-widest mt-6 mb-10 uppercase">Ваучери</h1>
+    <div className="px-6 lg:px-10 py-10 max-w-3xl pb-24 lg:pb-10">
+      <h1 className="text-2xl font-light tracking-widest mb-10 uppercase">Ваучери</h1>
 
       <div className="mb-8 border border-white/10 rounded-sm p-5">
         <p className="text-xs tracking-widest text-white/40 uppercase mb-4">Използвай ваучер</p>

@@ -13,12 +13,12 @@ const SignupClient = dynamic(() => import('./SignupClient').then((m) => m.Signup
 
 export default function SignupPage() {
   return (
-    <main className="min-h-screen bg-black flex flex-col items-center justify-center px-4">
+    <div className="min-h-[calc(100vh-4rem)] bg-black flex flex-col items-center justify-center px-4">
       <div className="w-full max-w-md mb-10 text-center">
         <h1 className="text-2xl font-light tracking-widest text-white uppercase">Регистрация</h1>
         <p className="mt-2 text-xs text-white/40 tracking-wider">Sons of Mountains</p>
       </div>
       <SignupClient />
-    </main>
+    </div>
   )
 }

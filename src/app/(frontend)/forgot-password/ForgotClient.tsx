@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { z } from 'zod'
 import { AuthForm } from '@/components/auth/AuthForm'
-import { forgetPassword } from '@/lib/auth-client'
+import { forgotPassword } from '@/lib/auth-client'
 
 const schema = z.object({ email: z.string().email('Невалиден имейл') })
 
@@ -12,7 +12,7 @@ export function ForgotClient() {
   const [sent, setSent] = useState(false)
 
   async function onSubmit(values: z.infer<typeof schema>) {
-    const result = await forgetPassword({
+    const result = await forgotPassword({
       email: values.email,
       redirectTo: `${window.location.origin}/reset-password`,
     })

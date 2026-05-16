@@ -15,7 +15,8 @@ export async function POST(req: NextRequest) {
     const { betterAuthId } = await req.json()
     if (!betterAuthId) return NextResponse.json({ error: 'Missing betterAuthId' }, { status: 400 })
 
-    await auth.api.revokeUserSessions({ body: { userId: betterAuthId } })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (auth.api.revokeSessions as any)({ body: { userId: betterAuthId } })
 
     return NextResponse.json({ ok: true })
   } catch (err) {

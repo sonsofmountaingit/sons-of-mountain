@@ -12,11 +12,11 @@ const ResetClient = dynamic(() => import('./ResetClient').then((m) => m.ResetCli
 
 export default function ResetPasswordPage() {
   return (
-    <main className="min-h-screen bg-black flex flex-col items-center justify-center px-4">
+    <div className="min-h-[calc(100vh-4rem)] bg-black flex flex-col items-center justify-center px-4">
       <div className="w-full max-w-md mb-10 text-center">
         <h1 className="text-2xl font-light tracking-widest text-white uppercase">Нова парола</h1>
       </div>
       <ResetClient />
-    </main>
+    </div>
   )
 }

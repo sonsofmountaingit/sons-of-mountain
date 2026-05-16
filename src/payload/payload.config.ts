@@ -22,6 +22,8 @@ import { Subscribers } from './collections/Subscribers'
 import { Segments } from './collections/Segments'
 import { EmailTemplates } from './collections/EmailTemplates'
 import { Campaigns } from './collections/Campaigns'
+import { CustomerMedia } from './collections/CustomerMedia'
+import { CustomerRatings } from './collections/CustomerRatings'
 
 import { Navigation } from './globals/Navigation'
 import { Footer } from './globals/Footer'
@@ -75,6 +77,8 @@ export default buildConfig({
     Segments,
     EmailTemplates,
     Campaigns,
+    CustomerMedia,
+    CustomerRatings,
   ],
   globals: [Navigation, Footer, SiteSettings, Hero, DestinationCarousel],
   editor: lexicalEditor(),
@@ -91,7 +95,7 @@ export default buildConfig({
   }),
   upload: {
     limits: {
-      fileSize: 10_000_000,
+      fileSize: 200_000_000,
     },
   },
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL,

@@ -38,7 +38,8 @@ export function AuthForm<T extends FieldValues>({
     handleSubmit,
     setError,
     formState: { errors, isSubmitting },
-  } = useForm<T>({ resolver: zodResolver(schema), defaultValues })
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } = useForm<T>({ resolver: zodResolver(schema as any), defaultValues })
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -73,7 +74,8 @@ export function AuthForm<T extends FieldValues>({
 
   return (
     <div ref={containerRef} className="w-full max-w-md mx-auto opacity-0">
-      <form onSubmit={handleSubmit(submit)} className="flex flex-col gap-5">
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+      <form onSubmit={handleSubmit(submit as any)} className="flex flex-col gap-5">
         {fields.map((f) => (
           <div key={String(f.name)} className="auth-field flex flex-col gap-1.5">
             <label className="text-xs tracking-widest text-white/50 uppercase">{f.label}</label>

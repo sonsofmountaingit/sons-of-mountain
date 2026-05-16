@@ -24,6 +24,13 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: false,
+    sendResetPassword: async ({ user, url }: { user: { email: string }; url: string }) => {
+      await sendEmail(
+        user.email,
+        'Нулиране на парола — Sons of Mountains',
+        `<p>Здравей!</p><p>Кликни <a href="${url}">тук</a>, за да нулираш паролата си.</p>`,
+      )
+    },
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
@@ -31,13 +38,6 @@ export const auth = betterAuth({
         user.email,
         'Потвърди имейла си — Sons of Mountains',
         `<p>Здравей!</p><p>Кликни <a href="${url}">тук</a>, за да потвърдиш имейла си.</p><p>Ако не си се регистрирал, игнорирай това писмо.</p>`,
-      )
-    },
-    sendResetPassword: async ({ user, url }: { user: { email: string }; url: string }) => {
-      await sendEmail(
-        user.email,
-        'Нулиране на парола — Sons of Mountains',
-        `<p>Здравей!</p><p>Кликни <a href="${url}">тук</a>, за да нулираш паролата си.</p>`,
       )
     },
   },
@@ -92,8 +92,5 @@ export const auth = betterAuth({
         },
       },
     },
-  },
-  advanced: {
-    generateId: () => crypto.randomUUID(),
   },
 })

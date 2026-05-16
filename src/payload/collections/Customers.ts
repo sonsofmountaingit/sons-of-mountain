@@ -13,7 +13,8 @@ export const Customers: CollectionConfig = {
         if (doc.status !== previousDoc?.status && doc.status !== 'active' && doc.betterAuthId) {
           try {
             const { auth } = await import('@/lib/auth')
-            await auth.api.revokeUserSessions({ body: { userId: doc.betterAuthId } })
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            await (auth.api.revokeSessions as any)({ body: { userId: doc.betterAuthId } })
           } catch {
             // session revoke best-effort
           }
@@ -110,6 +111,20 @@ export const Customers: CollectionConfig = {
       collection: 'gift-vouchers',
       on: 'customer',
       admin: { description: 'Закупени ваучери' },
+    },
+    {
+      name: 'customerMedia',
+      type: 'join',
+      collection: 'customer-media',
+      on: 'customer',
+      admin: { description: 'Медия от клиента (снимки и видео)' },
+    },
+    {
+      name: 'customerRatings',
+      type: 'join',
+      collection: 'customer-ratings',
+      on: 'customer',
+      admin: { description: 'Оценки на дестинации и пътувания' },
     },
   ],
 }
