@@ -167,8 +167,8 @@ export function FooterBlockRenderer({ overrides }: Props = {}) {
         <div style={{ paddingTop: '2rem', display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', gap: '1.5rem' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
             <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', margin: 0 }}>{copyright}</p>
-            <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.3)', margin: 0 }}>{licenseText}</p>
-            <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.3)', margin: 0 }}>{insuranceText}</p>
+            <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.65)', margin: 0 }}>{licenseText}</p>
+            <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.65)', margin: 0 }}>{insuranceText}</p>
           </div>
           <Image src={logoSrc} alt="Logo" width={120} height={120} unoptimized onMouseEnter={() => setLogoHovered(true)} onMouseLeave={() => setLogoHovered(false)} style={{ cursor: 'pointer' }} />
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.4rem' }}>
@@ -176,7 +176,7 @@ export function FooterBlockRenderer({ overrides }: Props = {}) {
               <Link href={termsUrl} style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>{termsLabel}</Link>
               <Link href={privacyUrl} style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>{privacyLabel}</Link>
             </div>
-            <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.25)', margin: 0 }}>
+            <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.65)', margin: 0 }}>
               {creditPrefix}{' '}
               <ShakingCredit name={creditName} href={creditUrl} />
             </p>

@@ -1,4 +1,19 @@
 {
+  "src/seed/gallery.ts": {
+    "exports": [],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "path",
+      "fs",
+      "url",
+      "stream",
+      "stream/promises"
+    ],
+    "lines": 216,
+    "group": "other"
+  },
   "src/app/(puck)/layout.tsx": {
     "exports": [
       "metadata",
@@ -71,6 +86,37 @@
       "./PuckDestinationCarouselEditorClient"
     ],
     "lines": 60,
+    "group": "puck"
+  },
+  "src/app/(puck)/puck/gallery/PuckGalleryEditorClient.tsx": {
+    "exports": [
+      "PuckGalleryEditorClient"
+    ],
+    "types": [],
+    "imports": [
+      "@puckeditor/core",
+      "@/puck/config",
+      "next/navigation",
+      "react"
+    ],
+    "lines": 77,
+    "group": "puck"
+  },
+  "src/app/(puck)/puck/gallery/page.tsx": {
+    "exports": [
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/headers",
+      "next/navigation",
+      "react",
+      "@puckeditor/core",
+      "./PuckGalleryEditorClient"
+    ],
+    "lines": 54,
     "group": "puck"
   },
   "src/app/(puck)/puck/navigation/PuckNavigationEditorClient.tsx": {
@@ -217,6 +263,19 @@
     "lines": 31,
     "group": "api"
   },
+  "src/app/api/gallery-data/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 32,
+    "group": "api"
+  },
   "src/app/api/ical/[itemId]/route.ts": {
     "exports": [
       "GET"
@@ -253,6 +312,35 @@
       "@/lib/auth"
     ],
     "lines": 86,
+    "group": "api"
+  },
+  "src/app/api/gallery/favorites/count/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 21,
+    "group": "api"
+  },
+  "src/app/api/gallery/favorites/route.ts": {
+    "exports": [
+      "GET",
+      "POST",
+      "DELETE"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "next/headers"
+    ],
+    "lines": 72,
     "group": "api"
   },
   "src/app/api/price-alert/route.ts": {
@@ -335,6 +423,56 @@
     "lines": 75,
     "group": "api"
   },
+  "src/app/api/calendar-participants/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 53,
+    "group": "api"
+  },
+  "src/app/api/dashboard/gallery-upload/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "next/headers",
+      "@/lib/auth",
+      "payload",
+      "@payload-config",
+      "next/cache",
+      "next/server"
+    ],
+    "lines": 78,
+    "group": "api"
+  },
+  "src/app/api/dashboard/gallery-collections/route.ts": {
+    "exports": [
+      "GET",
+      "POST",
+      "PATCH",
+      "DELETE"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "next/headers",
+      "@/lib/auth",
+      "payload",
+      "@payload-config",
+      "next/cache",
+      "next/server"
+    ],
+    "lines": 138,
+    "group": "api"
+  },
   "src/app/api/subscribe/route.ts": {
     "exports": [
       "POST"
@@ -346,6 +484,32 @@
       "@payload-config"
     ],
     "lines": 49,
+    "group": "api"
+  },
+  "src/app/api/gallery-collection-data/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 21,
+    "group": "api"
+  },
+  "src/app/api/photographer-data/[username]/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 63,
     "group": "api"
   },
   "src/app/api/gift-voucher/route.ts": {
@@ -385,6 +549,24 @@
       "@/lib/auth"
     ],
     "lines": 103,
+    "group": "api"
+  },
+  "src/app/api/photographer-profile/route.ts": {
+    "exports": [
+      "GET",
+      "PATCH"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "next/headers",
+      "@/lib/auth",
+      "payload",
+      "@payload-config",
+      "next/cache",
+      "next/server"
+    ],
+    "lines": 77,
     "group": "api"
   },
   "src/app/api/megamenu/route.ts": {
@@ -455,6 +637,20 @@
       "next/cache"
     ],
     "lines": 37,
+    "group": "api"
+  },
+  "src/app/api/puck/gallery/route.ts": {
+    "exports": [
+      "PATCH"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/headers",
+      "next/cache"
+    ],
+    "lines": 38,
     "group": "api"
   },
   "src/app/api/puck/navigation/route.ts": {
@@ -698,21 +894,22 @@
   "src/app/(frontend)/calendar/page.tsx": {
     "exports": [
       "metadata",
-      "default:async"
+      "default:function"
     ],
     "types": [],
     "imports": [
       "payload",
       "@payload-config",
-      "next/headers",
       "next",
       "next/dist/server/use-cache/cache-tag",
-      "@/lib/auth",
+      "next/dist/server/use-cache/cache-life",
+      "@/lib/media-url",
       "@/components/ui/CalendarGrid",
       "@/components/ui/CalendarTripCard",
-      "next/script"
+      "next/script",
+      "react"
     ],
-    "lines": 211,
+    "lines": 199,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/page.tsx": {
@@ -725,9 +922,11 @@
       "payload",
       "@payload-config",
       "@/components/ui/DestinationCard",
-      "next"
+      "next",
+      "next/dist/server/use-cache/cache-tag",
+      "next/dist/server/use-cache/cache-life"
     ],
-    "lines": 40,
+    "lines": 44,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/[slug]/page.tsx": {
@@ -745,9 +944,12 @@
       "next",
       "@/components/ui/TripCard",
       "@/components/forms/BookingFormWrapper",
-      "@/components/ui/TrackRecentlyViewed"
+      "@/components/ui/TrackRecentlyViewed",
+      "next/dist/server/use-cache/cache-tag",
+      "next/dist/server/use-cache/cache-life",
+      "@/lib/media-url"
     ],
-    "lines": 177,
+    "lines": 193,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -778,20 +980,90 @@
     "lines": 25,
     "group": "frontend"
   },
-  "src/app/(frontend)/gallery/page.tsx": {
+  "src/app/(frontend)/gallery/feed.xml/route.ts": {
     "exports": [
-      "metadata",
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "@/lib/media-url"
+    ],
+    "lines": 51,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/gallery/embed/[slug]/page.tsx": {
+    "exports": [
+      "generateMetadata",
       "default:async"
     ],
     "types": [],
     "imports": [
       "payload",
       "@payload-config",
+      "next/cache",
+      "next/navigation",
       "next/image",
-      "next/link",
-      "next"
+      "next",
+      "@/lib/media-url"
     ],
-    "lines": 51,
+    "lines": 65,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/gallery/page.tsx": {
+    "exports": [
+      "generateMetadata",
+      "default:async"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/cache",
+      "next",
+      "@/components/blocks/gallery/GalleryHeroBlock",
+      "@/components/blocks/gallery/GalleryGridBlock",
+      "@/components/ui/GalleryEditButton",
+      "@/components/ui/GalleryKeyboardHints",
+      "@/lib/media-url"
+    ],
+    "lines": 106,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/gallery/[slug]/GalleryCollectionClient.tsx": {
+    "exports": [
+      "GalleryCollectionClient"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "next/link",
+      "@/components/ui/GalleryFilterBar",
+      "@/components/ui/GalleryMasonry",
+      "@/components/ui/GalleryKeyboardHints",
+      "@/lib/media-url"
+    ],
+    "lines": 209,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/gallery/[slug]/page.tsx": {
+    "exports": [
+      "generateStaticParams",
+      "generateMetadata",
+      "default:async"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/cache",
+      "next/navigation",
+      "next",
+      "./GalleryCollectionClient",
+      "@/lib/media-url"
+    ],
+    "lines": 122,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/[tripId]/success/page.tsx": {
@@ -820,9 +1092,11 @@
       "next/navigation",
       "react",
       "next",
-      "@/components/forms/BookingFormWrapper"
+      "@/components/forms/BookingFormWrapper",
+      "next/dist/server/use-cache/cache-tag",
+      "next/dist/server/use-cache/cache-life"
     ],
-    "lines": 46,
+    "lines": 56,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/page.tsx": {
@@ -859,9 +1133,12 @@
       "@payload-config",
       "next/link",
       "next/image",
-      "next"
+      "next",
+      "next/dist/server/use-cache/cache-tag",
+      "next/dist/server/use-cache/cache-life",
+      "@/lib/media-url"
     ],
-    "lines": 53,
+    "lines": 59,
     "group": "frontend"
   },
   "src/app/(frontend)/blog/[slug]/page.tsx": {
@@ -877,9 +1154,12 @@
       "next/navigation",
       "next/image",
       "next",
-      "@payloadcms/richtext-lexical/react"
+      "@payloadcms/richtext-lexical/react",
+      "next/dist/server/use-cache/cache-tag",
+      "next/dist/server/use-cache/cache-life",
+      "@/lib/media-url"
     ],
-    "lines": 67,
+    "lines": 73,
     "group": "frontend"
   },
   "src/app/(frontend)/gift/page.tsx": {
@@ -904,6 +1184,34 @@
       "next/link"
     ],
     "lines": 53,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/dashboard/gallery/GalleryDashboardClient.tsx": {
+    "exports": [
+      "GalleryDashboardClient"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "next/link",
+      "gsap",
+      "@/lib/media-url"
+    ],
+    "lines": 450,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/dashboard/gallery/page.tsx": {
+    "exports": [
+      "metadata",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "next",
+      "react",
+      "./GalleryDashboardClient"
+    ],
+    "lines": 17,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/ratings/RatingsClient.tsx": {
@@ -965,9 +1273,10 @@
       "next/navigation",
       "zod",
       "gsap",
-      "@/lib/auth-client"
+      "@/lib/auth-client",
+      "@/lib/media-url"
     ],
-    "lines": 89,
+    "lines": 207,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/layout.tsx": {
@@ -1089,7 +1398,7 @@
       "react",
       "@/lib/auth-client"
     ],
-    "lines": 86,
+    "lines": 87,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/registrations/RegistrationsClient.tsx": {
@@ -1197,6 +1506,27 @@
     "lines": 22,
     "group": "frontend"
   },
+  "src/app/(frontend)/programs/[slug]/page.tsx": {
+    "exports": [
+      "generateStaticParams",
+      "generateMetadata",
+      "default:async"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/navigation",
+      "next/image",
+      "next",
+      "next/dist/server/use-cache/cache-tag",
+      "next/dist/server/use-cache/cache-life",
+      "@/lib/media-url",
+      "@/components/forms/BookingFormWrapper"
+    ],
+    "lines": 178,
+    "group": "frontend"
+  },
   "src/app/(frontend)/stories/page.tsx": {
     "exports": [
       "metadata",
@@ -1207,9 +1537,11 @@
       "payload",
       "@payload-config",
       "@/components/ui/StoryCard",
-      "next"
+      "next",
+      "next/dist/server/use-cache/cache-tag",
+      "next/dist/server/use-cache/cache-life"
     ],
-    "lines": 39,
+    "lines": 43,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/[slug]/page.tsx": {
@@ -1226,9 +1558,12 @@
       "next/image",
       "next/link",
       "next",
-      "@payloadcms/richtext-lexical/react"
+      "@payloadcms/richtext-lexical/react",
+      "next/dist/server/use-cache/cache-tag",
+      "next/dist/server/use-cache/cache-life",
+      "@/lib/media-url"
     ],
-    "lines": 80,
+    "lines": 85,
     "group": "frontend"
   },
   "src/app/(frontend)/sitemap.ts": {
@@ -1332,6 +1667,45 @@
     "lines": 45,
     "group": "frontend"
   },
+  "src/app/(frontend)/photographers/page.tsx": {
+    "exports": [
+      "metadata",
+      "default:async"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/cache",
+      "next",
+      "next/link",
+      "next/image",
+      "@/lib/media-url"
+    ],
+    "lines": 68,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/photographers/[username]/page.tsx": {
+    "exports": [
+      "generateStaticParams",
+      "generateMetadata",
+      "default:async"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/cache",
+      "next",
+      "next/image",
+      "next/link",
+      "next/navigation",
+      "@/components/blocks/gallery/GalleryGridBlock",
+      "@/lib/media-url"
+    ],
+    "lines": 162,
+    "group": "frontend"
+  },
   "src/app/(frontend)/empire/page.tsx": {
     "exports": [
       "metadata",
@@ -1397,9 +1771,11 @@
       "react",
       "@/components/ui/Hero",
       "@/components/ui/DestinationCarousel",
-      "@/components/ui/StoriesCarouselSection"
+      "@/components/ui/StoriesCarouselSection",
+      "next/dist/server/use-cache/cache-tag",
+      "next/dist/server/use-cache/cache-life"
     ],
-    "lines": 89,
+    "lines": 93,
     "group": "frontend"
   },
   "src/app/(frontend)/[slug]/page.tsx": {
@@ -1515,11 +1891,12 @@
       "@/components/admin/FooterVisualEditorButton",
       "@/components/admin/HeroVisualEditorButton",
       "@/components/admin/DestinationCarouselVisualEditorButton",
+      "@/components/admin/GalleryVisualEditorButton",
       "@/components/admin/AdminLogo",
       "@/components/admin/AdminLoginBackground",
       "@payloadcms/next/rsc"
     ],
-    "lines": 67,
+    "lines": 69,
     "group": "payload-app"
   },
   "src/app/(payload)/layout.tsx": {
@@ -1737,6 +2114,19 @@
     "lines": 66,
     "group": "globals"
   },
+  "src/payload/globals/Gallery.ts": {
+    "exports": [
+      "Gallery"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "next/cache",
+      "next/server"
+    ],
+    "lines": 63,
+    "group": "globals"
+  },
   "src/payload/globals/Navigation.ts": {
     "exports": [
       "Navigation"
@@ -1822,13 +2212,16 @@
       "./collections/CustomerMedia",
       "./collections/CustomerRatings",
       "./collections/Programs",
+      "./collections/GalleryCollections",
+      "./collections/Favorites",
       "./globals/Navigation",
       "./globals/Footer",
       "./globals/SiteSettings",
       "./globals/Hero",
-      "./globals/DestinationCarousel"
+      "./globals/DestinationCarousel",
+      "./globals/Gallery"
     ],
-    "lines": 118,
+    "lines": 123,
     "group": "payload"
   },
   "src/payload/seeds/hero.ts": {
@@ -1920,7 +2313,7 @@
       "next/cache",
       "next/server"
     ],
-    "lines": 128,
+    "lines": 134,
     "group": "collections"
   },
   "src/payload/collections/EmailTemplates.ts": {
@@ -1968,6 +2361,17 @@
     "lines": 119,
     "group": "collections"
   },
+  "src/payload/collections/Favorites.ts": {
+    "exports": [
+      "Favorites"
+    ],
+    "types": [],
+    "imports": [
+      "payload"
+    ],
+    "lines": 32,
+    "group": "collections"
+  },
   "src/payload/collections/Programs.ts": {
     "exports": [
       "Programs"
@@ -1978,7 +2382,7 @@
       "next/cache",
       "next/server"
     ],
-    "lines": 214,
+    "lines": 220,
     "group": "collections"
   },
   "src/payload/collections/Pages.ts": {
@@ -2058,7 +2462,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 27,
+    "lines": 50,
     "group": "collections"
   },
   "src/payload/collections/GiftVouchers.ts": {
@@ -2094,6 +2498,19 @@
     "lines": 11,
     "group": "collections"
   },
+  "src/payload/collections/GalleryCollections.ts": {
+    "exports": [
+      "GalleryCollections"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "next/cache",
+      "next/server"
+    ],
+    "lines": 147,
+    "group": "collections"
+  },
   "src/payload/collections/Media.ts": {
     "exports": [
       "Media"
@@ -2102,7 +2519,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 30,
+    "lines": 33,
     "group": "collections"
   },
   "src/payload/collections/BlogPosts.ts": {
@@ -2198,11 +2615,12 @@
     "imports": [
       "next/image",
       "next/link",
+      "@/lib/media-url",
       "motion/react",
       "@/lib/animations",
       "@/puck/BlockWrapper"
     ],
-    "lines": 102,
+    "lines": 104,
     "group": "blocks"
   },
   "src/components/blocks/BookingWidgetBlockRenderer.tsx": {
@@ -2283,9 +2701,10 @@
       "react",
       "next/link",
       "next/image",
-      "gsap"
+      "gsap",
+      "@/lib/media-url"
     ],
-    "lines": 133,
+    "lines": 134,
     "group": "blocks"
   },
   "src/components/blocks/LivePreviewBlocks.tsx": {
@@ -2320,9 +2739,10 @@
     "types": [],
     "imports": [
       "next/image",
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/media-url"
     ],
-    "lines": 70,
+    "lines": 71,
     "group": "blocks"
   },
   "src/components/blocks/EmbedBlockRenderer.tsx": {
@@ -2412,9 +2832,10 @@
     "imports": [
       "next/image",
       "next/link",
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/media-url"
     ],
-    "lines": 81,
+    "lines": 82,
     "group": "blocks"
   },
   "src/components/blocks/PricingBlockRenderer.tsx": {
@@ -2451,9 +2872,38 @@
     "imports": [
       "next/image",
       "next/link",
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/media-url"
     ],
-    "lines": 50,
+    "lines": 51,
+    "group": "blocks"
+  },
+  "src/components/blocks/gallery/GalleryGridBlock.tsx": {
+    "exports": [
+      "GalleryGridBlock"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "next/link",
+      "gsap",
+      "gsap/ScrollTrigger",
+      "@/lib/media-url"
+    ],
+    "lines": 153,
+    "group": "blocks"
+  },
+  "src/components/blocks/gallery/GalleryHeroBlock.tsx": {
+    "exports": [
+      "GalleryHeroBlock"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "gsap",
+      "next/link"
+    ],
+    "lines": 56,
     "group": "blocks"
   },
   "src/components/blocks/navigation/NavigationLinksBlock.tsx": {
@@ -2548,9 +2998,10 @@
     "imports": [
       "next/image",
       "next/link",
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/media-url"
     ],
-    "lines": 83,
+    "lines": 84,
     "group": "blocks"
   },
   "src/components/blocks/SeparatorBlockRenderer.tsx": {
@@ -2573,9 +3024,10 @@
       "next/image",
       "react",
       "motion/react",
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/media-url"
     ],
-    "lines": 80,
+    "lines": 81,
     "group": "blocks"
   },
   "src/components/blocks/PuckRender.tsx": {
@@ -2624,9 +3076,10 @@
     "types": [],
     "imports": [
       "next/image",
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/media-url"
     ],
-    "lines": 58,
+    "lines": 59,
     "group": "blocks"
   },
   "src/components/blocks/TextBlockRenderer.tsx": {
@@ -2648,9 +3101,10 @@
     "types": [],
     "imports": [
       "next/image",
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/media-url"
     ],
-    "lines": 49,
+    "lines": 50,
     "group": "blocks"
   },
   "src/components/blocks/CTABlockRenderer.tsx": {
@@ -2674,9 +3128,10 @@
       "next/image",
       "react",
       "motion/react",
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/media-url"
     ],
-    "lines": 69,
+    "lines": 70,
     "group": "blocks"
   },
   "src/components/blocks/hero/HeroSubtextBlock.tsx": {
@@ -2696,9 +3151,10 @@
     "imports": [
       "react",
       "next/image",
-      "@puckeditor/core"
+      "@puckeditor/core",
+      "@/lib/media-url"
     ],
-    "lines": 61,
+    "lines": 62,
     "group": "blocks"
   },
   "src/components/blocks/hero/HeroHeadlineBlock.tsx": {
@@ -2755,9 +3211,10 @@
     "imports": [
       "next/image",
       "react",
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/media-url"
     ],
-    "lines": 65,
+    "lines": 66,
     "group": "blocks"
   },
   "src/components/blocks/VideoBlockRenderer.tsx": {
@@ -2769,7 +3226,7 @@
       "react",
       "@/puck/BlockWrapper"
     ],
-    "lines": 75,
+    "lines": 76,
     "group": "blocks"
   },
   "src/components/ui/HeroEditButton.tsx": {
@@ -2803,6 +3260,17 @@
     "lines": 54,
     "group": "ui"
   },
+  "src/components/ui/GalleryKeyboardHints.tsx": {
+    "exports": [
+      "GalleryKeyboardHints"
+    ],
+    "types": [],
+    "imports": [
+      "react"
+    ],
+    "lines": 52,
+    "group": "ui"
+  },
   "src/components/ui/ProgramsMegaMenu.tsx": {
     "exports": [
       "ProgramsMegaMenu"
@@ -2829,6 +3297,18 @@
       "motion/react"
     ],
     "lines": 206,
+    "group": "ui"
+  },
+  "src/components/ui/GalleryFilterBar.tsx": {
+    "exports": [
+      "GalleryFilterBar"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "gsap"
+    ],
+    "lines": 104,
     "group": "ui"
   },
   "src/components/ui/ShakingCredit.tsx": {
@@ -2884,6 +3364,19 @@
     "lines": 65,
     "group": "ui"
   },
+  "src/components/ui/GalleryLightbox.tsx": {
+    "exports": [
+      "GalleryLightbox"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "gsap",
+      "@/lib/media-url"
+    ],
+    "lines": 113,
+    "group": "ui"
+  },
   "src/components/ui/CalendarGrid.tsx": {
     "exports": [
       "CalendarGrid"
@@ -2896,7 +3389,7 @@
       "next/navigation",
       "./CalendarTripCard"
     ],
-    "lines": 666,
+    "lines": 690,
     "group": "ui"
   },
   "src/components/ui/Footer.tsx": {
@@ -2924,9 +3417,10 @@
     "types": [],
     "imports": [
       "next/link",
-      "next/image"
+      "next/image",
+      "@/lib/media-url"
     ],
-    "lines": 58,
+    "lines": 60,
     "group": "ui"
   },
   "src/components/ui/StoryCard.tsx": {
@@ -2936,9 +3430,10 @@
     "types": [],
     "imports": [
       "next/link",
-      "next/image"
+      "next/image",
+      "@/lib/media-url"
     ],
-    "lines": 47,
+    "lines": 49,
     "group": "ui"
   },
   "src/components/ui/StoriesCarouselSection.tsx": {
@@ -2990,6 +3485,17 @@
     "lines": 21,
     "group": "ui"
   },
+  "src/components/ui/GalleryEditButton.tsx": {
+    "exports": [
+      "GalleryEditButton"
+    ],
+    "types": [],
+    "imports": [
+      "react"
+    ],
+    "lines": 32,
+    "group": "ui"
+  },
   "src/components/ui/TrackRecentlyViewed.tsx": {
     "exports": [
       "TrackRecentlyViewed"
@@ -3023,6 +3529,30 @@
       "@/lib/animations"
     ],
     "lines": 52,
+    "group": "ui"
+  },
+  "src/components/ui/FlatMapView.tsx": {
+    "exports": [
+      "FlatMapView"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "./CalendarTripCard"
+    ],
+    "lines": 166,
+    "group": "ui"
+  },
+  "src/components/ui/GlobeView.tsx": {
+    "exports": [
+      "GlobeView"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "./CalendarTripCard"
+    ],
+    "lines": 266,
     "group": "ui"
   },
   "src/components/ui/NolimitNavbar.tsx": {
@@ -3061,16 +3591,32 @@
     "lines": 122,
     "group": "ui"
   },
+  "src/components/ui/GalleryMasonry.tsx": {
+    "exports": [
+      "GalleryMasonry"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "gsap",
+      "gsap/ScrollTrigger",
+      "./GalleryLightbox",
+      "@/lib/media-url"
+    ],
+    "lines": 241,
+    "group": "ui"
+  },
   "src/components/ui/CalendarMap.tsx": {
     "exports": [
       "CalendarMap"
     ],
     "types": [],
     "imports": [
+      "next/dynamic",
       "react",
       "./CalendarTripCard"
     ],
-    "lines": 64,
+    "lines": 129,
     "group": "ui"
   },
   "src/components/ui/Navigation.tsx": {
@@ -3100,9 +3646,10 @@
       "next/link",
       "next/image",
       "next/navigation",
-      "@/lib/auth-client"
+      "@/lib/auth-client",
+      "@/lib/media-url"
     ],
-    "lines": 380,
+    "lines": 381,
     "group": "ui"
   },
   "src/components/forms/BookingFormWrapper.tsx": {
@@ -3235,6 +3782,15 @@
     "lines": 110,
     "group": "admin"
   },
+  "src/components/admin/GalleryVisualEditorButton.tsx": {
+    "exports": [
+      "GalleryVisualEditorButton"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 36,
+    "group": "admin"
+  },
   "src/components/admin/FooterVisualEditorButton.tsx": {
     "exports": [
       "FooterVisualEditorButton"
@@ -3290,6 +3846,15 @@
       "next"
     ],
     "lines": 40,
+    "group": "lib"
+  },
+  "src/lib/media-url.ts": {
+    "exports": [
+      "mediaUrl"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 15,
     "group": "lib"
   },
   "src/lib/auth.ts": {
@@ -3461,9 +4026,11 @@
       "@/components/blocks/footer/FooterFollowBlock",
       "@/components/blocks/footer/FooterTravelBlock",
       "@/components/blocks/footer/FooterNavBlock",
-      "@/components/blocks/footer/FooterBottomBlock"
+      "@/components/blocks/footer/FooterBottomBlock",
+      "@/components/blocks/gallery/GalleryHeroBlock",
+      "@/components/blocks/gallery/GalleryGridBlock"
     ],
-    "lines": 1391,
+    "lines": 1421,
     "group": "other"
   },
   "src/puck/puckAI.ts": {

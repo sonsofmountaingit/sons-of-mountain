@@ -80,7 +80,7 @@ export function NavigationLinksBlock({
       </div>
 
       {allLinks.length === 0 && (
-        <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.3)', fontSize: 13, margin: '0.5rem 0 0' }}>
+        <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.65)', fontSize: 13, margin: '0.5rem 0 0' }}>
           Add navigation links in the panel →
         </p>
       )}

@@ -25,6 +25,14 @@ export const SiteSettings: GlobalConfig = {
       defaultValue: false,
     },
     {
+      name: 'contactEmail',
+      type: 'text',
+    },
+    {
+      name: 'contactPhone',
+      type: 'text',
+    },
+    {
       name: 'loginBackground',
       type: 'upload',
       relationTo: 'media',

@@ -30,7 +30,7 @@ export function DestinationCard({
       {mediaUrl(heroImage?.url) && (
         <Image
           src={mediaUrl(heroImage!.url)!}
-          alt={heroImage.alt}
+          alt={heroImage?.alt ?? ''}
           fill
           quality={80}
           className="object-cover transition-transform duration-700 group-hover:scale-105"

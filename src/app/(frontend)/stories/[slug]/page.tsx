@@ -18,12 +18,12 @@ export async function generateStaticParams() {
       try {
         const payload = await getPayload({ config })
         const { docs } = await payload.find({ collection: 'stories', limit: 200, select: { slug: true } })
-        if (docs.length > 0) return docs.map((s) => ({ slug: s.slug }))
+        if (docs.length > 0) return docs.map((s) => ({ slug: s.slug as string }))
       } catch {}
       return [{ slug: '_placeholder' }]
     })()
   }
-  return _staticParamsCache
+  return _staticParamsCache!
 }
 
 async function getStory(slug: string) {

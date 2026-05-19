@@ -1,6 +1,12 @@
 {
   "nodes": [
     {
+      "id": "src/seed/gallery.ts",
+      "label": "seed/gallery.ts",
+      "group": "other",
+      "size": 4
+    },
+    {
       "id": "src/app/(puck)/layout.tsx",
       "label": "(puck)/layout.tsx",
       "group": "puck",
@@ -27,6 +33,18 @@
     {
       "id": "src/app/(puck)/puck/destination-carousel/page.tsx",
       "label": "destination-carousel/page.tsx",
+      "group": "puck",
+      "size": 4
+    },
+    {
+      "id": "src/app/(puck)/puck/gallery/PuckGalleryEditorClient.tsx",
+      "label": "gallery/PuckGalleryEditorClient.tsx",
+      "group": "puck",
+      "size": 6
+    },
+    {
+      "id": "src/app/(puck)/puck/gallery/page.tsx",
+      "label": "gallery/page.tsx",
       "group": "puck",
       "size": 4
     },
@@ -91,6 +109,12 @@
       "size": 4
     },
     {
+      "id": "src/app/api/gallery-data/route.ts",
+      "label": "gallery-data/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/ical/[itemId]/route.ts",
       "label": "[itemId]/route.ts",
       "group": "api",
@@ -105,6 +129,18 @@
     {
       "id": "src/app/api/booking/route.ts",
       "label": "booking/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/gallery/favorites/count/route.ts",
+      "label": "count/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/gallery/favorites/route.ts",
+      "label": "favorites/route.ts",
       "group": "api",
       "size": 4
     },
@@ -145,8 +181,38 @@
       "size": 4
     },
     {
+      "id": "src/app/api/calendar-participants/route.ts",
+      "label": "calendar-participants/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/dashboard/gallery-upload/route.ts",
+      "label": "gallery-upload/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/dashboard/gallery-collections/route.ts",
+      "label": "gallery-collections/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/subscribe/route.ts",
       "label": "subscribe/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/gallery-collection-data/route.ts",
+      "label": "gallery-collection-data/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/photographer-data/[username]/route.ts",
+      "label": "[username]/route.ts",
       "group": "api",
       "size": 4
     },
@@ -165,6 +231,12 @@
     {
       "id": "src/app/api/voucher/route.ts",
       "label": "voucher/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/photographer-profile/route.ts",
+      "label": "photographer-profile/route.ts",
       "group": "api",
       "size": 4
     },
@@ -195,6 +267,12 @@
     {
       "id": "src/app/api/puck/destination-carousel/route.ts",
       "label": "destination-carousel/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/puck/gallery/route.ts",
+      "label": "gallery/route.ts",
       "group": "api",
       "size": 4
     },
@@ -337,8 +415,32 @@
       "size": 4
     },
     {
+      "id": "src/app/(frontend)/gallery/feed.xml/route.ts",
+      "label": "feed.xml/route.ts",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/gallery/embed/[slug]/page.tsx",
+      "label": "[slug]/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
       "id": "src/app/(frontend)/gallery/page.tsx",
       "label": "gallery/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/gallery/[slug]/GalleryCollectionClient.tsx",
+      "label": "[slug]/GalleryCollectionClient.tsx",
+      "group": "frontend",
+      "size": 6
+    },
+    {
+      "id": "src/app/(frontend)/gallery/[slug]/page.tsx",
+      "label": "[slug]/page.tsx",
       "group": "frontend",
       "size": 4
     },
@@ -389,6 +491,18 @@
       "label": "dashboard/NoRegistrationGate.tsx",
       "group": "frontend",
       "size": 8
+    },
+    {
+      "id": "src/app/(frontend)/dashboard/gallery/GalleryDashboardClient.tsx",
+      "label": "gallery/GalleryDashboardClient.tsx",
+      "group": "frontend",
+      "size": 6
+    },
+    {
+      "id": "src/app/(frontend)/dashboard/gallery/page.tsx",
+      "label": "gallery/page.tsx",
+      "group": "frontend",
+      "size": 4
     },
     {
       "id": "src/app/(frontend)/dashboard/ratings/RatingsClient.tsx",
@@ -505,6 +619,12 @@
       "size": 4
     },
     {
+      "id": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "label": "[slug]/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
       "id": "src/app/(frontend)/stories/page.tsx",
       "label": "stories/page.tsx",
       "group": "frontend",
@@ -555,6 +675,18 @@
     {
       "id": "src/app/(frontend)/preview/[id]/page.tsx",
       "label": "[id]/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/photographers/page.tsx",
+      "label": "photographers/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/photographers/[username]/page.tsx",
+      "label": "[username]/page.tsx",
       "group": "frontend",
       "size": 4
     },
@@ -733,6 +865,12 @@
       "size": 6
     },
     {
+      "id": "src/payload/globals/Gallery.ts",
+      "label": "globals/Gallery.ts",
+      "group": "globals",
+      "size": 6
+    },
+    {
       "id": "src/payload/globals/Navigation.ts",
       "label": "globals/Navigation.ts",
       "group": "globals",
@@ -835,6 +973,12 @@
       "size": 6
     },
     {
+      "id": "src/payload/collections/Favorites.ts",
+      "label": "collections/Favorites.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
       "id": "src/payload/collections/Programs.ts",
       "label": "collections/Programs.ts",
       "group": "collections",
@@ -891,6 +1035,12 @@
     {
       "id": "src/payload/collections/BlogCategories.ts",
       "label": "collections/BlogCategories.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/GalleryCollections.ts",
+      "label": "collections/GalleryCollections.ts",
       "group": "collections",
       "size": 6
     },
@@ -1047,6 +1197,18 @@
     {
       "id": "src/components/blocks/FeatureCardsBlockRenderer.tsx",
       "label": "blocks/FeatureCardsBlockRenderer.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/gallery/GalleryGridBlock.tsx",
+      "label": "gallery/GalleryGridBlock.tsx",
+      "group": "blocks",
+      "size": 10
+    },
+    {
+      "id": "src/components/blocks/gallery/GalleryHeroBlock.tsx",
+      "label": "gallery/GalleryHeroBlock.tsx",
       "group": "blocks",
       "size": 8
     },
@@ -1219,6 +1381,12 @@
       "size": 6
     },
     {
+      "id": "src/components/ui/GalleryKeyboardHints.tsx",
+      "label": "ui/GalleryKeyboardHints.tsx",
+      "group": "ui",
+      "size": 8
+    },
+    {
       "id": "src/components/ui/ProgramsMegaMenu.tsx",
       "label": "ui/ProgramsMegaMenu.tsx",
       "group": "ui",
@@ -1229,6 +1397,12 @@
       "label": "ui/Navbar.tsx",
       "group": "ui",
       "size": 4
+    },
+    {
+      "id": "src/components/ui/GalleryFilterBar.tsx",
+      "label": "ui/GalleryFilterBar.tsx",
+      "group": "ui",
+      "size": 6
     },
     {
       "id": "src/components/ui/ShakingCredit.tsx",
@@ -1251,6 +1425,12 @@
     {
       "id": "src/components/ui/TripCard.tsx",
       "label": "ui/TripCard.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
+      "id": "src/components/ui/GalleryLightbox.tsx",
+      "label": "ui/GalleryLightbox.tsx",
       "group": "ui",
       "size": 6
     },
@@ -1303,6 +1483,12 @@
       "size": 6
     },
     {
+      "id": "src/components/ui/GalleryEditButton.tsx",
+      "label": "ui/GalleryEditButton.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
       "id": "src/components/ui/TrackRecentlyViewed.tsx",
       "label": "ui/TrackRecentlyViewed.tsx",
       "group": "ui",
@@ -1319,6 +1505,18 @@
       "label": "ui/HeroSection.tsx",
       "group": "ui",
       "size": 4
+    },
+    {
+      "id": "src/components/ui/FlatMapView.tsx",
+      "label": "ui/FlatMapView.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
+      "id": "src/components/ui/GlobeView.tsx",
+      "label": "ui/GlobeView.tsx",
+      "group": "ui",
+      "size": 6
     },
     {
       "id": "src/components/ui/NolimitNavbar.tsx",
@@ -1339,6 +1537,12 @@
       "size": 10
     },
     {
+      "id": "src/components/ui/GalleryMasonry.tsx",
+      "label": "ui/GalleryMasonry.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
       "id": "src/components/ui/CalendarMap.tsx",
       "label": "ui/CalendarMap.tsx",
       "group": "ui",
@@ -1354,13 +1558,13 @@
       "id": "src/components/ui/CalendarTripCard.tsx",
       "label": "ui/CalendarTripCard.tsx",
       "group": "ui",
-      "size": 10
+      "size": 14
     },
     {
       "id": "src/components/forms/BookingFormWrapper.tsx",
       "label": "forms/BookingFormWrapper.tsx",
       "group": "components",
-      "size": 8
+      "size": 10
     },
     {
       "id": "src/components/forms/SubscribeForm.tsx",
@@ -1423,6 +1627,12 @@
       "size": 6
     },
     {
+      "id": "src/components/admin/GalleryVisualEditorButton.tsx",
+      "label": "admin/GalleryVisualEditorButton.tsx",
+      "group": "admin",
+      "size": 6
+    },
+    {
       "id": "src/components/admin/FooterVisualEditorButton.tsx",
       "label": "admin/FooterVisualEditorButton.tsx",
       "group": "admin",
@@ -1451,6 +1661,12 @@
       "label": "lib/metadata.ts",
       "group": "lib",
       "size": 4
+    },
+    {
+      "id": "src/lib/media-url.ts",
+      "label": "lib/media-url.ts",
+      "group": "lib",
+      "size": 20
     },
     {
       "id": "src/lib/auth.ts",
@@ -1504,7 +1720,7 @@
       "id": "src/puck/config.tsx",
       "label": "puck/config.tsx",
       "group": "other",
-      "size": 18
+      "size": 20
     },
     {
       "id": "src/puck/puckAI.ts",
@@ -1557,6 +1773,10 @@
   ],
   "edges": [
     {
+      "source": "src/seed/gallery.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
       "source": "src/app/(puck)/puck/footer/PuckFooterEditorClient.tsx",
       "target": "src/puck/config.tsx"
     },
@@ -1579,6 +1799,18 @@
     {
       "source": "src/app/(puck)/puck/destination-carousel/page.tsx",
       "target": "src/app/(puck)/puck/destination-carousel/PuckDestinationCarouselEditorClient.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/gallery/PuckGalleryEditorClient.tsx",
+      "target": "src/puck/config.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/gallery/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/gallery/page.tsx",
+      "target": "src/app/(puck)/puck/gallery/PuckGalleryEditorClient.tsx"
     },
     {
       "source": "src/app/(puck)/puck/navigation/PuckNavigationEditorClient.tsx",
@@ -1629,6 +1861,10 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/gallery-data/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
       "source": "src/app/api/ical/[itemId]/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -1643,6 +1879,14 @@
     {
       "source": "src/app/api/booking/route.ts",
       "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/api/gallery/favorites/count/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/gallery/favorites/route.ts",
+      "target": "src/payload/payload.config.ts"
     },
     {
       "source": "src/app/api/price-alert/route.ts",
@@ -1673,7 +1917,35 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/calendar-participants/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/dashboard/gallery-upload/route.ts",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/api/dashboard/gallery-upload/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/dashboard/gallery-collections/route.ts",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/api/dashboard/gallery-collections/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
       "source": "src/app/api/subscribe/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/gallery-collection-data/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/photographer-data/[username]/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
@@ -1687,6 +1959,14 @@
     {
       "source": "src/app/api/voucher/route.ts",
       "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/api/photographer-profile/route.ts",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/api/photographer-profile/route.ts",
+      "target": "src/payload/payload.config.ts"
     },
     {
       "source": "src/app/api/megamenu/route.ts",
@@ -1706,6 +1986,10 @@
     },
     {
       "source": "src/app/api/puck/destination-carousel/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/gallery/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
@@ -1778,7 +2062,7 @@
     },
     {
       "source": "src/app/(frontend)/calendar/page.tsx",
-      "target": "src/lib/auth.ts"
+      "target": "src/lib/media-url.ts"
     },
     {
       "source": "src/app/(frontend)/calendar/page.tsx",
@@ -1813,6 +2097,10 @@
       "target": "src/components/ui/TrackRecentlyViewed.tsx"
     },
     {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
       "source": "src/app/(frontend)/signup/SignupClient.tsx",
       "target": "src/components/auth/AuthForm.tsx"
     },
@@ -1825,8 +2113,72 @@
       "target": "src/app/(frontend)/signup/SignupClient.tsx"
     },
     {
+      "source": "src/app/(frontend)/gallery/feed.xml/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/gallery/feed.xml/route.ts",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/gallery/embed/[slug]/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/gallery/embed/[slug]/page.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
       "source": "src/app/(frontend)/gallery/page.tsx",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/gallery/page.tsx",
+      "target": "src/components/blocks/gallery/GalleryHeroBlock.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/gallery/page.tsx",
+      "target": "src/components/blocks/gallery/GalleryGridBlock.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/gallery/page.tsx",
+      "target": "src/components/ui/GalleryEditButton.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/gallery/page.tsx",
+      "target": "src/components/ui/GalleryKeyboardHints.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/gallery/page.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/gallery/[slug]/GalleryCollectionClient.tsx",
+      "target": "src/components/ui/GalleryFilterBar.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/gallery/[slug]/GalleryCollectionClient.tsx",
+      "target": "src/components/ui/GalleryMasonry.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/gallery/[slug]/GalleryCollectionClient.tsx",
+      "target": "src/components/ui/GalleryKeyboardHints.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/gallery/[slug]/GalleryCollectionClient.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/gallery/[slug]/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/gallery/[slug]/page.tsx",
+      "target": "src/app/(frontend)/gallery/[slug]/GalleryCollectionClient.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/gallery/[slug]/page.tsx",
+      "target": "src/lib/media-url.ts"
     },
     {
       "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
@@ -1841,12 +2193,28 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/(frontend)/blog/page.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
       "source": "src/app/(frontend)/blog/[slug]/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/(frontend)/blog/[slug]/page.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
       "source": "src/app/(frontend)/gift/page.tsx",
       "target": "src/components/forms/GiftVoucherForm.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/dashboard/gallery/GalleryDashboardClient.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/dashboard/gallery/page.tsx",
+      "target": "src/app/(frontend)/dashboard/gallery/GalleryDashboardClient.tsx"
     },
     {
       "source": "src/app/(frontend)/dashboard/ratings/page.tsx",
@@ -1875,6 +2243,10 @@
     {
       "source": "src/app/(frontend)/dashboard/profile/ProfileClient.tsx",
       "target": "src/lib/auth-client.ts"
+    },
+    {
+      "source": "src/app/(frontend)/dashboard/profile/ProfileClient.tsx",
+      "target": "src/lib/media-url.ts"
     },
     {
       "source": "src/app/(frontend)/dashboard/layout.tsx",
@@ -1961,6 +2333,18 @@
       "target": "src/app/(frontend)/dashboard/NoRegistrationGate.tsx"
     },
     {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/components/forms/BookingFormWrapper.tsx"
+    },
+    {
       "source": "src/app/(frontend)/stories/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -1971,6 +2355,10 @@
     {
       "source": "src/app/(frontend)/stories/[slug]/page.tsx",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/stories/[slug]/page.tsx",
+      "target": "src/lib/media-url.ts"
     },
     {
       "source": "src/app/(frontend)/sitemap.ts",
@@ -2015,6 +2403,26 @@
     {
       "source": "src/app/(frontend)/preview/[id]/page.tsx",
       "target": "src/components/blocks/PuckRender.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/photographers/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/photographers/page.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/photographers/[username]/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/photographers/[username]/page.tsx",
+      "target": "src/components/blocks/gallery/GalleryGridBlock.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/photographers/[username]/page.tsx",
+      "target": "src/lib/media-url.ts"
     },
     {
       "source": "src/app/(frontend)/photos/page.tsx",
@@ -2099,6 +2507,10 @@
     {
       "source": "src/app/(payload)/admin/importMap.js",
       "target": "src/components/admin/DestinationCarouselVisualEditorButton.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/GalleryVisualEditorButton.tsx"
     },
     {
       "source": "src/app/(payload)/admin/importMap.js",
@@ -2226,6 +2638,14 @@
     },
     {
       "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/GalleryCollections.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/Favorites.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
       "target": "src/payload/globals/Navigation.ts"
     },
     {
@@ -2243,6 +2663,10 @@
     {
       "source": "src/payload/payload.config.ts",
       "target": "src/payload/globals/DestinationCarousel.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/Gallery.ts"
     },
     {
       "source": "src/payload/seeds/hero.ts",
@@ -2398,6 +2822,10 @@
     },
     {
       "source": "src/components/blocks/HeroBlockRenderer.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/components/blocks/HeroBlockRenderer.tsx",
       "target": "src/lib/animations.ts"
     },
     {
@@ -2417,6 +2845,10 @@
       "target": "src/components/ui/FooterForm.tsx"
     },
     {
+      "source": "src/components/blocks/destination-carousel/DestinationCarouselBlock.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
       "source": "src/components/blocks/LivePreviewBlocks.tsx",
       "target": "src/components/blocks/ClientBlockRenderer.tsx"
     },
@@ -2427,6 +2859,10 @@
     {
       "source": "src/components/blocks/TeamBlockRenderer.tsx",
       "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/TeamBlockRenderer.tsx",
+      "target": "src/lib/media-url.ts"
     },
     {
       "source": "src/components/blocks/EmbedBlockRenderer.tsx",
@@ -2573,6 +3009,10 @@
       "target": "src/puck/BlockWrapper.tsx"
     },
     {
+      "source": "src/components/blocks/SocialFeedBlockRenderer.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
       "source": "src/components/blocks/PricingBlockRenderer.tsx",
       "target": "src/puck/BlockWrapper.tsx"
     },
@@ -2587,6 +3027,14 @@
     {
       "source": "src/components/blocks/FeatureCardsBlockRenderer.tsx",
       "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/FeatureCardsBlockRenderer.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/components/blocks/gallery/GalleryGridBlock.tsx",
+      "target": "src/lib/media-url.ts"
     },
     {
       "source": "src/components/blocks/FooterBlockRenderer.tsx",
@@ -2665,12 +3113,20 @@
       "target": "src/puck/BlockWrapper.tsx"
     },
     {
+      "source": "src/components/blocks/BlogPostsBlockRenderer.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
       "source": "src/components/blocks/SeparatorBlockRenderer.tsx",
       "target": "src/puck/BlockWrapper.tsx"
     },
     {
       "source": "src/components/blocks/ImageGalleryRenderer.tsx",
       "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/ImageGalleryRenderer.tsx",
+      "target": "src/lib/media-url.ts"
     },
     {
       "source": "src/components/blocks/PuckRender.tsx",
@@ -2693,6 +3149,10 @@
       "target": "src/puck/BlockWrapper.tsx"
     },
     {
+      "source": "src/components/blocks/TestimonialsGridBlockRenderer.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
       "source": "src/components/blocks/TextBlockRenderer.tsx",
       "target": "src/puck/BlockWrapper.tsx"
     },
@@ -2701,12 +3161,24 @@
       "target": "src/puck/BlockWrapper.tsx"
     },
     {
+      "source": "src/components/blocks/TimelineBlockRenderer.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
       "source": "src/components/blocks/CTABlockRenderer.tsx",
       "target": "src/puck/BlockWrapper.tsx"
     },
     {
       "source": "src/components/blocks/GalleryLightboxBlockRenderer.tsx",
       "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/GalleryLightboxBlockRenderer.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/components/blocks/hero/HeroMainBlock.tsx",
+      "target": "src/lib/media-url.ts"
     },
     {
       "source": "src/components/blocks/RichTextBlockRenderer.tsx",
@@ -2719,6 +3191,10 @@
     {
       "source": "src/components/blocks/BeforeAfterBlockRenderer.tsx",
       "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/BeforeAfterBlockRenderer.tsx",
+      "target": "src/lib/media-url.ts"
     },
     {
       "source": "src/components/blocks/VideoBlockRenderer.tsx",
@@ -2773,6 +3249,10 @@
       "target": "src/components/ui/DestinationCarouselEditButton.tsx"
     },
     {
+      "source": "src/components/ui/GalleryLightbox.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
       "source": "src/components/ui/CalendarGrid.tsx",
       "target": "src/components/ui/CalendarTripCard.tsx"
     },
@@ -2801,6 +3281,14 @@
       "target": "src/components/ui/FooterLogo.tsx"
     },
     {
+      "source": "src/components/ui/DestinationCard.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/components/ui/StoryCard.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
       "source": "src/components/ui/StoriesCarouselSection.tsx",
       "target": "src/components/ui/StoryCard.tsx"
     },
@@ -2813,8 +3301,32 @@
       "target": "src/lib/animations.ts"
     },
     {
+      "source": "src/components/ui/FlatMapView.tsx",
+      "target": "src/components/ui/CalendarTripCard.tsx"
+    },
+    {
+      "source": "src/components/ui/GlobeView.tsx",
+      "target": "src/components/ui/CalendarTripCard.tsx"
+    },
+    {
+      "source": "src/components/ui/GalleryMasonry.tsx",
+      "target": "src/components/ui/GalleryLightbox.tsx"
+    },
+    {
+      "source": "src/components/ui/GalleryMasonry.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
       "source": "src/components/ui/CalendarMap.tsx",
       "target": "src/components/ui/CalendarTripCard.tsx"
+    },
+    {
+      "source": "src/components/ui/CalendarMap.tsx",
+      "target": "src/components/ui/GlobeView.tsx"
+    },
+    {
+      "source": "src/components/ui/CalendarMap.tsx",
+      "target": "src/components/ui/FlatMapView.tsx"
     },
     {
       "source": "src/components/ui/Navigation.tsx",
@@ -2831,6 +3343,10 @@
     {
       "source": "src/components/ui/CalendarTripCard.tsx",
       "target": "src/lib/auth-client.ts"
+    },
+    {
+      "source": "src/components/ui/CalendarTripCard.tsx",
+      "target": "src/lib/media-url.ts"
     },
     {
       "source": "src/components/forms/BookingFormWrapper.tsx",
@@ -2998,6 +3514,14 @@
     },
     {
       "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/gallery/GalleryHeroBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/gallery/GalleryGridBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
       "target": "src/puck/styleFields.tsx"
     },
     {
@@ -3013,6 +3537,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-05-16T13:11:04.164Z",
-  "fileCount": 259
+  "builtAt": "2026-05-16T15:29:14.816Z",
+  "fileCount": 295
 }

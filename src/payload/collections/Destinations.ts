@@ -84,6 +84,122 @@ export const Destinations: CollectionConfig = {
       ],
     },
     {
+      name: 'whyImage',
+      type: 'upload',
+      relationTo: 'media',
+      admin: { hidden: true, description: 'Legacy — use whyImages instead' },
+    },
+    {
+      name: 'whyImages',
+      type: 'array',
+      admin: { description: 'Images for the "Защо?" section — cycles automatically every 4s' },
+      fields: [
+        { name: 'image', type: 'upload', relationTo: 'media', required: true },
+        { name: 'alt', type: 'text' },
+      ],
+    },
+    {
+      name: 'fitnessSummaryHeading',
+      type: 'text',
+      admin: { description: 'Heading under fitness gauges, e.g. "Готов ли си за среща с дивото?"' },
+    },
+    {
+      name: 'fitnessSummaryText',
+      type: 'richText',
+    },
+    {
+      name: 'travelTitle',
+      type: 'text',
+      admin: { description: 'Heading for the "Пътуването" block' },
+    },
+    {
+      name: 'travelDescription',
+      type: 'richText',
+    },
+    {
+      name: 'travelImage',
+      type: 'upload',
+      relationTo: 'media',
+    },
+    {
+      name: 'transportTitle',
+      type: 'text',
+      admin: { description: 'Heading for the "Придвижването" block' },
+    },
+    {
+      name: 'transportDescription',
+      type: 'richText',
+    },
+    {
+      name: 'transportImage',
+      type: 'upload',
+      relationTo: 'media',
+    },
+    {
+      name: 'accommodations',
+      type: 'array',
+      fields: [
+        { name: 'locationLabel', type: 'text', admin: { description: 'e.g. НАЦИОНАЛЕН ПАРК КУИН ЕЛИЗАБЕТ' } },
+        { name: 'name', type: 'text' },
+        { name: 'description', type: 'richText' },
+        { name: 'learnMoreUrl', type: 'text' },
+        {
+          name: 'gallery',
+          type: 'array',
+          fields: [
+            { name: 'image', type: 'upload', relationTo: 'media', required: true },
+            { name: 'alt', type: 'text' },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'faq',
+      type: 'array',
+      fields: [
+        { name: 'question', type: 'text' },
+        { name: 'answer', type: 'richText' },
+      ],
+    },
+    {
+      name: 'included',
+      type: 'array',
+      fields: [{ name: 'item', type: 'text' }],
+    },
+    {
+      name: 'notIncluded',
+      type: 'array',
+      fields: [{ name: 'item', type: 'text' }],
+    },
+    {
+      name: 'durationDays',
+      type: 'number',
+      admin: { position: 'sidebar', description: 'Trip duration in days' },
+    },
+    {
+      name: 'maxParticipants',
+      type: 'number',
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'priceIncludes',
+      type: 'textarea',
+      admin: { description: 'Short subtitle under price, e.g. "Включва самолетни билети, всички нощувки..."' },
+    },
+    {
+      name: 'communityPhotos',
+      type: 'array',
+      admin: { description: 'Traveler avatar photos for the community grid' },
+      fields: [
+        { name: 'photo', type: 'upload', relationTo: 'media', required: true },
+      ],
+    },
+    {
+      name: 'continent',
+      type: 'text',
+      admin: { position: 'sidebar', description: 'e.g. Африка — used in "Други пътешествия в Африка"' },
+    },
+    {
       name: 'description',
       type: 'richText',
     },

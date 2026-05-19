@@ -1,12 +1,23 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { notFound } from 'next/navigation'
-import Image from 'next/image'
 import type { Metadata } from 'next'
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
 import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 import { mediaUrl } from '@/lib/media-url'
-import { BookingFormWrapper } from '@/components/forms/BookingFormWrapper'
+import { HeroSection } from '@/components/ui/destination-page/HeroSection'
+import { WhySection } from '@/components/ui/destination-page/WhySection'
+import { IsThisForYouSection } from '@/components/ui/destination-page/IsThisForYouSection'
+import { TravelTransportSection } from '@/components/ui/destination-page/TravelTransportSection'
+import { ItinerarySection } from '@/components/ui/destination-page/ItinerarySection'
+import { AccommodationsSection } from '@/components/ui/destination-page/AccommodationsSection'
+import { AdventureCtaSection } from '@/components/ui/destination-page/AdventureCtaSection'
+import { BookingCtaSection } from '@/components/ui/destination-page/BookingCtaSection'
+import { FaqSection } from '@/components/ui/destination-page/FaqSection'
+import { OtherDestinationsSection } from '@/components/ui/destination-page/OtherDestinationsSection'
+import { WhyTravelWithUsSection } from '@/components/ui/destination-page/WhyTravelWithUsSection'
+import { DestinationPageAnimator } from '@/components/ui/destination-page/DestinationPageAnimator'
+import { FloatingBookingBar } from '@/components/ui/destination-page/FloatingBookingBar'
 
 interface Props { params: Promise<{ slug: string }> }
 
@@ -17,12 +28,12 @@ export async function generateStaticParams() {
       try {
         const payload = await getPayload({ config })
         const { docs } = await payload.find({ collection: 'programs', limit: 200, select: { slug: true } })
-        if (docs.length > 0) return docs.map((p) => ({ slug: p.slug ?? String(p.id) }))
+        if (docs.length > 0) return docs.map((p) => ({ slug: (p.slug ?? String(p.id)) as string }))
       } catch {}
       return [{ slug: '_placeholder' }]
     })()
   }
-  return _staticParamsCache
+  return _staticParamsCache!
 }
 
 async function getProgramData(slug: string) {
@@ -30,148 +41,194 @@ async function getProgramData(slug: string) {
   cacheTag('programs')
   cacheLife('days')
   const payload = await getPayload({ config })
-  const { docs } = await payload.find({ collection: 'programs', where: { slug: { equals: slug } }, limit: 1, depth: 1 })
-  return docs[0] ?? null
+
+  const { docs } = await payload.find({
+    collection: 'programs',
+    where: { slug: { equals: slug } },
+    limit: 1,
+    depth: 2,
+  })
+  const program = docs[0] ?? null
+  if (!program) return null
+
+  const [siblingsResult, settings] = await Promise.all([
+    payload.find({
+      collection: 'programs',
+      where: { slug: { not_equals: slug } },
+      limit: 3,
+      depth: 1,
+    }),
+    payload.findGlobal({ slug: 'site-settings', depth: 0 }),
+  ])
+
+  return { program, siblings: siblingsResult.docs, settings }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const program = await getProgramData(slug)
-  if (!program) return { title: 'Програма' }
-  return { title: program.title, description: program.shortDescription ?? undefined }
+  const data = await getProgramData(slug)
+  if (!data) return { title: 'Програма' }
+  const { program } = data
+  const heroImage = program.heroImage as { url?: string | null } | null
+  return {
+    title: program.title,
+    description: program.shortDescription ?? undefined,
+    alternates: { canonical: `/programs/${program.slug ?? String(program.id)}` },
+    openGraph: {
+      title: program.title,
+      description: program.shortDescription ?? undefined,
+      type: 'website',
+      images: mediaUrl(heroImage?.url) ? [{ url: mediaUrl(heroImage!.url)! }] : [],
+    },
+  }
 }
 
 export default async function ProgramPage({ params }: Props) {
   const { slug } = await params
-  const program = await getProgramData(slug)
-  if (!program) notFound()
+  const data = await getProgramData(slug)
+  if (!data) notFound()
 
-  const heroImage = program.heroImage as { url?: string | null; alt: string } | null
-  const instructor = program.instructor as { name?: string; bio?: string; photo?: { url?: string | null; alt?: string } | null } | null
-  const gallery = program.gallery as { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null
+  const { program, siblings, settings } = data
+  const p = program as Record<string, unknown>
+
+  const heroImage = program.heroImage as { url?: string | null; alt?: string } | null
+  const whyImage = p.whyImage as { url?: string | null; alt?: string } | null
+  const whyImagesRaw = p.whyImages as { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null
+  const travelImage = p.travelImage as { url?: string | null; alt?: string } | null
+  const transportImage = p.transportImage as { url?: string | null; alt?: string } | null
+  const fitnessRatings = p.fitnessRatings as { difficulty?: number; comfort?: number; nature?: number; culture?: number } | null
+  const itinerary = program.itinerary as { day: number; title: string; content?: Record<string, unknown> | null; image?: { url?: string | null; alt?: string } | null }[] | null
+  const accommodations = p.accommodations as { locationLabel?: string | null; name?: string | null; description?: Record<string, unknown> | null; learnMoreUrl?: string | null; gallery?: { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null }[] | null
+  const communityPhotos = p.communityPhotos as { photo?: { url?: string | null; alt?: string } | null }[] | null
+  const faq = p.faq as { question?: string | null; answer?: Record<string, unknown> | null }[] | null
+  const included = program.included as { item?: string | null }[] | null
+  const notIncluded = program.notIncluded as { item?: string | null }[] | null
+
+  const programAsTripSummary = [{
+    id: String(program.id),
+    startDate: program.startDate as string,
+    endDate: program.endDate as string,
+    spotsAvailable: program.spotsAvailable ?? 0,
+    spotsTotal: program.spotsTotal ?? 0,
+    price: program.price ?? 0,
+    currency: (program.currency ?? 'EUR') as string,
+    status: (program.status ?? 'active') as string,
+  }]
+
+  const siblingCards = siblings.map((s) => ({
+    name: s.title,
+    slug: s.slug ?? String(s.id),
+    heroImage: s.heroImage as { url?: string | null; alt?: string } | null,
+    month: null,
+  }))
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: program.title,
+    description: program.shortDescription ?? undefined,
+    startDate: program.startDate,
+    endDate: program.endDate,
+    image: mediaUrl(heroImage?.url) ?? undefined,
+    offers: {
+      '@type': 'Offer',
+      price: program.price,
+      priceCurrency: program.currency ?? 'EUR',
+      availability: program.spotsAvailable ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut',
+    },
+  }
+
+  const whyImages = [
+    ...((whyImagesRaw ?? [])
+      .filter((w) => w.image?.url)
+      .map((w) => ({ url: mediaUrl(w.image!.url)!, alt: w.alt ?? w.image?.alt }))),
+    ...(whyImagesRaw?.length ? [] : whyImage?.url ? [{ url: mediaUrl(whyImage.url)!, alt: whyImage.alt }] : []),
+  ]
 
   return (
     <article>
-      <div className="relative h-screen">
-        {mediaUrl(heroImage?.url) && (
-          <Image
-            src={mediaUrl(heroImage!.url)!}
-            alt={heroImage!.alt}
-            fill
-            priority
-            quality={90}
-            className="object-cover"
-            sizes="100vw"
-          />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16">
-          {program.type && (
-            <p className="text-xs font-semibold tracking-widest text-white/50 uppercase mb-3">{program.type}</p>
-          )}
-          <h1 className="text-5xl md:text-7xl font-bold mb-4">{program.title}</h1>
-          {program.location && (
-            <p className="text-lg text-white/70">{program.location}</p>
-          )}
-        </div>
-      </div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <DestinationPageAnimator />
+      <FloatingBookingBar
+        month={program.startDate ? new Date(program.startDate as string).toLocaleDateString('bg-BG', { month: 'long' }) : null}
+        maxParticipants={p.maxParticipants as number | null}
+        durationDays={p.durationDays as number | null}
+        price={program.price ?? 0}
+        currency={(program.currency ?? 'EUR') as string}
+        bookingHref={`/shop/${program.id}`}
+      />
 
-      {Array.isArray(gallery) && gallery.length > 0 && (
-        <div className="py-10 overflow-hidden">
-          <div className="flex gap-3 px-6 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
-            {gallery.map((item, i) =>
-              mediaUrl(item.image?.url) ? (
-                <div key={i} className="relative flex-shrink-0 w-48 aspect-[3/4] rounded-lg overflow-hidden">
-                  <Image src={mediaUrl(item.image!.url)!} alt={item.alt ?? item.image?.alt ?? ''} fill quality={80} className="object-cover" sizes="192px" />
-                </div>
-              ) : null
-            )}
-          </div>
-        </div>
-      )}
+      <HeroSection
+        title={program.title ?? ''}
+        subtitle={program.shortDescription}
+        heroImage={mediaUrl(heroImage?.url)!}
+        heroImageAlt={heroImage?.alt ?? program.title}
+      />
 
-      <div className="py-16 px-6">
-        <div className="max-w-2xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-            {program.startDate && (
-              <div className="border border-white/10 rounded-lg p-4">
-                <p className="text-xs text-white/40 mb-1">Начало</p>
-                <p className="text-sm font-semibold">{new Date(program.startDate as string).toLocaleDateString('bg-BG')}</p>
-              </div>
-            )}
-            {program.endDate && (
-              <div className="border border-white/10 rounded-lg p-4">
-                <p className="text-xs text-white/40 mb-1">Край</p>
-                <p className="text-sm font-semibold">{new Date(program.endDate as string).toLocaleDateString('bg-BG')}</p>
-              </div>
-            )}
-            {program.price != null && (
-              <div className="border border-white/10 rounded-lg p-4">
-                <p className="text-xs text-white/40 mb-1">Цена</p>
-                <p className="text-sm font-semibold">{program.price} {program.currency ?? 'EUR'}</p>
-              </div>
-            )}
-            {program.spotsAvailable != null && (
-              <div className="border border-white/10 rounded-lg p-4">
-                <p className="text-xs text-white/40 mb-1">Свободни места</p>
-                <p className="text-sm font-semibold">{program.spotsAvailable}</p>
-              </div>
-            )}
-          </div>
+      <WhySection
+        name={program.title ?? ''}
+        whyImages={whyImages}
+        heading={p.fitnessSummaryHeading as string | null}
+        content={program.description as Record<string, unknown> | null}
+      />
 
-          {program.shortDescription && (
-            <p className="text-lg text-white/70 leading-relaxed mb-12">{program.shortDescription}</p>
-          )}
+      <IsThisForYouSection
+        fitnessRatings={fitnessRatings}
+        summaryHeading={p.fitnessSummaryHeading as string | null}
+        summaryText={p.fitnessSummaryText as Record<string, unknown> | null}
+        upcomingTrips={programAsTripSummary}
+        thumbnailImage={mediaUrl(heroImage?.url)}
+        thumbnailImageAlt={heroImage?.alt}
+      />
 
-          {instructor?.name && (
-            <div className="flex items-center gap-4 mb-12 p-5 border border-white/10 rounded-lg">
-              {mediaUrl(instructor.photo?.url) && (
-                <div className="relative w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
-                  <Image src={mediaUrl(instructor.photo!.url)!} alt={instructor.name} fill quality={80} className="object-cover" sizes="64px" />
-                </div>
-              )}
-              <div>
-                <p className="font-semibold">{instructor.name}</p>
-                {instructor.bio && <p className="text-sm text-white/50 mt-1">{instructor.bio}</p>}
-              </div>
-            </div>
-          )}
+      <TravelTransportSection
+        travelTitle={p.travelTitle as string | null}
+        travelDescription={p.travelDescription as Record<string, unknown> | null}
+        travelImage={mediaUrl(travelImage?.url)}
+        travelImageAlt={travelImage?.alt}
+        transportTitle={p.transportTitle as string | null}
+        transportDescription={p.transportDescription as Record<string, unknown> | null}
+        transportImage={mediaUrl(transportImage?.url)}
+        transportImageAlt={transportImage?.alt}
+      />
 
-          {Array.isArray(program.itinerary) && program.itinerary.length > 0 && (
-            <div className="mb-12">
-              <h2 className="text-2xl font-bold mb-8">Програма</h2>
-              <div className="space-y-6">
-                {(program.itinerary as { day: number; title: string }[]).map((day) => (
-                  <div key={day.day} className="flex gap-6">
-                    <div className="flex-shrink-0 w-10 h-10 border border-white/20 rounded-full flex items-center justify-center text-sm font-bold">{day.day}</div>
-                    <div className="pt-2">
-                      <h3 className="font-semibold">{day.title}</h3>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+      <ItinerarySection itinerary={itinerary ?? []} />
 
-          <div className="border border-white/10 rounded-lg p-6">
-            <h2 className="text-xl font-bold mb-4">Запиши се</h2>
-            <BookingFormWrapper
-              trip={{
-                id: String(program.id),
-                title: program.title ?? '',
-                startDate: program.startDate as string,
-                endDate: (program.endDate ?? program.startDate) as string,
-                spotsAvailable: (program.spotsAvailable ?? 0) as number,
-                spotsTotal: (program.spotsTotal ?? 0) as number,
-                price: (program.price ?? 0) as number,
-                currency: (program.currency ?? 'EUR') as string,
-                status: (program.status as 'active' | 'soldOut' | 'draft') ?? 'active',
-                tags: [],
-              }}
-            />
-          </div>
-        </div>
-      </div>
+      <AccommodationsSection accommodations={accommodations} />
+
+      <AdventureCtaSection
+        durationDays={p.durationDays as number | null}
+        maxParticipants={p.maxParticipants as number | null}
+        price={program.price ?? 0}
+        currency={(program.currency ?? 'EUR') as string}
+        priceIncludes={p.priceIncludes as string | null}
+        communityPhotos={communityPhotos}
+      />
+
+      <BookingCtaSection
+        name={program.title ?? ''}
+        trips={programAsTripSummary}
+        included={included ?? []}
+        notIncluded={notIncluded ?? []}
+        bgImage={mediaUrl(heroImage?.url)}
+        bgImageAlt={heroImage?.alt}
+      />
+
+      <FaqSection
+        faq={faq}
+        email={(settings as Record<string, unknown>).contactEmail as string | null}
+        phone={(settings as Record<string, unknown>).contactPhone as string | null}
+      />
+
+      <OtherDestinationsSection
+        continent={p.continent as string | null}
+        destinations={siblingCards}
+      />
+
+      <WhyTravelWithUsSection />
     </article>
   )
 }

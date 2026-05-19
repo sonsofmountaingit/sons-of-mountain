@@ -144,6 +144,117 @@ export const Programs: CollectionConfig = {
       ],
     },
     {
+      name: 'whyImage',
+      type: 'upload',
+      relationTo: 'media',
+      admin: { hidden: true, description: 'Legacy — use whyImages instead' },
+    },
+    {
+      name: 'whyImages',
+      type: 'array',
+      admin: { description: 'Images for the "Защо?" section — cycles automatically every 4s' },
+      fields: [
+        { name: 'image', type: 'upload', relationTo: 'media', required: true },
+        { name: 'alt', type: 'text' },
+      ],
+    },
+    {
+      name: 'fitnessSummaryHeading',
+      type: 'text',
+    },
+    {
+      name: 'fitnessSummaryText',
+      type: 'richText',
+    },
+    {
+      name: 'fitnessRatings',
+      type: 'group',
+      fields: [
+        { name: 'difficulty', type: 'number', min: 0, max: 100, defaultValue: 50 },
+        { name: 'comfort', type: 'number', min: 0, max: 100, defaultValue: 50 },
+        { name: 'nature', type: 'number', min: 0, max: 100, defaultValue: 50 },
+        { name: 'culture', type: 'number', min: 0, max: 100, defaultValue: 50 },
+      ],
+    },
+    {
+      name: 'travelTitle',
+      type: 'text',
+    },
+    {
+      name: 'travelDescription',
+      type: 'richText',
+    },
+    {
+      name: 'travelImage',
+      type: 'upload',
+      relationTo: 'media',
+    },
+    {
+      name: 'transportTitle',
+      type: 'text',
+    },
+    {
+      name: 'transportDescription',
+      type: 'richText',
+    },
+    {
+      name: 'transportImage',
+      type: 'upload',
+      relationTo: 'media',
+    },
+    {
+      name: 'accommodations',
+      type: 'array',
+      fields: [
+        { name: 'locationLabel', type: 'text' },
+        { name: 'name', type: 'text' },
+        { name: 'description', type: 'richText' },
+        { name: 'learnMoreUrl', type: 'text' },
+        {
+          name: 'gallery',
+          type: 'array',
+          fields: [
+            { name: 'image', type: 'upload', relationTo: 'media', required: true },
+            { name: 'alt', type: 'text' },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'faq',
+      type: 'array',
+      fields: [
+        { name: 'question', type: 'text' },
+        { name: 'answer', type: 'richText' },
+      ],
+    },
+    {
+      name: 'durationDays',
+      type: 'number',
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'maxParticipants',
+      type: 'number',
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'priceIncludes',
+      type: 'textarea',
+    },
+    {
+      name: 'communityPhotos',
+      type: 'array',
+      fields: [
+        { name: 'photo', type: 'upload', relationTo: 'media', required: true },
+      ],
+    },
+    {
+      name: 'continent',
+      type: 'text',
+      admin: { position: 'sidebar' },
+    },
+    {
       name: 'instructor',
       type: 'group',
       fields: [

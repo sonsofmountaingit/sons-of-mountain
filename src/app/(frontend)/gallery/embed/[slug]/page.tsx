@@ -1,36 +1,48 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { unstable_cache } from 'next/cache'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import type { Metadata } from 'next'
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
+import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 import { mediaUrl } from '@/lib/media-url'
 
 interface Props {
   params: Promise<{ slug: string }>
 }
 
+export async function generateStaticParams() {
+  try {
+    const { getPayload } = await import('payload')
+    const cfg = await import('@payload-config')
+    const payload = await getPayload({ config: cfg.default })
+    const { docs } = await payload.find({ collection: 'gallery-collections', limit: 100, select: { slug: true } })
+    if (docs.length > 0) return docs.map((d) => ({ slug: (d.slug ?? String(d.id)) as string }))
+  } catch {}
+  return [{ slug: '_placeholder' }]
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: 'Gallery Embed', robots: { index: false } }
 }
 
+async function getCollection(slug: string) {
+  'use cache'
+  cacheTag('gallery-collections')
+  cacheLife('hours')
+  const payload = await getPayload({ config })
+  const { docs } = await payload.find({
+    collection: 'gallery-collections',
+    where: { slug: { equals: slug }, status: { equals: 'published' } },
+    depth: 2,
+    limit: 1,
+  })
+  return docs[0] ?? null
+}
+
 export default async function GalleryEmbedPage({ params }: Props) {
   const { slug } = await params
-  const getCollection = unstable_cache(
-    async () => {
-      const payload = await getPayload({ config })
-      const { docs } = await payload.find({
-        collection: 'gallery-collections',
-        where: { slug: { equals: slug }, status: { equals: 'published' } },
-        depth: 2,
-        limit: 1,
-      })
-      return docs[0] ?? null
-    },
-    [`gallery-embed-${slug}`],
-    { tags: ['gallery-collections'], revalidate: 3600 }
-  )
-  const collection = await getCollection()
+  const collection = await getCollection(slug)
   if (!collection) notFound()
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://panicframe.com'
 

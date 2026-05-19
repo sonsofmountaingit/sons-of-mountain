@@ -12,6 +12,7 @@
     "seed:pages": "bun src/data/seed/pages.ts",
     "seed:destinations": "bun src/payload/seeds/destinations.ts",
     "seed:calendar": "bun src/payload/seeds/calendar-seed.ts",
+    "seed:full-pages": "bun src/payload/seeds/full-pages-seed.ts",
     "graph": "bun scripts/graph.ts",
     "graph:focus": "bun scripts/graph.ts --focus",
     "graph:changed": "bun scripts/graph.ts --changed --out graph-changed.html"

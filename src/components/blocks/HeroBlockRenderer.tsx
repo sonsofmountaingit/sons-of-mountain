@@ -40,7 +40,7 @@ export function HeroBlockRenderer({ block }: HeroBlockProps) {
       {mediaUrl(block.backgroundImage?.url) && !block.bgImage && (
         <Image
           src={mediaUrl(block.backgroundImage!.url)!}
-          alt={block.backgroundImage.alt}
+          alt={block.backgroundImage?.alt ?? ''}
           fill
           priority
           quality={90}

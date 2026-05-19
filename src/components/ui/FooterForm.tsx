@@ -92,7 +92,7 @@ export function FooterForm({
         disabled={status === 'loading'}
         style={{
           width: '100%',
-          backgroundColor: '#e07b39',
+          backgroundColor: '#b85c1a',
           color: '#ffffff',
           border: 'none',
           borderRadius: '0.5rem',
@@ -110,7 +110,7 @@ export function FooterForm({
           Грешка. Опитайте отново.
         </p>
       )}
-      <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.3)', textAlign: 'center', margin: '0.25rem 0 0 0' }}>
+      <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.65)', textAlign: 'center', margin: '0.25rem 0 0 0' }}>
         {consentText}{' '}
         <Link href={privacyUrl} style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'underline' }}>
           {consentLinkText}
