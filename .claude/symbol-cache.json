@@ -14,6 +14,17 @@
     "lines": 216,
     "group": "other"
   },
+  "src/app/robots.ts": {
+    "exports": [
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "next"
+    ],
+    "lines": 17,
+    "group": "app"
+  },
   "src/app/(puck)/layout.tsx": {
     "exports": [
       "metadata",
@@ -212,6 +223,19 @@
     ],
     "lines": 65,
     "group": "puck"
+  },
+  "src/app/sitemap.ts": {
+    "exports": [
+      "default:async"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next"
+    ],
+    "lines": 53,
+    "group": "app"
   },
   "src/app/api/waitlist/route.ts": {
     "exports": [
@@ -781,17 +805,6 @@
     "lines": 91,
     "group": "api"
   },
-  "src/app/(frontend)/robots.ts": {
-    "exports": [
-      "default:function"
-    ],
-    "types": [],
-    "imports": [
-      "next"
-    ],
-    "lines": 17,
-    "group": "frontend"
-  },
   "src/app/(frontend)/contact/page.tsx": {
     "exports": [
       "metadata",
@@ -940,16 +953,26 @@
       "payload",
       "@payload-config",
       "next/navigation",
-      "next/image",
       "next",
-      "@/components/ui/TripCard",
-      "@/components/forms/BookingFormWrapper",
-      "@/components/ui/TrackRecentlyViewed",
       "next/dist/server/use-cache/cache-tag",
       "next/dist/server/use-cache/cache-life",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "@/components/ui/TrackRecentlyViewed",
+      "@/components/ui/destination-page/HeroSection",
+      "@/components/ui/destination-page/WhySection",
+      "@/components/ui/destination-page/IsThisForYouSection",
+      "@/components/ui/destination-page/TravelTransportSection",
+      "@/components/ui/destination-page/ItinerarySection",
+      "@/components/ui/destination-page/AccommodationsSection",
+      "@/components/ui/destination-page/AdventureCtaSection",
+      "@/components/ui/destination-page/BookingCtaSection",
+      "@/components/ui/destination-page/FaqSection",
+      "@/components/ui/destination-page/OtherDestinationsSection",
+      "@/components/ui/destination-page/WhyTravelWithUsSection",
+      "@/components/ui/destination-page/DestinationPageAnimator",
+      "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 193,
+    "lines": 241,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -995,6 +1018,7 @@
   },
   "src/app/(frontend)/gallery/embed/[slug]/page.tsx": {
     "exports": [
+      "generateStaticParams",
       "generateMetadata",
       "default:async"
     ],
@@ -1002,13 +1026,14 @@
     "imports": [
       "payload",
       "@payload-config",
-      "next/cache",
       "next/navigation",
       "next/image",
       "next",
+      "next/dist/server/use-cache/cache-tag",
+      "next/dist/server/use-cache/cache-life",
       "@/lib/media-url"
     ],
-    "lines": 65,
+    "lines": 77,
     "group": "frontend"
   },
   "src/app/(frontend)/gallery/page.tsx": {
@@ -1090,13 +1115,25 @@
       "payload",
       "@payload-config",
       "next/navigation",
-      "react",
       "next",
-      "@/components/forms/BookingFormWrapper",
       "next/dist/server/use-cache/cache-tag",
-      "next/dist/server/use-cache/cache-life"
+      "next/dist/server/use-cache/cache-life",
+      "@/lib/media-url",
+      "@/components/ui/destination-page/HeroSection",
+      "@/components/ui/destination-page/WhySection",
+      "@/components/ui/destination-page/IsThisForYouSection",
+      "@/components/ui/destination-page/TravelTransportSection",
+      "@/components/ui/destination-page/ItinerarySection",
+      "@/components/ui/destination-page/AccommodationsSection",
+      "@/components/ui/destination-page/AdventureCtaSection",
+      "@/components/ui/destination-page/BookingCtaSection",
+      "@/components/ui/destination-page/FaqSection",
+      "@/components/ui/destination-page/OtherDestinationsSection",
+      "@/components/ui/destination-page/WhyTravelWithUsSection",
+      "@/components/ui/destination-page/DestinationPageAnimator",
+      "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 56,
+    "lines": 242,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/page.tsx": {
@@ -1517,14 +1554,25 @@
       "payload",
       "@payload-config",
       "next/navigation",
-      "next/image",
       "next",
       "next/dist/server/use-cache/cache-tag",
       "next/dist/server/use-cache/cache-life",
       "@/lib/media-url",
-      "@/components/forms/BookingFormWrapper"
+      "@/components/ui/destination-page/HeroSection",
+      "@/components/ui/destination-page/WhySection",
+      "@/components/ui/destination-page/IsThisForYouSection",
+      "@/components/ui/destination-page/TravelTransportSection",
+      "@/components/ui/destination-page/ItinerarySection",
+      "@/components/ui/destination-page/AccommodationsSection",
+      "@/components/ui/destination-page/AdventureCtaSection",
+      "@/components/ui/destination-page/BookingCtaSection",
+      "@/components/ui/destination-page/FaqSection",
+      "@/components/ui/destination-page/OtherDestinationsSection",
+      "@/components/ui/destination-page/WhyTravelWithUsSection",
+      "@/components/ui/destination-page/DestinationPageAnimator",
+      "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 178,
+    "lines": 235,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/page.tsx": {
@@ -1564,19 +1612,6 @@
       "@/lib/media-url"
     ],
     "lines": 85,
-    "group": "frontend"
-  },
-  "src/app/(frontend)/sitemap.ts": {
-    "exports": [
-      "default:async"
-    ],
-    "types": [],
-    "imports": [
-      "payload",
-      "@payload-config",
-      "next"
-    ],
-    "lines": 53,
     "group": "frontend"
   },
   "src/app/(frontend)/forgot-password/ForgotClient.tsx": {
@@ -2177,7 +2212,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 36,
+    "lines": 44,
     "group": "globals"
   },
   "src/payload/payload.config.ts": {
@@ -2262,6 +2297,16 @@
       "@payload-config"
     ],
     "lines": 16,
+    "group": "payload"
+  },
+  "src/payload/seeds/full-pages-seed.ts": {
+    "exports": [],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 334,
     "group": "payload"
   },
   "src/payload/seeds/destinations.ts": {
@@ -2382,7 +2427,7 @@
       "next/cache",
       "next/server"
     ],
-    "lines": 220,
+    "lines": 331,
     "group": "collections"
   },
   "src/payload/collections/Pages.ts": {
@@ -2556,7 +2601,7 @@
       "payload",
       "../hooks/revalidate"
     ],
-    "lines": 130,
+    "lines": 246,
     "group": "collections"
   },
   "src/components/blocks/FAQBlockRenderer.tsx": {
@@ -3321,6 +3366,186 @@
       "gsap"
     ],
     "lines": 72,
+    "group": "ui"
+  },
+  "src/components/ui/destination-page/FloatingBookingBar.tsx": {
+    "exports": [
+      "FloatingBookingBar"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "next/link"
+    ],
+    "lines": 133,
+    "group": "ui"
+  },
+  "src/components/ui/destination-page/ItinerarySectionClient.tsx": {
+    "exports": [
+      "ItineraryNav"
+    ],
+    "types": [],
+    "imports": [
+      "react"
+    ],
+    "lines": 55,
+    "group": "ui"
+  },
+  "src/components/ui/destination-page/WhyTravelWithUsSection.tsx": {
+    "exports": [
+      "WhyTravelWithUsSection"
+    ],
+    "types": [],
+    "imports": [
+      "next/link"
+    ],
+    "lines": 29,
+    "group": "ui"
+  },
+  "src/components/ui/destination-page/AccommodationsCarousel.tsx": {
+    "exports": [
+      "AccommodationCarousel"
+    ],
+    "types": [],
+    "imports": [
+      "next/image",
+      "react"
+    ],
+    "lines": 65,
+    "group": "ui"
+  },
+  "src/components/ui/destination-page/OtherDestinationsSection.tsx": {
+    "exports": [
+      "OtherDestinationsSection"
+    ],
+    "types": [],
+    "imports": [
+      "next/image",
+      "next/link",
+      "@/lib/media-url"
+    ],
+    "lines": 60,
+    "group": "ui"
+  },
+  "src/components/ui/destination-page/AccommodationsSection.tsx": {
+    "exports": [
+      "AccommodationsSection"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/richtext-lexical/react",
+      "./AccommodationsCarousel",
+      "@/lib/media-url"
+    ],
+    "lines": 75,
+    "group": "ui"
+  },
+  "src/components/ui/destination-page/DestinationPageAnimator.tsx": {
+    "exports": [
+      "DestinationPageAnimator"
+    ],
+    "types": [],
+    "imports": [
+      "react"
+    ],
+    "lines": 84,
+    "group": "ui"
+  },
+  "src/components/ui/destination-page/FaqSection.tsx": {
+    "exports": [
+      "FaqSection"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/richtext-lexical/react"
+    ],
+    "lines": 57,
+    "group": "ui"
+  },
+  "src/components/ui/destination-page/HeroSection.tsx": {
+    "exports": [
+      "HeroSection"
+    ],
+    "types": [],
+    "imports": [
+      "next/image"
+    ],
+    "lines": 51,
+    "group": "ui"
+  },
+  "src/components/ui/destination-page/IsThisForYouSection.tsx": {
+    "exports": [
+      "IsThisForYouSection"
+    ],
+    "types": [],
+    "imports": [
+      "next/image",
+      "@payloadcms/richtext-lexical/react"
+    ],
+    "lines": 131,
+    "group": "ui"
+  },
+  "src/components/ui/destination-page/TravelTransportSection.tsx": {
+    "exports": [
+      "TravelTransportSection"
+    ],
+    "types": [],
+    "imports": [
+      "next/image",
+      "@payloadcms/richtext-lexical/react"
+    ],
+    "lines": 89,
+    "group": "ui"
+  },
+  "src/components/ui/destination-page/ItinerarySection.tsx": {
+    "exports": [
+      "ItinerarySection"
+    ],
+    "types": [],
+    "imports": [
+      "next/image",
+      "@payloadcms/richtext-lexical/react",
+      "./ItinerarySectionClient",
+      "@/lib/media-url"
+    ],
+    "lines": 67,
+    "group": "ui"
+  },
+  "src/components/ui/destination-page/WhySection.tsx": {
+    "exports": [
+      "WhySection"
+    ],
+    "types": [],
+    "imports": [
+      "next/image",
+      "@payloadcms/richtext-lexical/react",
+      "react"
+    ],
+    "lines": 141,
+    "group": "ui"
+  },
+  "src/components/ui/destination-page/BookingCtaSection.tsx": {
+    "exports": [
+      "BookingCtaSection"
+    ],
+    "types": [],
+    "imports": [
+      "next/image",
+      "next/link"
+    ],
+    "lines": 145,
+    "group": "ui"
+  },
+  "src/components/ui/destination-page/AdventureCtaSection.tsx": {
+    "exports": [
+      "AdventureCtaSection"
+    ],
+    "types": [],
+    "imports": [
+      "next/image",
+      "@/lib/media-url"
+    ],
+    "lines": 78,
     "group": "ui"
   },
   "src/components/ui/NavbarClient.tsx": {

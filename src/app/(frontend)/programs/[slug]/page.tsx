@@ -158,7 +158,7 @@ export default async function ProgramPage({ params }: Props) {
         durationDays={p.durationDays as number | null}
         price={program.price ?? 0}
         currency={(program.currency ?? 'EUR') as string}
-        bookingHref={`/shop/${program.id}`}
+        bookingHref={`/programs/${(program.slug ?? String(program.id))}#booking`}
       />
 
       <HeroSection
@@ -215,6 +215,7 @@ export default async function ProgramPage({ params }: Props) {
         notIncluded={notIncluded ?? []}
         bgImage={mediaUrl(heroImage?.url)}
         bgImageAlt={heroImage?.alt}
+        bookingHref={`/programs/${program.slug ?? String(program.id)}#booking`}
       />
 
       <FaqSection

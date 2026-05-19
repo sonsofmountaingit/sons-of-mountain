@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'motion/react'
 import { ProgramsMegaMenu } from './ProgramsMegaMenu'
 import { useSession, signOut } from '@/lib/auth-client'
+import { CartSheet } from '@/components/shop/CartSheet'
+import { useCartStore } from '@/lib/cart-store'
 
 interface NavbarClientProps {
   navLinksLeft: { label: string; href: string }[]
@@ -46,7 +48,9 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
   const { scrollY } = useScroll()
   const { data: session } = useSession()
 
+  const [cartOpen, setCartOpen] = useState(false)
   const [logoHovered, setLogoHovered] = useState(false)
+  const itemCount = useCartStore((s) => s.itemCount())
   const logoSrc = logoHovered ? '/colored-logo.svg' : '/white-logo.svg'
   const allLinks = [...(navLinksLeft ?? []), ...(navLinksRight ?? [])]
 
@@ -195,6 +199,24 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
 
             <div className="flex items-center gap-2.5 pl-3 border-l border-white/20">
 
+              {/* Cart */}
+              <button
+                onClick={() => setCartOpen(true)}
+                className="relative text-white/70 hover:text-white transition-colors"
+                aria-label="Cart"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" strokeLinecap="round" strokeLinejoin="round" />
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <path d="M16 10a4 4 0 01-8 0" />
+                </svg>
+                {itemCount > 0 && (
+                  <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-white text-[9px] font-bold text-black">
+                    {itemCount > 9 ? '9+' : itemCount}
+                  </span>
+                )}
+              </button>
+
               {/* Search */}
               <div data-panel="search">
                 <button
@@ -311,6 +333,9 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
 
       {/* Desktop megamenu */}
       <ProgramsMegaMenu open={megaOpen} onClose={() => setMegaOpen(false)} />
+
+      {/* Cart sheet */}
+      <CartSheet open={cartOpen} onClose={() => setCartOpen(false)} />
 
       {/* Search overlay */}
       <AnimatePresence>

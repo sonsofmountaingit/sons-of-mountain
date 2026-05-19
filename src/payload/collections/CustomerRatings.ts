@@ -58,6 +58,18 @@ export const CustomerRatings: CollectionConfig = {
       admin: { position: 'sidebar' },
     },
     {
+      name: 'program',
+      type: 'relationship',
+      relationTo: 'programs',
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'product',
+      type: 'relationship',
+      relationTo: 'products',
+      admin: { position: 'sidebar' },
+    },
+    {
       name: 'rating',
       type: 'number',
       min: 1,

@@ -136,6 +136,8 @@ export const Customers: CollectionConfig = {
           options: [
             { label: 'Пътуване', value: 'trip' },
             { label: 'Програма', value: 'program' },
+            { label: 'Дестинация', value: 'destination' },
+            { label: 'Продукт', value: 'product' },
           ],
           required: true,
         },
@@ -143,19 +145,56 @@ export const Customers: CollectionConfig = {
           name: 'trip',
           type: 'relationship',
           relationTo: 'trips',
-          admin: {
-            condition: (_, siblingData) => siblingData?.itemType === 'trip',
-          },
+          admin: { condition: (_, s) => s?.itemType === 'trip' },
         },
         {
           name: 'program',
           type: 'relationship',
           relationTo: 'programs',
-          admin: {
-            condition: (_, siblingData) => siblingData?.itemType === 'program',
-          },
+          admin: { condition: (_, s) => s?.itemType === 'program' },
+        },
+        {
+          name: 'destination',
+          type: 'relationship',
+          relationTo: 'destinations',
+          admin: { condition: (_, s) => s?.itemType === 'destination' },
+        },
+        {
+          name: 'product',
+          type: 'relationship',
+          relationTo: 'products',
+          admin: { condition: (_, s) => s?.itemType === 'product' },
         },
       ],
+    },
+    {
+      name: 'loyaltyPoints',
+      type: 'number',
+      defaultValue: 0,
+      admin: { description: 'Current loyalty points balance (100 pts = €1 discount)', position: 'sidebar' },
+    },
+    {
+      name: 'loyaltyTier',
+      type: 'select',
+      options: [
+        { label: 'Bronze (0–499 pts)', value: 'bronze' },
+        { label: 'Silver (500–1499 pts)', value: 'silver' },
+        { label: 'Gold (1500–4999 pts)', value: 'gold' },
+        { label: 'Platinum (5000+ pts)', value: 'platinum' },
+      ],
+      defaultValue: 'bronze',
+      admin: { readOnly: true, position: 'sidebar' },
+    },
+    {
+      name: 'stripeCustomerId',
+      type: 'text',
+      admin: { readOnly: true, description: 'Stripe customer ID for saved payment methods' },
+    },
+    {
+      name: 'referralCode',
+      type: 'relationship',
+      relationTo: 'discount-codes',
+      admin: { readOnly: true, description: 'This customer\'s unique referral code' },
     },
   ],
 }

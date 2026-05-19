@@ -114,5 +114,51 @@ export const Registrations: CollectionConfig = {
       type: 'date',
       admin: { readOnly: true },
     },
+    {
+      name: 'paymentMode',
+      type: 'select',
+      options: [
+        { label: 'Full Payment', value: 'full' },
+        { label: 'Deposit', value: 'deposit' },
+        { label: 'Installments', value: 'installments' },
+      ],
+      defaultValue: 'full',
+    },
+    {
+      name: 'depositPaid',
+      type: 'number',
+      admin: { condition: (data) => data.paymentMode === 'deposit' },
+    },
+    {
+      name: 'remainingBalance',
+      type: 'number',
+      admin: { condition: (data) => data.paymentMode === 'deposit' },
+    },
+    {
+      name: 'remainingDueDate',
+      type: 'date',
+      admin: { condition: (data) => data.paymentMode === 'deposit' },
+    },
+    {
+      name: 'checkedIn',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: { description: 'Scanned QR at trip check-in' },
+    },
+    {
+      name: 'checkedInAt',
+      type: 'date',
+      admin: { readOnly: true },
+    },
+    {
+      name: 'qrToken',
+      type: 'text',
+      admin: { readOnly: true, description: 'HMAC token for QR code validation' },
+    },
+    {
+      name: 'certificateIssuedAt',
+      type: 'date',
+      admin: { readOnly: true, description: 'When completion certificate was generated' },
+    },
   ],
 }

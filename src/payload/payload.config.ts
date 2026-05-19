@@ -27,6 +27,15 @@ import { CustomerRatings } from './collections/CustomerRatings'
 import { Programs } from './collections/Programs'
 import { GalleryCollections } from './collections/GalleryCollections'
 import { Favorites } from './collections/Favorites'
+import { Categories } from './collections/Categories'
+import { Products } from './collections/Products'
+import { DiscountCodes } from './collections/DiscountCodes'
+import { StockAlerts } from './collections/StockAlerts'
+import { Waitlist } from './collections/Waitlist'
+import { Bundles } from './collections/Bundles'
+import { AbandonedCarts } from './collections/AbandonedCarts'
+import { Subscriptions } from './collections/Subscriptions'
+import { Payouts } from './collections/Payouts'
 
 import { Navigation } from './globals/Navigation'
 import { Footer } from './globals/Footer'
@@ -34,6 +43,7 @@ import { SiteSettings } from './globals/SiteSettings'
 import { Hero } from './globals/Hero'
 import { DestinationCarousel } from './globals/DestinationCarousel'
 import { Gallery } from './globals/Gallery'
+import { Shop } from './globals/Shop'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -93,8 +103,17 @@ export default buildConfig({
     Programs,
     GalleryCollections,
     Favorites,
+    Categories,
+    Products,
+    DiscountCodes,
+    StockAlerts,
+    Waitlist,
+    Bundles,
+    AbandonedCarts,
+    Subscriptions,
+    Payouts,
   ],
-  globals: [Navigation, Footer, SiteSettings, Hero, DestinationCarousel, Gallery],
+  globals: [Navigation, Footer, SiteSettings, Hero, DestinationCarousel, Gallery, Shop],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET ?? 'fallback-secret',
   typescript: {

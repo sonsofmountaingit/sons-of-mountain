@@ -7,6 +7,12 @@
       "size": 4
     },
     {
+      "id": "src/app/robots.ts",
+      "label": "app/robots.ts",
+      "group": "app",
+      "size": 4
+    },
+    {
       "id": "src/app/(puck)/layout.tsx",
       "label": "(puck)/layout.tsx",
       "group": "puck",
@@ -82,6 +88,12 @@
       "id": "src/app/(puck)/puck/pages/[id]/page.tsx",
       "label": "[id]/page.tsx",
       "group": "puck",
+      "size": 4
+    },
+    {
+      "id": "src/app/sitemap.ts",
+      "label": "app/sitemap.ts",
+      "group": "app",
       "size": 4
     },
     {
@@ -328,12 +340,6 @@
       "id": "src/app/api/customer-ratings/route.ts",
       "label": "customer-ratings/route.ts",
       "group": "api",
-      "size": 4
-    },
-    {
-      "id": "src/app/(frontend)/robots.ts",
-      "label": "(frontend)/robots.ts",
-      "group": "frontend",
       "size": 4
     },
     {
@@ -637,12 +643,6 @@
       "size": 4
     },
     {
-      "id": "src/app/(frontend)/sitemap.ts",
-      "label": "(frontend)/sitemap.ts",
-      "group": "frontend",
-      "size": 4
-    },
-    {
       "id": "src/app/(frontend)/forgot-password/ForgotClient.tsx",
       "label": "forgot-password/ForgotClient.tsx",
       "group": "frontend",
@@ -921,6 +921,12 @@
     {
       "id": "src/payload/seeds/reset-hero-puck.ts",
       "label": "seeds/reset-hero-puck.ts",
+      "group": "payload",
+      "size": 4
+    },
+    {
+      "id": "src/payload/seeds/full-pages-seed.ts",
+      "label": "seeds/full-pages-seed.ts",
       "group": "payload",
       "size": 4
     },
@@ -1411,6 +1417,96 @@
       "size": 10
     },
     {
+      "id": "src/components/ui/destination-page/FloatingBookingBar.tsx",
+      "label": "destination-page/FloatingBookingBar.tsx",
+      "group": "ui",
+      "size": 10
+    },
+    {
+      "id": "src/components/ui/destination-page/ItinerarySectionClient.tsx",
+      "label": "destination-page/ItinerarySectionClient.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
+      "id": "src/components/ui/destination-page/WhyTravelWithUsSection.tsx",
+      "label": "destination-page/WhyTravelWithUsSection.tsx",
+      "group": "ui",
+      "size": 10
+    },
+    {
+      "id": "src/components/ui/destination-page/AccommodationsCarousel.tsx",
+      "label": "destination-page/AccommodationsCarousel.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
+      "id": "src/components/ui/destination-page/OtherDestinationsSection.tsx",
+      "label": "destination-page/OtherDestinationsSection.tsx",
+      "group": "ui",
+      "size": 10
+    },
+    {
+      "id": "src/components/ui/destination-page/AccommodationsSection.tsx",
+      "label": "destination-page/AccommodationsSection.tsx",
+      "group": "ui",
+      "size": 10
+    },
+    {
+      "id": "src/components/ui/destination-page/DestinationPageAnimator.tsx",
+      "label": "destination-page/DestinationPageAnimator.tsx",
+      "group": "ui",
+      "size": 10
+    },
+    {
+      "id": "src/components/ui/destination-page/FaqSection.tsx",
+      "label": "destination-page/FaqSection.tsx",
+      "group": "ui",
+      "size": 10
+    },
+    {
+      "id": "src/components/ui/destination-page/HeroSection.tsx",
+      "label": "destination-page/HeroSection.tsx",
+      "group": "ui",
+      "size": 10
+    },
+    {
+      "id": "src/components/ui/destination-page/IsThisForYouSection.tsx",
+      "label": "destination-page/IsThisForYouSection.tsx",
+      "group": "ui",
+      "size": 10
+    },
+    {
+      "id": "src/components/ui/destination-page/TravelTransportSection.tsx",
+      "label": "destination-page/TravelTransportSection.tsx",
+      "group": "ui",
+      "size": 10
+    },
+    {
+      "id": "src/components/ui/destination-page/ItinerarySection.tsx",
+      "label": "destination-page/ItinerarySection.tsx",
+      "group": "ui",
+      "size": 10
+    },
+    {
+      "id": "src/components/ui/destination-page/WhySection.tsx",
+      "label": "destination-page/WhySection.tsx",
+      "group": "ui",
+      "size": 10
+    },
+    {
+      "id": "src/components/ui/destination-page/BookingCtaSection.tsx",
+      "label": "destination-page/BookingCtaSection.tsx",
+      "group": "ui",
+      "size": 10
+    },
+    {
+      "id": "src/components/ui/destination-page/AdventureCtaSection.tsx",
+      "label": "destination-page/AdventureCtaSection.tsx",
+      "group": "ui",
+      "size": 10
+    },
+    {
       "id": "src/components/ui/NavbarClient.tsx",
       "label": "ui/NavbarClient.tsx",
       "group": "ui",
@@ -1426,7 +1522,7 @@
       "id": "src/components/ui/TripCard.tsx",
       "label": "ui/TripCard.tsx",
       "group": "ui",
-      "size": 6
+      "size": 4
     },
     {
       "id": "src/components/ui/GalleryLightbox.tsx",
@@ -1564,7 +1660,7 @@
       "id": "src/components/forms/BookingFormWrapper.tsx",
       "label": "forms/BookingFormWrapper.tsx",
       "group": "components",
-      "size": 10
+      "size": 4
     },
     {
       "id": "src/components/forms/SubscribeForm.tsx",
@@ -1853,6 +1949,10 @@
       "target": "src/puck/converter.ts"
     },
     {
+      "source": "src/app/sitemap.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
       "source": "src/app/api/waitlist/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -2086,11 +2186,7 @@
     },
     {
       "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
-      "target": "src/components/ui/TripCard.tsx"
-    },
-    {
-      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
-      "target": "src/components/forms/BookingFormWrapper.tsx"
+      "target": "src/lib/media-url.ts"
     },
     {
       "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
@@ -2098,7 +2194,55 @@
     },
     {
       "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
-      "target": "src/lib/media-url.ts"
+      "target": "src/components/ui/destination-page/HeroSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/WhySection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/IsThisForYouSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/TravelTransportSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/ItinerarySection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/AccommodationsSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/AdventureCtaSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/BookingCtaSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/FaqSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/OtherDestinationsSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/WhyTravelWithUsSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/DestinationPageAnimator.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/FloatingBookingBar.tsx"
     },
     {
       "source": "src/app/(frontend)/signup/SignupClient.tsx",
@@ -2186,7 +2330,59 @@
     },
     {
       "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
-      "target": "src/components/forms/BookingFormWrapper.tsx"
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
+      "target": "src/components/ui/destination-page/HeroSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
+      "target": "src/components/ui/destination-page/WhySection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
+      "target": "src/components/ui/destination-page/IsThisForYouSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
+      "target": "src/components/ui/destination-page/TravelTransportSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
+      "target": "src/components/ui/destination-page/ItinerarySection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
+      "target": "src/components/ui/destination-page/AccommodationsSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
+      "target": "src/components/ui/destination-page/AdventureCtaSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
+      "target": "src/components/ui/destination-page/BookingCtaSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
+      "target": "src/components/ui/destination-page/FaqSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
+      "target": "src/components/ui/destination-page/OtherDestinationsSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
+      "target": "src/components/ui/destination-page/WhyTravelWithUsSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
+      "target": "src/components/ui/destination-page/DestinationPageAnimator.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
+      "target": "src/components/ui/destination-page/FloatingBookingBar.tsx"
     },
     {
       "source": "src/app/(frontend)/blog/page.tsx",
@@ -2342,7 +2538,55 @@
     },
     {
       "source": "src/app/(frontend)/programs/[slug]/page.tsx",
-      "target": "src/components/forms/BookingFormWrapper.tsx"
+      "target": "src/components/ui/destination-page/HeroSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/WhySection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/IsThisForYouSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/TravelTransportSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/ItinerarySection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/AccommodationsSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/AdventureCtaSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/BookingCtaSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/FaqSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/OtherDestinationsSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/WhyTravelWithUsSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/DestinationPageAnimator.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/FloatingBookingBar.tsx"
     },
     {
       "source": "src/app/(frontend)/stories/page.tsx",
@@ -2359,10 +2603,6 @@
     {
       "source": "src/app/(frontend)/stories/[slug]/page.tsx",
       "target": "src/lib/media-url.ts"
-    },
-    {
-      "source": "src/app/(frontend)/sitemap.ts",
-      "target": "src/payload/payload.config.ts"
     },
     {
       "source": "src/app/(frontend)/forgot-password/ForgotClient.tsx",
@@ -2682,6 +2922,10 @@
     },
     {
       "source": "src/payload/seeds/reset-hero-puck.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/payload/seeds/full-pages-seed.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
@@ -3229,6 +3473,30 @@
       "target": "src/components/ui/HeroEditButton.tsx"
     },
     {
+      "source": "src/components/ui/destination-page/OtherDestinationsSection.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/components/ui/destination-page/AccommodationsSection.tsx",
+      "target": "src/components/ui/destination-page/AccommodationsCarousel.tsx"
+    },
+    {
+      "source": "src/components/ui/destination-page/AccommodationsSection.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/components/ui/destination-page/ItinerarySection.tsx",
+      "target": "src/components/ui/destination-page/ItinerarySectionClient.tsx"
+    },
+    {
+      "source": "src/components/ui/destination-page/ItinerarySection.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/components/ui/destination-page/AdventureCtaSection.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
       "source": "src/components/ui/NavbarClient.tsx",
       "target": "src/components/ui/ProgramsMegaMenu.tsx"
     },
@@ -3537,6 +3805,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-05-16T15:29:14.816Z",
-  "fileCount": 295
+  "builtAt": "2026-05-19T07:03:01.756Z",
+  "fileCount": 311
 }

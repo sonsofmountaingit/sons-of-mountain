@@ -187,6 +187,11 @@ export type PuckBlocks = {
   HomeDestCarouselBlock: { sectionTitle: string; destinations: { id: string; name: string; slug: string; month: string; spotsLabel: string }[] }
   GalleryHeroBlock: { heading: string; subheading: string; ctaLabel: string }
   GalleryGridBlock: Record<string, never>
+  ShopHeroBlock: { title: string; subtitle: string; imageUrl: string }
+  ShopFeaturedBlock: { title: string; items: unknown[] }
+  ShopBannerBlock: { text: string; cta: string; ctaHref: string }
+  GiftVoucherPromoBlock: { title: string; description: string }
+  BundleShowcaseBlock: { title: string }
 }
 
 // ─── Config ───────────────────────────────────────────────────────────────────
@@ -1358,6 +1363,104 @@ export const puckConfig: Config<PuckBlocks> = {
       render: () => (
         <div className="px-6 py-8 text-white/40 text-sm text-center">
           Gallery Grid — collections pulled from Payload Gallery global
+        </div>
+      ),
+    },
+
+    ShopHeroBlock: {
+      label: 'Shop — Hero',
+      fields: {
+        title: { type: 'text', label: 'Title' },
+        subtitle: { type: 'textarea', label: 'Subtitle' },
+        imageUrl: { type: 'text', label: 'Image URL' },
+      },
+      defaultProps: {
+        title: 'Adventure Shop',
+        subtitle: 'Discover our collection',
+        imageUrl: '',
+      },
+      render: (props: any) => (
+        <div className="px-6 py-12 text-center">
+          {props.imageUrl && <img src={props.imageUrl} alt={props.title} className="w-full max-w-xl mx-auto mb-6 rounded-lg" />}
+          <h1 className="text-4xl font-bold mb-4">{props.title}</h1>
+          <p className="text-lg opacity-75">{props.subtitle}</p>
+        </div>
+      ),
+    },
+
+    ShopFeaturedBlock: {
+      label: 'Shop — Featured Categories',
+      fields: {
+        title: { type: 'text', label: 'Title' },
+        items: { type: 'array', label: 'Categories', arrayFields: [{ name: 'name', type: 'text', label: 'Name' }] },
+      },
+      defaultProps: {
+        title: 'Featured Categories',
+        items: [],
+      },
+      render: (props: any) => (
+        <div className="px-6 py-12">
+          <h2 className="text-3xl font-bold mb-8 text-center">{props.title}</h2>
+          <div className="grid grid-cols-3 gap-6 max-w-3xl mx-auto">
+            {props.items?.length ? props.items.map((item: any, i: number) => (
+              <div key={i} className="bg-white/10 rounded-lg p-6 text-center">{item.name || 'Category'}</div>
+            )) : <p className="col-span-3 text-center opacity-40">Add categories in the panel →</p>}
+          </div>
+        </div>
+      ),
+    },
+
+    ShopBannerBlock: {
+      label: 'Shop — Banner',
+      fields: {
+        text: { type: 'text', label: 'Banner Text' },
+        cta: { type: 'text', label: 'CTA Text' },
+        ctaHref: { type: 'text', label: 'CTA URL' },
+      },
+      defaultProps: {
+        text: 'Free shipping over €100',
+        cta: 'Shop Now',
+        ctaHref: '/shop',
+      },
+      render: (props: any) => (
+        <div className="px-6 py-8 bg-white/5 rounded-lg max-w-2xl mx-auto text-center mb-12">
+          <p className="text-lg mb-4">{props.text}</p>
+          <a href={props.ctaHref} className="inline-block px-6 py-3 bg-white/20 rounded hover:bg-white/30 transition-colors">
+            {props.cta}
+          </a>
+        </div>
+      ),
+    },
+
+    GiftVoucherPromoBlock: {
+      label: 'Shop — Gift Vouchers',
+      fields: {
+        title: { type: 'text', label: 'Title' },
+        description: { type: 'textarea', label: 'Description' },
+      },
+      defaultProps: {
+        title: 'Gift Vouchers',
+        description: 'Give the gift of adventure',
+      },
+      render: (props: any) => (
+        <div className="px-6 py-12 bg-white/5 rounded-lg max-w-2xl mx-auto text-center">
+          <h3 className="text-2xl font-bold mb-4">{props.title}</h3>
+          <p className="opacity-75">{props.description}</p>
+        </div>
+      ),
+    },
+
+    BundleShowcaseBlock: {
+      label: 'Shop — Bundles',
+      fields: {
+        title: { type: 'text', label: 'Title' },
+      },
+      defaultProps: {
+        title: 'Shop Bundles',
+      },
+      render: (props: any) => (
+        <div className="px-6 py-12 text-center">
+          <h3 className="text-3xl font-bold">{props.title}</h3>
         </div>
       ),
     },

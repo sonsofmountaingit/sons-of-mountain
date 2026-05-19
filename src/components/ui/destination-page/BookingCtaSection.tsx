@@ -19,6 +19,7 @@ interface Props {
   notIncluded?: { item?: string | null }[]
   bgImage?: string | null
   bgImageAlt?: string
+  bookingHref?: string
 }
 
 function formatDate(d: string) {
@@ -30,15 +31,16 @@ function formatPrice(price: number, currency: string) {
   return `${sym}${price.toLocaleString('bg-BG')}`
 }
 
-export function BookingCtaSection({ name, trips = [], included = [], notIncluded = [], bgImage, bgImageAlt }: Props) {
+export function BookingCtaSection({ name, trips = [], included = [], notIncluded = [], bgImage, bgImageAlt, bookingHref }: Props) {
   const activeTrip = trips.find((t) => t.status !== 'draft') ?? trips[0]
+  const resolvedBookingHref = bookingHref ?? (activeTrip ? `/shop/${activeTrip.id}` : '#')
 
   const fillPct = activeTrip
     ? Math.round(((activeTrip.spotsTotal - activeTrip.spotsAvailable) / activeTrip.spotsTotal) * 100)
     : 0
 
   return (
-    <section className="relative py-20 px-6 bg-black text-white overflow-hidden">
+    <section id="booking" className="relative py-20 px-6 bg-black text-white overflow-hidden">
       {bgImage && (
         <>
           <Image
@@ -73,7 +75,7 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
 
           {activeTrip && (
             <Link
-              href={`/shop/${activeTrip.id}`}
+              href={resolvedBookingHref}
               className="block w-full bg-orange-700 hover:bg-orange-800 text-white text-center font-black uppercase tracking-widest py-4 rounded-lg transition-colors mb-3"
             >
               ЗАПИШИ СЕ

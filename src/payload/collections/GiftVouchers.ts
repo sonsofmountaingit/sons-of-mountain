@@ -100,6 +100,38 @@ export const GiftVouchers: CollectionConfig = {
       relationTo: 'trips',
     },
     {
+      name: 'forProgram',
+      type: 'relationship',
+      relationTo: 'programs',
+    },
+    {
+      name: 'isStorefrontPurchasable',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: { description: 'Show as purchasable gift voucher on storefront' },
+    },
+    {
+      name: 'senderName',
+      type: 'text',
+      admin: { description: 'Name of the person gifting' },
+    },
+    {
+      name: 'senderEmail',
+      type: 'email',
+      admin: { description: 'Email of the gifter (receives confirmation)' },
+    },
+    {
+      name: 'deliveryDate',
+      type: 'date',
+      admin: { description: 'Schedule email delivery (leave empty = immediate on payment)' },
+    },
+    {
+      name: 'coverImage',
+      type: 'relationship',
+      relationTo: 'media',
+      admin: { description: 'Gift card visual image' },
+    },
+    {
       name: 'message',
       type: 'textarea',
       admin: { description: 'Лично послание от купувача' },
