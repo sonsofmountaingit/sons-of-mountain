@@ -130,6 +130,37 @@
     "lines": 54,
     "group": "puck"
   },
+  "src/app/(puck)/puck/shop/PuckShopEditorClient.tsx": {
+    "exports": [
+      "PuckShopEditorClient"
+    ],
+    "types": [],
+    "imports": [
+      "@puckeditor/core",
+      "@/puck/config",
+      "next/navigation",
+      "react"
+    ],
+    "lines": 115,
+    "group": "puck"
+  },
+  "src/app/(puck)/puck/shop/page.tsx": {
+    "exports": [
+      "default:async"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/headers",
+      "next/navigation",
+      "react",
+      "@puckeditor/core",
+      "./PuckShopEditorClient"
+    ],
+    "lines": 74,
+    "group": "puck"
+  },
   "src/app/(puck)/puck/navigation/PuckNavigationEditorClient.tsx": {
     "exports": [
       "PuckNavigationEditorClient"
@@ -237,6 +268,21 @@
     "lines": 53,
     "group": "app"
   },
+  "src/app/api/waitlist/join/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "@/lib/auth",
+      "next/headers"
+    ],
+    "lines": 63,
+    "group": "api"
+  },
   "src/app/api/waitlist/route.ts": {
     "exports": [
       "POST"
@@ -275,6 +321,21 @@
     "lines": 19,
     "group": "api"
   },
+  "src/app/api/referral/generate/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "@/lib/auth",
+      "next/headers"
+    ],
+    "lines": 57,
+    "group": "api"
+  },
   "src/app/api/contact/route.ts": {
     "exports": [
       "POST"
@@ -298,6 +359,32 @@
       "@payload-config"
     ],
     "lines": 32,
+    "group": "api"
+  },
+  "src/app/api/calendar/[destinationSlug_ics]/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 67,
+    "group": "api"
+  },
+  "src/app/api/calendar/all.ics/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 77,
     "group": "api"
   },
   "src/app/api/ical/[itemId]/route.ts": {
@@ -407,6 +494,21 @@
     "lines": 27,
     "group": "api"
   },
+  "src/app/api/ratings/submit/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "@/lib/auth",
+      "next/headers"
+    ],
+    "lines": 85,
+    "group": "api"
+  },
   "src/app/api/footer-data/route.ts": {
     "exports": [
       "GET"
@@ -418,6 +520,17 @@
       "@payload-config"
     ],
     "lines": 79,
+    "group": "api"
+  },
+  "src/app/api/shipping/rates/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server"
+    ],
+    "lines": 45,
     "group": "api"
   },
   "src/app/api/unsubscribe/route.ts": {
@@ -442,9 +555,10 @@
       "next/server",
       "payload",
       "@payload-config",
-      "stripe"
+      "stripe",
+      "@/lib/cart-store"
     ],
-    "lines": 75,
+    "lines": 164,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {
@@ -458,6 +572,32 @@
       "@payload-config"
     ],
     "lines": 53,
+    "group": "api"
+  },
+  "src/app/api/discount/validate/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 73,
+    "group": "api"
+  },
+  "src/app/api/stock-alerts/subscribe/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 45,
     "group": "api"
   },
   "src/app/api/dashboard/gallery-upload/route.ts": {
@@ -575,6 +715,35 @@
     "lines": 103,
     "group": "api"
   },
+  "src/app/api/cart/validate/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "@/lib/cart-store",
+      "@/lib/pricing/dynamic"
+    ],
+    "lines": 68,
+    "group": "api"
+  },
+  "src/app/api/cart/abandoned/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "next/headers"
+    ],
+    "lines": 40,
+    "group": "api"
+  },
   "src/app/api/photographer-profile/route.ts": {
     "exports": [
       "GET",
@@ -607,6 +776,20 @@
     "lines": 68,
     "group": "api"
   },
+  "src/app/api/shop-data/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "next/cache"
+    ],
+    "lines": 25,
+    "group": "api"
+  },
   "src/app/api/webhooks/resend/route.ts": {
     "exports": [
       "POST"
@@ -632,7 +815,7 @@
       "stripe",
       "next/cache"
     ],
-    "lines": 60,
+    "lines": 318,
     "group": "api"
   },
   "src/app/api/puck/footer/route.ts": {
@@ -675,6 +858,22 @@
       "next/cache"
     ],
     "lines": 38,
+    "group": "api"
+  },
+  "src/app/api/puck/shop/route.ts": {
+    "exports": [
+      "PATCH"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "@/lib/auth",
+      "next/headers",
+      "next/cache"
+    ],
+    "lines": 20,
     "group": "api"
   },
   "src/app/api/puck/navigation/route.ts": {
@@ -744,6 +943,18 @@
     "lines": 97,
     "group": "api"
   },
+  "src/app/api/cron/abandoned-cart/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "@/lib/cron/abandoned-cart"
+    ],
+    "lines": 12,
+    "group": "api"
+  },
   "src/app/api/cron/sync-sold-out/route.ts": {
     "exports": [
       "GET"
@@ -755,6 +966,21 @@
       "@payload-config"
     ],
     "lines": 46,
+    "group": "api"
+  },
+  "src/app/api/wishlist/toggle/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "@/lib/auth",
+      "next/headers"
+    ],
+    "lines": 42,
     "group": "api"
   },
   "src/app/api/wishlist/route.ts": {
@@ -1091,6 +1317,104 @@
     "lines": 122,
     "group": "frontend"
   },
+  "src/app/(frontend)/shop/cancel/page.tsx": {
+    "exports": [
+      "metadata",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "next",
+      "next/link"
+    ],
+    "lines": 27,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/shop/products/[slug]/page.tsx": {
+    "exports": [
+      "generateMetadata",
+      "default:async"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/navigation",
+      "next",
+      "next/image",
+      "next/cache",
+      "@/lib/media-url",
+      "@/components/shop/AddToCartButton",
+      "@/components/shop/WishlistButton",
+      "@/components/shop/StockAlertButton",
+      "@/components/shop/WaitlistButton",
+      "@/components/shop/StarRating"
+    ],
+    "lines": 145,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/shop/success/page.tsx": {
+    "exports": [
+      "metadata",
+      "default:async"
+    ],
+    "types": [],
+    "imports": [
+      "next",
+      "next/link"
+    ],
+    "lines": 28,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/shop/gift-vouchers/_components/GiftVoucherPurchaseForm.tsx": {
+    "exports": [
+      "GiftVoucherPurchaseForm"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "react-hook-form",
+      "@hookform/resolvers/zod",
+      "zod"
+    ],
+    "lines": 171,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/shop/gift-vouchers/page.tsx": {
+    "exports": [
+      "metadata",
+      "default:async"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/cache",
+      "next",
+      "next/link",
+      "./_components/GiftVoucherPurchaseForm"
+    ],
+    "lines": 71,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/shop/checkout/page.tsx": {
+    "exports": [
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "@/lib/cart-store",
+      "@/components/shop/CartItem",
+      "@/components/shop/DiscountCodeInput",
+      "react-hook-form",
+      "@hookform/resolvers/zod",
+      "zod",
+      "next/link"
+    ],
+    "lines": 192,
+    "group": "frontend"
+  },
   "src/app/(frontend)/shop/[tripId]/success/page.tsx": {
     "exports": [
       "metadata",
@@ -1136,15 +1460,98 @@
     "lines": 242,
     "group": "frontend"
   },
-  "src/app/(frontend)/shop/page.tsx": {
+  "src/app/(frontend)/shop/orders/[id]/page.tsx": {
     "exports": [
-      "default:function"
+      "metadata",
+      "default:async"
     ],
     "types": [],
     "imports": [
-      "next/navigation"
+      "@/lib/auth",
+      "next/headers",
+      "next/navigation",
+      "payload",
+      "@payload-config",
+      "next",
+      "next/cache",
+      "next/link",
+      "@/components/shop/OrderStatusBadge"
     ],
-    "lines": 6,
+    "lines": 186,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/shop/orders/page.tsx": {
+    "exports": [
+      "metadata",
+      "default:async"
+    ],
+    "types": [],
+    "imports": [
+      "@/lib/auth",
+      "next/headers",
+      "next/navigation",
+      "payload",
+      "@payload-config",
+      "next",
+      "next/link",
+      "@/components/shop/OrderStatusBadge"
+    ],
+    "lines": 95,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/shop/page.tsx": {
+    "exports": [
+      "metadata",
+      "default:async"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/cache",
+      "next",
+      "next/link",
+      "next/image",
+      "@/components/shop/ProductCard",
+      "@/lib/media-url"
+    ],
+    "lines": 159,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/shop/bundles/page.tsx": {
+    "exports": [
+      "metadata",
+      "default:async"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/cache",
+      "next",
+      "next/link",
+      "next/image",
+      "@/lib/media-url"
+    ],
+    "lines": 81,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/shop/bundles/[slug]/page.tsx": {
+    "exports": [
+      "generateMetadata",
+      "default:async"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/navigation",
+      "next",
+      "next/image",
+      "@/lib/media-url",
+      "@/components/shop/AddToCartButton"
+    ],
+    "lines": 107,
     "group": "frontend"
   },
   "src/app/(frontend)/about/page.tsx": {
@@ -1572,7 +1979,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 235,
+    "lines": 236,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/page.tsx": {
@@ -1739,6 +2146,41 @@
       "@/lib/media-url"
     ],
     "lines": 162,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/account/loyalty/page.tsx": {
+    "exports": [
+      "metadata",
+      "default:async"
+    ],
+    "types": [],
+    "imports": [
+      "@/lib/auth",
+      "next/headers",
+      "next/navigation",
+      "payload",
+      "@payload-config",
+      "next"
+    ],
+    "lines": 237,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/account/wishlist/page.tsx": {
+    "exports": [
+      "metadata",
+      "default:async"
+    ],
+    "types": [],
+    "imports": [
+      "@/lib/auth",
+      "next/headers",
+      "next/navigation",
+      "payload",
+      "@payload-config",
+      "next",
+      "next/link"
+    ],
+    "lines": 56,
     "group": "frontend"
   },
   "src/app/(frontend)/empire/page.tsx": {
@@ -1927,11 +2369,12 @@
       "@/components/admin/HeroVisualEditorButton",
       "@/components/admin/DestinationCarouselVisualEditorButton",
       "@/components/admin/GalleryVisualEditorButton",
+      "@/components/admin/ShopVisualEditorButton",
       "@/components/admin/AdminLogo",
       "@/components/admin/AdminLoginBackground",
       "@payloadcms/next/rsc"
     ],
-    "lines": 69,
+    "lines": 71,
     "group": "payload-app"
   },
   "src/app/(payload)/layout.tsx": {
@@ -2002,6 +2445,78 @@
     ],
     "lines": 194,
     "group": "app"
+  },
+  "src/emails/StockAlertEmail.tsx": {
+    "exports": [
+      "StockAlertEmail"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 56,
+    "group": "other"
+  },
+  "src/emails/DepositConfirmEmail.tsx": {
+    "exports": [
+      "DepositConfirmEmail"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 63,
+    "group": "other"
+  },
+  "src/emails/WaitlistNotificationEmail.tsx": {
+    "exports": [
+      "WaitlistNotificationEmail"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 58,
+    "group": "other"
+  },
+  "src/emails/ReferralCodeEmail.tsx": {
+    "exports": [
+      "ReferralCodeEmail"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 56,
+    "group": "other"
+  },
+  "src/emails/OrderConfirmationEmail.tsx": {
+    "exports": [
+      "OrderConfirmationEmail"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 73,
+    "group": "other"
+  },
+  "src/emails/LoyaltyTierUpgradeEmail.tsx": {
+    "exports": [
+      "LoyaltyTierUpgradeEmail"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 76,
+    "group": "other"
+  },
+  "src/emails/WaitlistJoinedEmail.tsx": {
+    "exports": [
+      "WaitlistJoinedEmail"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 45,
+    "group": "other"
+  },
+  "src/emails/AbandonedCartEmail.tsx": {
+    "exports": [
+      "AbandonedCartEmail"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 68,
+    "group": "other"
   },
   "src/payload/blocks/CTABlock.ts": {
     "exports": [
@@ -2135,6 +2650,19 @@
     "lines": 18,
     "group": "payload-blocks"
   },
+  "src/payload/globals/Shop.ts": {
+    "exports": [
+      "Shop"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "next/server",
+      "next/cache"
+    ],
+    "lines": 109,
+    "group": "globals"
+  },
   "src/payload/globals/Hero.ts": {
     "exports": [
       "Hero"
@@ -2249,14 +2777,24 @@
       "./collections/Programs",
       "./collections/GalleryCollections",
       "./collections/Favorites",
+      "./collections/Categories",
+      "./collections/Products",
+      "./collections/DiscountCodes",
+      "./collections/StockAlerts",
+      "./collections/Waitlist",
+      "./collections/Bundles",
+      "./collections/AbandonedCarts",
+      "./collections/Subscriptions",
+      "./collections/Payouts",
       "./globals/Navigation",
       "./globals/Footer",
       "./globals/SiteSettings",
       "./globals/Hero",
       "./globals/DestinationCarousel",
-      "./globals/Gallery"
+      "./globals/Gallery",
+      "./globals/Shop"
     ],
-    "lines": 123,
+    "lines": 142,
     "group": "payload"
   },
   "src/payload/seeds/hero.ts": {
@@ -2391,7 +2929,18 @@
     "imports": [
       "payload"
     ],
-    "lines": 162,
+    "lines": 201,
+    "group": "collections"
+  },
+  "src/payload/collections/StockAlerts.ts": {
+    "exports": [
+      "StockAlerts"
+    ],
+    "types": [],
+    "imports": [
+      "payload"
+    ],
+    "lines": 74,
     "group": "collections"
   },
   "src/payload/collections/Registrations.ts": {
@@ -2403,7 +2952,7 @@
       "payload",
       "../hooks/syncTripSpots"
     ],
-    "lines": 119,
+    "lines": 165,
     "group": "collections"
   },
   "src/payload/collections/Favorites.ts": {
@@ -2414,7 +2963,18 @@
     "imports": [
       "payload"
     ],
-    "lines": 32,
+    "lines": 72,
+    "group": "collections"
+  },
+  "src/payload/collections/AbandonedCarts.ts": {
+    "exports": [
+      "AbandonedCarts"
+    ],
+    "types": [],
+    "imports": [
+      "payload"
+    ],
+    "lines": 52,
     "group": "collections"
   },
   "src/payload/collections/Programs.ts": {
@@ -2465,6 +3025,20 @@
     "lines": 57,
     "group": "collections"
   },
+  "src/payload/collections/Products.ts": {
+    "exports": [
+      "Products"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "next/server",
+      "next/cache",
+      "@payloadcms/richtext-lexical"
+    ],
+    "lines": 159,
+    "group": "collections"
+  },
   "src/payload/collections/Orders.ts": {
     "exports": [
       "Orders"
@@ -2473,7 +3047,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 84,
+    "lines": 239,
     "group": "collections"
   },
   "src/payload/collections/Stories.ts": {
@@ -2488,6 +3062,28 @@
     "lines": 65,
     "group": "collections"
   },
+  "src/payload/collections/Subscriptions.ts": {
+    "exports": [
+      "Subscriptions"
+    ],
+    "types": [],
+    "imports": [
+      "payload"
+    ],
+    "lines": 77,
+    "group": "collections"
+  },
+  "src/payload/collections/Payouts.ts": {
+    "exports": [
+      "Payouts"
+    ],
+    "types": [],
+    "imports": [
+      "payload"
+    ],
+    "lines": 68,
+    "group": "collections"
+  },
   "src/payload/collections/Segments.ts": {
     "exports": [
       "Segments"
@@ -2497,6 +3093,32 @@
       "payload"
     ],
     "lines": 28,
+    "group": "collections"
+  },
+  "src/payload/collections/Categories.ts": {
+    "exports": [
+      "Categories"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "next/server",
+      "next/cache"
+    ],
+    "lines": 53,
+    "group": "collections"
+  },
+  "src/payload/collections/Bundles.ts": {
+    "exports": [
+      "Bundles"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "next/server",
+      "next/cache"
+    ],
+    "lines": 115,
     "group": "collections"
   },
   "src/payload/collections/Users.ts": {
@@ -2518,7 +3140,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 114,
+    "lines": 146,
     "group": "collections"
   },
   "src/payload/collections/CustomerRatings.ts": {
@@ -2529,7 +3151,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 73,
+    "lines": 85,
     "group": "collections"
   },
   "src/payload/collections/BlogCategories.ts": {
@@ -2567,6 +3189,17 @@
     "lines": 33,
     "group": "collections"
   },
+  "src/payload/collections/DiscountCodes.ts": {
+    "exports": [
+      "DiscountCodes"
+    ],
+    "types": [],
+    "imports": [
+      "payload"
+    ],
+    "lines": 150,
+    "group": "collections"
+  },
   "src/payload/collections/BlogPosts.ts": {
     "exports": [
       "BlogPosts"
@@ -2602,6 +3235,17 @@
       "../hooks/revalidate"
     ],
     "lines": 246,
+    "group": "collections"
+  },
+  "src/payload/collections/Waitlist.ts": {
+    "exports": [
+      "Waitlist"
+    ],
+    "types": [],
+    "imports": [
+      "payload"
+    ],
+    "lines": 86,
     "group": "collections"
   },
   "src/components/blocks/FAQBlockRenderer.tsx": {
@@ -3533,7 +4177,7 @@
       "next/image",
       "next/link"
     ],
-    "lines": 145,
+    "lines": 147,
     "group": "ui"
   },
   "src/components/ui/destination-page/AdventureCtaSection.tsx": {
@@ -3560,9 +4204,11 @@
       "next/navigation",
       "motion/react",
       "./ProgramsMegaMenu",
-      "@/lib/auth-client"
+      "@/lib/auth-client",
+      "@/components/shop/CartSheet",
+      "@/lib/cart-store"
     ],
-    "lines": 481,
+    "lines": 506,
     "group": "ui"
   },
   "src/components/ui/DestinationCarousel.tsx": {
@@ -3957,6 +4603,131 @@
     "lines": 118,
     "group": "components"
   },
+  "src/components/shop/WishlistButton.tsx": {
+    "exports": [
+      "WishlistButton"
+    ],
+    "types": [],
+    "imports": [
+      "react"
+    ],
+    "lines": 58,
+    "group": "components"
+  },
+  "src/components/shop/StockAlertButton.tsx": {
+    "exports": [
+      "StockAlertButton"
+    ],
+    "types": [],
+    "imports": [
+      "react"
+    ],
+    "lines": 67,
+    "group": "components"
+  },
+  "src/components/shop/OrderStatusBadge.tsx": {
+    "exports": [
+      "OrderStatusBadge"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 17,
+    "group": "components"
+  },
+  "src/components/shop/CartItem.tsx": {
+    "exports": [
+      "CartItemRow"
+    ],
+    "types": [],
+    "imports": [
+      "next/image",
+      "@/lib/cart-store"
+    ],
+    "lines": 50,
+    "group": "components"
+  },
+  "src/components/shop/ProductCard.tsx": {
+    "exports": [
+      "ProductCard"
+    ],
+    "types": [],
+    "imports": [
+      "next/link",
+      "next/image",
+      "./AddToCartButton",
+      "./WishlistButton"
+    ],
+    "lines": 71,
+    "group": "components"
+  },
+  "src/components/shop/AddToCartButton.tsx": {
+    "exports": [
+      "AddToCartButton"
+    ],
+    "types": [],
+    "imports": [
+      "@/lib/cart-store"
+    ],
+    "lines": 23,
+    "group": "components"
+  },
+  "src/components/shop/WaitlistButton.tsx": {
+    "exports": [
+      "WaitlistButton"
+    ],
+    "types": [],
+    "imports": [
+      "react"
+    ],
+    "lines": 78,
+    "group": "components"
+  },
+  "src/components/shop/StarRating.tsx": {
+    "exports": [
+      "StarRating"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 32,
+    "group": "components"
+  },
+  "src/components/shop/CartSheet.tsx": {
+    "exports": [
+      "CartSheet"
+    ],
+    "types": [],
+    "imports": [
+      "@/lib/cart-store",
+      "./CartItem",
+      "next/link",
+      "react"
+    ],
+    "lines": 86,
+    "group": "components"
+  },
+  "src/components/shop/EarlyBirdBadge.tsx": {
+    "exports": [
+      "EarlyBirdBadge"
+    ],
+    "types": [],
+    "imports": [
+      "react"
+    ],
+    "lines": 34,
+    "group": "components"
+  },
+  "src/components/shop/DiscountCodeInput.tsx": {
+    "exports": [
+      "DiscountCodeInput"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "@/lib/cart-store"
+    ],
+    "lines": 62,
+    "group": "components"
+  },
   "src/components/admin/VisualEditorButton.tsx": {
     "exports": [
       "VisualEditorButton"
@@ -4037,6 +4808,15 @@
     "lines": 26,
     "group": "admin"
   },
+  "src/components/admin/ShopVisualEditorButton.tsx": {
+    "exports": [
+      "ShopVisualEditorButton"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 36,
+    "group": "admin"
+  },
   "src/lib/stripe.ts": {
     "exports": [
       "stripe"
@@ -4062,6 +4842,23 @@
     "lines": 8,
     "group": "lib"
   },
+  "src/lib/cart-store.ts": {
+    "exports": [
+      "useCartStore"
+    ],
+    "types": [
+      "CartItemType",
+      "CartItem",
+      "AppliedDiscount",
+      "AppliedVoucher"
+    ],
+    "imports": [
+      "zustand",
+      "zustand/middleware"
+    ],
+    "lines": 164,
+    "group": "lib"
+  },
   "src/lib/metadata.ts": {
     "exports": [
       "buildMetadata"
@@ -4080,6 +4877,17 @@
     "types": [],
     "imports": [],
     "lines": 15,
+    "group": "lib"
+  },
+  "src/lib/pricing/dynamic.ts": {
+    "exports": [
+      "getDynamicPrice",
+      "getDynamicPriceLabel",
+      "getEarlyBirdPrice"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 31,
     "group": "lib"
   },
   "src/lib/auth.ts": {
@@ -4122,6 +4930,19 @@
       "better-auth/react"
     ],
     "lines": 12,
+    "group": "lib"
+  },
+  "src/lib/cron/abandoned-cart.ts": {
+    "exports": [
+      "processAbandonedCarts"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "@/lib/resend"
+    ],
+    "lines": 67,
     "group": "lib"
   },
   "src/puck/customFields.tsx": {
@@ -4255,7 +5076,7 @@
       "@/components/blocks/gallery/GalleryHeroBlock",
       "@/components/blocks/gallery/GalleryGridBlock"
     ],
-    "lines": 1421,
+    "lines": 1524,
     "group": "other"
   },
   "src/puck/puckAI.ts": {

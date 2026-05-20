@@ -15,7 +15,7 @@ export function FaqSection({ faq, email, phone }: Props) {
   if (!faq?.length) return null
 
   return (
-    <section className="py-20 px-6 bg-white text-black">
+    <section className="py-20 px-4 sm:px-6 bg-white text-black">
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-[280px_1fr] gap-16">
         <div>
           <p className="text-xs font-semibold tracking-widest text-black/60 uppercase mb-3">FAQ</p>

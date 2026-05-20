@@ -38,8 +38,8 @@ function Gauge({ label, value }: { label: string; value: number }) {
   const dash = circ * pct
   return (
     <div className="flex flex-col items-center gap-1">
-      <div className="relative w-16 h-16">
-        <svg width="64" height="64" viewBox="0 0 64 64" className="-rotate-90" aria-hidden="true">
+      <div className="relative w-12 h-12 sm:w-16 sm:h-16">
+        <svg width="100%" height="100%" viewBox="0 0 64 64" className="-rotate-90" aria-hidden="true">
           <circle cx="32" cy="32" r={r} fill="none" stroke="#e5e7eb" strokeWidth="4" />
           <circle
             cx="32" cy="32" r={r} fill="none"
@@ -48,11 +48,11 @@ function Gauge({ label, value }: { label: string; value: number }) {
             strokeLinecap="round"
           />
         </svg>
-        <span className="absolute inset-0 flex items-center justify-center text-lg font-bold text-black">
+        <span className="absolute inset-0 flex items-center justify-center text-sm sm:text-lg font-bold text-black">
           {value}
         </span>
       </div>
-      <span className="text-xs font-semibold tracking-wider text-black/60 uppercase">{label}</span>
+      <span className="text-[9px] sm:text-xs font-semibold tracking-wide text-black/60 uppercase text-center leading-tight">{label}</span>
     </div>
   )
 }
@@ -67,14 +67,14 @@ export function IsThisForYouSection({ fitnessRatings, summaryHeading, summaryTex
     new Date(d).toLocaleDateString('bg-BG', { day: '2-digit', month: '2-digit', year: 'numeric' })
 
   return (
-    <section className="py-16 px-6 bg-white text-black">
+    <section className="py-16 px-4 sm:px-6 bg-white text-black">
       <div className="max-w-5xl mx-auto bg-gray-100 rounded-2xl p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-10 items-start" data-animate="scale-in">
         <div data-animate="fade-up">
           <p className="text-xs font-semibold tracking-widest text-black/60 uppercase mb-6">
             ЗА ТЕБ ЛИ Е ТОВА ПЪТУВАНЕ?
           </p>
           {fitnessRatings && (
-            <div className="flex gap-6 mb-8">
+            <div className="grid grid-cols-4 gap-3 mb-8">
               <Gauge label="ТРУДНОСТ" value={toScale(fitnessRatings.difficulty)} />
               <Gauge label="КОМФОРТ" value={toScale(fitnessRatings.comfort)} />
               <Gauge label="ПРИРОДА" value={toScale(fitnessRatings.nature)} />

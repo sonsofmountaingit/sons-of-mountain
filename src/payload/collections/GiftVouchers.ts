@@ -111,6 +111,12 @@ export const GiftVouchers: CollectionConfig = {
       admin: { description: 'Show as purchasable gift voucher on storefront' },
     },
     {
+      name: 'isGift',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: { description: 'Purchased as a gift for another person' },
+    },
+    {
       name: 'senderName',
       type: 'text',
       admin: { description: 'Name of the person gifting' },
@@ -140,6 +146,16 @@ export const GiftVouchers: CollectionConfig = {
       name: 'paidAt',
       type: 'date',
       admin: { readOnly: true },
+    },
+    {
+      name: 'stripeProductId',
+      type: 'text',
+      admin: { readOnly: true, description: 'Stripe Product ID', position: 'sidebar' },
+    },
+    {
+      name: 'stripeRefundId',
+      type: 'text',
+      admin: { readOnly: true, position: 'sidebar' },
     },
   ],
 }

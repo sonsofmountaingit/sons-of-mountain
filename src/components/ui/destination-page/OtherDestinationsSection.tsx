@@ -18,7 +18,7 @@ export function OtherDestinationsSection({ continent, destinations }: Props) {
   if (!destinations?.length) return null
 
   return (
-    <section className="py-16 px-6 bg-white text-black">
+    <section className="py-16 px-4 sm:px-6 bg-white text-black">
       <div className="max-w-5xl mx-auto">
         <h2 className="text-center text-lg font-semibold mb-10">
           Други пътешествия{continent ? ` в ${continent}` : ''}

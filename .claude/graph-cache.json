@@ -55,6 +55,18 @@
       "size": 4
     },
     {
+      "id": "src/app/(puck)/puck/shop/PuckShopEditorClient.tsx",
+      "label": "shop/PuckShopEditorClient.tsx",
+      "group": "puck",
+      "size": 6
+    },
+    {
+      "id": "src/app/(puck)/puck/shop/page.tsx",
+      "label": "shop/page.tsx",
+      "group": "puck",
+      "size": 4
+    },
+    {
       "id": "src/app/(puck)/puck/navigation/PuckNavigationEditorClient.tsx",
       "label": "navigation/PuckNavigationEditorClient.tsx",
       "group": "puck",
@@ -97,6 +109,12 @@
       "size": 4
     },
     {
+      "id": "src/app/api/waitlist/join/route.ts",
+      "label": "join/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/waitlist/route.ts",
       "label": "waitlist/route.ts",
       "group": "api",
@@ -115,6 +133,12 @@
       "size": 4
     },
     {
+      "id": "src/app/api/referral/generate/route.ts",
+      "label": "generate/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/contact/route.ts",
       "label": "contact/route.ts",
       "group": "api",
@@ -123,6 +147,18 @@
     {
       "id": "src/app/api/gallery-data/route.ts",
       "label": "gallery-data/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/calendar/[destinationSlug_ics]/route.ts",
+      "label": "[destinationSlug_ics]/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/calendar/all.ics/route.ts",
+      "label": "all.ics/route.ts",
       "group": "api",
       "size": 4
     },
@@ -175,8 +211,20 @@
       "size": 4
     },
     {
+      "id": "src/app/api/ratings/submit/route.ts",
+      "label": "submit/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/footer-data/route.ts",
       "label": "footer-data/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/shipping/rates/route.ts",
+      "label": "rates/route.ts",
       "group": "api",
       "size": 4
     },
@@ -195,6 +243,18 @@
     {
       "id": "src/app/api/calendar-participants/route.ts",
       "label": "calendar-participants/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/discount/validate/route.ts",
+      "label": "validate/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/stock-alerts/subscribe/route.ts",
+      "label": "subscribe/route.ts",
       "group": "api",
       "size": 4
     },
@@ -247,6 +307,18 @@
       "size": 4
     },
     {
+      "id": "src/app/api/cart/validate/route.ts",
+      "label": "validate/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/cart/abandoned/route.ts",
+      "label": "abandoned/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/photographer-profile/route.ts",
       "label": "photographer-profile/route.ts",
       "group": "api",
@@ -255,6 +327,12 @@
     {
       "id": "src/app/api/megamenu/route.ts",
       "label": "megamenu/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/shop-data/route.ts",
+      "label": "shop-data/route.ts",
       "group": "api",
       "size": 4
     },
@@ -289,6 +367,12 @@
       "size": 4
     },
     {
+      "id": "src/app/api/puck/shop/route.ts",
+      "label": "shop/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/puck/navigation/route.ts",
       "label": "navigation/route.ts",
       "group": "api",
@@ -319,8 +403,20 @@
       "size": 4
     },
     {
+      "id": "src/app/api/cron/abandoned-cart/route.ts",
+      "label": "abandoned-cart/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/cron/sync-sold-out/route.ts",
       "label": "sync-sold-out/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/wishlist/toggle/route.ts",
+      "label": "toggle/route.ts",
       "group": "api",
       "size": 4
     },
@@ -451,6 +547,42 @@
       "size": 4
     },
     {
+      "id": "src/app/(frontend)/shop/cancel/page.tsx",
+      "label": "cancel/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/shop/products/[slug]/page.tsx",
+      "label": "[slug]/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/shop/success/page.tsx",
+      "label": "success/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/shop/gift-vouchers/_components/GiftVoucherPurchaseForm.tsx",
+      "label": "_components/GiftVoucherPurchaseForm.tsx",
+      "group": "frontend",
+      "size": 6
+    },
+    {
+      "id": "src/app/(frontend)/shop/gift-vouchers/page.tsx",
+      "label": "gift-vouchers/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/shop/checkout/page.tsx",
+      "label": "checkout/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
       "id": "src/app/(frontend)/shop/[tripId]/success/page.tsx",
       "label": "success/page.tsx",
       "group": "frontend",
@@ -463,8 +595,32 @@
       "size": 4
     },
     {
+      "id": "src/app/(frontend)/shop/orders/[id]/page.tsx",
+      "label": "[id]/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/shop/orders/page.tsx",
+      "label": "orders/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
       "id": "src/app/(frontend)/shop/page.tsx",
       "label": "shop/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/shop/bundles/page.tsx",
+      "label": "bundles/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/shop/bundles/[slug]/page.tsx",
+      "label": "[slug]/page.tsx",
       "group": "frontend",
       "size": 4
     },
@@ -691,6 +847,18 @@
       "size": 4
     },
     {
+      "id": "src/app/(frontend)/account/loyalty/page.tsx",
+      "label": "loyalty/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/account/wishlist/page.tsx",
+      "label": "wishlist/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
       "id": "src/app/(frontend)/empire/page.tsx",
       "label": "empire/page.tsx",
       "group": "frontend",
@@ -787,6 +955,54 @@
       "size": 4
     },
     {
+      "id": "src/emails/StockAlertEmail.tsx",
+      "label": "emails/StockAlertEmail.tsx",
+      "group": "other",
+      "size": 4
+    },
+    {
+      "id": "src/emails/DepositConfirmEmail.tsx",
+      "label": "emails/DepositConfirmEmail.tsx",
+      "group": "other",
+      "size": 4
+    },
+    {
+      "id": "src/emails/WaitlistNotificationEmail.tsx",
+      "label": "emails/WaitlistNotificationEmail.tsx",
+      "group": "other",
+      "size": 4
+    },
+    {
+      "id": "src/emails/ReferralCodeEmail.tsx",
+      "label": "emails/ReferralCodeEmail.tsx",
+      "group": "other",
+      "size": 4
+    },
+    {
+      "id": "src/emails/OrderConfirmationEmail.tsx",
+      "label": "emails/OrderConfirmationEmail.tsx",
+      "group": "other",
+      "size": 4
+    },
+    {
+      "id": "src/emails/LoyaltyTierUpgradeEmail.tsx",
+      "label": "emails/LoyaltyTierUpgradeEmail.tsx",
+      "group": "other",
+      "size": 4
+    },
+    {
+      "id": "src/emails/WaitlistJoinedEmail.tsx",
+      "label": "emails/WaitlistJoinedEmail.tsx",
+      "group": "other",
+      "size": 4
+    },
+    {
+      "id": "src/emails/AbandonedCartEmail.tsx",
+      "label": "emails/AbandonedCartEmail.tsx",
+      "group": "other",
+      "size": 4
+    },
+    {
       "id": "src/payload/blocks/CTABlock.ts",
       "label": "blocks/CTABlock.ts",
       "group": "payload-blocks",
@@ -856,6 +1072,12 @@
       "id": "src/payload/blocks/RichTextBlock.ts",
       "label": "blocks/RichTextBlock.ts",
       "group": "payload-blocks",
+      "size": 6
+    },
+    {
+      "id": "src/payload/globals/Shop.ts",
+      "label": "globals/Shop.ts",
+      "group": "globals",
       "size": 6
     },
     {
@@ -973,6 +1195,12 @@
       "size": 6
     },
     {
+      "id": "src/payload/collections/StockAlerts.ts",
+      "label": "collections/StockAlerts.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
       "id": "src/payload/collections/Registrations.ts",
       "label": "collections/Registrations.ts",
       "group": "collections",
@@ -981,6 +1209,12 @@
     {
       "id": "src/payload/collections/Favorites.ts",
       "label": "collections/Favorites.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/AbandonedCarts.ts",
+      "label": "collections/AbandonedCarts.ts",
       "group": "collections",
       "size": 6
     },
@@ -1003,6 +1237,12 @@
       "size": 6
     },
     {
+      "id": "src/payload/collections/Products.ts",
+      "label": "collections/Products.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
       "id": "src/payload/collections/Orders.ts",
       "label": "collections/Orders.ts",
       "group": "collections",
@@ -1015,8 +1255,32 @@
       "size": 6
     },
     {
+      "id": "src/payload/collections/Subscriptions.ts",
+      "label": "collections/Subscriptions.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/Payouts.ts",
+      "label": "collections/Payouts.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
       "id": "src/payload/collections/Segments.ts",
       "label": "collections/Segments.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/Categories.ts",
+      "label": "collections/Categories.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/Bundles.ts",
+      "label": "collections/Bundles.ts",
       "group": "collections",
       "size": 6
     },
@@ -1057,6 +1321,12 @@
       "size": 6
     },
     {
+      "id": "src/payload/collections/DiscountCodes.ts",
+      "label": "collections/DiscountCodes.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
       "id": "src/payload/collections/BlogPosts.ts",
       "label": "collections/BlogPosts.ts",
       "group": "collections",
@@ -1071,6 +1341,12 @@
     {
       "id": "src/payload/collections/Destinations.ts",
       "label": "collections/Destinations.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/Waitlist.ts",
+      "label": "collections/Waitlist.ts",
       "group": "collections",
       "size": 6
     },
@@ -1693,6 +1969,72 @@
       "size": 12
     },
     {
+      "id": "src/components/shop/WishlistButton.tsx",
+      "label": "shop/WishlistButton.tsx",
+      "group": "components",
+      "size": 8
+    },
+    {
+      "id": "src/components/shop/StockAlertButton.tsx",
+      "label": "shop/StockAlertButton.tsx",
+      "group": "components",
+      "size": 6
+    },
+    {
+      "id": "src/components/shop/OrderStatusBadge.tsx",
+      "label": "shop/OrderStatusBadge.tsx",
+      "group": "components",
+      "size": 8
+    },
+    {
+      "id": "src/components/shop/CartItem.tsx",
+      "label": "shop/CartItem.tsx",
+      "group": "components",
+      "size": 8
+    },
+    {
+      "id": "src/components/shop/ProductCard.tsx",
+      "label": "shop/ProductCard.tsx",
+      "group": "components",
+      "size": 6
+    },
+    {
+      "id": "src/components/shop/AddToCartButton.tsx",
+      "label": "shop/AddToCartButton.tsx",
+      "group": "components",
+      "size": 10
+    },
+    {
+      "id": "src/components/shop/WaitlistButton.tsx",
+      "label": "shop/WaitlistButton.tsx",
+      "group": "components",
+      "size": 6
+    },
+    {
+      "id": "src/components/shop/StarRating.tsx",
+      "label": "shop/StarRating.tsx",
+      "group": "components",
+      "size": 6
+    },
+    {
+      "id": "src/components/shop/CartSheet.tsx",
+      "label": "shop/CartSheet.tsx",
+      "group": "components",
+      "size": 6
+    },
+    {
+      "id": "src/components/shop/EarlyBirdBadge.tsx",
+      "label": "shop/EarlyBirdBadge.tsx",
+      "group": "components",
+      "size": 4
+    },
+    {
+      "id": "src/components/shop/DiscountCodeInput.tsx",
+      "label": "shop/DiscountCodeInput.tsx",
+      "group": "components",
+      "size": 6
+    },
+    {
       "id": "src/components/admin/VisualEditorButton.tsx",
       "label": "admin/VisualEditorButton.tsx",
       "group": "admin",
@@ -1741,6 +2083,12 @@
       "size": 6
     },
     {
+      "id": "src/components/admin/ShopVisualEditorButton.tsx",
+      "label": "admin/ShopVisualEditorButton.tsx",
+      "group": "admin",
+      "size": 6
+    },
+    {
       "id": "src/lib/stripe.ts",
       "label": "lib/stripe.ts",
       "group": "lib",
@@ -1750,7 +2098,13 @@
       "id": "src/lib/resend.ts",
       "label": "lib/resend.ts",
       "group": "lib",
-      "size": 4
+      "size": 10
+    },
+    {
+      "id": "src/lib/cart-store.ts",
+      "label": "lib/cart-store.ts",
+      "group": "lib",
+      "size": 20
     },
     {
       "id": "src/lib/metadata.ts",
@@ -1763,6 +2117,12 @@
       "label": "lib/media-url.ts",
       "group": "lib",
       "size": 20
+    },
+    {
+      "id": "src/lib/pricing/dynamic.ts",
+      "label": "pricing/dynamic.ts",
+      "group": "lib",
+      "size": 6
     },
     {
       "id": "src/lib/auth.ts",
@@ -1781,6 +2141,12 @@
       "label": "lib/auth-client.ts",
       "group": "lib",
       "size": 20
+    },
+    {
+      "id": "src/lib/cron/abandoned-cart.ts",
+      "label": "cron/abandoned-cart.ts",
+      "group": "lib",
+      "size": 6
     },
     {
       "id": "src/puck/customFields.tsx",
@@ -1909,6 +2275,18 @@
       "target": "src/app/(puck)/puck/gallery/PuckGalleryEditorClient.tsx"
     },
     {
+      "source": "src/app/(puck)/puck/shop/PuckShopEditorClient.tsx",
+      "target": "src/puck/config.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/shop/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/shop/page.tsx",
+      "target": "src/app/(puck)/puck/shop/PuckShopEditorClient.tsx"
+    },
+    {
       "source": "src/app/(puck)/puck/navigation/PuckNavigationEditorClient.tsx",
       "target": "src/puck/config.tsx"
     },
@@ -1953,6 +2331,14 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/waitlist/join/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/waitlist/join/route.ts",
+      "target": "src/lib/auth.ts"
+    },
+    {
       "source": "src/app/api/waitlist/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -1961,7 +2347,23 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/referral/generate/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/referral/generate/route.ts",
+      "target": "src/lib/auth.ts"
+    },
+    {
       "source": "src/app/api/gallery-data/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/calendar/[destinationSlug_ics]/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/calendar/all.ics/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
@@ -2005,6 +2407,14 @@
       "target": "src/lib/auth.ts"
     },
     {
+      "source": "src/app/api/ratings/submit/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/ratings/submit/route.ts",
+      "target": "src/lib/auth.ts"
+    },
+    {
       "source": "src/app/api/footer-data/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -2017,7 +2427,19 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/checkout/route.ts",
+      "target": "src/lib/cart-store.ts"
+    },
+    {
       "source": "src/app/api/calendar-participants/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/discount/validate/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/stock-alerts/subscribe/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
@@ -2061,6 +2483,22 @@
       "target": "src/lib/auth.ts"
     },
     {
+      "source": "src/app/api/cart/validate/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/cart/validate/route.ts",
+      "target": "src/lib/cart-store.ts"
+    },
+    {
+      "source": "src/app/api/cart/validate/route.ts",
+      "target": "src/lib/pricing/dynamic.ts"
+    },
+    {
+      "source": "src/app/api/cart/abandoned/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
       "source": "src/app/api/photographer-profile/route.ts",
       "target": "src/lib/auth.ts"
     },
@@ -2073,12 +2511,20 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/shop-data/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
       "source": "src/app/api/webhooks/resend/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
       "source": "src/app/api/webhooks/stripe/route.ts",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/webhooks/stripe/route.ts",
+      "target": "src/lib/resend.ts"
     },
     {
       "source": "src/app/api/puck/footer/route.ts",
@@ -2091,6 +2537,14 @@
     {
       "source": "src/app/api/puck/gallery/route.ts",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/shop/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/shop/route.ts",
+      "target": "src/lib/auth.ts"
     },
     {
       "source": "src/app/api/puck/navigation/route.ts",
@@ -2113,8 +2567,20 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/cron/abandoned-cart/route.ts",
+      "target": "src/lib/cron/abandoned-cart.ts"
+    },
+    {
       "source": "src/app/api/cron/sync-sold-out/route.ts",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/wishlist/toggle/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/wishlist/toggle/route.ts",
+      "target": "src/lib/auth.ts"
     },
     {
       "source": "src/app/api/wishlist/route.ts",
@@ -2325,6 +2791,54 @@
       "target": "src/lib/media-url.ts"
     },
     {
+      "source": "src/app/(frontend)/shop/products/[slug]/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/products/[slug]/page.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/products/[slug]/page.tsx",
+      "target": "src/components/shop/AddToCartButton.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/products/[slug]/page.tsx",
+      "target": "src/components/shop/WishlistButton.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/products/[slug]/page.tsx",
+      "target": "src/components/shop/StockAlertButton.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/products/[slug]/page.tsx",
+      "target": "src/components/shop/WaitlistButton.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/products/[slug]/page.tsx",
+      "target": "src/components/shop/StarRating.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/gift-vouchers/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/gift-vouchers/page.tsx",
+      "target": "src/app/(frontend)/shop/gift-vouchers/_components/GiftVoucherPurchaseForm.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/checkout/page.tsx",
+      "target": "src/lib/cart-store.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/checkout/page.tsx",
+      "target": "src/components/shop/CartItem.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/checkout/page.tsx",
+      "target": "src/components/shop/DiscountCodeInput.tsx"
+    },
+    {
       "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -2383,6 +2897,62 @@
     {
       "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
       "target": "src/components/ui/destination-page/FloatingBookingBar.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/orders/[id]/page.tsx",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/orders/[id]/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/orders/[id]/page.tsx",
+      "target": "src/components/shop/OrderStatusBadge.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/orders/page.tsx",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/orders/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/orders/page.tsx",
+      "target": "src/components/shop/OrderStatusBadge.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/page.tsx",
+      "target": "src/components/shop/ProductCard.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/page.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/bundles/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/bundles/page.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/bundles/[slug]/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/bundles/[slug]/page.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/bundles/[slug]/page.tsx",
+      "target": "src/components/shop/AddToCartButton.tsx"
     },
     {
       "source": "src/app/(frontend)/blog/page.tsx",
@@ -2665,6 +3235,22 @@
       "target": "src/lib/media-url.ts"
     },
     {
+      "source": "src/app/(frontend)/account/loyalty/page.tsx",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/(frontend)/account/loyalty/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/account/wishlist/page.tsx",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/(frontend)/account/wishlist/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
       "source": "src/app/(frontend)/photos/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -2751,6 +3337,10 @@
     {
       "source": "src/app/(payload)/admin/importMap.js",
       "target": "src/components/admin/GalleryVisualEditorButton.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/ShopVisualEditorButton.tsx"
     },
     {
       "source": "src/app/(payload)/admin/importMap.js",
@@ -2886,6 +3476,42 @@
     },
     {
       "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/Categories.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/Products.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/DiscountCodes.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/StockAlerts.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/Waitlist.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/Bundles.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/AbandonedCarts.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/Subscriptions.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/Payouts.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
       "target": "src/payload/globals/Navigation.ts"
     },
     {
@@ -2907,6 +3533,10 @@
     {
       "source": "src/payload/payload.config.ts",
       "target": "src/payload/globals/Gallery.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/Shop.ts"
     },
     {
       "source": "src/payload/seeds/hero.ts",
@@ -2995,6 +3625,10 @@
     {
       "source": "src/payload/collections/Pages.ts",
       "target": "src/payload/blocks/VideoBlock.ts"
+    },
+    {
+      "source": "src/payload/collections/Products.ts",
+      "target": "src/lib/resend.ts"
     },
     {
       "source": "src/payload/collections/Stories.ts",
@@ -3505,6 +4139,14 @@
       "target": "src/lib/auth-client.ts"
     },
     {
+      "source": "src/components/ui/NavbarClient.tsx",
+      "target": "src/components/shop/CartSheet.tsx"
+    },
+    {
+      "source": "src/components/ui/NavbarClient.tsx",
+      "target": "src/lib/cart-store.ts"
+    },
+    {
       "source": "src/components/ui/DestinationCarousel.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -3621,8 +4263,44 @@
       "target": "src/components/forms/BookingFormModal.tsx"
     },
     {
+      "source": "src/components/shop/CartItem.tsx",
+      "target": "src/lib/cart-store.ts"
+    },
+    {
+      "source": "src/components/shop/ProductCard.tsx",
+      "target": "src/components/shop/AddToCartButton.tsx"
+    },
+    {
+      "source": "src/components/shop/ProductCard.tsx",
+      "target": "src/components/shop/WishlistButton.tsx"
+    },
+    {
+      "source": "src/components/shop/AddToCartButton.tsx",
+      "target": "src/lib/cart-store.ts"
+    },
+    {
+      "source": "src/components/shop/CartSheet.tsx",
+      "target": "src/lib/cart-store.ts"
+    },
+    {
+      "source": "src/components/shop/CartSheet.tsx",
+      "target": "src/components/shop/CartItem.tsx"
+    },
+    {
+      "source": "src/components/shop/DiscountCodeInput.tsx",
+      "target": "src/lib/cart-store.ts"
+    },
+    {
       "source": "src/lib/auth.ts",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/lib/cron/abandoned-cart.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/lib/cron/abandoned-cart.ts",
+      "target": "src/lib/resend.ts"
     },
     {
       "source": "src/puck/config.tsx",
@@ -3805,6 +4483,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-05-19T07:03:01.756Z",
-  "fileCount": 311
+  "builtAt": "2026-05-19T08:28:07.884Z",
+  "fileCount": 372
 }

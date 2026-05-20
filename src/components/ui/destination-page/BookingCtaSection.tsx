@@ -40,7 +40,7 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
     : 0
 
   return (
-    <section id="booking" className="relative py-20 px-6 bg-black text-white overflow-hidden">
+    <section id="booking" className="relative py-20 px-4 sm:px-6 bg-black text-white overflow-hidden">
       {bgImage && (
         <>
           <Image

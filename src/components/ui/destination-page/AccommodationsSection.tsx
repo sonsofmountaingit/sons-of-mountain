@@ -18,7 +18,7 @@ export function AccommodationsSection({ accommodations }: Props) {
   if (!accommodations?.length) return null
 
   return (
-    <section className="py-16 px-6 bg-gray-50 text-black">
+    <section className="py-16 px-4 sm:px-6 bg-gray-50 text-black">
       <div className="max-w-5xl mx-auto">
         <p className="text-xs font-semibold tracking-widest text-black/60 uppercase text-center mb-2" data-animate="fade-up">
           ЗА НАСТАНЯВАНЕТО

@@ -53,7 +53,7 @@ export function WhySection({ name, whyImages = [], heading, content }: Props) {
   const hasImages = whyImages.length > 0
 
   return (
-    <section className="py-20 px-6 bg-white text-black">
+    <section className="py-20 px-4 sm:px-6 bg-white text-black">
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
         {hasImages && (
           <div className="flex flex-col gap-3">

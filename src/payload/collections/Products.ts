@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { after } from 'next/server'
 import { revalidateTag } from 'next/cache'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { syncStripeProduct } from '@/lib/stripe-product-sync'
 
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -43,6 +44,9 @@ export const Products: CollectionConfig = {
             }
           } catch {}
         }
+      },
+      async ({ doc, previousDoc, req }) => {
+        after(() => syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'products' }))
       },
     ],
     afterDelete: [() => { after(() => revalidateTag('products', 'default')) }],
@@ -153,6 +157,26 @@ export const Products: CollectionConfig = {
         { name: 'description', type: 'textarea' },
         { name: 'image', type: 'relationship', relationTo: 'media' },
       ],
+    },
+    {
+      name: 'stripeProductId',
+      type: 'text',
+      admin: { readOnly: true, description: 'Stripe Product ID (auto-created)', position: 'sidebar' },
+    },
+    {
+      name: 'stripePriceId',
+      type: 'text',
+      admin: { readOnly: true, description: 'Stripe Price ID (auto-created)', position: 'sidebar' },
+    },
+    {
+      name: 'stripePaymentLinkId',
+      type: 'text',
+      admin: { readOnly: true, description: 'Stripe Payment Link ID', position: 'sidebar' },
+    },
+    {
+      name: 'stripePaymentLinkUrl',
+      type: 'text',
+      admin: { readOnly: true, description: 'Stripe Payment Link URL', position: 'sidebar' },
     },
   ],
 }

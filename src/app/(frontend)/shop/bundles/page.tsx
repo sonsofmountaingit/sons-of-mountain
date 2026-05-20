@@ -24,57 +24,86 @@ export default async function BundlesPage() {
   const { docs: bundles } = await getBundles()
 
   return (
-    <main className="mx-auto max-w-6xl px-6 py-16">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-3">Bundle Deals</h1>
-        <p className="text-gray-500 text-lg">Combine experiences and gear for maximum savings</p>
-      </div>
+    <main className="min-h-screen bg-[#0a0a0a] text-white pt-32 pb-24 px-6">
+      <div className="max-w-[1440px] mx-auto">
+        <Link href="/shop" className="text-xs tracking-widest uppercase text-white/30 hover:text-white transition-colors mb-12 inline-block">
+          ← Back to Shop
+        </Link>
 
-      {bundles.length === 0 ? (
-        <p className="text-center text-gray-400">No bundles available right now. Check back soon.</p>
-      ) : (
-        <div className="grid gap-8 md:grid-cols-2">
-          {bundles.map((bundle: any) => (
-            <Link
-              key={bundle.id}
-              href={`/shop/bundles/${bundle.slug}`}
-              className="group flex flex-col rounded-2xl border overflow-hidden hover:shadow-lg transition-shadow"
-            >
-              {bundle.image && mediaUrl(bundle.image as any) && (
-                <div className="relative h-56 overflow-hidden">
-                  <Image src={mediaUrl(bundle.image as any)!} alt={bundle.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                </div>
-              )}
-              <div className="flex flex-1 flex-col p-6">
-                <h2 className="text-xl font-bold mb-2">{bundle.title}</h2>
-                {bundle.description && <p className="text-gray-500 text-sm mb-4">{bundle.description}</p>}
+        <div className="mb-16">
+          <p className="text-xs tracking-[0.2em] text-white/30 uppercase mb-4">Save more</p>
+          <h1 className="text-6xl md:text-8xl font-bold tracking-tight leading-none">Bundle Deals</h1>
+          <p className="mt-6 text-lg text-white/40 max-w-lg">Combine experiences and gear for maximum savings</p>
+        </div>
 
-                {bundle.items?.length > 0 && (
-                  <ul className="text-xs text-gray-500 space-y-1 mb-4">
-                    {bundle.items.slice(0, 3).map((item: any, i: number) => {
-                      const name = item.trip?.title ?? item.product?.title ?? item.program?.title ?? 'Item'
-                      return <li key={i} className="flex items-center gap-1"><span className="text-green-500">✓</span>{name}</li>
-                    })}
-                    {bundle.items.length > 3 && <li className="text-gray-400">+ {bundle.items.length - 3} more</li>}
-                  </ul>
+        {bundles.length === 0 ? (
+          <p className="text-white/20 text-center py-32 tracking-widest uppercase text-xs">No bundles available right now. Check back soon.</p>
+        ) : (
+          <div className="grid gap-px md:grid-cols-2 border border-[#1a1a1a]">
+            {bundles.map((bundle: any) => (
+              <Link
+                key={bundle.id}
+                href={`/shop/bundles/${bundle.slug}`}
+                className="group flex flex-col bg-[#111] hover:bg-[#161616] transition-colors overflow-hidden"
+              >
+                {bundle.image && mediaUrl(bundle.image as any) && (
+                  <div className="relative h-64 overflow-hidden">
+                    <Image
+                      src={mediaUrl(bundle.image as any)!}
+                      alt={bundle.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#111] to-transparent" />
+                  </div>
                 )}
+                <div className="flex flex-1 flex-col p-8">
+                  <h2 className="text-xl font-bold text-white mb-3">{bundle.title}</h2>
+                  {bundle.description && (
+                    <p className="text-white/40 text-sm mb-6 leading-relaxed">{bundle.description}</p>
+                  )}
 
-                <div className="mt-auto flex items-center justify-between">
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-bold text-purple-700">€{bundle.bundlePrice}</span>
-                    {bundle.basePrice && <span className="text-sm text-gray-400 line-through">€{bundle.basePrice}</span>}
-                    {bundle.savingsPercent && <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-bold text-green-700">Save {bundle.savingsPercent}%</span>}
+                  {bundle.items?.length > 0 && (
+                    <ul className="text-xs text-white/30 space-y-2 mb-8">
+                      {bundle.items.slice(0, 3).map((item: any, i: number) => {
+                        const name = item.trip?.title ?? item.product?.title ?? item.program?.title ?? 'Item'
+                        return (
+                          <li key={i} className="flex items-center gap-2">
+                            <span className="text-green-400">✓</span>
+                            <span>{name}</span>
+                          </li>
+                        )
+                      })}
+                      {bundle.items.length > 3 && (
+                        <li className="text-white/20">+ {bundle.items.length - 3} more</li>
+                      )}
+                    </ul>
+                  )}
+
+                  <div className="mt-auto flex items-center justify-between pt-6 border-t border-[#1a1a1a]">
+                    <div className="flex items-baseline gap-3">
+                      <span className="text-2xl font-bold text-white">€{bundle.bundlePrice}</span>
+                      {bundle.basePrice && (
+                        <span className="text-sm text-white/30 line-through">€{bundle.basePrice}</span>
+                      )}
+                      {bundle.savingsPercent && (
+                        <span className="text-xs font-semibold text-green-400">Save {bundle.savingsPercent}%</span>
+                      )}
+                    </div>
+                    {bundle.corporatePricing?.length > 0 && (
+                      <span className="text-xs text-white/30 tracking-widest uppercase">Corporate available</span>
+                    )}
                   </div>
 
-                  {bundle.corporatePricing?.length > 0 && (
-                    <span className="text-xs text-purple-600 font-medium">Corporate pricing available</span>
-                  )}
+                  <span className="text-xs tracking-widest uppercase text-white/20 group-hover:text-white transition-colors mt-4">
+                    View bundle →
+                  </span>
                 </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
     </main>
   )
 }

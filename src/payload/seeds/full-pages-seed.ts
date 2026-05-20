@@ -94,7 +94,65 @@ async function seed() {
     uploadImage(payload, 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=200', 'Пътешественик 5', 'traveler-5b.jpg'),
   ])
 
-  console.log('Images uploaded. Creating destination...')
+  console.log('Images uploaded. Creating guides...')
+
+  const guidePhoto1Id = await uploadImage(payload, 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=600', 'Емилиян Николов', 'guide-emiliyan.jpg')
+  const guidePhoto2Id = await uploadImage(payload, 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=600', 'Мария Иванова', 'guide-maria.jpg')
+
+  let guide1Id: number | undefined
+  let guide2Id: number | undefined
+
+  const existingGuide1 = await payload.find({ collection: 'guides', where: { slug: { equals: 'emiliyan-nikolov' } }, limit: 1 })
+  if (existingGuide1.docs.length > 0) {
+    guide1Id = existingGuide1.docs[0].id as number
+    console.log('Guide 1 already exists')
+  } else {
+    const g1 = await payload.create({
+      collection: 'guides',
+      data: {
+        name: 'Емилиян Николов',
+        slug: 'emiliyan-nikolov',
+        bio: 'Емо има дълбока връзка с природата и планините. Израснал в подножието на Витоша, той е водач с над 10 години опит в планинските преходи.\n\nОбожава пътешествията сред дивата природа и се специализира в приключенски и фотографски експедиции. Неговата страст е да помага на хората да открият красотата на нашата планета.',
+        instagram: 'emiliyian.nikolov',
+        yearsExperience: 10,
+        specializations: [
+          { item: 'Планинско туризмо' },
+          { item: 'Фотографски обиколки' },
+          { item: 'Уайлдлайф сафари' },
+        ],
+        ...(guidePhoto1Id ? { photo: guidePhoto1Id } : {}),
+      } as any,
+    })
+    guide1Id = g1.id as number
+    console.log('Created guide: Емилиян Николов')
+  }
+
+  const existingGuide2 = await payload.find({ collection: 'guides', where: { slug: { equals: 'maria-ivanova' } }, limit: 1 })
+  if (existingGuide2.docs.length > 0) {
+    guide2Id = existingGuide2.docs[0].id as number
+    console.log('Guide 2 already exists')
+  } else {
+    const g2 = await payload.create({
+      collection: 'guides',
+      data: {
+        name: 'Мария Иванова',
+        slug: 'maria-ivanova',
+        bio: 'Мария е сертифициран планински водач и инструктор по йога. Специализира в холистични пътувания, съчетаващи природата с mindfulness практики.\n\nСъс своя топъл и изграждащ стил на водене, тя създава незабравими преживявания за всеки пътешественик.',
+        instagram: 'maria.mountain.guide',
+        yearsExperience: 7,
+        specializations: [
+          { item: 'Йога & Уелнес' },
+          { item: 'Планинско туризмо' },
+          { item: 'Медитация на природата' },
+        ],
+        ...(guidePhoto2Id ? { photo: guidePhoto2Id } : {}),
+      } as any,
+    })
+    guide2Id = g2.id as number
+    console.log('Created guide: Мария Иванова')
+  }
+
+  console.log('Creating destination...')
 
   const existing = await payload.find({ collection: 'destinations', where: { slug: { equals: 'uganda' } }, limit: 1 })
   const destId = existing.docs[0]?.id
@@ -179,16 +237,36 @@ async function seed() {
           'Пристигане на международното летище „Ентебе", където ще бъдете посрещнати от нашия местен екип, който ще Ви съдейства с формалностите по виза и багаж. След кратък трансфер ще се отправим към Кампала – оживената столица на Уганда.',
           'Денят започва с културно въведение – ще посетим двореца на краля на Буганда (Kabaka\'s Palace) и впечатляващата джамия Gaddafi Mosque. Ще научите повече за историята и традициите на най-голямото кралство в страната.',
         ]),
+        stats: {
+          distance: '80км',
+          duration: '6ч',
+          accommodation: 'Хотел в Кампала',
+          meals: 'Вечеря',
+        },
       },
       {
         day: 2,
         title: 'Път към тропическите гори на Кибале и разходка в Bigodi Wetland',
         content: richText('След закуска потегляме на запад към Национален парк „Кибале". Пътуването е дълго, но изключително живописно – зелени хълмове, кратерни езера и малки селца ще се редуват по пътя ни. След настаняване в лоджа ще се отправим към Bigodi Wetland Sanctuary.'),
+        stats: {
+          distance: '320км',
+          duration: '7ч',
+          accommodation: 'Лодж при Кибале',
+          meals: 'Закуска, обяд и вечеря',
+        },
       },
       {
         day: 3,
         title: 'Трекинг при шимпанзетата и езерото Едуард',
         content: richText('Ранна сутрин тръгваме за незабравимото шимпанзе трекинг в гората на Кибале. Уганда е дом на повече от 1000 шимпанзета – и днес ще се срещнем лице в лице с тях в естествената им среда. По-късно пристигаме на брега на езерото Едуард.'),
+        stats: {
+          ascent: '200м',
+          descent: '200м',
+          distance: '8км',
+          duration: '5ч',
+          accommodation: 'Лодж при Кр. Елизабет',
+          meals: 'Закуска, обяд и вечеря',
+        },
       },
     ],
     communityPhotos: [
@@ -198,6 +276,52 @@ async function seed() {
       ...(communityImg4 ? [{ photo: communityImg4 }] : []),
       ...(communityImg5 ? [{ photo: communityImg5 }] : []),
     ],
+    equipmentList: [
+      { item: 'Трекинг или трисезонни планински обувки' },
+      { item: 'Горно и долно термобельо' },
+      { item: 'Мембрана/Ветроустойчиво яке' },
+      { item: 'Зимни планински обувки за атаката' },
+      { item: 'Полари' },
+      { item: 'Спален чувал с комфорт около -3/-5 градуса' },
+      { item: 'Трисезонен и зимен туристически панталон' },
+      { item: 'Пухенка' },
+      { item: 'Ръкавици' },
+      { item: 'Щеки' },
+      { item: 'Раница — 25/30 литра' },
+      { item: 'Термос 1л.' },
+      { item: 'Слънчеви очила' },
+      { item: 'Лекарства от първа необходимост' },
+      { item: 'Челник и резервни батерии' },
+    ],
+    readinessChecklist: [
+      {
+        category: 'Облекло',
+        items: [
+          { item: 'Тениски' },
+          { item: 'Панталони за трекинг' },
+          { item: 'Обувки за трекинг' },
+          { item: 'Топли дрехи за вечерта' },
+          { item: 'Чехли за баня/плаж' },
+          { item: 'Шал за лице' },
+          { item: 'Шапка' },
+          { item: 'Дъждобран' },
+        ],
+      },
+      {
+        category: 'Оборудване',
+        items: [
+          { item: 'Слънцезащитен крем' },
+          { item: 'Слънчеви очила' },
+          { item: 'Репелент срещу насекоми с DEET' },
+          { item: 'Малка раница за дневни преходи (15л)' },
+          { item: 'Лични медикаменти' },
+          { item: 'Нужни препарати за лична хигиена' },
+          { item: 'Челник с резервни батерии' },
+          { item: 'Термос/бутилка за вода' },
+        ],
+      },
+    ],
+    guides: [...(guide1Id ? [guide1Id] : []), ...(guide2Id ? [guide2Id] : [])],
   }
 
   if (heroId) destData.heroImage = heroId
@@ -317,6 +441,51 @@ async function seed() {
     console.log('Created program: Азорски Острови Йога')
   } else {
     console.log('Program already exists, skipping.')
+  }
+
+  // ── Calendar CTA global ────────────────────────────────────────────────────
+  await payload.updateGlobal({
+    slug: 'calendar-cta',
+    data: {
+      heading: 'Търсиш следващото приключение?',
+      subheading: 'Разгледай всички предстоящи пътувания.',
+      buttonText: 'Виж календара',
+      buttonUrl: '/calendar',
+    },
+  })
+  console.log('Seeded CalendarCta global.')
+
+  // ── Testimonials section global ───────────────────────────────────────────
+  await payload.updateGlobal({
+    slug: 'testimonials-section',
+    data: {
+      heading: 'Какво казват нашите клиенти',
+      subheading: 'Реални истории от реални пътешественици.',
+    },
+  })
+  console.log('Seeded TestimonialsSection global.')
+
+  // ── Testimonials collection ───────────────────────────────────────────────
+  const existingTestimonials = await payload.find({ collection: 'testimonials', limit: 1 })
+  if (existingTestimonials.docs.length === 0) {
+    const topTestimonials = [
+      { authorName: 'Десислава Йорданова', rating: 5, row: 'top', quote: 'Пътувах с агенцията до Намибия и беше истинско приключение от начало до края. Сафари, камерене по дюните, гледане на звезди, скимане в пясъчните дюни — пътуване наистина имаше всичко.' },
+      { authorName: 'Антон Вълчев', rating: 5, row: 'top', quote: 'Абсолютно перфектни. Имахме удоволствието да пътуваме с тях до Намибия. Ако сте от хората, които имате притеснение от дестинацията или организацията, то съветвам ви изобщо да не се тревожите. Приключението ще бъде едно от най-запомнящите се в живота ви!' },
+      { authorName: 'Людмила Капитанова', rating: 5, row: 'top', quote: 'Първото ми пътуване с агенцията надмина очакванията ми. Пътуването ни до Намибия беше организирано перфектно. Имаше от всичко по много и се чувствах обгрижена и в безопасност през цялото време.' },
+      { authorName: 'Милена Терзиева', rating: 5, row: 'top', quote: 'Скоро пътувах с агенцията до Намибия. Беше невероятно, добре организирано, запомнящо се и вълнуващо приключение. Страхотни сте! Продължавайте в същия дух!' },
+    ]
+    const bottomTestimonials = [
+      { authorName: 'Прекрасна ваканция', rating: 5, row: 'bottom', quote: 'Прекрасна ваканция, незабравима дестинация, много приключения и невероятни преживявания!' },
+      { authorName: 'Георги Маринов', rating: 5, row: 'bottom', quote: 'Приключението да обикаляш сам по хартиена карта с колата си из националния парк Етоша и да наблюдаваш на една ръка разстояние слонове, леопарди, хиени, жирафи, лъвове...' },
+      { authorName: 'Стефан Петров', rating: 5, row: 'bottom', quote: 'Имах удоволствието да посетя Намибия с агенцията. Пътувал съм доста по света и за пръв път няма какво да добавя или премахна от преживяването си. Абсолютно оптимална организация, перфектен тайминг, страхотна група.' },
+      { authorName: 'Калина Димитрова', rating: 5, row: 'bottom', quote: 'Агенцията са най-добрите! Наскоро пътувахме за първи път с тях до Намибия. Е, няма да е последен! Паник предлагат преживявания, приключения и предимството да си част от общност и еднакво мислещи приключенци.' },
+    ]
+    for (const t of [...topTestimonials, ...bottomTestimonials]) {
+      await payload.create({ collection: 'testimonials', data: t as any })
+    }
+    console.log('Seeded 8 testimonials.')
+  } else {
+    console.log('Testimonials already exist, skipping.')
   }
 
   console.log('\n✓ Seed complete.')

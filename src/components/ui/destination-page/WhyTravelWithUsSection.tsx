@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export function WhyTravelWithUsSection() {
   return (
-    <section className="py-16 px-6 bg-black text-white">
+    <section className="py-16 px-4 sm:px-6 bg-black text-white">
       <div className="max-w-5xl mx-auto bg-white text-black rounded-2xl p-10 md:p-16 text-center relative overflow-hidden">
         <p className="text-xs font-semibold tracking-widest text-black/60 uppercase mb-4">
           ЗАЩО ДА ПЪТУВАШ С НАС?

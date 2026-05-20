@@ -10,6 +10,9 @@ import { WhySection } from '@/components/ui/destination-page/WhySection'
 import { IsThisForYouSection } from '@/components/ui/destination-page/IsThisForYouSection'
 import { TravelTransportSection } from '@/components/ui/destination-page/TravelTransportSection'
 import { ItinerarySection } from '@/components/ui/destination-page/ItinerarySection'
+import EquipmentSection from '@/components/ui/destination-page/EquipmentSection'
+import ReadinessChecklistSection from '@/components/ui/destination-page/ReadinessChecklistSection'
+import GuidesSection from '@/components/ui/destination-page/GuidesSection'
 import { AccommodationsSection } from '@/components/ui/destination-page/AccommodationsSection'
 import { AdventureCtaSection } from '@/components/ui/destination-page/AdventureCtaSection'
 import { BookingCtaSection } from '@/components/ui/destination-page/BookingCtaSection'
@@ -103,12 +106,15 @@ export default async function ShopTripPage({ params }: Props) {
   const transportImage = d?.transportImage as { url?: string | null; alt?: string } | null
   const whyVisit = d?.whyVisit as { heading?: string; content?: Record<string, unknown> } | null
   const fitnessRatings = d?.fitnessRatings as { difficulty?: number; comfort?: number; nature?: number; culture?: number } | null
-  const itinerary = d?.itinerary as { day: number; title: string; content?: Record<string, unknown> | null; image?: { url?: string | null; alt?: string } | null }[] | null
+  const itinerary = d?.itinerary as { day: number; title: string; content?: Record<string, unknown> | null; image?: { url?: string | null; alt?: string } | null; stats?: { ascent?: string | null; descent?: string | null; distance?: string | null; duration?: string | null; accommodation?: string | null; meals?: string | null } | null }[] | null
   const accommodations = d?.accommodations as { locationLabel?: string | null; name?: string | null; description?: Record<string, unknown> | null; learnMoreUrl?: string | null; gallery?: { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null }[] | null
   const communityPhotos = d?.communityPhotos as { photo?: { url?: string | null; alt?: string } | null }[] | null
   const faq = d?.faq as { question?: string | null; answer?: Record<string, unknown> | null }[] | null
   const included = d?.included as { item?: string | null }[] | null
   const notIncluded = d?.notIncluded as { item?: string | null }[] | null
+  const equipmentList = trip.equipmentList as { item: string }[] | null
+  const readinessChecklist = trip.readinessChecklist as { category: string; items: { item: string }[] }[] | null
+  const guides = trip.guides as { id: string; name: string; photo?: { url?: string | null; alt?: string } | null; bio?: string | null; instagram?: string | null; specializations?: { item: string }[] | null; yearsExperience?: number | null }[] | null
 
   const destName = (d?.name as string) ?? ''
 
@@ -165,7 +171,10 @@ export default async function ShopTripPage({ params }: Props) {
         durationDays={d?.durationDays as number | null}
         price={trip.price ?? 0}
         currency={(trip.currency ?? 'EUR') as string}
-        bookingHref={`/shop/${trip.id}`}
+        tripId={String(trip.id)}
+        tripTitle={trip.title as string}
+        spotsAvailable={trip.spotsAvailable as number | null}
+        depositAmount={trip.depositAmount as number | null}
       />
 
       <HeroSection
@@ -203,6 +212,9 @@ export default async function ShopTripPage({ params }: Props) {
       />
 
       <ItinerarySection itinerary={itinerary ?? []} />
+        <EquipmentSection items={(equipmentList ?? []).map(e => e.item)} />
+        <ReadinessChecklistSection categories={readinessChecklist ?? []} />
+        <GuidesSection guides={guides ?? []} />
 
       <AccommodationsSection accommodations={accommodations} />
 

@@ -133,7 +133,7 @@ export function ProgramsMegaMenu({ open, onClose }: ProgramsMegaMenuProps) {
                 </div>
 
                 {/* Items grid */}
-                <div className="flex-1 min-h-[220px]">
+                <div className="flex-1 min-h-[220px] min-w-0 overflow-hidden">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={activeTab}
@@ -178,29 +178,67 @@ export function ProgramsMegaMenu({ open, onClose }: ProgramsMegaMenuProps) {
                       )}
 
                       {data && activeTab === 'trips' && (
-                        <div className="flex flex-col gap-2">
-                          {(currentItems as TripItem[]).map((trip, i) => (
-                            <Link
-                              key={i}
-                              href={`/destinations/${trip.destinationSlug}`}
-                              onClick={onClose}
-                              className="flex items-center justify-between px-4 py-3 rounded-sm bg-white/4 hover:bg-white/8 transition-colors group"
-                            >
-                              <div>
-                                <p className="text-sm font-medium text-white group-hover:text-white/90">{trip.title}</p>
-                                <p className="text-xs text-white/40 mt-0.5">{trip.destinationName} · {formatDate(trip.startDate)}</p>
-                              </div>
-                              <div className="text-right flex-shrink-0 ml-8">
-                                <p className="text-sm font-medium text-white">{trip.price} {trip.currency}</p>
-                                {trip.spotsAvailable > 0 && (
-                                  <p className="text-xs text-white/40">{trip.spotsAvailable} места</p>
-                                )}
-                              </div>
-                            </Link>
-                          ))}
+                        <div style={{ overflowX: 'auto', width: '100%', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.2) transparent', paddingBottom: '6px' }}>
+                        <div style={{ display: 'grid', gap: '12px', gridTemplateColumns: `repeat(${Math.ceil((currentItems as TripItem[]).length / 2)}, 180px)`, gridTemplateRows: 'auto auto', gridAutoFlow: 'column', width: 'max-content' }}>
+                          {(currentItems as TripItem[]).map((trip, i) => {
+                            const destImg = data.abroad.find(d => d.slug === trip.destinationSlug)?.image
+                              ?? data.bulgaria.find(d => d.slug === trip.destinationSlug)?.image
+                              ?? null
+                            return (
+                              <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.2, delay: i * 0.03 }}
+                                style={{ width: '180px' }}
+                              >
+                                <Link
+                                  href={`/destinations/${trip.destinationSlug}`}
+                                  onClick={onClose}
+                                  className="group relative overflow-hidden rounded-xl flex flex-col bg-white/5 hover:bg-white/8 border border-white/8 hover:border-white/16 transition-all duration-200"
+                                >
+                                  {/* Image */}
+                                  <div className="relative aspect-[16/9] overflow-hidden">
+                                    {destImg ? (
+                                      <Image
+                                        src={destImg}
+                                        alt={trip.destinationName}
+                                        fill
+                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                        sizes="240px"
+                                        unoptimized
+                                      />
+                                    ) : (
+                                      <div className="absolute inset-0 bg-white/5" />
+                                    )}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                                    {trip.spotsAvailable > 0 && (
+                                      <span className="absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/80 text-white backdrop-blur-sm">
+                                        {trip.spotsAvailable} места
+                                      </span>
+                                    )}
+                                    {trip.spotsAvailable === 0 && (
+                                      <span className="absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-red-500/80 text-white backdrop-blur-sm">
+                                        Няма места
+                                      </span>
+                                    )}
+                                  </div>
+                                  {/* Body */}
+                                  <div className="px-3 py-2.5 flex flex-col gap-0.5">
+                                    <p className="text-xs font-semibold text-white leading-snug line-clamp-2 group-hover:text-white/90 transition-colors">
+                                      {trip.title}
+                                    </p>
+                                    <p className="text-[10px] text-white/40 mt-0.5">{formatDate(trip.startDate)}</p>
+                                    <p className="text-xs font-medium text-[#c0442a] mt-1">{trip.price} {trip.currency}</p>
+                                  </div>
+                                </Link>
+                              </motion.div>
+                            )
+                          })}
                           {(currentItems as TripItem[]).length === 0 && (
                             <p className="text-white/30 text-xs tracking-widest">Няма активни пътувания.</p>
                           )}
+                        </div>
                         </div>
                       )}
                     </motion.div>

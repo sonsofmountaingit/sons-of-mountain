@@ -11,6 +11,9 @@ import { WhySection } from '@/components/ui/destination-page/WhySection'
 import { IsThisForYouSection } from '@/components/ui/destination-page/IsThisForYouSection'
 import { TravelTransportSection } from '@/components/ui/destination-page/TravelTransportSection'
 import { ItinerarySection } from '@/components/ui/destination-page/ItinerarySection'
+import EquipmentSection from '@/components/ui/destination-page/EquipmentSection'
+import ReadinessChecklistSection from '@/components/ui/destination-page/ReadinessChecklistSection'
+import GuidesSection from '@/components/ui/destination-page/GuidesSection'
 import { AccommodationsSection } from '@/components/ui/destination-page/AccommodationsSection'
 import { AdventureCtaSection } from '@/components/ui/destination-page/AdventureCtaSection'
 import { BookingCtaSection } from '@/components/ui/destination-page/BookingCtaSection'
@@ -106,15 +109,19 @@ export default async function DestinationPage({ params }: Props) {
   const transportImage = destination.transportImage as { url?: string | null; alt?: string } | null
   const whyVisit = destination.whyVisit as { heading?: string; content?: Record<string, unknown> } | null
   const fitnessRatings = destination.fitnessRatings as { difficulty?: number; comfort?: number; nature?: number; culture?: number } | null
-  const itinerary = destination.itinerary as { day: number; title: string; content?: Record<string, unknown> | null; image?: { url?: string | null; alt?: string } | null }[] | null
+  const itinerary = destination.itinerary as { day: number; title: string; content?: Record<string, unknown> | null; image?: { url?: string | null; alt?: string } | null; stats?: { ascent?: string | null; descent?: string | null; distance?: string | null; duration?: string | null; accommodation?: string | null; meals?: string | null } | null }[] | null
   const accommodations = destination.accommodations as { locationLabel?: string | null; name?: string | null; description?: Record<string, unknown> | null; learnMoreUrl?: string | null; gallery?: { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null }[] | null
   const communityPhotos = destination.communityPhotos as { photo?: { url?: string | null; alt?: string } | null }[] | null
   const faq = destination.faq as { question?: string | null; answer?: Record<string, unknown> | null }[] | null
   const included = destination.included as { item?: string | null }[] | null
   const notIncluded = destination.notIncluded as { item?: string | null }[] | null
+  const equipmentList = destination.equipmentList as { item: string }[] | null
+  const readinessChecklist = destination.readinessChecklist as { category: string; items: { item: string }[] }[] | null
+  const guides = destination.guides as { id: string; name: string; photo?: { url?: string | null; alt?: string } | null; bio?: string | null; instagram?: string | null; specializations?: { item: string }[] | null; yearsExperience?: number | null }[] | null
 
   const tripSummaries = trips.map((t) => ({
     id: String(t.id),
+    title: t.title as string,
     startDate: t.startDate as string,
     endDate: t.endDate as string,
     spotsAvailable: t.spotsAvailable ?? 0,
@@ -122,6 +129,7 @@ export default async function DestinationPage({ params }: Props) {
     price: t.price ?? 0,
     currency: t.currency ?? 'EUR',
     status: t.status as string,
+    depositAmount: (t.depositAmount as number | null) ?? null,
   }))
 
   const firstTrip = tripSummaries[0]
@@ -163,7 +171,10 @@ export default async function DestinationPage({ params }: Props) {
           durationDays={(destination as Record<string, unknown>).durationDays as number | null}
           price={firstTrip.price}
           currency={firstTrip.currency}
-          bookingHref={`/shop/${firstTrip.id}`}
+          tripId={firstTrip.id}
+          tripTitle={firstTrip.title}
+          spotsAvailable={firstTrip.spotsAvailable}
+          depositAmount={firstTrip.depositAmount}
         />
       )}
 
@@ -202,6 +213,9 @@ export default async function DestinationPage({ params }: Props) {
       />
 
       <ItinerarySection itinerary={itinerary ?? []} />
+        <EquipmentSection items={(equipmentList ?? []).map(e => e.item)} />
+        <ReadinessChecklistSection categories={readinessChecklist ?? []} />
+        <GuidesSection guides={guides ?? []} />
 
       <AccommodationsSection accommodations={accommodations} />
 

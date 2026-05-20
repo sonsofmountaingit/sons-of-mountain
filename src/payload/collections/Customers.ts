@@ -191,6 +191,25 @@ export const Customers: CollectionConfig = {
       admin: { readOnly: true, description: 'Stripe customer ID for saved payment methods' },
     },
     {
+      name: 'defaultPaymentMethodId',
+      type: 'text',
+      admin: { readOnly: true, description: 'Stripe default payment method ID', position: 'sidebar' },
+    },
+    {
+      name: 'displayCurrency',
+      type: 'select',
+      options: [
+        { label: 'EUR (€)', value: 'eur' },
+        { label: 'USD ($)', value: 'usd' },
+        { label: 'GBP (£)', value: 'gbp' },
+        { label: 'CHF (Fr)', value: 'chf' },
+        { label: 'NOK (kr)', value: 'nok' },
+        { label: 'SEK (kr)', value: 'sek' },
+      ],
+      defaultValue: 'eur',
+      admin: { description: 'Preferred display currency (checkout always in EUR)', position: 'sidebar' },
+    },
+    {
       name: 'referralCode',
       type: 'relationship',
       relationTo: 'discount-codes',

@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { revalidateTag } from 'next/cache'
 import { after } from 'next/server'
+import { syncStripeProduct } from '@/lib/stripe-product-sync'
 
 const revalidatePrograms = ({ doc }: { doc: unknown }) => {
   try { after(() => { revalidateTag('programs', 'default') }) } catch { /* noop */ }
@@ -141,6 +142,19 @@ export const Programs: CollectionConfig = {
         { name: 'title', type: 'text', required: true },
         { name: 'content', type: 'richText' },
         { name: 'image', type: 'upload', relationTo: 'media' },
+        {
+          name: 'stats',
+          type: 'group',
+          label: 'Статистики за деня',
+          fields: [
+            { name: 'ascent', type: 'text', label: 'Изкачване', admin: { description: 'e.g. 100м' } },
+            { name: 'descent', type: 'text', label: 'Спускане', admin: { description: 'e.g. 100м' } },
+            { name: 'distance', type: 'text', label: 'Разстояние', admin: { description: 'e.g. 5км' } },
+            { name: 'duration', type: 'text', label: 'Време', admin: { description: 'e.g. 5ч' } },
+            { name: 'accommodation', type: 'text', label: 'Настаняване', admin: { description: 'e.g. Хотел' } },
+            { name: 'meals', type: 'text', label: 'Изхранване', admin: { description: 'e.g. Обяд и вечеря' } },
+          ],
+        },
       ],
     },
     {
@@ -322,9 +336,60 @@ export const Programs: CollectionConfig = {
       type: 'json',
       admin: { hidden: true },
     },
+    {
+      name: 'stripeProductId',
+      type: 'text',
+      admin: { readOnly: true, description: 'Stripe Product ID (auto-created)', position: 'sidebar' },
+    },
+    {
+      name: 'stripePriceId',
+      type: 'text',
+      admin: { readOnly: true, description: 'Stripe Price ID (auto-created)', position: 'sidebar' },
+    },
+    {
+      name: 'stripePaymentLinkId',
+      type: 'text',
+      admin: { readOnly: true, description: 'Stripe Payment Link ID', position: 'sidebar' },
+    },
+    {
+      name: 'stripePaymentLinkUrl',
+      type: 'text',
+      admin: { readOnly: true, description: 'Stripe Payment Link URL', position: 'sidebar' },
+    },
+    {
+      name: 'equipmentList',
+      type: 'array',
+      label: 'Необходима лична екипировка',
+      fields: [{ name: 'item', type: 'text', required: true }],
+    },
+    {
+      name: 'readinessChecklist',
+      type: 'array',
+      label: 'Готов ли сте за приключение — чеклист',
+      fields: [
+        { name: 'category', type: 'text', required: true, label: 'Категория' },
+        {
+          name: 'items',
+          type: 'array',
+          fields: [{ name: 'item', type: 'text', required: true }],
+        },
+      ],
+    },
+    {
+      name: 'guides',
+      type: 'relationship',
+      relationTo: 'guides',
+      hasMany: true,
+      label: 'Водачи',
+    },
   ],
   hooks: {
-    afterChange: [revalidatePrograms],
+    afterChange: [
+      revalidatePrograms,
+      async ({ doc, previousDoc, req }) => {
+        after(() => syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'programs', priceField: 'price' }))
+      },
+    ],
     afterDelete: [revalidateProgramsDelete],
   },
 }

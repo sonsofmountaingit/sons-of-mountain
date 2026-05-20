@@ -21,7 +21,7 @@ export function TravelTransportSection({
   if (!hasTravel && !hasTransport) return null
 
   return (
-    <section className="py-16 px-6 bg-white text-black space-y-20">
+    <section className="py-16 px-4 sm:px-6 bg-white text-black space-y-20">
       <div className="max-w-5xl mx-auto">
         {hasTravel && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-20" data-animate="fade-up">

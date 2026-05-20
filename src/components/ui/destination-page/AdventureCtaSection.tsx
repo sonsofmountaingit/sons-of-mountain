@@ -23,7 +23,7 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
   const photos = (communityPhotos ?? []).filter((p) => mediaUrl(p.photo?.url))
 
   return (
-    <section className="py-20 px-6 bg-white text-black text-center">
+    <section className="py-20 px-4 sm:px-6 bg-white text-black text-center">
       <div className="max-w-2xl mx-auto" data-animate="scale-in">
         <h2 className="text-4xl md:text-5xl font-black uppercase mb-6">Хвърли се в приключение!</h2>
 

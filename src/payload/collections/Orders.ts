@@ -221,6 +221,69 @@ export const Orders: CollectionConfig = {
       admin: { readOnly: true },
     },
     {
+      name: 'stripeRefundId',
+      type: 'text',
+      admin: { readOnly: true, description: 'Stripe refund ID', position: 'sidebar' },
+    },
+    {
+      name: 'refundAmount',
+      type: 'number',
+      admin: { readOnly: true, description: 'Amount refunded (EUR)', position: 'sidebar' },
+    },
+    {
+      name: 'invoiceId',
+      type: 'text',
+      admin: { readOnly: true, description: 'Stripe invoice ID', position: 'sidebar' },
+    },
+    {
+      name: 'invoicePdfUrl',
+      type: 'text',
+      admin: { readOnly: true, description: 'Stripe invoice PDF URL', position: 'sidebar' },
+    },
+    {
+      name: 'stripePaymentLinkId',
+      type: 'text',
+      admin: { readOnly: true, description: 'Stripe Payment Link ID', position: 'sidebar' },
+    },
+    {
+      name: 'balancePaymentIntentId',
+      type: 'text',
+      admin: { readOnly: true, description: 'Stripe PaymentIntent for balance charge', condition: (data) => data.paymentMode === 'deposit' },
+    },
+    {
+      name: 'balanceChargeStatus',
+      type: 'select',
+      options: [
+        { label: 'Pending', value: 'pending' },
+        { label: 'Succeeded', value: 'succeeded' },
+        { label: 'Failed', value: 'failed' },
+      ],
+      admin: { readOnly: true, condition: (data) => data.paymentMode === 'deposit' },
+    },
+    {
+      name: 'reminderSent7d',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: { readOnly: true, condition: (data) => data.paymentMode === 'deposit' },
+    },
+    {
+      name: 'reminderSent1d',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: { readOnly: true, condition: (data) => data.paymentMode === 'deposit' },
+    },
+    {
+      name: 'scaVerified',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: { readOnly: true, description: '3DS / SCA authentication confirmed', position: 'sidebar' },
+    },
+    {
+      name: 'receiptSentAt',
+      type: 'date',
+      admin: { readOnly: true, position: 'sidebar' },
+    },
+    {
       name: 'totalAmount',
       type: 'number',
     },

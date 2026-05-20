@@ -4,6 +4,7 @@ import { unstable_cache } from 'next/cache'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
+import { Suspense } from 'react'
 import { ProductCard } from '@/components/shop/ProductCard'
 import { mediaUrl } from "@/lib/media-url"
 
@@ -28,7 +29,15 @@ const getCatalog = unstable_cache(
   { tags: ['shop', 'categories', 'products', 'trips', 'bundles'], revalidate: 3600 }
 )
 
-export default async function ShopPage({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
+export default function ShopPage({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
+  return (
+    <Suspense>
+      <ShopPageInner searchParams={searchParams} />
+    </Suspense>
+  )
+}
+
+async function ShopPageInner({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
   const { category } = await searchParams
   const { shop, categories, products, trips, bundles } = await getCatalog()
   const shopData = shop as any
@@ -38,70 +47,139 @@ export default async function ShopPage({ searchParams }: { searchParams: Promise
     : products
 
   return (
-    <main>
+    <main className="min-h-screen bg-[#0a0a0a] text-white">
       {shopData?.bannerText && (
-        <div className="bg-gray-900 py-2 text-center text-sm text-white">
+        <div className="border-b border-[#1a1a1a] py-2 text-center text-xs tracking-widest text-white/50 uppercase">
           {shopData.bannerText}
           {shopData.bannerCta && shopData.bannerCtaHref && (
-            <Link href={shopData.bannerCtaHref} className="ml-2 underline">{shopData.bannerCta}</Link>
+            <Link href={shopData.bannerCtaHref} className="ml-2 underline text-white/70 hover:text-white transition-colors">{shopData.bannerCta}</Link>
           )}
         </div>
       )}
 
-      <section className="relative bg-gray-900 text-white min-h-64 flex items-center">
-        {shopData?.heroImage && mediaUrl(shopData.heroImage as any) && (
+      <section className="relative min-h-[60vh] flex items-end overflow-hidden -mt-24">
+        {shopData?.heroImage && mediaUrl(shopData.heroImage as any) ? (
           <Image
             src={mediaUrl(shopData.heroImage as any)!}
             alt={shopData.heroTitle ?? 'Shop'}
             fill
-            className="object-cover opacity-40"
+            className="object-cover"
             priority
           />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-b from-[#111] to-[#0a0a0a]" />
         )}
-        <div className="relative mx-auto max-w-7xl px-6 py-24 text-center w-full">
-          <h1 className="text-5xl font-bold tracking-tight">{shopData?.heroTitle ?? 'Adventure Shop'}</h1>
-          {shopData?.heroSubtitle && <p className="mt-4 text-xl text-gray-300">{shopData.heroSubtitle}</p>}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/40 to-transparent" />
+        <div className="relative w-full max-w-[1440px] mx-auto px-6 pb-16 pt-32">
+          <p className="text-xs tracking-[0.2em] text-white/40 uppercase mb-4">Sons of Mountains</p>
+          <h1 className="text-6xl md:text-8xl font-bold tracking-tight leading-none">
+            {shopData?.heroTitle ?? 'Adventure\nShop'}
+          </h1>
+          {shopData?.heroSubtitle && (
+            <p className="mt-6 text-lg text-white/50 max-w-lg">{shopData.heroSubtitle}</p>
+          )}
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl px-6 py-12">
-        <nav className="mb-8 flex flex-wrap gap-2">
-          <Link href="/shop" className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${!category ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}>All</Link>
+      <div className="max-w-[1440px] mx-auto px-6 py-16">
+        <nav className="mb-12 flex flex-wrap gap-2">
+          <Link
+            href="/shop"
+            className={`px-5 py-2 text-xs tracking-widest uppercase font-medium border transition-colors ${
+              !category
+                ? 'border-white bg-white text-[#0a0a0a]'
+                : 'border-[#1a1a1a] text-white/50 hover:border-white/30 hover:text-white'
+            }`}
+          >
+            All
+          </Link>
           {categories.map((cat: any) => (
-            <Link key={cat.id} href={`/shop?category=${cat.id}`} className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${category === cat.id ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}>{cat.name}</Link>
+            <Link
+              key={cat.id}
+              href={`/shop?category=${cat.id}`}
+              className={`px-5 py-2 text-xs tracking-widest uppercase font-medium border transition-colors ${
+                category === cat.id
+                  ? 'border-white bg-white text-[#0a0a0a]'
+                  : 'border-[#1a1a1a] text-white/50 hover:border-white/30 hover:text-white'
+              }`}
+            >
+              {cat.name}
+            </Link>
           ))}
-          <Link href="/shop/gift-vouchers" className="rounded-full bg-amber-100 px-4 py-1.5 text-sm font-medium text-amber-800 hover:bg-amber-200">Gift Vouchers</Link>
-          <Link href="/shop/bundles" className="rounded-full bg-purple-100 px-4 py-1.5 text-sm font-medium text-purple-800 hover:bg-purple-200">Bundles</Link>
+          <Link href="/vouchers" className="px-5 py-2 text-xs tracking-widest uppercase font-medium border border-amber-900/50 text-amber-400/80 hover:border-amber-400 hover:text-amber-300 transition-colors">
+            Gift Vouchers
+          </Link>
+          <Link href="/shop/bundles" className="px-5 py-2 text-xs tracking-widest uppercase font-medium border border-white/10 text-white/50 hover:border-white/30 hover:text-white transition-colors">
+            Bundles
+          </Link>
         </nav>
 
         {!category && bundles.length > 0 && (
-          <section className="mb-12">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold">Bundle Deals</h2>
-              <Link href="/shop/bundles" className="text-sm text-gray-500 hover:text-gray-900 underline">View all</Link>
+          <section className="mb-20">
+            <div className="flex items-end justify-between mb-8">
+              <div>
+                <p className="text-xs tracking-widest text-white/30 uppercase mb-2">Save more</p>
+                <h2 className="text-3xl font-bold">Bundle Deals</h2>
+              </div>
+              <Link href="/shop/bundles" className="text-xs tracking-widest uppercase text-white/30 hover:text-white transition-colors">
+                View all →
+              </Link>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-px sm:grid-cols-2 border border-[#1a1a1a]">
               {bundles.map((bundle: any) => (
-                <Link key={bundle.id} href={`/shop/bundles/${bundle.slug}`} className="flex gap-4 rounded-xl border bg-gradient-to-r from-purple-50 to-white p-4 hover:shadow-md transition-shadow">
-                  <div className="flex-1">
-                    <p className="font-semibold">{bundle.title}</p>
-                    <p className="text-sm text-gray-500 line-clamp-2">{bundle.description}</p>
-                    <div className="mt-2 flex items-baseline gap-2">
-                      <span className="text-lg font-bold text-purple-700">€{bundle.bundlePrice}</span>
-                      {bundle.basePrice && <span className="text-sm text-gray-400 line-through">€{bundle.basePrice}</span>}
-                      {bundle.savingsPercent && <span className="text-xs font-semibold text-green-600">Save {bundle.savingsPercent}%</span>}
-                    </div>
+                <Link
+                  key={bundle.id}
+                  href={`/shop/bundles/${bundle.slug}`}
+                  className="group flex flex-col gap-4 bg-[#111] p-8 hover:bg-[#161616] transition-colors"
+                >
+                  <p className="text-sm font-semibold text-white">{bundle.title}</p>
+                  <p className="text-sm text-white/40 line-clamp-2">{bundle.description}</p>
+                  <div className="flex items-baseline gap-3 mt-auto">
+                    <span className="text-2xl font-bold text-white">€{bundle.bundlePrice}</span>
+                    {bundle.basePrice && <span className="text-sm text-white/30 line-through">€{bundle.basePrice}</span>}
+                    {bundle.savingsPercent && (
+                      <span className="text-xs font-semibold text-green-400">Save {bundle.savingsPercent}%</span>
+                    )}
                   </div>
+                  <span className="text-xs tracking-widest uppercase text-white/20 group-hover:text-white transition-colors">View bundle →</span>
                 </Link>
               ))}
             </div>
           </section>
         )}
 
+        {!category && (
+          <section className="mb-20">
+            <Link
+              href="/vouchers"
+              className="group flex flex-col sm:flex-row items-center justify-between gap-8 border border-[#1a1a1a] px-10 py-10 hover:border-amber-900/50 transition-colors bg-[#0d0d0a]"
+            >
+              <div>
+                <p className="text-xs tracking-[0.2em] text-amber-400/60 uppercase mb-3">The perfect present</p>
+                <h2 className="text-3xl font-bold text-white">Gift Vouchers</h2>
+                <p className="mt-2 text-sm text-white/40 max-w-sm">Give someone the freedom to choose their own adventure — any trip, program, or product.</p>
+              </div>
+              <div className="flex items-center gap-6 shrink-0">
+                <div className="flex gap-2">
+                  {[50, 100, 200, 500].map((a) => (
+                    <span key={a} className="border border-amber-900/40 px-3 py-2 text-xs text-amber-300/70">€{a}</span>
+                  ))}
+                </div>
+                <span className="text-xs tracking-widest text-white/30 group-hover:text-white transition-colors">Buy →</span>
+              </div>
+            </Link>
+          </section>
+        )}
+
         {filteredProducts.length > 0 && (
-          <section className="mb-12">
-            <h2 className="text-2xl font-bold mb-6">Gear &amp; Products</h2>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <section className="mb-20">
+            <div className="flex items-end justify-between mb-8">
+              <div>
+                <p className="text-xs tracking-widest text-white/30 uppercase mb-2">Curated selection</p>
+                <h2 className="text-3xl font-bold">Gear &amp; Products</h2>
+              </div>
+            </div>
+            <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 border border-[#1a1a1a]">
               {filteredProducts.map((product: any) => {
                 const img = product.images?.[0]?.image
                 return (
@@ -124,28 +202,41 @@ export default async function ShopPage({ searchParams }: { searchParams: Promise
 
         {!category && trips.length > 0 && (
           <section>
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold">Upcoming Adventures</h2>
-              <Link href="/destinations" className="text-sm text-gray-500 hover:text-gray-900 underline">All destinations</Link>
+            <div className="flex items-end justify-between mb-8">
+              <div>
+                <p className="text-xs tracking-widest text-white/30 uppercase mb-2">Book your next expedition</p>
+                <h2 className="text-3xl font-bold">Upcoming Adventures</h2>
+              </div>
+              <Link href="/destinations" className="text-xs tracking-widest uppercase text-white/30 hover:text-white transition-colors">
+                All destinations →
+              </Link>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-3 border border-[#1a1a1a]">
               {trips.map((trip: any) => {
                 const dest = typeof trip.destination === 'object' ? trip.destination : null
                 const soldOut = trip.spotsAvailable === 0
                 return (
-                  <Link key={trip.id} href={`/shop/${trip.id}`} className="group flex flex-col rounded-lg border bg-white p-4 hover:shadow-md transition-shadow">
-                    <div className="flex justify-between items-start">
+                  <Link
+                    key={trip.id}
+                    href={`/shop/${trip.id}`}
+                    className="group flex flex-col bg-[#111] p-8 hover:bg-[#161616] transition-colors"
+                  >
+                    <div className="flex justify-between items-start gap-4">
                       <div>
-                        <p className="font-semibold group-hover:underline">{trip.title ?? dest?.name}</p>
-                        {dest && <p className="text-xs text-gray-500">{dest.name}</p>}
+                        <p className="font-semibold text-white group-hover:text-white/80 transition-colors">{trip.title ?? dest?.name}</p>
+                        {dest && <p className="text-xs text-white/30 mt-1">{dest.name}</p>}
                       </div>
-                      {soldOut && <span className="text-xs font-semibold text-red-600 bg-red-50 rounded px-2 py-0.5">Sold out</span>}
+                      {soldOut && (
+                        <span className="shrink-0 text-xs font-semibold text-red-400 border border-red-900/40 px-2 py-0.5">Sold out</span>
+                      )}
                     </div>
-                    <div className="mt-auto pt-4 flex items-center justify-between text-sm">
-                      <span className="text-gray-500">{trip.startDate ? new Date(trip.startDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : ''}</span>
-                      <span className="font-bold text-gray-900">€{trip.price}</span>
+                    <div className="mt-auto pt-8 flex items-center justify-between">
+                      <span className="text-xs text-white/30">
+                        {trip.startDate ? new Date(trip.startDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : ''}
+                      </span>
+                      <span className="text-xl font-bold text-white">€{trip.price}</span>
                     </div>
-                    {!soldOut && <p className="text-xs text-gray-400 mt-1">{trip.spotsAvailable} spots left</p>}
+                    {!soldOut && <p className="text-xs text-white/20 mt-1">{trip.spotsAvailable} spots left</p>}
                   </Link>
                 )
               })}

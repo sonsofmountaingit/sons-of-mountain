@@ -149,9 +149,41 @@ export async function Footer() {
 
   return (
     <>
+      <style>{`
+        @media (max-width: 767px) {
+          .footer-main-grid {
+            grid-template-columns: 1fr !important;
+            gap: 2rem !important;
+          }
+          .footer-bottom-bar {
+            grid-template-columns: 1fr !important;
+            justify-items: center;
+            text-align: center;
+            gap: 1.25rem !important;
+          }
+          .footer-bottom-left {
+            align-items: center !important;
+          }
+          .footer-bottom-right {
+            align-items: center !important;
+          }
+          .footer-travel-grid {
+            grid-template-columns: 1fr 1fr !important;
+          }
+          .footer-nav-link {
+            font-size: 0.8rem !important;
+          }
+          .footer-travel-link-name {
+            font-size: 0.8rem !important;
+          }
+          .footer-travel-link-month {
+            font-size: 0.7rem !important;
+          }
+        }
+      `}</style>
       <footer style={{ backgroundColor: '#111111', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '4rem', paddingBottom: '2rem' }}>
         <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 1.5rem' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '360px 1fr 220px', gap: '3rem', paddingBottom: '3rem', borderBottom: '1px solid rgba(255,255,255,0.08)', alignItems: 'start' }}>
+          <div className="footer-main-grid" style={{ display: 'grid', gridTemplateColumns: '360px 1fr 220px', gap: '3rem', paddingBottom: '3rem', borderBottom: '1px solid rgba(255,255,255,0.08)', alignItems: 'start' }}>
 
             {/* Left: Subscribe + Follow cards */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -214,7 +246,7 @@ export async function Footer() {
               <p style={{ fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', margin: '0 0 1.5rem 0' }}>
                 {travelSectionHeading}
               </p>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 2rem' }}>
+              <div className="footer-travel-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 2rem' }}>
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                   {travelCol1.map((link, i) => (
                     <li key={`col1-${i}`}>
@@ -246,7 +278,7 @@ export async function Footer() {
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
                 {navLinks.map((link, i) => (
                   <li key={`nav-${i}`}>
-                    <Link href={link.href} style={{ fontSize: '1rem', color: '#ffffff', textDecoration: 'none' }}>
+                    <Link href={link.href} className="footer-nav-link" style={{ fontSize: '1rem', color: '#ffffff', textDecoration: 'none' }}>
                       {link.label}
                     </Link>
                   </li>
@@ -256,8 +288,8 @@ export async function Footer() {
           </div>
 
           {/* Bottom bar */}
-          <div style={{ paddingTop: '2rem', display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', gap: '1.5rem' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+          <div className="footer-bottom-bar" style={{ paddingTop: '2rem', display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', gap: '1.5rem' }}>
+            <div className="footer-bottom-left" style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
               <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', margin: 0 }}>{copyright}</p>
               <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.65)', margin: 0 }}>{licenseText}</p>
               <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.65)', margin: 0 }}>{insuranceText}</p>
@@ -265,7 +297,7 @@ export async function Footer() {
 
             <FooterLogo />
 
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.4rem' }}>
+            <div className="footer-bottom-right" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.4rem' }}>
               <div style={{ display: 'flex', gap: '1.5rem' }}>
                 <Link href={termsUrl} style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>
                   {termsLabel}

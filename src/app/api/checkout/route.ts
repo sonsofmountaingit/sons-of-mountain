@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import Stripe from 'stripe'
 import type { CartItem } from '@/lib/cart-store'
 
 type CheckoutType = 'registration' | 'order' | 'voucher' | 'cart' | 'deposit' | 'bundle'
@@ -17,9 +16,8 @@ const COLLECTION_MAP: Record<string, 'registrations' | 'orders' | 'gift-vouchers
 
 export async function POST(req: NextRequest) {
   try {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? 'sk_test_placeholder', {
-      apiVersion: '2026-04-22.dahlia',
-    })
+    const { stripe: stripeClient } = await import('@/lib/stripe')
+    const stripe = stripeClient!
     const body = await req.json()
     const {
       type = 'cart' as CheckoutType,
@@ -56,7 +54,6 @@ export async function POST(req: NextRequest) {
       if (!id || !amount) return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
 
       const paymentMethods: any[] = ['card']
-      if (amount >= bnplMin) paymentMethods.push('klarna', 'afterpay_clearpay')
 
       const chargeAmount = paymentMode === 'deposit' ? (body.depositAmount ?? amount) : amount
 
@@ -82,23 +79,40 @@ export async function POST(req: NextRequest) {
       })
 
       const collection = COLLECTION_MAP[type] ?? 'registrations'
-      await payload.update({ collection, id, data: { stripeSessionId: session.id } })
+      await payload.update({ collection, id, data: { stripeSessionId: session.id } }).catch(() => null)
       return NextResponse.json({ url: session.url })
     }
 
     // Multi-item cart checkout
     if (!items?.length) return NextResponse.json({ error: 'Cart is empty' }, { status: 400 })
 
-    const lineItems: any[] = (items as CartItem[]).map((item) => ({
-      price_data: {
-        currency,
-        product_data: {
-          name: item.title,
-          metadata: { itemType: item.type, itemId: item.tripId ?? item.productId ?? item.programId ?? item.bundleId ?? '' },
+    // Build line items — use stored Stripe Price IDs where available
+    const lineItems: any[] = await Promise.all((items as CartItem[]).map(async (item) => {
+      let stripePriceId: string | null = null
+      try {
+        const collectionMap: Record<string, string> = {
+          trip: 'trips', product: 'products', program: 'programs', bundle: 'bundles',
+        }
+        const col = collectionMap[item.type]
+        const docId = item.tripId ?? item.productId ?? item.programId ?? item.bundleId
+        if (col && docId) {
+          const doc = await payload.findByID({ collection: col as any, id: docId }).catch(() => null)
+          stripePriceId = (doc as any)?.stripePriceId ?? null
+        }
+      } catch {}
+
+      if (stripePriceId) return { price: stripePriceId, quantity: item.quantity }
+      return {
+        price_data: {
+          currency,
+          product_data: {
+            name: item.title,
+            metadata: { itemType: item.type, itemId: item.tripId ?? item.productId ?? item.programId ?? item.bundleId ?? '' },
+          },
+          unit_amount: Math.round(item.unitPrice * 100),
         },
-        unit_amount: Math.round(item.unitPrice * 100),
-      },
-      quantity: item.quantity,
+        quantity: item.quantity,
+      }
     }))
 
     // Create pending order record
@@ -132,17 +146,26 @@ export async function POST(req: NextRequest) {
     })
 
     const paymentMethods: any[] = ['card']
-    if (enableBnpl && (orderTotal ?? 0) >= bnplMin) {
-      paymentMethods.push('klarna', 'afterpay_clearpay')
+
+    // Resolve Stripe customer ID for saved payment methods
+    let stripeCustomerId: string | undefined
+    if (customerEmail) {
+      const custResult = await payload.find({ collection: 'customers', where: { email: { equals: customerEmail } }, limit: 1 }).catch(() => null)
+      stripeCustomerId = (custResult?.docs[0] as any)?.stripeCustomerId ?? undefined
     }
 
-    const session = await stripe.checkout.sessions.create({
+    const sessionParams: any = {
       mode: 'payment',
       payment_method_types: paymentMethods,
       line_items: lineItems,
       success_url: `${base}/shop/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${base}/shop/cancel`,
-      customer_email: customerEmail,
+      customer_email: stripeCustomerId ? undefined : customerEmail,
+      customer: stripeCustomerId,
+      payment_intent_data: {
+        setup_future_usage: stripeCustomerId ? 'off_session' : undefined,
+        metadata: { orderId: orderRecord.id },
+      },
       metadata: {
         orderId: orderRecord.id,
         type: 'cart',
@@ -151,7 +174,9 @@ export async function POST(req: NextRequest) {
         giftVoucherId: giftVoucherId ?? '',
         loyaltyPointsRedeemed: String(loyaltyPointsRedeemed ?? 0),
       },
-    })
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionParams)
 
     await payload.update({ collection: 'orders', id: orderRecord.id, data: { stripeSessionId: session.id } })
 

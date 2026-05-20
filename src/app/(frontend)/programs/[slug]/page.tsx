@@ -10,6 +10,9 @@ import { WhySection } from '@/components/ui/destination-page/WhySection'
 import { IsThisForYouSection } from '@/components/ui/destination-page/IsThisForYouSection'
 import { TravelTransportSection } from '@/components/ui/destination-page/TravelTransportSection'
 import { ItinerarySection } from '@/components/ui/destination-page/ItinerarySection'
+import EquipmentSection from '@/components/ui/destination-page/EquipmentSection'
+import ReadinessChecklistSection from '@/components/ui/destination-page/ReadinessChecklistSection'
+import GuidesSection from '@/components/ui/destination-page/GuidesSection'
 import { AccommodationsSection } from '@/components/ui/destination-page/AccommodationsSection'
 import { AdventureCtaSection } from '@/components/ui/destination-page/AdventureCtaSection'
 import { BookingCtaSection } from '@/components/ui/destination-page/BookingCtaSection'
@@ -97,12 +100,15 @@ export default async function ProgramPage({ params }: Props) {
   const travelImage = p.travelImage as { url?: string | null; alt?: string } | null
   const transportImage = p.transportImage as { url?: string | null; alt?: string } | null
   const fitnessRatings = p.fitnessRatings as { difficulty?: number; comfort?: number; nature?: number; culture?: number } | null
-  const itinerary = program.itinerary as { day: number; title: string; content?: Record<string, unknown> | null; image?: { url?: string | null; alt?: string } | null }[] | null
+  const itinerary = program.itinerary as { day: number; title: string; content?: Record<string, unknown> | null; image?: { url?: string | null; alt?: string } | null; stats?: { ascent?: string | null; descent?: string | null; distance?: string | null; duration?: string | null; accommodation?: string | null; meals?: string | null } | null }[] | null
   const accommodations = p.accommodations as { locationLabel?: string | null; name?: string | null; description?: Record<string, unknown> | null; learnMoreUrl?: string | null; gallery?: { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null }[] | null
   const communityPhotos = p.communityPhotos as { photo?: { url?: string | null; alt?: string } | null }[] | null
   const faq = p.faq as { question?: string | null; answer?: Record<string, unknown> | null }[] | null
   const included = program.included as { item?: string | null }[] | null
   const notIncluded = program.notIncluded as { item?: string | null }[] | null
+  const equipmentList = program.equipmentList as { item: string }[] | null
+  const readinessChecklist = program.readinessChecklist as { category: string; items: { item: string }[] }[] | null
+  const guides = program.guides as { id: string; name: string; photo?: { url?: string | null; alt?: string } | null; bio?: string | null; instagram?: string | null; specializations?: { item: string }[] | null; yearsExperience?: number | null }[] | null
 
   const programAsTripSummary = [{
     id: String(program.id),
@@ -158,7 +164,11 @@ export default async function ProgramPage({ params }: Props) {
         durationDays={p.durationDays as number | null}
         price={program.price ?? 0}
         currency={(program.currency ?? 'EUR') as string}
-        bookingHref={`/programs/${(program.slug ?? String(program.id))}#booking`}
+        tripId={String(program.id)}
+        tripTitle={program.title as string}
+        itemType="program"
+        spotsAvailable={program.spotsAvailable as number | null}
+        depositAmount={program.depositAmount as number | null}
       />
 
       <HeroSection
@@ -196,6 +206,9 @@ export default async function ProgramPage({ params }: Props) {
       />
 
       <ItinerarySection itinerary={itinerary ?? []} />
+        <EquipmentSection items={(equipmentList ?? []).map(e => e.item)} />
+        <ReadinessChecklistSection categories={readinessChecklist ?? []} />
+        <GuidesSection guides={guides ?? []} />
 
       <AccommodationsSection accommodations={accommodations} />
 

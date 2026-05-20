@@ -6,10 +6,11 @@ import { auth } from '@/lib/auth'
 export async function POST(req: NextRequest) {
   try {
     const session = await auth.api.getSession({ headers: req.headers })
-    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const body = await req.json()
-    const { recipientEmail, recipientName, amount, currency = 'EUR', message, forDestination, forTrip } = body
+    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+    const { recipientEmail, recipientName, amount, currency = 'EUR', message, forDestination, forTrip, forProgram, senderName, senderEmail, isGift } = body
 
     if (!amount || amount <= 0) {
       return NextResponse.json({ error: 'Invalid amount' }, { status: 400 })
@@ -17,12 +18,18 @@ export async function POST(req: NextRequest) {
 
     const payload = await getPayload({ config })
 
-    const existing = await payload.find({
-      collection: 'customers',
-      where: { betterAuthId: { equals: session.user.id } },
-      limit: 1,
-    })
-    const customerDocId = existing.docs[0]?.id as string | undefined
+    let customerDocId: string | undefined
+    let betterAuthUserId: string | undefined
+
+    if (session) {
+      betterAuthUserId = session.user.id
+      const existing = await payload.find({
+        collection: 'customers',
+        where: { betterAuthId: { equals: session.user.id } },
+        limit: 1,
+      })
+      customerDocId = existing.docs[0]?.id as string | undefined
+    }
 
     const expiresAt = new Date()
     expiresAt.setFullYear(expiresAt.getFullYear() + 1)
@@ -30,17 +37,21 @@ export async function POST(req: NextRequest) {
     const voucher = await payload.create({
       collection: 'gift-vouchers',
       data: {
-        betterAuthUserId: session.user.id,
+        ...(betterAuthUserId ? { betterAuthUserId } : {}),
         ...(customerDocId ? { customer: customerDocId } : {}),
         recipientEmail,
         recipientName,
+        senderName,
+        senderEmail,
         amount,
         currency,
         message,
         status: 'active',
+        isGift: !!isGift,
         expiresAt: expiresAt.toISOString(),
         ...(forDestination ? { forDestination } : {}),
         ...(forTrip ? { forTrip } : {}),
+        ...(forProgram ? { forProgram } : {}),
       },
     })
 

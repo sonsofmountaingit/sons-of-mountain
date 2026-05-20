@@ -44,6 +44,10 @@ import { FooterNavBlock } from '@/components/blocks/footer/FooterNavBlock'
 import { FooterBottomBlock } from '@/components/blocks/footer/FooterBottomBlock'
 import { GalleryHeroBlock } from '@/components/blocks/gallery/GalleryHeroBlock'
 import { GalleryGridBlock } from '@/components/blocks/gallery/GalleryGridBlock'
+import { WhyTravelWithUsBlock } from '@/components/blocks/why-travel-with-us/WhyTravelWithUsBlock'
+import { FeaturedTravelsBlock } from '@/components/blocks/featured-travels/FeaturedTravelsBlock'
+import { CalendarCtaBlock } from '@/components/blocks/calendar-cta/CalendarCtaBlock'
+import { TestimonialsBlock } from '@/components/blocks/testimonials/TestimonialsBlock'
 
 import {
   allStyleFields,
@@ -192,6 +196,10 @@ export type PuckBlocks = {
   ShopBannerBlock: { text: string; cta: string; ctaHref: string }
   GiftVoucherPromoBlock: { title: string; description: string }
   BundleShowcaseBlock: { title: string }
+  WhyTravelWithUsBlock: { heading: string; items: { icon: string; title: string; body: string }[] }
+  FeaturedTravelsBlock: { heading: string }
+  CalendarCtaBlock: { heading: string; subheading: string; buttonText: string; buttonUrl: string }
+  TestimonialsMarqueeBlock: { heading: string; subheading: string }
 }
 
 // ─── Config ───────────────────────────────────────────────────────────────────
@@ -204,7 +212,7 @@ export const puckConfig: Config<PuckBlocks> = {
     media: { title: 'Media', components: ['ImageGalleryBlock', 'GalleryLightboxBlock', 'VideoBlock', 'BeforeAfterBlock', 'EmbedBlock', 'MapBlock'], defaultExpanded: false },
     brand: { title: 'Team & Brand', components: ['TeamBlock', 'MediaLogosBlock', 'FAQBlock', 'AccordionBlock', 'TestimonialsGridBlock', 'IconGridBlock', 'FeatureCardsBlock', 'CounterBlock', 'TimelineBlock', 'TabbedContentBlock'], defaultExpanded: false },
     dynamic: { title: 'Dynamic (Live Data)', components: ['StoriesBlock', 'BlogPostsBlock', 'DestinationCarouselBlock', 'SocialFeedBlock', 'GalleryHeroBlock', 'GalleryGridBlock'], defaultExpanded: false },
-    global: { title: 'Global', components: ['FooterBlock', 'NavigationLinksBlock'], defaultExpanded: false },
+    global: { title: 'Global', components: ['FooterBlock', 'NavigationLinksBlock', 'WhyTravelWithUsBlock', 'FeaturedTravelsBlock', 'CalendarCtaBlock', 'TestimonialsMarqueeBlock'], defaultExpanded: false },
   },
 
   components: {
@@ -1493,6 +1501,83 @@ export const puckConfig: Config<PuckBlocks> = {
       )
     },
   },
+
+    WhyTravelWithUsBlock: {
+      label: 'Why Travel With Us',
+      fields: {
+        heading: { type: 'text', label: 'Heading' },
+        items: {
+          type: 'array',
+          label: 'Items',
+          arrayFields: {
+            icon: { type: 'select', label: 'Icon', options: [{ value: 'camera', label: 'Camera' }, { value: 'globe', label: 'Globe' }, { value: 'city', label: 'City' }] },
+            title: { type: 'text', label: 'Title' },
+            body: { type: 'textarea', label: 'Body' },
+          },
+        },
+      },
+      defaultProps: {
+        heading: 'ЗАЩО ДА ПЪТУВАШ С НАС?',
+        items: [
+          { icon: 'camera', title: 'Автентичност', body: 'Пътувания, в които се сливаш с мястото, не просто го снимаш.' },
+          { icon: 'globe', title: 'Общност', body: 'Малки групи от хора със сходен дух и жажда за приключения.' },
+          { icon: 'city', title: 'Смисъл', body: 'Моменти, които остават в съзнанието дълго след като се приберeш.' },
+        ],
+      },
+      render: (props: any) => <WhyTravelWithUsBlock {...props} />,
+    },
+
+    FeaturedTravelsBlock: {
+      label: 'Featured Travels Grid',
+      fields: {
+        heading: { type: 'text', label: 'Section heading' },
+      },
+      defaultProps: {
+        heading: 'ИЗБЕРИ СВОЕТО ПЪТУВАНЕ',
+      },
+      render: ({ heading }: any) => (
+        <div style={{ padding: '2rem', background: '#0a0a0a', color: 'white', textAlign: 'center', borderRadius: 8 }}>
+          <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.2em', opacity: 0.4, textTransform: 'uppercase', marginBottom: 8 }}>{heading}</p>
+          <p style={{ fontSize: 13, opacity: 0.3 }}>Grid items are managed via the Payload Admin → Site Settings → Featured Travels global.</p>
+        </div>
+      ),
+    },
+
+    CalendarCtaBlock: {
+      label: 'Calendar CTA Banner',
+      fields: {
+        heading: { type: 'text', label: 'Heading' },
+        subheading: { type: 'text', label: 'Subheading' },
+        buttonText: { type: 'text', label: 'Button Text' },
+        buttonUrl: { type: 'text', label: 'Button URL' },
+      },
+      defaultProps: {
+        heading: 'Търсиш следващото приключение?',
+        subheading: 'Разгледай всички предстоящи пътувания.',
+        buttonText: 'Виж календара',
+        buttonUrl: '/calendar',
+      },
+      render: (props: any) => <CalendarCtaBlock {...props} />,
+    },
+
+    TestimonialsMarqueeBlock: {
+      label: 'Testimonials Marquee',
+      fields: {
+        heading: { type: 'text', label: 'Section Heading' },
+        subheading: { type: 'text', label: 'Section Subheading' },
+      },
+      defaultProps: {
+        heading: 'Какво казват нашите клиенти',
+        subheading: 'Реални истории от реални пътешественици.',
+      },
+      render: ({ heading, subheading }: any) => (
+        <div style={{ padding: '2rem', background: '#111111', color: 'white', textAlign: 'center', borderRadius: 8 }}>
+          <p style={{ fontSize: '1.25rem', fontWeight: 700, margin: '0 0 0.5rem' }}>{heading}</p>
+          <p style={{ fontSize: '0.875rem', opacity: 0.5, margin: '0 0 1rem' }}>{subheading}</p>
+          <p style={{ fontSize: 12, opacity: 0.3 }}>Testimonials cards are managed in Payload Admin → Content → Testimonials.</p>
+        </div>
+      ),
+    },
 }
 
 // ── Multi-column Layout Component ──────────────────────────────────────────────
