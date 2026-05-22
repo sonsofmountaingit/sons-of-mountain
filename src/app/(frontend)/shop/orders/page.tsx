@@ -5,11 +5,12 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { Suspense } from 'react'
 import { OrderStatusBadge } from '@/components/shop/OrderStatusBadge'
 
 export const metadata: Metadata = { title: 'My Orders — Sons of Mountains' }
 
-export default async function OrdersPage() {
+async function OrdersContent() {
   const session = await auth.api.getSession({ headers: await headers() })
   if (!session?.user) redirect('/auth/login?redirect=/shop/orders')
 
@@ -90,5 +91,13 @@ export default async function OrdersPage() {
         </div>
       )}
     </main>
+  )
+}
+
+export default function OrdersPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-white" />}>
+      <OrdersContent />
+    </Suspense>
   )
 }

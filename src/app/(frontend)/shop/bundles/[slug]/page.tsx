@@ -6,22 +6,33 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { mediaUrl } from "@/lib/media-url"
 import { AddToCartButton } from '@/components/shop/AddToCartButton'
+import { Suspense } from 'react'
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
+import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await params
-  return { title: `${slug} Bundle — Sons of Mountains` }
+export const metadata: Metadata = { title: 'Bundle — Sons of Mountains' }
+
+async function getBundle(slug: string) {
+  'use cache'
+  cacheTag('bundles')
+  cacheLife('hours')
+  try {
+    const payload = await getPayload({ config })
+    const result = await payload.find({
+      collection: 'bundles',
+      where: { and: [{ slug: { equals: slug } }, { isActive: { equals: true } }] },
+      limit: 1,
+      depth: 3,
+    })
+    return result.docs[0] ?? null
+  } catch {
+    return null
+  }
 }
 
-export default async function BundlePage({ params }: { params: Promise<{ slug: string }> }) {
+async function BundleContent({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const payload = await getPayload({ config })
-  const result = await payload.find({
-    collection: 'bundles',
-    where: { and: [{ slug: { equals: slug } }, { isActive: { equals: true } }] },
-    limit: 1,
-    depth: 3,
-  })
-  const bundle = result.docs[0]
+  const bundle = await getBundle(slug)
   if (!bundle) notFound()
 
   const heroUrl = bundle.image && typeof bundle.image === 'object' && bundle.image !== null
@@ -154,5 +165,13 @@ export default async function BundlePage({ params }: { params: Promise<{ slug: s
         </div>
       </div>
     </main>
+  )
+}
+
+export default function BundlePage({ params }: { params: Promise<{ slug: string }> }) {
+  return (
+    <Suspense>
+      <BundleContent params={params} />
+    </Suspense>
   )
 }

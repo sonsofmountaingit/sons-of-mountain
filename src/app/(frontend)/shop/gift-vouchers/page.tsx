@@ -1,17 +1,24 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { unstable_cache } from 'next/cache'
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { GiftVoucherPurchaseForm } from './_components/GiftVoucherPurchaseForm'
+import { Suspense } from 'react'
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
+import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 
 export const metadata: Metadata = {
   title: 'Gift Vouchers — Sons of Mountains',
   description: 'Give the gift of adventure',
 }
 
-const getVoucherOptions = unstable_cache(
-  async () => {
+async function getVoucherOptions() {
+  'use cache'
+  cacheTag('gift-vouchers')
+  cacheTag('destinations')
+  cacheTag('trips')
+  cacheTag('programs')
+  cacheLife('hours')
+  try {
     const payload = await getPayload({ config })
     const [destinations, trips, programs] = await Promise.all([
       payload.find({ collection: 'destinations', limit: 20, depth: 0 }),
@@ -19,12 +26,12 @@ const getVoucherOptions = unstable_cache(
       payload.find({ collection: 'programs', where: { status: { equals: 'active' } }, limit: 20, depth: 0 }),
     ])
     return { destinations: destinations.docs, trips: trips.docs, programs: programs.docs }
-  },
-  ['gift-voucher-options'],
-  { tags: ['gift-vouchers', 'destinations', 'trips', 'programs'], revalidate: 3600 }
-)
+  } catch {
+    return { destinations: [], trips: [], programs: [] }
+  }
+}
 
-export default async function GiftVouchersPage() {
+async function GiftVouchersContent() {
   const { destinations, trips, programs } = await getVoucherOptions()
 
   return (
@@ -66,5 +73,13 @@ export default async function GiftVouchersPage() {
         </div>
       </div>
     </main>
+  )
+}
+
+export default function GiftVouchersPage() {
+  return (
+    <Suspense>
+      <GiftVouchersContent />
+    </Suspense>
   )
 }

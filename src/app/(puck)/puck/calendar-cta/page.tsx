@@ -7,8 +7,8 @@ import type { Data } from '@puckeditor/core'
 import { PuckCalendarCtaEditorClient } from './PuckCalendarCtaEditorClient'
 
 async function EditorContent() {
-  const payload = await getPayload({ config })
   const requestHeaders = await headers()
+  const payload = await getPayload({ config })
   const { user } = await payload.auth({ headers: requestHeaders })
   if (!user) redirect('/admin')
 

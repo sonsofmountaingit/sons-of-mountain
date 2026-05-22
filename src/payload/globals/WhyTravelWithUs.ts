@@ -54,7 +54,7 @@ export const WhyTravelWithUs: GlobalConfig = {
     afterChange: [
       ({ doc }) => {
         try {
-          after(() => revalidateTag('why-travel-with-us'))
+          after(() => revalidateTag('why-travel-with-us', 'default'))
         } catch { /* outside request scope */ }
         return doc
       },

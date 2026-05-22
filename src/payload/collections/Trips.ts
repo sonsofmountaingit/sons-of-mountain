@@ -201,7 +201,12 @@ export const Trips: CollectionConfig = {
       revalidateCollection('trips', '/destinations'),
       revalidateFooterTrips,
       async ({ doc, previousDoc, req }) => {
-        after(() => syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'trips', priceField: 'price' }))
+        try {
+          after(() => syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'trips', priceField: 'price' }))
+        } catch {
+          // outside Next.js request scope (e.g. seed scripts) — run synchronously
+          await syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'trips', priceField: 'price' })
+        }
       },
     ],
     afterDelete: [revalidateCollectionDelete('trips', '/destinations'), revalidateFooterTripsDelete],

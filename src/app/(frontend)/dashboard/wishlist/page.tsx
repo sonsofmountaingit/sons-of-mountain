@@ -1,11 +1,12 @@
 import { cookies, headers } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
 import { auth } from '@/lib/auth'
 import { WishlistClient } from './WishlistClient'
 
 export const metadata = { title: 'Любими' }
 
-export default async function WishlistPage() {
+async function WishlistContent() {
   const h = await headers()
   const session = await auth.api.getSession({ headers: h })
   if (!session?.user) redirect('/login')
@@ -22,4 +23,12 @@ export default async function WishlistPage() {
   const wishlist = data.wishlist ?? []
 
   return <WishlistClient wishlist={wishlist} />
+}
+
+export default function WishlistPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <WishlistContent />
+    </Suspense>
+  )
 }

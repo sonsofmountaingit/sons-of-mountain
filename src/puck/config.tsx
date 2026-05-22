@@ -1472,35 +1472,6 @@ export const puckConfig: Config<PuckBlocks> = {
         </div>
       ),
     },
-  },
-
-  // ── Root ──────────────────────────────────────────────────────────────────
-  root: {
-    fields: {
-      bgColor: colorField('Page Background Color', BG_ICON),
-      fontFamily: { type: 'select', label: 'Font Family', options: [{ value: 'system', label: 'System' }, { value: 'serif', label: 'Serif' }, { value: 'mono', label: 'Monospace' }] },
-      maxWidth: { type: 'select', label: 'Max Width', options: [{ value: '100%', label: 'Full' }, { value: '1440px', label: '1440px' }] },
-    },
-    defaultProps: { bgColor: '#0a0a0a', fontFamily: 'system', maxWidth: '100%' },
-    render: ({ children, bgColor, fontFamily, maxWidth }: any) => {
-      const fontMap: Record<string, string> = {
-        system: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-        serif: 'Georgia, serif',
-        mono: '"Courier New", monospace',
-      }
-      return (
-        <div style={{
-          backgroundColor: bgColor || '#0a0a0a',
-          minHeight: '100vh',
-          fontFamily: fontMap[fontFamily] || fontMap.system,
-        }}>
-          <div style={{ maxWidth: maxWidth || '100%', margin: '0 auto', width: '100%' }}>
-            {children}
-          </div>
-        </div>
-      )
-    },
-  },
 
     WhyTravelWithUsBlock: {
       label: 'Why Travel With Us',
@@ -1578,6 +1549,36 @@ export const puckConfig: Config<PuckBlocks> = {
         </div>
       ),
     },
+  },
+
+  // ── Root ──────────────────────────────────────────────────────────────────
+  root: {
+    fields: {
+      bgColor: colorField('Page Background Color', BG_ICON),
+      fontFamily: { type: 'select', label: 'Font Family', options: [{ value: 'system', label: 'System' }, { value: 'serif', label: 'Serif' }, { value: 'mono', label: 'Monospace' }] },
+      maxWidth: { type: 'select', label: 'Max Width', options: [{ value: '100%', label: 'Full' }, { value: '1440px', label: '1440px' }] },
+    },
+    defaultProps: { bgColor: '#0a0a0a', fontFamily: 'system', maxWidth: '100%' },
+    render: ({ children, bgColor, fontFamily, maxWidth }: any) => {
+      const fontMap: Record<string, string> = {
+        system: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+        serif: 'Georgia, serif',
+        mono: '"Courier New", monospace',
+      }
+      return (
+        <div style={{
+          backgroundColor: bgColor || '#0a0a0a',
+          minHeight: '100vh',
+          fontFamily: fontMap[fontFamily] || fontMap.system,
+        }}>
+          <div style={{ maxWidth: maxWidth || '100%', margin: '0 auto', width: '100%' }}>
+            {children}
+          </div>
+        </div>
+      )
+    },
+  },
+
 }
 
 // ── Multi-column Layout Component ──────────────────────────────────────────────

@@ -33,6 +33,6 @@ export async function PATCH(request: Request) {
     overrideAccess: true,
   })
 
-  revalidateTag('calendar-cta')
+  revalidateTag('calendar-cta', 'default')
   return Response.json({ ok: true })
 }

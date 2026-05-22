@@ -41,7 +41,6 @@ export const GalleryCollections: CollectionConfig = {
       name: 'coverImage',
       type: 'upload',
       relationTo: 'media',
-      required: true,
     },
     {
       name: 'photographer',

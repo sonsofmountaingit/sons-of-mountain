@@ -13,13 +13,16 @@ export default async function BlogPage() {
   'use cache'
   cacheTag('blog-posts')
   cacheLife('days')
-  const payload = await getPayload({ config })
-
-  const { docs: posts } = await payload.find({
-    collection: 'blog-posts',
-    limit: 50,
-    sort: '-createdAt',
-  })
+  let posts: any[] = []
+  try {
+    const payload = await getPayload({ config })
+    const { docs } = await payload.find({
+      collection: 'blog-posts',
+      limit: 50,
+      sort: '-createdAt',
+    })
+    posts = docs
+  } catch {}
 
   return (
     <div className="pt-24 pb-20 px-6 min-h-screen">

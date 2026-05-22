@@ -8,41 +8,28 @@ import { RichText } from '@payloadcms/richtext-lexical/react'
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
 import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 import { mediaUrl } from '@/lib/media-url'
+import { Suspense } from 'react'
+
 
 interface Props { params: Promise<{ slug: string }> }
 
-let _staticParamsCache: Promise<{ slug: string }[]> | null = null
-export async function generateStaticParams() {
-  if (!_staticParamsCache) {
-    _staticParamsCache = (async () => {
-      try {
-        const payload = await getPayload({ config })
-        const { docs } = await payload.find({ collection: 'stories', limit: 200, select: { slug: true } })
-        if (docs.length > 0) return docs.map((s) => ({ slug: s.slug as string }))
-      } catch {}
-      return [{ slug: '_placeholder' }]
-    })()
-  }
-  return _staticParamsCache!
-}
 
 async function getStory(slug: string) {
   'use cache'
   cacheTag('stories')
   cacheLife('days')
-  const payload = await getPayload({ config })
-  const { docs } = await payload.find({ collection: 'stories', where: { slug: { equals: slug } }, limit: 1, depth: 2 })
-  return docs[0] ?? null
+  try {
+    const payload = await getPayload({ config })
+    const { docs } = await payload.find({ collection: 'stories', where: { slug: { equals: slug } }, limit: 1, depth: 2 })
+    return docs[0] ?? null
+  } catch {
+    return null
+  }
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params
-  const story = await getStory(slug)
-  if (!story) return { title: 'История' }
-  return { title: story.title }
-}
+export const metadata: Metadata = { title: 'Истории — Sons of Mountains' }
 
-export default async function StoryPage({ params }: Props) {
+async function StoryContent({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const story = await getStory(slug)
   if (!story) notFound()
@@ -80,5 +67,13 @@ export default async function StoryPage({ params }: Props) {
         )}
       </div>
     </article>
+  )
+}
+
+export default function StoryPage({ params }: Props) {
+  return (
+    <Suspense>
+      <StoryContent params={params} />
+    </Suspense>
   )
 }

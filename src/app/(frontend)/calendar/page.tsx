@@ -69,12 +69,18 @@ async function fetchCalendarData() {
   cacheTag('programs')
   cacheLife('days')
 
-  const payload = await getPayload({ config })
+  let tripsRes = { docs: [] as any[] }
+  let programsRes = { docs: [] as any[] }
+  try {
+    const payload = await getPayload({ config })
 
-  const [tripsRes, programsRes] = await Promise.all([
-    payload.find({ collection: 'trips', where: { status: { not_equals: 'draft' } }, sort: 'startDate', limit: 500, depth: 2 }),
-    payload.find({ collection: 'programs', where: { status: { not_equals: 'draft' } }, sort: 'startDate', limit: 500, depth: 2 }),
-  ])
+    const results = await Promise.all([
+      payload.find({ collection: 'trips', where: { status: { not_equals: 'draft' } }, sort: 'startDate', limit: 500, depth: 2 }),
+      payload.find({ collection: 'programs', where: { status: { not_equals: 'draft' } }, sort: 'startDate', limit: 500, depth: 2 }),
+    ])
+    tripsRes = results[0]
+    programsRes = results[1]
+  } catch {}
 
   const items: CalendarItem[] = []
   const itemCoords: Record<string, { lat: number; lng: number }> = {}

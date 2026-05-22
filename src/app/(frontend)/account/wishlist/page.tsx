@@ -5,10 +5,11 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = { title: 'Wishlist — Sons of Mountains' }
 
-export default async function WishlistPage() {
+async function WishlistContent() {
   const session = await auth.api.getSession({ headers: await headers() })
   if (!session?.user) redirect('/auth/login?redirect=/account/wishlist')
 
@@ -51,5 +52,13 @@ export default async function WishlistPage() {
         </div>
       )}
     </main>
+  )
+}
+
+export default function WishlistPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-white" />}>
+      <WishlistContent />
+    </Suspense>
   )
 }

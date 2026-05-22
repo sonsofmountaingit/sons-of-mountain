@@ -26,7 +26,7 @@ export async function PATCH(request: Request) {
   if (block.items !== undefined) updateData.items = block.items
 
   await payload.updateGlobal({ slug: 'why-travel-with-us', data: updateData, overrideAccess: true })
-  revalidateTag('why-travel-with-us')
+  revalidateTag('why-travel-with-us', 'default')
 
   return Response.json({ ok: true })
 }

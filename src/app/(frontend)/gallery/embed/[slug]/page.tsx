@@ -1,46 +1,43 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
 import Image from 'next/image'
 import type { Metadata } from 'next'
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
 import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 import { mediaUrl } from '@/lib/media-url'
 
+
 interface Props {
   params: Promise<{ slug: string }>
 }
 
-export async function generateStaticParams() {
-  try {
-    const { getPayload } = await import('payload')
-    const cfg = await import('@payload-config')
-    const payload = await getPayload({ config: cfg.default })
-    const { docs } = await payload.find({ collection: 'gallery-collections', limit: 100, select: { slug: true } })
-    if (docs.length > 0) return docs.map((d) => ({ slug: (d.slug ?? String(d.id)) as string }))
-  } catch {}
-  return [{ slug: '_placeholder' }]
-}
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  return { title: 'Gallery Embed', robots: { index: false } }
+export const metadata: Metadata = {
+  title: 'Галерия — Sons of Mountains',
+  robots: { index: false },
 }
 
 async function getCollection(slug: string) {
   'use cache'
   cacheTag('gallery-collections')
   cacheLife('hours')
-  const payload = await getPayload({ config })
-  const { docs } = await payload.find({
-    collection: 'gallery-collections',
-    where: { slug: { equals: slug }, status: { equals: 'published' } },
-    depth: 2,
-    limit: 1,
-  })
-  return docs[0] ?? null
+  try {
+    const payload = await getPayload({ config })
+    const { docs } = await payload.find({
+      collection: 'gallery-collections',
+      where: { slug: { equals: slug }, status: { equals: 'published' } },
+      depth: 2,
+      limit: 1,
+    })
+    return docs[0] ?? null
+  } catch {
+    return null
+  }
 }
 
-export default async function GalleryEmbedPage({ params }: Props) {
+async function GalleryEmbedContent({ params }: Props) {
   const { slug } = await params
   const collection = await getCollection(slug)
   if (!collection) notFound()
@@ -72,5 +69,13 @@ export default async function GalleryEmbedPage({ params }: Props) {
         </a>
       </div>
     </div>
+  )
+}
+
+export default function GalleryEmbedPage({ params }: Props) {
+  return (
+    <Suspense fallback={null}>
+      <GalleryEmbedContent params={params} />
+    </Suspense>
   )
 }

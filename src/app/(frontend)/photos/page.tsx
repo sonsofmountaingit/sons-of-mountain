@@ -7,12 +7,15 @@ export const metadata: Metadata = { title: 'Всички снимки' }
 
 export default async function PhotosPage() {
   'use cache'
-  const payload = await getPayload({ config })
-
-  const { docs: destinations } = await payload.find({
-    collection: 'destinations',
-    limit: 50,
-  })
+  let destinations: any[] = []
+  try {
+    const payload = await getPayload({ config })
+    const { docs } = await payload.find({
+      collection: 'destinations',
+      limit: 50,
+    })
+    destinations = docs
+  } catch {}
 
   const images = destinations
     .flatMap((d) => (d.gallery as { image: { url?: string | null; alt: string } | null }[] | undefined) ?? [])

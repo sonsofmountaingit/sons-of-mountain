@@ -1,6 +1,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
 import { cacheLife } from 'next/dist/server/use-cache/cache-life'
@@ -22,76 +23,52 @@ import { WhyTravelWithUsSection } from '@/components/ui/destination-page/WhyTrav
 import { DestinationPageAnimator } from '@/components/ui/destination-page/DestinationPageAnimator'
 import { FloatingBookingBar } from '@/components/ui/destination-page/FloatingBookingBar'
 
+
 interface Props { params: Promise<{ tripId: string }> }
 
-let _staticParamsCache: Promise<{ tripId: string }[]> | null = null
-export async function generateStaticParams() {
-  if (!_staticParamsCache) {
-    _staticParamsCache = (async () => {
-      try {
-        const payload = await getPayload({ config })
-        const { docs } = await payload.find({ collection: 'trips', limit: 200, select: { id: true } })
-        if (docs.length > 0) return docs.map((t) => ({ tripId: String(t.id) }))
-      } catch {}
-      return [{ tripId: '_placeholder' }]
-    })()
-  }
-  return _staticParamsCache!
-}
 
 async function getTripData(tripId: string) {
   'use cache'
   cacheTag('trips')
   cacheTag('destinations')
   cacheLife('days')
-  const payload = await getPayload({ config })
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let trip: any = null
   try {
-    trip = await payload.findByID({ collection: 'trips', id: tripId, depth: 2 })
+    const payload = await getPayload({ config })
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let trip: any = null
+    try {
+      trip = await payload.findByID({ collection: 'trips', id: tripId, depth: 2 })
+    } catch {
+      return null
+    }
+    if (!trip) return null
+
+    const destination = trip.destination as Record<string, unknown> | null
+
+    const [siblingsResult, settings] = await Promise.all([
+      destination
+        ? payload.find({
+            collection: 'destinations',
+            where: { and: [{ slug: { not_equals: (destination.slug as string) ?? '' } }, { type: { equals: destination.type } }] },
+            limit: 3,
+            depth: 1,
+          })
+        : Promise.resolve({ docs: [] }),
+      payload.findGlobal({ slug: 'site-settings', depth: 0 }),
+    ])
+
+    return { trip, destination, siblings: siblingsResult.docs, settings }
   } catch {
     return null
   }
-  if (!trip) return null
-
-  const destination = trip.destination as Record<string, unknown> | null
-
-  const [siblingsResult, settings] = await Promise.all([
-    destination
-      ? payload.find({
-          collection: 'destinations',
-          where: { and: [{ slug: { not_equals: (destination.slug as string) ?? '' } }, { type: { equals: destination.type } }] },
-          limit: 3,
-          depth: 1,
-        })
-      : Promise.resolve({ docs: [] }),
-    payload.findGlobal({ slug: 'site-settings', depth: 0 }),
-  ])
-
-  return { trip, destination, siblings: siblingsResult.docs, settings }
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { tripId } = await params
-  const data = await getTripData(tripId)
-  if (!data) return { title: 'Пътуване' }
-  const { trip, destination } = data
-  const heroImage = destination?.heroImage as { url?: string | null } | null
-  const destName = (destination?.name as string) ?? ''
-  const startDate = trip.startDate ? new Date(trip.startDate as string).toLocaleDateString('bg-BG') : ''
-  return {
-    title: `${destName} — ${startDate}`,
-    alternates: { canonical: `/shop/${tripId}` },
-    openGraph: {
-      title: `${destName} — ${startDate}`,
-      type: 'website',
-      images: mediaUrl(heroImage?.url) ? [{ url: mediaUrl(heroImage!.url)! }] : [],
-    },
-  }
+export const metadata: Metadata = {
+  title: 'Резервация — Sons of Mountains',
 }
 
-export default async function ShopTripPage({ params }: Props) {
+async function ShopTripContent({ params }: Props) {
   const { tripId } = await params
   const data = await getTripData(tripId)
   if (!data) notFound()
@@ -249,5 +226,13 @@ export default async function ShopTripPage({ params }: Props) {
 
       <WhyTravelWithUsSection />
     </article>
+  )
+}
+
+export default function ShopTripPage({ params }: Props) {
+  return (
+    <Suspense fallback={null}>
+      <ShopTripContent params={params} />
+    </Suspense>
   )
 }

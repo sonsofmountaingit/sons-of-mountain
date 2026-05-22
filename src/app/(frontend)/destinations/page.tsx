@@ -11,13 +11,16 @@ export default async function DestinationsPage() {
   'use cache'
   cacheTag('destinations')
   cacheLife('days')
-  const payload = await getPayload({ config })
-
-  const { docs: destinations } = await payload.find({
-    collection: 'destinations',
-    limit: 50,
-    sort: 'name',
-  })
+  let destinations: any[] = []
+  try {
+    const payload = await getPayload({ config })
+    const { docs } = await payload.find({
+      collection: 'destinations',
+      limit: 50,
+      sort: 'name',
+    })
+    destinations = docs
+  } catch {}
 
   return (
     <div className="pt-24 pb-20 px-6 min-h-screen">

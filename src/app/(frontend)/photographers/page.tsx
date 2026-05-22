@@ -1,18 +1,23 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { unstable_cache } from 'next/cache'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { mediaUrl } from '@/lib/media-url'
+import { Suspense } from 'react'
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
+import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 
 export const metadata: Metadata = {
   title: 'Фотографи',
   description: 'Запознай се с фотографите, създатели на нашите галерии.',
 }
 
-const getPhotographers = unstable_cache(
-  async () => {
+async function getPhotographers() {
+  'use cache'
+  cacheTag('gallery-collections')
+  cacheLife('hours')
+  try {
     const payload = await getPayload({ config })
     const { docs: users } = await payload.find({
       collection: 'users',
@@ -21,12 +26,12 @@ const getPhotographers = unstable_cache(
       limit: 50,
     })
     return users
-  },
-  ['photographers'],
-  { tags: ['gallery-collections'], revalidate: 3600 }
-)
+  } catch {
+    return []
+  }
+}
 
-export default async function PhotographersPage() {
+async function PhotographersContent() {
   const users = await getPhotographers() as any[]
 
   return (
@@ -63,5 +68,13 @@ export default async function PhotographersPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function PhotographersPage() {
+  return (
+    <Suspense>
+      <PhotographersContent />
+    </Suspense>
   )
 }

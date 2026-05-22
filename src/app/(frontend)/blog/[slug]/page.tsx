@@ -7,41 +7,26 @@ import { RichText } from '@payloadcms/richtext-lexical/react'
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
 import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 import { mediaUrl } from '@/lib/media-url'
+import { Suspense } from 'react'
 
 interface Props { params: Promise<{ slug: string }> }
-
-let _staticParamsCache: Promise<{ slug: string }[]> | null = null
-export async function generateStaticParams() {
-  if (!_staticParamsCache) {
-    _staticParamsCache = (async () => {
-      try {
-        const payload = await getPayload({ config })
-        const { docs } = await payload.find({ collection: 'blog-posts', limit: 200, select: { slug: true } })
-        if (docs.length > 0) return docs.map((p) => ({ slug: p.slug as string }))
-      } catch {}
-      return [{ slug: '_placeholder' }]
-    })()
-  }
-  return _staticParamsCache!
-}
 
 async function getBlogPost(slug: string) {
   'use cache'
   cacheTag('blog-posts')
   cacheLife('days')
-  const payload = await getPayload({ config })
-  const { docs } = await payload.find({ collection: 'blog-posts', where: { slug: { equals: slug } }, limit: 1, depth: 1 })
-  return docs[0] ?? null
+  try {
+    const payload = await getPayload({ config })
+    const { docs } = await payload.find({ collection: 'blog-posts', where: { slug: { equals: slug } }, limit: 1, depth: 1 })
+    return docs[0] ?? null
+  } catch {
+    return null
+  }
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params
-  const post = await getBlogPost(slug)
-  if (!post) return { title: 'Пост' }
-  return { title: post.title, description: post.excerpt ?? undefined }
-}
+export const metadata: Metadata = { title: 'Блог — Sons of Mountains' }
 
-export default async function BlogPostPage({ params }: Props) {
+async function BlogPostContent({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const post = await getBlogPost(slug)
   if (!post) notFound()
@@ -68,5 +53,13 @@ export default async function BlogPostPage({ params }: Props) {
         )}
       </div>
     </article>
+  )
+}
+
+export default function BlogPostPage({ params }: Props) {
+  return (
+    <Suspense>
+      <BlogPostContent params={params} />
+    </Suspense>
   )
 }

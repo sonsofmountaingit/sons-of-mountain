@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = { title: 'Order Confirmed — Sons of Mountains' }
 
-export default async function SuccessPage({ searchParams }: { searchParams: Promise<{ session_id?: string }> }) {
+async function SuccessContent({ searchParams }: { searchParams: Promise<{ session_id?: string }> }) {
   await searchParams
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
@@ -23,5 +24,13 @@ export default async function SuccessPage({ searchParams }: { searchParams: Prom
         </Link>
       </div>
     </main>
+  )
+}
+
+export default function SuccessPage({ searchParams }: { searchParams: Promise<{ session_id?: string }> }) {
+  return (
+    <Suspense>
+      <SuccessContent searchParams={searchParams} />
+    </Suspense>
   )
 }

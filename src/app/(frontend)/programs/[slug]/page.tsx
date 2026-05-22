@@ -1,6 +1,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
 import { cacheLife } from 'next/dist/server/use-cache/cache-life'
@@ -22,71 +23,47 @@ import { WhyTravelWithUsSection } from '@/components/ui/destination-page/WhyTrav
 import { DestinationPageAnimator } from '@/components/ui/destination-page/DestinationPageAnimator'
 import { FloatingBookingBar } from '@/components/ui/destination-page/FloatingBookingBar'
 
+
 interface Props { params: Promise<{ slug: string }> }
 
-let _staticParamsCache: Promise<{ slug: string }[]> | null = null
-export async function generateStaticParams() {
-  if (!_staticParamsCache) {
-    _staticParamsCache = (async () => {
-      try {
-        const payload = await getPayload({ config })
-        const { docs } = await payload.find({ collection: 'programs', limit: 200, select: { slug: true } })
-        if (docs.length > 0) return docs.map((p) => ({ slug: (p.slug ?? String(p.id)) as string }))
-      } catch {}
-      return [{ slug: '_placeholder' }]
-    })()
-  }
-  return _staticParamsCache!
-}
 
 async function getProgramData(slug: string) {
   'use cache'
   cacheTag('programs')
   cacheLife('days')
-  const payload = await getPayload({ config })
+  try {
+    const payload = await getPayload({ config })
 
-  const { docs } = await payload.find({
-    collection: 'programs',
-    where: { slug: { equals: slug } },
-    limit: 1,
-    depth: 2,
-  })
-  const program = docs[0] ?? null
-  if (!program) return null
-
-  const [siblingsResult, settings] = await Promise.all([
-    payload.find({
+    const { docs } = await payload.find({
       collection: 'programs',
-      where: { slug: { not_equals: slug } },
-      limit: 3,
-      depth: 1,
-    }),
-    payload.findGlobal({ slug: 'site-settings', depth: 0 }),
-  ])
+      where: { slug: { equals: slug } },
+      limit: 1,
+      depth: 2,
+    })
+    const program = docs[0] ?? null
+    if (!program) return null
 
-  return { program, siblings: siblingsResult.docs, settings }
-}
+    const [siblingsResult, settings] = await Promise.all([
+      payload.find({
+        collection: 'programs',
+        where: { slug: { not_equals: slug } },
+        limit: 3,
+        depth: 1,
+      }),
+      payload.findGlobal({ slug: 'site-settings', depth: 0 }),
+    ])
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params
-  const data = await getProgramData(slug)
-  if (!data) return { title: 'Програма' }
-  const { program } = data
-  const heroImage = program.heroImage as { url?: string | null } | null
-  return {
-    title: program.title,
-    description: program.shortDescription ?? undefined,
-    alternates: { canonical: `/programs/${program.slug ?? String(program.id)}` },
-    openGraph: {
-      title: program.title,
-      description: program.shortDescription ?? undefined,
-      type: 'website',
-      images: mediaUrl(heroImage?.url) ? [{ url: mediaUrl(heroImage!.url)! }] : [],
-    },
+    return { program, siblings: siblingsResult.docs, settings }
+  } catch {
+    return null
   }
 }
 
-export default async function ProgramPage({ params }: Props) {
+export const metadata: Metadata = {
+  title: 'Програма — Sons of Mountains',
+}
+
+async function ProgramContent({ params }: Props) {
   const { slug } = await params
   const data = await getProgramData(slug)
   if (!data) notFound()
@@ -244,5 +221,13 @@ export default async function ProgramPage({ params }: Props) {
 
       <WhyTravelWithUsSection />
     </article>
+  )
+}
+
+export default function ProgramPage({ params }: Props) {
+  return (
+    <Suspense fallback={null}>
+      <ProgramContent params={params} />
+    </Suspense>
   )
 }

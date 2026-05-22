@@ -11,13 +11,16 @@ export default async function StoriesPage() {
   'use cache'
   cacheTag('stories')
   cacheLife('days')
-  const payload = await getPayload({ config })
-
-  const { docs: stories } = await payload.find({
-    collection: 'stories',
-    limit: 50,
-    sort: '-createdAt',
-  })
+  let stories: any[] = []
+  try {
+    const payload = await getPayload({ config })
+    const { docs } = await payload.find({
+      collection: 'stories',
+      limit: 50,
+      sort: '-createdAt',
+    })
+    stories = docs
+  } catch {}
 
   return (
     <div className="pt-24 pb-20 px-6 min-h-screen">

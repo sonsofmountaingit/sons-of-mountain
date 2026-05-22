@@ -23,6 +23,7 @@ const nextConfig: NextConfig = {
       { pathname: '/**' },
     ],
   },
+
   cacheComponents: true,
   experimental: {
     turbopackServerFastRefresh: false,

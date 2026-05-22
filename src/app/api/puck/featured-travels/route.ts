@@ -22,7 +22,7 @@ export async function PATCH(request: Request) {
     overrideAccess: true,
   })
 
-  revalidateTag('featured-travels')
+  revalidateTag('featured-travels', 'default')
 
   return Response.json({ ok: true })
 }

@@ -2,6 +2,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
 import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 import { mediaUrl } from '@/lib/media-url'
@@ -23,79 +24,55 @@ import { WhyTravelWithUsSection } from '@/components/ui/destination-page/WhyTrav
 import { DestinationPageAnimator } from '@/components/ui/destination-page/DestinationPageAnimator'
 import { FloatingBookingBar } from '@/components/ui/destination-page/FloatingBookingBar'
 
+
 interface Props { params: Promise<{ slug: string }> }
 
-let _staticParamsCache: Promise<{ slug: string }[]> | null = null
-export async function generateStaticParams() {
-  if (!_staticParamsCache) {
-    _staticParamsCache = (async () => {
-      try {
-        const payload = await getPayload({ config })
-        const { docs } = await payload.find({ collection: 'destinations', limit: 100, select: { slug: true } })
-        if (docs.length > 0) return docs.map((d) => ({ slug: d.slug as string }))
-      } catch {}
-      return [{ slug: '_placeholder' }]
-    })()
-  }
-  return _staticParamsCache!
-}
 
 async function getPageData(slug: string) {
   'use cache'
   cacheTag('destinations')
   cacheTag('trips')
   cacheLife('days')
-  const payload = await getPayload({ config })
+  try {
+    const payload = await getPayload({ config })
 
-  const { docs } = await payload.find({
-    collection: 'destinations',
-    where: { slug: { equals: slug } },
-    limit: 1,
-    depth: 2,
-  })
-  const destination = docs[0] ?? null
-  if (!destination) return null
-
-  const [tripsResult, siblingsResult, settings] = await Promise.all([
-    payload.find({
-      collection: 'trips',
-      where: { and: [{ destination: { equals: destination.id } }, { status: { not_equals: 'draft' } }] },
-      sort: 'startDate',
-      limit: 5,
-      depth: 0,
-    }),
-    payload.find({
+    const { docs } = await payload.find({
       collection: 'destinations',
-      where: { and: [{ slug: { not_equals: slug } }, { type: { equals: destination.type } }] },
-      limit: 3,
-      depth: 1,
-    }),
-    payload.findGlobal({ slug: 'site-settings', depth: 0 }),
-  ])
+      where: { slug: { equals: slug } },
+      limit: 1,
+      depth: 2,
+    })
+    const destination = docs[0] ?? null
+    if (!destination) return null
 
-  return { destination, trips: tripsResult.docs, siblings: siblingsResult.docs, settings }
-}
+    const [tripsResult, siblingsResult, settings] = await Promise.all([
+      payload.find({
+        collection: 'trips',
+        where: { and: [{ destination: { equals: destination.id } }, { status: { not_equals: 'draft' } }] },
+        sort: 'startDate',
+        limit: 5,
+        depth: 0,
+      }),
+      payload.find({
+        collection: 'destinations',
+        where: { and: [{ slug: { not_equals: slug } }, { type: { equals: destination.type } }] },
+        limit: 3,
+        depth: 1,
+      }),
+      payload.findGlobal({ slug: 'site-settings', depth: 0 }),
+    ])
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params
-  const data = await getPageData(slug)
-  if (!data) return { title: 'Дестинация' }
-  const { destination } = data
-  const heroImage = destination.heroImage as { url?: string | null } | null
-  return {
-    title: destination.name,
-    description: destination.introText,
-    alternates: { canonical: `/destinations/${destination.slug}` },
-    openGraph: {
-      title: destination.name,
-      description: destination.introText ?? undefined,
-      type: 'website',
-      images: mediaUrl(heroImage?.url) ? [{ url: mediaUrl(heroImage!.url)! }] : [],
-    },
+    return { destination, trips: tripsResult.docs, siblings: siblingsResult.docs, settings }
+  } catch {
+    return null
   }
 }
 
-export default async function DestinationPage({ params }: Props) {
+export const metadata: Metadata = {
+  title: 'Дестинация — Sons of Mountains',
+}
+
+async function DestinationContent({ params }: Props) {
   const { slug } = await params
   const data = await getPageData(slug)
   if (!data) notFound()
@@ -250,5 +227,13 @@ export default async function DestinationPage({ params }: Props) {
 
       <WhyTravelWithUsSection />
     </article>
+  )
+}
+
+export default function DestinationPage({ params }: Props) {
+  return (
+    <Suspense fallback={null}>
+      <DestinationContent params={params} />
+    </Suspense>
   )
 }

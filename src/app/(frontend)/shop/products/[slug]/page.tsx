@@ -3,7 +3,9 @@ import config from '@payload-config'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import { unstable_cache } from 'next/cache'
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
+import { cacheLife } from 'next/dist/server/use-cache/cache-life'
+import { Suspense } from 'react'
 import { mediaUrl } from "@/lib/media-url"
 import { AddToCartButton } from '@/components/shop/AddToCartButton'
 import { WishlistButton } from '@/components/shop/WishlistButton'
@@ -11,34 +13,25 @@ import { StockAlertButton } from '@/components/shop/StockAlertButton'
 import { WaitlistButton } from '@/components/shop/WaitlistButton'
 import { StarRating } from '@/components/shop/StarRating'
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await params
-  const payload = await getPayload({ config })
-  const result = await payload.find({ collection: 'products', where: { slug: { equals: slug } }, limit: 1, depth: 0 })
-  const product = result.docs[0]
-  if (!product) return { title: 'Product not found' }
-  return {
-    title: `${(product as any).title} — Sons of Mountains`,
-    description: (product as any).meta?.description,
+export const metadata: Metadata = { title: 'Shop — Sons of Mountains' }
+
+async function getProduct(slug: string) {
+  'use cache'
+  cacheTag('products')
+  cacheLife('hours')
+  try {
+    const payload = await getPayload({ config })
+    const [result, ratingsResult] = await Promise.all([
+      payload.find({ collection: 'products', where: { and: [{ slug: { equals: slug } }, { status: { equals: 'active' } }] }, limit: 1, depth: 2 }),
+      payload.find({ collection: 'customer-ratings', where: { product: { exists: true } }, limit: 20, depth: 1 }),
+    ])
+    return { product: result.docs[0] ?? null, ratings: ratingsResult.docs }
+  } catch {
+    return { product: null, ratings: [] }
   }
 }
 
-async function getProduct(slug: string) {
-  return unstable_cache(
-    async () => {
-      const payload = await getPayload({ config })
-      const [result, ratingsResult] = await Promise.all([
-        payload.find({ collection: 'products', where: { and: [{ slug: { equals: slug } }, { status: { equals: 'active' } }] }, limit: 1, depth: 2 }),
-        payload.find({ collection: 'customer-ratings', where: { product: { exists: true } }, limit: 20, depth: 1 }),
-      ])
-      return { product: result.docs[0] ?? null, ratings: ratingsResult.docs }
-    },
-    [`product-${slug}`],
-    { tags: [`product-${slug}`, 'products'], revalidate: 3600 }
-  )()
-}
-
-export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
+async function ProductContent({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const { product, ratings } = await getProduct(slug)
   if (!product) notFound()
@@ -140,5 +133,13 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </section>
       )}
     </main>
+  )
+}
+
+export default function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
+  return (
+    <Suspense>
+      <ProductContent params={params} />
+    </Suspense>
   )
 }

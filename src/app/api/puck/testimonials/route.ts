@@ -31,6 +31,6 @@ export async function PATCH(request: Request) {
     overrideAccess: true,
   })
 
-  revalidateTag('testimonials')
+  revalidateTag('testimonials', 'default')
   return Response.json({ ok: true })
 }

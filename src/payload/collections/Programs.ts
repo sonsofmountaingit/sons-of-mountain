@@ -387,7 +387,11 @@ export const Programs: CollectionConfig = {
     afterChange: [
       revalidatePrograms,
       async ({ doc, previousDoc, req }) => {
-        after(() => syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'programs', priceField: 'price' }))
+        try {
+          after(() => syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'programs', priceField: 'price' }))
+        } catch {
+          await syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'programs', priceField: 'price' })
+        }
       },
     ],
     afterDelete: [revalidateProgramsDelete],

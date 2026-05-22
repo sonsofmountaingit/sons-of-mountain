@@ -14,7 +14,11 @@ export const Bundles: CollectionConfig = {
     afterChange: [
       () => { after(() => revalidateTag('bundles', 'default')) },
       async ({ doc, previousDoc, req }) => {
-        after(() => syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'bundles', priceField: 'bundlePrice' }))
+        try {
+          after(() => syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'bundles', priceField: 'bundlePrice' }))
+        } catch {
+          await syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'bundles', priceField: 'bundlePrice' })
+        }
       },
     ],
     afterDelete: [() => { after(() => revalidateTag('bundles', 'default')) }],

@@ -1,12 +1,14 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
+import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { GalleryGridBlock } from '@/components/blocks/gallery/GalleryGridBlock'
 import { mediaUrl } from '@/lib/media-url'
+
 
 interface Props {
   params: Promise<{ username: string }>
@@ -71,25 +73,9 @@ const getPhotographerData = (username: string) =>
     { tags: ['gallery-collections'], revalidate: 3600 }
   )()
 
-export async function generateStaticParams() {
-  const payload = await getPayload({ config })
-  const { docs } = await payload.find({ collection: 'users', where: { username: { exists: true } }, limit: 100 })
-  return docs.map((u: any) => ({ username: u.username }))
-}
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { username } = await params
-  const data = await getPhotographerData(username)
-  if (!data) return { title: 'Фотограф не е намерен' }
-  const avatarUrl = mediaUrl(data.user.profileImage?.url)
-  return {
-    title: data.user.name ?? username,
-    description: data.user.bio ?? `Галерии от ${data.user.name}`,
-    openGraph: {
-      title: data.user.name ?? username,
-      images: avatarUrl ? [{ url: avatarUrl }] : [],
-    },
-  }
+export const metadata: Metadata = {
+  title: 'Фотограф — Sons of Mountains',
 }
 
 const STAT_LABELS: { key: keyof ReturnType<typeof stubStats>; label: string }[] = [
@@ -100,7 +86,7 @@ const STAT_LABELS: { key: keyof ReturnType<typeof stubStats>; label: string }[] 
 ]
 function stubStats() { return { collections: 0, destinations: 0, trips: 0, programs: 0, photos: 0 } }
 
-export default async function PhotographerPage({ params }: Props) {
+async function PhotographerContent({ params }: Props) {
   const { username } = await params
   const data = await getPhotographerData(username)
   if (!data) notFound()
@@ -157,5 +143,13 @@ export default async function PhotographerPage({ params }: Props) {
         )}
       </div>
     </div>
+  )
+}
+
+export default function PhotographerPage({ params }: Props) {
+  return (
+    <Suspense fallback={null}>
+      <PhotographerContent params={params} />
+    </Suspense>
   )
 }

@@ -4,54 +4,47 @@ import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Metadata } from 'next'
-import { unstable_cache } from 'next/cache'
 import Link from 'next/link'
 import { OrderStatusBadge } from '@/components/shop/OrderStatusBadge'
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
+import { cacheLife } from 'next/dist/server/use-cache/cache-life'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = { title: 'Order Details — Sons of Mountains' }
 
-async function getOrderData(orderId: string, betterAuthUserId: string) {
-  const payload = await getPayload({ config })
-
-  const customer = await payload.find({
-    collection: 'customers',
-    where: { betterAuthId: { equals: betterAuthUserId } },
-    limit: 1,
-  })
-  const cust = customer.docs[0]
-
-  if (!cust) {
+async function getCachedOrderData(orderId: string, betterAuthUserId: string) {
+  'use cache'
+  cacheTag('orders')
+  cacheLife('minutes')
+  try {
+    const payload = await getPayload({ config })
+    const customer = await payload.find({
+      collection: 'customers',
+      where: { betterAuthId: { equals: betterAuthUserId } },
+      limit: 1,
+    })
+    const cust = customer.docs[0]
+    if (!cust) return null
+    const orderResult = await payload.find({
+      collection: 'orders',
+      where: { id: { equals: orderId } },
+      limit: 1,
+      depth: 2,
+    })
+    const order = orderResult.docs[0]
+    if (!order || order.customer !== cust.id) return null
+    return order
+  } catch {
     return null
   }
-
-  const orderResult = await payload.find({
-    collection: 'orders',
-    where: { id: { equals: orderId } },
-    limit: 1,
-    depth: 2,
-  })
-
-  const order = orderResult.docs[0]
-
-  if (!order || order.customer !== cust.id) {
-    return null
-  }
-
-  return order
 }
 
-const cachedOrderData = unstable_cache(
-  (orderId: string, userId: string) => getOrderData(orderId, userId),
-  ['order-detail'],
-  { tags: ['order-detail'], revalidate: 3600 }
-)
-
-export default async function OrderDetailPage({ params }: { params: { id: string } }) {
+async function OrderDetailContent({ id }: { id: string }) {
   const session = await auth.api.getSession({ headers: await headers() })
   if (!session?.user) redirect('/auth/login?redirect=/shop/orders')
 
   const betterAuthUserId = (session.user as any).id
-  const order = await cachedOrderData(params.id, betterAuthUserId)
+  const order = await getCachedOrderData(id, betterAuthUserId)
 
   if (!order) {
     return (
@@ -182,4 +175,17 @@ export default async function OrderDetailPage({ params }: { params: { id: string
       )}
     </main>
   )
+}
+
+export default function OrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  return (
+    <Suspense>
+      <OrderDetailContentWrapper params={params} />
+    </Suspense>
+  )
+}
+
+async function OrderDetailContentWrapper({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  return <OrderDetailContent id={id} />
 }

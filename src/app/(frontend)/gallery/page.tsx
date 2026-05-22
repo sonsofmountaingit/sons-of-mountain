@@ -1,15 +1,21 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { unstable_cache } from 'next/cache'
 import type { Metadata } from 'next'
 import { GalleryHeroBlock } from '@/components/blocks/gallery/GalleryHeroBlock'
 import { GalleryGridBlock } from '@/components/blocks/gallery/GalleryGridBlock'
 import { GalleryEditButton } from '@/components/ui/GalleryEditButton'
 import { GalleryKeyboardHints } from '@/components/ui/GalleryKeyboardHints'
 import { mediaUrl } from '@/lib/media-url'
+import { Suspense } from 'react'
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
+import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 
-const getGalleryData = unstable_cache(
-  async () => {
+async function getGalleryData() {
+  'use cache'
+  cacheTag('gallery')
+  cacheTag('gallery-collections')
+  cacheLife('hours')
+  try {
     const payload = await getPayload({ config })
     const gallery = await payload.findGlobal({ slug: 'gallery', depth: 1 }) as any
 
@@ -40,31 +46,17 @@ const getGalleryData = unstable_cache(
     }
 
     return { gallery, collections }
-  },
-  ['gallery-page'],
-  { tags: ['gallery', 'gallery-collections'], revalidate: 3600 }
-)
-
-export async function generateMetadata(): Promise<Metadata> {
-  const { gallery, collections } = await getGalleryData()
-  const firstCover = collections[0]?.coverImage
-  const ogImage = mediaUrl(firstCover?.url)
-
-  return {
-    title: gallery?.heading ?? 'Галерия',
-    description: gallery?.subheading ?? 'Фото галерии от нашите дестинации',
-    openGraph: {
-      title: gallery?.heading ?? 'Галерия',
-      description: gallery?.subheading ?? '',
-      images: ogImage ? [{ url: ogImage }] : [],
-    },
-    alternates: {
-      types: { 'application/rss+xml': '/gallery/feed.xml' },
-    },
+  } catch {
+    return { gallery: null, collections: [] }
   }
 }
 
-export default async function GalleryPage() {
+export const metadata: Metadata = {
+  title: 'Галерия — Sons of Mountains',
+  description: 'Фото галерии от нашите дестинации',
+}
+
+async function GalleryContent() {
   const { gallery, collections } = await getGalleryData()
 
   const jsonLd = {
@@ -101,5 +93,13 @@ export default async function GalleryPage() {
         <GalleryKeyboardHints />
       </div>
     </>
+  )
+}
+
+export default function GalleryPage() {
+  return (
+    <Suspense>
+      <GalleryContent />
+    </Suspense>
   )
 }

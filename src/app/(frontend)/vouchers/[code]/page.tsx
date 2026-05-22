@@ -3,24 +3,36 @@ import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import Link from 'next/link'
+import { Suspense } from 'react'
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
+import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 
 export const metadata: Metadata = {
   title: 'Your Gift Voucher — Sons of Mountains',
   robots: { index: false },
 }
 
-export default async function VoucherViewPage({ params }: { params: Promise<{ code: string }> }) {
+async function getVoucher(code: string) {
+  'use cache'
+  cacheTag('gift-vouchers')
+  cacheLife('minutes')
+  try {
+    const payload = await getPayload({ config })
+    const result = await payload.find({
+      collection: 'gift-vouchers',
+      where: { code: { equals: code.toUpperCase() } },
+      limit: 1,
+      depth: 0,
+    })
+    return result.docs[0] ?? null
+  } catch {
+    return null
+  }
+}
+
+async function VoucherContent({ params }: { params: Promise<{ code: string }> }) {
   const { code } = await params
-  const payload = await getPayload({ config })
-
-  const result = await payload.find({
-    collection: 'gift-vouchers',
-    where: { code: { equals: code.toUpperCase() } },
-    limit: 1,
-    depth: 0,
-  })
-
-  const voucher = result.docs[0] as any
+  const voucher = await getVoucher(code) as any
   if (!voucher) notFound()
 
   const isExpired = voucher.expiresAt && new Date(voucher.expiresAt) < new Date()
@@ -46,7 +58,6 @@ export default async function VoucherViewPage({ params }: { params: Promise<{ co
         </div>
 
         <div className="border border-white/10 rounded-sm overflow-hidden mb-6">
-          {/* Card top */}
           <div className="bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] p-10 text-center">
             <p className="text-xs tracking-widest text-white/30 uppercase mb-3">Value</p>
             <p className="text-6xl font-light text-white mb-2">€{voucher.amount}</p>
@@ -63,7 +74,6 @@ export default async function VoucherViewPage({ params }: { params: Promise<{ co
             </div>
           </div>
 
-          {/* Card bottom */}
           <div className="border-t border-white/10 divide-y divide-white/5">
             {voucher.recipientName && (
               <div className="flex justify-between px-6 py-4 text-sm">
@@ -120,5 +130,13 @@ export default async function VoucherViewPage({ params }: { params: Promise<{ co
         </p>
       </div>
     </main>
+  )
+}
+
+export default function VoucherViewPage({ params }: { params: Promise<{ code: string }> }) {
+  return (
+    <Suspense>
+      <VoucherContent params={params} />
+    </Suspense>
   )
 }

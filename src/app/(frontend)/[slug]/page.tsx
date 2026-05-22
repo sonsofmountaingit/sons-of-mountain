@@ -13,14 +13,18 @@ type Args = { params: Promise<{ slug: string }> }
 
 async function getPageCached(slug: string) {
   'use cache'
-  const payload = await getPayload({ config })
-  const { docs } = await payload.find({
-    collection: 'pages',
-    where: { slug: { equals: slug } },
-    limit: 1,
-    draft: false,
-  })
-  return docs[0] ?? null
+  try {
+    const payload = await getPayload({ config })
+    const { docs } = await payload.find({
+      collection: 'pages',
+      where: { slug: { equals: slug } },
+      limit: 1,
+      draft: false,
+    })
+    return docs[0] ?? null
+  } catch {
+    return null
+  }
 }
 
 async function getPageDraft(slug: string) {

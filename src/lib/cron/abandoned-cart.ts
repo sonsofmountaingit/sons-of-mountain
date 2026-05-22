@@ -1,6 +1,6 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { resend } from '@/lib/resend'
+import { getResend } from '@/lib/resend'
 
 const FROM = process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com'
 const SITE = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
@@ -32,7 +32,7 @@ export async function processAbandonedCarts() {
       const itemList = items.map((i: any) => `<li>${i.title} — €${(i.unitPrice * i.quantity).toFixed(2)}</li>`).join('')
       const total = items.reduce((sum: number, i: any) => sum + i.unitPrice * i.quantity, 0)
 
-      await resend.emails.send({
+      await getResend().emails.send({
         from: FROM,
         to: (cart as any).email,
         subject: 'You left something behind',

@@ -1357,6 +1357,12 @@
       "size": 4
     },
     {
+      "id": "src/payload/seeds/full-seed.ts",
+      "label": "seeds/full-seed.ts",
+      "group": "payload",
+      "size": 4
+    },
+    {
       "id": "src/payload/seeds/full-pages-seed.ts",
       "label": "seeds/full-pages-seed.ts",
       "group": "payload",
@@ -4311,6 +4317,10 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/payload/seeds/full-seed.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
       "source": "src/payload/seeds/full-pages-seed.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -5391,6 +5401,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-05-20T18:39:16.461Z",
-  "fileCount": 438
+  "builtAt": "2026-05-22T09:15:46.026Z",
+  "fileCount": 439
 }

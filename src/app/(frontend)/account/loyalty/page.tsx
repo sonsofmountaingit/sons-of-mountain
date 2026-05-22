@@ -4,6 +4,9 @@ import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Metadata } from 'next'
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
+import { cacheLife } from 'next/dist/server/use-cache/cache-life'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = { title: 'Loyalty Points — Sons of Mountains' }
 
@@ -21,20 +24,29 @@ const TIER_THRESHOLDS = {
   platinum: 5000,
 }
 
-export default async function LoyaltyPage() {
+async function getLoyaltyData(betterAuthUserId: string) {
+  'use cache'
+  cacheTag('customers')
+  cacheLife('minutes')
+  try {
+    const payload = await getPayload({ config })
+    const customer = await payload.find({
+      collection: 'customers',
+      where: { betterAuthId: { equals: betterAuthUserId } },
+      limit: 1,
+    })
+    return customer.docs[0] ?? null
+  } catch {
+    return null
+  }
+}
+
+async function LoyaltyContent() {
   const session = await auth.api.getSession({ headers: await headers() })
   if (!session?.user) redirect('/auth/login?redirect=/account/loyalty')
 
-  const payload = await getPayload({ config })
   const betterAuthUserId = (session.user as any).id
-
-  const customer = await payload.find({
-    collection: 'customers',
-    where: { betterAuthId: { equals: betterAuthUserId } },
-    limit: 1,
-  })
-
-  const cust = customer.docs[0]
+  const cust = await getLoyaltyData(betterAuthUserId)
   const loyaltyPoints = cust?.loyaltyPoints ?? 0
   const loyaltyTier = (cust?.loyaltyTier ?? 'bronze') as keyof typeof TIER_CONFIG
 
@@ -112,74 +124,32 @@ export default async function LoyaltyPage() {
           <div className="space-y-3">
             {loyaltyTier === 'bronze' && (
               <>
-                <div className="flex gap-3">
-                  <span>•</span>
-                  <span className="text-sm">1% cashback on all purchases</span>
-                </div>
-                <div className="flex gap-3">
-                  <span>•</span>
-                  <span className="text-sm">Early access to seasonal sales</span>
-                </div>
+                <div className="flex gap-3"><span>•</span><span className="text-sm">1% cashback on all purchases</span></div>
+                <div className="flex gap-3"><span>•</span><span className="text-sm">Early access to seasonal sales</span></div>
               </>
             )}
             {loyaltyTier === 'silver' && (
               <>
-                <div className="flex gap-3">
-                  <span>•</span>
-                  <span className="text-sm">2% cashback on all purchases</span>
-                </div>
-                <div className="flex gap-3">
-                  <span>•</span>
-                  <span className="text-sm">Free shipping on orders over €50</span>
-                </div>
-                <div className="flex gap-3">
-                  <span>•</span>
-                  <span className="text-sm">Exclusive member discounts</span>
-                </div>
+                <div className="flex gap-3"><span>•</span><span className="text-sm">2% cashback on all purchases</span></div>
+                <div className="flex gap-3"><span>•</span><span className="text-sm">Free shipping on orders over €50</span></div>
+                <div className="flex gap-3"><span>•</span><span className="text-sm">Exclusive member discounts</span></div>
               </>
             )}
             {loyaltyTier === 'gold' && (
               <>
-                <div className="flex gap-3">
-                  <span>•</span>
-                  <span className="text-sm">3% cashback on all purchases</span>
-                </div>
-                <div className="flex gap-3">
-                  <span>•</span>
-                  <span className="text-sm">Free shipping on all orders</span>
-                </div>
-                <div className="flex gap-3">
-                  <span>•</span>
-                  <span className="text-sm">Priority customer support</span>
-                </div>
-                <div className="flex gap-3">
-                  <span>•</span>
-                  <span className="text-sm">Exclusive events access</span>
-                </div>
+                <div className="flex gap-3"><span>•</span><span className="text-sm">3% cashback on all purchases</span></div>
+                <div className="flex gap-3"><span>•</span><span className="text-sm">Free shipping on all orders</span></div>
+                <div className="flex gap-3"><span>•</span><span className="text-sm">Priority customer support</span></div>
+                <div className="flex gap-3"><span>•</span><span className="text-sm">Exclusive events access</span></div>
               </>
             )}
             {loyaltyTier === 'platinum' && (
               <>
-                <div className="flex gap-3">
-                  <span>•</span>
-                  <span className="text-sm">5% cashback on all purchases</span>
-                </div>
-                <div className="flex gap-3">
-                  <span>•</span>
-                  <span className="text-sm">Free shipping on all orders</span>
-                </div>
-                <div className="flex gap-3">
-                  <span>•</span>
-                  <span className="text-sm">VIP customer support</span>
-                </div>
-                <div className="flex gap-3">
-                  <span>•</span>
-                  <span className="text-sm">Exclusive events & preview access</span>
-                </div>
-                <div className="flex gap-3">
-                  <span>•</span>
-                  <span className="text-sm">Personalized recommendations</span>
-                </div>
+                <div className="flex gap-3"><span>•</span><span className="text-sm">5% cashback on all purchases</span></div>
+                <div className="flex gap-3"><span>•</span><span className="text-sm">Free shipping on all orders</span></div>
+                <div className="flex gap-3"><span>•</span><span className="text-sm">VIP customer support</span></div>
+                <div className="flex gap-3"><span>•</span><span className="text-sm">Exclusive events & preview access</span></div>
+                <div className="flex gap-3"><span>•</span><span className="text-sm">Personalized recommendations</span></div>
               </>
             )}
           </div>
@@ -213,9 +183,7 @@ export default async function LoyaltyPage() {
               className={`rounded-lg border p-4 ${key === loyaltyTier ? 'bg-white border-gray-900 border-2' : 'bg-white border-gray-200'}`}
             >
               <p className="text-2xl mb-2">{tier.icon}</p>
-              <p className={`font-semibold capitalize ${key === loyaltyTier ? 'text-gray-900' : 'text-gray-700'}`}>
-                {key}
-              </p>
+              <p className={`font-semibold capitalize ${key === loyaltyTier ? 'text-gray-900' : 'text-gray-700'}`}>{key}</p>
               <p className="text-xs text-gray-500 mt-2">
                 {key === 'bronze' && '0–499 pts'}
                 {key === 'silver' && '500–1,499 pts'}
@@ -223,14 +191,20 @@ export default async function LoyaltyPage() {
                 {key === 'platinum' && '5,000+ pts'}
               </p>
               {key === loyaltyTier && (
-                <p className="text-xs font-semibold text-gray-900 mt-3 bg-yellow-100 px-2 py-1 rounded inline-block">
-                  Current
-                </p>
+                <p className="text-xs font-semibold text-gray-900 mt-3 bg-yellow-100 px-2 py-1 rounded inline-block">Current</p>
               )}
             </div>
           ))}
         </div>
       </div>
     </main>
+  )
+}
+
+export default function LoyaltyPage() {
+  return (
+    <Suspense>
+      <LoyaltyContent />
+    </Suspense>
   )
 }

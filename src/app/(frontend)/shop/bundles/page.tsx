@@ -1,27 +1,33 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { unstable_cache } from 'next/cache'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { mediaUrl } from "@/lib/media-url"
+import { Suspense } from 'react'
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
+import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 
 export const metadata: Metadata = {
   title: 'Bundle Deals — Sons of Mountains',
   description: 'Adventure bundles at unbeatable prices',
 }
 
-const getBundles = unstable_cache(
-  async () => {
+async function getBundles() {
+  'use cache'
+  cacheTag('bundles')
+  cacheLife('hours')
+  try {
     const payload = await getPayload({ config })
-    return payload.find({ collection: 'bundles', where: { isActive: { equals: true } }, sort: '-createdAt', limit: 20, depth: 2 })
-  },
-  ['bundles-list'],
-  { tags: ['bundles'], revalidate: 3600 }
-)
+    const result = await payload.find({ collection: 'bundles', where: { isActive: { equals: true } }, sort: '-createdAt', limit: 20, depth: 2 })
+    return result.docs
+  } catch {
+    return []
+  }
+}
 
-export default async function BundlesPage() {
-  const { docs: bundles } = await getBundles()
+async function BundlesContent() {
+  const bundles = await getBundles()
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white pt-32 pb-24 px-6">
@@ -105,5 +111,13 @@ export default async function BundlesPage() {
         )}
       </div>
     </main>
+  )
+}
+
+export default function BundlesPage() {
+  return (
+    <Suspense>
+      <BundlesContent />
+    </Suspense>
   )
 }

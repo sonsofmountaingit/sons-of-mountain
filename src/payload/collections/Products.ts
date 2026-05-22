@@ -14,8 +14,8 @@ export const Products: CollectionConfig = {
   hooks: {
     afterChange: [
       async ({ doc, previousDoc, req }) => {
-        after(() => revalidateTag('products', 'default'))
-        after(() => revalidateTag(`product-${doc.slug}`, 'default'))
+        try { after(() => revalidateTag('products', 'default')) } catch { revalidateTag('products', 'default') }
+        try { after(() => revalidateTag(`product-${doc.slug}`, 'default')) } catch { revalidateTag(`product-${doc.slug}`, 'default') }
         // Trigger stock alerts when item comes back in stock
         if (previousDoc?.stock === 0 && doc.stock > 0) {
           try {
@@ -46,7 +46,11 @@ export const Products: CollectionConfig = {
         }
       },
       async ({ doc, previousDoc, req }) => {
-        after(() => syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'products' }))
+        try {
+          after(() => syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'products' }))
+        } catch {
+          await syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'products' })
+        }
       },
     ],
     afterDelete: [() => { after(() => revalidateTag('products', 'default')) }],

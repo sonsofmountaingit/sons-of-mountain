@@ -39,7 +39,7 @@ export const FeaturedTravels: GlobalConfig = {
     afterChange: [
       ({ doc }) => {
         try {
-          after(() => revalidateTag('featured-travels'))
+          after(() => revalidateTag('featured-travels', 'default'))
         } catch { /* outside request scope */ }
         return doc
       },

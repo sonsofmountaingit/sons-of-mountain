@@ -2,9 +2,11 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
 import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { GalleryCollectionClient } from './GalleryCollectionClient'
 import { mediaUrl } from '@/lib/media-url'
+
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -61,36 +63,12 @@ async function getCollectionWithPhotographer(slug: string) {
   )()
 }
 
-export async function generateStaticParams() {
-  const payload = await getPayload({ config })
-  const { docs } = await payload.find({
-    collection: 'gallery-collections',
-    where: { status: { equals: 'published' } },
-    limit: 200,
-  })
-  return docs.map((d: any) => ({ slug: d.slug as string }))
+
+export const metadata: Metadata = {
+  title: 'Галерия — Sons of Mountains',
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params
-  const data = await getCollectionWithPhotographer(slug)
-  if (!data) return { title: 'Галерия' }
-  const { collection } = data
-  const coverUrl = mediaUrl((collection as any).coverImage?.url)
-  const photographer = (collection as any).photographer
-  const name = typeof photographer === 'object' ? photographer?.name : ''
-  return {
-    title: (collection as any).title,
-    description: (collection as any).description ?? `Фотографии от ${name}`,
-    openGraph: {
-      title: (collection as any).title,
-      description: (collection as any).description ?? '',
-      images: coverUrl ? [{ url: coverUrl }] : [],
-    },
-  }
-}
-
-export default async function GalleryCollectionPage({ params }: Props) {
+async function GalleryCollectionContent({ params }: Props) {
   const { slug } = await params
   const data = await getCollectionWithPhotographer(slug)
   if (!data) notFound()
@@ -117,5 +95,13 @@ export default async function GalleryCollectionPage({ params }: Props) {
         photographerStats={photographerStats}
       />
     </>
+  )
+}
+
+export default function GalleryCollectionPage({ params }: Props) {
+  return (
+    <Suspense fallback={null}>
+      <GalleryCollectionContent params={params} />
+    </Suspense>
   )
 }
