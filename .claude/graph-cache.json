@@ -31,6 +31,18 @@
       "size": 4
     },
     {
+      "id": "src/app/(puck)/puck/featured-travels/PuckFeaturedTravelsEditorClient.tsx",
+      "label": "featured-travels/PuckFeaturedTravelsEditorClient.tsx",
+      "group": "puck",
+      "size": 6
+    },
+    {
+      "id": "src/app/(puck)/puck/featured-travels/page.tsx",
+      "label": "featured-travels/page.tsx",
+      "group": "puck",
+      "size": 4
+    },
+    {
       "id": "src/app/(puck)/puck/destination-carousel/PuckDestinationCarouselEditorClient.tsx",
       "label": "destination-carousel/PuckDestinationCarouselEditorClient.tsx",
       "group": "puck",
@@ -41,6 +53,18 @@
       "label": "destination-carousel/page.tsx",
       "group": "puck",
       "size": 4
+    },
+    {
+      "id": "src/app/(puck)/puck/testimonials/page.tsx",
+      "label": "testimonials/page.tsx",
+      "group": "puck",
+      "size": 4
+    },
+    {
+      "id": "src/app/(puck)/puck/testimonials/PuckTestimonialsEditorClient.tsx",
+      "label": "testimonials/PuckTestimonialsEditorClient.tsx",
+      "group": "puck",
+      "size": 6
     },
     {
       "id": "src/app/(puck)/puck/gallery/PuckGalleryEditorClient.tsx",
@@ -67,6 +91,18 @@
       "size": 4
     },
     {
+      "id": "src/app/(puck)/puck/why-travel-with-us/PuckWhyTravelWithUsEditorClient.tsx",
+      "label": "why-travel-with-us/PuckWhyTravelWithUsEditorClient.tsx",
+      "group": "puck",
+      "size": 6
+    },
+    {
+      "id": "src/app/(puck)/puck/why-travel-with-us/page.tsx",
+      "label": "why-travel-with-us/page.tsx",
+      "group": "puck",
+      "size": 4
+    },
+    {
       "id": "src/app/(puck)/puck/navigation/PuckNavigationEditorClient.tsx",
       "label": "navigation/PuckNavigationEditorClient.tsx",
       "group": "puck",
@@ -75,6 +111,18 @@
     {
       "id": "src/app/(puck)/puck/navigation/page.tsx",
       "label": "navigation/page.tsx",
+      "group": "puck",
+      "size": 4
+    },
+    {
+      "id": "src/app/(puck)/puck/calendar-cta/PuckCalendarCtaEditorClient.tsx",
+      "label": "calendar-cta/PuckCalendarCtaEditorClient.tsx",
+      "group": "puck",
+      "size": 6
+    },
+    {
+      "id": "src/app/(puck)/puck/calendar-cta/page.tsx",
+      "label": "calendar-cta/page.tsx",
       "group": "puck",
       "size": 4
     },
@@ -289,6 +337,12 @@
       "size": 4
     },
     {
+      "id": "src/app/api/testimonials-data/route.ts",
+      "label": "testimonials-data/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/gift-voucher/route.ts",
       "label": "gift-voucher/route.ts",
       "group": "api",
@@ -303,6 +357,12 @@
     {
       "id": "src/app/api/voucher/route.ts",
       "label": "voucher/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/voucher/mine/route.ts",
+      "label": "mine/route.ts",
       "group": "api",
       "size": 4
     },
@@ -331,6 +391,18 @@
       "size": 4
     },
     {
+      "id": "src/app/api/why-travel-with-us-data/route.ts",
+      "label": "why-travel-with-us-data/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/calendar-cta-data/route.ts",
+      "label": "calendar-cta-data/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/shop-data/route.ts",
       "label": "shop-data/route.ts",
       "group": "api",
@@ -343,20 +415,26 @@
       "size": 4
     },
     {
-      "id": "src/app/api/webhooks/stripe/route.ts",
-      "label": "stripe/route.ts",
-      "group": "api",
-      "size": 4
-    },
-    {
       "id": "src/app/api/puck/footer/route.ts",
       "label": "footer/route.ts",
       "group": "api",
       "size": 4
     },
     {
+      "id": "src/app/api/puck/featured-travels/route.ts",
+      "label": "featured-travels/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/puck/destination-carousel/route.ts",
       "label": "destination-carousel/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/puck/testimonials/route.ts",
+      "label": "testimonials/route.ts",
       "group": "api",
       "size": 4
     },
@@ -373,8 +451,20 @@
       "size": 4
     },
     {
+      "id": "src/app/api/puck/why-travel-with-us/route.ts",
+      "label": "why-travel-with-us/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/puck/navigation/route.ts",
       "label": "navigation/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/puck/calendar-cta/route.ts",
+      "label": "calendar-cta/route.ts",
       "group": "api",
       "size": 4
     },
@@ -415,6 +505,12 @@
       "size": 4
     },
     {
+      "id": "src/app/api/cron/stripe/route.ts",
+      "label": "stripe/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/wishlist/toggle/route.ts",
       "label": "toggle/route.ts",
       "group": "api",
@@ -433,8 +529,80 @@
       "size": 4
     },
     {
+      "id": "src/app/api/stripe/reconciliation/route.ts",
+      "label": "reconciliation/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/stripe/payment-links/route.ts",
+      "label": "payment-links/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/stripe/group-payment-links/route.ts",
+      "label": "group-payment-links/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/stripe/subscriptions/pause/route.ts",
+      "label": "pause/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/stripe/payment-intent/route.ts",
+      "label": "payment-intent/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/stripe/payment-methods/route.ts",
+      "label": "payment-methods/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/stripe/payment-methods/set-default/route.ts",
+      "label": "set-default/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/stripe/spend-history/route.ts",
+      "label": "spend-history/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/stripe/currency/route.ts",
+      "label": "currency/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/stripe/refund/route.ts",
+      "label": "refund/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/stripe/billing-portal/route.ts",
+      "label": "billing-portal/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/customer-ratings/route.ts",
       "label": "customer-ratings/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/featured-travels-data/route.ts",
+      "label": "featured-travels-data/route.ts",
       "group": "api",
       "size": 4
     },
@@ -817,6 +985,24 @@
       "size": 4
     },
     {
+      "id": "src/app/(frontend)/vouchers/[code]/page.tsx",
+      "label": "[code]/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/vouchers/VouchersPageClient.tsx",
+      "label": "vouchers/VouchersPageClient.tsx",
+      "group": "frontend",
+      "size": 6
+    },
+    {
+      "id": "src/app/(frontend)/vouchers/page.tsx",
+      "label": "vouchers/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
       "id": "src/app/(frontend)/reset-password/ResetClient.tsx",
       "label": "reset-password/ResetClient.tsx",
       "group": "frontend",
@@ -1075,6 +1261,12 @@
       "size": 6
     },
     {
+      "id": "src/payload/globals/WhyTravelWithUs.ts",
+      "label": "globals/WhyTravelWithUs.ts",
+      "group": "globals",
+      "size": 6
+    },
+    {
       "id": "src/payload/globals/Shop.ts",
       "label": "globals/Shop.ts",
       "group": "globals",
@@ -1111,8 +1303,26 @@
       "size": 6
     },
     {
+      "id": "src/payload/globals/FeaturedTravels.ts",
+      "label": "globals/FeaturedTravels.ts",
+      "group": "globals",
+      "size": 6
+    },
+    {
+      "id": "src/payload/globals/CalendarCta.ts",
+      "label": "globals/CalendarCta.ts",
+      "group": "globals",
+      "size": 6
+    },
+    {
       "id": "src/payload/globals/SiteSettings.ts",
       "label": "globals/SiteSettings.ts",
+      "group": "globals",
+      "size": 6
+    },
+    {
+      "id": "src/payload/globals/TestimonialsSection.ts",
+      "label": "globals/TestimonialsSection.ts",
       "group": "globals",
       "size": 6
     },
@@ -1285,6 +1495,12 @@
       "size": 6
     },
     {
+      "id": "src/payload/collections/Testimonials.ts",
+      "label": "collections/Testimonials.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
       "id": "src/payload/collections/Users.ts",
       "label": "collections/Users.ts",
       "group": "collections",
@@ -1317,6 +1533,12 @@
     {
       "id": "src/payload/collections/Media.ts",
       "label": "collections/Media.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/Guides.ts",
+      "label": "collections/Guides.ts",
       "group": "collections",
       "size": 6
     },
@@ -1411,6 +1633,12 @@
       "size": 6
     },
     {
+      "id": "src/components/blocks/featured-travels/FeaturedTravelsBlock.tsx",
+      "label": "featured-travels/FeaturedTravelsBlock.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
       "id": "src/components/blocks/destination-carousel/DestinationCarouselBlock.tsx",
       "label": "destination-carousel/DestinationCarouselBlock.tsx",
       "group": "blocks",
@@ -1433,6 +1661,12 @@
       "label": "blocks/TeamBlockRenderer.tsx",
       "group": "blocks",
       "size": 10
+    },
+    {
+      "id": "src/components/blocks/testimonials/TestimonialsBlock.tsx",
+      "label": "testimonials/TestimonialsBlock.tsx",
+      "group": "blocks",
+      "size": 8
     },
     {
       "id": "src/components/blocks/EmbedBlockRenderer.tsx",
@@ -1495,10 +1729,40 @@
       "size": 8
     },
     {
+      "id": "src/components/blocks/why-travel-with-us/WhyTravelWithUsBlock.tsx",
+      "label": "why-travel-with-us/WhyTravelWithUsBlock.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/why-travel-with-us/icons/GlobeIcon.tsx",
+      "label": "icons/GlobeIcon.tsx",
+      "group": "blocks",
+      "size": 6
+    },
+    {
+      "id": "src/components/blocks/why-travel-with-us/icons/CityIcon.tsx",
+      "label": "icons/CityIcon.tsx",
+      "group": "blocks",
+      "size": 6
+    },
+    {
+      "id": "src/components/blocks/why-travel-with-us/icons/CameraIcon.tsx",
+      "label": "icons/CameraIcon.tsx",
+      "group": "blocks",
+      "size": 6
+    },
+    {
       "id": "src/components/blocks/navigation/NavigationLinksBlock.tsx",
       "label": "navigation/NavigationLinksBlock.tsx",
       "group": "blocks",
       "size": 6
+    },
+    {
+      "id": "src/components/blocks/calendar-cta/CalendarCtaBlock.tsx",
+      "label": "calendar-cta/CalendarCtaBlock.tsx",
+      "group": "blocks",
+      "size": 8
     },
     {
       "id": "src/components/blocks/FooterBlockRenderer.tsx",
@@ -1651,8 +1915,20 @@
       "size": 12
     },
     {
+      "id": "src/components/ui/TestimonialsEditButton.tsx",
+      "label": "ui/TestimonialsEditButton.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
       "id": "src/components/ui/HeroEditButton.tsx",
       "label": "ui/HeroEditButton.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
+      "id": "src/components/ui/CalendarCtaEditButton.tsx",
+      "label": "ui/CalendarCtaEditButton.tsx",
       "group": "ui",
       "size": 6
     },
@@ -1681,6 +1957,18 @@
       "size": 4
     },
     {
+      "id": "src/components/ui/CalendarCta.tsx",
+      "label": "ui/CalendarCta.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
+      "id": "src/components/ui/FeaturedTravels.tsx",
+      "label": "ui/FeaturedTravels.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
       "id": "src/components/ui/GalleryFilterBar.tsx",
       "label": "ui/GalleryFilterBar.tsx",
       "group": "ui",
@@ -1707,6 +1995,12 @@
     {
       "id": "src/components/ui/destination-page/WhyTravelWithUsSection.tsx",
       "label": "destination-page/WhyTravelWithUsSection.tsx",
+      "group": "ui",
+      "size": 12
+    },
+    {
+      "id": "src/components/ui/destination-page/GuidesSection.tsx",
+      "label": "destination-page/GuidesSection.tsx",
       "group": "ui",
       "size": 10
     },
@@ -1759,10 +2053,16 @@
       "size": 10
     },
     {
+      "id": "src/components/ui/destination-page/EquipmentSection.tsx",
+      "label": "destination-page/EquipmentSection.tsx",
+      "group": "ui",
+      "size": 10
+    },
+    {
       "id": "src/components/ui/destination-page/ItinerarySection.tsx",
       "label": "destination-page/ItinerarySection.tsx",
       "group": "ui",
-      "size": 10
+      "size": 12
     },
     {
       "id": "src/components/ui/destination-page/WhySection.tsx",
@@ -1779,6 +2079,12 @@
     {
       "id": "src/components/ui/destination-page/AdventureCtaSection.tsx",
       "label": "destination-page/AdventureCtaSection.tsx",
+      "group": "ui",
+      "size": 10
+    },
+    {
+      "id": "src/components/ui/destination-page/ReadinessChecklistSection.tsx",
+      "label": "destination-page/ReadinessChecklistSection.tsx",
       "group": "ui",
       "size": 10
     },
@@ -1801,6 +2107,18 @@
       "size": 4
     },
     {
+      "id": "src/components/ui/WhyTravelWithUs.tsx",
+      "label": "ui/WhyTravelWithUs.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
+      "id": "src/components/ui/WhyTravelWithUsEditButton.tsx",
+      "label": "ui/WhyTravelWithUsEditButton.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
       "id": "src/components/ui/GalleryLightbox.tsx",
       "label": "ui/GalleryLightbox.tsx",
       "group": "ui",
@@ -1817,6 +2135,12 @@
       "label": "ui/Footer.tsx",
       "group": "ui",
       "size": 8
+    },
+    {
+      "id": "src/components/ui/Testimonials.tsx",
+      "label": "ui/Testimonials.tsx",
+      "group": "ui",
+      "size": 6
     },
     {
       "id": "src/components/ui/DestinationCard.tsx",
@@ -1921,6 +2245,12 @@
       "size": 6
     },
     {
+      "id": "src/components/ui/FeaturedTravelsEditButton.tsx",
+      "label": "ui/FeaturedTravelsEditButton.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
       "id": "src/components/ui/Navigation.tsx",
       "label": "ui/Navigation.tsx",
       "group": "ui",
@@ -1963,10 +2293,16 @@
       "size": 6
     },
     {
+      "id": "src/components/auth/AuthModal.tsx",
+      "label": "auth/AuthModal.tsx",
+      "group": "components",
+      "size": 6
+    },
+    {
       "id": "src/components/auth/AuthForm.tsx",
       "label": "auth/AuthForm.tsx",
       "group": "components",
-      "size": 12
+      "size": 14
     },
     {
       "id": "src/components/shop/WishlistButton.tsx",
@@ -2041,6 +2377,12 @@
       "size": 6
     },
     {
+      "id": "src/components/admin/WhyTravelWithUsVisualEditorButton.tsx",
+      "label": "admin/WhyTravelWithUsVisualEditorButton.tsx",
+      "group": "admin",
+      "size": 6
+    },
+    {
       "id": "src/components/admin/DestinationCarouselVisualEditorButton.tsx",
       "label": "admin/DestinationCarouselVisualEditorButton.tsx",
       "group": "admin",
@@ -2053,8 +2395,20 @@
       "size": 6
     },
     {
+      "id": "src/components/admin/TestimonialsVisualEditorButton.tsx",
+      "label": "admin/TestimonialsVisualEditorButton.tsx",
+      "group": "admin",
+      "size": 6
+    },
+    {
       "id": "src/components/admin/HeroVisualEditorButton.tsx",
       "label": "admin/HeroVisualEditorButton.tsx",
+      "group": "admin",
+      "size": 6
+    },
+    {
+      "id": "src/components/admin/FeaturedTravelsVisualEditorButton.tsx",
+      "label": "admin/FeaturedTravelsVisualEditorButton.tsx",
       "group": "admin",
       "size": 6
     },
@@ -2083,6 +2437,24 @@
       "size": 6
     },
     {
+      "id": "src/components/admin/StripeManagementView.tsx",
+      "label": "admin/StripeManagementView.tsx",
+      "group": "admin",
+      "size": 6
+    },
+    {
+      "id": "src/components/admin/CalendarCtaVisualEditorButton.tsx",
+      "label": "admin/CalendarCtaVisualEditorButton.tsx",
+      "group": "admin",
+      "size": 6
+    },
+    {
+      "id": "src/components/admin/StripeReconciliationView.tsx",
+      "label": "admin/StripeReconciliationView.tsx",
+      "group": "admin",
+      "size": 6
+    },
+    {
       "id": "src/components/admin/ShopVisualEditorButton.tsx",
       "label": "admin/ShopVisualEditorButton.tsx",
       "group": "admin",
@@ -2092,13 +2464,25 @@
       "id": "src/lib/stripe.ts",
       "label": "lib/stripe.ts",
       "group": "lib",
-      "size": 4
+      "size": 20
+    },
+    {
+      "id": "src/lib/stripe-webhooks.ts",
+      "label": "lib/stripe-webhooks.ts",
+      "group": "lib",
+      "size": 6
     },
     {
       "id": "src/lib/resend.ts",
       "label": "lib/resend.ts",
       "group": "lib",
-      "size": 10
+      "size": 14
+    },
+    {
+      "id": "src/lib/stripe-product-sync.ts",
+      "label": "lib/stripe-product-sync.ts",
+      "group": "lib",
+      "size": 12
     },
     {
       "id": "src/lib/cart-store.ts",
@@ -2141,6 +2525,18 @@
       "label": "lib/auth-client.ts",
       "group": "lib",
       "size": 20
+    },
+    {
+      "id": "src/lib/cron/balance-charge.ts",
+      "label": "cron/balance-charge.ts",
+      "group": "lib",
+      "size": 6
+    },
+    {
+      "id": "src/lib/cron/balance-reminders.ts",
+      "label": "cron/balance-reminders.ts",
+      "group": "lib",
+      "size": 6
     },
     {
       "id": "src/lib/cron/abandoned-cart.ts",
@@ -2251,6 +2647,18 @@
       "target": "src/app/(puck)/puck/footer/PuckFooterEditorClient.tsx"
     },
     {
+      "source": "src/app/(puck)/puck/featured-travels/PuckFeaturedTravelsEditorClient.tsx",
+      "target": "src/puck/config.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/featured-travels/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/featured-travels/page.tsx",
+      "target": "src/app/(puck)/puck/featured-travels/PuckFeaturedTravelsEditorClient.tsx"
+    },
+    {
       "source": "src/app/(puck)/puck/destination-carousel/PuckDestinationCarouselEditorClient.tsx",
       "target": "src/puck/config.tsx"
     },
@@ -2261,6 +2669,18 @@
     {
       "source": "src/app/(puck)/puck/destination-carousel/page.tsx",
       "target": "src/app/(puck)/puck/destination-carousel/PuckDestinationCarouselEditorClient.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/testimonials/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/testimonials/page.tsx",
+      "target": "src/app/(puck)/puck/testimonials/PuckTestimonialsEditorClient.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/testimonials/PuckTestimonialsEditorClient.tsx",
+      "target": "src/puck/config.tsx"
     },
     {
       "source": "src/app/(puck)/puck/gallery/PuckGalleryEditorClient.tsx",
@@ -2287,6 +2707,18 @@
       "target": "src/app/(puck)/puck/shop/PuckShopEditorClient.tsx"
     },
     {
+      "source": "src/app/(puck)/puck/why-travel-with-us/PuckWhyTravelWithUsEditorClient.tsx",
+      "target": "src/puck/config.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/why-travel-with-us/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/why-travel-with-us/page.tsx",
+      "target": "src/app/(puck)/puck/why-travel-with-us/PuckWhyTravelWithUsEditorClient.tsx"
+    },
+    {
       "source": "src/app/(puck)/puck/navigation/PuckNavigationEditorClient.tsx",
       "target": "src/puck/config.tsx"
     },
@@ -2297,6 +2729,18 @@
     {
       "source": "src/app/(puck)/puck/navigation/page.tsx",
       "target": "src/app/(puck)/puck/navigation/PuckNavigationEditorClient.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/calendar-cta/PuckCalendarCtaEditorClient.tsx",
+      "target": "src/puck/config.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/calendar-cta/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/calendar-cta/page.tsx",
+      "target": "src/app/(puck)/puck/calendar-cta/PuckCalendarCtaEditorClient.tsx"
     },
     {
       "source": "src/app/(puck)/puck/hero/PuckHeroEditorClient.tsx",
@@ -2431,6 +2875,10 @@
       "target": "src/lib/cart-store.ts"
     },
     {
+      "source": "src/app/api/checkout/route.ts",
+      "target": "src/lib/stripe.ts"
+    },
+    {
       "source": "src/app/api/calendar-participants/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -2471,6 +2919,10 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/testimonials-data/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
       "source": "src/app/api/hero-data/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -2480,6 +2932,14 @@
     },
     {
       "source": "src/app/api/voucher/route.ts",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/api/voucher/mine/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/voucher/mine/route.ts",
       "target": "src/lib/auth.ts"
     },
     {
@@ -2511,6 +2971,14 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/why-travel-with-us-data/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/calendar-cta-data/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
       "source": "src/app/api/shop-data/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -2519,19 +2987,19 @@
       "target": "src/payload/payload.config.ts"
     },
     {
-      "source": "src/app/api/webhooks/stripe/route.ts",
-      "target": "src/payload/payload.config.ts"
-    },
-    {
-      "source": "src/app/api/webhooks/stripe/route.ts",
-      "target": "src/lib/resend.ts"
-    },
-    {
       "source": "src/app/api/puck/footer/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/puck/featured-travels/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
       "source": "src/app/api/puck/destination-carousel/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/testimonials/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
@@ -2547,7 +3015,15 @@
       "target": "src/lib/auth.ts"
     },
     {
+      "source": "src/app/api/puck/why-travel-with-us/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
       "source": "src/app/api/puck/navigation/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/calendar-cta/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
@@ -2575,6 +3051,14 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/cron/stripe/route.ts",
+      "target": "src/lib/cron/balance-charge.ts"
+    },
+    {
+      "source": "src/app/api/cron/stripe/route.ts",
+      "target": "src/lib/cron/balance-reminders.ts"
+    },
+    {
       "source": "src/app/api/wishlist/toggle/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -2599,12 +3083,152 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/stripe/reconciliation/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/stripe/reconciliation/route.ts",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/api/stripe/reconciliation/route.ts",
+      "target": "src/lib/stripe.ts"
+    },
+    {
+      "source": "src/app/api/stripe/payment-links/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/stripe/payment-links/route.ts",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/api/stripe/payment-links/route.ts",
+      "target": "src/lib/stripe.ts"
+    },
+    {
+      "source": "src/app/api/stripe/group-payment-links/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/stripe/group-payment-links/route.ts",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/api/stripe/group-payment-links/route.ts",
+      "target": "src/lib/stripe.ts"
+    },
+    {
+      "source": "src/app/api/stripe/group-payment-links/route.ts",
+      "target": "src/lib/resend.ts"
+    },
+    {
+      "source": "src/app/api/stripe/subscriptions/pause/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/stripe/subscriptions/pause/route.ts",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/api/stripe/subscriptions/pause/route.ts",
+      "target": "src/lib/stripe.ts"
+    },
+    {
+      "source": "src/app/api/stripe/payment-intent/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/stripe/payment-intent/route.ts",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/api/stripe/payment-intent/route.ts",
+      "target": "src/lib/cart-store.ts"
+    },
+    {
+      "source": "src/app/api/stripe/payment-intent/route.ts",
+      "target": "src/lib/stripe.ts"
+    },
+    {
+      "source": "src/app/api/stripe/payment-methods/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/stripe/payment-methods/route.ts",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/api/stripe/payment-methods/route.ts",
+      "target": "src/lib/stripe.ts"
+    },
+    {
+      "source": "src/app/api/stripe/payment-methods/set-default/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/stripe/payment-methods/set-default/route.ts",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/api/stripe/payment-methods/set-default/route.ts",
+      "target": "src/lib/stripe.ts"
+    },
+    {
+      "source": "src/app/api/stripe/spend-history/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/stripe/spend-history/route.ts",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/api/stripe/spend-history/route.ts",
+      "target": "src/lib/stripe.ts"
+    },
+    {
+      "source": "src/app/api/stripe/currency/route.ts",
+      "target": "src/lib/stripe.ts"
+    },
+    {
+      "source": "src/app/api/stripe/refund/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/stripe/refund/route.ts",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/api/stripe/refund/route.ts",
+      "target": "src/lib/stripe.ts"
+    },
+    {
+      "source": "src/app/api/stripe/billing-portal/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/stripe/billing-portal/route.ts",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/api/stripe/billing-portal/route.ts",
+      "target": "src/lib/stripe.ts"
+    },
+    {
       "source": "src/app/api/customer-ratings/route.ts",
       "target": "src/lib/auth.ts"
     },
     {
       "source": "src/app/api/customer-ratings/route.ts",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/featured-travels-data/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/featured-travels-data/route.ts",
+      "target": "src/lib/media-url.ts"
     },
     {
       "source": "src/app/(frontend)/contact/page.tsx",
@@ -2677,6 +3301,18 @@
     {
       "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
       "target": "src/components/ui/destination-page/ItinerarySection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/EquipmentSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/ReadinessChecklistSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/GuidesSection.tsx"
     },
     {
       "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
@@ -2865,6 +3501,18 @@
     {
       "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
       "target": "src/components/ui/destination-page/ItinerarySection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
+      "target": "src/components/ui/destination-page/EquipmentSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
+      "target": "src/components/ui/destination-page/ReadinessChecklistSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
+      "target": "src/components/ui/destination-page/GuidesSection.tsx"
     },
     {
       "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
@@ -3128,6 +3776,18 @@
     },
     {
       "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/EquipmentSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/ReadinessChecklistSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/GuidesSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
       "target": "src/components/ui/destination-page/AccommodationsSection.tsx"
     },
     {
@@ -3193,6 +3853,30 @@
     {
       "source": "src/app/(frontend)/layout.tsx",
       "target": "src/components/ui/Footer.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/vouchers/[code]/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/vouchers/VouchersPageClient.tsx",
+      "target": "src/lib/auth-client.ts"
+    },
+    {
+      "source": "src/app/(frontend)/vouchers/VouchersPageClient.tsx",
+      "target": "src/components/auth/AuthModal.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/vouchers/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/vouchers/page.tsx",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/(frontend)/vouchers/page.tsx",
+      "target": "src/app/(frontend)/vouchers/VouchersPageClient.tsx"
     },
     {
       "source": "src/app/(frontend)/reset-password/ResetClient.tsx",
@@ -3271,6 +3955,26 @@
       "target": "src/components/ui/StoriesCarouselSection.tsx"
     },
     {
+      "source": "src/app/(frontend)/page.tsx",
+      "target": "src/components/ui/WhyTravelWithUs.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/page.tsx",
+      "target": "src/components/ui/FeaturedTravels.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/page.tsx",
+      "target": "src/components/ui/destination-page/WhyTravelWithUsSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/page.tsx",
+      "target": "src/components/ui/Testimonials.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/page.tsx",
+      "target": "src/components/ui/CalendarCta.tsx"
+    },
+    {
       "source": "src/app/(frontend)/[slug]/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -3344,11 +4048,35 @@
     },
     {
       "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/WhyTravelWithUsVisualEditorButton.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/FeaturedTravelsVisualEditorButton.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/CalendarCtaVisualEditorButton.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/TestimonialsVisualEditorButton.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
       "target": "src/components/admin/AdminLogo.tsx"
     },
     {
       "source": "src/app/(payload)/admin/importMap.js",
       "target": "src/components/admin/AdminLoginBackground.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/StripeManagementView.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/StripeReconciliationView.tsx"
     },
     {
       "source": "src/app/(payload)/layout.tsx",
@@ -3468,6 +4196,10 @@
     },
     {
       "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/Guides.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
       "target": "src/payload/collections/GalleryCollections.ts"
     },
     {
@@ -3520,6 +4252,10 @@
     },
     {
       "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/WhyTravelWithUs.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
       "target": "src/payload/globals/SiteSettings.ts"
     },
     {
@@ -3537,6 +4273,26 @@
     {
       "source": "src/payload/payload.config.ts",
       "target": "src/payload/globals/Shop.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/FeaturedTravels.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/CalendarCta.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/TestimonialsSection.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/Testimonials.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/lib/stripe-webhooks.ts"
     },
     {
       "source": "src/payload/seeds/hero.ts",
@@ -3567,12 +4323,20 @@
       "target": "src/payload/hooks/revalidate.ts"
     },
     {
+      "source": "src/payload/collections/Trips.ts",
+      "target": "src/lib/stripe-product-sync.ts"
+    },
+    {
       "source": "src/payload/collections/Customers.ts",
       "target": "src/lib/auth.ts"
     },
     {
       "source": "src/payload/collections/Registrations.ts",
       "target": "src/payload/hooks/syncTripSpots.ts"
+    },
+    {
+      "source": "src/payload/collections/Programs.ts",
+      "target": "src/lib/stripe-product-sync.ts"
     },
     {
       "source": "src/payload/collections/Pages.ts",
@@ -3628,10 +4392,22 @@
     },
     {
       "source": "src/payload/collections/Products.ts",
+      "target": "src/lib/stripe-product-sync.ts"
+    },
+    {
+      "source": "src/payload/collections/Products.ts",
       "target": "src/lib/resend.ts"
     },
     {
       "source": "src/payload/collections/Stories.ts",
+      "target": "src/payload/hooks/revalidate.ts"
+    },
+    {
+      "source": "src/payload/collections/Bundles.ts",
+      "target": "src/lib/stripe-product-sync.ts"
+    },
+    {
+      "source": "src/payload/collections/Guides.ts",
       "target": "src/payload/hooks/revalidate.ts"
     },
     {
@@ -3915,6 +4691,18 @@
       "target": "src/lib/media-url.ts"
     },
     {
+      "source": "src/components/blocks/why-travel-with-us/WhyTravelWithUsBlock.tsx",
+      "target": "src/components/blocks/why-travel-with-us/icons/CameraIcon.tsx"
+    },
+    {
+      "source": "src/components/blocks/why-travel-with-us/WhyTravelWithUsBlock.tsx",
+      "target": "src/components/blocks/why-travel-with-us/icons/GlobeIcon.tsx"
+    },
+    {
+      "source": "src/components/blocks/why-travel-with-us/WhyTravelWithUsBlock.tsx",
+      "target": "src/components/blocks/why-travel-with-us/icons/CityIcon.tsx"
+    },
+    {
       "source": "src/components/blocks/FooterBlockRenderer.tsx",
       "target": "src/components/ui/FooterForm.tsx"
     },
@@ -4107,6 +4895,46 @@
       "target": "src/components/ui/HeroEditButton.tsx"
     },
     {
+      "source": "src/components/ui/CalendarCta.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/components/ui/CalendarCta.tsx",
+      "target": "src/components/blocks/calendar-cta/CalendarCtaBlock.tsx"
+    },
+    {
+      "source": "src/components/ui/CalendarCta.tsx",
+      "target": "src/components/ui/CalendarCtaEditButton.tsx"
+    },
+    {
+      "source": "src/components/ui/FeaturedTravels.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/components/ui/FeaturedTravels.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/components/ui/FeaturedTravels.tsx",
+      "target": "src/components/blocks/featured-travels/FeaturedTravelsBlock.tsx"
+    },
+    {
+      "source": "src/components/ui/FeaturedTravels.tsx",
+      "target": "src/components/ui/FeaturedTravelsEditButton.tsx"
+    },
+    {
+      "source": "src/components/ui/destination-page/FloatingBookingBar.tsx",
+      "target": "src/lib/cart-store.ts"
+    },
+    {
+      "source": "src/components/ui/destination-page/ItinerarySectionClient.tsx",
+      "target": "src/components/ui/destination-page/ItinerarySection.tsx"
+    },
+    {
+      "source": "src/components/ui/destination-page/GuidesSection.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
       "source": "src/components/ui/destination-page/OtherDestinationsSection.tsx",
       "target": "src/lib/media-url.ts"
     },
@@ -4159,6 +4987,18 @@
       "target": "src/components/ui/DestinationCarouselEditButton.tsx"
     },
     {
+      "source": "src/components/ui/WhyTravelWithUs.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/components/ui/WhyTravelWithUs.tsx",
+      "target": "src/components/blocks/why-travel-with-us/WhyTravelWithUsBlock.tsx"
+    },
+    {
+      "source": "src/components/ui/WhyTravelWithUs.tsx",
+      "target": "src/components/ui/WhyTravelWithUsEditButton.tsx"
+    },
+    {
       "source": "src/components/ui/GalleryLightbox.tsx",
       "target": "src/lib/media-url.ts"
     },
@@ -4189,6 +5029,18 @@
     {
       "source": "src/components/ui/Footer.tsx",
       "target": "src/components/ui/FooterLogo.tsx"
+    },
+    {
+      "source": "src/components/ui/Testimonials.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/components/ui/Testimonials.tsx",
+      "target": "src/components/blocks/testimonials/TestimonialsBlock.tsx"
+    },
+    {
+      "source": "src/components/ui/Testimonials.tsx",
+      "target": "src/components/ui/TestimonialsEditButton.tsx"
     },
     {
       "source": "src/components/ui/DestinationCard.tsx",
@@ -4263,6 +5115,14 @@
       "target": "src/components/forms/BookingFormModal.tsx"
     },
     {
+      "source": "src/components/auth/AuthModal.tsx",
+      "target": "src/components/auth/AuthForm.tsx"
+    },
+    {
+      "source": "src/components/auth/AuthModal.tsx",
+      "target": "src/lib/auth-client.ts"
+    },
+    {
       "source": "src/components/shop/CartItem.tsx",
       "target": "src/lib/cart-store.ts"
     },
@@ -4291,8 +5151,40 @@
       "target": "src/lib/cart-store.ts"
     },
     {
+      "source": "src/lib/stripe-webhooks.ts",
+      "target": "src/lib/stripe.ts"
+    },
+    {
+      "source": "src/lib/stripe-webhooks.ts",
+      "target": "src/lib/resend.ts"
+    },
+    {
+      "source": "src/lib/stripe-product-sync.ts",
+      "target": "src/lib/stripe.ts"
+    },
+    {
       "source": "src/lib/auth.ts",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/lib/cron/balance-charge.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/lib/cron/balance-charge.ts",
+      "target": "src/lib/stripe.ts"
+    },
+    {
+      "source": "src/lib/cron/balance-reminders.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/lib/cron/balance-reminders.ts",
+      "target": "src/lib/stripe.ts"
+    },
+    {
+      "source": "src/lib/cron/balance-reminders.ts",
+      "target": "src/lib/resend.ts"
     },
     {
       "source": "src/lib/cron/abandoned-cart.ts",
@@ -4468,6 +5360,22 @@
     },
     {
       "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/why-travel-with-us/WhyTravelWithUsBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/featured-travels/FeaturedTravelsBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/calendar-cta/CalendarCtaBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/testimonials/TestimonialsBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
       "target": "src/puck/styleFields.tsx"
     },
     {
@@ -4483,6 +5391,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-05-19T08:28:07.884Z",
-  "fileCount": 372
+  "builtAt": "2026-05-20T18:39:16.461Z",
+  "fileCount": 438
 }
