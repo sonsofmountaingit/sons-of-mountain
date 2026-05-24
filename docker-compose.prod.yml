@@ -21,12 +21,11 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-      migrate:
-        condition: service_completed_successfully
     volumes:
       - media:/app/public/media
     networks:
       - internal
+      - coolify
     restart: unless-stopped
 
   postgres:
@@ -43,7 +42,9 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - internal
+      internal:
+        aliases:
+          - som-postgres
     restart: unless-stopped
 
   redis:
@@ -57,20 +58,9 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - internal
-    restart: unless-stopped
-
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "4000:80"
-    volumes:
-      - ./nginx/nginx.prod.conf:/etc/nginx/nginx.conf:ro
-      - media:/app/public/media:ro
-    depends_on:
-      - app
-    networks:
-      - internal
+      internal:
+        aliases:
+          - som-redis
     restart: unless-stopped
 
 volumes:
@@ -81,3 +71,5 @@ volumes:
 networks:
   internal:
     driver: bridge
+  coolify:
+    external: true

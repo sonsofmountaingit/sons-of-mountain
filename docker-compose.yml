@@ -3,8 +3,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
     env_file: .env
     environment:
       - NODE_ENV=production
@@ -15,6 +13,9 @@ services:
         condition: service_healthy
     volumes:
       - media:/app/public/media
+    networks:
+      - default
+      - coolify
     restart: unless-stopped
 
   postgres:
@@ -48,23 +49,12 @@ services:
       retries: 5
     restart: unless-stopped
 
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - media:/app/public/media:ro
-      - certbot_conf:/etc/letsencrypt:ro
-      - certbot_www:/var/www/certbot:ro
-    depends_on:
-      - app
-    restart: unless-stopped
-
 volumes:
   postgres_data:
   redis_data:
   media:
-  certbot_conf:
-  certbot_www:
+
+networks:
+  default:
+  coolify:
+    external: true

@@ -224,12 +224,12 @@ export default buildConfig({
   csrf: [
     'http://localhost:3000',
     'http://localhost:3001',
-    'http://46.224.152.226:4000',
+    process.env.NEXT_PUBLIC_SERVER_URL,
   ].filter(Boolean) as string[],
   cors: [
     'http://localhost:3000',
     'http://localhost:3001',
-    'http://46.224.152.226:4000',
+    process.env.NEXT_PUBLIC_SERVER_URL,
   ].filter(Boolean) as string[],
   sharp,
   email: resendAdapter({

@@ -3361,7 +3361,7 @@
       "./globals/TestimonialsSection",
       "./collections/Testimonials"
     ],
-    "lines": 231,
+    "lines": 241,
     "group": "payload"
   },
   "src/payload/seeds/hero.ts": {
