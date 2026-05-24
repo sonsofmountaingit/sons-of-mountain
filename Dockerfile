@@ -22,7 +22,7 @@ ENV DATABASE_URI=$DATABASE_URI \
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY \
     BETTER_AUTH_SECRET=$BETTER_AUTH_SECRET \
     BETTER_AUTH_URL=$BETTER_AUTH_URL
-RUN npm run build
+RUN npm run build && ls -la .next/ && echo "standalone exists: $(test -d .next/standalone && echo YES || echo NO)"
 
 FROM base AS migrator
 WORKDIR /app
