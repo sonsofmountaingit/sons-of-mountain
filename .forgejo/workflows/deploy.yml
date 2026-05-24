@@ -34,8 +34,7 @@ jobs:
           tags: |
             git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:latest
             git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:${{ github.sha }}
-          cache-from: type=registry,ref=git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:buildcache
-          cache-to: type=registry,ref=git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:buildcache,mode=max
+          no-cache: true
           build-args: |
             DATABASE_URI=${{ secrets.DATABASE_URI }}
             PAYLOAD_SECRET=${{ secrets.PAYLOAD_SECRET }}
@@ -54,7 +53,7 @@ jobs:
           provenance: false
           tags: |
             git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:migrator
-          cache-from: type=registry,ref=git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:buildcache
+          no-cache: true
 
       - name: Deploy to server
         run: |
