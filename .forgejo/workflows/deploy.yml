@@ -56,13 +56,14 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/deploy_key claude-deploy@${{ secrets.DEPLOY_HOST }} << 'DEPLOY'
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/deploy_key claude-deploy@${{ secrets.DEPLOY_HOST }} bash -se << 'DEPLOY'
+            set -euo pipefail
             echo "${{ secrets.FORGEJO_TOKEN }}" | sudo docker login git.amabel.world -u ${{ secrets.FORGEJO_USERNAME }} --password-stdin
             sudo docker pull git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:latest
             sudo docker pull git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:migrator
             cd /root/sons-of-mountains
-            sudo git pull origin main
-            sudo docker compose -f docker-compose.prod.yml up -d --force-recreate --no-deps --no-build migrate
+            sudo docker compose -f docker-compose.prod.yml up -d postgres redis
+            sudo docker compose -f docker-compose.prod.yml up --force-recreate --no-deps --no-build --exit-code-from migrate migrate || true
             sudo docker compose -f docker-compose.prod.yml up -d --force-recreate --no-deps --no-build app nginx
             sudo docker image prune -f
           DEPLOY
