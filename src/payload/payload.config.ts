@@ -221,6 +221,16 @@ export default buildConfig({
     },
   },
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL,
+  csrf: [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://46.224.152.226:4000',
+  ].filter(Boolean) as string[],
+  cors: [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://46.224.152.226:4000',
+  ].filter(Boolean) as string[],
   sharp,
   email: resendAdapter({
     defaultFromAddress: process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com',
