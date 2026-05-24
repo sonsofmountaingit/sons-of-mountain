@@ -29,6 +29,7 @@ export async function POST(req: NextRequest) {
         ],
       },
       limit: 1,
+      overrideAccess: true,
     })
 
     if (existing.docs.length > 0) {
@@ -45,6 +46,7 @@ export async function POST(req: NextRequest) {
         ],
       },
       limit: 0,
+      overrideAccess: true,
     })
 
     const position = allWaiting.totalDocs + 1

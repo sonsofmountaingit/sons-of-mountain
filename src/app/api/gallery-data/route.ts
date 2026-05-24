@@ -5,7 +5,7 @@ import config from '@payload-config'
 export async function GET() {
   try {
     const payload = await getPayload({ config })
-    const gallery = await payload.findGlobal({ slug: 'gallery', depth: 3 }) as any
+    const gallery = await payload.findGlobal({ slug: 'gallery', depth: 3, overrideAccess: true }) as any
 
     const featuredIds: string[] = (gallery?.featuredCollections ?? [])
       .map((f: any) => typeof f.collection === 'object' ? f.collection?.id : f.collection)
@@ -18,6 +18,7 @@ export async function GET() {
         where: { id: { in: featuredIds }, status: { equals: 'published' } },
         depth: 2,
         limit: 20,
+        overrideAccess: true,
       })
       collections = featuredIds
         .map((id) => docs.find((d: any) => String(d.id) === String(id)))

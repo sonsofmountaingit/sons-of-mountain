@@ -75,8 +75,8 @@ async function fetchCalendarData() {
     const payload = await getPayload({ config })
 
     const results = await Promise.all([
-      payload.find({ collection: 'trips', where: { status: { not_equals: 'draft' } }, sort: 'startDate', limit: 500, depth: 2 }),
-      payload.find({ collection: 'programs', where: { status: { not_equals: 'draft' } }, sort: 'startDate', limit: 500, depth: 2 }),
+      payload.find({ collection: 'trips', where: { status: { not_equals: 'draft' } }, sort: 'startDate', limit: 500, depth: 2, overrideAccess: true }),
+      payload.find({ collection: 'programs', where: { status: { not_equals: 'draft' } }, sort: 'startDate', limit: 500, depth: 2, overrideAccess: true }),
     ])
     tripsRes = results[0]
     programsRes = results[1]

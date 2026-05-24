@@ -8,8 +8,8 @@ const getCarouselData = unstable_cache(
   async () => {
     const payload = await getPayload({ config })
     const [carousel, { docs: destinations }] = await Promise.all([
-      payload.findGlobal({ slug: 'destination-carousel', depth: 2 }),
-      payload.find({ collection: 'destinations', limit: 50, sort: 'name', depth: 2, draft: false }),
+      payload.findGlobal({ slug: 'destination-carousel', depth: 2, overrideAccess: true }),
+      payload.find({ collection: 'destinations', limit: 50, sort: 'name', depth: 2, draft: false, overrideAccess: true }),
     ])
     return { carousel, destinations }
   },

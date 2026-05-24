@@ -13,7 +13,7 @@ const getHeroData = unstable_cache(
   async () => {
     try {
       const payload = await getPayload({ config })
-      return await payload.findGlobal({ slug: 'hero', depth: 2 })
+      return await payload.findGlobal({ slug: 'hero', depth: 2, overrideAccess: true })
     } catch {
       return null
     }

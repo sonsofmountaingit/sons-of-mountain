@@ -41,6 +41,7 @@ async function getPageData(slug: string) {
       where: { slug: { equals: slug } },
       limit: 1,
       depth: 2,
+      overrideAccess: true,
     })
     const destination = docs[0] ?? null
     if (!destination) return null
@@ -52,14 +53,16 @@ async function getPageData(slug: string) {
         sort: 'startDate',
         limit: 5,
         depth: 0,
+        overrideAccess: true,
       }),
       payload.find({
         collection: 'destinations',
         where: { and: [{ slug: { not_equals: slug } }, { type: { equals: destination.type } }] },
         limit: 3,
         depth: 1,
+        overrideAccess: true,
       }),
-      payload.findGlobal({ slug: 'site-settings', depth: 0 }),
+      payload.findGlobal({ slug: 'site-settings', depth: 0, overrideAccess: true }),
     ])
 
     return { destination, trips: tripsResult.docs, siblings: siblingsResult.docs, settings }

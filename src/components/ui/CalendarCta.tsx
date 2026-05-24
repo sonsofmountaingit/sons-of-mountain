@@ -8,7 +8,7 @@ const getCalendarCtaData = unstable_cache(
   async () => {
     try {
       const payload = await getPayload({ config })
-      return await payload.findGlobal({ slug: 'calendar-cta' })
+      return await payload.findGlobal({ slug: 'calendar-cta', overrideAccess: true })
     } catch {
       return null
     }

@@ -22,8 +22,8 @@ async function getProduct(slug: string) {
   try {
     const payload = await getPayload({ config })
     const [result, ratingsResult] = await Promise.all([
-      payload.find({ collection: 'products', where: { and: [{ slug: { equals: slug } }, { status: { equals: 'active' } }] }, limit: 1, depth: 2 }),
-      payload.find({ collection: 'customer-ratings', where: { product: { exists: true } }, limit: 20, depth: 1 }),
+      payload.find({ collection: 'products', where: { and: [{ slug: { equals: slug } }, { status: { equals: 'active' } }] }, limit: 1, depth: 2, overrideAccess: true }),
+      payload.find({ collection: 'customer-ratings', where: { product: { exists: true } }, limit: 20, depth: 1, overrideAccess: true }),
     ])
     return { product: result.docs[0] ?? null, ratings: ratingsResult.docs }
   } catch {

@@ -17,7 +17,7 @@ async function getGalleryData() {
   cacheLife('hours')
   try {
     const payload = await getPayload({ config })
-    const gallery = await payload.findGlobal({ slug: 'gallery', depth: 1 }) as any
+    const gallery = await payload.findGlobal({ slug: 'gallery', depth: 1, overrideAccess: true }) as any
 
     const featuredIds: string[] = (gallery?.featuredCollections ?? [])
       .map((f: any) => typeof f.collection === 'object' ? f.collection?.id : f.collection)
@@ -30,6 +30,7 @@ async function getGalleryData() {
         where: { id: { in: featuredIds }, status: { equals: 'published' } },
         depth: 2,
         limit: 20,
+        overrideAccess: true,
       })
       collections = featuredIds
         .map((id) => docs.find((d: any) => String(d.id) === String(id)))
@@ -41,6 +42,7 @@ async function getGalleryData() {
         depth: 2,
         sort: '-publishedAt',
         limit: 12,
+        overrideAccess: true,
       })
       collections = docs
     }

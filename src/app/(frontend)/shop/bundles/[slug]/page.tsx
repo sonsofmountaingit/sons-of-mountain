@@ -23,6 +23,7 @@ async function getBundle(slug: string) {
       where: { and: [{ slug: { equals: slug } }, { isActive: { equals: true } }] },
       limit: 1,
       depth: 3,
+      overrideAccess: true,
     })
     return result.docs[0] ?? null
   } catch {

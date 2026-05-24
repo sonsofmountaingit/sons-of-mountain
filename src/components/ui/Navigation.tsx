@@ -8,7 +8,7 @@ const getNavigationData = unstable_cache(
   async () => {
     try {
       const payload = await getPayload({ config })
-      const data = await payload.findGlobal({ slug: 'navigation', depth: 2 })
+      const data = await payload.findGlobal({ slug: 'navigation', depth: 2, overrideAccess: true })
       const d = data as any
       return {
         navLinksLeft: (d?.navLinksLeft ?? []) as { label: string; href: string }[],

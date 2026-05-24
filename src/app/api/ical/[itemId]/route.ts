@@ -24,7 +24,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ item
 
   try {
     if (itemType === 'program') {
-      const doc = await payload.findByID({ collection: 'programs', id: itemId })
+      const doc = await payload.findByID({ collection: 'programs', id: itemId, overrideAccess: true })
       const d = doc as { title?: string; startDate?: string; endDate?: string; shortDescription?: string; location?: string }
       title = d.title ?? 'Програма'
       startDate = d.startDate ?? ''
@@ -32,7 +32,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ item
       description = d.shortDescription ?? ''
       location = d.location ?? ''
     } else {
-      const doc = await payload.findByID({ collection: 'trips', id: itemId, depth: 1 })
+      const doc = await payload.findByID({ collection: 'trips', id: itemId, depth: 1, overrideAccess: true })
       const d = doc as { title?: string; startDate?: string; endDate?: string; destination?: { name?: string } | string }
       title = d.title ?? 'Пътуване'
       startDate = d.startDate ?? ''

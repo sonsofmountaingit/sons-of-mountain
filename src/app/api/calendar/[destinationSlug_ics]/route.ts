@@ -17,7 +17,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ dest
   if (!slug) return new NextResponse('Not found', { status: 404 })
 
   const payload = await getPayload({ config })
-  const destResult = await payload.find({ collection: 'destinations', where: { slug: { equals: slug } }, limit: 1 })
+  const destResult = await payload.find({ collection: 'destinations', where: { slug: { equals: slug } }, limit: 1, overrideAccess: true })
   const dest = destResult.docs[0]
   if (!dest) return new NextResponse('Destination not found', { status: 404 })
 
@@ -25,6 +25,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ dest
     collection: 'trips',
     where: { and: [{ destination: { equals: dest.id } }, { status: { not_equals: 'draft' } }] },
     limit: 100,
+    overrideAccess: true,
   })
 
   const base = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'

@@ -15,8 +15,8 @@ export async function GET() {
   const payload = await getPayload({ config })
 
   const [trips, programs] = await Promise.all([
-    payload.find({ collection: 'trips', where: { status: { not_equals: 'draft' } }, limit: 200, depth: 1 }),
-    payload.find({ collection: 'programs', where: { status: { not_equals: 'draft' } }, limit: 200, depth: 1 }),
+    payload.find({ collection: 'trips', where: { status: { not_equals: 'draft' } }, limit: 200, depth: 1, overrideAccess: true }),
+    payload.find({ collection: 'programs', where: { status: { not_equals: 'draft' } }, limit: 200, depth: 1, overrideAccess: true }),
   ])
 
   const base = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'

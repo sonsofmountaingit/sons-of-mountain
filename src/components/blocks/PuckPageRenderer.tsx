@@ -197,14 +197,14 @@ async function renderBlock(item: PuckItem, index: number): Promise<React.ReactNo
     case 'StoriesBlock': {
       const payload = await getPayload({ config })
       const limit = (p.limit as number) ?? 6
-      const { docs: stories } = await payload.find({ collection: 'stories', limit, sort: '-createdAt', depth: 1 })
+      const { docs: stories } = await payload.find({ collection: 'stories', limit, sort: '-createdAt', depth: 1, overrideAccess: true })
       return <StoriesBlockRenderer key={index} block={{ title: (p.title as string) || null, stories: stories as Parameters<typeof StoriesBlockRenderer>[0]['block']['stories'], ...sp(p) }} />
     }
 
     case 'DestinationCarouselBlock': {
       const payload = await getPayload({ config })
       const limit = (p.limit as number) ?? 20
-      const { docs: destinations } = await payload.find({ collection: 'destinations', limit, sort: 'name', depth: 1 })
+      const { docs: destinations } = await payload.find({ collection: 'destinations', limit, sort: 'name', depth: 1, overrideAccess: true })
       return <DestinationCarouselRenderer key={index} block={{ title: (p.title as string) || null, destinations: destinations as Parameters<typeof DestinationCarouselRenderer>[0]['block']['destinations'], ...sp(p) }} />
     }
 
@@ -287,7 +287,7 @@ async function renderBlock(item: PuckItem, index: number): Promise<React.ReactNo
     case 'BlogPostsBlock': {
       const payload = await getPayload({ config })
       const limit = (p.limit as number) ?? 6
-      const { docs: posts } = await payload.find({ collection: 'stories', limit, sort: '-createdAt', depth: 1 })
+      const { docs: posts } = await payload.find({ collection: 'stories', limit, sort: '-createdAt', depth: 1, overrideAccess: true })
       return <BlogPostsBlockRenderer key={index} block={{ title: (p.title as string) || null, layout: (p.layout as string) || null, ctaText: (p.ctaText as string) || null, ctaLink: (p.ctaLink as string) || null, posts: posts as Parameters<typeof BlogPostsBlockRenderer>[0]['block']['posts'], ...sp(p) }} />
     }
 

@@ -30,6 +30,7 @@ async function getCollection(slug: string) {
       where: { slug: { equals: slug }, status: { equals: 'published' } },
       depth: 2,
       limit: 1,
+      overrideAccess: true,
     })
     return docs[0] ?? null
   } catch {

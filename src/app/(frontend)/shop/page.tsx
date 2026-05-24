@@ -17,11 +17,11 @@ const getCatalog = unstable_cache(
   async () => {
     const payload = await getPayload({ config })
     const [shop, categories, products, trips, bundles] = await Promise.all([
-      payload.findGlobal({ slug: 'shop', depth: 2 }),
-      payload.find({ collection: 'categories', sort: 'sortOrder', limit: 20, depth: 1 }),
-      payload.find({ collection: 'products', where: { status: { equals: 'active' } }, sort: '-createdAt', limit: 24, depth: 1 }),
-      payload.find({ collection: 'trips', where: { status: { not_equals: 'draft' } }, sort: 'startDate', limit: 12, depth: 1 }),
-      payload.find({ collection: 'bundles', where: { isActive: { equals: true } }, limit: 4, depth: 2 }),
+      payload.findGlobal({ slug: 'shop', depth: 2, overrideAccess: true }),
+      payload.find({ collection: 'categories', sort: 'sortOrder', limit: 20, depth: 1, overrideAccess: true }),
+      payload.find({ collection: 'products', where: { status: { equals: 'active' } }, sort: '-createdAt', limit: 24, depth: 1, overrideAccess: true }),
+      payload.find({ collection: 'trips', where: { status: { not_equals: 'draft' } }, sort: 'startDate', limit: 12, depth: 1, overrideAccess: true }),
+      payload.find({ collection: 'bundles', where: { isActive: { equals: true } }, limit: 4, depth: 2, overrideAccess: true }),
     ])
     return { shop, categories: categories.docs, products: products.docs, trips: trips.docs, bundles: bundles.docs }
   },

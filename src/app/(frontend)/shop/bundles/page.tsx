@@ -19,7 +19,7 @@ async function getBundles() {
   cacheLife('hours')
   try {
     const payload = await getPayload({ config })
-    const result = await payload.find({ collection: 'bundles', where: { isActive: { equals: true } }, sort: '-createdAt', limit: 20, depth: 2 })
+    const result = await payload.find({ collection: 'bundles', where: { isActive: { equals: true } }, sort: '-createdAt', limit: 20, depth: 2, overrideAccess: true })
     return result.docs
   } catch {
     return []

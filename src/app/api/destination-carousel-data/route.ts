@@ -4,12 +4,13 @@ import config from '@payload-config'
 export async function GET() {
   try {
     const payload = await getPayload({ config })
-    const carousel = await payload.findGlobal({ slug: 'destination-carousel', depth: 2 })
+    const carousel = await payload.findGlobal({ slug: 'destination-carousel', depth: 2, overrideAccess: true })
     const { docs: allDestinations } = await payload.find({
       collection: 'destinations',
       limit: 50,
       sort: 'name',
       depth: 2,
+      overrideAccess: true,
     })
     return Response.json({ carousel, destinations: allDestinations })
   } catch {

@@ -9,8 +9,8 @@ const getTestimonialsData = unstable_cache(
     try {
       const payload = await getPayload({ config })
       const [section, { docs }] = await Promise.all([
-        payload.findGlobal({ slug: 'testimonials-section' }),
-        payload.find({ collection: 'testimonials', limit: 100, depth: 1 }),
+        payload.findGlobal({ slug: 'testimonials-section', overrideAccess: true }),
+        payload.find({ collection: 'testimonials', limit: 100, depth: 1, overrideAccess: true }),
       ])
       const topRow = docs.filter((d: any) => d.row === 'top')
       const bottomRow = docs.filter((d: any) => d.row === 'bottom')

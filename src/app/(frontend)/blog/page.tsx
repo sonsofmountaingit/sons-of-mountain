@@ -20,6 +20,7 @@ export default async function BlogPage() {
       collection: 'blog-posts',
       limit: 50,
       sort: '-createdAt',
+      overrideAccess: true,
     })
     posts = docs
   } catch {}

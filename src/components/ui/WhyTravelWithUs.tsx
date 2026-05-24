@@ -7,7 +7,7 @@ import { WhyTravelWithUsEditButton } from './WhyTravelWithUsEditButton'
 const getData = unstable_cache(
   async () => {
     const payload = await getPayload({ config })
-    return payload.findGlobal({ slug: 'why-travel-with-us', depth: 0 }) as Promise<any>
+    return payload.findGlobal({ slug: 'why-travel-with-us', depth: 0, overrideAccess: true }) as Promise<any>
   },
   ['why-travel-with-us'],
   { tags: ['why-travel-with-us'], revalidate: 3600 },

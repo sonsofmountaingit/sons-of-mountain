@@ -17,7 +17,7 @@ async function getBlogPost(slug: string) {
   cacheLife('days')
   try {
     const payload = await getPayload({ config })
-    const { docs } = await payload.find({ collection: 'blog-posts', where: { slug: { equals: slug } }, limit: 1, depth: 1 })
+    const { docs } = await payload.find({ collection: 'blog-posts', where: { slug: { equals: slug } }, limit: 1, depth: 1, overrideAccess: true })
     return docs[0] ?? null
   } catch {
     return null

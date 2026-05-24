@@ -38,7 +38,7 @@ async function getTripData(tripId: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let trip: any = null
     try {
-      trip = await payload.findByID({ collection: 'trips', id: tripId, depth: 2 })
+      trip = await payload.findByID({ collection: 'trips', id: tripId, depth: 2, overrideAccess: true })
     } catch {
       return null
     }
@@ -53,9 +53,10 @@ async function getTripData(tripId: string) {
             where: { and: [{ slug: { not_equals: (destination.slug as string) ?? '' } }, { type: { equals: destination.type } }] },
             limit: 3,
             depth: 1,
+            overrideAccess: true,
           })
         : Promise.resolve({ docs: [] }),
-      payload.findGlobal({ slug: 'site-settings', depth: 0 }),
+      payload.findGlobal({ slug: 'site-settings', depth: 0, overrideAccess: true }),
     ])
 
     return { trip, destination, siblings: siblingsResult.docs, settings }

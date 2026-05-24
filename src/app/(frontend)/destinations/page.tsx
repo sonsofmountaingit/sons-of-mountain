@@ -18,6 +18,7 @@ export default async function DestinationsPage() {
       collection: 'destinations',
       limit: 50,
       sort: 'name',
+      overrideAccess: true,
     })
     destinations = docs
   } catch {}

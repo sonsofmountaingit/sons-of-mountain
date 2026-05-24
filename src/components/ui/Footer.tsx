@@ -13,7 +13,7 @@ const getFooterData = unstable_cache(
   async () => {
     try {
       const payload = await getPayload({ config })
-      return await payload.findGlobal({ slug: 'footer' })
+      return await payload.findGlobal({ slug: 'footer', overrideAccess: true })
     } catch {
       return null
     }
@@ -26,7 +26,7 @@ const getNavigationData = unstable_cache(
   async () => {
     try {
       const payload = await getPayload({ config })
-      return await payload.findGlobal({ slug: 'navigation' })
+      return await payload.findGlobal({ slug: 'navigation', overrideAccess: true })
     } catch {
       return null
     }
@@ -45,6 +45,7 @@ const getAllActiveTrips = unstable_cache(
         sort: 'startDate',
         limit: 20,
         depth: 1,
+        overrideAccess: true,
       })
       return docs
     } catch {
@@ -65,6 +66,7 @@ const getAllTripsPool = unstable_cache(
         sort: 'startDate',
         limit: 100,
         depth: 1,
+        overrideAccess: true,
       })
       return docs
     } catch {

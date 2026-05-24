@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
     collection: 'subscribers',
     where: { email: { equals: email } },
     limit: 1,
+    overrideAccess: true,
   })
 
   if (existing[0]) {

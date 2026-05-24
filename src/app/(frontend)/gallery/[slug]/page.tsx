@@ -21,6 +21,7 @@ async function getCollectionWithPhotographer(slug: string) {
         where: { slug: { equals: slug }, status: { equals: 'published' } },
         depth: 2,
         limit: 1,
+        overrideAccess: true,
       })
       const collection = docs[0] ?? null
       if (!collection) return null
@@ -40,9 +41,10 @@ async function getCollectionWithPhotographer(slug: string) {
             depth: 2,
             limit: 6,
             sort: '-publishedAt',
+            overrideAccess: true,
           }),
-          payload.find({ collection: 'trips', where: { photographer: { equals: photographerId } }, limit: 0 }),
-          payload.find({ collection: 'programs', where: { photographer: { equals: photographerId } }, limit: 0 }),
+          payload.find({ collection: 'trips', where: { photographer: { equals: photographerId } }, limit: 0, overrideAccess: true }),
+          payload.find({ collection: 'programs', where: { photographer: { equals: photographerId } }, limit: 0, overrideAccess: true }),
         ])
         photographerCollections = otherCols.docs as any[]
         const allCols = [...photographerCollections, collection as any]

@@ -21,9 +21,9 @@ async function getVoucherOptions() {
   try {
     const payload = await getPayload({ config })
     const [destinations, trips, programs] = await Promise.all([
-      payload.find({ collection: 'destinations', limit: 20, depth: 0 }),
-      payload.find({ collection: 'trips', where: { status: { equals: 'active' } }, limit: 20, depth: 1 }),
-      payload.find({ collection: 'programs', where: { status: { equals: 'active' } }, limit: 20, depth: 0 }),
+      payload.find({ collection: 'destinations', limit: 20, depth: 0, overrideAccess: true }),
+      payload.find({ collection: 'trips', where: { status: { equals: 'active' } }, limit: 20, depth: 1, overrideAccess: true }),
+      payload.find({ collection: 'programs', where: { status: { equals: 'active' } }, limit: 20, depth: 0, overrideAccess: true }),
     ])
     return { destinations: destinations.docs, trips: trips.docs, programs: programs.docs }
   } catch {

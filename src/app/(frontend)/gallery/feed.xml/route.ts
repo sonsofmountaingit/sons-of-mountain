@@ -10,6 +10,7 @@ export async function GET() {
     sort: '-publishedAt',
     limit: 20,
     depth: 1,
+    overrideAccess: true,
   })
 
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://panicframe.com'
