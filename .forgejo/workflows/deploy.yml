@@ -4,20 +4,63 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
-  deploy:
-    runs-on: native
-    steps:
-      - name: Pull latest source
-        run: |
-          cd /root/sons-of-mountains
-          if [ ! -d .git ]; then
-            git clone https://stanchito:${{ secrets.FORGEJO_TOKEN }}@git.amabel.world/stanchito/sons-of-mountains.git .
-          else
-            git fetch origin main
-            git reset --hard origin/main
-          fi
+  build-and-deploy:
+    runs-on: ubuntu-latest
 
-      - name: Rebuild and restart
-        run: /root/sons-of-mountains/deploy.sh
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Forgejo Registry
+        uses: docker/login-action@v3
+        with:
+          registry: git.amabel.world
+          username: ${{ secrets.FORGEJO_USERNAME }}
+          password: ${{ secrets.FORGEJO_TOKEN }}
+
+      - name: Build and push app image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          provenance: false
+          tags: |
+            git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:latest
+            git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:${{ github.sha }}
+          cache-from: type=registry,ref=git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:buildcache
+          cache-to: type=registry,ref=git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:buildcache,mode=max
+
+      - name: Build and push migrator image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          target: migrator
+          push: true
+          provenance: false
+          tags: |
+            git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:migrator
+          cache-from: type=registry,ref=git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:buildcache
+
+      - name: Deploy to server
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/deploy_key claude-deploy@${{ secrets.DEPLOY_HOST }} << 'DEPLOY'
+            echo "${{ secrets.FORGEJO_TOKEN }}" | sudo docker login git.amabel.world -u ${{ secrets.FORGEJO_USERNAME }} --password-stdin
+            sudo docker pull git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:latest
+            sudo docker pull git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:migrator
+            cd /root/sons-of-mountains
+            sudo docker compose -f docker-compose.prod.yml up -d --force-recreate --no-deps --no-build migrate
+            sudo docker compose -f docker-compose.prod.yml up -d --force-recreate --no-deps --no-build app nginx
+            sudo docker image prune -f
+          DEPLOY
+          rm ~/.ssh/deploy_key
