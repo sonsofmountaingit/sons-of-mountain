@@ -344,7 +344,7 @@
       "@puckeditor/core",
       "./PuckHeroEditorClient"
     ],
-    "lines": 88,
+    "lines": 85,
     "group": "puck"
   },
   "src/app/(puck)/puck/pages/[id]/PuckEditorClient.tsx": {
@@ -4529,11 +4529,9 @@
     "types": [],
     "imports": [
       "react",
-      "next/image",
-      "@puckeditor/core",
-      "@/lib/media-url"
+      "@puckeditor/core"
     ],
-    "lines": 62,
+    "lines": 60,
     "group": "blocks"
   },
   "src/components/blocks/hero/HeroHeadlineBlock.tsx": {
@@ -4660,7 +4658,7 @@
       "./HeroEditButton",
       "@puckeditor/core"
     ],
-    "lines": 54,
+    "lines": 49,
     "group": "ui"
   },
   "src/components/ui/GalleryKeyboardHints.tsx": {
@@ -6050,7 +6048,7 @@
       "@/components/blocks/calendar-cta/CalendarCtaBlock",
       "@/components/blocks/testimonials/TestimonialsBlock"
     ],
-    "lines": 1610,
+    "lines": 1603,
     "group": "other"
   },
   "src/puck/puckAI.ts": {

@@ -4853,10 +4853,6 @@
       "target": "src/lib/media-url.ts"
     },
     {
-      "source": "src/components/blocks/hero/HeroMainBlock.tsx",
-      "target": "src/lib/media-url.ts"
-    },
-    {
       "source": "src/components/blocks/RichTextBlockRenderer.tsx",
       "target": "src/puck/BlockWrapper.tsx"
     },
@@ -5401,6 +5397,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-05-24T07:41:30.467Z",
+  "builtAt": "2026-05-24T07:58:08.809Z",
   "fileCount": 439
 }
