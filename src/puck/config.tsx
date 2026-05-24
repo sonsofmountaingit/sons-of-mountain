@@ -184,7 +184,7 @@ export type PuckBlocks = {
   FooterTravelBlock: { travelSectionHeading: string }
   FooterNavBlock: { navSectionHeading: string }
   FooterBottomBlock: { copyright: string; licenseText: string; insuranceText: string; logoUrl: string; termsLabel: string; termsUrl: string; privacyLabel: string; privacyUrl: string; creditPrefix: string; creditName: string; creditUrl: string }
-  HeroMainBlock: { backgroundImageUrl: string; backgroundImage: any; overlayOpacity: number; contentAlign: string; height: string }
+  HeroMainBlock: { backgroundVideoUrl: string; overlayOpacity: number; contentAlign: string; height: string }
   HeroHeadlineBlock: { text: string; fontSize: string; color: string; fontWeight: string; textAlign: string }
   HeroSubtextBlock: { text: string; fontSize: string; color: string; textAlign: string }
   HeroCtaBlock: { label: string; url: string; style: string; fontSize: string; align: string }
@@ -1099,8 +1099,7 @@ export const puckConfig: Config<PuckBlocks> = {
     HeroMainBlock: {
       label: 'Hero — Main',
       fields: {
-        backgroundImage: payloadMediaField('Background Image'),
-        backgroundImageUrl: { type: 'text', label: 'Background Image URL (fallback)' },
+        backgroundVideoUrl: { type: 'text', label: 'Background Video URL' },
         overlayOpacity: { type: 'number', label: 'Overlay Opacity (0–100)', min: 0, max: 100 },
         contentAlign: {
           type: 'select', label: 'Content Alignment',
@@ -1120,18 +1119,12 @@ export const puckConfig: Config<PuckBlocks> = {
         },
       },
       defaultProps: {
-        backgroundImageUrl: '',
-        backgroundImage: '',
+        backgroundVideoUrl: '/hero-bg.mp4',
         overlayOpacity: 40,
         contentAlign: 'bottom-center',
         height: 'screen',
       },
-      render: (props) => {
-        const bgUrl = (typeof props.backgroundImage === 'object' && props.backgroundImage !== null
-          ? (props.backgroundImage as { url?: string }).url
-          : props.backgroundImageUrl) ?? props.backgroundImageUrl ?? ''
-        return <HeroMainBlock {...props} backgroundImageUrl={bgUrl} />
-      },
+      render: (props) => <HeroMainBlock {...props} />,
     },
 
     HeroHeadlineBlock: {

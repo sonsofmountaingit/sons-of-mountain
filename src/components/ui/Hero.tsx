@@ -24,10 +24,6 @@ const getHeroData = unstable_cache(
 
 export async function Hero() {
   const h = await getHeroData()
-  const bgUrl = (typeof h?.backgroundImage === 'object' && h?.backgroundImage?.url)
-    ? h.backgroundImage.url
-    : (h?.backgroundImageUrl ?? '')
-
   const puckData: Data | null = h?.puckData?.content?.length ? h.puckData as Data : null
 
   if (puckData) {
@@ -39,10 +35,9 @@ export async function Hero() {
     )
   }
 
-  // Fallback: render without puckData
   return (
     <>
-      <HeroMainBlock backgroundImageUrl={bgUrl}>
+      <HeroMainBlock backgroundVideoUrl="/hero-bg.mp4">
         <HeroHeadlineBlock text={h?.headline ?? 'Преоткривай света с нас!'} />
         <HeroSubtextBlock text={h?.subtext ?? 'Пътувай с Panic Frame там, където комфортът среща приключението.'} />
         <HeroCtaBlock label={h?.ctaLabel ?? 'Виж всички дестинации'} url={h?.ctaUrl ?? '/destinations'} />

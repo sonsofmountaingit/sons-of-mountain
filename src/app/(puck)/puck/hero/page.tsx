@@ -13,9 +13,6 @@ async function EditorContent() {
   if (!user) redirect('/admin')
 
   const h = (await payload.findGlobal({ slug: 'hero', depth: 2 })) as any
-  const bgUrl = (typeof h?.backgroundImage === 'object' && h?.backgroundImage?.url)
-    ? h.backgroundImage.url
-    : (h?.backgroundImageUrl ?? '')
 
   const puckData: Data = h?.puckData?.content?.length ? h.puckData : {
     root: { props: {} },
@@ -24,7 +21,7 @@ async function EditorContent() {
         type: 'HeroMainBlock',
         props: {
           id: 'hero-main',
-          backgroundImageUrl: bgUrl,
+          backgroundVideoUrl: '/hero-bg.mp4',
           overlayOpacity: 40,
           contentAlign: 'bottom-center',
           height: 'screen',

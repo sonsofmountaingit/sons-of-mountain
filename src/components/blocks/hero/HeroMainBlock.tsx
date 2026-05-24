@@ -1,12 +1,10 @@
 'use client'
 
 import React from 'react'
-import Image from 'next/image'
 import { DropZone } from '@puckeditor/core'
-import { mediaUrl } from '@/lib/media-url'
 
 interface HeroMainBlockProps {
-  backgroundImageUrl?: string
+  backgroundVideoUrl?: string
   overlayOpacity?: number
   contentAlign?: string
   height?: string
@@ -26,7 +24,7 @@ const heightStyle: Record<string, string> = {
 }
 
 export function HeroMainBlock({
-  backgroundImageUrl = '',
+  backgroundVideoUrl = '/hero-bg.mp4',
   overlayOpacity = 40,
   contentAlign = 'bottom-center',
   height = 'screen',
@@ -38,14 +36,14 @@ export function HeroMainBlock({
 
   return (
     <section className="relative overflow-hidden bg-[#0a0a0a]" style={{ height: sectionHeight }}>
-      {(mediaUrl(backgroundImageUrl) ?? backgroundImageUrl) && (
-        <Image
-          src={mediaUrl(backgroundImageUrl) ?? backgroundImageUrl!}
-          alt="Hero background"
-          fill
-          className="object-cover"
-          priority
-          sizes="100vw"
+      {backgroundVideoUrl && (
+        <video
+          src={backgroundVideoUrl}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
         />
       )}
       <div className="absolute inset-0" style={{ backgroundColor: `rgba(0,0,0,${opacity})` }} />
