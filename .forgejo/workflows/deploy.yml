@@ -36,6 +36,13 @@ jobs:
             git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:${{ github.sha }}
           cache-from: type=registry,ref=git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:buildcache
           cache-to: type=registry,ref=git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:buildcache,mode=max
+          build-args: |
+            DATABASE_URI=${{ secrets.DATABASE_URI }}
+            PAYLOAD_SECRET=${{ secrets.PAYLOAD_SECRET }}
+            NEXT_PUBLIC_SERVER_URL=${{ secrets.NEXT_PUBLIC_SERVER_URL }}
+            NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
+            BETTER_AUTH_SECRET=${{ secrets.BETTER_AUTH_SECRET }}
+            BETTER_AUTH_URL=${{ secrets.BETTER_AUTH_URL }}
 
       - name: Build and push migrator image
         uses: docker/build-push-action@v6
