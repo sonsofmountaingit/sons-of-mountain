@@ -53,7 +53,7 @@ export const Testimonials: CollectionConfig = {
     afterChange: [
       ({ doc }) => {
         try {
-          after(() => { revalidateTag('testimonials') })
+          after(() => { revalidateTag('testimonials', 'max') })
         } catch { /* outside request scope */ }
         return doc
       },
@@ -61,7 +61,7 @@ export const Testimonials: CollectionConfig = {
     afterDelete: [
       ({ doc }) => {
         try {
-          after(() => { revalidateTag('testimonials') })
+          after(() => { revalidateTag('testimonials', 'max') })
         } catch { /* outside request scope */ }
         return doc
       },

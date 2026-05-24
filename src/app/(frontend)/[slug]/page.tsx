@@ -12,7 +12,6 @@ import type { Data } from '@puckeditor/core'
 type Args = { params: Promise<{ slug: string }> }
 
 async function getPageCached(slug: string) {
-  'use cache'
   try {
     const payload = await getPayload({ config })
     const { docs } = await payload.find({

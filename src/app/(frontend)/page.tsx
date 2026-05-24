@@ -9,13 +9,8 @@ import { FeaturedTravels } from '@/components/ui/FeaturedTravels'
 import { WhyTravelWithUsSection } from '@/components/ui/destination-page/WhyTravelWithUsSection'
 import { Testimonials } from '@/components/ui/Testimonials'
 import { CalendarCta } from '@/components/ui/CalendarCta'
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
-import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 
 async function getStoriesData() {
-  'use cache'
-  cacheTag('stories')
-  cacheLife('days')
   let stories: any[] = []
   try {
     const payload = await getPayload({ config })

@@ -3,8 +3,6 @@ import config from '@payload-config'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
-import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 import { mediaUrl } from '@/lib/media-url'
 import { HeroSection } from '@/components/ui/destination-page/HeroSection'
 import { WhySection } from '@/components/ui/destination-page/WhySection'
@@ -28,9 +26,6 @@ interface Props { params: Promise<{ slug: string }> }
 
 
 async function getProgramData(slug: string) {
-  'use cache'
-  cacheTag('programs')
-  cacheLife('days')
   try {
     const payload = await getPayload({ config })
 

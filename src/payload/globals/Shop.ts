@@ -9,7 +9,7 @@ export const Shop: GlobalConfig = {
     description: 'Shop landing page content and settings',
   },
   hooks: {
-    afterChange: [() => { after(() => revalidateTag('shop')) }],
+    afterChange: [() => { after(() => revalidateTag('shop', 'max')) }],
   },
   fields: [
     {

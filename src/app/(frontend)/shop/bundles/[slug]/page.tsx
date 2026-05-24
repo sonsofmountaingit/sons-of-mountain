@@ -7,15 +7,10 @@ import Link from 'next/link'
 import { mediaUrl } from "@/lib/media-url"
 import { AddToCartButton } from '@/components/shop/AddToCartButton'
 import { Suspense } from 'react'
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
-import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 
 export const metadata: Metadata = { title: 'Bundle — Sons of Mountains' }
 
 async function getBundle(slug: string) {
-  'use cache'
-  cacheTag('bundles')
-  cacheLife('hours')
   try {
     const payload = await getPayload({ config })
     const result = await payload.find({

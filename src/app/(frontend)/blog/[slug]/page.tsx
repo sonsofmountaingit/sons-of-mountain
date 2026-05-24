@@ -4,17 +4,12 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import type { Metadata } from 'next'
 import { RichText } from '@payloadcms/richtext-lexical/react'
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
-import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 import { mediaUrl } from '@/lib/media-url'
 import { Suspense } from 'react'
 
 interface Props { params: Promise<{ slug: string }> }
 
 async function getBlogPost(slug: string) {
-  'use cache'
-  cacheTag('blog-posts')
-  cacheLife('days')
   try {
     const payload = await getPayload({ config })
     const { docs } = await payload.find({ collection: 'blog-posts', where: { slug: { equals: slug } }, limit: 1, depth: 1, overrideAccess: true })

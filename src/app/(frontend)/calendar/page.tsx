@@ -1,8 +1,6 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Metadata } from 'next'
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
-import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 import { mediaUrl } from '@/lib/media-url'
 import { CalendarGrid, type MonthGroup } from '@/components/ui/CalendarGrid'
 import type { CalendarItem } from '@/components/ui/CalendarTripCard'
@@ -63,12 +61,9 @@ type ProgramDoc = {
   longitude?: number
 }
 
-async function fetchCalendarData() {
-  'use cache'
-  cacheTag('trips')
-  cacheTag('programs')
-  cacheLife('days')
+export const dynamic = 'force-dynamic'
 
+async function fetchCalendarData() {
   let tripsRes = { docs: [] as any[] }
   let programsRes = { docs: [] as any[] }
   try {

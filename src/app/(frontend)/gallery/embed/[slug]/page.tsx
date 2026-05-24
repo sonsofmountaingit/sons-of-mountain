@@ -4,8 +4,6 @@ import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import Image from 'next/image'
 import type { Metadata } from 'next'
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
-import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 import { mediaUrl } from '@/lib/media-url'
 
 
@@ -20,9 +18,6 @@ export const metadata: Metadata = {
 }
 
 async function getCollection(slug: string) {
-  'use cache'
-  cacheTag('gallery-collections')
-  cacheLife('hours')
   try {
     const payload = await getPayload({ config })
     const { docs } = await payload.find({

@@ -6,16 +6,11 @@ import config from '@payload-config'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { OrderStatusBadge } from '@/components/shop/OrderStatusBadge'
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
-import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 import { Suspense } from 'react'
 
 export const metadata: Metadata = { title: 'Order Details — Sons of Mountains' }
 
 async function getCachedOrderData(orderId: string, betterAuthUserId: string) {
-  'use cache'
-  cacheTag('orders')
-  cacheLife('minutes')
   try {
     const payload = await getPayload({ config })
     const customer = await payload.find({

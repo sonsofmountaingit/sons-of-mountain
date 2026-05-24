@@ -3,8 +3,6 @@ import config from '@payload-config'
 import type { Metadata } from 'next'
 import { GiftVoucherPurchaseForm } from './_components/GiftVoucherPurchaseForm'
 import { Suspense } from 'react'
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
-import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 
 export const metadata: Metadata = {
   title: 'Gift Vouchers — Sons of Mountains',
@@ -12,12 +10,6 @@ export const metadata: Metadata = {
 }
 
 async function getVoucherOptions() {
-  'use cache'
-  cacheTag('gift-vouchers')
-  cacheTag('destinations')
-  cacheTag('trips')
-  cacheTag('programs')
-  cacheLife('hours')
   try {
     const payload = await getPayload({ config })
     const [destinations, trips, programs] = await Promise.all([

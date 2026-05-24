@@ -4,8 +4,6 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import Link from 'next/link'
 import { Suspense } from 'react'
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
-import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 
 export const metadata: Metadata = {
   title: 'Your Gift Voucher — Sons of Mountains',
@@ -13,9 +11,6 @@ export const metadata: Metadata = {
 }
 
 async function getVoucher(code: string) {
-  'use cache'
-  cacheTag('gift-vouchers')
-  cacheLife('minutes')
   try {
     const payload = await getPayload({ config })
     const result = await payload.find({

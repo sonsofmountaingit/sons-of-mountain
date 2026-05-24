@@ -6,7 +6,6 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = { title: 'Всички снимки' }
 
 export default async function PhotosPage() {
-  'use cache'
   let destinations: any[] = []
   try {
     const payload = await getPayload({ config })

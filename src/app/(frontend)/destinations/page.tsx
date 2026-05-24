@@ -2,15 +2,10 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { DestinationCard } from '@/components/ui/DestinationCard'
 import type { Metadata } from 'next'
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
-import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 
 export const metadata: Metadata = { title: 'Дестинации' }
 
 export default async function DestinationsPage() {
-  'use cache'
-  cacheTag('destinations')
-  cacheLife('days')
   let destinations: any[] = []
   try {
     const payload = await getPayload({ config })

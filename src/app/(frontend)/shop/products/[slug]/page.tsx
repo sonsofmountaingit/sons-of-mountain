@@ -3,8 +3,6 @@ import config from '@payload-config'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
-import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 import { Suspense } from 'react'
 import { mediaUrl } from "@/lib/media-url"
 import { AddToCartButton } from '@/components/shop/AddToCartButton'
@@ -16,9 +14,6 @@ import { StarRating } from '@/components/shop/StarRating'
 export const metadata: Metadata = { title: 'Shop — Sons of Mountains' }
 
 async function getProduct(slug: string) {
-  'use cache'
-  cacheTag('products')
-  cacheLife('hours')
   try {
     const payload = await getPayload({ config })
     const [result, ratingsResult] = await Promise.all([

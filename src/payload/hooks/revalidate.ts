@@ -13,7 +13,7 @@ const safeAfter = (fn: () => void) => {
 export const revalidateCollection = (tag: string, path: string): CollectionAfterChangeHook => {
   return ({ doc }) => {
     safeAfter(() => {
-      revalidateTag(tag)
+      revalidateTag(tag, 'max')
       revalidatePath(path, 'page')
       if (doc?.slug) {
         revalidatePath(`${path}/${doc.slug}`, 'page')
@@ -26,7 +26,7 @@ export const revalidateCollection = (tag: string, path: string): CollectionAfter
 export const revalidateCollectionDelete = (tag: string, path: string): CollectionAfterDeleteHook => {
   return () => {
     safeAfter(() => {
-      revalidateTag(tag)
+      revalidateTag(tag, 'max')
       revalidatePath(path, 'page')
     })
   }

@@ -4,8 +4,6 @@ import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Metadata } from 'next'
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
-import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 import { Suspense } from 'react'
 
 export const metadata: Metadata = { title: 'Loyalty Points — Sons of Mountains' }
@@ -25,9 +23,6 @@ const TIER_THRESHOLDS = {
 }
 
 async function getLoyaltyData(betterAuthUserId: string) {
-  'use cache'
-  cacheTag('customers')
-  cacheLife('minutes')
   try {
     const payload = await getPayload({ config })
     const customer = await payload.find({

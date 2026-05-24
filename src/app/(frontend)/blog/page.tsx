@@ -3,16 +3,11 @@ import config from '@payload-config'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { Metadata } from 'next'
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
-import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 import { mediaUrl } from '@/lib/media-url'
 
 export const metadata: Metadata = { title: 'Блог' }
 
 export default async function BlogPage() {
-  'use cache'
-  cacheTag('blog-posts')
-  cacheLife('days')
   let posts: any[] = []
   try {
     const payload = await getPayload({ config })

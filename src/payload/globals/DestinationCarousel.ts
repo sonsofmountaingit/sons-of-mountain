@@ -5,7 +5,7 @@ import { revalidateGlobal } from '../hooks/revalidate'
 
 const revalidateCarouselTag = ({ doc }: { doc: unknown }) => {
   try {
-    after(() => { revalidateTag('destination-carousel') })
+    after(() => { revalidateTag('destination-carousel', 'max') })
   } catch { /* outside request scope */ }
   return doc
 }

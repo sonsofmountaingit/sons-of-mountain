@@ -404,7 +404,7 @@
       "@/lib/auth",
       "next/headers"
     ],
-    "lines": 63,
+    "lines": 65,
     "group": "api"
   },
   "src/app/api/waitlist/route.ts": {
@@ -417,7 +417,7 @@
       "payload",
       "@payload-config"
     ],
-    "lines": 45,
+    "lines": 46,
     "group": "api"
   },
   "src/app/api/draft/route.ts": {
@@ -442,7 +442,7 @@
       "payload",
       "@payload-config"
     ],
-    "lines": 19,
+    "lines": 20,
     "group": "api"
   },
   "src/app/api/referral/generate/route.ts": {
@@ -482,7 +482,7 @@
       "payload",
       "@payload-config"
     ],
-    "lines": 32,
+    "lines": 33,
     "group": "api"
   },
   "src/app/api/calendar/[destinationSlug_ics]/route.ts": {
@@ -495,7 +495,7 @@
       "payload",
       "@payload-config"
     ],
-    "lines": 67,
+    "lines": 68,
     "group": "api"
   },
   "src/app/api/calendar/all.ics/route.ts": {
@@ -1573,7 +1573,7 @@
       "next/dist/server/use-cache/cache-tag",
       "next/dist/server/use-cache/cache-life"
     ],
-    "lines": 47,
+    "lines": 48,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/[slug]/page.tsx": {
@@ -1609,7 +1609,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 240,
+    "lines": 243,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -1650,7 +1650,7 @@
       "@payload-config",
       "@/lib/media-url"
     ],
-    "lines": 51,
+    "lines": 52,
     "group": "frontend"
   },
   "src/app/(frontend)/gallery/embed/[slug]/page.tsx": {
@@ -1670,7 +1670,7 @@
       "next/dist/server/use-cache/cache-life",
       "@/lib/media-url"
     ],
-    "lines": 82,
+    "lines": 83,
     "group": "frontend"
   },
   "src/app/(frontend)/gallery/page.tsx": {
@@ -1692,7 +1692,7 @@
       "next/dist/server/use-cache/cache-tag",
       "next/dist/server/use-cache/cache-life"
     ],
-    "lines": 106,
+    "lines": 108,
     "group": "frontend"
   },
   "src/app/(frontend)/gallery/[slug]/GalleryCollectionClient.tsx": {
@@ -1727,7 +1727,7 @@
       "./GalleryCollectionClient",
       "@/lib/media-url"
     ],
-    "lines": 108,
+    "lines": 110,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/cancel/page.tsx": {
@@ -1877,7 +1877,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 239,
+    "lines": 240,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/orders/[id]/page.tsx": {
@@ -1981,7 +1981,7 @@
       "next/dist/server/use-cache/cache-tag",
       "next/dist/server/use-cache/cache-life"
     ],
-    "lines": 178,
+    "lines": 179,
     "group": "frontend"
   },
   "src/app/(frontend)/about/page.tsx": {
@@ -2012,7 +2012,7 @@
       "next/dist/server/use-cache/cache-life",
       "@/lib/media-url"
     ],
-    "lines": 62,
+    "lines": 63,
     "group": "frontend"
   },
   "src/app/(frontend)/blog/[slug]/page.tsx": {
@@ -5091,7 +5091,7 @@
       "./FooterEditButton",
       "./FooterLogo"
     ],
-    "lines": 321,
+    "lines": 323,
     "group": "ui"
   },
   "src/components/ui/Testimonials.tsx": {

@@ -5,8 +5,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { mediaUrl } from '@/lib/media-url'
 import { Suspense } from 'react'
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
-import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 
 export const metadata: Metadata = {
   title: 'Фотографи',
@@ -14,9 +12,6 @@ export const metadata: Metadata = {
 }
 
 async function getPhotographers() {
-  'use cache'
-  cacheTag('gallery-collections')
-  cacheLife('hours')
   try {
     const payload = await getPayload({ config })
     const { docs: users } = await payload.find({

@@ -3,8 +3,6 @@ import config from '@payload-config'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
-import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 import { mediaUrl } from '@/lib/media-url'
 import { TrackRecentlyViewed } from '@/components/ui/TrackRecentlyViewed'
 import { HeroSection } from '@/components/ui/destination-page/HeroSection'
@@ -29,10 +27,6 @@ interface Props { params: Promise<{ slug: string }> }
 
 
 async function getPageData(slug: string) {
-  'use cache'
-  cacheTag('destinations')
-  cacheTag('trips')
-  cacheLife('days')
   try {
     const payload = await getPayload({ config })
 

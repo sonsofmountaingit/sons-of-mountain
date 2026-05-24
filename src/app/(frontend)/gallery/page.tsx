@@ -7,14 +7,8 @@ import { GalleryEditButton } from '@/components/ui/GalleryEditButton'
 import { GalleryKeyboardHints } from '@/components/ui/GalleryKeyboardHints'
 import { mediaUrl } from '@/lib/media-url'
 import { Suspense } from 'react'
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
-import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 
 async function getGalleryData() {
-  'use cache'
-  cacheTag('gallery')
-  cacheTag('gallery-collections')
-  cacheLife('hours')
   try {
     const payload = await getPayload({ config })
     const gallery = await payload.findGlobal({ slug: 'gallery', depth: 1, overrideAccess: true }) as any

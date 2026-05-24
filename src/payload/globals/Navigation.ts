@@ -4,7 +4,7 @@ import { after } from 'next/server'
 import { revalidateGlobal } from '../hooks/revalidate'
 
 const revalidateNavigationTag = ({ doc }: { doc: unknown }) => {
-  try { after(() => { revalidateTag('navigation') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('navigation', 'max') }) } catch { /* noop */ }
   return doc
 }
 

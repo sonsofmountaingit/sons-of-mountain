@@ -5,8 +5,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { RichText } from '@payloadcms/richtext-lexical/react'
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
-import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 import { mediaUrl } from '@/lib/media-url'
 import { Suspense } from 'react'
 
@@ -15,9 +13,6 @@ interface Props { params: Promise<{ slug: string }> }
 
 
 async function getStory(slug: string) {
-  'use cache'
-  cacheTag('stories')
-  cacheLife('days')
   try {
     const payload = await getPayload({ config })
     const { docs } = await payload.find({ collection: 'stories', where: { slug: { equals: slug } }, limit: 1, depth: 2 })
