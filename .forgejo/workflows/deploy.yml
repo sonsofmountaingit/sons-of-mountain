@@ -9,17 +9,15 @@ jobs:
   deploy:
     runs-on: native
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Sync source to deploy dir
+      - name: Pull latest source
         run: |
-          rsync -a --delete \
-            --exclude='.git' \
-            --exclude='node_modules' \
-            --exclude='.next' \
-            --exclude='.env.production' \
-            "${{ github.workspace }}/" /root/sons-of-mountains/
+          cd /root/sons-of-mountains
+          if [ ! -d .git ]; then
+            git clone https://stanchito:${{ secrets.FORGEJO_TOKEN }}@git.amabel.world/stanchito/sons-of-mountains.git .
+          else
+            git fetch origin main
+            git reset --hard origin/main
+          fi
 
       - name: Rebuild and restart
         run: /root/sons-of-mountains/deploy.sh
