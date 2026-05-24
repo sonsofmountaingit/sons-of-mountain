@@ -53,42 +53,45 @@ export function AdminLoginBackground() {
 
   return (
     <>
-      {bgUrl && (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 0,
-            overflow: 'hidden',
-            pointerEvents: 'none',
-          }}
-        >
-          {bgType === 'video' ? (
-            <video
-              src={bgUrl}
-              autoPlay
-              muted
-              loop
-              playsInline
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+      <div
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: -1,
+          overflow: 'hidden',
+          pointerEvents: 'none',
+          background: '#000',
+        }}
+      >
+        {bgUrl && (
+          <>
+            {bgType === 'video' ? (
+              <video
+                src={bgUrl}
+                autoPlay
+                muted
+                loop
+                playsInline
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            ) : (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={bgUrl}
+                alt=""
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            )}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'rgba(0,0,0,0.55)',
+              }}
             />
-          ) : (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={bgUrl}
-              alt=""
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
-          )}
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background: 'rgba(0,0,0,0.55)',
-            }}
-          />
-        </div>
-      )}
+          </>
+        )}
+      </div>
 
       <div
         style={{
