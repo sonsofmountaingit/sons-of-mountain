@@ -2,6 +2,7 @@ import { withPayload } from '@payloadcms/next/withPayload'
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
   images: {
     formats: ['image/avif', 'image/webp'],
     qualities: [65, 75, 80, 88, 90],
@@ -25,9 +26,6 @@ const nextConfig: NextConfig = {
   },
 
   cacheComponents: true,
-  experimental: {
-    turbopackServerFastRefresh: false,
-  },
   async rewrites() {
     return [
       {
