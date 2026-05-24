@@ -65,6 +65,7 @@ export default buildConfig({
         Icon: '@/components/admin/AdminLogo#AdminLogo',
       },
       beforeLogin: ['@/components/admin/AdminLoginBackground#AdminLoginBackground'],
+      afterLogin: ['@/components/admin/AdminAfterLogin#AdminAfterLogin'],
       views: {
         StripeManagement: {
           Component: '@/components/admin/StripeManagementView#StripeManagementView',

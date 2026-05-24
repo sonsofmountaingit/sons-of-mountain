@@ -34,6 +34,7 @@ import { FeaturedTravelsVisualEditorButton as FeaturedTravelsVisualEditorButton_
 import { CalendarCtaVisualEditorButton as CalendarCtaVisualEditorButton_88a6d61a85d3db3c7f3b3d1daf1462fe } from '@/components/admin/CalendarCtaVisualEditorButton'
 import { TestimonialsVisualEditorButton as TestimonialsVisualEditorButton_81bf3cd4e881256ecd534cd1725c0801 } from '@/components/admin/TestimonialsVisualEditorButton'
 import { AdminLogo as AdminLogo_b80a86fce1072afc84cd6a430a965697 } from '@/components/admin/AdminLogo'
+import { AdminAfterLogin as AdminAfterLogin_420e5b234db0328ac2462abc35f96929 } from '@/components/admin/AdminAfterLogin'
 import { AdminLoginBackground as AdminLoginBackground_baef77fc865ae3a00a6eb857b0b83031 } from '@/components/admin/AdminLoginBackground'
 import { StripeManagementView as StripeManagementView_88db06202be185ddac50f5be48a4765a } from '@/components/admin/StripeManagementView'
 import { StripeReconciliationView as StripeReconciliationView_b07be3e559a0bb3fa76206cada0ac96e } from '@/components/admin/StripeReconciliationView'
@@ -77,6 +78,7 @@ export const importMap = {
   "@/components/admin/CalendarCtaVisualEditorButton#CalendarCtaVisualEditorButton": CalendarCtaVisualEditorButton_88a6d61a85d3db3c7f3b3d1daf1462fe,
   "@/components/admin/TestimonialsVisualEditorButton#TestimonialsVisualEditorButton": TestimonialsVisualEditorButton_81bf3cd4e881256ecd534cd1725c0801,
   "@/components/admin/AdminLogo#AdminLogo": AdminLogo_b80a86fce1072afc84cd6a430a965697,
+  "@/components/admin/AdminAfterLogin#AdminAfterLogin": AdminAfterLogin_420e5b234db0328ac2462abc35f96929,
   "@/components/admin/AdminLoginBackground#AdminLoginBackground": AdminLoginBackground_baef77fc865ae3a00a6eb857b0b83031,
   "@/components/admin/StripeManagementView#StripeManagementView": StripeManagementView_88db06202be185ddac50f5be48a4765a,
   "@/components/admin/StripeReconciliationView#StripeReconciliationView": StripeReconciliationView_b07be3e559a0bb3fa76206cada0ac96e,

@@ -2413,6 +2413,12 @@
       "size": 6
     },
     {
+      "id": "src/components/admin/AdminAfterLogin.tsx",
+      "label": "admin/AdminAfterLogin.tsx",
+      "group": "admin",
+      "size": 6
+    },
+    {
       "id": "src/components/admin/FeaturedTravelsVisualEditorButton.tsx",
       "label": "admin/FeaturedTravelsVisualEditorButton.tsx",
       "group": "admin",
@@ -4074,6 +4080,10 @@
     },
     {
       "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/AdminAfterLogin.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
       "target": "src/components/admin/AdminLoginBackground.tsx"
     },
     {
@@ -5397,6 +5407,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-05-24T08:29:58.991Z",
-  "fileCount": 439
+  "builtAt": "2026-05-24T09:21:41.986Z",
+  "fileCount": 440
 }

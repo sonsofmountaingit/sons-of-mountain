@@ -2875,12 +2875,13 @@
       "@/components/admin/CalendarCtaVisualEditorButton",
       "@/components/admin/TestimonialsVisualEditorButton",
       "@/components/admin/AdminLogo",
+      "@/components/admin/AdminAfterLogin",
       "@/components/admin/AdminLoginBackground",
       "@/components/admin/StripeManagementView",
       "@/components/admin/StripeReconciliationView",
       "@payloadcms/next/rsc"
     ],
-    "lines": 85,
+    "lines": 87,
     "group": "payload-app"
   },
   "src/app/(payload)/layout.tsx": {
@@ -3360,7 +3361,7 @@
       "./globals/TestimonialsSection",
       "./collections/Testimonials"
     ],
-    "lines": 230,
+    "lines": 231,
     "group": "payload"
   },
   "src/payload/seeds/hero.ts": {
@@ -3722,7 +3723,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 50,
+    "lines": 56,
     "group": "collections"
   },
   "src/payload/collections/GiftVouchers.ts": {
@@ -5009,7 +5010,7 @@
       "@/components/blocks/destination-carousel/DestinationCarouselBlock",
       "./DestinationCarouselEditButton"
     ],
-    "lines": 46,
+    "lines": 42,
     "group": "ui"
   },
   "src/components/ui/TripCard.tsx": {
@@ -5635,6 +5636,18 @@
     "types": [],
     "imports": [],
     "lines": 36,
+    "group": "admin"
+  },
+  "src/components/admin/AdminAfterLogin.tsx": {
+    "exports": [
+      "AdminAfterLogin"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "@payloadcms/ui"
+    ],
+    "lines": 17,
     "group": "admin"
   },
   "src/components/admin/FeaturedTravelsVisualEditorButton.tsx": {

@@ -6,16 +6,12 @@ import { DestinationCarouselEditButton } from './DestinationCarouselEditButton'
 
 const getCarouselData = unstable_cache(
   async () => {
-    try {
-      const payload = await getPayload({ config })
-      const [carousel, { docs: destinations }] = await Promise.all([
-        payload.findGlobal({ slug: 'destination-carousel', depth: 2 }),
-        payload.find({ collection: 'destinations', limit: 50, sort: 'name', depth: 2 }),
-      ])
-      return { carousel, destinations }
-    } catch {
-      return { carousel: null, destinations: [] }
-    }
+    const payload = await getPayload({ config })
+    const [carousel, { docs: destinations }] = await Promise.all([
+      payload.findGlobal({ slug: 'destination-carousel', depth: 2 }),
+      payload.find({ collection: 'destinations', limit: 50, sort: 'name', depth: 2, draft: false }),
+    ])
+    return { carousel, destinations }
   },
   ['destination-carousel-global'],
   { tags: ['destination-carousel', 'destinations'], revalidate: 3600 },
