@@ -4,11 +4,11 @@ import { after } from 'next/server'
 import { syncStripeProduct } from '@/lib/stripe-product-sync'
 
 const revalidatePrograms = ({ doc }: { doc: unknown }) => {
-  try { after(() => { revalidateTag('programs', 'default') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('programs') }) } catch { /* noop */ }
   return doc
 }
 const revalidateProgramsDelete = () => {
-  try { after(() => { revalidateTag('programs', 'default') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('programs') }) } catch { /* noop */ }
 }
 
 export const Programs: CollectionConfig = {

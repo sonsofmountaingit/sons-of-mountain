@@ -3,11 +3,11 @@ import { revalidateTag } from 'next/cache'
 import { after } from 'next/server'
 
 const revalidateGallery = ({ doc }: { doc: unknown }) => {
-  try { after(() => { revalidateTag('gallery-collections', 'default') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('gallery-collections') }) } catch { /* noop */ }
   return doc
 }
 const revalidateGalleryDelete = () => {
-  try { after(() => { revalidateTag('gallery-collections', 'default') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('gallery-collections') }) } catch { /* noop */ }
 }
 
 export const GalleryCollections: CollectionConfig = {

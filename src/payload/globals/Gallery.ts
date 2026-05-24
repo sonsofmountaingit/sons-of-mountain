@@ -4,7 +4,7 @@ import { after } from 'next/server'
 
 const revalidateGalleryTag = ({ doc }: { doc: unknown }) => {
   try {
-    after(() => { revalidateTag('gallery', 'default') })
+    after(() => { revalidateTag('gallery') })
   } catch { /* outside request scope */ }
   return doc
 }

@@ -5,11 +5,11 @@ import { after } from 'next/server'
 import { syncStripeProduct } from '@/lib/stripe-product-sync'
 
 const revalidateFooterTrips = ({ doc }: { doc: unknown }) => {
-  try { after(() => { revalidateTag('trips', 'default') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('trips') }) } catch { /* noop */ }
   return doc
 }
 const revalidateFooterTripsDelete = () => {
-  try { after(() => { revalidateTag('trips', 'default') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('trips') }) } catch { /* noop */ }
 }
 
 export const Trips: CollectionConfig = {

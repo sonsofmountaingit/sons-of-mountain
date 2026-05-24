@@ -10,8 +10,8 @@ export const Categories: CollectionConfig = {
     group: 'Shop',
   },
   hooks: {
-    afterChange: [() => { after(() => revalidateTag('categories', 'default')) }],
-    afterDelete: [() => { after(() => revalidateTag('categories', 'default')) }],
+    afterChange: [() => { after(() => revalidateTag('categories')) }],
+    afterDelete: [() => { after(() => revalidateTag('categories')) }],
   },
   fields: [
     {

@@ -45,7 +45,7 @@ export const CalendarCta: GlobalConfig = {
     afterChange: [
       ({ doc }) => {
         try {
-          after(() => { revalidateTag('calendar-cta', 'default') })
+          after(() => { revalidateTag('calendar-cta') })
         } catch { /* outside request scope */ }
         return doc
       },
