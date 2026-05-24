@@ -1,10 +1,6 @@
 services:
   migrate:
     image: git.amabel.world/stanchito/sons-of-mountains:migrator
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: migrator
     env_file: .env.production
     environment:
       - NODE_ENV=production
@@ -17,9 +13,6 @@ services:
 
   app:
     image: git.amabel.world/stanchito/sons-of-mountains:latest
-    build:
-      context: .
-      dockerfile: Dockerfile
     env_file: .env.production
     environment:
       - NODE_ENV=production

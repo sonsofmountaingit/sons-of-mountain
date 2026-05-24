@@ -53,6 +53,10 @@ export function AdminLoginBackground() {
 
   return (
     <>
+      <style>{`
+        html, body { background: #000 !important; }
+        .template-minimal { background: transparent !important; background-color: transparent !important; }
+      `}</style>
       <div
         style={{
           position: 'fixed',

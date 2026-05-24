@@ -5655,7 +5655,7 @@
       "react",
       "gsap"
     ],
-    "lines": 110,
+    "lines": 113,
     "group": "admin"
   },
   "src/components/admin/GalleryVisualEditorButton.tsx": {
