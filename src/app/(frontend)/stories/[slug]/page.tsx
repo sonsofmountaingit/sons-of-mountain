@@ -8,7 +8,6 @@ import { RichText } from '@payloadcms/richtext-lexical/react'
 import { mediaUrl } from '@/lib/media-url'
 import { Suspense } from 'react'
 
-export const dynamic = 'force-dynamic'
 
 
 interface Props { params: Promise<{ slug: string }> }

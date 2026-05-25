@@ -8,7 +8,6 @@ import Link from 'next/link'
 import { OrderStatusBadge } from '@/components/shop/OrderStatusBadge'
 import { Suspense } from 'react'
 
-export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = { title: 'Order Details — Sons of Mountains' }
 

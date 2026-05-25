@@ -8,7 +8,6 @@ import { Suspense } from 'react'
 import { ProductCard } from '@/components/shop/ProductCard'
 import { mediaUrl } from "@/lib/media-url"
 
-export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Shop — Sons of Mountains',

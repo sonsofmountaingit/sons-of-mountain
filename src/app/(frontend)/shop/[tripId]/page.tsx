@@ -21,7 +21,6 @@ import { WhyTravelWithUsSection } from '@/components/ui/destination-page/WhyTrav
 import { DestinationPageAnimator } from '@/components/ui/destination-page/DestinationPageAnimator'
 import { FloatingBookingBar } from '@/components/ui/destination-page/FloatingBookingBar'
 
-export const dynamic = 'force-dynamic'
 
 
 interface Props { params: Promise<{ tripId: string }> }

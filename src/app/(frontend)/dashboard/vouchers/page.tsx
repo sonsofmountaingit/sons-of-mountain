@@ -7,7 +7,6 @@ import config from '@payload-config'
 import { auth } from '@/lib/auth'
 import { VouchersClient } from './VouchersClient'
 
-export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Моите ваучери — Sons of Mountains',

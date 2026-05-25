@@ -7,7 +7,6 @@ import { unstable_cache } from 'next/cache'
 import { auth } from '@/lib/auth'
 import { VouchersPageClient } from './VouchersPageClient'
 
-export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Gift Vouchers — Sons of Mountains',

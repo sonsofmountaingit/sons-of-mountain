@@ -1541,6 +1541,7 @@
   },
   "src/app/(frontend)/calendar/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1556,11 +1557,12 @@
       "react",
       "next/cache"
     ],
-    "lines": 204,
+    "lines": 206,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1573,11 +1575,12 @@
       "next/cache",
       "react"
     ],
-    "lines": 63,
+    "lines": 65,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/[slug]/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1607,7 +1610,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 237,
+    "lines": 239,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -1653,6 +1656,7 @@
   },
   "src/app/(frontend)/gallery/embed/[slug]/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1666,11 +1670,12 @@
       "next",
       "@/lib/media-url"
     ],
-    "lines": 78,
+    "lines": 80,
     "group": "frontend"
   },
   "src/app/(frontend)/gallery/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1687,7 +1692,7 @@
       "react",
       "next/cache"
     ],
-    "lines": 107,
+    "lines": 109,
     "group": "frontend"
   },
   "src/app/(frontend)/gallery/[slug]/GalleryCollectionClient.tsx": {
@@ -1708,6 +1713,7 @@
   },
   "src/app/(frontend)/gallery/[slug]/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1722,7 +1728,7 @@
       "./GalleryCollectionClient",
       "@/lib/media-url"
     ],
-    "lines": 110,
+    "lines": 112,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/cancel/page.tsx": {
@@ -1740,6 +1746,7 @@
   },
   "src/app/(frontend)/shop/products/[slug]/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1758,7 +1765,7 @@
       "@/components/shop/WaitlistButton",
       "@/components/shop/StarRating"
     ],
-    "lines": 141,
+    "lines": 143,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/success/page.tsx": {
@@ -1791,6 +1798,7 @@
   },
   "src/app/(frontend)/shop/gift-vouchers/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1803,7 +1811,7 @@
       "react",
       "next/cache"
     ],
-    "lines": 83,
+    "lines": 85,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/checkout/page.tsx": {
@@ -1839,6 +1847,7 @@
   },
   "src/app/(frontend)/shop/[tripId]/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1867,11 +1876,12 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 234,
+    "lines": 236,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/orders/[id]/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1887,11 +1897,12 @@
       "@/components/shop/OrderStatusBadge",
       "react"
     ],
-    "lines": 187,
+    "lines": 189,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/orders/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1907,11 +1918,12 @@
       "react",
       "@/components/shop/OrderStatusBadge"
     ],
-    "lines": 104,
+    "lines": 106,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1927,11 +1939,12 @@
       "@/components/shop/ProductCard",
       "@/lib/media-url"
     ],
-    "lines": 250,
+    "lines": 252,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/bundles/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1945,11 +1958,12 @@
       "@/lib/media-url",
       "react"
     ],
-    "lines": 119,
+    "lines": 121,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/bundles/[slug]/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1965,7 +1979,7 @@
       "@/components/shop/AddToCartButton",
       "react"
     ],
-    "lines": 174,
+    "lines": 176,
     "group": "frontend"
   },
   "src/app/(frontend)/about/page.tsx": {
@@ -1982,6 +1996,7 @@
   },
   "src/app/(frontend)/blog/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1996,11 +2011,12 @@
       "next/cache",
       "react"
     ],
-    "lines": 76,
+    "lines": 78,
     "group": "frontend"
   },
   "src/app/(frontend)/blog/[slug]/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2015,7 +2031,7 @@
       "@/lib/media-url",
       "react"
     ],
-    "lines": 61,
+    "lines": 63,
     "group": "frontend"
   },
   "src/app/(frontend)/gift/page.tsx": {
@@ -2084,6 +2100,7 @@
   },
   "src/app/(frontend)/dashboard/ratings/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2099,7 +2116,7 @@
       "./RatingsClient",
       "../NoRegistrationGate"
     ],
-    "lines": 73,
+    "lines": 75,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/profile/page.tsx": {
@@ -2164,6 +2181,7 @@
   },
   "src/app/(frontend)/dashboard/vouchers/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2178,7 +2196,7 @@
       "@/lib/auth",
       "./VouchersClient"
     ],
-    "lines": 37,
+    "lines": 39,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/orders/OrdersClient.tsx": {
@@ -2195,6 +2213,7 @@
   },
   "src/app/(frontend)/dashboard/orders/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2209,7 +2228,7 @@
       "@/lib/auth",
       "./OrdersClient"
     ],
-    "lines": 37,
+    "lines": 39,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/DashboardClient.tsx": {
@@ -2227,6 +2246,7 @@
   },
   "src/app/(frontend)/dashboard/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2240,7 +2260,7 @@
       "@/lib/auth",
       "./DashboardClient"
     ],
-    "lines": 59,
+    "lines": 61,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/DashboardNav.tsx": {
@@ -2271,6 +2291,7 @@
   },
   "src/app/(frontend)/dashboard/registrations/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2285,7 +2306,7 @@
       "@/lib/auth",
       "./RegistrationsClient"
     ],
-    "lines": 37,
+    "lines": 39,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/wishlist/WishlistClient.tsx": {
@@ -2318,6 +2339,7 @@
   },
   "src/app/(frontend)/dashboard/media/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2333,7 +2355,7 @@
       "./MediaClient",
       "../NoRegistrationGate"
     ],
-    "lines": 73,
+    "lines": 75,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/media/MediaClient.tsx": {
@@ -2365,6 +2387,7 @@
   },
   "src/app/(frontend)/programs/[slug]/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2393,11 +2416,12 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 229,
+    "lines": 231,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2410,11 +2434,12 @@
       "next/cache",
       "react"
     ],
-    "lines": 59,
+    "lines": 61,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/[slug]/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2430,7 +2455,7 @@
       "@/lib/media-url",
       "react"
     ],
-    "lines": 75,
+    "lines": 77,
     "group": "frontend"
   },
   "src/app/(frontend)/forgot-password/ForgotClient.tsx": {
@@ -2479,6 +2504,7 @@
   },
   "src/app/(frontend)/vouchers/[code]/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2491,7 +2517,7 @@
       "next/link",
       "react"
     ],
-    "lines": 138,
+    "lines": 140,
     "group": "frontend"
   },
   "src/app/(frontend)/vouchers/VouchersPageClient.tsx": {
@@ -2513,6 +2539,7 @@
   },
   "src/app/(frontend)/vouchers/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2527,7 +2554,7 @@
       "@/lib/auth",
       "./VouchersPageClient"
     ],
-    "lines": 64,
+    "lines": 66,
     "group": "frontend"
   },
   "src/app/(frontend)/reset-password/ResetClient.tsx": {
@@ -2559,6 +2586,7 @@
   },
   "src/app/(frontend)/preview/[id]/page.tsx": {
     "exports": [
+      "dynamic",
       "default:async"
     ],
     "types": [],
@@ -2571,11 +2599,12 @@
       "@/components/blocks/PuckRender",
       "@puckeditor/core"
     ],
-    "lines": 45,
+    "lines": 47,
     "group": "frontend"
   },
   "src/app/(frontend)/photographers/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2589,11 +2618,12 @@
       "@/lib/media-url",
       "react"
     ],
-    "lines": 76,
+    "lines": 78,
     "group": "frontend"
   },
   "src/app/(frontend)/photographers/[username]/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2610,11 +2640,12 @@
       "@/components/blocks/gallery/GalleryGridBlock",
       "@/lib/media-url"
     ],
-    "lines": 156,
+    "lines": 158,
     "group": "frontend"
   },
   "src/app/(frontend)/account/loyalty/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2628,11 +2659,12 @@
       "next",
       "react"
     ],
-    "lines": 206,
+    "lines": 208,
     "group": "frontend"
   },
   "src/app/(frontend)/account/wishlist/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2647,7 +2679,7 @@
       "next/link",
       "react"
     ],
-    "lines": 65,
+    "lines": 67,
     "group": "frontend"
   },
   "src/app/(frontend)/empire/page.tsx": {
@@ -2690,6 +2722,7 @@
   },
   "src/app/(frontend)/photos/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2702,11 +2735,12 @@
       "next/cache",
       "react"
     ],
-    "lines": 62,
+    "lines": 64,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {
     "exports": [
+      "dynamic",
       "default:function"
     ],
     "types": [],
@@ -2723,11 +2757,12 @@
       "@/components/ui/Testimonials",
       "@/components/ui/CalendarCta"
     ],
-    "lines": 68,
+    "lines": 70,
     "group": "frontend"
   },
   "src/app/(frontend)/[slug]/page.tsx": {
     "exports": [
+      "dynamic",
       "generateMetadata",
       "default:function"
     ],
@@ -2744,7 +2779,7 @@
       "@/components/blocks/PuckRender",
       "@puckeditor/core"
     ],
-    "lines": 82,
+    "lines": 84,
     "group": "frontend"
   },
   "src/app/(frontend)/login/LoginClient.tsx": {

@@ -6,7 +6,6 @@ import Image from 'next/image'
 import type { Metadata } from 'next'
 import { mediaUrl } from '@/lib/media-url'
 
-export const dynamic = 'force-dynamic'
 
 
 interface Props {

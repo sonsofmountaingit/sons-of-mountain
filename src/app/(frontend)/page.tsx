@@ -10,7 +10,6 @@ import { WhyTravelWithUsSection } from '@/components/ui/destination-page/WhyTrav
 import { Testimonials } from '@/components/ui/Testimonials'
 import { CalendarCta } from '@/components/ui/CalendarCta'
 
-export const dynamic = 'force-dynamic'
 
 async function getStoriesData() {
   let stories: any[] = []

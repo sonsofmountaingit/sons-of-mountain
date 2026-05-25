@@ -5,7 +5,6 @@ import type { Metadata } from 'next'
 import { unstable_cache } from 'next/cache'
 import { Suspense } from 'react'
 
-export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = { title: 'Дестинации' }
 

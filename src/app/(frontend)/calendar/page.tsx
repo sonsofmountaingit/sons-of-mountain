@@ -8,7 +8,6 @@ import Script from 'next/script'
 import { Suspense } from 'react'
 import { unstable_cache } from 'next/cache'
 
-export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Календар с пътувания 2026 | Sons of Mountains',

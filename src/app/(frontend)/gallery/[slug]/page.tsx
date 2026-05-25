@@ -7,7 +7,6 @@ import type { Metadata } from 'next'
 import { GalleryCollectionClient } from './GalleryCollectionClient'
 import { mediaUrl } from '@/lib/media-url'
 
-export const dynamic = 'force-dynamic'
 
 
 interface Props {

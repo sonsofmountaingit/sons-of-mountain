@@ -7,7 +7,6 @@ import config from '@payload-config'
 import { auth } from '@/lib/auth'
 import { RegistrationsClient } from './RegistrationsClient'
 
-export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Моите регистрации — Sons of Mountains',

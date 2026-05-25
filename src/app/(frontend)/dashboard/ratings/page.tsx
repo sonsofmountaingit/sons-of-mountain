@@ -8,7 +8,6 @@ import config from '@payload-config'
 import { RatingsClient } from './RatingsClient'
 import { NoRegistrationGate } from '../NoRegistrationGate'
 
-export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Моите оценки — Sons of Mountains',

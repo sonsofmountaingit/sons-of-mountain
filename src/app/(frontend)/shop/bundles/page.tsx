@@ -6,7 +6,6 @@ import Image from 'next/image'
 import { mediaUrl } from "@/lib/media-url"
 import { Suspense } from 'react'
 
-export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Bundle Deals — Sons of Mountains',
