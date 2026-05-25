@@ -1496,9 +1496,10 @@
     "types": [],
     "imports": [
       "@/components/ui/NolimitNavbar",
-      "@/components/ui/Footer"
+      "@/components/ui/Footer",
+      "react"
     ],
-    "lines": 13,
+    "lines": 16,
     "group": "frontend"
   },
   "src/app/(frontend)/nolimit/itinerary/page.tsx": {
@@ -1541,7 +1542,6 @@
   "src/app/(frontend)/calendar/page.tsx": {
     "exports": [
       "metadata",
-      "dynamic",
       "default:function"
     ],
     "types": [],
@@ -1553,24 +1553,27 @@
       "@/components/ui/CalendarGrid",
       "@/components/ui/CalendarTripCard",
       "next/script",
-      "react"
+      "react",
+      "next/cache"
     ],
-    "lines": 200,
+    "lines": 204,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/page.tsx": {
     "exports": [
       "metadata",
-      "default:async"
+      "default:function"
     ],
     "types": [],
     "imports": [
       "payload",
       "@payload-config",
       "@/components/ui/DestinationCard",
-      "next"
+      "next",
+      "next/cache",
+      "react"
     ],
-    "lines": 43,
+    "lines": 63,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/[slug]/page.tsx": {
@@ -1681,9 +1684,10 @@
       "@/components/ui/GalleryEditButton",
       "@/components/ui/GalleryKeyboardHints",
       "@/lib/media-url",
-      "react"
+      "react",
+      "next/cache"
     ],
-    "lines": 102,
+    "lines": 107,
     "group": "frontend"
   },
   "src/app/(frontend)/gallery/[slug]/GalleryCollectionClient.tsx": {
@@ -1796,9 +1800,10 @@
       "@payload-config",
       "next",
       "./_components/GiftVoucherPurchaseForm",
-      "react"
+      "react",
+      "next/cache"
     ],
-    "lines": 78,
+    "lines": 83,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/checkout/page.tsx": {
@@ -1978,7 +1983,7 @@
   "src/app/(frontend)/blog/page.tsx": {
     "exports": [
       "metadata",
-      "default:async"
+      "default:function"
     ],
     "types": [],
     "imports": [
@@ -1987,9 +1992,11 @@
       "next/link",
       "next/image",
       "next",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "next/cache",
+      "react"
     ],
-    "lines": 58,
+    "lines": 76,
     "group": "frontend"
   },
   "src/app/(frontend)/blog/[slug]/page.tsx": {
@@ -2392,16 +2399,18 @@
   "src/app/(frontend)/stories/page.tsx": {
     "exports": [
       "metadata",
-      "default:async"
+      "default:function"
     ],
     "types": [],
     "imports": [
       "payload",
       "@payload-config",
       "@/components/ui/StoryCard",
-      "next"
+      "next",
+      "next/cache",
+      "react"
     ],
-    "lines": 41,
+    "lines": 59,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/[slug]/page.tsx": {
@@ -2682,16 +2691,18 @@
   "src/app/(frontend)/photos/page.tsx": {
     "exports": [
       "metadata",
-      "default:async"
+      "default:function"
     ],
     "types": [],
     "imports": [
       "payload",
       "@payload-config",
       "next/image",
-      "next"
+      "next",
+      "next/cache",
+      "react"
     ],
-    "lines": 47,
+    "lines": 62,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {

@@ -8,6 +8,8 @@ import config from '@payload-config'
 import { MediaClient } from './MediaClient'
 import { NoRegistrationGate } from '../NoRegistrationGate'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Моята медия — Sons of Mountains',
   robots: { index: false },

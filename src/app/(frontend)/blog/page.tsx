@@ -7,6 +7,8 @@ import { mediaUrl } from '@/lib/media-url'
 import { unstable_cache } from 'next/cache'
 import { Suspense } from 'react'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = { title: 'Блог' }
 
 const getPosts = unstable_cache(

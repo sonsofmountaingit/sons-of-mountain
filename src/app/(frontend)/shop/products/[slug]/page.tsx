@@ -11,6 +11,8 @@ import { StockAlertButton } from '@/components/shop/StockAlertButton'
 import { WaitlistButton } from '@/components/shop/WaitlistButton'
 import { StarRating } from '@/components/shop/StarRating'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = { title: 'Shop — Sons of Mountains' }
 
 async function getProduct(slug: string) {

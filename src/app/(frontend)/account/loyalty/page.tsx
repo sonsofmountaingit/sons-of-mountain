@@ -6,6 +6,8 @@ import config from '@payload-config'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = { title: 'Loyalty Points — Sons of Mountains' }
 
 const TIER_CONFIG = {

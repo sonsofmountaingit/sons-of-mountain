@@ -9,6 +9,8 @@ import { notFound } from 'next/navigation'
 import { GalleryGridBlock } from '@/components/blocks/gallery/GalleryGridBlock'
 import { mediaUrl } from '@/lib/media-url'
 
+export const dynamic = 'force-dynamic'
+
 
 interface Props {
   params: Promise<{ username: string }>
