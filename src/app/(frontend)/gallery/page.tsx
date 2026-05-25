@@ -7,8 +7,10 @@ import { GalleryEditButton } from '@/components/ui/GalleryEditButton'
 import { GalleryKeyboardHints } from '@/components/ui/GalleryKeyboardHints'
 import { mediaUrl } from '@/lib/media-url'
 import { Suspense } from 'react'
+import { unstable_cache } from 'next/cache'
 
-async function getGalleryData() {
+const getGalleryData = unstable_cache(
+  async () => {
   try {
     const payload = await getPayload({ config })
     const gallery = await payload.findGlobal({ slug: 'gallery', depth: 1, overrideAccess: true }) as any
@@ -45,7 +47,10 @@ async function getGalleryData() {
   } catch {
     return { gallery: null, collections: [] }
   }
-}
+  },
+  ['gallery-page'],
+  { tags: ['gallery'], revalidate: 3600 },
+)
 
 export const metadata: Metadata = {
   title: 'Галерия — Sons of Mountains',

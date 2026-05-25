@@ -3,25 +3,30 @@ import config from '@payload-config'
 import type { Metadata } from 'next'
 import { GiftVoucherPurchaseForm } from './_components/GiftVoucherPurchaseForm'
 import { Suspense } from 'react'
+import { unstable_cache } from 'next/cache'
 
 export const metadata: Metadata = {
   title: 'Gift Vouchers — Sons of Mountains',
   description: 'Give the gift of adventure',
 }
 
-async function getVoucherOptions() {
-  try {
-    const payload = await getPayload({ config })
-    const [destinations, trips, programs] = await Promise.all([
-      payload.find({ collection: 'destinations', limit: 20, depth: 0, overrideAccess: true }),
-      payload.find({ collection: 'trips', where: { status: { equals: 'active' } }, limit: 20, depth: 1, overrideAccess: true }),
-      payload.find({ collection: 'programs', where: { status: { equals: 'active' } }, limit: 20, depth: 0, overrideAccess: true }),
-    ])
-    return { destinations: destinations.docs, trips: trips.docs, programs: programs.docs }
-  } catch {
-    return { destinations: [], trips: [], programs: [] }
-  }
-}
+const getVoucherOptions = unstable_cache(
+  async () => {
+    try {
+      const payload = await getPayload({ config })
+      const [destinations, trips, programs] = await Promise.all([
+        payload.find({ collection: 'destinations', limit: 20, depth: 0, overrideAccess: true }),
+        payload.find({ collection: 'trips', where: { status: { equals: 'active' } }, limit: 20, depth: 1, overrideAccess: true }),
+        payload.find({ collection: 'programs', where: { status: { equals: 'active' } }, limit: 20, depth: 0, overrideAccess: true }),
+      ])
+      return { destinations: destinations.docs, trips: trips.docs, programs: programs.docs }
+    } catch {
+      return { destinations: [], trips: [], programs: [] }
+    }
+  },
+  ['gift-voucher-options'],
+  { tags: ['destinations', 'trips', 'programs'], revalidate: 3600 },
+)
 
 async function GiftVouchersContent() {
   const { destinations, trips, programs } = await getVoucherOptions()

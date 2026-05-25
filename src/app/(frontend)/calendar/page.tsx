@@ -6,6 +6,7 @@ import { CalendarGrid, type MonthGroup } from '@/components/ui/CalendarGrid'
 import type { CalendarItem } from '@/components/ui/CalendarTripCard'
 import Script from 'next/script'
 import { Suspense } from 'react'
+import { unstable_cache } from 'next/cache'
 
 export const metadata: Metadata = {
   title: 'Календар с пътувания 2026 | Sons of Mountains',
@@ -61,9 +62,9 @@ type ProgramDoc = {
   longitude?: number
 }
 
-export const dynamic = 'force-dynamic'
 
-async function fetchCalendarData() {
+const fetchCalendarData = unstable_cache(
+  async () => {
   let tripsRes = { docs: [] as any[] }
   let programsRes = { docs: [] as any[] }
   try {
@@ -151,7 +152,10 @@ async function fetchCalendarData() {
   const firstImage = items[0]?.imageUrl ?? null
 
   return { groups, firstImage, events: items, itemCoords }
-}
+  },
+  ['calendar-data'],
+  { tags: ['trips', 'programs'], revalidate: 3600 },
+)
 
 async function CalendarContent() {
   const { groups, firstImage, events, itemCoords } = await fetchCalendarData()

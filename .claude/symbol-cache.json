@@ -1541,6 +1541,7 @@
   "src/app/(frontend)/calendar/page.tsx": {
     "exports": [
       "metadata",
+      "dynamic",
       "default:function"
     ],
     "types": [],
@@ -1548,15 +1549,13 @@
       "payload",
       "@payload-config",
       "next",
-      "next/dist/server/use-cache/cache-tag",
-      "next/dist/server/use-cache/cache-life",
       "@/lib/media-url",
       "@/components/ui/CalendarGrid",
       "@/components/ui/CalendarTripCard",
       "next/script",
       "react"
     ],
-    "lines": 205,
+    "lines": 200,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/page.tsx": {
@@ -1569,11 +1568,9 @@
       "payload",
       "@payload-config",
       "@/components/ui/DestinationCard",
-      "next",
-      "next/dist/server/use-cache/cache-tag",
-      "next/dist/server/use-cache/cache-life"
+      "next"
     ],
-    "lines": 48,
+    "lines": 43,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/[slug]/page.tsx": {
@@ -1588,8 +1585,6 @@
       "next/navigation",
       "next",
       "react",
-      "next/dist/server/use-cache/cache-tag",
-      "next/dist/server/use-cache/cache-life",
       "@/lib/media-url",
       "@/components/ui/TrackRecentlyViewed",
       "@/components/ui/destination-page/HeroSection",
@@ -1609,7 +1604,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 243,
+    "lines": 237,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -1666,11 +1661,9 @@
       "react",
       "next/image",
       "next",
-      "next/dist/server/use-cache/cache-tag",
-      "next/dist/server/use-cache/cache-life",
       "@/lib/media-url"
     ],
-    "lines": 83,
+    "lines": 78,
     "group": "frontend"
   },
   "src/app/(frontend)/gallery/page.tsx": {
@@ -1688,11 +1681,9 @@
       "@/components/ui/GalleryEditButton",
       "@/components/ui/GalleryKeyboardHints",
       "@/lib/media-url",
-      "react",
-      "next/dist/server/use-cache/cache-tag",
-      "next/dist/server/use-cache/cache-life"
+      "react"
     ],
-    "lines": 108,
+    "lines": 102,
     "group": "frontend"
   },
   "src/app/(frontend)/gallery/[slug]/GalleryCollectionClient.tsx": {
@@ -1755,8 +1746,6 @@
       "next/navigation",
       "next",
       "next/image",
-      "next/dist/server/use-cache/cache-tag",
-      "next/dist/server/use-cache/cache-life",
       "react",
       "@/lib/media-url",
       "@/components/shop/AddToCartButton",
@@ -1765,7 +1754,7 @@
       "@/components/shop/WaitlistButton",
       "@/components/shop/StarRating"
     ],
-    "lines": 146,
+    "lines": 141,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/success/page.tsx": {
@@ -1807,11 +1796,9 @@
       "@payload-config",
       "next",
       "./_components/GiftVoucherPurchaseForm",
-      "react",
-      "next/dist/server/use-cache/cache-tag",
-      "next/dist/server/use-cache/cache-life"
+      "react"
     ],
-    "lines": 86,
+    "lines": 78,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/checkout/page.tsx": {
@@ -1857,8 +1844,6 @@
       "next/navigation",
       "react",
       "next",
-      "next/dist/server/use-cache/cache-tag",
-      "next/dist/server/use-cache/cache-life",
       "@/lib/media-url",
       "@/components/ui/destination-page/HeroSection",
       "@/components/ui/destination-page/WhySection",
@@ -1877,7 +1862,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 240,
+    "lines": 234,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/orders/[id]/page.tsx": {
@@ -1895,11 +1880,9 @@
       "next",
       "next/link",
       "@/components/shop/OrderStatusBadge",
-      "next/dist/server/use-cache/cache-tag",
-      "next/dist/server/use-cache/cache-life",
       "react"
     ],
-    "lines": 192,
+    "lines": 187,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/orders/page.tsx": {
@@ -1955,11 +1938,9 @@
       "next/link",
       "next/image",
       "@/lib/media-url",
-      "react",
-      "next/dist/server/use-cache/cache-tag",
-      "next/dist/server/use-cache/cache-life"
+      "react"
     ],
-    "lines": 124,
+    "lines": 119,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/bundles/[slug]/page.tsx": {
@@ -1977,11 +1958,9 @@
       "next/link",
       "@/lib/media-url",
       "@/components/shop/AddToCartButton",
-      "react",
-      "next/dist/server/use-cache/cache-tag",
-      "next/dist/server/use-cache/cache-life"
+      "react"
     ],
-    "lines": 179,
+    "lines": 174,
     "group": "frontend"
   },
   "src/app/(frontend)/about/page.tsx": {
@@ -2008,11 +1987,9 @@
       "next/link",
       "next/image",
       "next",
-      "next/dist/server/use-cache/cache-tag",
-      "next/dist/server/use-cache/cache-life",
       "@/lib/media-url"
     ],
-    "lines": 63,
+    "lines": 58,
     "group": "frontend"
   },
   "src/app/(frontend)/blog/[slug]/page.tsx": {
@@ -2028,12 +2005,10 @@
       "next/image",
       "next",
       "@payloadcms/richtext-lexical/react",
-      "next/dist/server/use-cache/cache-tag",
-      "next/dist/server/use-cache/cache-life",
       "@/lib/media-url",
       "react"
     ],
-    "lines": 66,
+    "lines": 61,
     "group": "frontend"
   },
   "src/app/(frontend)/gift/page.tsx": {
@@ -2393,8 +2368,6 @@
       "next/navigation",
       "react",
       "next",
-      "next/dist/server/use-cache/cache-tag",
-      "next/dist/server/use-cache/cache-life",
       "@/lib/media-url",
       "@/components/ui/destination-page/HeroSection",
       "@/components/ui/destination-page/WhySection",
@@ -2413,7 +2386,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 234,
+    "lines": 229,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/page.tsx": {
@@ -2426,11 +2399,9 @@
       "payload",
       "@payload-config",
       "@/components/ui/StoryCard",
-      "next",
-      "next/dist/server/use-cache/cache-tag",
-      "next/dist/server/use-cache/cache-life"
+      "next"
     ],
-    "lines": 46,
+    "lines": 41,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/[slug]/page.tsx": {
@@ -2447,12 +2418,10 @@
       "next/link",
       "next",
       "@payloadcms/richtext-lexical/react",
-      "next/dist/server/use-cache/cache-tag",
-      "next/dist/server/use-cache/cache-life",
       "@/lib/media-url",
       "react"
     ],
-    "lines": 80,
+    "lines": 75,
     "group": "frontend"
   },
   "src/app/(frontend)/forgot-password/ForgotClient.tsx": {
@@ -2511,11 +2480,9 @@
       "payload",
       "@payload-config",
       "next/link",
-      "react",
-      "next/dist/server/use-cache/cache-tag",
-      "next/dist/server/use-cache/cache-life"
+      "react"
     ],
-    "lines": 143,
+    "lines": 138,
     "group": "frontend"
   },
   "src/app/(frontend)/vouchers/VouchersPageClient.tsx": {
@@ -2611,11 +2578,9 @@
       "next/link",
       "next/image",
       "@/lib/media-url",
-      "react",
-      "next/dist/server/use-cache/cache-tag",
-      "next/dist/server/use-cache/cache-life"
+      "react"
     ],
-    "lines": 81,
+    "lines": 76,
     "group": "frontend"
   },
   "src/app/(frontend)/photographers/[username]/page.tsx": {
@@ -2652,11 +2617,9 @@
       "payload",
       "@payload-config",
       "next",
-      "next/dist/server/use-cache/cache-tag",
-      "next/dist/server/use-cache/cache-life",
       "react"
     ],
-    "lines": 211,
+    "lines": 206,
     "group": "frontend"
   },
   "src/app/(frontend)/account/wishlist/page.tsx": {
@@ -2728,7 +2691,7 @@
       "next/image",
       "next"
     ],
-    "lines": 48,
+    "lines": 47,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {
@@ -2747,11 +2710,9 @@
       "@/components/ui/FeaturedTravels",
       "@/components/ui/destination-page/WhyTravelWithUsSection",
       "@/components/ui/Testimonials",
-      "@/components/ui/CalendarCta",
-      "next/dist/server/use-cache/cache-tag",
-      "next/dist/server/use-cache/cache-life"
+      "@/components/ui/CalendarCta"
     ],
-    "lines": 73,
+    "lines": 68,
     "group": "frontend"
   },
   "src/app/(frontend)/[slug]/page.tsx": {
@@ -2772,7 +2733,7 @@
       "@/components/blocks/PuckRender",
       "@puckeditor/core"
     ],
-    "lines": 83,
+    "lines": 82,
     "group": "frontend"
   },
   "src/app/(frontend)/login/LoginClient.tsx": {
