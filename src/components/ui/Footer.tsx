@@ -112,17 +112,15 @@ export async function Footer() {
   const navLinks = navLinkSource === 'manual' ? manualNavLinks : autoNavLinks
 
   const travelLinks = trips.map((trip: any) => {
-    const dest = trip.destination
-    const name = typeof dest === 'object' ? dest?.name : String(dest)
-    const slug = typeof dest === 'object' ? dest?.slug : null
     const date = trip.startDate ? new Date(trip.startDate) : null
     const year = date ? date.getFullYear() : null
     const month = date ? BG_MONTHS[date.getMonth()] : ''
-    const monthLabel = year && year > 2025 ? `${month} ${year}` : month
+    const monthLabel = year ? `${month} ${year}` : month
+    const href = trip.slug ? `/shop/${trip.slug}` : `/shop/${trip.id}`
     return {
-      name: name ?? trip.title,
+      name: trip.title,
       month: monthLabel,
-      href: slug ? `/destinations/${slug}` : '/destinations',
+      href,
     }
   })
   const copyright = (data as any)?.copyright ?? '© 2018-2026 Паник Фрейм енд Травел'
@@ -142,15 +140,7 @@ export async function Footer() {
   const consentText = (data as any)?.consentText ?? 'С натискането на бутона "Абонирай се" се съгласяваш с'
   const consentLinkText = (data as any)?.consentLinkText ?? 'Политиката ни за поверителност'
 
-  const seenHrefs = new Set<string>()
-  const uniqueTravelLinks = travelLinks.filter((l) => {
-    if (seenHrefs.has(l.href)) return false
-    seenHrefs.add(l.href)
-    return true
-  })
-  const half = Math.ceil(uniqueTravelLinks.length / 2)
-  const travelCol1 = uniqueTravelLinks.slice(0, half)
-  const travelCol2 = uniqueTravelLinks.slice(half)
+  const uniqueTravelLinks = travelLinks
 
   return (
     <>
