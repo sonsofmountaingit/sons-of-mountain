@@ -53,6 +53,7 @@
   },
   "src/app/(puck)/puck/footer/page.tsx": {
     "exports": [
+      "dynamic",
       "default:function"
     ],
     "types": [],
@@ -65,7 +66,7 @@
       "@puckeditor/core",
       "./PuckFooterEditorClient"
     ],
-    "lines": 98,
+    "lines": 100,
     "group": "puck"
   },
   "src/app/(puck)/puck/featured-travels/PuckFeaturedTravelsEditorClient.tsx": {
@@ -84,6 +85,7 @@
   },
   "src/app/(puck)/puck/featured-travels/page.tsx": {
     "exports": [
+      "dynamic",
       "default:function"
     ],
     "types": [],
@@ -96,7 +98,7 @@
       "@puckeditor/core",
       "./PuckFeaturedTravelsEditorClient"
     ],
-    "lines": 46,
+    "lines": 48,
     "group": "puck"
   },
   "src/app/(puck)/puck/destination-carousel/PuckDestinationCarouselEditorClient.tsx": {
@@ -115,6 +117,7 @@
   },
   "src/app/(puck)/puck/destination-carousel/page.tsx": {
     "exports": [
+      "dynamic",
       "default:function"
     ],
     "types": [],
@@ -127,11 +130,12 @@
       "@puckeditor/core",
       "./PuckDestinationCarouselEditorClient"
     ],
-    "lines": 60,
+    "lines": 62,
     "group": "puck"
   },
   "src/app/(puck)/puck/testimonials/page.tsx": {
     "exports": [
+      "dynamic",
       "default:function"
     ],
     "types": [],
@@ -144,7 +148,7 @@
       "@puckeditor/core",
       "./PuckTestimonialsEditorClient"
     ],
-    "lines": 47,
+    "lines": 49,
     "group": "puck"
   },
   "src/app/(puck)/puck/testimonials/PuckTestimonialsEditorClient.tsx": {
@@ -177,6 +181,7 @@
   },
   "src/app/(puck)/puck/gallery/page.tsx": {
     "exports": [
+      "dynamic",
       "default:function"
     ],
     "types": [],
@@ -189,7 +194,7 @@
       "@puckeditor/core",
       "./PuckGalleryEditorClient"
     ],
-    "lines": 54,
+    "lines": 56,
     "group": "puck"
   },
   "src/app/(puck)/puck/shop/PuckShopEditorClient.tsx": {
@@ -208,6 +213,7 @@
   },
   "src/app/(puck)/puck/shop/page.tsx": {
     "exports": [
+      "dynamic",
       "default:async"
     ],
     "types": [],
@@ -220,7 +226,7 @@
       "@puckeditor/core",
       "./PuckShopEditorClient"
     ],
-    "lines": 74,
+    "lines": 76,
     "group": "puck"
   },
   "src/app/(puck)/puck/why-travel-with-us/PuckWhyTravelWithUsEditorClient.tsx": {
@@ -239,6 +245,7 @@
   },
   "src/app/(puck)/puck/why-travel-with-us/page.tsx": {
     "exports": [
+      "dynamic",
       "default:function"
     ],
     "types": [],
@@ -251,7 +258,7 @@
       "@puckeditor/core",
       "./PuckWhyTravelWithUsEditorClient"
     ],
-    "lines": 51,
+    "lines": 53,
     "group": "puck"
   },
   "src/app/(puck)/puck/navigation/PuckNavigationEditorClient.tsx": {
@@ -270,6 +277,7 @@
   },
   "src/app/(puck)/puck/navigation/page.tsx": {
     "exports": [
+      "dynamic",
       "default:function"
     ],
     "types": [],
@@ -282,7 +290,7 @@
       "@puckeditor/core",
       "./PuckNavigationEditorClient"
     ],
-    "lines": 64,
+    "lines": 66,
     "group": "puck"
   },
   "src/app/(puck)/puck/calendar-cta/PuckCalendarCtaEditorClient.tsx": {
@@ -301,6 +309,7 @@
   },
   "src/app/(puck)/puck/calendar-cta/page.tsx": {
     "exports": [
+      "dynamic",
       "default:function"
     ],
     "types": [],
@@ -313,7 +322,40 @@
       "@puckeditor/core",
       "./PuckCalendarCtaEditorClient"
     ],
-    "lines": 49,
+    "lines": 51,
+    "group": "puck"
+  },
+  "src/app/(puck)/puck/about/PuckAboutEditorClient.tsx": {
+    "exports": [
+      "PuckAboutEditorClient"
+    ],
+    "types": [],
+    "imports": [
+      "@puckeditor/core",
+      "@/puck/config",
+      "next/navigation",
+      "react"
+    ],
+    "lines": 108,
+    "group": "puck"
+  },
+  "src/app/(puck)/puck/about/page.tsx": {
+    "exports": [
+      "dynamic",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/headers",
+      "next/navigation",
+      "react",
+      "@puckeditor/core",
+      "./PuckAboutEditorClient",
+      "@/lib/media-url"
+    ],
+    "lines": 96,
     "group": "puck"
   },
   "src/app/(puck)/puck/hero/PuckHeroEditorClient.tsx": {
@@ -332,6 +374,7 @@
   },
   "src/app/(puck)/puck/hero/page.tsx": {
     "exports": [
+      "dynamic",
       "default:function"
     ],
     "types": [],
@@ -344,7 +387,7 @@
       "@puckeditor/core",
       "./PuckHeroEditorClient"
     ],
-    "lines": 85,
+    "lines": 87,
     "group": "puck"
   },
   "src/app/(puck)/puck/pages/[id]/PuckEditorClient.tsx": {
@@ -363,6 +406,7 @@
   },
   "src/app/(puck)/puck/pages/[id]/page.tsx": {
     "exports": [
+      "dynamic",
       "default:function"
     ],
     "types": [],
@@ -376,11 +420,12 @@
       "./PuckEditorClient",
       "@/puck/converter"
     ],
-    "lines": 65,
+    "lines": 67,
     "group": "puck"
   },
   "src/app/sitemap.ts": {
     "exports": [
+      "dynamic",
       "default:async"
     ],
     "types": [],
@@ -389,7 +434,7 @@
       "@payload-config",
       "next"
     ],
-    "lines": 53,
+    "lines": 55,
     "group": "app"
   },
   "src/app/api/waitlist/join/route.ts": {
@@ -812,6 +857,20 @@
     "lines": 21,
     "group": "api"
   },
+  "src/app/api/about-data/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "@/lib/media-url"
+    ],
+    "lines": 38,
+    "group": "api"
+  },
   "src/app/api/gift-voucher/route.ts": {
     "exports": [
       "POST"
@@ -1105,6 +1164,20 @@
       "next/cache"
     ],
     "lines": 39,
+    "group": "api"
+  },
+  "src/app/api/puck/about/route.ts": {
+    "exports": [
+      "PATCH"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/headers",
+      "next/cache"
+    ],
+    "lines": 60,
     "group": "api"
   },
   "src/app/api/puck/hero/route.ts": {
@@ -1541,6 +1614,7 @@
   },
   "src/app/(frontend)/calendar/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1556,11 +1630,12 @@
       "react",
       "next/cache"
     ],
-    "lines": 205,
+    "lines": 207,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1573,12 +1648,13 @@
       "next/cache",
       "react"
     ],
-    "lines": 64,
+    "lines": 66,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/[slug]/page.tsx": {
     "exports": [
-      "metadata",
+      "dynamic",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -1589,6 +1665,7 @@
       "next",
       "react",
       "@/lib/media-url",
+      "@/lib/weather",
       "@/components/ui/TrackRecentlyViewed",
       "@/components/ui/destination-page/HeroSection",
       "@/components/ui/destination-page/WhySection",
@@ -1605,9 +1682,9 @@
       "@/components/ui/destination-page/OtherDestinationsSection",
       "@/components/ui/destination-page/WhyTravelWithUsSection",
       "@/components/ui/destination-page/DestinationPageAnimator",
-      "@/components/ui/destination-page/FloatingBookingBar"
+      "@/components/ui/destination-page/DestinationBookingController"
     ],
-    "lines": 238,
+    "lines": 310,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -1640,6 +1717,7 @@
   },
   "src/app/(frontend)/gallery/feed.xml/route.ts": {
     "exports": [
+      "dynamic",
       "GET"
     ],
     "types": [],
@@ -1648,11 +1726,12 @@
       "@payload-config",
       "@/lib/media-url"
     ],
-    "lines": 52,
+    "lines": 54,
     "group": "frontend"
   },
   "src/app/(frontend)/gallery/embed/[slug]/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1666,11 +1745,12 @@
       "next",
       "@/lib/media-url"
     ],
-    "lines": 79,
+    "lines": 81,
     "group": "frontend"
   },
   "src/app/(frontend)/gallery/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1687,7 +1767,7 @@
       "react",
       "next/cache"
     ],
-    "lines": 108,
+    "lines": 110,
     "group": "frontend"
   },
   "src/app/(frontend)/gallery/[slug]/GalleryCollectionClient.tsx": {
@@ -1708,6 +1788,7 @@
   },
   "src/app/(frontend)/gallery/[slug]/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1722,7 +1803,7 @@
       "./GalleryCollectionClient",
       "@/lib/media-url"
     ],
-    "lines": 111,
+    "lines": 113,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/cancel/page.tsx": {
@@ -1740,6 +1821,7 @@
   },
   "src/app/(frontend)/shop/products/[slug]/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1758,7 +1840,7 @@
       "@/components/shop/WaitlistButton",
       "@/components/shop/StarRating"
     ],
-    "lines": 142,
+    "lines": 144,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/success/page.tsx": {
@@ -1791,6 +1873,7 @@
   },
   "src/app/(frontend)/shop/gift-vouchers/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1803,7 +1886,7 @@
       "react",
       "next/cache"
     ],
-    "lines": 84,
+    "lines": 86,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/checkout/page.tsx": {
@@ -1839,39 +1922,21 @@
   },
   "src/app/(frontend)/shop/[tripId]/page.tsx": {
     "exports": [
-      "metadata",
-      "default:function"
+      "dynamic",
+      "default:async"
     ],
     "types": [],
     "imports": [
       "payload",
       "@payload-config",
-      "next/navigation",
-      "react",
-      "next",
-      "@/lib/media-url",
-      "@/components/ui/destination-page/HeroSection",
-      "@/components/ui/destination-page/WhySection",
-      "@/components/ui/destination-page/IsThisForYouSection",
-      "@/components/ui/destination-page/TravelTransportSection",
-      "@/components/ui/destination-page/ItinerarySection",
-      "@/components/ui/destination-page/EquipmentSection",
-      "@/components/ui/destination-page/ReadinessChecklistSection",
-      "@/components/ui/destination-page/GuidesSection",
-      "@/components/ui/destination-page/AccommodationsSection",
-      "@/components/ui/destination-page/AdventureCtaSection",
-      "@/components/ui/destination-page/BookingCtaSection",
-      "@/components/ui/destination-page/FaqSection",
-      "@/components/ui/destination-page/OtherDestinationsSection",
-      "@/components/ui/destination-page/WhyTravelWithUsSection",
-      "@/components/ui/destination-page/DestinationPageAnimator",
-      "@/components/ui/destination-page/FloatingBookingBar"
+      "next/navigation"
     ],
-    "lines": 235,
+    "lines": 21,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/orders/[id]/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1887,11 +1952,12 @@
       "@/components/shop/OrderStatusBadge",
       "react"
     ],
-    "lines": 188,
+    "lines": 190,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/orders/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1907,11 +1973,12 @@
       "react",
       "@/components/shop/OrderStatusBadge"
     ],
-    "lines": 105,
+    "lines": 107,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1927,11 +1994,12 @@
       "@/components/shop/ProductCard",
       "@/lib/media-url"
     ],
-    "lines": 251,
+    "lines": 253,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/bundles/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1945,11 +2013,12 @@
       "@/lib/media-url",
       "react"
     ],
-    "lines": 120,
+    "lines": 122,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/bundles/[slug]/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1965,23 +2034,30 @@
       "@/components/shop/AddToCartButton",
       "react"
     ],
-    "lines": 175,
+    "lines": 177,
     "group": "frontend"
   },
   "src/app/(frontend)/about/page.tsx": {
     "exports": [
-      "metadata",
+      "dynamic",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
     "imports": [
-      "next"
+      "next",
+      "next/cache",
+      "payload",
+      "@payload-config",
+      "@/lib/media-url",
+      "@/components/ui/About"
     ],
-    "lines": 25,
+    "lines": 74,
     "group": "frontend"
   },
   "src/app/(frontend)/blog/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -1996,11 +2072,12 @@
       "next/cache",
       "react"
     ],
-    "lines": 77,
+    "lines": 79,
     "group": "frontend"
   },
   "src/app/(frontend)/blog/[slug]/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2015,7 +2092,7 @@
       "@/lib/media-url",
       "react"
     ],
-    "lines": 62,
+    "lines": 64,
     "group": "frontend"
   },
   "src/app/(frontend)/gift/page.tsx": {
@@ -2084,6 +2161,7 @@
   },
   "src/app/(frontend)/dashboard/ratings/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2099,7 +2177,7 @@
       "./RatingsClient",
       "../NoRegistrationGate"
     ],
-    "lines": 74,
+    "lines": 76,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/profile/page.tsx": {
@@ -2164,6 +2242,7 @@
   },
   "src/app/(frontend)/dashboard/vouchers/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2178,7 +2257,7 @@
       "@/lib/auth",
       "./VouchersClient"
     ],
-    "lines": 38,
+    "lines": 40,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/orders/OrdersClient.tsx": {
@@ -2195,6 +2274,7 @@
   },
   "src/app/(frontend)/dashboard/orders/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2209,7 +2289,7 @@
       "@/lib/auth",
       "./OrdersClient"
     ],
-    "lines": 38,
+    "lines": 40,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/DashboardClient.tsx": {
@@ -2227,6 +2307,7 @@
   },
   "src/app/(frontend)/dashboard/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2240,7 +2321,7 @@
       "@/lib/auth",
       "./DashboardClient"
     ],
-    "lines": 60,
+    "lines": 62,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/DashboardNav.tsx": {
@@ -2271,6 +2352,7 @@
   },
   "src/app/(frontend)/dashboard/registrations/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2285,7 +2367,7 @@
       "@/lib/auth",
       "./RegistrationsClient"
     ],
-    "lines": 38,
+    "lines": 40,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/wishlist/WishlistClient.tsx": {
@@ -2318,6 +2400,7 @@
   },
   "src/app/(frontend)/dashboard/media/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2333,7 +2416,7 @@
       "./MediaClient",
       "../NoRegistrationGate"
     ],
-    "lines": 74,
+    "lines": 76,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/media/MediaClient.tsx": {
@@ -2363,9 +2446,30 @@
     "lines": 22,
     "group": "frontend"
   },
+  "src/app/(frontend)/programs/page.tsx": {
+    "exports": [
+      "dynamic",
+      "metadata",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next",
+      "next/cache",
+      "react",
+      "next/link",
+      "next/image",
+      "@/lib/media-url"
+    ],
+    "lines": 141,
+    "group": "frontend"
+  },
   "src/app/(frontend)/programs/[slug]/page.tsx": {
     "exports": [
-      "metadata",
+      "dynamic",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -2393,11 +2497,12 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 230,
+    "lines": 249,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2410,11 +2515,12 @@
       "next/cache",
       "react"
     ],
-    "lines": 60,
+    "lines": 62,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/[slug]/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2430,7 +2536,7 @@
       "@/lib/media-url",
       "react"
     ],
-    "lines": 76,
+    "lines": 78,
     "group": "frontend"
   },
   "src/app/(frontend)/forgot-password/ForgotClient.tsx": {
@@ -2479,6 +2585,7 @@
   },
   "src/app/(frontend)/vouchers/[code]/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2491,7 +2598,7 @@
       "next/link",
       "react"
     ],
-    "lines": 139,
+    "lines": 141,
     "group": "frontend"
   },
   "src/app/(frontend)/vouchers/VouchersPageClient.tsx": {
@@ -2513,6 +2620,7 @@
   },
   "src/app/(frontend)/vouchers/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2527,7 +2635,7 @@
       "@/lib/auth",
       "./VouchersPageClient"
     ],
-    "lines": 65,
+    "lines": 67,
     "group": "frontend"
   },
   "src/app/(frontend)/reset-password/ResetClient.tsx": {
@@ -2559,6 +2667,7 @@
   },
   "src/app/(frontend)/preview/[id]/page.tsx": {
     "exports": [
+      "dynamic",
       "default:async"
     ],
     "types": [],
@@ -2571,11 +2680,12 @@
       "@/components/blocks/PuckRender",
       "@puckeditor/core"
     ],
-    "lines": 46,
+    "lines": 48,
     "group": "frontend"
   },
   "src/app/(frontend)/photographers/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2589,11 +2699,12 @@
       "@/lib/media-url",
       "react"
     ],
-    "lines": 77,
+    "lines": 79,
     "group": "frontend"
   },
   "src/app/(frontend)/photographers/[username]/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2610,11 +2721,12 @@
       "@/components/blocks/gallery/GalleryGridBlock",
       "@/lib/media-url"
     ],
-    "lines": 157,
+    "lines": 159,
     "group": "frontend"
   },
   "src/app/(frontend)/account/loyalty/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2628,11 +2740,12 @@
       "next",
       "react"
     ],
-    "lines": 207,
+    "lines": 209,
     "group": "frontend"
   },
   "src/app/(frontend)/account/wishlist/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2647,7 +2760,7 @@
       "next/link",
       "react"
     ],
-    "lines": 66,
+    "lines": 68,
     "group": "frontend"
   },
   "src/app/(frontend)/empire/page.tsx": {
@@ -2690,6 +2803,7 @@
   },
   "src/app/(frontend)/photos/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2702,11 +2816,67 @@
       "next/cache",
       "react"
     ],
-    "lines": 63,
+    "lines": 65,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/trips/page.tsx": {
+    "exports": [
+      "dynamic",
+      "metadata",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next",
+      "next/cache",
+      "react",
+      "next/link",
+      "next/image",
+      "@/lib/media-url"
+    ],
+    "lines": 168,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/trips/[slug]/page.tsx": {
+    "exports": [
+      "dynamic",
+      "generateMetadata",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/navigation",
+      "next",
+      "react",
+      "@/lib/media-url",
+      "@/components/ui/TrackRecentlyViewed",
+      "@/components/ui/destination-page/HeroSection",
+      "@/components/ui/destination-page/WhySection",
+      "@/components/ui/destination-page/IsThisForYouSection",
+      "@/components/ui/destination-page/TravelTransportSection",
+      "@/components/ui/destination-page/ItinerarySection",
+      "@/components/ui/destination-page/EquipmentSection",
+      "@/components/ui/destination-page/ReadinessChecklistSection",
+      "@/components/ui/destination-page/GuidesSection",
+      "@/components/ui/destination-page/AccommodationsSection",
+      "@/components/ui/destination-page/AdventureCtaSection",
+      "@/components/ui/destination-page/BookingCtaSection",
+      "@/components/ui/destination-page/FaqSection",
+      "@/components/ui/destination-page/OtherDestinationsSection",
+      "@/components/ui/destination-page/WhyTravelWithUsSection",
+      "@/components/ui/destination-page/DestinationPageAnimator",
+      "@/components/ui/destination-page/FloatingBookingBar"
+    ],
+    "lines": 257,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {
     "exports": [
+      "dynamic",
       "default:function"
     ],
     "types": [],
@@ -2714,20 +2884,21 @@
       "payload",
       "@payload-config",
       "react",
-      "@/components/ui/Hero",
       "@/components/ui/DestinationCarousel",
       "@/components/ui/StoriesCarouselSection",
       "@/components/ui/WhyTravelWithUs",
       "@/components/ui/FeaturedTravels",
       "@/components/ui/destination-page/WhyTravelWithUsSection",
       "@/components/ui/Testimonials",
-      "@/components/ui/CalendarCta"
+      "@/components/ui/CalendarCta",
+      "@/components/ui/ScrollReveal"
     ],
-    "lines": 69,
+    "lines": 75,
     "group": "frontend"
   },
   "src/app/(frontend)/[slug]/page.tsx": {
     "exports": [
+      "dynamic",
       "generateMetadata",
       "default:function"
     ],
@@ -2744,7 +2915,7 @@
       "@/components/blocks/PuckRender",
       "@puckeditor/core"
     ],
-    "lines": 83,
+    "lines": 85,
     "group": "frontend"
   },
   "src/app/(frontend)/login/LoginClient.tsx": {
@@ -2846,6 +3017,7 @@
       "@/components/admin/FeaturedTravelsVisualEditorButton",
       "@/components/admin/CalendarCtaVisualEditorButton",
       "@/components/admin/TestimonialsVisualEditorButton",
+      "@/components/admin/AboutVisualEditorButton",
       "@/components/admin/AdminLogo",
       "@/components/admin/AdminAfterLogin",
       "@/components/admin/AdminLoginBackground",
@@ -2853,7 +3025,7 @@
       "@/components/admin/StripeReconciliationView",
       "@payloadcms/next/rsc"
     ],
-    "lines": 87,
+    "lines": 89,
     "group": "payload-app"
   },
   "src/app/(payload)/layout.tsx": {
@@ -3139,7 +3311,7 @@
       "next/server",
       "next/cache"
     ],
-    "lines": 64,
+    "lines": 106,
     "group": "globals"
   },
   "src/payload/globals/Shop.ts": {
@@ -3152,7 +3324,7 @@
       "next/server",
       "next/cache"
     ],
-    "lines": 109,
+    "lines": 111,
     "group": "globals"
   },
   "src/payload/globals/Hero.ts": {
@@ -3166,7 +3338,7 @@
       "next/cache",
       "../hooks/revalidate"
     ],
-    "lines": 66,
+    "lines": 68,
     "group": "globals"
   },
   "src/payload/globals/Gallery.ts": {
@@ -3179,7 +3351,7 @@
       "next/cache",
       "next/server"
     ],
-    "lines": 63,
+    "lines": 65,
     "group": "globals"
   },
   "src/payload/globals/Navigation.ts": {
@@ -3193,7 +3365,7 @@
       "next/server",
       "../hooks/revalidate"
     ],
-    "lines": 76,
+    "lines": 78,
     "group": "globals"
   },
   "src/payload/globals/Footer.ts": {
@@ -3207,7 +3379,7 @@
       "../hooks/revalidate",
       "next/server"
     ],
-    "lines": 249,
+    "lines": 251,
     "group": "globals"
   },
   "src/payload/globals/DestinationCarousel.ts": {
@@ -3221,7 +3393,7 @@
       "next/cache",
       "../hooks/revalidate"
     ],
-    "lines": 66,
+    "lines": 68,
     "group": "globals"
   },
   "src/payload/globals/FeaturedTravels.ts": {
@@ -3231,10 +3403,24 @@
     "types": [],
     "imports": [
       "payload",
-      "next/server",
-      "next/cache"
+      "next/cache",
+      "next/server"
     ],
-    "lines": 49,
+    "lines": 53,
+    "group": "globals"
+  },
+  "src/payload/globals/About.ts": {
+    "exports": [
+      "About"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "next/cache",
+      "../hooks/revalidate",
+      "next/server"
+    ],
+    "lines": 153,
     "group": "globals"
   },
   "src/payload/globals/CalendarCta.ts": {
@@ -3247,7 +3433,7 @@
       "next/server",
       "next/cache"
     ],
-    "lines": 55,
+    "lines": 57,
     "group": "globals"
   },
   "src/payload/globals/SiteSettings.ts": {
@@ -3271,7 +3457,7 @@
       "next/server",
       "next/cache"
     ],
-    "lines": 45,
+    "lines": 47,
     "group": "globals"
   },
   "src/payload/payload.config.ts": {
@@ -3331,9 +3517,10 @@
       "./globals/FeaturedTravels",
       "./globals/CalendarCta",
       "./globals/TestimonialsSection",
-      "./collections/Testimonials"
+      "./collections/Testimonials",
+      "./globals/About"
     ],
-    "lines": 241,
+    "lines": 246,
     "group": "payload"
   },
   "src/payload/seeds/hero.ts": {
@@ -3431,7 +3618,7 @@
       "next/cache",
       "next/server"
     ],
-    "lines": 54,
+    "lines": 57,
     "group": "payload"
   },
   "src/payload/collections/Trips.ts": {
@@ -3446,7 +3633,7 @@
       "next/server",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 215,
+    "lines": 392,
     "group": "collections"
   },
   "src/payload/collections/EmailTemplates.ts": {
@@ -3538,7 +3725,7 @@
       "next/server",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 400,
+    "lines": 415,
     "group": "collections"
   },
   "src/payload/collections/Pages.ts": {
@@ -3588,7 +3775,7 @@
       "@payloadcms/richtext-lexical",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 187,
+    "lines": 189,
     "group": "collections"
   },
   "src/payload/collections/Orders.ts": {
@@ -3657,7 +3844,7 @@
       "next/server",
       "next/cache"
     ],
-    "lines": 53,
+    "lines": 55,
     "group": "collections"
   },
   "src/payload/collections/Bundles.ts": {
@@ -3671,7 +3858,7 @@
       "next/cache",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 145,
+    "lines": 147,
     "group": "collections"
   },
   "src/payload/collections/Testimonials.ts": {
@@ -3684,7 +3871,7 @@
       "next/server",
       "next/cache"
     ],
-    "lines": 71,
+    "lines": 73,
     "group": "collections"
   },
   "src/payload/collections/Users.ts": {
@@ -3741,7 +3928,7 @@
       "next/cache",
       "next/server"
     ],
-    "lines": 146,
+    "lines": 148,
     "group": "collections"
   },
   "src/payload/collections/Media.ts": {
@@ -3810,9 +3997,11 @@
     "types": [],
     "imports": [
       "payload",
-      "../hooks/revalidate"
+      "../hooks/revalidate",
+      "next/server",
+      "@/lib/stripe-product-sync"
     ],
-    "lines": 285,
+    "lines": 416,
     "group": "collections"
   },
   "src/payload/collections/Waitlist.ts": {
@@ -3968,9 +4157,12 @@
     ],
     "imports": [
       "next/image",
-      "next/link"
+      "next/link",
+      "react",
+      "gsap",
+      "gsap/ScrollTrigger"
     ],
-    "lines": 175,
+    "lines": 255,
     "group": "blocks"
   },
   "src/components/blocks/destination-carousel/DestinationCarouselBlock.tsx": {
@@ -3982,10 +4174,11 @@
       "react",
       "next/link",
       "next/image",
-      "gsap",
-      "@/lib/media-url"
+      "motion/react",
+      "@/lib/media-url",
+      "gsap"
     ],
-    "lines": 134,
+    "lines": 316,
     "group": "blocks"
   },
   "src/components/blocks/LivePreviewBlocks.tsx": {
@@ -4032,9 +4225,11 @@
     ],
     "types": [],
     "imports": [
-      "react"
+      "react",
+      "gsap",
+      "gsap/ScrollTrigger"
     ],
-    "lines": 173,
+    "lines": 285,
     "group": "blocks"
   },
   "src/components/blocks/EmbedBlockRenderer.tsx": {
@@ -4207,11 +4402,13 @@
     ],
     "imports": [
       "next/link",
-      "./icons/CameraIcon",
-      "./icons/GlobeIcon",
-      "./icons/CityIcon"
+      "react",
+      "gsap",
+      "gsap/ScrollTrigger",
+      "@/components/ui/destination-page/BookingDrawer",
+      "@/components/ui/WhyTravelWithUs"
     ],
-    "lines": 97,
+    "lines": 447,
     "group": "blocks"
   },
   "src/components/blocks/why-travel-with-us/icons/GlobeIcon.tsx": {
@@ -4265,9 +4462,13 @@
     ],
     "types": [],
     "imports": [
-      "next/link"
+      "next/link",
+      "next/image",
+      "react",
+      "gsap",
+      "gsap/ScrollTrigger"
     ],
-    "lines": 45,
+    "lines": 212,
     "group": "blocks"
   },
   "src/components/blocks/FooterBlockRenderer.tsx": {
@@ -4283,6 +4484,63 @@
       "@/components/ui/ShakingCredit"
     ],
     "lines": 189,
+    "group": "blocks"
+  },
+  "src/components/blocks/about/AboutAdventureBlock.tsx": {
+    "exports": [
+      "AboutAdventureBlock"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "gsap",
+      "gsap/ScrollTrigger"
+    ],
+    "lines": 161,
+    "group": "blocks"
+  },
+  "src/components/blocks/about/AboutWhoWeAreBlock.tsx": {
+    "exports": [
+      "AboutWhoWeAreBlock"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "next/image",
+      "gsap",
+      "gsap/ScrollTrigger"
+    ],
+    "lines": 149,
+    "group": "blocks"
+  },
+  "src/components/blocks/about/AboutPartnersBlock.tsx": {
+    "exports": [
+      "AboutPartnersBlock"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "next/image",
+      "next/link",
+      "gsap",
+      "gsap/ScrollTrigger"
+    ],
+    "lines": 183,
+    "group": "blocks"
+  },
+  "src/components/blocks/about/AboutHeroBlock.tsx": {
+    "exports": [
+      "AboutHeroBlock"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "next/image",
+      "next/link",
+      "gsap",
+      "gsap/ScrollTrigger"
+    ],
+    "lines": 190,
     "group": "blocks"
   },
   "src/components/blocks/BannerBlockRenderer.tsx": {
@@ -4614,6 +4872,17 @@
     "lines": 39,
     "group": "ui"
   },
+  "src/components/ui/FooterSocialCounter.tsx": {
+    "exports": [
+      "FooterSocialCounter"
+    ],
+    "types": [],
+    "imports": [
+      "react"
+    ],
+    "lines": 95,
+    "group": "ui"
+  },
   "src/components/ui/Hero.tsx": {
     "exports": [
       "Hero"
@@ -4683,9 +4952,10 @@
       "payload",
       "@payload-config",
       "@/components/blocks/calendar-cta/CalendarCtaBlock",
-      "./CalendarCtaEditButton"
+      "./CalendarCtaEditButton",
+      "@/lib/media-url"
     ],
-    "lines": 36,
+    "lines": 65,
     "group": "ui"
   },
   "src/components/ui/FeaturedTravels.tsx": {
@@ -4701,7 +4971,7 @@
       "@/components/blocks/featured-travels/FeaturedTravelsBlock",
       "./FeaturedTravelsEditButton"
     ],
-    "lines": 105,
+    "lines": 100,
     "group": "ui"
   },
   "src/components/ui/GalleryFilterBar.tsx": {
@@ -4738,7 +5008,20 @@
       "@/lib/cart-store",
       "next/navigation"
     ],
-    "lines": 147,
+    "lines": 164,
+    "group": "ui"
+  },
+  "src/components/ui/destination-page/BookingDrawer.tsx": {
+    "exports": [
+      "BookingDrawer"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "@/lib/cart-store",
+      "next/navigation"
+    ],
+    "lines": 200,
     "group": "ui"
   },
   "src/components/ui/destination-page/ItinerarySectionClient.tsx": {
@@ -4749,11 +5032,13 @@
     "types": [],
     "imports": [
       "react",
+      "gsap",
+      "gsap/ScrollTrigger",
       "./ItinerarySection",
       "./ItinerarySection",
       "@payloadcms/richtext-lexical/react"
     ],
-    "lines": 101,
+    "lines": 114,
     "group": "ui"
   },
   "src/components/ui/destination-page/WhyTravelWithUsSection.tsx": {
@@ -4762,9 +5047,26 @@
     ],
     "types": [],
     "imports": [
-      "next/link"
+      "next/link",
+      "next/image",
+      "react",
+      "gsap",
+      "gsap/ScrollTrigger"
     ],
-    "lines": 29,
+    "lines": 80,
+    "group": "ui"
+  },
+  "src/components/ui/destination-page/DestinationBookingController.tsx": {
+    "exports": [
+      "DestinationBookingController"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "./FloatingBookingBar",
+      "./BookingDrawer"
+    ],
+    "lines": 55,
     "group": "ui"
   },
   "src/components/ui/destination-page/GuidesSection.tsx": {
@@ -4774,9 +5076,12 @@
     "types": [],
     "imports": [
       "next/image",
+      "react",
+      "gsap",
+      "gsap/ScrollTrigger",
       "@/lib/media-url"
     ],
-    "lines": 106,
+    "lines": 158,
     "group": "ui"
   },
   "src/components/ui/destination-page/AccommodationsCarousel.tsx": {
@@ -4799,9 +5104,12 @@
     "imports": [
       "next/image",
       "next/link",
+      "react",
+      "gsap",
+      "gsap/ScrollTrigger",
       "@/lib/media-url"
     ],
-    "lines": 60,
+    "lines": 120,
     "group": "ui"
   },
   "src/components/ui/destination-page/AccommodationsSection.tsx": {
@@ -4834,9 +5142,12 @@
     ],
     "types": [],
     "imports": [
+      "react",
+      "gsap",
+      "gsap/ScrollTrigger",
       "@payloadcms/richtext-lexical/react"
     ],
-    "lines": 57,
+    "lines": 95,
     "group": "ui"
   },
   "src/components/ui/destination-page/HeroSection.tsx": {
@@ -4845,9 +5156,13 @@
     ],
     "types": [],
     "imports": [
-      "next/image"
+      "next/image",
+      "react",
+      "gsap",
+      "gsap/ScrollTrigger",
+      "./BookingDrawer"
     ],
-    "lines": 51,
+    "lines": 342,
     "group": "ui"
   },
   "src/components/ui/destination-page/IsThisForYouSection.tsx": {
@@ -4857,9 +5172,12 @@
     "types": [],
     "imports": [
       "next/image",
-      "@payloadcms/richtext-lexical/react"
+      "@payloadcms/richtext-lexical/react",
+      "react",
+      "gsap",
+      "gsap/ScrollTrigger"
     ],
-    "lines": 131,
+    "lines": 219,
     "group": "ui"
   },
   "src/components/ui/destination-page/TravelTransportSection.tsx": {
@@ -4880,7 +5198,7 @@
     ],
     "types": [],
     "imports": [],
-    "lines": 41,
+    "lines": 30,
     "group": "ui"
   },
   "src/components/ui/destination-page/ItinerarySection.tsx": {
@@ -4894,11 +5212,14 @@
     ],
     "imports": [
       "next/image",
+      "react",
+      "gsap",
+      "gsap/ScrollTrigger",
       "@payloadcms/richtext-lexical/react",
       "./ItinerarySectionClient",
       "@/lib/media-url"
     ],
-    "lines": 125,
+    "lines": 192,
     "group": "ui"
   },
   "src/components/ui/destination-page/WhySection.tsx": {
@@ -4909,9 +5230,11 @@
     "imports": [
       "next/image",
       "@payloadcms/richtext-lexical/react",
-      "react"
+      "react",
+      "gsap",
+      "gsap/ScrollTrigger"
     ],
-    "lines": 141,
+    "lines": 325,
     "group": "ui"
   },
   "src/components/ui/destination-page/BookingCtaSection.tsx": {
@@ -4921,9 +5244,12 @@
     "types": [],
     "imports": [
       "next/image",
-      "next/link"
+      "next/link",
+      "react",
+      "gsap",
+      "gsap/ScrollTrigger"
     ],
-    "lines": 147,
+    "lines": 232,
     "group": "ui"
   },
   "src/components/ui/destination-page/AdventureCtaSection.tsx": {
@@ -4933,9 +5259,12 @@
     "types": [],
     "imports": [
       "next/image",
+      "react",
+      "gsap",
+      "gsap/ScrollTrigger",
       "@/lib/media-url"
     ],
-    "lines": 78,
+    "lines": 133,
     "group": "ui"
   },
   "src/components/ui/destination-page/ReadinessChecklistSection.tsx": {
@@ -4948,7 +5277,18 @@
       "gsap",
       "canvas-confetti"
     ],
-    "lines": 121,
+    "lines": 119,
+    "group": "ui"
+  },
+  "src/components/ui/AboutEditButton.tsx": {
+    "exports": [
+      "AboutEditButton"
+    ],
+    "types": [],
+    "imports": [
+      "react"
+    ],
+    "lines": 46,
     "group": "ui"
   },
   "src/components/ui/NavbarClient.tsx": {
@@ -4976,13 +5316,12 @@
     ],
     "types": [],
     "imports": [
-      "next/cache",
       "payload",
       "@payload-config",
       "@/components/blocks/destination-carousel/DestinationCarouselBlock",
       "./DestinationCarouselEditButton"
     ],
-    "lines": 42,
+    "lines": 41,
     "group": "ui"
   },
   "src/components/ui/TripCard.tsx": {
@@ -4998,15 +5337,30 @@
     "exports": [
       "WhyTravelWithUs"
     ],
-    "types": [],
+    "types": [
+      "VideoCard"
+    ],
     "imports": [
       "payload",
       "@payload-config",
-      "next/cache",
       "@/components/blocks/why-travel-with-us/WhyTravelWithUsBlock",
-      "./WhyTravelWithUsEditButton"
+      "./WhyTravelWithUsEditButton",
+      "@/lib/media-url"
     ],
-    "lines": 35,
+    "lines": 74,
+    "group": "ui"
+  },
+  "src/components/ui/ScrollReveal.tsx": {
+    "exports": [
+      "ScrollReveal"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "gsap",
+      "gsap/ScrollTrigger"
+    ],
+    "lines": 52,
     "group": "ui"
   },
   "src/components/ui/WhyTravelWithUsEditButton.tsx": {
@@ -5018,6 +5372,19 @@
       "react"
     ],
     "lines": 51,
+    "group": "ui"
+  },
+  "src/components/ui/FooterShakingLink.tsx": {
+    "exports": [
+      "FooterShakingLink"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "gsap",
+      "next/link"
+    ],
+    "lines": 33,
     "group": "ui"
   },
   "src/components/ui/GalleryLightbox.tsx": {
@@ -5061,9 +5428,12 @@
       "./FooterForm",
       "./ShakingCredit",
       "./FooterEditButton",
-      "./FooterLogo"
+      "./FooterLogo",
+      "./FooterSocialCounter",
+      "./FooterShakingLink",
+      "./FooterReveal"
     ],
-    "lines": 323,
+    "lines": 312,
     "group": "ui"
   },
   "src/components/ui/Testimonials.tsx": {
@@ -5194,12 +5564,8 @@
       "HeroSection"
     ],
     "types": [],
-    "imports": [
-      "next/link",
-      "motion/react",
-      "@/lib/animations"
-    ],
-    "lines": 52,
+    "imports": [],
+    "lines": 5,
     "group": "ui"
   },
   "src/components/ui/FlatMapView.tsx": {
@@ -5260,6 +5626,19 @@
       "next/link"
     ],
     "lines": 122,
+    "group": "ui"
+  },
+  "src/components/ui/FooterReveal.tsx": {
+    "exports": [
+      "FooterReveal"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "gsap",
+      "gsap/ScrollTrigger"
+    ],
+    "lines": 43,
     "group": "ui"
   },
   "src/components/ui/GalleryMasonry.tsx": {
@@ -5332,6 +5711,25 @@
       "@/lib/media-url"
     ],
     "lines": 381,
+    "group": "ui"
+  },
+  "src/components/ui/About.tsx": {
+    "exports": [
+      "About"
+    ],
+    "types": [],
+    "imports": [
+      "next/cache",
+      "payload",
+      "@payload-config",
+      "@/lib/media-url",
+      "@/components/blocks/about/AboutHeroBlock",
+      "@/components/blocks/about/AboutAdventureBlock",
+      "@/components/blocks/about/AboutWhoWeAreBlock",
+      "@/components/blocks/about/AboutPartnersBlock",
+      "./AboutEditButton"
+    ],
+    "lines": 71,
     "group": "ui"
   },
   "src/components/forms/BookingFormWrapper.tsx": {
@@ -5554,6 +5952,15 @@
     "lines": 62,
     "group": "components"
   },
+  "src/components/admin/AboutVisualEditorButton.tsx": {
+    "exports": [
+      "AboutVisualEditorButton"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 36,
+    "group": "admin"
+  },
   "src/components/admin/VisualEditorButton.tsx": {
     "exports": [
       "VisualEditorButton"
@@ -5769,6 +6176,17 @@
       "payload"
     ],
     "lines": 57,
+    "group": "lib"
+  },
+  "src/lib/weather.ts": {
+    "exports": [
+      "fetchWeather"
+    ],
+    "types": [
+      "WeatherData"
+    ],
+    "imports": [],
+    "lines": 35,
     "group": "lib"
   },
   "src/lib/cart-store.ts": {
@@ -6031,9 +6449,13 @@
       "@/components/blocks/why-travel-with-us/WhyTravelWithUsBlock",
       "@/components/blocks/featured-travels/FeaturedTravelsBlock",
       "@/components/blocks/calendar-cta/CalendarCtaBlock",
-      "@/components/blocks/testimonials/TestimonialsBlock"
+      "@/components/blocks/testimonials/TestimonialsBlock",
+      "@/components/blocks/about/AboutHeroBlock",
+      "@/components/blocks/about/AboutAdventureBlock",
+      "@/components/blocks/about/AboutWhoWeAreBlock",
+      "@/components/blocks/about/AboutPartnersBlock"
     ],
-    "lines": 1603,
+    "lines": 1701,
     "group": "other"
   },
   "src/puck/puckAI.ts": {

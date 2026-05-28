@@ -127,6 +127,18 @@
       "size": 4
     },
     {
+      "id": "src/app/(puck)/puck/about/PuckAboutEditorClient.tsx",
+      "label": "about/PuckAboutEditorClient.tsx",
+      "group": "puck",
+      "size": 6
+    },
+    {
+      "id": "src/app/(puck)/puck/about/page.tsx",
+      "label": "about/page.tsx",
+      "group": "puck",
+      "size": 4
+    },
+    {
       "id": "src/app/(puck)/puck/hero/PuckHeroEditorClient.tsx",
       "label": "hero/PuckHeroEditorClient.tsx",
       "group": "puck",
@@ -343,6 +355,12 @@
       "size": 4
     },
     {
+      "id": "src/app/api/about-data/route.ts",
+      "label": "about-data/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/gift-voucher/route.ts",
       "label": "gift-voucher/route.ts",
       "group": "api",
@@ -465,6 +483,12 @@
     {
       "id": "src/app/api/puck/calendar-cta/route.ts",
       "label": "calendar-cta/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/puck/about/route.ts",
+      "label": "about/route.ts",
       "group": "api",
       "size": 4
     },
@@ -949,6 +973,12 @@
       "size": 4
     },
     {
+      "id": "src/app/(frontend)/programs/page.tsx",
+      "label": "programs/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
       "id": "src/app/(frontend)/programs/[slug]/page.tsx",
       "label": "[slug]/page.tsx",
       "group": "frontend",
@@ -1065,6 +1095,18 @@
     {
       "id": "src/app/(frontend)/photos/page.tsx",
       "label": "photos/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/trips/page.tsx",
+      "label": "trips/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "label": "[slug]/page.tsx",
       "group": "frontend",
       "size": 4
     },
@@ -1305,6 +1347,12 @@
     {
       "id": "src/payload/globals/FeaturedTravels.ts",
       "label": "globals/FeaturedTravels.ts",
+      "group": "globals",
+      "size": 6
+    },
+    {
+      "id": "src/payload/globals/About.ts",
+      "label": "globals/About.ts",
       "group": "globals",
       "size": 6
     },
@@ -1744,19 +1792,19 @@
       "id": "src/components/blocks/why-travel-with-us/icons/GlobeIcon.tsx",
       "label": "icons/GlobeIcon.tsx",
       "group": "blocks",
-      "size": 6
+      "size": 4
     },
     {
       "id": "src/components/blocks/why-travel-with-us/icons/CityIcon.tsx",
       "label": "icons/CityIcon.tsx",
       "group": "blocks",
-      "size": 6
+      "size": 4
     },
     {
       "id": "src/components/blocks/why-travel-with-us/icons/CameraIcon.tsx",
       "label": "icons/CameraIcon.tsx",
       "group": "blocks",
-      "size": 6
+      "size": 4
     },
     {
       "id": "src/components/blocks/navigation/NavigationLinksBlock.tsx",
@@ -1775,6 +1823,30 @@
       "label": "blocks/FooterBlockRenderer.tsx",
       "group": "blocks",
       "size": 6
+    },
+    {
+      "id": "src/components/blocks/about/AboutAdventureBlock.tsx",
+      "label": "about/AboutAdventureBlock.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/about/AboutWhoWeAreBlock.tsx",
+      "label": "about/AboutWhoWeAreBlock.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/about/AboutPartnersBlock.tsx",
+      "label": "about/AboutPartnersBlock.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/about/AboutHeroBlock.tsx",
+      "label": "about/AboutHeroBlock.tsx",
+      "group": "blocks",
+      "size": 8
     },
     {
       "id": "src/components/blocks/BannerBlockRenderer.tsx",
@@ -1939,10 +2011,16 @@
       "size": 6
     },
     {
+      "id": "src/components/ui/FooterSocialCounter.tsx",
+      "label": "ui/FooterSocialCounter.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
       "id": "src/components/ui/Hero.tsx",
       "label": "ui/Hero.tsx",
       "group": "ui",
-      "size": 6
+      "size": 4
     },
     {
       "id": "src/components/ui/GalleryKeyboardHints.tsx",
@@ -1993,6 +2071,12 @@
       "size": 10
     },
     {
+      "id": "src/components/ui/destination-page/BookingDrawer.tsx",
+      "label": "destination-page/BookingDrawer.tsx",
+      "group": "ui",
+      "size": 10
+    },
+    {
       "id": "src/components/ui/destination-page/ItinerarySectionClient.tsx",
       "label": "destination-page/ItinerarySectionClient.tsx",
       "group": "ui",
@@ -2003,6 +2087,12 @@
       "label": "destination-page/WhyTravelWithUsSection.tsx",
       "group": "ui",
       "size": 12
+    },
+    {
+      "id": "src/components/ui/destination-page/DestinationBookingController.tsx",
+      "label": "destination-page/DestinationBookingController.tsx",
+      "group": "ui",
+      "size": 6
     },
     {
       "id": "src/components/ui/destination-page/GuidesSection.tsx",
@@ -2095,6 +2185,12 @@
       "size": 10
     },
     {
+      "id": "src/components/ui/AboutEditButton.tsx",
+      "label": "ui/AboutEditButton.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
       "id": "src/components/ui/NavbarClient.tsx",
       "label": "ui/NavbarClient.tsx",
       "group": "ui",
@@ -2116,11 +2212,23 @@
       "id": "src/components/ui/WhyTravelWithUs.tsx",
       "label": "ui/WhyTravelWithUs.tsx",
       "group": "ui",
+      "size": 8
+    },
+    {
+      "id": "src/components/ui/ScrollReveal.tsx",
+      "label": "ui/ScrollReveal.tsx",
+      "group": "ui",
       "size": 6
     },
     {
       "id": "src/components/ui/WhyTravelWithUsEditButton.tsx",
       "label": "ui/WhyTravelWithUsEditButton.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
+      "id": "src/components/ui/FooterShakingLink.tsx",
+      "label": "ui/FooterShakingLink.tsx",
       "group": "ui",
       "size": 6
     },
@@ -2194,7 +2302,7 @@
       "id": "src/components/ui/TrackRecentlyViewed.tsx",
       "label": "ui/TrackRecentlyViewed.tsx",
       "group": "ui",
-      "size": 6
+      "size": 8
     },
     {
       "id": "src/components/ui/DestinationCarouselEditButton.tsx",
@@ -2239,6 +2347,12 @@
       "size": 10
     },
     {
+      "id": "src/components/ui/FooterReveal.tsx",
+      "label": "ui/FooterReveal.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
       "id": "src/components/ui/GalleryMasonry.tsx",
       "label": "ui/GalleryMasonry.tsx",
       "group": "ui",
@@ -2267,6 +2381,12 @@
       "label": "ui/CalendarTripCard.tsx",
       "group": "ui",
       "size": 14
+    },
+    {
+      "id": "src/components/ui/About.tsx",
+      "label": "ui/About.tsx",
+      "group": "ui",
+      "size": 6
     },
     {
       "id": "src/components/forms/BookingFormWrapper.tsx",
@@ -2374,6 +2494,12 @@
       "id": "src/components/shop/DiscountCodeInput.tsx",
       "label": "shop/DiscountCodeInput.tsx",
       "group": "components",
+      "size": 6
+    },
+    {
+      "id": "src/components/admin/AboutVisualEditorButton.tsx",
+      "label": "admin/AboutVisualEditorButton.tsx",
+      "group": "admin",
       "size": 6
     },
     {
@@ -2494,7 +2620,13 @@
       "id": "src/lib/stripe-product-sync.ts",
       "label": "lib/stripe-product-sync.ts",
       "group": "lib",
-      "size": 12
+      "size": 14
+    },
+    {
+      "id": "src/lib/weather.ts",
+      "label": "lib/weather.ts",
+      "group": "lib",
+      "size": 6
     },
     {
       "id": "src/lib/cart-store.ts",
@@ -2530,7 +2662,7 @@
       "id": "src/lib/animations.ts",
       "label": "lib/animations.ts",
       "group": "lib",
-      "size": 8
+      "size": 6
     },
     {
       "id": "src/lib/auth-client.ts",
@@ -2755,6 +2887,22 @@
       "target": "src/app/(puck)/puck/calendar-cta/PuckCalendarCtaEditorClient.tsx"
     },
     {
+      "source": "src/app/(puck)/puck/about/PuckAboutEditorClient.tsx",
+      "target": "src/puck/config.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/about/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/about/page.tsx",
+      "target": "src/app/(puck)/puck/about/PuckAboutEditorClient.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/about/page.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
       "source": "src/app/(puck)/puck/hero/PuckHeroEditorClient.tsx",
       "target": "src/puck/config.tsx"
     },
@@ -2935,6 +3083,14 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/about-data/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/about-data/route.ts",
+      "target": "src/lib/media-url.ts"
+    },
+    {
       "source": "src/app/api/hero-data/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -3036,6 +3192,10 @@
     },
     {
       "source": "src/app/api/puck/calendar-cta/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/about/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
@@ -3292,6 +3452,10 @@
     },
     {
       "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/lib/weather.ts"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
       "target": "src/components/ui/TrackRecentlyViewed.tsx"
     },
     {
@@ -3356,7 +3520,7 @@
     },
     {
       "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
-      "target": "src/components/ui/destination-page/FloatingBookingBar.tsx"
+      "target": "src/components/ui/destination-page/DestinationBookingController.tsx"
     },
     {
       "source": "src/app/(frontend)/signup/SignupClient.tsx",
@@ -3491,74 +3655,6 @@
       "target": "src/payload/payload.config.ts"
     },
     {
-      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
-      "target": "src/lib/media-url.ts"
-    },
-    {
-      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
-      "target": "src/components/ui/destination-page/HeroSection.tsx"
-    },
-    {
-      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
-      "target": "src/components/ui/destination-page/WhySection.tsx"
-    },
-    {
-      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
-      "target": "src/components/ui/destination-page/IsThisForYouSection.tsx"
-    },
-    {
-      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
-      "target": "src/components/ui/destination-page/TravelTransportSection.tsx"
-    },
-    {
-      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
-      "target": "src/components/ui/destination-page/ItinerarySection.tsx"
-    },
-    {
-      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
-      "target": "src/components/ui/destination-page/EquipmentSection.tsx"
-    },
-    {
-      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
-      "target": "src/components/ui/destination-page/ReadinessChecklistSection.tsx"
-    },
-    {
-      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
-      "target": "src/components/ui/destination-page/GuidesSection.tsx"
-    },
-    {
-      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
-      "target": "src/components/ui/destination-page/AccommodationsSection.tsx"
-    },
-    {
-      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
-      "target": "src/components/ui/destination-page/AdventureCtaSection.tsx"
-    },
-    {
-      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
-      "target": "src/components/ui/destination-page/BookingCtaSection.tsx"
-    },
-    {
-      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
-      "target": "src/components/ui/destination-page/FaqSection.tsx"
-    },
-    {
-      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
-      "target": "src/components/ui/destination-page/OtherDestinationsSection.tsx"
-    },
-    {
-      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
-      "target": "src/components/ui/destination-page/WhyTravelWithUsSection.tsx"
-    },
-    {
-      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
-      "target": "src/components/ui/destination-page/DestinationPageAnimator.tsx"
-    },
-    {
-      "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
-      "target": "src/components/ui/destination-page/FloatingBookingBar.tsx"
-    },
-    {
       "source": "src/app/(frontend)/shop/orders/[id]/page.tsx",
       "target": "src/lib/auth.ts"
     },
@@ -3613,6 +3709,18 @@
     {
       "source": "src/app/(frontend)/shop/bundles/[slug]/page.tsx",
       "target": "src/components/shop/AddToCartButton.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/about/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/about/page.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/about/page.tsx",
+      "target": "src/components/ui/About.tsx"
     },
     {
       "source": "src/app/(frontend)/blog/page.tsx",
@@ -3757,6 +3865,14 @@
     {
       "source": "src/app/(frontend)/dashboard/media/page.tsx",
       "target": "src/app/(frontend)/dashboard/NoRegistrationGate.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/programs/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/programs/page.tsx",
+      "target": "src/lib/media-url.ts"
     },
     {
       "source": "src/app/(frontend)/programs/[slug]/page.tsx",
@@ -3951,12 +4067,92 @@
       "target": "src/payload/payload.config.ts"
     },
     {
-      "source": "src/app/(frontend)/page.tsx",
+      "source": "src/app/(frontend)/trips/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/(frontend)/trips/page.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/components/ui/TrackRecentlyViewed.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/HeroSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/WhySection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/IsThisForYouSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/TravelTransportSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/ItinerarySection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/EquipmentSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/ReadinessChecklistSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/GuidesSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/AccommodationsSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/AdventureCtaSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/BookingCtaSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/FaqSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/OtherDestinationsSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/WhyTravelWithUsSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/DestinationPageAnimator.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/FloatingBookingBar.tsx"
+    },
+    {
       "source": "src/app/(frontend)/page.tsx",
-      "target": "src/components/ui/Hero.tsx"
+      "target": "src/payload/payload.config.ts"
     },
     {
       "source": "src/app/(frontend)/page.tsx",
@@ -3985,6 +4181,10 @@
     {
       "source": "src/app/(frontend)/page.tsx",
       "target": "src/components/ui/CalendarCta.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/page.tsx",
+      "target": "src/components/ui/ScrollReveal.tsx"
     },
     {
       "source": "src/app/(frontend)/[slug]/page.tsx",
@@ -4076,6 +4276,10 @@
     },
     {
       "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/AboutVisualEditorButton.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
       "target": "src/components/admin/AdminLogo.tsx"
     },
     {
@@ -4132,6 +4336,10 @@
     },
     {
       "source": "src/payload/globals/DestinationCarousel.ts",
+      "target": "src/payload/hooks/revalidate.ts"
+    },
+    {
+      "source": "src/payload/globals/About.ts",
       "target": "src/payload/hooks/revalidate.ts"
     },
     {
@@ -4308,6 +4516,10 @@
     },
     {
       "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/About.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
       "target": "src/lib/stripe-webhooks.ts"
     },
     {
@@ -4437,6 +4649,10 @@
     {
       "source": "src/payload/collections/Destinations.ts",
       "target": "src/payload/hooks/revalidate.ts"
+    },
+    {
+      "source": "src/payload/collections/Destinations.ts",
+      "target": "src/lib/stripe-product-sync.ts"
     },
     {
       "source": "src/components/blocks/FAQBlockRenderer.tsx",
@@ -4712,15 +4928,11 @@
     },
     {
       "source": "src/components/blocks/why-travel-with-us/WhyTravelWithUsBlock.tsx",
-      "target": "src/components/blocks/why-travel-with-us/icons/CameraIcon.tsx"
+      "target": "src/components/ui/destination-page/BookingDrawer.tsx"
     },
     {
       "source": "src/components/blocks/why-travel-with-us/WhyTravelWithUsBlock.tsx",
-      "target": "src/components/blocks/why-travel-with-us/icons/GlobeIcon.tsx"
-    },
-    {
-      "source": "src/components/blocks/why-travel-with-us/WhyTravelWithUsBlock.tsx",
-      "target": "src/components/blocks/why-travel-with-us/icons/CityIcon.tsx"
+      "target": "src/components/ui/WhyTravelWithUs.tsx"
     },
     {
       "source": "src/components/blocks/FooterBlockRenderer.tsx",
@@ -4923,6 +5135,10 @@
       "target": "src/components/ui/CalendarCtaEditButton.tsx"
     },
     {
+      "source": "src/components/ui/CalendarCta.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
       "source": "src/components/ui/FeaturedTravels.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -4943,8 +5159,20 @@
       "target": "src/lib/cart-store.ts"
     },
     {
+      "source": "src/components/ui/destination-page/BookingDrawer.tsx",
+      "target": "src/lib/cart-store.ts"
+    },
+    {
       "source": "src/components/ui/destination-page/ItinerarySectionClient.tsx",
       "target": "src/components/ui/destination-page/ItinerarySection.tsx"
+    },
+    {
+      "source": "src/components/ui/destination-page/DestinationBookingController.tsx",
+      "target": "src/components/ui/destination-page/FloatingBookingBar.tsx"
+    },
+    {
+      "source": "src/components/ui/destination-page/DestinationBookingController.tsx",
+      "target": "src/components/ui/destination-page/BookingDrawer.tsx"
     },
     {
       "source": "src/components/ui/destination-page/GuidesSection.tsx",
@@ -4961,6 +5189,10 @@
     {
       "source": "src/components/ui/destination-page/AccommodationsSection.tsx",
       "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/components/ui/destination-page/HeroSection.tsx",
+      "target": "src/components/ui/destination-page/BookingDrawer.tsx"
     },
     {
       "source": "src/components/ui/destination-page/ItinerarySection.tsx",
@@ -5015,6 +5247,10 @@
       "target": "src/components/ui/WhyTravelWithUsEditButton.tsx"
     },
     {
+      "source": "src/components/ui/WhyTravelWithUs.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
       "source": "src/components/ui/GalleryLightbox.tsx",
       "target": "src/lib/media-url.ts"
     },
@@ -5047,6 +5283,18 @@
       "target": "src/components/ui/FooterLogo.tsx"
     },
     {
+      "source": "src/components/ui/Footer.tsx",
+      "target": "src/components/ui/FooterSocialCounter.tsx"
+    },
+    {
+      "source": "src/components/ui/Footer.tsx",
+      "target": "src/components/ui/FooterShakingLink.tsx"
+    },
+    {
+      "source": "src/components/ui/Footer.tsx",
+      "target": "src/components/ui/FooterReveal.tsx"
+    },
+    {
       "source": "src/components/ui/Testimonials.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -5073,10 +5321,6 @@
     {
       "source": "src/components/ui/DestinationCarouselSection.tsx",
       "target": "src/components/ui/DestinationCard.tsx"
-    },
-    {
-      "source": "src/components/ui/HeroSection.tsx",
-      "target": "src/lib/animations.ts"
     },
     {
       "source": "src/components/ui/FlatMapView.tsx",
@@ -5125,6 +5369,34 @@
     {
       "source": "src/components/ui/CalendarTripCard.tsx",
       "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/components/ui/About.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/components/ui/About.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/components/ui/About.tsx",
+      "target": "src/components/blocks/about/AboutHeroBlock.tsx"
+    },
+    {
+      "source": "src/components/ui/About.tsx",
+      "target": "src/components/blocks/about/AboutAdventureBlock.tsx"
+    },
+    {
+      "source": "src/components/ui/About.tsx",
+      "target": "src/components/blocks/about/AboutWhoWeAreBlock.tsx"
+    },
+    {
+      "source": "src/components/ui/About.tsx",
+      "target": "src/components/blocks/about/AboutPartnersBlock.tsx"
+    },
+    {
+      "source": "src/components/ui/About.tsx",
+      "target": "src/components/ui/AboutEditButton.tsx"
     },
     {
       "source": "src/components/forms/BookingFormWrapper.tsx",
@@ -5392,6 +5664,22 @@
     },
     {
       "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/about/AboutHeroBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/about/AboutAdventureBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/about/AboutWhoWeAreBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/about/AboutPartnersBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
       "target": "src/puck/styleFields.tsx"
     },
     {
@@ -5407,6 +5695,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-05-25T06:54:44.923Z",
-  "fileCount": 440
+  "builtAt": "2026-05-28T08:44:53.017Z",
+  "fileCount": 462
 }
