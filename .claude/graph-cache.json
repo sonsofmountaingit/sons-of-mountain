@@ -1,6 +1,18 @@
 {
   "nodes": [
     {
+      "id": "src/migrations/20260528_add_missing_tables.ts",
+      "label": "migrations/20260528_add_missing_tables.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
+      "id": "src/migrations/index.ts",
+      "label": "migrations/index.ts",
+      "group": "other",
+      "size": 4
+    },
+    {
       "id": "src/seed/gallery.ts",
       "label": "seed/gallery.ts",
       "group": "other",
@@ -2774,6 +2786,10 @@
     }
   ],
   "edges": [
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260528_add_missing_tables.ts"
+    },
     {
       "source": "src/seed/gallery.ts",
       "target": "src/payload/payload.config.ts"
@@ -5695,6 +5711,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-05-28T08:44:53.017Z",
-  "fileCount": 462
+  "builtAt": "2026-05-28T08:58:15.603Z",
+  "fileCount": 464
 }
