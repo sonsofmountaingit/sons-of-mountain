@@ -5,6 +5,8 @@ import { GiftVoucherPurchaseForm } from './_components/GiftVoucherPurchaseForm'
 import { Suspense } from 'react'
 import { unstable_cache } from 'next/cache'
 
+export const dynamic = 'force-dynamic'
+
 
 export const metadata: Metadata = {
   title: 'Gift Vouchers — Sons of Mountains',

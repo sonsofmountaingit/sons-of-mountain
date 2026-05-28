@@ -21,10 +21,9 @@ function durationDays(start: string | null | undefined, end: string | null | und
   return Math.round(ms / 86400000)
 }
 
-const getData = unstable_cache(
-  async () => {
+const getData = unstable_cache(async () => {
     const payload = await getPayload({ config })
-    const g = await payload.findGlobal({ slug: 'featured-travels', depth: 2, overrideAccess: true }) as any
+    const g = await payload.findGlobal({ slug: 'featured-travels', depth: 2, overrideAccess: true, draft: true }) as any
 
     const rawItems: any[] = g?.items ?? []
 
@@ -44,27 +43,26 @@ const getData = unstable_cache(
           location: doc.name ?? '',
           month: doc.month ?? null,
           durationDays: null,
-          price: null,
+          price: doc.price ?? null,
           currency: 'EUR',
           spotsAvailable: doc.availableSpots ?? null,
           href: `/destinations/${doc.slug}`,
         }
       }
       if (kind === 'trips') {
-        const dest = doc.destination as any
         return {
           id: String(doc.id),
           kind: 'trip' as const,
           title: doc.title ?? '',
-          subtitle: dest?.introText ?? '',
-          image: dest?.heroImage?.url ? mediaUrl(dest.heroImage.url) : null,
-          location: dest?.name ?? '',
+          subtitle: doc.shortDescription ?? '',
+          image: doc.heroImage?.url ? mediaUrl(doc.heroImage.url) : null,
+          location: doc.location ?? '',
           month: monthFromDate(doc.startDate),
           durationDays: durationDays(doc.startDate, doc.endDate),
           price: doc.price ?? null,
           currency: doc.currency ?? 'EUR',
           spotsAvailable: doc.spotsAvailable ?? null,
-          href: `/shop/${doc.id}`,
+          href: doc.slug ? `/trips/${doc.slug}` : `/trips`,
         }
       }
       if (kind === 'programs') {
@@ -87,10 +85,7 @@ const getData = unstable_cache(
     }).filter(Boolean) as FeaturedTravelItem[]
 
     return { heading: g?.heading ?? 'ИЗБЕРИ СВОЕТО ПЪТУВАНЕ', items }
-  },
-  ['featured-travels'],
-  { tags: ['featured-travels'], revalidate: 3600 },
-)
+}, ['featured-travels-data'], { tags: ['featured-travels'], revalidate: 3600 })
 
 export async function FeaturedTravels() {
   const { heading, items } = await getData()

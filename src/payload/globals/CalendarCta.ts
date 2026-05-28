@@ -1,6 +1,8 @@
 import type { GlobalConfig } from 'payload'
 import { after } from 'next/server'
-import { revalidateTag } from 'next/cache'
+import { revalidateTag as _revalidateTag } from 'next/cache'
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const revalidateTag = (tag: string) => (_revalidateTag as any)(tag)
 
 export const CalendarCta: GlobalConfig = {
   slug: 'calendar-cta',
@@ -45,7 +47,7 @@ export const CalendarCta: GlobalConfig = {
     afterChange: [
       ({ doc }) => {
         try {
-          after(() => { revalidateTag('calendar-cta', 'max') })
+          after(() => { revalidateTag('calendar-cta') })
         } catch { /* outside request scope */ }
         return doc
       },

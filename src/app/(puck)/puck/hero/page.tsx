@@ -6,6 +6,8 @@ import { Suspense } from 'react'
 import type { Data } from '@puckeditor/core'
 import { PuckHeroEditorClient } from './PuckHeroEditorClient'
 
+export const dynamic = 'force-dynamic'
+
 async function EditorContent() {
   const requestHeaders = await headers()
   const payload = await getPayload({ config })

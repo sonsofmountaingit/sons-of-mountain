@@ -1,7 +1,6 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { Suspense } from 'react'
-import { Hero } from '@/components/ui/Hero'
 import { DestinationCarousel } from '@/components/ui/DestinationCarousel'
 import { StoriesCarouselSection } from '@/components/ui/StoriesCarouselSection'
 import { WhyTravelWithUs } from '@/components/ui/WhyTravelWithUs'
@@ -9,6 +8,9 @@ import { FeaturedTravels } from '@/components/ui/FeaturedTravels'
 import { WhyTravelWithUsSection } from '@/components/ui/destination-page/WhyTravelWithUsSection'
 import { Testimonials } from '@/components/ui/Testimonials'
 import { CalendarCta } from '@/components/ui/CalendarCta'
+import { ScrollReveal } from '@/components/ui/ScrollReveal'
+
+export const dynamic = 'force-dynamic'
 
 
 async function getStoriesData() {
@@ -33,36 +35,40 @@ async function StoriesSection() {
 export default function HomePage() {
   return (
     <div>
-      <div className="relative">
-        <Suspense fallback={null}>
-          <Hero />
-        </Suspense>
+      <ScrollReveal delay={0}>
         <Suspense fallback={null}>
           <DestinationCarousel />
         </Suspense>
-      </div>
+      </ScrollReveal>
 
-      <Suspense fallback={null}>
-        <WhyTravelWithUs />
-      </Suspense>
+      <ScrollReveal delay={0.05}>
+        <Suspense fallback={null}>
+          <WhyTravelWithUs />
+        </Suspense>
+      </ScrollReveal>
 
-      <Suspense fallback={null}>
-        <FeaturedTravels />
-      </Suspense>
+      <ScrollReveal delay={0.05}>
+        <Suspense fallback={null}>
+          <FeaturedTravels />
+        </Suspense>
+      </ScrollReveal>
 
       {/* <Suspense fallback={null}>
         <StoriesSection />
       </Suspense> */}
 
-      <Suspense fallback={null}>
-        <Testimonials />
-      </Suspense>
+      <ScrollReveal delay={0.05}>
+        <Suspense fallback={null}>
+          <Testimonials />
+        </Suspense>
+      </ScrollReveal>
 
-      <Suspense fallback={null}>
-        <CalendarCta />
-      </Suspense>
+      <ScrollReveal delay={0.05}>
+        <Suspense fallback={null}>
+          <CalendarCta />
+        </Suspense>
+      </ScrollReveal>
 
-      <WhyTravelWithUsSection />
     </div>
   )
 }

@@ -1,24 +1,27 @@
 import type { CollectionConfig } from 'payload'
-import { revalidateTag } from 'next/cache'
+import { revalidateTag as _revalidateTag } from 'next/cache'
 import { after } from 'next/server'
 import { syncStripeProduct } from '@/lib/stripe-product-sync'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const revalidateTag = (tag: string) => (_revalidateTag as any)(tag)
 const revalidatePrograms = ({ doc }: { doc: unknown }) => {
-  try { after(() => { revalidateTag('programs', 'max') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('programs') }) } catch { /* noop */ }
   return doc
 }
 const revalidateProgramsDelete = () => {
-  try { after(() => { revalidateTag('programs', 'max') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('programs') }) } catch { /* noop */ }
 }
 
 export const Programs: CollectionConfig = {
   slug: 'programs',
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'type', 'startDate', 'status', 'spotsAvailable'],
+    defaultColumns: ['title', 'type', 'location', 'price', 'spotsAvailable'],
     group: 'Пътувания',
   },
   fields: [
+    // Core identity
     {
       name: 'title',
       type: 'text',
@@ -47,18 +50,120 @@ export const Programs: CollectionConfig = {
       required: true,
       admin: { position: 'sidebar' },
     },
+    // Booking / pricing
     {
-      name: 'description',
-      type: 'richText',
+      name: 'price',
+      type: 'number',
+      required: true,
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'currency',
+      type: 'select',
+      options: ['BGN', 'EUR', 'USD'],
+      defaultValue: 'EUR',
+      required: true,
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'depositAmount',
+      type: 'number',
+      admin: { position: 'sidebar', description: 'Deposit amount to reserve a spot' },
+    },
+    {
+      name: 'earlyBirdPrice',
+      type: 'number',
+      admin: { description: 'Early bird discounted price' },
+    },
+    {
+      name: 'earlyBirdUntil',
+      type: 'date',
+      admin: { description: 'Early bird deadline' },
+    },
+    {
+      name: 'earlyBirdSpots',
+      type: 'number',
+      admin: { description: 'Number of early bird spots' },
+    },
+    {
+      name: 'spotsTotal',
+      type: 'number',
+      defaultValue: 12,
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'spotsAvailable',
+      type: 'number',
+      defaultValue: 12,
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'maxParticipantsPerRegistration',
+      type: 'number',
+      defaultValue: 4,
+      admin: { description: 'Max participants per booking' },
+    },
+    {
+      name: 'status',
+      type: 'select',
+      options: [
+        { label: 'Active', value: 'active' },
+        { label: 'Sold Out', value: 'soldOut' },
+        { label: 'Draft', value: 'draft' },
+      ],
+      defaultValue: 'active',
+      required: true,
+      admin: { position: 'sidebar' },
+    },
+    // Stripe — auto-managed
+    {
+      name: 'stripeProductId',
+      type: 'text',
+      admin: { readOnly: true, description: 'Stripe Product ID (auto-created)', position: 'sidebar' },
+    },
+    {
+      name: 'stripePriceId',
+      type: 'text',
+      admin: { readOnly: true, description: 'Stripe Price ID (auto-created)', position: 'sidebar' },
+    },
+    {
+      name: 'stripePaymentLinkId',
+      type: 'text',
+      admin: { readOnly: true, description: 'Stripe Payment Link ID', position: 'sidebar' },
+    },
+    {
+      name: 'stripePaymentLinkUrl',
+      type: 'text',
+      admin: { readOnly: true, description: 'Stripe Payment Link URL', position: 'sidebar' },
+    },
+    // Dates
+    {
+      name: 'startDate',
+      type: 'date',
+    },
+    {
+      name: 'endDate',
+      type: 'date',
+    },
+    // Content
+    {
+      name: 'heroImage',
+      type: 'upload',
+      relationTo: 'media',
+    },
+    {
+      name: 'previewVideo',
+      type: 'upload',
+      relationTo: 'media',
+      admin: { description: 'Short preview video (mp4) shown in the "Why Travel With Us" section.' },
     },
     {
       name: 'shortDescription',
       type: 'textarea',
     },
     {
-      name: 'heroImage',
-      type: 'upload',
-      relationTo: 'media',
+      name: 'description',
+      type: 'richText',
     },
     {
       name: 'gallery',
@@ -69,49 +174,9 @@ export const Programs: CollectionConfig = {
       ],
     },
     {
-      name: 'startDate',
-      type: 'date',
-      required: true,
-    },
-    {
-      name: 'endDate',
-      type: 'date',
-      required: true,
-    },
-    {
       name: 'location',
       type: 'text',
       admin: { description: 'e.g. Банско, България' },
-    },
-    {
-      name: 'destination',
-      type: 'relationship',
-      relationTo: 'destinations',
-    },
-    {
-      name: 'spotsTotal',
-      type: 'number',
-      defaultValue: 12,
-    },
-    {
-      name: 'spotsAvailable',
-      type: 'number',
-      defaultValue: 12,
-    },
-    {
-      name: 'price',
-      type: 'number',
-      required: true,
-    },
-    {
-      name: 'currency',
-      type: 'select',
-      options: ['BGN', 'EUR', 'USD'],
-      defaultValue: 'EUR',
-    },
-    {
-      name: 'depositAmount',
-      type: 'number',
     },
     {
       name: 'tags',
@@ -137,6 +202,7 @@ export const Programs: CollectionConfig = {
     {
       name: 'itinerary',
       type: 'array',
+      admin: { description: 'Sample itinerary' },
       fields: [
         { name: 'day', type: 'number', required: true },
         { name: 'title', type: 'text', required: true },
@@ -166,7 +232,7 @@ export const Programs: CollectionConfig = {
     {
       name: 'whyImages',
       type: 'array',
-      admin: { description: 'Images for the "Защо?" section — cycles automatically every 4s' },
+      admin: { description: 'Images for the "Защо?" section' },
       fields: [
         { name: 'image', type: 'upload', relationTo: 'media', required: true },
         { name: 'alt', type: 'text' },
@@ -243,6 +309,15 @@ export const Programs: CollectionConfig = {
       ],
     },
     {
+      name: 'communityPhotos',
+      type: 'array',
+      fields: [{ name: 'photo', type: 'upload', relationTo: 'media', required: true }],
+    },
+    {
+      name: 'priceIncludes',
+      type: 'textarea',
+    },
+    {
       name: 'durationDays',
       type: 'number',
       admin: { position: 'sidebar' },
@@ -253,22 +328,6 @@ export const Programs: CollectionConfig = {
       admin: { position: 'sidebar' },
     },
     {
-      name: 'priceIncludes',
-      type: 'textarea',
-    },
-    {
-      name: 'communityPhotos',
-      type: 'array',
-      fields: [
-        { name: 'photo', type: 'upload', relationTo: 'media', required: true },
-      ],
-    },
-    {
-      name: 'continent',
-      type: 'text',
-      admin: { position: 'sidebar' },
-    },
-    {
       name: 'instructor',
       type: 'group',
       fields: [
@@ -276,85 +335,6 @@ export const Programs: CollectionConfig = {
         { name: 'bio', type: 'textarea' },
         { name: 'photo', type: 'upload', relationTo: 'media' },
       ],
-    },
-    {
-      name: 'earlyBirdPrice',
-      type: 'number',
-    },
-    {
-      name: 'earlyBirdUntil',
-      type: 'date',
-    },
-    {
-      name: 'earlyBirdSpots',
-      type: 'number',
-    },
-    {
-      name: 'maxParticipantsPerRegistration',
-      type: 'number',
-      defaultValue: 4,
-    },
-    {
-      name: 'latitude',
-      type: 'number',
-      admin: { position: 'sidebar' },
-    },
-    {
-      name: 'longitude',
-      type: 'number',
-      admin: { position: 'sidebar' },
-    },
-    {
-      name: 'status',
-      type: 'select',
-      options: [
-        { label: 'Active', value: 'active' },
-        { label: 'Sold Out', value: 'soldOut' },
-        { label: 'Draft', value: 'draft' },
-      ],
-      defaultValue: 'active',
-      required: true,
-      admin: { position: 'sidebar' },
-    },
-    {
-      name: 'meta',
-      type: 'group',
-      fields: [
-        { name: 'title', type: 'text' },
-        { name: 'description', type: 'textarea' },
-        { name: 'image', type: 'upload', relationTo: 'media' },
-      ],
-    },
-    {
-      name: 'photographer',
-      type: 'relationship',
-      relationTo: 'users',
-      admin: { position: 'sidebar', description: 'Photographer/creator for this program' },
-    },
-    {
-      name: 'puckData',
-      type: 'json',
-      admin: { hidden: true },
-    },
-    {
-      name: 'stripeProductId',
-      type: 'text',
-      admin: { readOnly: true, description: 'Stripe Product ID (auto-created)', position: 'sidebar' },
-    },
-    {
-      name: 'stripePriceId',
-      type: 'text',
-      admin: { readOnly: true, description: 'Stripe Price ID (auto-created)', position: 'sidebar' },
-    },
-    {
-      name: 'stripePaymentLinkId',
-      type: 'text',
-      admin: { readOnly: true, description: 'Stripe Payment Link ID', position: 'sidebar' },
-    },
-    {
-      name: 'stripePaymentLinkUrl',
-      type: 'text',
-      admin: { readOnly: true, description: 'Stripe Payment Link URL', position: 'sidebar' },
     },
     {
       name: 'equipmentList',
@@ -381,6 +361,41 @@ export const Programs: CollectionConfig = {
       relationTo: 'guides',
       hasMany: true,
       label: 'Водачи',
+    },
+    {
+      name: 'photographer',
+      type: 'relationship',
+      relationTo: 'users',
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'continent',
+      type: 'text',
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'latitude',
+      type: 'number',
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'longitude',
+      type: 'number',
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'meta',
+      type: 'group',
+      fields: [
+        { name: 'title', type: 'text' },
+        { name: 'description', type: 'textarea' },
+        { name: 'image', type: 'upload', relationTo: 'media' },
+      ],
+    },
+    {
+      name: 'puckData',
+      type: 'json',
+      admin: { hidden: true },
     },
   ],
   hooks: {

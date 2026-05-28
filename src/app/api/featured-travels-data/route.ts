@@ -20,7 +20,7 @@ function durationDays(start: string | null | undefined, end: string | null | und
 
 export async function GET() {
   const payload = await getPayload({ config })
-  const g = await payload.findGlobal({ slug: 'featured-travels', depth: 2 }) as any
+  const g = await payload.findGlobal({ slug: 'featured-travels', depth: 2, overrideAccess: true, draft: true }) as any
 
   const rawItems: any[] = g?.items ?? []
 

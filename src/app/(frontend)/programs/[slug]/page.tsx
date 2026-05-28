@@ -21,10 +21,9 @@ import { WhyTravelWithUsSection } from '@/components/ui/destination-page/WhyTrav
 import { DestinationPageAnimator } from '@/components/ui/destination-page/DestinationPageAnimator'
 import { FloatingBookingBar } from '@/components/ui/destination-page/FloatingBookingBar'
 
-
+export const dynamic = 'force-dynamic'
 
 interface Props { params: Promise<{ slug: string }> }
-
 
 async function getProgramData(slug: string) {
   try {
@@ -35,6 +34,7 @@ async function getProgramData(slug: string) {
       where: { slug: { equals: slug } },
       limit: 1,
       depth: 2,
+      overrideAccess: true,
     })
     const program = docs[0] ?? null
     if (!program) return null
@@ -45,8 +45,9 @@ async function getProgramData(slug: string) {
         where: { slug: { not_equals: slug } },
         limit: 3,
         depth: 1,
+        overrideAccess: true,
       }),
-      payload.findGlobal({ slug: 'site-settings', depth: 0 }),
+      payload.findGlobal({ slug: 'site-settings', depth: 0, overrideAccess: true }),
     ])
 
     return { program, siblings: siblingsResult.docs, settings }
@@ -55,8 +56,16 @@ async function getProgramData(slug: string) {
   }
 }
 
-export const metadata: Metadata = {
-  title: 'Програма — Sons of Mountains',
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params
+  const data = await getProgramData(slug)
+  if (!data) return { title: 'Програма — Sons of Mountains' }
+  const { program } = data
+  const meta = (program as Record<string, unknown>).meta as { title?: string; description?: string } | null
+  return {
+    title: meta?.title ?? `${program.title} — Sons of Mountains`,
+    description: meta?.description ?? program.shortDescription ?? undefined,
+  }
 }
 
 async function ProgramContent({ params }: Props) {
@@ -85,13 +94,15 @@ async function ProgramContent({ params }: Props) {
 
   const programAsTripSummary = [{
     id: String(program.id),
+    slug: program.slug as string | null,
     startDate: program.startDate as string,
     endDate: program.endDate as string,
     spotsAvailable: program.spotsAvailable ?? 0,
     spotsTotal: program.spotsTotal ?? 0,
     price: program.price ?? 0,
     currency: (program.currency ?? 'EUR') as string,
-    status: (program.status ?? 'active') as string,
+    status: (p.status ?? 'active') as string,
+    depositAmount: (p.depositAmount as number | null) ?? null,
   }]
 
   const siblingCards = siblings.map((s) => ({
@@ -117,12 +128,20 @@ async function ProgramContent({ params }: Props) {
     },
   }
 
-  const whyImages = [
-    ...((whyImagesRaw ?? [])
+  const whyImages = (() => {
+    const explicit = (whyImagesRaw ?? [])
       .filter((w) => w.image?.url)
-      .map((w) => ({ url: mediaUrl(w.image!.url)!, alt: w.alt ?? w.image?.alt }))),
-    ...(whyImagesRaw?.length ? [] : whyImage?.url ? [{ url: mediaUrl(whyImage.url)!, alt: whyImage.alt }] : []),
-  ]
+      .map((w) => ({ url: mediaUrl(w.image!.url)!, alt: w.alt ?? w.image?.alt ?? undefined }))
+    if (explicit.length >= 2) return explicit
+    const pool: { url: string; alt?: string }[] = [...explicit]
+    if (whyImage?.url && !pool.length) pool.push({ url: mediaUrl(whyImage.url)!, alt: whyImage.alt ?? undefined })
+    const itineraryImgs = (itinerary ?? [])
+      .filter((i) => i.image?.url)
+      .map((i) => ({ url: mediaUrl(i.image!.url)!, alt: i.image?.alt ?? undefined }))
+    pool.push(...itineraryImgs)
+    if (heroImage?.url) pool.push({ url: mediaUrl(heroImage.url)!, alt: heroImage.alt ?? undefined })
+    return pool.slice(0, 2)
+  })()
 
   return (
     <article>
@@ -141,7 +160,7 @@ async function ProgramContent({ params }: Props) {
         tripTitle={program.title as string}
         itemType="program"
         spotsAvailable={program.spotsAvailable as number | null}
-        depositAmount={program.depositAmount as number | null}
+        depositAmount={p.depositAmount as number | null}
       />
 
       <HeroSection
@@ -179,9 +198,9 @@ async function ProgramContent({ params }: Props) {
       />
 
       <ItinerarySection itinerary={itinerary ?? []} />
-        <EquipmentSection items={(equipmentList ?? []).map(e => e.item)} />
-        <ReadinessChecklistSection categories={readinessChecklist ?? []} />
-        <GuidesSection guides={guides ?? []} />
+      <EquipmentSection items={(equipmentList ?? []).map(e => e.item)} />
+      <ReadinessChecklistSection categories={readinessChecklist ?? []} />
+      <GuidesSection guides={guides ?? []} />
 
       <AccommodationsSection accommodations={accommodations} />
 
@@ -215,7 +234,7 @@ async function ProgramContent({ params }: Props) {
         destinations={siblingCards}
       />
 
-      <WhyTravelWithUsSection />
+      <WhyTravelWithUsSection images={whyImages.length ? whyImages : heroImage?.url ? [{ url: mediaUrl(heroImage.url)!, alt: heroImage.alt }] : []} />
     </article>
   )
 }

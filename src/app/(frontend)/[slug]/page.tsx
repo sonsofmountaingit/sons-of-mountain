@@ -9,6 +9,8 @@ import { LivePreviewBlocks } from '@/components/blocks/LivePreviewBlocks'
 import { PuckRender } from '@/components/blocks/PuckRender'
 import type { Data } from '@puckeditor/core'
 
+export const dynamic = 'force-dynamic'
+
 
 type Args = { params: Promise<{ slug: string }> }
 

@@ -1,6 +1,8 @@
 import type { CollectionConfig } from 'payload'
 import { after } from 'next/server'
-import { revalidateTag } from 'next/cache'
+import { revalidateTag as _revalidateTag } from 'next/cache'
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const revalidateTag = (tag: string) => (_revalidateTag as any)(tag)
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { syncStripeProduct } from '@/lib/stripe-product-sync'
 
@@ -14,8 +16,8 @@ export const Products: CollectionConfig = {
   hooks: {
     afterChange: [
       async ({ doc, previousDoc, req }) => {
-        try { after(() => revalidateTag('products', 'max')) } catch { revalidateTag('products', 'max') }
-        try { after(() => revalidateTag(`product-${doc.slug}`, 'max')) } catch { revalidateTag(`product-${doc.slug}`, 'max') }
+        try { after(() => revalidateTag('products')) } catch { revalidateTag('products') }
+        try { after(() => revalidateTag(`product-${doc.slug}`)) } catch { revalidateTag(`product-${doc.slug}`) }
         // Trigger stock alerts when item comes back in stock
         if (previousDoc?.stock === 0 && doc.stock > 0) {
           try {
@@ -53,7 +55,7 @@ export const Products: CollectionConfig = {
         }
       },
     ],
-    afterDelete: [() => { after(() => revalidateTag('products', 'max')) }],
+    afterDelete: [() => { after(() => revalidateTag('products')) }],
   },
   fields: [
     {

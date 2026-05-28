@@ -7,6 +7,8 @@ import config from '@payload-config'
 import { auth } from '@/lib/auth'
 import { OrdersClient } from './OrdersClient'
 
+export const dynamic = 'force-dynamic'
+
 
 export const metadata: Metadata = {
   title: 'Моите поръчки — Sons of Mountains',

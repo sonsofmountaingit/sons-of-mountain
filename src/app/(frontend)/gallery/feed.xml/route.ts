@@ -2,6 +2,8 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { mediaUrl } from '@/lib/media-url'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({

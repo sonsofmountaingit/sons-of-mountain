@@ -33,6 +33,7 @@ import { WhyTravelWithUsVisualEditorButton as WhyTravelWithUsVisualEditorButton_
 import { FeaturedTravelsVisualEditorButton as FeaturedTravelsVisualEditorButton_1204740dad4b2a458354a95dbf8f34dd } from '@/components/admin/FeaturedTravelsVisualEditorButton'
 import { CalendarCtaVisualEditorButton as CalendarCtaVisualEditorButton_88a6d61a85d3db3c7f3b3d1daf1462fe } from '@/components/admin/CalendarCtaVisualEditorButton'
 import { TestimonialsVisualEditorButton as TestimonialsVisualEditorButton_81bf3cd4e881256ecd534cd1725c0801 } from '@/components/admin/TestimonialsVisualEditorButton'
+import { AboutVisualEditorButton as AboutVisualEditorButton_b4d3f89837ae7b094a52f32c2c5ef0e9 } from '@/components/admin/AboutVisualEditorButton'
 import { AdminLogo as AdminLogo_b80a86fce1072afc84cd6a430a965697 } from '@/components/admin/AdminLogo'
 import { AdminAfterLogin as AdminAfterLogin_420e5b234db0328ac2462abc35f96929 } from '@/components/admin/AdminAfterLogin'
 import { AdminLoginBackground as AdminLoginBackground_baef77fc865ae3a00a6eb857b0b83031 } from '@/components/admin/AdminLoginBackground'
@@ -77,6 +78,7 @@ export const importMap = {
   "@/components/admin/FeaturedTravelsVisualEditorButton#FeaturedTravelsVisualEditorButton": FeaturedTravelsVisualEditorButton_1204740dad4b2a458354a95dbf8f34dd,
   "@/components/admin/CalendarCtaVisualEditorButton#CalendarCtaVisualEditorButton": CalendarCtaVisualEditorButton_88a6d61a85d3db3c7f3b3d1daf1462fe,
   "@/components/admin/TestimonialsVisualEditorButton#TestimonialsVisualEditorButton": TestimonialsVisualEditorButton_81bf3cd4e881256ecd534cd1725c0801,
+  "@/components/admin/AboutVisualEditorButton#AboutVisualEditorButton": AboutVisualEditorButton_b4d3f89837ae7b094a52f32c2c5ef0e9,
   "@/components/admin/AdminLogo#AdminLogo": AdminLogo_b80a86fce1072afc84cd6a430a965697,
   "@/components/admin/AdminAfterLogin#AdminAfterLogin": AdminAfterLogin_420e5b234db0328ac2462abc35f96929,
   "@/components/admin/AdminLoginBackground#AdminLoginBackground": AdminLoginBackground_baef77fc865ae3a00a6eb857b0b83031,

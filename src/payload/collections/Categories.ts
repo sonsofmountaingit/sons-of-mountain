@@ -1,6 +1,8 @@
 import type { CollectionConfig } from 'payload'
 import { after } from 'next/server'
-import { revalidateTag } from 'next/cache'
+import { revalidateTag as _revalidateTag } from 'next/cache'
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const revalidateTag = (tag: string) => (_revalidateTag as any)(tag)
 
 export const Categories: CollectionConfig = {
   slug: 'categories',
@@ -10,8 +12,8 @@ export const Categories: CollectionConfig = {
     group: 'Shop',
   },
   hooks: {
-    afterChange: [() => { after(() => revalidateTag('categories', 'max')) }],
-    afterDelete: [() => { after(() => revalidateTag('categories', 'max')) }],
+    afterChange: [() => { after(() => revalidateTag('categories')) }],
+    afterDelete: [() => { after(() => revalidateTag('categories')) }],
   },
   fields: [
     {

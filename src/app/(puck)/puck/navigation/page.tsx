@@ -6,6 +6,8 @@ import { Suspense } from 'react'
 import type { Data } from '@puckeditor/core'
 import { PuckNavigationEditorClient } from './PuckNavigationEditorClient'
 
+export const dynamic = 'force-dynamic'
+
 async function EditorContent() {
   const requestHeaders = await headers()
   const payload = await getPayload({ config })

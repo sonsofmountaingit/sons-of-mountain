@@ -52,9 +52,14 @@ import { FeaturedTravels } from './globals/FeaturedTravels'
 import { CalendarCta } from './globals/CalendarCta'
 import { TestimonialsSection } from './globals/TestimonialsSection'
 import { Testimonials } from './collections/Testimonials'
+import { About } from './globals/About'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+
+// Stripe sync makes live API calls at init time, which hangs payload CLI commands
+// (generate, migrate). Skip sync when running under the payload CLI.
+const isPayloadCLI = process.argv.some(a => a.includes('payload') || a === 'generate:db' || a === 'migrate')
 
 export default buildConfig({
   admin: {
@@ -134,13 +139,13 @@ export default buildConfig({
     Payouts,
     Testimonials,
   ],
-  globals: [Navigation, Footer, SiteSettings, Hero, DestinationCarousel, Gallery, Shop, WhyTravelWithUs, FeaturedTravels, CalendarCta, TestimonialsSection],
+  globals: [Navigation, Footer, SiteSettings, Hero, DestinationCarousel, Gallery, Shop, WhyTravelWithUs, FeaturedTravels, CalendarCta, TestimonialsSection, About],
   plugins: [
     stripePlugin({
       stripeSecretKey: process.env.STRIPE_SECRET_KEY ?? '',
       stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOKS_ENDPOINT_SECRET ?? '',
       rest: false,
-      sync: [
+      sync: isPayloadCLI ? [] : [
         {
           collection: 'customers',
           stripeResourceType: 'customers',

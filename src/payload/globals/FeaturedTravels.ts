@@ -1,7 +1,9 @@
 import type { GlobalConfig } from 'payload'
+import { revalidateTag as _revalidateTag } from 'next/cache'
 import { after } from 'next/server'
-import { revalidateTag } from 'next/cache'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const revalidateTag = (tag: string) => (_revalidateTag as any)(tag)
 export const FeaturedTravels: GlobalConfig = {
   slug: 'featured-travels',
   admin: { group: 'Site Settings' },
@@ -39,8 +41,10 @@ export const FeaturedTravels: GlobalConfig = {
     afterChange: [
       ({ doc }) => {
         try {
-          after(() => revalidateTag('featured-travels', 'max'))
-        } catch { /* outside request scope */ }
+          after(() => {
+            revalidateTag('featured-travels')
+          })
+        } catch {}
         return doc
       },
     ],

@@ -1,6 +1,8 @@
 import type { GlobalConfig } from 'payload'
 import { after } from 'next/server'
-import { revalidateTag } from 'next/cache'
+import { revalidateTag as _revalidateTag } from 'next/cache'
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const revalidateTag = (tag: string) => (_revalidateTag as any)(tag)
 
 export const Shop: GlobalConfig = {
   slug: 'shop',
@@ -9,7 +11,7 @@ export const Shop: GlobalConfig = {
     description: 'Shop landing page content and settings',
   },
   hooks: {
-    afterChange: [() => { after(() => revalidateTag('shop', 'max')) }],
+    afterChange: [() => { after(() => revalidateTag('shop')) }],
   },
   fields: [
     {

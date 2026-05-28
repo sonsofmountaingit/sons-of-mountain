@@ -1,5 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { revalidateCollection, revalidateCollectionDelete } from '../hooks/revalidate'
+import { after } from 'next/server'
+import { syncStripeProduct } from '@/lib/stripe-product-sync'
 
 export const Destinations: CollectionConfig = {
   slug: 'destinations',
@@ -42,15 +44,129 @@ export const Destinations: CollectionConfig = {
       required: true,
     },
     {
+      name: 'heroVideo',
+      type: 'upload',
+      relationTo: 'media',
+      admin: { description: 'Optional background video (mp4). If set, plays instead of the hero image.' },
+    },
+    {
+      name: 'heroGallery',
+      type: 'array',
+      admin: { description: 'Additional images shown as thumbnails at the bottom-right of the hero.' },
+      fields: [
+        { name: 'image', type: 'upload', relationTo: 'media', required: true },
+        { name: 'alt', type: 'text' },
+      ],
+    },
+    {
       name: 'month',
       type: 'text',
-      admin: { position: 'sidebar', description: 'e.g. юли' },
+      admin: { position: 'sidebar', description: 'e.g. юли — typical month(s) this destination runs' },
+    },
+    {
+      name: 'price',
+      type: 'number',
+      min: 0,
+      admin: { position: 'sidebar', description: 'Starting price in EUR (shown on cards)' },
     },
     {
       name: 'availableSpots',
       type: 'number',
       min: 0,
       admin: { position: 'sidebar', description: 'Leave empty to hide the badge' },
+    },
+    {
+      name: 'durationDays',
+      type: 'number',
+      admin: { position: 'sidebar', description: 'Typical trip duration in days' },
+    },
+    {
+      name: 'maxParticipants',
+      type: 'number',
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'priceIncludes',
+      type: 'textarea',
+      admin: { description: 'Short subtitle under price, e.g. "Включва самолетни билети, всички нощувки..."' },
+    },
+    {
+      name: 'depositAmount',
+      type: 'number',
+      admin: { position: 'sidebar', description: 'Deposit amount to reserve a spot' },
+    },
+    {
+      name: 'earlyBirdPrice',
+      type: 'number',
+      admin: { description: 'Early bird discounted price' },
+    },
+    {
+      name: 'earlyBirdUntil',
+      type: 'date',
+      admin: { description: 'Early bird deadline' },
+    },
+    {
+      name: 'earlyBirdSpots',
+      type: 'number',
+      admin: { description: 'Number of early bird spots' },
+    },
+    {
+      name: 'spotsTotal',
+      type: 'number',
+      defaultValue: 12,
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'spotsAvailable',
+      type: 'number',
+      defaultValue: 12,
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'maxParticipantsPerRegistration',
+      type: 'number',
+      defaultValue: 4,
+      admin: { description: 'Max participants per booking' },
+    },
+    {
+      name: 'bookingStatus',
+      type: 'select',
+      options: [
+        { label: 'Active', value: 'active' },
+        { label: 'Sold Out', value: 'soldOut' },
+        { label: 'Unavailable', value: 'unavailable' },
+      ],
+      defaultValue: 'active',
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'startDate',
+      type: 'date',
+    },
+    {
+      name: 'endDate',
+      type: 'date',
+    },
+    // Stripe — auto-managed
+    {
+      name: 'stripeProductId',
+      type: 'text',
+      admin: { readOnly: true, position: 'sidebar' },
+    },
+    {
+      name: 'stripePriceId',
+      type: 'text',
+      admin: { readOnly: true, position: 'sidebar' },
+    },
+    {
+      name: 'stripePaymentLinkId',
+      type: 'text',
+      admin: { readOnly: true, position: 'sidebar' },
+    },
+    {
+      name: 'stripePaymentLinkUrl',
+      type: 'text',
+      admin: { readOnly: true, position: 'sidebar' },
     },
     {
       name: 'introText',
@@ -71,6 +187,16 @@ export const Destinations: CollectionConfig = {
       fields: [
         { name: 'heading', type: 'text' },
         { name: 'content', type: 'richText' },
+      ],
+    },
+    {
+      name: 'whyVideos',
+      type: 'array',
+      admin: { description: 'Videos shown in the "Защо?" section.' },
+      fields: [
+        { name: 'video', type: 'upload', relationTo: 'media', required: true },
+        { name: 'thumbnail', type: 'upload', relationTo: 'media' },
+        { name: 'label', type: 'text' },
       ],
     },
     {
@@ -172,21 +298,6 @@ export const Destinations: CollectionConfig = {
       fields: [{ name: 'item', type: 'text' }],
     },
     {
-      name: 'durationDays',
-      type: 'number',
-      admin: { position: 'sidebar', description: 'Trip duration in days' },
-    },
-    {
-      name: 'maxParticipants',
-      type: 'number',
-      admin: { position: 'sidebar' },
-    },
-    {
-      name: 'priceIncludes',
-      type: 'textarea',
-      admin: { description: 'Short subtitle under price, e.g. "Включва самолетни билети, всички нощувки..."' },
-    },
-    {
       name: 'communityPhotos',
       type: 'array',
       admin: { description: 'Traveler avatar photos for the community grid' },
@@ -198,6 +309,17 @@ export const Destinations: CollectionConfig = {
       name: 'continent',
       type: 'text',
       admin: { position: 'sidebar', description: 'e.g. Африка — used in "Други пътешествия в Африка"' },
+    },
+    {
+      name: 'departureCity',
+      type: 'text',
+      admin: { position: 'sidebar', description: 'e.g. София — shown in hero as "Излита от София"' },
+    },
+    {
+      name: 'tags',
+      type: 'array',
+      admin: { description: 'Tag chips shown in hero e.g. Фотография, Природа, Горила трекинг' },
+      fields: [{ name: 'label', type: 'text', required: true }],
     },
     {
       name: 'description',
@@ -278,7 +400,16 @@ export const Destinations: CollectionConfig = {
     },
   ],
   hooks: {
-    afterChange: [revalidateCollection('destinations', '/destinations')],
+    afterChange: [
+      revalidateCollection('destinations', '/destinations'),
+      async ({ doc, previousDoc, req }) => {
+        try {
+          after(() => syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'destinations', priceField: 'price' }))
+        } catch {
+          await syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'destinations', priceField: 'price' })
+        }
+      },
+    ],
     afterDelete: [revalidateCollectionDelete('destinations', '/destinations')],
   },
 }

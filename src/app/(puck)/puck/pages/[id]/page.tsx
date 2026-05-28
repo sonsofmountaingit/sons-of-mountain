@@ -7,6 +7,8 @@ import type { Data } from '@puckeditor/core'
 import { PuckEditorClient } from './PuckEditorClient'
 import { payloadLayoutToPuck } from '@/puck/converter'
 
+export const dynamic = 'force-dynamic'
+
 type Args = { params: Promise<{ id: string }> }
 
 const EMPTY_DATA: Data = { content: [], root: { props: {} } }

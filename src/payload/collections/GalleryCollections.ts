@@ -1,13 +1,15 @@
 import type { CollectionConfig } from 'payload'
-import { revalidateTag } from 'next/cache'
+import { revalidateTag as _revalidateTag } from 'next/cache'
 import { after } from 'next/server'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const revalidateTag = (tag: string) => (_revalidateTag as any)(tag)
 const revalidateGallery = ({ doc }: { doc: unknown }) => {
-  try { after(() => { revalidateTag('gallery-collections', 'max') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('gallery-collections') }) } catch { /* noop */ }
   return doc
 }
 const revalidateGalleryDelete = () => {
-  try { after(() => { revalidateTag('gallery-collections', 'max') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('gallery-collections') }) } catch { /* noop */ }
 }
 
 export const GalleryCollections: CollectionConfig = {

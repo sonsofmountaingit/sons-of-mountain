@@ -8,6 +8,8 @@ import { mediaUrl } from "@/lib/media-url"
 import { AddToCartButton } from '@/components/shop/AddToCartButton'
 import { Suspense } from 'react'
 
+export const dynamic = 'force-dynamic'
+
 
 export const metadata: Metadata = { title: 'Bundle — Sons of Mountains' }
 

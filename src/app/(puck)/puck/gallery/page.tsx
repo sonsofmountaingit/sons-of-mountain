@@ -6,6 +6,8 @@ import { Suspense } from 'react'
 import type { Data } from '@puckeditor/core'
 import { PuckGalleryEditorClient } from './PuckGalleryEditorClient'
 
+export const dynamic = 'force-dynamic'
+
 async function EditorContent() {
   const requestHeaders = await headers()
   const payload = await getPayload({ config })

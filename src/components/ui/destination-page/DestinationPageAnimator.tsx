@@ -26,7 +26,7 @@ export function DestinationPageAnimator() {
             ease: 'power2.out',
             scrollTrigger: {
               trigger: el,
-              start: 'top 88%',
+              start: 'top 90%',
               toggleActions: 'play none none none',
             },
           }

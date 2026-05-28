@@ -1,6 +1,8 @@
 import type { CollectionConfig } from 'payload'
 import { after } from 'next/server'
-import { revalidateTag } from 'next/cache'
+import { revalidateTag as _revalidateTag } from 'next/cache'
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const revalidateTag = (tag: string) => (_revalidateTag as any)(tag)
 import { syncStripeProduct } from '@/lib/stripe-product-sync'
 
 export const Bundles: CollectionConfig = {
@@ -12,7 +14,7 @@ export const Bundles: CollectionConfig = {
   },
   hooks: {
     afterChange: [
-      () => { after(() => revalidateTag('bundles', 'max')) },
+      () => { after(() => revalidateTag('bundles')) },
       async ({ doc, previousDoc, req }) => {
         try {
           after(() => syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'bundles', priceField: 'bundlePrice' }))
@@ -21,7 +23,7 @@ export const Bundles: CollectionConfig = {
         }
       },
     ],
-    afterDelete: [() => { after(() => revalidateTag('bundles', 'max')) }],
+    afterDelete: [() => { after(() => revalidateTag('bundles')) }],
   },
   fields: [
     {

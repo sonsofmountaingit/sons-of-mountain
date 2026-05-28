@@ -1,6 +1,8 @@
 import type { CollectionConfig } from 'payload'
 import { after } from 'next/server'
-import { revalidateTag } from 'next/cache'
+import { revalidateTag as _revalidateTag } from 'next/cache'
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const revalidateTag = (tag: string) => (_revalidateTag as any)(tag)
 
 export const Testimonials: CollectionConfig = {
   slug: 'testimonials',
@@ -53,7 +55,7 @@ export const Testimonials: CollectionConfig = {
     afterChange: [
       ({ doc }) => {
         try {
-          after(() => { revalidateTag('testimonials', 'max') })
+          after(() => { revalidateTag('testimonials') })
         } catch { /* outside request scope */ }
         return doc
       },
@@ -61,7 +63,7 @@ export const Testimonials: CollectionConfig = {
     afterDelete: [
       ({ doc }) => {
         try {
-          after(() => { revalidateTag('testimonials', 'max') })
+          after(() => { revalidateTag('testimonials') })
         } catch { /* outside request scope */ }
         return doc
       },

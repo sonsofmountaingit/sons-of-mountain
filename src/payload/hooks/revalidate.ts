@@ -1,6 +1,9 @@
 import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'payload'
-import { revalidatePath, revalidateTag } from 'next/cache'
+import { revalidatePath, revalidateTag as _revalidateTag } from 'next/cache'
 import { after } from 'next/server'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const revalidateTag = (tag: string) => (_revalidateTag as any)(tag)
 
 const safeAfter = (fn: () => void) => {
   try {
@@ -13,7 +16,7 @@ const safeAfter = (fn: () => void) => {
 export const revalidateCollection = (tag: string, path: string): CollectionAfterChangeHook => {
   return ({ doc }) => {
     safeAfter(() => {
-      revalidateTag(tag, 'max')
+      revalidateTag(tag)
       revalidatePath(path, 'page')
       if (doc?.slug) {
         revalidatePath(`${path}/${doc.slug}`, 'page')
@@ -26,7 +29,7 @@ export const revalidateCollection = (tag: string, path: string): CollectionAfter
 export const revalidateCollectionDelete = (tag: string, path: string): CollectionAfterDeleteHook => {
   return () => {
     safeAfter(() => {
-      revalidateTag(tag, 'max')
+      revalidateTag(tag)
       revalidatePath(path, 'page')
     })
   }

@@ -48,6 +48,10 @@ import { WhyTravelWithUsBlock } from '@/components/blocks/why-travel-with-us/Why
 import { FeaturedTravelsBlock } from '@/components/blocks/featured-travels/FeaturedTravelsBlock'
 import { CalendarCtaBlock } from '@/components/blocks/calendar-cta/CalendarCtaBlock'
 import { TestimonialsBlock } from '@/components/blocks/testimonials/TestimonialsBlock'
+import { AboutHeroBlock } from '@/components/blocks/about/AboutHeroBlock'
+import { AboutAdventureBlock } from '@/components/blocks/about/AboutAdventureBlock'
+import { AboutWhoWeAreBlock } from '@/components/blocks/about/AboutWhoWeAreBlock'
+import { AboutPartnersBlock } from '@/components/blocks/about/AboutPartnersBlock'
 
 import {
   allStyleFields,
@@ -200,6 +204,10 @@ export type PuckBlocks = {
   FeaturedTravelsBlock: { heading: string }
   CalendarCtaBlock: { heading: string; subheading: string; buttonText: string; buttonUrl: string }
   TestimonialsMarqueeBlock: { heading: string; subheading: string }
+  AboutHeroBlock: { heroHeading: string; heroSubtext: string; heroCtaLabel: string; heroCtaUrl: string; heroStatNumber: string; heroStatLabel: string; heroImageUrl: string }
+  AboutAdventureBlock: { adventureHeading: string; adventureSubtext: string; adventureActivities: string; adventureQuote: string; adventureQuoteBody: string }
+  AboutWhoWeAreBlock: { whoHeading: string; whoDescription: string; whoImage1Url: string; whoImage2Url: string }
+  AboutPartnersBlock: { partnersHeading: string; partnersSubtext: string; partnersCtaLabel: string; partnersCtaUrl: string; partners: { name: string; url: string; logoUrl: string | null }[] }
 }
 
 // ─── Config ───────────────────────────────────────────────────────────────────
@@ -213,6 +221,7 @@ export const puckConfig: Config<PuckBlocks> = {
     brand: { title: 'Team & Brand', components: ['TeamBlock', 'MediaLogosBlock', 'FAQBlock', 'AccordionBlock', 'TestimonialsGridBlock', 'IconGridBlock', 'FeatureCardsBlock', 'CounterBlock', 'TimelineBlock', 'TabbedContentBlock'], defaultExpanded: false },
     dynamic: { title: 'Dynamic (Live Data)', components: ['StoriesBlock', 'BlogPostsBlock', 'DestinationCarouselBlock', 'SocialFeedBlock', 'GalleryHeroBlock', 'GalleryGridBlock'], defaultExpanded: false },
     global: { title: 'Global', components: ['FooterBlock', 'NavigationLinksBlock', 'WhyTravelWithUsBlock', 'FeaturedTravelsBlock', 'CalendarCtaBlock', 'TestimonialsMarqueeBlock'], defaultExpanded: false },
+    about: { title: 'About Page', components: ['AboutHeroBlock', 'AboutAdventureBlock', 'AboutWhoWeAreBlock', 'AboutPartnersBlock'], defaultExpanded: false },
   },
 
   components: {
@@ -1541,6 +1550,95 @@ export const puckConfig: Config<PuckBlocks> = {
           <p style={{ fontSize: 12, opacity: 0.3 }}>Testimonials cards are managed in Payload Admin → Content → Testimonials.</p>
         </div>
       ),
+    },
+
+    // ── ABOUT PAGE BLOCKS ─────────────────────────────────────────────────────
+    AboutHeroBlock: {
+      label: 'About — Hero',
+      fields: {
+        heroHeading: { type: 'text', label: 'Heading' },
+        heroSubtext: { type: 'text', label: 'Subtext' },
+        heroCtaLabel: { type: 'text', label: 'CTA Label' },
+        heroCtaUrl: { type: 'text', label: 'CTA URL' },
+        heroStatNumber: { type: 'text', label: 'Stat Number' },
+        heroStatLabel: { type: 'text', label: 'Stat Label' },
+        heroImageUrl: { type: 'text', label: 'Hero Image URL (from Payload)' },
+      },
+      defaultProps: {
+        heroHeading: 'Ние сме синовете на планините',
+        heroSubtext: 'Организираме пътешествия до места, за които повечето хора само мечтаят.',
+        heroCtaLabel: 'Разгледай пътуванията',
+        heroCtaUrl: '/destinations',
+        heroStatNumber: '4 200+',
+        heroStatLabel: 'пътешественици с нас',
+        heroImageUrl: '',
+      },
+      render: (props: any) => <AboutHeroBlock {...props} />,
+    },
+
+    AboutAdventureBlock: {
+      label: 'About — Adventure',
+      fields: {
+        adventureHeading: { type: 'text', label: 'Heading' },
+        adventureSubtext: { type: 'text', label: 'Subtext' },
+        adventureActivities: { type: 'text', label: 'Activities (·-separated)' },
+        adventureQuote: { type: 'textarea', label: 'Quote' },
+        adventureQuoteBody: { type: 'textarea', label: 'Quote Body' },
+      },
+      defaultProps: {
+        adventureHeading: 'Хвърли се в приключение!',
+        adventureSubtext: 'Не знаеш как? Спокой, ще ти дадем парашут или като минимум най-добрия маршрут!',
+        adventureActivities: 'Каякинг · Риболов · Палатки · Хайкинг · Кемпер · Готвене на открито',
+        adventureQuote: 'Не обичаме да ни слагат в рамки и all inclusive програми.',
+        adventureQuoteBody: 'Затова създадохме нашата нестандартна концепция.',
+      },
+      render: (props: any) => <AboutAdventureBlock {...props} />,
+    },
+
+    AboutWhoWeAreBlock: {
+      label: 'About — Who We Are',
+      fields: {
+        whoHeading: { type: 'text', label: 'Heading' },
+        whoDescription: { type: 'textarea', label: 'Description' },
+        whoImage1Url: { type: 'text', label: 'Photo 1 URL' },
+        whoImage2Url: { type: 'text', label: 'Photo 2 URL' },
+      },
+      defaultProps: {
+        whoHeading: 'Кои сме ние?',
+        whoDescription: 'Ние сме приключенци като теб.',
+        whoImage1Url: '',
+        whoImage2Url: '',
+      },
+      render: (props: any) => <AboutWhoWeAreBlock {...props} />,
+    },
+
+    AboutPartnersBlock: {
+      label: 'About — Partners',
+      fields: {
+        partnersHeading: { type: 'text', label: 'Heading' },
+        partnersSubtext: { type: 'text', label: 'Subtext' },
+        partnersCtaLabel: { type: 'text', label: 'CTA Label' },
+        partnersCtaUrl: { type: 'text', label: 'CTA URL' },
+        partners: {
+          type: 'array',
+          label: 'Partners',
+          arrayFields: {
+            name: { type: 'text', label: 'Name' },
+            url: { type: 'text', label: 'Website URL' },
+            logoUrl: { type: 'text', label: 'Logo URL' },
+          },
+          defaultItemProps: { name: 'Partner', url: '', logoUrl: null },
+          getItemSummary: (item: any) => item.name || 'Partner',
+        },
+      },
+      defaultProps: {
+        partnersHeading: 'Нашите партньори',
+        partnersSubtext: 'Колаборираме с любимите си брандове и медии',
+        partnersCtaLabel: 'Стани наш партньор',
+        partnersCtaUrl: '/contact',
+        partners: [],
+      },
+      render: (props: any) => <AboutPartnersBlock {...props} />,
     },
   },
 
