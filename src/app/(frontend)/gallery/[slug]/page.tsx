@@ -64,7 +64,7 @@ async function getCollectionWithPhotographer(slug: string) {
       return { collection, photographerCollections, photographerStats }
     },
     [`gallery-collection-full-${slug}`],
-    { tags: ['gallery-collections'], revalidate: 3600 }
+    { tags: ['gallery-collections'], revalidate: false }
   )()
 }
 

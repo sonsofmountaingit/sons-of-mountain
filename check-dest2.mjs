@@ -1,0 +1,11 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch({ headless: true });
+const p = await b.newPage();
+await p.goto('http://localhost:3000/destinations', { waitUntil: 'networkidle', timeout: 15000 });
+await p.waitForTimeout(3000);
+const allLinks = await p.locator('a[href*="/destinations/"]').all();
+const hrefs = await Promise.all(allLinks.map(l => l.getAttribute('href')));
+console.log('All dest hrefs:', hrefs);
+const allH3 = await p.locator('h3').allTextContents();
+console.log('All H3:', allH3);
+await b.close();

@@ -28,7 +28,7 @@ const getVoucherOptions = unstable_cache(
     }
   },
   ['gift-voucher-options'],
-  { tags: ['destinations', 'trips', 'programs'], revalidate: 3600 },
+  { tags: ['destinations', 'trips', 'programs'], revalidate: false },
 )
 
 async function GiftVouchersContent() {

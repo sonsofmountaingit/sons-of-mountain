@@ -3,11 +3,11 @@ import { revalidatePath, revalidateTag as _revalidateTag } from 'next/cache'
 import { after } from 'next/server'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const revalidateTag = (tag: string) => (_revalidateTag as any)(tag)
+const revalidateTag = _revalidateTag
 
 const safeAfter = (fn: () => void) => {
   try {
-    after(fn)
+    after(() => { try { fn() } catch {} })
   } catch {
     // Outside request scope (e.g. seeding) — skip revalidation.
   }

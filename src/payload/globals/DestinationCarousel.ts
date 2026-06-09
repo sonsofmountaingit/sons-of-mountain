@@ -2,12 +2,12 @@ import type { GlobalConfig } from 'payload'
 import { after } from 'next/server'
 import { revalidateTag as _revalidateTag } from 'next/cache'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const revalidateTag = (tag: string) => (_revalidateTag as any)(tag)
+const revalidateTag = _revalidateTag
 import { revalidateGlobal } from '../hooks/revalidate'
 
 const revalidateCarouselTag = ({ doc }: { doc: unknown }) => {
   try {
-    after(() => { revalidateTag('destination-carousel') })
+    after(() => { try { revalidateTag('destination-carousel') } catch {} })
   } catch { /* outside request scope */ }
   return doc
 }

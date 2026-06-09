@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -13,6 +13,7 @@ interface Testimonial {
   rating: number
   row: 'top' | 'bottom'
   avatar?: { url?: string; alt?: string } | null
+  cardImage?: { url?: string; alt?: string } | null
 }
 
 interface Props {
@@ -22,144 +23,296 @@ interface Props {
   bottomRow: Testimonial[]
 }
 
-function Stars({ count }: { count: number }) {
-  return (
-    <div style={{ display: 'flex', gap: '3px' }}>
-      {Array.from({ length: 5 }).map((_, i) => (
-        <svg key={i} width="12" height="12" viewBox="0 0 24 24" fill={i < count ? '#ffffff' : 'rgba(255,255,255,0.18)'}>
-          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-        </svg>
-      ))}
-    </div>
-  )
-}
-
-function Avatar({ t }: { t: Testimonial }) {
+function Avatar({ t, size = 52 }: { t: Testimonial; size?: number }) {
   const initials = t.authorName.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
-  const palette = ['#6d28d9', '#0d9488', '#b45309', '#c0442a', '#1d4ed8', '#be185d']
+  const palette = ['#2d2d2d', '#3d3d3d', '#4a4a4a', '#555', '#444', '#333']
   const color = palette[t.authorName.charCodeAt(0) % palette.length]
 
   if (t.avatar?.url) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
-      <img src={t.avatar.url} alt={t.authorName} style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, border: '2px solid rgba(255,255,255,0.12)' }} />
+      <img
+        src={t.avatar.url}
+        alt={t.authorName}
+        style={{
+          width: size,
+          height: size,
+          borderRadius: '50%',
+          objectFit: 'cover',
+          flexShrink: 0,
+          border: '2px solid #e8e8e8',
+        }}
+      />
     )
   }
   return (
-    <div style={{ width: 44, height: 44, borderRadius: '50%', background: `linear-gradient(135deg, ${color}, ${color}99)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.72rem', fontWeight: 800, color: '#fff', flexShrink: 0, letterSpacing: '0.05em' }}>
+    <div style={{
+      width: size,
+      height: size,
+      borderRadius: '50%',
+      background: `linear-gradient(135deg, ${color}, ${color}cc)`,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: size * 0.3 + 'px',
+      fontWeight: 700,
+      color: '#fff',
+      flexShrink: 0,
+      letterSpacing: '0.03em',
+    }}>
       {initials}
     </div>
   )
 }
 
-const DESTINATION_TAGS = ['Patagonia', 'Alps', 'Dolomites', 'Iceland', 'Nepal', 'Atlas', 'Pyrenees', 'Rockies', 'Andes', 'Carpathians']
+const ROLES = [
+  'Mountain Guide', 'Adventure Traveler', 'Photography Enthusiast',
+  'Trekking Expert', 'Nature Explorer', 'Wilderness Guide',
+  'Travel Blogger', 'Outdoor Photographer', 'Summit Climber', 'Trail Runner',
+]
 
-function DestinationBadge({ name }: { name: string }) {
+function SignatureName({ name }: { name: string }) {
   return (
-    <span style={{
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: '0.3rem',
-      fontSize: '0.65rem',
-      fontWeight: 600,
-      letterSpacing: '0.06em',
-      textTransform: 'uppercase',
-      color: 'rgba(255,255,255,0.5)',
-      background: 'rgba(255,255,255,0.06)',
-      border: '1px solid rgba(255,255,255,0.1)',
-      borderRadius: '999px',
-      padding: '0.2rem 0.6rem',
-    }}>
-      <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-        <circle cx="12" cy="10" r="3" />
-      </svg>
-      {name}
-    </span>
+    <>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap');`}</style>
+      <span style={{
+        fontFamily: "'Caveat', cursive",
+        fontWeight: 600,
+        fontSize: '1.4rem',
+        color: '#ffffff',
+        letterSpacing: '0.01em',
+        display: 'block',
+        lineHeight: 1.2,
+      }}>
+        {name}
+      </span>
+    </>
   )
 }
 
-function Card({ t }: { t: Testimonial }) {
-  const tag = DESTINATION_TAGS[t.authorName.charCodeAt(0) % DESTINATION_TAGS.length]
+function Modal({ t, onClose }: { t: Testimonial; onClose: () => void }) {
+  const role = ROLES[t.authorName.charCodeAt(0) % ROLES.length]
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    document.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = ''
+    }
+  }, [onClose])
 
   return (
-    <div style={{
-      background: 'rgba(255,255,255,0.03)',
-      border: '1px solid rgba(255,255,255,0.08)',
-      borderRadius: '1.75rem',
-      padding: '1.5rem 1.75rem',
-      width: 'min(330px, 80vw)',
-      flexShrink: 0,
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '0',
-      minHeight: '220px',
-      position: 'relative',
-      overflow: 'hidden',
-      transition: 'border-color 0.2s',
-    }}>
-      {/* subtle shine line */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: '20%',
-        right: '20%',
-        height: '1px',
-        background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.22), transparent)',
-        pointerEvents: 'none',
-      }} />
+    <div
+      onClick={onClose}
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 9999,
+        background: 'rgba(0,0,0,0.35)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '1.5rem',
+      }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{
+          background: '#ffffff',
+          borderRadius: '1.5rem',
+          padding: '2.5rem',
+          maxWidth: '500px',
+          width: '100%',
+          position: 'relative',
+          boxShadow: '0 24px 80px rgba(0,0,0,0.12)',
+        }}
+      >
+        <button
+          onClick={onClose}
+          style={{
+            position: 'absolute',
+            top: '1.25rem',
+            right: '1.25rem',
+            background: '#f4f4f4',
+            border: 'none',
+            borderRadius: '50%',
+            width: 32,
+            height: 32,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            color: '#666',
+          }}
+          aria-label="Close"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
 
-      {/* large quote mark */}
-      <div style={{
-        position: 'absolute',
-        top: '0.75rem',
-        right: '1.25rem',
-        fontSize: '5rem',
-        lineHeight: 1,
-        color: 'rgba(255,255,255,0.04)',
-        fontFamily: 'Georgia, serif',
-        userSelect: 'none',
-        pointerEvents: 'none',
-      }}>
-        &ldquo;
-      </div>
+        <div style={{ marginBottom: '1.75rem' }}>
+          <Avatar t={t} size={56} />
+        </div>
 
-      {/* top row: avatar + name + stars */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.875rem', marginBottom: '1rem' }}>
-        <Avatar t={t} />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
-          <span style={{ fontSize: '0.875rem', fontWeight: 700, color: '#ffffff', letterSpacing: '0.01em', lineHeight: 1.2 }}>{t.authorName}</span>
-          <Stars count={t.rating} />
+        <p style={{
+          fontSize: '1rem',
+          color: '#444',
+          lineHeight: 1.78,
+          margin: '0 0 2.5rem 0',
+        }}>
+          &ldquo;{t.quote}&rdquo;
+        </p>
+
+        <div style={{ borderTop: '1px solid #ebebeb', paddingTop: '1.5rem' }}>
+          <span style={{
+            fontFamily: "'Caveat', cursive",
+            fontWeight: 600,
+            fontSize: '1.5rem',
+            color: '#1a1a1a',
+            display: 'block',
+            lineHeight: 1.2,
+          }}>{t.authorName}</span>
+          <span style={{ fontSize: '0.8rem', color: '#888', marginTop: '0.25rem', display: 'block' }}>{role}</span>
         </div>
       </div>
-
-      {/* quote */}
-      <p style={{
-        fontSize: '0.875rem',
-        color: 'rgba(255,255,255,0.6)',
-        lineHeight: 1.72,
-        margin: '0 0 1.25rem 0',
-        flex: 1,
-        display: '-webkit-box',
-        WebkitLineClamp: 4,
-        WebkitBoxOrient: 'vertical',
-        overflow: 'hidden',
-      }}>
-        {t.quote}
-      </p>
-
-      {/* destination badge */}
-      <DestinationBadge name={tag} />
     </div>
   )
 }
 
-const GAP = 18
-const SPEED_PX_PER_SEC = 55
+function Card({ t, onReadMore }: { t: Testimonial; onReadMore: (t: Testimonial) => void }) {
+  const role = ROLES[t.authorName.charCodeAt(0) % ROLES.length]
 
-function Row({ items, direction }: { items: Testimonial[]; direction: 'left' | 'right' }) {
+  return (
+    <div className="test-card">
+      <style>{`
+        .test-card {
+          background: #1a1a1a;
+          border-radius: 1.25rem;
+          padding: 1.5rem 1.5rem 1.5rem;
+          width: min(280px, 75vw);
+          flex-shrink: 0;
+          display: flex;
+          flex-direction: column;
+          height: 340px;
+          position: relative;
+          box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+          transition: box-shadow 0.25s, transform 0.25s;
+          cursor: default;
+          overflow: hidden;
+        }
+        @media (max-width: 600px) {
+          .test-card { width: min(240px, 72vw); height: 300px; padding: 1.25rem; }
+        }
+        .test-card:hover {
+          box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+          transform: translateY(-4px);
+        }
+        .test-card .test-read-more {
+          visibility: hidden;
+          background: none;
+          border: none;
+          padding: 0;
+          cursor: pointer;
+          font-size: 0.7rem;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.35);
+          text-align: left;
+          transition: color 0.15s;
+          flex-shrink: 0;
+          margin-top: 0.5rem;
+        }
+        .test-card:hover .test-read-more {
+          visibility: visible;
+        }
+        .test-read-more:hover {
+          color: #fff !important;
+        }
+      `}</style>
+
+      {t.cardImage?.url && !/\.(mp4|mov|webm|avi|mkv)(\?|$)/i.test(t.cardImage.url) ? (
+        <div style={{
+          position: 'relative',
+          width: '100%',
+          height: '110px',
+          borderRadius: '0.75rem',
+          overflow: 'hidden',
+          marginBottom: '1.25rem',
+          flexShrink: 0,
+        }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={t.cardImage.url}
+            alt={t.cardImage.alt ?? ''}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.45))',
+          }} />
+          <div style={{ position: 'absolute', bottom: '0.6rem', left: '0.75rem' }}>
+            <Avatar t={t} size={36} />
+          </div>
+        </div>
+      ) : (
+        <div style={{ marginBottom: '1.25rem' }}>
+          <Avatar t={t} size={44} />
+        </div>
+      )}
+
+      <p style={{
+        fontSize: '0.85rem',
+        color: 'rgba(255,255,255,0.65)',
+        lineHeight: 1.7,
+        margin: 0,
+        flex: 1,
+        display: '-webkit-box',
+        WebkitLineClamp: 5,
+        WebkitBoxOrient: 'vertical',
+        overflow: 'hidden',
+      }}>
+        &ldquo;{t.quote}&rdquo;
+      </p>
+
+      <button className="test-read-more" onClick={() => onReadMore(t)}>
+        Read more →
+      </button>
+
+      <div style={{ marginTop: 'auto', paddingTop: '1.25rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+        <SignatureName name={t.authorName} />
+        <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', marginTop: '0.2rem', display: 'block' }}>{role}</span>
+      </div>
+    </div>
+  )
+}
+
+const GAP = 20
+const SPEED_PX_PER_SEC = 45
+
+function Row({
+  items,
+  direction,
+  paused,
+  onReadMore,
+}: {
+  items: Testimonial[]
+  direction: 'left' | 'right'
+  paused: boolean
+  onReadMore: (t: Testimonial) => void
+}) {
   const wrapRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
+  const pausedRef = useRef(paused)
+  const posRef = useRef(0)
+
+  useEffect(() => { pausedRef.current = paused }, [paused])
 
   useEffect(() => {
     if (!trackRef.current || !wrapRef.current || items.length === 0) return
@@ -168,18 +321,18 @@ function Row({ items, direction }: { items: Testimonial[]; direction: 'left' | '
 
     raf = requestAnimationFrame(() => {
       if (killed || !trackRef.current) return
-
       const track = trackRef.current
       const oneSetW = track.scrollWidth / 3
-      let pos = 0
       let last = performance.now()
 
       const tick = (now: number) => {
         const dt = Math.min(now - last, 50)
         last = now
-        pos += SPEED_PX_PER_SEC * (dt / 1000)
-        pos = pos % oneSetW
-        const x = direction === 'left' ? -pos : pos - oneSetW
+        if (!pausedRef.current) {
+          posRef.current += SPEED_PX_PER_SEC * (dt / 1000)
+          posRef.current = posRef.current % oneSetW
+        }
+        const x = direction === 'left' ? -posRef.current : posRef.current - oneSetW
         track.style.transform = `translate3d(${x}px,0,0)`
         raf = requestAnimationFrame(tick)
       }
@@ -195,13 +348,20 @@ function Row({ items, direction }: { items: Testimonial[]; direction: 'left' | '
   return (
     <div
       ref={wrapRef}
-      style={{ overflow: 'hidden', width: '100%', maskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)' }}
+      style={{
+        overflow: 'hidden',
+        width: '100%',
+        maskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)',
+        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)',
+      }}
     >
       <div
         ref={trackRef}
         style={{ display: 'flex', gap: `${GAP}px`, width: 'max-content', willChange: 'transform', paddingLeft: `${GAP}px` }}
       >
-        {tripled.map((t, i) => <Card key={`${t.id}-${i}`} t={t} />)}
+        {tripled.map((t, i) => (
+          <Card key={`${t.id}-${i}`} t={t} onReadMore={onReadMore} />
+        ))}
       </div>
     </div>
   )
@@ -213,6 +373,11 @@ export function TestimonialsBlock({ heading, subheading, topRow, bottomRow }: Pr
   const sectionRef = useRef<HTMLElement>(null)
   const headingRef = useRef<HTMLDivElement>(null)
   const rowsRef = useRef<HTMLDivElement>(null)
+  const [hoveredRow, setHoveredRow] = useState<'top' | 'bottom' | null>(null)
+  const [modal, setModal] = useState<Testimonial | null>(null)
+
+  const openModal = useCallback((t: Testimonial) => setModal(t), [])
+  const closeModal = useCallback(() => setModal(null), [])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -225,7 +390,6 @@ export function TestimonialsBlock({ heading, subheading, topRow, bottomRow }: Pr
           scrollTrigger: { trigger: headingRef.current, start: 'top 88%', once: true },
         })
       }
-
       if (rowsRef.current) {
         const rowEls = Array.from(rowsRef.current.children)
         gsap.from(rowEls, {
@@ -238,47 +402,74 @@ export function TestimonialsBlock({ heading, subheading, topRow, bottomRow }: Pr
         })
       }
     }, sectionRef)
-
     return () => ctx.revert()
   }, [])
 
   return (
-    <section ref={sectionRef} className="test-section" style={{ backgroundColor: '#0d0d0d', overflow: 'hidden', position: 'relative' }}>
-      <style>{`
-        .test-section { padding: 5.5rem 0 6rem; }
-        @media (max-width: 767px) { .test-section { padding: 3.5rem 0 4rem; } }
-      `}</style>
-      {/* ambient glow */}
-      <div style={{
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '60vw',
-        height: '40vh',
-        background: 'radial-gradient(ellipse, rgba(255,255,255,0.025) 0%, transparent 70%)',
-        pointerEvents: 'none',
-      }} />
+    <>
+      <section
+        ref={sectionRef}
+        style={{
+          backgroundColor: '#0a0a0a',
+          overflow: 'hidden',
+          position: 'relative',
+          padding: '5.5rem 0 6rem',
+        }}
+      >
+        <style>{`
+          @media (max-width: 767px) {
+            .test-heading-section { padding: 3.5rem 0 4rem !important; }
+          }
+        `}</style>
 
-      {(heading || subheading) && (
-        <div ref={headingRef} style={{ textAlign: 'center', marginBottom: '4rem', padding: '0 1.5rem', position: 'relative' }}>
-          {subheading && (
-            <p style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', margin: '0 0 1rem 0' }}>
-              {subheading}
-            </p>
+        {(heading || subheading) && (
+          <div
+            ref={headingRef}
+            style={{ padding: '0 clamp(1.5rem, 5vw, 5rem)', marginBottom: '4rem', position: 'relative' }}
+          >
+            {subheading && (
+              <p style={{
+                fontSize: '0.65rem',
+                fontWeight: 700,
+                letterSpacing: '0.18em',
+                color: 'rgba(255,255,255,0.35)',
+                textTransform: 'uppercase',
+                margin: '0 0 1rem 0',
+              }}>
+                {subheading}
+              </p>
+            )}
+            {heading && (
+              <h2 style={{
+                fontSize: 'clamp(2.4rem, 5.5vw, 4.5rem)',
+                fontWeight: 300,
+                color: '#ffffff',
+                margin: 0,
+                lineHeight: 1.08,
+                letterSpacing: '-0.03em',
+                maxWidth: '700px',
+              }}>
+                {heading}
+              </h2>
+            )}
+          </div>
+        )}
+
+        <div ref={rowsRef} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          {topRow.length > 0 && (
+            <div onMouseEnter={() => setHoveredRow('top')} onMouseLeave={() => setHoveredRow(null)}>
+              <Row items={topRow} direction="left" paused={hoveredRow === 'top'} onReadMore={openModal} />
+            </div>
           )}
-          {heading && (
-            <h2 style={{ fontSize: 'clamp(1.85rem, 4vw, 2.85rem)', fontWeight: 800, color: '#ffffff', margin: 0, lineHeight: 1.12, letterSpacing: '-0.03em' }}>
-              {heading}
-            </h2>
+          {bottomRow.length > 0 && (
+            <div onMouseEnter={() => setHoveredRow('bottom')} onMouseLeave={() => setHoveredRow(null)}>
+              <Row items={bottomRow} direction="right" paused={hoveredRow === 'bottom'} onReadMore={openModal} />
+            </div>
           )}
         </div>
-      )}
+      </section>
 
-      <div ref={rowsRef} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-        {topRow.length > 0 && <Row items={topRow} direction="left" />}
-        {bottomRow.length > 0 && <Row items={bottomRow} direction="right" />}
-      </div>
-    </section>
+      {modal && <Modal t={modal} onClose={closeModal} />}
+    </>
   )
 }

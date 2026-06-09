@@ -35,7 +35,7 @@ const getPrograms = unstable_cache(
     return docs
   },
   ['programs-list'],
-  { tags: ['programs'], revalidate: 3600 },
+  { tags: ['programs'], revalidate: false },
 )
 
 function ProgramCard({ program }: { program: Record<string, unknown> }) {

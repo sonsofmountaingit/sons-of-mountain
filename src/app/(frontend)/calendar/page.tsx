@@ -157,7 +157,7 @@ const fetchCalendarData = unstable_cache(
   return { groups, firstImage, events: items, itemCoords }
   },
   ['calendar-data'],
-  { tags: ['trips', 'programs'], revalidate: 3600 },
+  { tags: ['trips', 'programs'], revalidate: false },
 )
 
 async function CalendarContent() {
@@ -193,10 +193,10 @@ async function CalendarContent() {
 
 export default function CalendarPage() {
   return (
-    <div className="pt-24 pb-20 px-6 min-h-screen">
+    <div className="pt-28 pb-20 px-6 min-h-screen bg-white">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-5xl md:text-6xl font-bold mb-4">Календар</h1>
-        <p className="text-white/50 mb-12 text-lg">Предстоящи пътувания и програми по месец</p>
+        <h1 className="text-5xl md:text-6xl font-bold mb-4 text-zinc-900">Календар</h1>
+        <p className="text-zinc-500 mb-12 text-lg">Предстоящи пътувания и програми по месец</p>
         <Suspense fallback={<div className="text-white/30 text-sm">Зареждане...</div>}>
           <CalendarContent />
         </Suspense>

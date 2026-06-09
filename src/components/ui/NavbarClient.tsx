@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect, useRef } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'motion/react'
 import { ProgramsMegaMenu } from './ProgramsMegaMenu'
 import { useSession, signOut } from '@/lib/auth-client'
@@ -51,6 +51,10 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
   const [cartOpen, setCartOpen] = useState(false)
   const [logoHovered, setLogoHovered] = useState(false)
   const itemCount = useCartStore((s) => s.itemCount())
+  const pathname = usePathname()
+  const LIGHT_PAGES = ['/calendar']
+  const isLightPage = LIGHT_PAGES.some((p) => pathname === p || pathname.startsWith(p + '/'))
+  const textBase = isLightPage && !scrolled ? 'text-zinc-700 hover:text-zinc-900' : 'text-white/80 hover:text-white'
   const logoSrc = logoHovered ? '/colored-logo.svg' : '/white-logo.svg'
   const allLinks = [...(navLinksLeft ?? []), ...(navLinksRight ?? [])]
 
@@ -109,7 +113,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
         transition={{ duration: 0.3, ease: 'easeInOut' }}
         className={[
           'fixed left-0 right-0 z-50 transition-all duration-300 overflow-visible',
-          scrolled ? 'top-0 backdrop-blur-md bg-black/60' : 'top-2 bg-transparent',
+          scrolled ? 'top-0 backdrop-blur-md bg-black/60' : isLightPage ? 'top-0 bg-white border-b border-zinc-100' : 'top-2 bg-transparent',
         ].join(' ')}
       >
         <nav className={['relative w-full px-14 flex items-center justify-between transition-all duration-300 whitespace-nowrap overflow-visible', scrolled ? 'h-[56px]' : 'h-[88px]'].join(' ')}>
@@ -118,7 +122,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
           <div className="hidden lg:flex items-center gap-5 flex-1">
             <button
               onClick={() => { setMegaOpen((v) => !v); setSearchOpen(false); setLangOpen(false) }}
-              className={['flex items-center gap-1.5 text-sm font-medium tracking-widest transition-colors duration-200', megaOpen ? 'text-white' : 'text-white/80 hover:text-white'].join(' ')}
+              className={['flex items-center gap-1.5 text-sm font-medium tracking-widest transition-colors duration-200', megaOpen ? (isLightPage && !scrolled ? 'text-zinc-900' : 'text-white') : (isLightPage && !scrolled ? 'text-zinc-600 hover:text-zinc-900' : 'text-white/80 hover:text-white')].join(' ')}
             >
               Програми
               <svg width="10" height="6" viewBox="0 0 10 6" fill="none" className={['transition-transform duration-200', megaOpen ? 'rotate-180' : ''].join(' ')}>
@@ -126,7 +130,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
               </svg>
             </button>
             {navLinksLeft.map((link, i) => (
-              <Link key={`left-${i}`} href={link.href} className="text-sm font-medium tracking-wider text-white/80 hover:text-white transition-colors duration-200">
+              <Link key={`left-${i}`} href={link.href} className={`text-sm font-medium tracking-wider transition-colors duration-200 ${textBase}`}>
                 {link.label}
               </Link>
             ))}
@@ -138,7 +142,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
           {/* Right */}
           <div className="hidden lg:flex items-center gap-4 flex-1 justify-end">
             {navLinksRight.map((link, i) => (
-              <Link key={`right-${i}`} href={link.href} className="text-sm font-medium tracking-wider text-white/80 hover:text-white transition-colors duration-200">
+              <Link key={`right-${i}`} href={link.href} className={`text-sm font-medium tracking-wider transition-colors duration-200 ${textBase}`}>
                 {link.label}
               </Link>
             ))}
@@ -147,7 +151,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
               <div data-panel="profile" className="relative">
                 <button
                   onClick={() => { setProfileOpen((v) => !v); setSearchOpen(false); setLangOpen(false) }}
-                  className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium tracking-widest border border-white/30 text-white/80 hover:text-white hover:border-white transition-colors duration-200 rounded-sm"
+                  className={`flex items-center gap-2 px-3 py-1.5 text-sm font-medium tracking-widest border transition-colors duration-200 rounded-sm ${isLightPage && !scrolled ? 'border-zinc-300 text-zinc-700 hover:text-zinc-900 hover:border-zinc-500' : 'border-white/30 text-white/80 hover:text-white hover:border-white'}`}
                 >
                   <span className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-[10px]">
                     {(session.user.name?.[0] ?? session.user.email[0]).toUpperCase()}
@@ -192,17 +196,17 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                 </AnimatePresence>
               </div>
             ) : (
-              <Link href="/login" className="px-4 py-1.5 text-sm font-medium tracking-widest border border-white/40 text-white/80 hover:text-white hover:border-white transition-colors duration-200 rounded-sm">
+              <Link href="/login" className={`px-4 py-1.5 text-sm font-medium tracking-widest border transition-colors duration-200 rounded-sm ${isLightPage && !scrolled ? 'border-zinc-300 text-zinc-700 hover:text-zinc-900 hover:border-zinc-500' : 'border-white/40 text-white/80 hover:text-white hover:border-white'}`}>
                 ВХОД
               </Link>
             )}
 
-            <div className="flex items-center gap-2.5 pl-3 border-l border-white/20">
+            <div className={`flex items-center gap-2.5 pl-3 border-l ${isLightPage && !scrolled ? 'border-zinc-200' : 'border-white/20'}`}>
 
               {/* Cart */}
               <button
                 onClick={() => setCartOpen(true)}
-                className="relative text-white/70 hover:text-white transition-colors"
+                className={`relative transition-colors ${isLightPage && !scrolled ? 'text-zinc-500 hover:text-zinc-900' : 'text-white/70 hover:text-white'}`}
                 aria-label="Cart"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -221,7 +225,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
               <div data-panel="search">
                 <button
                   onClick={() => { setSearchOpen((v) => !v); setLangOpen(false) }}
-                  className={['transition-colors', searchOpen ? 'text-white' : 'text-white/70 hover:text-white'].join(' ')}
+                  className={['transition-colors', searchOpen ? (isLightPage && !scrolled ? 'text-zinc-900' : 'text-white') : (isLightPage && !scrolled ? 'text-zinc-500 hover:text-zinc-900' : 'text-white/70 hover:text-white')].join(' ')}
                   aria-label="Търсене"
                 >
                   <AnimatePresence mode="wait" initial={false}>
@@ -242,7 +246,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
               <div data-panel="lang" className="relative">
                 <button
                   onClick={() => { setLangOpen((v) => !v); setSearchOpen(false) }}
-                  className={['flex items-center gap-1 text-sm font-medium tracking-widest transition-colors', langOpen ? 'text-white' : 'text-white/70 hover:text-white'].join(' ')}
+                  className={['flex items-center gap-1 text-sm font-medium tracking-widest transition-colors', langOpen ? (isLightPage && !scrolled ? 'text-zinc-900' : 'text-white') : (isLightPage && !scrolled ? 'text-zinc-500 hover:text-zinc-900' : 'text-white/70 hover:text-white')].join(' ')}
                 >
                   {activeLang}
                   <svg width="8" height="5" viewBox="0 0 10 6" fill="none" className={['transition-transform duration-200', langOpen ? 'rotate-180' : ''].join(' ')}>
@@ -285,7 +289,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
 
               {/* Socials */}
               {instagramUrl && (
-                <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors" aria-label="Instagram">
+                <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className={`transition-colors ${isLightPage && !scrolled ? 'text-zinc-500 hover:text-zinc-900' : 'text-white/70 hover:text-white'}`} aria-label="Instagram">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <rect x="2" y="2" width="20" height="20" rx="5" />
                     <circle cx="12" cy="12" r="4" />
@@ -294,14 +298,14 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                 </a>
               )}
               {facebookUrl && (
-                <a href={facebookUrl} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors" aria-label="Facebook">
+                <a href={facebookUrl} target="_blank" rel="noopener noreferrer" className={`transition-colors ${isLightPage && !scrolled ? 'text-zinc-500 hover:text-zinc-900' : 'text-white/70 hover:text-white'}`} aria-label="Facebook">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                   </svg>
                 </a>
               )}
               {tiktokUrl && (
-                <a href={tiktokUrl} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors" aria-label="TikTok">
+                <a href={tiktokUrl} target="_blank" rel="noopener noreferrer" className={`transition-colors ${isLightPage && !scrolled ? 'text-zinc-500 hover:text-zinc-900' : 'text-white/70 hover:text-white'}`} aria-label="TikTok">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.16 8.16 0 0 0 4.77 1.52V6.76a4.85 4.85 0 0 1-1-.07z"/>
                   </svg>
@@ -311,7 +315,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
           </div>
 
           {/* Mobile hamburger */}
-          <button className="lg:hidden p-2 text-white" onClick={() => setMobileOpen(true)} aria-label="Open menu">
+          <button className={`lg:hidden p-2 ${isLightPage && !scrolled ? 'text-zinc-700' : 'text-white'}`} onClick={() => setMobileOpen(true)} aria-label="Open menu">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
               <line x1="3" y1="6" x2="21" y2="6" />
               <line x1="3" y1="12" x2="21" y2="12" />

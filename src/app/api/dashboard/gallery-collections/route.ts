@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
     },
   })
 
-  after(() => { revalidateTag('gallery-collections', 'default') })
+  after(() => { (revalidateTag as any)('gallery-collections', 'max') })
   return NextResponse.json(doc, { status: 201 })
 }
 
@@ -108,7 +108,7 @@ export async function PATCH(req: NextRequest) {
     },
   })
 
-  after(() => { revalidateTag('gallery-collections', 'default') })
+  after(() => { (revalidateTag as any)('gallery-collections', 'max') })
   return NextResponse.json(updated)
 }
 
@@ -132,6 +132,6 @@ export async function DELETE(req: NextRequest) {
   }
 
   await payload.delete({ collection: 'gallery-collections', id })
-  after(() => { revalidateTag('gallery-collections', 'default') })
+  after(() => { (revalidateTag as any)('gallery-collections', 'max') })
   return NextResponse.json({ ok: true })
 }

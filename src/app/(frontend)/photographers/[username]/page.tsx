@@ -73,7 +73,7 @@ const getPhotographerData = (username: string) =>
   unstable_cache(
     () => getPhotographerDataRaw(username),
     [`photographer-${username}`],
-    { tags: ['gallery-collections'], revalidate: 3600 }
+    { tags: ['gallery-collections'], revalidate: false }
   )()
 
 

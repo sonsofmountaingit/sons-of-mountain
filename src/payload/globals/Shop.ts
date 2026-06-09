@@ -2,7 +2,7 @@ import type { GlobalConfig } from 'payload'
 import { after } from 'next/server'
 import { revalidateTag as _revalidateTag } from 'next/cache'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const revalidateTag = (tag: string) => (_revalidateTag as any)(tag)
+const revalidateTag = _revalidateTag
 
 export const Shop: GlobalConfig = {
   slug: 'shop',

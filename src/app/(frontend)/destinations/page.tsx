@@ -22,7 +22,7 @@ const getDestinations = unstable_cache(
     return docs
   },
   ['destinations-list'],
-  { tags: ['destinations'], revalidate: 3600 },
+  { tags: ['destinations'], revalidate: false },
 )
 
 async function DestinationsContent() {

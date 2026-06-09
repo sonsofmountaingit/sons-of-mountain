@@ -1,5 +1,6 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { unstable_cache } from 'next/cache'
 import { WhyTravelWithUsBlock } from '@/components/blocks/why-travel-with-us/WhyTravelWithUsBlock'
 import { WhyTravelWithUsEditButton } from './WhyTravelWithUsEditButton'
 import { mediaUrl } from '@/lib/media-url'
@@ -21,11 +22,15 @@ export type VideoCard = {
   posterUrl: string | null
 }
 
-async function getData() {
-  const payload = await getPayload({ config })
-  const global = await payload.findGlobal({ slug: 'why-travel-with-us', depth: 1, overrideAccess: true }) as any
-  return { global }
-}
+const getData = unstable_cache(
+  async () => {
+    const payload = await getPayload({ config })
+    const global = await payload.findGlobal({ slug: 'why-travel-with-us', depth: 1, overrideAccess: true }) as any
+    return { global }
+  },
+  ['why-travel-with-us'],
+  { tags: ['why-travel-with-us'], revalidate: false },
+)
 
 export async function WhyTravelWithUs() {
   const { global: g } = await getData()

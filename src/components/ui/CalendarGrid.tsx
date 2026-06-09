@@ -29,10 +29,10 @@ const SEASON_LABELS: Record<number, string> = {
   8: 'ЕСЕН', 9: 'ЕСЕН', 10: 'ЕСЕН',
 }
 const SEASON_COLORS: Record<string, string> = {
-  ЗИМА: 'text-blue-300/70',
-  ПРОЛЕТ: 'text-green-300/70',
-  ЛЯТО: 'text-amber-300/70',
-  ЕСЕН: 'text-orange-300/70',
+  ЗИМА: 'text-blue-500',
+  ПРОЛЕТ: 'text-green-600',
+  ЛЯТО: 'text-amber-500',
+  ЕСЕН: 'text-orange-500',
 }
 const MONTHS_BG: Record<number, string> = {
   0: 'ЯНУАРИ', 1: 'ФЕВРУАРИ', 2: 'МАРТ', 3: 'АПРИЛ',
@@ -57,12 +57,12 @@ type Props = {
 
 function SkeletonCard() {
   return (
-    <div className="flex items-center gap-3 p-3 border border-white/5 rounded-xl animate-pulse">
-      <div className="w-14 h-14 rounded-lg bg-white/8 flex-shrink-0" />
+    <div className="flex items-center gap-3 p-3 border border-zinc-200 rounded-xl animate-pulse">
+      <div className="w-14 h-14 rounded-lg bg-zinc-100 flex-shrink-0" />
       <div className="flex-1 space-y-2">
-        <div className="h-2 bg-white/8 rounded-full w-1/4" />
-        <div className="h-3 bg-white/8 rounded-full w-3/4" />
-        <div className="h-2 bg-white/8 rounded-full w-1/2" />
+        <div className="h-2 bg-zinc-100 rounded-full w-1/4" />
+        <div className="h-3 bg-zinc-100 rounded-full w-3/4" />
+        <div className="h-2 bg-zinc-100 rounded-full w-1/2" />
       </div>
     </div>
   )
@@ -80,11 +80,11 @@ function RecentlyViewed({ allItems }: { allItems: CalendarItem[] }) {
   if (recentItems.length === 0) return null
   return (
     <div className="mb-10 print:hidden">
-      <p className="text-[9px] tracking-[0.3em] text-white/25 mb-3 uppercase">Последно видяно</p>
+      <p className="text-[9px] tracking-[0.3em] text-zinc-400 mb-3 uppercase">Последно видяно</p>
       <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
         {recentItems.map((item) => (
           <a key={item.id} href={item.href}
-            className="flex-shrink-0 flex items-center gap-2 px-3 py-1.5 border border-white/10 rounded-lg hover:border-white/25 transition-all text-xs text-white/50 hover:text-white/80">
+            className="flex-shrink-0 flex items-center gap-2 px-3 py-1.5 border border-zinc-200 rounded-lg hover:border-zinc-400 transition-all text-xs text-zinc-500 hover:text-zinc-800">
             <span className="truncate max-w-[110px]">{item.title || item.destinationName}</span>
           </a>
         ))}
@@ -104,26 +104,26 @@ function CompareDrawer({ items, onClose }: { items: CalendarItem[]; onClose: () 
     })
   }, [])
   return (
-    <div ref={drawerRef} className="fixed bottom-0 left-0 right-0 z-50 bg-zinc-950/95 backdrop-blur-md border-t border-white/15 p-5 print:hidden">
+    <div ref={drawerRef} className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-zinc-200 p-5 print:hidden">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-4">
-          <p className="text-[10px] tracking-[0.3em] text-white/40 uppercase">Сравнение ({items.length})</p>
-          <button onClick={onClose} className="text-white/25 hover:text-white transition-colors text-sm leading-none">✕</button>
+          <p className="text-[10px] tracking-[0.3em] text-zinc-400 uppercase">Сравнение ({items.length})</p>
+          <button onClick={onClose} className="text-zinc-400 hover:text-zinc-800 transition-colors text-sm leading-none">✕</button>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {items.map((item) => (
-            <div key={item.id} className="border border-white/10 rounded-xl p-4 space-y-2">
-              <p className="font-semibold text-sm text-white/80 truncate">{item.title}</p>
-              <p className="text-[11px] text-white/35">{new Date(item.startDate).toLocaleDateString('bg-BG')} — {new Date(item.endDate).toLocaleDateString('bg-BG')}</p>
-              <p className="text-[11px] text-white/45">{item.spotsAvailable > 0 ? `${item.spotsAvailable} места` : 'Изчерпано'}</p>
+            <div key={item.id} className="border border-zinc-200 rounded-xl p-4 space-y-2">
+              <p className="font-semibold text-sm text-zinc-800 truncate">{item.title}</p>
+              <p className="text-[11px] text-zinc-500">{new Date(item.startDate).toLocaleDateString('bg-BG')} — {new Date(item.endDate).toLocaleDateString('bg-BG')}</p>
+              <p className="text-[11px] text-zinc-500">{item.spotsAvailable > 0 ? `${item.spotsAvailable} места` : 'Изчерпано'}</p>
               {item.tags.length > 0 && (
                 <div className="flex flex-wrap gap-1">
                   {item.tags.slice(0, 3).map((t) => (
-                    <span key={t} className="text-[9px] bg-white/5 px-1.5 py-0.5 rounded-full text-white/30">{t}</span>
+                    <span key={t} className="text-[9px] bg-zinc-100 px-1.5 py-0.5 rounded-full text-zinc-500">{t}</span>
                   ))}
                 </div>
               )}
-              <a href={item.href} className="text-[10px] text-white/35 hover:text-white/70 transition-colors underline underline-offset-2">Виж →</a>
+              <a href={item.href} className="text-[10px] text-zinc-500 hover:text-zinc-800 transition-colors underline underline-offset-2">Виж →</a>
             </div>
           ))}
         </div>
@@ -222,11 +222,11 @@ function MonthColumn({
         onClick={onToggle}
         className="flex items-center gap-2 mb-4 w-full text-left group/header print:static"
       >
-        <h2 className="text-[10px] tracking-[0.25em] font-semibold text-white/40 group-hover/header:text-white/70 transition-colors duration-200">
+        <h2 className="text-[10px] tracking-[0.25em] font-semibold text-zinc-400 group-hover/header:text-zinc-700 transition-colors duration-200">
           {MONTHS_BG[group.month]}
         </h2>
         <span
-          className="text-[8px] text-white/15 group-hover/header:text-white/35 transition-colors duration-200 ml-0.5"
+          className="text-[8px] text-zinc-300 group-hover/header:text-zinc-500 transition-colors duration-200 ml-0.5"
           style={{ transform: collapsed ? 'rotate(180deg)' : 'rotate(0deg)', display: 'inline-block', transition: 'transform 0.25s ease, color 0.2s' }}
         >
           ▴
@@ -306,8 +306,8 @@ function FilterDropdown({
           active
             ? 'border-[#F45B26]/60 text-[#F45B26] bg-[#F45B26]/8'
             : open
-            ? 'border-white/40 text-white bg-white/5'
-            : 'border-white/15 text-white/40 hover:border-white/35 hover:text-white/70',
+            ? 'border-zinc-400 text-zinc-800 bg-zinc-50'
+            : 'border-zinc-200 text-zinc-400 hover:border-zinc-400 hover:text-zinc-700',
         ].join(' ')}
       >
         {summary ?? label}
@@ -320,8 +320,8 @@ function FilterDropdown({
       </button>
       <div
         ref={panelRef}
-        style={{ display: 'none', position: 'absolute', top: 'calc(100% + 6px)', left: 0, zIndex: 50, minWidth: '160px' }}
-        className="bg-zinc-950 border border-white/12 rounded-xl shadow-2xl overflow-hidden"
+        style={{ display: 'none', position: 'absolute', top: 'calc(100% + 6px)', left: 0, zIndex: 200, minWidth: '160px' }}
+        className="bg-white border border-zinc-200 rounded-xl shadow-xl overflow-hidden"
       >
         {children}
       </div>
@@ -480,11 +480,11 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
       <div className="space-y-14">
         {[0, 1].map((gi) => (
           <div key={`skel-row-${gi}`}>
-            <div className="h-3 bg-white/8 rounded-full w-24 mb-5 animate-pulse" />
+            <div className="h-3 bg-zinc-100 rounded-full w-24 mb-5 animate-pulse" />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[0, 1, 2].map((ci) => (
                 <div key={`skel-col-${gi}-${ci}`} className="space-y-2.5">
-                  <div className="h-2.5 bg-white/8 rounded-full w-16 mb-4 animate-pulse" />
+                  <div className="h-2.5 bg-zinc-100 rounded-full w-16 mb-4 animate-pulse" />
                   {[0, 1, 2].map((i) => <SkeletonCard key={`skel-card-${gi}-${ci}-${i}`} />)}
                 </div>
               ))}
@@ -524,8 +524,8 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
                   className={[
                     'text-left text-[10px] tracking-widest px-3 py-1.5 rounded-md border transition-all duration-150',
                     category === val
-                      ? 'border-white/50 text-white bg-white/6'
-                      : 'border-transparent text-white/40 hover:text-white/70 hover:border-white/15',
+                      ? 'border-zinc-400 text-zinc-900 bg-zinc-100'
+                      : 'border-transparent text-zinc-400 hover:text-zinc-700 hover:border-zinc-200',
                   ].join(' ')}
                 >
                   {lbl}
@@ -548,8 +548,8 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
                   className={[
                     'text-[9px] tracking-wider px-2.5 py-1 rounded-md border transition-all duration-150',
                     tag === t
-                      ? 'border-white/50 text-white bg-white/6'
-                      : 'border-white/10 text-white/30 hover:border-white/30 hover:text-white/60',
+                      ? 'border-zinc-400 text-zinc-900 bg-zinc-100'
+                      : 'border-zinc-200 text-zinc-400 hover:border-zinc-400 hover:text-zinc-700',
                   ].join(' ')}
                 >
                   {t.toUpperCase()}
@@ -572,21 +572,21 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
                   className={[
                     'text-left text-[10px] tracking-widest px-3 py-1.5 rounded-md border transition-all duration-150',
                     year === String(y)
-                      ? 'border-white/50 text-white bg-white/6'
-                      : 'border-transparent text-white/40 hover:text-white/70 hover:border-white/15',
+                      ? 'border-zinc-400 text-zinc-900 bg-zinc-100'
+                      : 'border-transparent text-zinc-400 hover:text-zinc-700 hover:border-zinc-200',
                   ].join(' ')}
                 >
                   {y}
                 </button>
               ))}
-              <div className="h-px bg-white/8 my-1" />
+              <div className="h-px bg-zinc-200 my-1" />
               <button
                 onClick={() => setOnlyAvailable((p) => !p)}
                 className={[
                   'text-left text-[10px] tracking-widest px-3 py-1.5 rounded-md border transition-all duration-150',
                   onlyAvailable
-                    ? 'border-white/50 text-white bg-white/6'
-                    : 'border-transparent text-white/40 hover:text-white/70 hover:border-white/15',
+                    ? 'border-zinc-400 text-zinc-900 bg-zinc-100'
+                    : 'border-transparent text-zinc-400 hover:text-zinc-700 hover:border-zinc-200',
                 ].join(' ')}
               >
                 САМО СВОБОДНИ
@@ -598,7 +598,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
                     'text-left text-[10px] tracking-widest px-3 py-1.5 rounded-md border transition-all duration-150',
                     onlyWishlisted
                       ? 'border-[#F45B26]/50 text-[#F45B26] bg-[#F45B26]/5'
-                      : 'border-transparent text-white/40 hover:text-white/70 hover:border-white/15',
+                      : 'border-transparent text-zinc-400 hover:text-zinc-700 hover:border-zinc-200',
                   ].join(' ')}
                 >
                   ♥ ЛЮБИМИ
@@ -614,13 +614,13 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
               placeholder="Търси..."
               value={search}
               onChange={(e) => handleSearch(e.target.value)}
-              className="text-xs bg-white/5 border border-white/10 rounded-md px-3 py-1.5 text-white placeholder-white/20 focus:outline-none focus:border-white/30 transition-colors w-40"
+              className="text-xs bg-white border border-zinc-200 rounded-md px-3 py-1.5 text-zinc-800 placeholder-zinc-300 focus:outline-none focus:border-zinc-400 transition-colors w-40"
             />
             <button
               onClick={() => setMapView((p) => !p)}
               className={[
                 'text-[10px] tracking-widest px-3 py-1.5 rounded-md border transition-all duration-200 whitespace-nowrap',
-                mapView ? 'border-white/50 text-white bg-white/5' : 'border-white/12 text-white/30 hover:border-white/30',
+                mapView ? 'border-zinc-400 text-zinc-900 bg-zinc-100' : 'border-zinc-200 text-zinc-400 hover:border-zinc-400',
               ].join(' ')}
             >
               {mapView ? 'СПИСЪК' : 'КАРТА'}
@@ -632,13 +632,13 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
       <RecentlyViewed allItems={allItems} />
 
       {mapView && (
-        <Suspense fallback={<div className="h-96 bg-white/5 rounded-xl animate-pulse" />}>
+        <Suspense fallback={<div className="h-96 bg-zinc-100 rounded-xl animate-pulse" />}>
           <CalendarMap items={allItems.filter(filterItem)} itemCoords={itemCoords} />
         </Suspense>
       )}
 
       {!mapView && filteredGroups.length === 0 && (
-        <p className="text-white/25 text-center py-24 text-sm">Няма намерени пътувания.</p>
+        <p className="text-zinc-400 text-center py-24 text-sm">Няма намерени пътувания.</p>
       )}
 
       {!mapView && (
@@ -649,7 +649,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
                 <SeasonBanner
                   season={season}
                   year={rowGroups[0].year}
-                  colorClass={SEASON_COLORS[season] ?? 'text-white/25'}
+                  colorClass={SEASON_COLORS[season] ?? 'text-zinc-400'}
                 />
               )}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

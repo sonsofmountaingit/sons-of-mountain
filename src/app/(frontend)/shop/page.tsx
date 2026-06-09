@@ -29,7 +29,7 @@ const getCatalog = unstable_cache(
     return { shop, categories: categories.docs, products: products.docs, trips: trips.docs, bundles: bundles.docs }
   },
   ['shop-catalog'],
-  { tags: ['shop', 'categories', 'products', 'trips', 'bundles'], revalidate: 3600 }
+  { tags: ['shop', 'categories', 'products', 'trips', 'bundles'], revalidate: false }
 )
 
 export default function ShopPage({ searchParams }: { searchParams: Promise<{ category?: string }> }) {

@@ -17,7 +17,7 @@ const getAboutMeta = unstable_cache(
     }
   },
   ['about-meta'],
-  { tags: ['about'], revalidate: 3600 },
+  { tags: ['about'], revalidate: false },
 )
 
 export async function generateMetadata(): Promise<Metadata> {

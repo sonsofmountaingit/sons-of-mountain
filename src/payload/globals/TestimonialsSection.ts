@@ -2,7 +2,7 @@ import type { GlobalConfig } from 'payload'
 import { after } from 'next/server'
 import { revalidateTag as _revalidateTag } from 'next/cache'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const revalidateTag = (tag: string) => (_revalidateTag as any)(tag)
+const revalidateTag = _revalidateTag
 
 export const TestimonialsSection: GlobalConfig = {
   slug: 'testimonials-section',
@@ -37,7 +37,7 @@ export const TestimonialsSection: GlobalConfig = {
     afterChange: [
       ({ doc }) => {
         try {
-          after(() => { revalidateTag('testimonials') })
+          after(() => { try { revalidateTag('testimonials') } catch {} })
         } catch { /* outside request scope */ }
         return doc
       },

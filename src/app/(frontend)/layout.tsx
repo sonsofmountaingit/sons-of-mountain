@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Space_Grotesk } from 'next/font/google'
+import { Space_Grotesk, Dancing_Script } from 'next/font/google'
 import { Suspense } from 'react'
 import { Navigation } from '@/components/ui/Navigation'
 import { Footer } from '@/components/ui/Footer'
@@ -8,6 +8,12 @@ import '../globals.css'
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   variable: '--font-space-grotesk',
+  display: 'swap',
+})
+
+const dancingScript = Dancing_Script({
+  subsets: ['latin'],
+  variable: '--font-dancing-script',
   display: 'swap',
 })
 
@@ -22,7 +28,7 @@ export const metadata: Metadata = {
 
 export default function FrontendLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="bg" className={spaceGrotesk.variable} data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang="bg" className={`${spaceGrotesk.variable} ${dancingScript.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body suppressHydrationWarning>
         <Navigation />
         <main>{children}</main>

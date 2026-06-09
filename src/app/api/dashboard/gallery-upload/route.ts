@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
         ],
       },
     })
-    after(() => { revalidateTag('gallery-collections', 'default') })
+    after(() => { (revalidateTag as any)('gallery-collections', 'max') })
   }
 
   return NextResponse.json({ id: mediaDoc.id, url: (mediaDoc as any).url ?? '' }, { status: 201 })

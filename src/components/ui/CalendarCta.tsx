@@ -15,7 +15,7 @@ const getCalendarCtaData = unstable_cache(
     }
   },
   ['calendar-cta-global'],
-  { tags: ['calendar-cta'], revalidate: 3600 },
+  { tags: ['calendar-cta'], revalidate: false },
 )
 
 const getDestinationImages = unstable_cache(
@@ -39,7 +39,7 @@ const getDestinationImages = unstable_cache(
     }
   },
   ['calendar-cta-destination-images'],
-  { tags: ['calendar-cta', 'destinations'], revalidate: 3600 },
+  { tags: ['calendar-cta', 'destinations'], revalidate: false },
 )
 
 export async function CalendarCta() {

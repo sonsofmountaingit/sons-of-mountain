@@ -24,7 +24,7 @@ const getPosts = unstable_cache(
     return docs
   },
   ['blog-posts'],
-  { tags: ['blog-posts'], revalidate: 3600 },
+  { tags: ['blog-posts'], revalidate: false },
 )
 
 async function BlogContent() {

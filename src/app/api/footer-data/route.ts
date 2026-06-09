@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { unstable_cache } from 'next/cache'
 
 const BG_MONTHS = ['януари','февруари','март','април','май','юни','юли','август','септември','октомври','ноември','декември']
 
-export async function GET() {
-  try {
+const getFooterData = unstable_cache(
+  async () => {
     const payload = await getPayload({ config })
 
     const [footerData, navData] = await Promise.all([
@@ -67,11 +68,16 @@ export async function GET() {
     ]
     const navLinks = navLinkSource === 'manual' ? manualNavLinks : autoNavLinks
 
-    return NextResponse.json({
-      ...d,
-      travelLinks,
-      navLinks,
-    })
+    return { ...d, travelLinks, navLinks }
+  },
+  ['footer-data'],
+  { tags: ['footer', 'navigation', 'trips'], revalidate: false },
+)
+
+export async function GET() {
+  try {
+    const data = await getFooterData()
+    return NextResponse.json(data)
   } catch (err) {
     return NextResponse.json({}, { status: 500 })
   }

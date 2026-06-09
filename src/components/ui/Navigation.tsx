@@ -39,7 +39,7 @@ const getNavigationData = unstable_cache(
     }
   },
   ['navigation-global'],
-  { tags: ['navigation'], revalidate: 3600 },
+  { tags: ['navigation'], revalidate: false },
 )
 
 export async function Navigation() {

@@ -4,9 +4,9 @@ import { after } from 'next/server'
 import { revalidateGlobal } from '../hooks/revalidate'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const revalidateTag = (tag: string) => (_revalidateTag as any)(tag)
+const revalidateTag = _revalidateTag
 const revalidateNavigationTag = ({ doc }: { doc: unknown }) => {
-  try { after(() => { revalidateTag('navigation') }) } catch { /* noop */ }
+  try { after(() => { try { revalidateTag('navigation') } catch {} }) } catch { /* noop */ }
   return doc
 }
 

@@ -2,7 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { after } from 'next/server'
 import { revalidateTag as _revalidateTag } from 'next/cache'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const revalidateTag = (tag: string) => (_revalidateTag as any)(tag)
+const revalidateTag = _revalidateTag
 import { syncStripeProduct } from '@/lib/stripe-product-sync'
 
 export const Bundles: CollectionConfig = {

@@ -18,7 +18,7 @@ const getAboutData = unstable_cache(
     }
   },
   ['about-global'],
-  { tags: ['about'], revalidate: 3600 },
+  { tags: ['about'], revalidate: false },
 )
 
 export async function About() {

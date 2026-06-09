@@ -75,40 +75,40 @@ function LoginModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: ()
     >
       <div
         ref={modalRef}
-        className="bg-zinc-950 border border-white/15 rounded-2xl p-8 w-full max-w-sm mx-4 relative"
+        className="bg-white border border-zinc-200 rounded-2xl p-8 w-full max-w-sm mx-4 relative shadow-xl"
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-white/25 hover:text-white/70 transition-colors text-sm leading-none"
+          className="absolute top-4 right-4 text-zinc-400 hover:text-zinc-700 transition-colors text-sm leading-none"
         >
           ✕
         </button>
-        <p className="text-[10px] tracking-[0.3em] text-white/40 uppercase mb-1">Sons of Mountains</p>
-        <h2 className="text-lg font-semibold text-white mb-6">Влез в профила си</h2>
+        <p className="text-[10px] tracking-[0.3em] text-zinc-400 uppercase mb-1">Sons of Mountains</p>
+        <h2 className="text-lg font-semibold text-zinc-900 mb-6">Влез в профила си</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-[10px] tracking-widest text-white/40 uppercase mb-1.5">Имейл</label>
+            <label className="block text-[10px] tracking-widest text-zinc-400 uppercase mb-1.5">Имейл</label>
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-white/30 transition-colors"
+              className="w-full bg-white border border-zinc-200 rounded-lg px-3 py-2.5 text-sm text-zinc-800 placeholder-zinc-300 focus:outline-none focus:border-zinc-400 transition-colors"
               placeholder="email@example.com"
             />
           </div>
           <div>
-            <label className="block text-[10px] tracking-widest text-white/40 uppercase mb-1.5">Парола</label>
+            <label className="block text-[10px] tracking-widest text-zinc-400 uppercase mb-1.5">Парола</label>
             <input
               type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-white/30 transition-colors"
+              className="w-full bg-white border border-zinc-200 rounded-lg px-3 py-2.5 text-sm text-zinc-800 placeholder-zinc-300 focus:outline-none focus:border-zinc-400 transition-colors"
               placeholder="••••••••"
             />
           </div>
-          {error && <p className="text-xs text-red-400">{error}</p>}
+          {error && <p className="text-xs text-red-500">{error}</p>}
           <button
             type="submit"
             disabled={loading}
@@ -118,9 +118,9 @@ function LoginModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: ()
             {loading ? 'Влизане…' : 'Влез'}
           </button>
         </form>
-        <p className="text-xs text-white/25 text-center mt-4">
+        <p className="text-xs text-zinc-400 text-center mt-4">
           Нямаш профил?{' '}
-          <a href="/register" className="text-white/50 hover:text-white underline underline-offset-2 transition-colors">
+          <a href="/register" className="text-zinc-600 hover:text-zinc-900 underline underline-offset-2 transition-colors">
             Регистрирай се
           </a>
         </p>
@@ -271,7 +271,7 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
         {/* Card row + wishlist button */}
         <div className="flex items-stretch gap-0">
           {/* Main card */}
-          <div className="flex-1 border border-white/10 rounded-lg hover:border-white/25 transition-colors overflow-hidden">
+          <div className="flex-1 border border-zinc-200 rounded-lg hover:border-zinc-400 transition-colors overflow-hidden">
             <Link
               href={item.href}
               onMouseEnter={handleMouseEnter}
@@ -279,18 +279,18 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
               className="flex items-center gap-3 p-3"
             >
               {mediaUrl(item.imageUrl) && (
-                <div className="flex-shrink-0 w-14 h-14 rounded-md overflow-hidden bg-white/5">
+                <div className="flex-shrink-0 w-14 h-14 rounded-md overflow-hidden bg-zinc-100">
                   <Image src={mediaUrl(item.imageUrl)!} alt={item.imageAlt} width={56} height={56} className="object-cover w-full h-full" />
                 </div>
               )}
               <div className="flex-1 min-w-0">
                 {firstTag && (
-                  <span className="text-[9px] tracking-widest text-white/30 uppercase">{firstTag}</span>
+                  <span className="text-[9px] tracking-widest text-zinc-400 uppercase">{firstTag}</span>
                 )}
-                <p className="font-medium text-sm leading-snug truncate group-hover:text-white/80 transition-colors text-white/70">
+                <p className="font-medium text-sm leading-snug truncate group-hover:text-zinc-900 transition-colors text-zinc-700">
                   {item.title}
                 </p>
-                <p className="text-xs text-white/40 mt-0.5">
+                <p className="text-xs text-zinc-400 mt-0.5">
                   {new Date(item.startDate).toLocaleDateString('bg-BG')} — {new Date(item.endDate).toLocaleDateString('bg-BG')}
                 </p>
                 <div className="mt-1.5">{spotsBadge}</div>
@@ -307,7 +307,7 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
               'flex items-center justify-center ml-1.5 rounded-lg border transition-all duration-200 flex-shrink-0 print:hidden',
               isWishlisted
                 ? 'border-[#F45B26]/50 bg-[#F45B26]/10 text-[#F45B26]'
-                : 'border-white/8 bg-transparent text-white/20 hover:text-[#F45B26] hover:bg-[#F45B26]/5 hover:border-[#F45B26]/25',
+                : 'border-zinc-200 bg-transparent text-zinc-300 hover:text-[#F45B26] hover:bg-[#F45B26]/5 hover:border-[#F45B26]/25',
             ].join(' ')}
             style={{ width: '22px' }}
           >
@@ -322,7 +322,7 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
 
         {/* Compare + Share row */}
         <div className="px-1 pt-1 print:hidden flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          <label className="flex items-center gap-1.5 cursor-pointer text-[9px] text-white/15 hover:text-white/35 transition-colors">
+          <label className="flex items-center gap-1.5 cursor-pointer text-[9px] text-zinc-300 hover:text-zinc-500 transition-colors">
             <input
               type="checkbox"
               checked={isComparing}
@@ -334,7 +334,7 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
           <button
             onClick={handleShare}
             aria-label="Сподели"
-            className="text-[9px] text-white/15 hover:text-white/50 transition-colors"
+            className="text-[9px] text-zinc-300 hover:text-zinc-600 transition-colors"
           >
             ↗ Сподели
           </button>
@@ -345,7 +345,7 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
             {!waitlistOpen && !waitlistSent && (
               <button
                 onClick={() => setWaitlistOpen(true)}
-                className="text-xs text-white/30 hover:text-white/60 transition-colors mt-1"
+                className="text-xs text-zinc-400 hover:text-zinc-700 transition-colors mt-1"
               >
                 Уведоми ме при свободно място
               </button>
@@ -358,14 +358,14 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
                   placeholder="имейл"
                   value={waitlistEmail}
                   onChange={(e) => setWaitlistEmail(e.target.value)}
-                  className="flex-1 text-xs bg-white/5 border border-white/10 rounded px-2 py-1 text-white placeholder-white/20 focus:outline-none focus:border-white/30"
+                  className="flex-1 text-xs bg-white border border-zinc-200 rounded px-2 py-1 text-zinc-800 placeholder-zinc-300 focus:outline-none focus:border-zinc-400"
                 />
-                <button type="submit" className="text-xs text-white/50 hover:text-white transition-colors px-2">
+                <button type="submit" className="text-xs text-zinc-500 hover:text-zinc-900 transition-colors px-2">
                   ОК
                 </button>
               </form>
             )}
-            {waitlistSent && <p className="text-xs text-white/40 mt-1">Ще те уведомим.</p>}
+            {waitlistSent && <p className="text-xs text-zinc-400 mt-1">Ще те уведомим.</p>}
           </div>
         )}
 

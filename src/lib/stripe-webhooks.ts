@@ -283,8 +283,8 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
       } catch {}
     }
 
-    revalidateTag('products', 'default')
-    revalidateTag('trips', 'default')
+    (revalidateTag as any)('products', 'max')
+    (revalidateTag as any)('trips', 'max')
     void revalidatePath('/shop')
     return
   }
@@ -315,7 +315,7 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
         const newSpots = Math.max(0, (trip as any).spotsAvailable - ((reg as any).participantCount ?? 1))
         await payload.update({ collection: 'trips', id: tripId, data: { spotsAvailable: newSpots, status: newSpots === 0 ? 'soldOut' : 'active' } })
         if (newSpots > 0) await notifyWaitlist(payload, 'trip', tripId)
-        revalidateTag('trips', 'default')
+        (revalidateTag as any)('trips', 'max')
         void revalidatePath('/destinations')
       }
     }

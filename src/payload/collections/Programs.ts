@@ -4,7 +4,7 @@ import { after } from 'next/server'
 import { syncStripeProduct } from '@/lib/stripe-product-sync'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const revalidateTag = (tag: string) => (_revalidateTag as any)(tag)
+const revalidateTag = _revalidateTag
 const revalidatePrograms = ({ doc }: { doc: unknown }) => {
   try { after(() => { revalidateTag('programs') }) } catch { /* noop */ }
   return doc

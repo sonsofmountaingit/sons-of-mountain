@@ -5456,7 +5456,7 @@
       "./FooterShakingLink",
       "./FooterReveal"
     ],
-    "lines": 312,
+    "lines": 302,
     "group": "ui"
   },
   "src/components/ui/Testimonials.tsx": {

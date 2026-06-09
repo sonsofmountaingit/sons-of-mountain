@@ -15,7 +15,7 @@ const getShopData = unstable_cache(
     return { shop, categories: categories.docs, featuredProducts: featuredProducts.docs, featuredBundles: featuredBundles.docs }
   },
   ['shop-data'],
-  { tags: ['shop', 'categories', 'products', 'bundles'], revalidate: 3600 }
+  { tags: ['shop', 'categories', 'products', 'bundles'], revalidate: false }
 )
 
 export async function GET() {

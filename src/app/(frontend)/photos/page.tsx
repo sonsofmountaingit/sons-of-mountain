@@ -17,7 +17,7 @@ const getDestinations = unstable_cache(
     return docs
   },
   ['photos-destinations'],
-  { tags: ['destinations'], revalidate: 3600 },
+  { tags: ['destinations'], revalidate: false },
 )
 
 async function PhotosContent() {

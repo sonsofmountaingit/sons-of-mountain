@@ -21,7 +21,7 @@ const getStories = unstable_cache(
     return docs
   },
   ['stories-list'],
-  { tags: ['stories'], revalidate: 3600 },
+  { tags: ['stories'], revalidate: false },
 )
 
 async function StoriesContent() {

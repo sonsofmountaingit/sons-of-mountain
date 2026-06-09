@@ -20,7 +20,7 @@ const getTestimonialsData = unstable_cache(
     }
   },
   ['testimonials-global'],
-  { tags: ['testimonials'], revalidate: 3600 },
+  { tags: ['testimonials'], revalidate: false },
 )
 
 export async function Testimonials() {

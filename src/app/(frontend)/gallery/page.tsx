@@ -52,7 +52,7 @@ const getGalleryData = unstable_cache(
   }
   },
   ['gallery-page'],
-  { tags: ['gallery'], revalidate: 3600 },
+  { tags: ['gallery'], revalidate: false },
 )
 
 export const metadata: Metadata = {

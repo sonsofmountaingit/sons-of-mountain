@@ -25,7 +25,7 @@ const getTrips = unstable_cache(
     return docs
   },
   ['trips-list'],
-  { tags: ['trips'], revalidate: 3600 },
+  { tags: ['trips'], revalidate: false },
 )
 
 function formatDate(dateStr: string) {

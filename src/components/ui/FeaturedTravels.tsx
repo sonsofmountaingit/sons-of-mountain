@@ -85,7 +85,7 @@ const getData = unstable_cache(async () => {
     }).filter(Boolean) as FeaturedTravelItem[]
 
     return { heading: g?.heading ?? 'ИЗБЕРИ СВОЕТО ПЪТУВАНЕ', items }
-}, ['featured-travels-data'], { tags: ['featured-travels'], revalidate: 3600 })
+}, ['featured-travels-data'], { tags: ['featured-travels'], revalidate: false })
 
 export async function FeaturedTravels() {
   const { heading, items } = await getData()

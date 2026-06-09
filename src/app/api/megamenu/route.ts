@@ -54,7 +54,7 @@ const getMegamenuData = unstable_cache(
     }
   },
   ['megamenu-data'],
-  { tags: ['destinations', 'trips'], revalidate: 3600 },
+  { tags: ['destinations', 'trips'], revalidate: false },
 )
 
 export async function GET() {

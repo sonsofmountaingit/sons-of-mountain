@@ -2,7 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { after } from 'next/server'
 import { revalidateTag as _revalidateTag } from 'next/cache'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const revalidateTag = (tag: string) => (_revalidateTag as any)(tag)
+const revalidateTag = _revalidateTag
 
 export const Testimonials: CollectionConfig = {
   slug: 'testimonials',
@@ -38,6 +38,15 @@ export const Testimonials: CollectionConfig = {
       type: 'upload',
       relationTo: 'media',
       label: 'Снимка на автора',
+    },
+    {
+      name: 'cardImage',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Фоново изображение на картата (hero на дестинация/пътуване)',
+      filterOptions: {
+        mimeType: { contains: 'image' },
+      },
     },
     {
       name: 'row',

@@ -26,7 +26,7 @@ const getVoucherOptions = unstable_cache(
     return { destinations: destinations.docs, trips: trips.docs, programs: programs.docs }
   },
   ['voucher-options'],
-  { tags: ['destinations', 'trips', 'programs'], revalidate: 3600 }
+  { tags: ['destinations', 'trips', 'programs'], revalidate: false }
 )
 
 async function VouchersContent() {

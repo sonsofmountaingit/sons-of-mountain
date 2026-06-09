@@ -4,12 +4,10 @@ import { revalidateGlobal } from '../hooks/revalidate'
 import { after } from 'next/server'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const revalidateTag = (tag: string) => (_revalidateTag as any)(tag)
+const revalidateTag = _revalidateTag
 const revalidateFooterTag = ({ doc }: { doc: unknown }) => {
   try {
-    after(() => {
-      revalidateTag('footer')
-    })
+    after(() => { try { revalidateTag('footer') } catch {} })
   } catch { /* outside request scope */ }
   return doc
 }

@@ -1,13 +1,11 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { headers } from 'next/headers'
 import { revalidateTag } from 'next/cache'
+import { verifyPayloadJWT } from '@/lib/payload-auth'
 
 export async function PATCH(request: Request) {
+  if (!(await verifyPayloadJWT())) return Response.json({ error: 'Unauthorized' }, { status: 401 })
   const payload = await getPayload({ config })
-  const requestHeaders = await headers()
-  const { user } = await payload.auth({ headers: requestHeaders as unknown as Headers })
-  if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
   let body: { puckData?: any }
   try {
@@ -35,9 +33,8 @@ export async function PATCH(request: Request) {
     slug: 'navigation',
     data: updateData,
     overrideAccess: true,
-  })
+  }).catch(() => {})
 
-  revalidateTag('navigation', 'default')
-
+  ;(revalidateTag as any)('navigation', 'max')
   return Response.json({ ok: true })
 }

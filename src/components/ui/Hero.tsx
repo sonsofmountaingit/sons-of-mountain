@@ -19,7 +19,7 @@ const getHeroData = unstable_cache(
     }
   },
   ['hero-global'],
-  { tags: ['hero'], revalidate: 3600 },
+  { tags: ['hero'], revalidate: false },
 )
 
 export async function Hero() {

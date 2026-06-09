@@ -22,7 +22,7 @@ const getFooterData = unstable_cache(
     }
   },
   ['footer-global'],
-  { tags: ['footer'], revalidate: 3600 },
+  { tags: ['footer'], revalidate: false },
 )
 
 const getNavigationData = unstable_cache(
@@ -35,7 +35,7 @@ const getNavigationData = unstable_cache(
     }
   },
   ['navigation-global'],
-  { tags: ['navigation'], revalidate: 3600 },
+  { tags: ['navigation'], revalidate: false },
 )
 
 const getAllActiveTrips = unstable_cache(
@@ -56,7 +56,7 @@ const getAllActiveTrips = unstable_cache(
     }
   },
   ['footer-trips-auto'],
-  { tags: ['footer', 'trips'], revalidate: 3600 },
+  { tags: ['footer', 'trips'], revalidate: false },
 )
 
 const getAllTripsPool = unstable_cache(
@@ -77,7 +77,7 @@ const getAllTripsPool = unstable_cache(
     }
   },
   ['footer-trips-pool'],
-  { tags: ['footer', 'trips'], revalidate: 3600 },
+  { tags: ['footer', 'trips'], revalidate: false },
 )
 
 export async function Footer() {
