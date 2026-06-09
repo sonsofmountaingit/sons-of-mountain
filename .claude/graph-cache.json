@@ -2629,6 +2629,12 @@
       "size": 14
     },
     {
+      "id": "src/lib/payload-auth.ts",
+      "label": "lib/payload-auth.ts",
+      "group": "lib",
+      "size": 20
+    },
+    {
       "id": "src/lib/stripe-product-sync.ts",
       "label": "lib/stripe-product-sync.ts",
       "group": "lib",
@@ -3175,48 +3181,88 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/puck/footer/route.ts",
+      "target": "src/lib/payload-auth.ts"
+    },
+    {
       "source": "src/app/api/puck/featured-travels/route.ts",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/featured-travels/route.ts",
+      "target": "src/lib/payload-auth.ts"
     },
     {
       "source": "src/app/api/puck/destination-carousel/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/puck/destination-carousel/route.ts",
+      "target": "src/lib/payload-auth.ts"
+    },
+    {
       "source": "src/app/api/puck/testimonials/route.ts",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/testimonials/route.ts",
+      "target": "src/lib/payload-auth.ts"
     },
     {
       "source": "src/app/api/puck/gallery/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/puck/gallery/route.ts",
+      "target": "src/lib/payload-auth.ts"
+    },
+    {
       "source": "src/app/api/puck/shop/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
       "source": "src/app/api/puck/shop/route.ts",
-      "target": "src/lib/auth.ts"
+      "target": "src/lib/payload-auth.ts"
     },
     {
       "source": "src/app/api/puck/why-travel-with-us/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/puck/why-travel-with-us/route.ts",
+      "target": "src/lib/payload-auth.ts"
+    },
+    {
       "source": "src/app/api/puck/navigation/route.ts",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/navigation/route.ts",
+      "target": "src/lib/payload-auth.ts"
     },
     {
       "source": "src/app/api/puck/calendar-cta/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/puck/calendar-cta/route.ts",
+      "target": "src/lib/payload-auth.ts"
+    },
+    {
       "source": "src/app/api/puck/about/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/puck/about/route.ts",
+      "target": "src/lib/payload-auth.ts"
+    },
+    {
       "source": "src/app/api/puck/hero/route.ts",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/hero/route.ts",
+      "target": "src/lib/payload-auth.ts"
     },
     {
       "source": "src/app/api/puck/[id]/route.ts",
@@ -5711,6 +5757,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-05-28T10:05:50.261Z",
-  "fileCount": 464
+  "builtAt": "2026-06-09T11:42:44.406Z",
+  "fileCount": 465
 }

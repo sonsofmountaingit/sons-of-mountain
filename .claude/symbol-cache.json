@@ -709,9 +709,10 @@
     "imports": [
       "next/server",
       "payload",
-      "@payload-config"
+      "@payload-config",
+      "next/cache"
     ],
-    "lines": 79,
+    "lines": 85,
     "group": "api"
   },
   "src/app/api/shipping/rates/route.ts": {
@@ -1069,10 +1070,10 @@
     "imports": [
       "payload",
       "@payload-config",
-      "next/headers",
-      "next/cache"
+      "next/cache",
+      "@/lib/payload-auth"
     ],
-    "lines": 71,
+    "lines": 64,
     "group": "api"
   },
   "src/app/api/puck/featured-travels/route.ts": {
@@ -1083,10 +1084,10 @@
     "imports": [
       "payload",
       "@payload-config",
-      "next/headers",
-      "next/cache"
+      "next/cache",
+      "@/lib/payload-auth"
     ],
-    "lines": 29,
+    "lines": 27,
     "group": "api"
   },
   "src/app/api/puck/destination-carousel/route.ts": {
@@ -1097,10 +1098,10 @@
     "imports": [
       "payload",
       "@payload-config",
-      "next/headers",
-      "next/cache"
+      "next/cache",
+      "@/lib/payload-auth"
     ],
-    "lines": 37,
+    "lines": 35,
     "group": "api"
   },
   "src/app/api/puck/testimonials/route.ts": {
@@ -1111,10 +1112,10 @@
     "imports": [
       "payload",
       "@payload-config",
-      "next/headers",
-      "next/cache"
+      "next/cache",
+      "@/lib/payload-auth"
     ],
-    "lines": 37,
+    "lines": 35,
     "group": "api"
   },
   "src/app/api/puck/gallery/route.ts": {
@@ -1125,10 +1126,10 @@
     "imports": [
       "payload",
       "@payload-config",
-      "next/headers",
-      "next/cache"
+      "next/cache",
+      "@/lib/payload-auth"
     ],
-    "lines": 38,
+    "lines": 36,
     "group": "api"
   },
   "src/app/api/puck/shop/route.ts": {
@@ -1140,11 +1141,10 @@
       "next/server",
       "payload",
       "@payload-config",
-      "@/lib/auth",
-      "next/headers",
-      "next/cache"
+      "next/cache",
+      "@/lib/payload-auth"
     ],
-    "lines": 20,
+    "lines": 18,
     "group": "api"
   },
   "src/app/api/puck/why-travel-with-us/route.ts": {
@@ -1155,10 +1155,10 @@
     "imports": [
       "payload",
       "@payload-config",
-      "next/headers",
-      "next/cache"
+      "next/cache",
+      "@/lib/payload-auth"
     ],
-    "lines": 33,
+    "lines": 31,
     "group": "api"
   },
   "src/app/api/puck/navigation/route.ts": {
@@ -1169,10 +1169,10 @@
     "imports": [
       "payload",
       "@payload-config",
-      "next/headers",
-      "next/cache"
+      "next/cache",
+      "@/lib/payload-auth"
     ],
-    "lines": 44,
+    "lines": 41,
     "group": "api"
   },
   "src/app/api/puck/calendar-cta/route.ts": {
@@ -1183,10 +1183,10 @@
     "imports": [
       "payload",
       "@payload-config",
-      "next/headers",
-      "next/cache"
+      "next/cache",
+      "@/lib/payload-auth"
     ],
-    "lines": 39,
+    "lines": 37,
     "group": "api"
   },
   "src/app/api/puck/about/route.ts": {
@@ -1197,10 +1197,10 @@
     "imports": [
       "payload",
       "@payload-config",
-      "next/headers",
-      "next/cache"
+      "next/cache",
+      "@/lib/payload-auth"
     ],
-    "lines": 60,
+    "lines": 58,
     "group": "api"
   },
   "src/app/api/puck/hero/route.ts": {
@@ -1211,10 +1211,10 @@
     "imports": [
       "payload",
       "@payload-config",
-      "next/headers",
-      "next/cache"
+      "next/cache",
+      "@/lib/payload-auth"
     ],
-    "lines": 41,
+    "lines": 39,
     "group": "api"
   },
   "src/app/api/puck/[id]/route.ts": {
@@ -2603,7 +2603,7 @@
       "@/components/ui/Navigation",
       "@/components/ui/Footer"
     ],
-    "lines": 36,
+    "lines": 42,
     "group": "frontend"
   },
   "src/app/(frontend)/vouchers/[code]/page.tsx": {
@@ -3402,7 +3402,7 @@
       "../hooks/revalidate",
       "next/server"
     ],
-    "lines": 251,
+    "lines": 249,
     "group": "globals"
   },
   "src/payload/globals/DestinationCarousel.ts": {
@@ -3429,7 +3429,7 @@
       "next/cache",
       "next/server"
     ],
-    "lines": 53,
+    "lines": 51,
     "group": "globals"
   },
   "src/payload/globals/About.ts": {
@@ -3443,7 +3443,7 @@
       "../hooks/revalidate",
       "next/server"
     ],
-    "lines": 153,
+    "lines": 151,
     "group": "globals"
   },
   "src/payload/globals/CalendarCta.ts": {
@@ -3894,7 +3894,7 @@
       "next/server",
       "next/cache"
     ],
-    "lines": 73,
+    "lines": 82,
     "group": "collections"
   },
   "src/payload/collections/Users.ts": {
@@ -4252,7 +4252,7 @@
       "gsap",
       "gsap/ScrollTrigger"
     ],
-    "lines": 285,
+    "lines": 476,
     "group": "blocks"
   },
   "src/components/blocks/EmbedBlockRenderer.tsx": {
@@ -5330,7 +5330,7 @@
       "@/components/shop/CartSheet",
       "@/lib/cart-store"
     ],
-    "lines": 506,
+    "lines": 510,
     "group": "ui"
   },
   "src/components/ui/DestinationCarousel.tsx": {
@@ -5366,11 +5366,12 @@
     "imports": [
       "payload",
       "@payload-config",
+      "next/cache",
       "@/components/blocks/why-travel-with-us/WhyTravelWithUsBlock",
       "./WhyTravelWithUsEditButton",
       "@/lib/media-url"
     ],
-    "lines": 74,
+    "lines": 79,
     "group": "ui"
   },
   "src/components/ui/ScrollReveal.tsx": {
@@ -6188,6 +6189,19 @@
       "resend"
     ],
     "lines": 14,
+    "group": "lib"
+  },
+  "src/lib/payload-auth.ts": {
+    "exports": [
+      "verifyPayloadJWT"
+    ],
+    "types": [],
+    "imports": [
+      "jose",
+      "crypto",
+      "next/headers"
+    ],
+    "lines": 24,
     "group": "lib"
   },
   "src/lib/stripe-product-sync.ts": {
