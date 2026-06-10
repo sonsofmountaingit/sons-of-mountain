@@ -4,6 +4,13 @@ import type { Metadata } from 'next'
 import { mediaUrl } from '@/lib/media-url'
 import { CalendarGrid, type MonthGroup } from '@/components/ui/CalendarGrid'
 import type { CalendarItem } from '@/components/ui/CalendarTripCard'
+
+function toDifficulty(raw: number | null | undefined): number | null {
+  if (raw == null) return null
+  const level = Math.ceil(raw / 20)
+  return Math.max(1, Math.min(5, level))
+}
+
 import Script from 'next/script'
 import { Suspense } from 'react'
 import { unstable_cache } from 'next/cache'
@@ -43,7 +50,9 @@ type TripDoc = {
     heroImage?: { url?: string; alt?: string } | string
     latitude?: number
     longitude?: number
+    fitnessRatings?: { difficulty?: number; comfort?: number; nature?: number; culture?: number }
   } | string
+  fitnessRatings?: { difficulty?: number; comfort?: number; nature?: number; culture?: number }
 }
 
 type ProgramDoc = {
@@ -63,6 +72,7 @@ type ProgramDoc = {
   destination?: { name?: string; slug?: string; latitude?: number; longitude?: number } | string
   latitude?: number
   longitude?: number
+  fitnessRatings?: { difficulty?: number; comfort?: number; nature?: number; culture?: number }
 }
 
 
@@ -105,6 +115,7 @@ const fetchCalendarData = unstable_cache(
       status: (trip.status as CalendarItem['status']) ?? 'active',
       tags: (trip.tags ?? []).map((t) => t.tag ?? '').filter(Boolean),
       href: dest?.slug ? `/destinations/${dest.slug}` : '#',
+      difficulty: toDifficulty(trip.fitnessRatings?.difficulty ?? dest?.fitnessRatings?.difficulty ?? null),
     })
     if (dest?.latitude && dest?.longitude) {
       itemCoords[trip.id] = { lat: dest.latitude, lng: dest.longitude }
@@ -130,6 +141,7 @@ const fetchCalendarData = unstable_cache(
       status: (prog.status as CalendarItem['status']) ?? 'active',
       tags: (prog.tags ?? []).map((t) => t.tag ?? '').filter(Boolean),
       href: prog.slug ? `/programs/${prog.slug}` : '#',
+      difficulty: toDifficulty(prog.fitnessRatings?.difficulty ?? null),
     })
     const lat = prog.latitude ?? (typeof prog.destination === 'object' ? prog.destination?.latitude : undefined)
     const lng = prog.longitude ?? (typeof prog.destination === 'object' ? prog.destination?.longitude : undefined)

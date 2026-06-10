@@ -23,6 +23,21 @@ export type CalendarItem = {
   status: 'active' | 'soldOut' | 'draft'
   tags: string[]
   href: string
+  difficulty: number | null
+}
+
+export const DIFFICULTY_LABELS: Record<number, string> = {
+  1: 'Много лесно',
+  2: 'Лесно',
+  3: 'Умерено',
+  4: 'Трудно',
+  5: 'Много трудно',
+}
+
+export function difficultyToLevel(raw: number | null | undefined): number | null {
+  if (raw == null) return null
+  const level = Math.ceil(raw / 20)
+  return Math.max(1, Math.min(5, level))
 }
 
 type Props = {

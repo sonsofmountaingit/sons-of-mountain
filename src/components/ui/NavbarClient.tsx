@@ -54,7 +54,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
   const pathname = usePathname()
   const LIGHT_PAGES = ['/calendar']
   const isLightPage = LIGHT_PAGES.some((p) => pathname === p || pathname.startsWith(p + '/'))
-  const textBase = isLightPage && !scrolled ? 'text-zinc-700 hover:text-zinc-900' : 'text-white/80 hover:text-white'
+  const textBase = 'text-white/80 hover:text-white'
   const logoSrc = logoHovered ? '/colored-logo.svg' : '/white-logo.svg'
   const allLinks = [...(navLinksLeft ?? []), ...(navLinksRight ?? [])]
 
@@ -113,7 +113,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
         transition={{ duration: 0.3, ease: 'easeInOut' }}
         className={[
           'fixed left-0 right-0 z-50 transition-all duration-300 overflow-visible',
-          scrolled ? 'top-0 backdrop-blur-md bg-black/60' : isLightPage ? 'top-0 bg-white border-b border-zinc-100' : 'top-2 bg-transparent',
+          scrolled ? 'top-0 backdrop-blur-md bg-black/60' : isLightPage ? 'top-0 bg-black' : 'top-2 bg-transparent',
         ].join(' ')}
       >
         <nav className={['relative w-full px-14 flex items-center justify-between transition-all duration-300 whitespace-nowrap overflow-visible', scrolled ? 'h-[56px]' : 'h-[88px]'].join(' ')}>
@@ -332,7 +332,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
         onMouseEnter={() => setLogoHovered(true)}
         onMouseLeave={() => setLogoHovered(false)}
       >
-        <Image src={logoSrc} alt="Logo" width={140} height={140} priority className={['w-auto transition-all duration-300', scrolled ? 'h-10' : 'h-20'].join(' ')} unoptimized />
+        <Image src={logoSrc} alt="Logo" width={140} height={140} priority className={['w-auto', scrolled ? 'h-10' : 'h-20'].join(' ')} unoptimized />
       </Link>
 
       {/* Desktop megamenu */}

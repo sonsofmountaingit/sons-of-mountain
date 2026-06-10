@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useCallback, useEffect, useMemo, lazy, Suspense } from 'react'
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
-import { CalendarTripCard, type CalendarItem } from './CalendarTripCard'
+import { CalendarTripCard, type CalendarItem, DIFFICULTY_LABELS } from './CalendarTripCard'
 
 const CalendarMap = lazy(() => import('./CalendarMap').then((m) => ({ default: m.CalendarMap })))
 
@@ -320,7 +320,7 @@ function FilterDropdown({
       </button>
       <div
         ref={panelRef}
-        style={{ display: 'none', position: 'absolute', top: 'calc(100% + 6px)', left: 0, zIndex: 200, minWidth: '160px' }}
+        style={{ display: 'none', position: 'absolute', top: 'calc(100% + 6px)', left: 0, zIndex: 999, minWidth: '160px' }}
         className="bg-white border border-zinc-200 rounded-xl shadow-xl overflow-hidden"
       >
         {children}
@@ -339,6 +339,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
   const [year, setYear] = useState(searchParams.get('year') ?? 'all')
   const [onlyAvailable, setOnlyAvailable] = useState(false)
   const [onlyWishlisted, setOnlyWishlisted] = useState(false)
+  const [difficulty, setDifficulty] = useState(searchParams.get('difficulty') ?? 'all')
   const [search, setSearch] = useState('')
   const [wishlistIds, setWishlistIds] = useState<Set<string>>(new Set(initialWishlist))
   const [collapsedMonths, setCollapsedMonths] = useState<Set<string>>(new Set())
@@ -415,6 +416,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
   function setAndSyncCategory(v: string) { animateGridChange(() => { setCategory(v); updateUrl({ category: v }) }) }
   function setAndSyncYear(v: string) { animateGridChange(() => { setYear(v); updateUrl({ year: v }) }) }
   function setAndSyncTag(v: string) { animateGridChange(() => { setTag(v); updateUrl({ tag: v }) }) }
+  function setAndSyncDifficulty(v: string) { animateGridChange(() => { setDifficulty(v); updateUrl({ difficulty: v }) }) }
 
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   function handleSearch(v: string) {
@@ -447,12 +449,13 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
     if (year !== 'all' && new Date(item.startDate).getFullYear() !== Number(year)) return false
     if (onlyAvailable && (item.spotsAvailable === 0 || item.status === 'soldOut')) return false
     if (onlyWishlisted && !wishlistIds.has(item.id)) return false
+    if (difficulty !== 'all' && item.difficulty !== Number(difficulty)) return false
     if (search) {
       const q = search.toLowerCase()
       if (!item.title.toLowerCase().includes(q) && !item.destinationName.toLowerCase().includes(q)) return false
     }
     return true
-  }, [category, tag, year, onlyAvailable, onlyWishlisted, wishlistIds, search])
+  }, [category, tag, year, onlyAvailable, onlyWishlisted, wishlistIds, difficulty, search])
 
   const filteredGroups = useMemo(() =>
     groups.map((g) => ({ ...g, items: g.items.filter(filterItem) })).filter((g) => g.items.length > 0),
@@ -508,7 +511,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
       `}</style>
 
       {/* Filter bar */}
-      <div ref={filterBarRef} className="mb-10 print:hidden">
+      <div ref={filterBarRef} className="mb-10 print:hidden relative z-40">
         <div className="flex items-center gap-2">
           {/* Dropdown: Дестинация */}
           <FilterDropdown
@@ -553,6 +556,41 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
                   ].join(' ')}
                 >
                   {t.toUpperCase()}
+                </button>
+              ))}
+            </div>
+          </FilterDropdown>
+
+          {/* Dropdown: Трудност */}
+          <FilterDropdown
+            label="ТРУДНОСТ"
+            active={difficulty !== 'all'}
+            summary={difficulty !== 'all' ? DIFFICULTY_LABELS[Number(difficulty)] : undefined}
+          >
+            <div className="flex flex-col gap-1 p-3">
+              <button
+                onClick={() => setAndSyncDifficulty('all')}
+                className={[
+                  'text-left text-[10px] tracking-widest px-3 py-1.5 rounded-md border transition-all duration-150',
+                  difficulty === 'all'
+                    ? 'border-zinc-400 text-zinc-900 bg-zinc-100'
+                    : 'border-transparent text-zinc-400 hover:text-zinc-700 hover:border-zinc-200',
+                ].join(' ')}
+              >
+                ВСИЧКИ
+              </button>
+              {Object.entries(DIFFICULTY_LABELS).map(([val, lbl]) => (
+                <button
+                  key={val}
+                  onClick={() => setAndSyncDifficulty(val)}
+                  className={[
+                    'text-left text-[10px] tracking-widest px-3 py-1.5 rounded-md border transition-all duration-150',
+                    difficulty === val
+                      ? 'border-zinc-400 text-zinc-900 bg-zinc-100'
+                      : 'border-transparent text-zinc-400 hover:text-zinc-700 hover:border-zinc-200',
+                  ].join(' ')}
+                >
+                  {lbl.toUpperCase()}
                 </button>
               ))}
             </div>
