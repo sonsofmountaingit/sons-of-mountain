@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,6 +16,8 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+        with:
+          driver: docker
 
       - name: Login to Forgejo Registry
         uses: docker/login-action@v3
@@ -34,10 +36,9 @@ jobs:
           tags: |
             git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:latest
             git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:${{ github.sha }}
-          no-cache: true
           build-args: |
-            NEXT_PUBLIC_SERVER_URL=https://sons.netinsky.com
-            NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_51TYjvlBiUm38af2vUhKeTSKlEiuZz1vvESnB3mwPHXuIvdL9xYWAKw7D0gKKjlOhau5OEm7BzMCbUQLMIc01DlXO00cCleOXzx
+            NEXT_PUBLIC_SERVER_URL=https://sonsofmountain.com
+            NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
 
       - name: Build and push migrator image
         uses: docker/build-push-action@v6
@@ -49,22 +50,26 @@ jobs:
           provenance: false
           tags: |
             git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:migrator
-          no-cache: true
 
-      - name: Deploy to server
+  deploy:
+    runs-on: native
+    needs: build
+
+    steps:
+      - name: Pull and restart
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/deploy_key claude-deploy@${{ secrets.DEPLOY_HOST }} bash -se << 'DEPLOY'
-            set -euo pipefail
-            echo "${{ secrets.FORGEJO_TOKEN }}" | sudo docker login git.amabel.world -u ${{ secrets.FORGEJO_USERNAME }} --password-stdin
-            sudo docker pull git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:latest
-            sudo docker pull git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:migrator
-            cd /root/sons-of-mountains
-            sudo docker compose -f docker-compose.prod.yml up -d postgres redis
-            sudo docker compose -f docker-compose.prod.yml up --force-recreate --no-deps --no-build --exit-code-from migrate migrate || true
-            sudo docker compose -f docker-compose.prod.yml up -d --force-recreate --no-deps --no-build app
-            sudo docker image prune -f
-          DEPLOY
-          rm ~/.ssh/deploy_key
+          set -euo pipefail
+          echo "${{ secrets.FORGEJO_TOKEN }}" | docker login git.amabel.world \
+            -u ${{ secrets.FORGEJO_USERNAME }} --password-stdin
+          docker pull git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:latest
+          docker pull git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:migrator
+          cd /opt/sons-of-mountains
+          docker compose -f docker-compose.prod.yml up -d postgres redis
+          sleep 5
+          docker compose -f docker-compose.prod.yml up \
+            --force-recreate --no-deps --no-build \
+            --exit-code-from migrate migrate || true
+          docker compose -f docker-compose.prod.yml up -d \
+            --force-recreate --no-deps --no-build app
+          docker image prune -f
+          echo "Deployed: ${{ github.sha }}"
