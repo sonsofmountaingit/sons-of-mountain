@@ -96,7 +96,7 @@ export const WhyTravelWithUs: GlobalConfig = {
     afterChange: [
       ({ doc }) => {
         try {
-          after(() => revalidateTag('why-travel-with-us'))
+          after(() => revalidateTag('why-travel-with-us', 'max'))
         } catch { /* outside request scope */ }
         return doc
       },

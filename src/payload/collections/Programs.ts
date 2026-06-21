@@ -6,11 +6,11 @@ import { syncStripeProduct } from '@/lib/stripe-product-sync'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const revalidateTag = _revalidateTag
 const revalidatePrograms = ({ doc }: { doc: unknown }) => {
-  try { after(() => { revalidateTag('programs') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('programs', 'max') }) } catch { /* noop */ }
   return doc
 }
 const revalidateProgramsDelete = () => {
-  try { after(() => { revalidateTag('programs') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('programs', 'max') }) } catch { /* noop */ }
 }
 
 export const Programs: CollectionConfig = {

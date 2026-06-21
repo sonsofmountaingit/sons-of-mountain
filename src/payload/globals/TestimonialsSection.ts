@@ -37,7 +37,7 @@ export const TestimonialsSection: GlobalConfig = {
     afterChange: [
       ({ doc }) => {
         try {
-          after(() => { try { revalidateTag('testimonials') } catch {} })
+          after(() => { try { revalidateTag('testimonials', 'max') } catch {} })
         } catch { /* outside request scope */ }
         return doc
       },

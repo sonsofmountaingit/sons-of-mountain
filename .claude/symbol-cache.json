@@ -1653,7 +1653,7 @@
       "react",
       "next/cache"
     ],
-    "lines": 207,
+    "lines": 219,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/page.tsx": {
@@ -5436,7 +5436,7 @@
       "next/navigation",
       "./CalendarTripCard"
     ],
-    "lines": 690,
+    "lines": 728,
     "group": "ui"
   },
   "src/components/ui/Footer.tsx": {
@@ -5721,6 +5721,8 @@
   },
   "src/components/ui/CalendarTripCard.tsx": {
     "exports": [
+      "DIFFICULTY_LABELS",
+      "difficultyToLevel",
       "CalendarTripCard"
     ],
     "types": [
@@ -5734,7 +5736,7 @@
       "@/lib/auth-client",
       "@/lib/media-url"
     ],
-    "lines": 381,
+    "lines": 396,
     "group": "ui"
   },
   "src/components/ui/About.tsx": {

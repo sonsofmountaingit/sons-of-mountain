@@ -23,6 +23,7 @@ interface DestinationCarouselBlockProps {
   destinations?: Destination[]
   headline?: string
   subheading?: string
+  emptyMessage?: string
 }
 
 function DestCard({
@@ -96,7 +97,11 @@ export function DestinationCarouselBlock({
   destinations = [],
   headline = 'Преоткривай света с нас!',
   subheading = 'Пътувай с Panic Frame там, където комфортът среща приключението.',
+  emptyMessage,
 }: DestinationCarouselBlockProps) {
+  if (!destinations.length && emptyMessage) {
+    return <section className="py-16 text-center text-neutral-400">{emptyMessage}</section>
+  }
   const [activeIndex, setActiveIndex] = useState(0)
   const trackRef = useRef<HTMLDivElement>(null)
   const isDragging = useRef(false)

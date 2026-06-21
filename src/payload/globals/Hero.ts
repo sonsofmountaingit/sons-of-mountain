@@ -7,7 +7,7 @@ import { revalidateGlobal } from '../hooks/revalidate'
 
 const revalidateHeroTag = ({ doc }: { doc: unknown }) => {
   try {
-    after(() => { try { revalidateTag('hero') } catch {} })
+    after(() => { try { revalidateTag('hero', 'max') } catch {} })
   } catch { /* outside request scope */ }
   return doc
 }

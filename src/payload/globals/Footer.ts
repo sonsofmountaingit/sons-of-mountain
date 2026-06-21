@@ -7,7 +7,7 @@ import { after } from 'next/server'
 const revalidateTag = _revalidateTag
 const revalidateFooterTag = ({ doc }: { doc: unknown }) => {
   try {
-    after(() => { try { revalidateTag('footer') } catch {} })
+    after(() => { try { revalidateTag('footer', 'max') } catch {} })
   } catch { /* outside request scope */ }
   return doc
 }

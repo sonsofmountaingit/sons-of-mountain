@@ -12,8 +12,8 @@ export const Categories: CollectionConfig = {
     group: 'Shop',
   },
   hooks: {
-    afterChange: [() => { after(() => revalidateTag('categories')) }],
-    afterDelete: [() => { after(() => revalidateTag('categories')) }],
+    afterChange: [() => { after(() => revalidateTag('categories', 'max')) }],
+    afterDelete: [() => { after(() => revalidateTag('categories', 'max')) }],
   },
   fields: [
     {

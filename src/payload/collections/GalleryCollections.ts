@@ -5,11 +5,11 @@ import { after } from 'next/server'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const revalidateTag = _revalidateTag
 const revalidateGallery = ({ doc }: { doc: unknown }) => {
-  try { after(() => { revalidateTag('gallery-collections') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('gallery-collections', 'max') }) } catch { /* noop */ }
   return doc
 }
 const revalidateGalleryDelete = () => {
-  try { after(() => { revalidateTag('gallery-collections') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('gallery-collections', 'max') }) } catch { /* noop */ }
 }
 
 export const GalleryCollections: CollectionConfig = {

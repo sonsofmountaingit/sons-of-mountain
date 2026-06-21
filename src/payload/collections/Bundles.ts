@@ -14,7 +14,7 @@ export const Bundles: CollectionConfig = {
   },
   hooks: {
     afterChange: [
-      () => { after(() => revalidateTag('bundles')) },
+      () => { after(() => revalidateTag('bundles', 'max')) },
       async ({ doc, previousDoc, req }) => {
         try {
           after(() => syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'bundles', priceField: 'bundlePrice' }))
@@ -23,7 +23,7 @@ export const Bundles: CollectionConfig = {
         }
       },
     ],
-    afterDelete: [() => { after(() => revalidateTag('bundles')) }],
+    afterDelete: [() => { after(() => revalidateTag('bundles', 'max')) }],
   },
   fields: [
     {

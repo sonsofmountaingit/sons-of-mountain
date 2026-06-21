@@ -5,6 +5,38 @@ import { WhyTravelWithUsBlock } from '@/components/blocks/why-travel-with-us/Why
 import { WhyTravelWithUsEditButton } from './WhyTravelWithUsEditButton'
 import { mediaUrl } from '@/lib/media-url'
 
+interface WhyItem {
+  icon?: 'camera' | 'globe' | 'city'
+  title?: string
+  body?: string
+}
+
+interface WhyVideoCard {
+  id?: string
+  tripId?: string
+  itemType?: 'trip' | 'destination' | 'program'
+  title?: string
+  video?: { url?: string | null }
+  poster?: { url?: string | null }
+  price?: number
+  currency?: string
+  spotsAvailable?: number | null
+  difficulty?: number | null
+  depositAmount?: number | null
+  startDate?: string | null
+  endDate?: string | null
+  durationDays?: number | null
+  month?: string | null
+}
+
+interface WhyGlobal {
+  heading?: string
+  ctaLabel?: string
+  ctaHref?: string
+  items?: WhyItem[]
+  videoCards?: WhyVideoCard[]
+}
+
 export type VideoCard = {
   id: string
   itemType: 'trip' | 'destination' | 'program'
@@ -24,9 +56,13 @@ export type VideoCard = {
 
 const getData = unstable_cache(
   async () => {
-    const payload = await getPayload({ config })
-    const global = await payload.findGlobal({ slug: 'why-travel-with-us', depth: 1, overrideAccess: true }) as any
-    return { global }
+    try {
+      const payload = await getPayload({ config })
+      const global = await payload.findGlobal({ slug: 'why-travel-with-us', depth: 1, overrideAccess: true })
+      return { global: global as unknown as WhyGlobal }
+    } catch {
+      return { global: null as WhyGlobal | null }
+    }
   },
   ['why-travel-with-us'],
   { tags: ['why-travel-with-us'], revalidate: false },
@@ -38,15 +74,21 @@ export async function WhyTravelWithUs() {
   const heading = g?.heading ?? 'ЗАЩО ДА ПЪТУВАШ С НАС?'
   const ctaLabel = g?.ctaLabel ?? 'Научи повече'
   const ctaHref = g?.ctaHref ?? '/about'
-  const items = g?.items ?? [
-    { icon: 'camera', title: 'Автентичност', body: 'Пътувания, в които се сливаш с мястото, не просто го снимаш.' },
-    { icon: 'globe', title: 'Общност', body: 'Малки групи от хора със сходен дух и жажда за приключения.' },
-    { icon: 'city', title: 'Смисъл', body: 'Моменти, които остават в съзнанието дълго след като се приберeш.' },
+  const VALID_ICONS = new Set<string>(['camera', 'globe', 'city'])
+  const defaultItems = [
+    { icon: 'camera' as const, title: 'Автентичност', body: 'Пътувания, в които се сливаш с мястото, не просто го снимаш.' },
+    { icon: 'globe' as const, title: 'Общност', body: 'Малки групи от хора със сходен дух и жажда за приключения.' },
+    { icon: 'city' as const, title: 'Смисъл', body: 'Моменти, които остават в съзнанието дълго след като се приберeш.' },
   ]
+  const items = (g?.items ?? defaultItems).map((item) => ({
+    icon: (VALID_ICONS.has(item.icon ?? '') ? item.icon : 'camera') as 'camera' | 'globe' | 'city',
+    title: item.title ?? '',
+    body: item.body ?? '',
+  }))
 
   const videoCards: VideoCard[] = (g?.videoCards ?? [])
-    .filter((c: any) => c.video?.url)
-    .map((c: any) => ({
+    .filter((c) => c.video?.url)
+    .map((c) => ({
       id: c.tripId ?? String(c.id),
       itemType: (c.itemType ?? 'trip') as VideoCard['itemType'],
       title: c.title ?? '',
@@ -59,7 +101,7 @@ export async function WhyTravelWithUs() {
       endDate: c.endDate ?? null,
       durationDays: c.durationDays ?? null,
       month: c.month ?? null,
-      videoUrl: mediaUrl(c.video.url),
+      videoUrl: mediaUrl(c.video!.url!),
       posterUrl: c.poster?.url ? mediaUrl(c.poster.url) : null,
     }))
 

@@ -218,8 +218,10 @@ function Row3({ items }: { items: FeaturedTravelItem[] }) {
   )
 }
 
-export function FeaturedTravelsBlock({ heading, items }: { heading: string; items: FeaturedTravelItem[] }) {
-  if (!items.length) return null
+export function FeaturedTravelsBlock({ heading, items, emptyMessage }: { heading: string; items: FeaturedTravelItem[]; emptyMessage?: string }) {
+  if (!items.length) return emptyMessage ? (
+    <section className="bg-white py-16 text-center text-neutral-400">{emptyMessage}</section>
+  ) : null
 
   const [r1, r2, r3] = distribute(items)
   const sectionRef = useRef<HTMLElement>(null)

@@ -29,6 +29,6 @@ export async function PATCH(request: Request) {
     overrideAccess: true,
   }).catch(() => {})
 
-  (revalidateTag as any)('testimonials', 'max')
+  ;(revalidateTag as any)('testimonials', 'max')
   return Response.json({ ok: true })
 }

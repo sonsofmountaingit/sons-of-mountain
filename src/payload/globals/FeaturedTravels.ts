@@ -41,7 +41,7 @@ export const FeaturedTravels: GlobalConfig = {
     afterChange: [
       ({ doc }) => {
         try {
-          after(() => { try { revalidateTag('featured-travels') } catch {} })
+          after(() => { try { revalidateTag('featured-travels', 'max') } catch {} })
         } catch {}
         return doc
       },
