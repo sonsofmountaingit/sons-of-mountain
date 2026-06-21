@@ -53,6 +53,21 @@ export async function POST(req: NextRequest) {
       const id = recordId ?? orderId
       if (!id || !amount) return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
 
+      // Server-side amount validation: look up the record and verify the price
+      const collection = COLLECTION_MAP[type] ?? 'registrations'
+      try {
+        const record = await payload.findByID({ collection, id, overrideAccess: true })
+        const storedAmount =
+          (record as any).totalAmount ??
+          (record as any).amount ??
+          (record as any).price
+        if (storedAmount != null && Math.abs(amount - storedAmount) > 0.01) {
+          return NextResponse.json({ error: 'Amount mismatch with server record' }, { status: 400 })
+        }
+      } catch {
+        // Record not found — let Stripe handle the error downstream
+      }
+
       const paymentMethods: any[] = ['card']
 
       const chargeAmount = paymentMode === 'deposit' ? (body.depositAmount ?? amount) : amount
@@ -78,13 +93,37 @@ export async function POST(req: NextRequest) {
         customer_email: customerEmail,
       })
 
-      const collection = COLLECTION_MAP[type] ?? 'registrations'
       await payload.update({ collection, id, data: { stripeSessionId: session.id } }).catch(() => null)
       return NextResponse.json({ url: session.url })
     }
 
     // Multi-item cart checkout
     if (!items?.length) return NextResponse.json({ error: 'Cart is empty' }, { status: 400 })
+
+    // Server-side price validation for each cart item
+    for (const item of items as CartItem[]) {
+      try {
+        const collectionMap: Record<string, string> = {
+          trip: 'trips', product: 'products', program: 'programs', bundle: 'bundles',
+        }
+        const col = collectionMap[item.type]
+        const docId = item.tripId ?? item.productId ?? item.programId ?? item.bundleId
+        if (col && docId) {
+          const doc = await payload.findByID({ collection: col as any, id: docId, overrideAccess: true })
+          const expectedPrice =
+            (doc as any)?.price ??
+            (doc as any)?.bundlePrice ??
+            (doc as any)?.pricePerPerson
+          if (expectedPrice != null && Math.abs(item.unitPrice - expectedPrice) > 0.01) {
+            return NextResponse.json({
+              error: `Price mismatch for "${item.title}": expected €${expectedPrice.toFixed(2)}, got €${item.unitPrice.toFixed(2)}`,
+            }, { status: 400 })
+          }
+        }
+      } catch {
+        // Item not found — skip validation, Stripe will handle downstream
+      }
+    }
 
     // Build line items — use stored Stripe Price IDs where available
     const lineItems: any[] = await Promise.all((items as CartItem[]).map(async (item) => {

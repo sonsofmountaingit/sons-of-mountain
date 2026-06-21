@@ -2,10 +2,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { Resend } from 'resend'
+import { escapeHtml } from '@/lib/escape-html'
 
 export async function GET(req: NextRequest) {
   const authHeader = req.headers.get('authorization')
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (!authHeader || authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
   const resend = new Resend(process.env.RESEND_API_KEY ?? 'placeholder')
@@ -59,7 +60,7 @@ export async function GET(req: NextRequest) {
           from: `Panic Frame <${process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com'}>`,
           to: sub.email,
           subject: template.subject,
-          html: `<p>Здравей, ${sub.firstName ?? 'приключенец'}!</p>`,
+          html: `<p>Здравей, ${escapeHtml(String(sub.firstName ?? '')) || 'приключенец'}!</p>`,
         }))
 
         const BATCH_SIZE = 100

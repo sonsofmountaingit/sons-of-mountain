@@ -1,6 +1,7 @@
 import type Stripe from 'stripe'
 import type { BasePayload } from 'payload'
 import { revalidatePath, revalidateTag } from 'next/cache'
+import { escapeHtml } from '@/lib/escape-html'
 
 async function getStripe() {
   const { stripe } = await import('@/lib/stripe')
@@ -46,7 +47,7 @@ async function notifyWaitlist(payload: BasePayload, itemType: string, itemId: st
         from: process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com',
         to: (entry as any).email,
         subject: 'A spot is available!',
-        html: `<p>Great news, ${(entry as any).name ?? 'adventurer'}! A spot just opened up. <a href="${process.env.NEXT_PUBLIC_SERVER_URL}/shop">Book now</a> before it's gone.</p>`,
+        html: `<p>Great news, ${escapeHtml(String((entry as any).name ?? '')) || 'adventurer'}! A spot just opened up. <a href="${process.env.NEXT_PUBLIC_SERVER_URL}/shop">Book now</a> before it's gone.</p>`,
       }).catch(() => {})
       await payload.update({ collection: 'waitlist', id: entry.id, data: { status: 'notified', notifiedAt: new Date().toISOString() } })
     }

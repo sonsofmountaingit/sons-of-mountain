@@ -1,5 +1,6 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { escapeHtml } from '@/lib/escape-html'
 
 // Run daily — sends payment reminder emails 7 days and 1 day before remainingDueDate
 export async function runBalanceReminders() {
@@ -50,12 +51,13 @@ export async function runBalanceReminders() {
         paymentUrl = link.url
       } catch {}
 
+      const safeFirstName = escapeHtml(String(doc.firstName ?? ''))
       const dueDateStr = dueDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
       await resend.emails.send({
         from,
         to: doc.email,
         subject: `Reminder: €${doc.remainingBalance.toFixed(2)} balance due ${daysUntilDue === 1 ? 'tomorrow' : 'in 7 days'}`,
-        html: `<p>Hi ${doc.firstName ?? ''},</p><p>Your remaining balance of <strong>€${doc.remainingBalance.toFixed(2)}</strong> is due on <strong>${dueDateStr}</strong>. <a href="${paymentUrl}">Pay now</a></p>`,
+        html: `<p>Hi ${safeFirstName},</p><p>Your remaining balance of <strong>€${doc.remainingBalance.toFixed(2)}</strong> is due on <strong>${dueDateStr}</strong>. <a href="${paymentUrl}">Pay now</a></p>`,
       }).catch(() => {})
 
       await payload.update({
