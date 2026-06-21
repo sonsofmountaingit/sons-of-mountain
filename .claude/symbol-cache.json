@@ -3960,9 +3960,11 @@
     ],
     "types": [],
     "imports": [
-      "payload"
+      "payload",
+      "path",
+      "fs"
     ],
-    "lines": 33,
+    "lines": 73,
     "group": "collections"
   },
   "src/payload/collections/Guides.ts": {
@@ -4185,7 +4187,7 @@
       "gsap",
       "gsap/ScrollTrigger"
     ],
-    "lines": 255,
+    "lines": 257,
     "group": "blocks"
   },
   "src/components/blocks/destination-carousel/DestinationCarouselBlock.tsx": {
@@ -4201,7 +4203,7 @@
       "@/lib/media-url",
       "gsap"
     ],
-    "lines": 316,
+    "lines": 321,
     "group": "blocks"
   },
   "src/components/blocks/LivePreviewBlocks.tsx": {
@@ -4994,7 +4996,7 @@
       "@/components/blocks/featured-travels/FeaturedTravelsBlock",
       "./FeaturedTravelsEditButton"
     ],
-    "lines": 100,
+    "lines": 124,
     "group": "ui"
   },
   "src/components/ui/GalleryFilterBar.tsx": {
@@ -5341,10 +5343,12 @@
     "imports": [
       "payload",
       "@payload-config",
+      "next/cache",
+      "@/lib/media-url",
       "@/components/blocks/destination-carousel/DestinationCarouselBlock",
       "./DestinationCarouselEditButton"
     ],
-    "lines": 41,
+    "lines": 89,
     "group": "ui"
   },
   "src/components/ui/TripCard.tsx": {
@@ -5371,7 +5375,7 @@
       "./WhyTravelWithUsEditButton",
       "@/lib/media-url"
     ],
-    "lines": 79,
+    "lines": 121,
     "group": "ui"
   },
   "src/components/ui/ScrollReveal.tsx": {
@@ -5472,7 +5476,7 @@
       "@/components/blocks/testimonials/TestimonialsBlock",
       "./TestimonialsEditButton"
     ],
-    "lines": 42,
+    "lines": 57,
     "group": "ui"
   },
   "src/components/ui/DestinationCard.tsx": {

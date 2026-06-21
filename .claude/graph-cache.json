@@ -5290,6 +5290,10 @@
     },
     {
       "source": "src/components/ui/DestinationCarousel.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/components/ui/DestinationCarousel.tsx",
       "target": "src/components/blocks/destination-carousel/DestinationCarouselBlock.tsx"
     },
     {
@@ -5757,6 +5761,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-06-10T17:12:14.676Z",
+  "builtAt": "2026-06-21T09:37:34.440Z",
   "fileCount": 465
 }
