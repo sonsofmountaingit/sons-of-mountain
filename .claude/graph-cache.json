@@ -2623,6 +2623,12 @@
       "size": 6
     },
     {
+      "id": "src/lib/escape-html.ts",
+      "label": "lib/escape-html.ts",
+      "group": "lib",
+      "size": 14
+    },
+    {
       "id": "src/lib/resend.ts",
       "label": "lib/resend.ts",
       "group": "lib",
@@ -2969,6 +2975,10 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/draft/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
       "source": "src/app/api/destination-carousel-data/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -2979,6 +2989,10 @@
     {
       "source": "src/app/api/referral/generate/route.ts",
       "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/api/contact/route.ts",
+      "target": "src/lib/escape-html.ts"
     },
     {
       "source": "src/app/api/gallery-data/route.ts",
@@ -3275,6 +3289,10 @@
     {
       "source": "src/app/api/cron/send-campaigns/route.ts",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/cron/send-campaigns/route.ts",
+      "target": "src/lib/escape-html.ts"
     },
     {
       "source": "src/app/api/cron/abandoned-cart/route.ts",
@@ -5506,6 +5524,10 @@
     },
     {
       "source": "src/lib/stripe-webhooks.ts",
+      "target": "src/lib/escape-html.ts"
+    },
+    {
+      "source": "src/lib/stripe-webhooks.ts",
       "target": "src/lib/stripe.ts"
     },
     {
@@ -5534,6 +5556,10 @@
     },
     {
       "source": "src/lib/cron/balance-reminders.ts",
+      "target": "src/lib/escape-html.ts"
+    },
+    {
+      "source": "src/lib/cron/balance-reminders.ts",
       "target": "src/lib/stripe.ts"
     },
     {
@@ -5547,6 +5573,10 @@
     {
       "source": "src/lib/cron/abandoned-cart.ts",
       "target": "src/lib/resend.ts"
+    },
+    {
+      "source": "src/lib/cron/abandoned-cart.ts",
+      "target": "src/lib/escape-html.ts"
     },
     {
       "source": "src/puck/config.tsx",
@@ -5761,6 +5791,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-06-21T09:39:32.192Z",
-  "fileCount": 465
+  "builtAt": "2026-06-21T14:37:06.281Z",
+  "fileCount": 466
 }

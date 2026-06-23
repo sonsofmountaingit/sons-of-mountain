@@ -496,9 +496,11 @@
     "imports": [
       "next/headers",
       "next/navigation",
-      "next/server"
+      "next/server",
+      "payload",
+      "@payload-config"
     ],
-    "lines": 20,
+    "lines": 35,
     "group": "api"
   },
   "src/app/api/destination-carousel-data/route.ts": {
@@ -535,9 +537,10 @@
     "types": [],
     "imports": [
       "next/server",
-      "resend"
+      "resend",
+      "@/lib/escape-html"
     ],
-    "lines": 31,
+    "lines": 36,
     "group": "api"
   },
   "src/app/api/gallery-data/route.ts": {
@@ -750,7 +753,7 @@
       "@payload-config",
       "@/lib/cart-store"
     ],
-    "lines": 189,
+    "lines": 228,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {
@@ -1251,9 +1254,10 @@
       "next/server",
       "payload",
       "@payload-config",
-      "resend"
+      "resend",
+      "@/lib/escape-html"
     ],
-    "lines": 97,
+    "lines": 98,
     "group": "api"
   },
   "src/app/api/cron/abandoned-cart/route.ts": {
@@ -6177,9 +6181,19 @@
     "imports": [
       "stripe",
       "payload",
-      "next/cache"
+      "next/cache",
+      "@/lib/escape-html"
     ],
-    "lines": 727,
+    "lines": 728,
+    "group": "lib"
+  },
+  "src/lib/escape-html.ts": {
+    "exports": [
+      "escapeHtml"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 13,
     "group": "lib"
   },
   "src/lib/resend.ts": {
@@ -6341,9 +6355,10 @@
     "types": [],
     "imports": [
       "payload",
-      "@payload-config"
+      "@payload-config",
+      "@/lib/escape-html"
     ],
-    "lines": 72,
+    "lines": 74,
     "group": "lib"
   },
   "src/lib/cron/abandoned-cart.ts": {
@@ -6354,9 +6369,10 @@
     "imports": [
       "payload",
       "@payload-config",
-      "@/lib/resend"
+      "@/lib/resend",
+      "@/lib/escape-html"
     ],
-    "lines": 67,
+    "lines": 68,
     "group": "lib"
   },
   "src/puck/customFields.tsx": {
