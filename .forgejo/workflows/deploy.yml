@@ -56,6 +56,9 @@ jobs:
     needs: build
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Deploy to sons via SSH
         env:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
@@ -69,6 +72,8 @@ jobs:
           printf '%s' "$DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          scp -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
+            docker-compose.prod.yml "root@${DEPLOY_HOST}:/opt/sons-of-mountains/docker-compose.prod.yml"
           ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no "root@${DEPLOY_HOST}" \
             FORGEJO_TOKEN="$FORGEJO_TOKEN" \
             FORGEJO_USERNAME="$FORGEJO_USERNAME" \

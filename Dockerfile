@@ -35,6 +35,7 @@ RUN sed -i 's|import nextEnvImport from '"'"'@next/env'"'"';|import * as nextEnv
 COPY package.json package-lock.json tsconfig.json next.config.ts ./
 COPY src/payload ./src/payload
 COPY src/lib ./src/lib
+COPY src/migrations ./src/migrations
 COPY scripts ./scripts
 CMD ["npm", "run", "migrate"]
 
