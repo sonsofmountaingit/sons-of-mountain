@@ -8,7 +8,7 @@ export async function runBalanceReminders() {
   const { stripe } = await import('@/lib/stripe')
   if (!stripe) return
   const { resend } = await import('@/lib/resend')
-  const from = process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com'
+  const from = process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com'
   const now = new Date()
 
   for (const collection of ['orders', 'registrations'] as const) {

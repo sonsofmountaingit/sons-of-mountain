@@ -28,7 +28,7 @@ interface GalleryMasonryProps {
 const PAGE_SIZE = 12
 
 /**
- * Assigns each image to a column in a panicframe-style editorial layout:
+ * Assigns each image to a column in a Sons of Mountains-style editorial layout:
  * Row of 3 equal columns, then a wide+narrow split, repeating.
  * The actual heights adapt to each image's natural aspect ratio.
  */

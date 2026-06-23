@@ -8,7 +8,7 @@ interface HeroSubtextBlockProps {
 }
 
 export function HeroSubtextBlock({
-  text = 'Пътувай с Panic Frame там, където комфортът среща приключението.',
+  text = 'Пътувай с Sons of Mountains там, където комфортът среща приключението.',
   fontSize = '1rem',
   color = 'rgba(255,255,255,0.65)',
   textAlign = 'center',

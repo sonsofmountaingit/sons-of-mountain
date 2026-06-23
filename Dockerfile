@@ -12,7 +12,8 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ARG NEXT_PUBLIC_SERVER_URL
 ARG NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-ENV DATABASE_URI=postgresql://postgres:postgres@localhost:5432/placeholder
+ARG DATABASE_URI
+ENV DATABASE_URI=${DATABASE_URI:-postgresql://postgres:postgres@localhost:5432/sonsofmountains}
 ENV PAYLOAD_SECRET=build-secret
 ENV BETTER_AUTH_SECRET=build-secret
 ENV NEXT_PUBLIC_SERVER_URL=$NEXT_PUBLIC_SERVER_URL

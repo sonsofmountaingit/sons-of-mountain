@@ -44,7 +44,7 @@ export function GalleryFilterBar({ filter, onFilter, slug }: GalleryFilterBarPro
     })
   }, [filter])
 
-  const pageUrl = typeof window !== 'undefined' ? window.location.href : `https://panicframe.com/gallery/${slug}`
+  const pageUrl = typeof window !== 'undefined' ? window.location.href : `https://sonsofmountain.com/gallery/${slug}`
 
   const handleCopy = async () => {
     try { await navigator.clipboard.writeText(pageUrl) } catch {}

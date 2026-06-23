@@ -3,7 +3,7 @@ import config from '@payload-config'
 import { getResend } from '@/lib/resend'
 import { escapeHtml } from '@/lib/escape-html'
 
-const FROM = process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com'
+const FROM = process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com'
 const SITE = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
 
 export async function processAbandonedCarts() {

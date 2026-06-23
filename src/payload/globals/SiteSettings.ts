@@ -4,11 +4,11 @@ export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
   admin: { group: 'Site Settings' },
   fields: [
-    { name: 'siteName', type: 'text', defaultValue: 'Panic Frame' },
+    { name: 'siteName', type: 'text', defaultValue: 'Sons of Mountains' },
     {
       name: 'siteDescription',
       type: 'textarea',
-      defaultValue: 'Пътувай с Panic Frame там, където комфортът среща приключението.',
+      defaultValue: 'Пътувай с Sons of Mountains там, където комфортът среща приключението.',
     },
     {
       name: 'defaultOgImage',

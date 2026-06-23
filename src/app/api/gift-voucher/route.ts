@@ -11,8 +11,8 @@ export async function POST(req: NextRequest) {
     }
 
     await resend.emails.send({
-      from: `Panic Frame <${process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com'}>`,
-      to: process.env.RESEND_FROM_EMAIL ?? 'info@panicframe.com',
+      from: `Sons of Mountains <${process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com'}>`,
+      to: process.env.RESEND_FROM_EMAIL ?? 'info@sonsofmountain.com',
       subject: `Нова поръчка на ваучер — ${buyerName}`,
       html: `
         <p><strong>От:</strong> ${buyerName} (${buyerEmail})</p>
@@ -24,15 +24,15 @@ export async function POST(req: NextRequest) {
     })
 
     await resend.emails.send({
-      from: `Panic Frame <${process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com'}>`,
+      from: `Sons of Mountains <${process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com'}>`,
       to: buyerEmail,
-      subject: 'Заявката ти за ваучер е получена — Panic Frame',
+      subject: 'Заявката ти за ваучер е получена — Sons of Mountains',
       html: `
         <p>Здравей, ${buyerName}!</p>
         <p>Получихме заявката ти за подаръчен ваучер на стойност <strong>${amount} лв.</strong></p>
         <p>Ще се свържем с теб с банкова информация за плащане.</p>
         <br/>
-        <p>С уважение,<br/>Panic Frame</p>
+        <p>С уважение,<br/>Sons of Mountains</p>
       `,
     })
 

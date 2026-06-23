@@ -55,8 +55,8 @@ export default function AboutPage() {
     url: process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com',
     logo: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/logo.png`,
     sameAs: [
-      'https://facebook.com/panicframe',
-      'https://instagram.com/panicframe',
+      'https://facebook.com/sonsofmountains',
+      'https://instagram.com/sonsofmountains',
     ],
     description: 'Организираме пътешествия до трудно достъпни места — там, където комфортът среща приключението.',
   }

@@ -12,9 +12,9 @@ type Props = {
 export function FooterFollowBlock({
   followHeading = 'Последвай ни!',
   followSubtext = 'Стани част от нашата общност и следи приключенията ни отблизо.',
-  facebookUrl = 'https://facebook.com/panicframe',
+  facebookUrl = 'https://facebook.com/sonsofmountains',
   facebookFollowers = '20.2K',
-  instagramUrl = 'https://instagram.com/panicframe',
+  instagramUrl = 'https://instagram.com/sonsofmountains',
   instagramFollowers = '23.8K',
 }: Props) {
   return (

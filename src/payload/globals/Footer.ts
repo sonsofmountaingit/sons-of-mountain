@@ -64,12 +64,12 @@ export const Footer: GlobalConfig = {
     {
       name: 'instagramUrl',
       type: 'text',
-      defaultValue: 'https://instagram.com/panicframe',
+      defaultValue: 'https://instagram.com/sonsofmountains',
     },
     {
       name: 'facebookUrl',
       type: 'text',
-      defaultValue: 'https://facebook.com/panicframe',
+      defaultValue: 'https://facebook.com/sonsofmountains',
     },
     {
       name: 'travelSectionHeading',

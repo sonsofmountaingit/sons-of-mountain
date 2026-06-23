@@ -8,6 +8,6 @@ export function getResend(): Resend {
 
 export const resend = { emails: { send: (...args: Parameters<Resend['emails']['send']>) => getResend().emails.send(...args) } }
 
-export const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com'
-export const FROM_NAME = 'Panic Frame'
+export const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com'
+export const FROM_NAME = 'Sons of Mountains'
 export const FROM = `${FROM_NAME} <${FROM_EMAIL}>`

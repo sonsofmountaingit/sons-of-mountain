@@ -33,7 +33,7 @@ export const Hero: GlobalConfig = {
     {
       name: 'subtext',
       type: 'text',
-      defaultValue: 'Пътувай с Panic Frame там, където комфортът среща приключението.',
+      defaultValue: 'Пътувай с Sons of Mountains там, където комфортът среща приключението.',
     },
     {
       name: 'ctaLabel',

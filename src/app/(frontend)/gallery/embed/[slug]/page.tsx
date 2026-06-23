@@ -40,7 +40,7 @@ async function GalleryEmbedContent({ params }: Props) {
   const { slug } = await params
   const collection = await getCollection(slug)
   if (!collection) notFound()
-  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://panicframe.com'
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountain.com'
 
   return (
     <div style={{ background: '#0a0a0a', minHeight: '100vh', fontFamily: 'sans-serif', padding: '16px' }}>

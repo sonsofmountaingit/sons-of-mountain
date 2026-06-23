@@ -19,10 +19,10 @@ const dancingScript = Dancing_Script({
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Panic Frame',
-    default: 'Panic Frame — Преоткривай света с нас',
+    template: '%s | Sons of Mountains',
+    default: 'Sons of Mountains — Преоткривай света с нас',
   },
-  description: 'Пътувай с Panic Frame там, където комфортът среща приключението.',
+  description: 'Пътувай с Sons of Mountains там, където комфортът среща приключението.',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'),
 }
 

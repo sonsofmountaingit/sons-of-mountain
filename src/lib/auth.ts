@@ -3,7 +3,7 @@ import { kyselyAdapter } from '@better-auth/kysely-adapter'
 import { Kysely, PostgresDialect } from 'kysely'
 import pg from 'pg'
 
-const from = process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com'
+const from = process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com'
 
 async function sendEmail(to: string, subject: string, html: string) {
   const { Resend } = await import('resend')

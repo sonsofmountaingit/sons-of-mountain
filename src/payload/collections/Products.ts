@@ -33,7 +33,7 @@ export const Products: CollectionConfig = {
               limit: 100,
             })
             const { resend } = await import('@/lib/resend')
-            const from = process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com'
+            const from = process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com'
             const site = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
             for (const alert of alerts.docs) {
               await resend.emails.send({

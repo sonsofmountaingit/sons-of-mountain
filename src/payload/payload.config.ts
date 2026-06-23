@@ -86,7 +86,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
     meta: {
-      titleSuffix: ' — Panic Frame Admin',
+      titleSuffix: ' — Sons of Mountains Admin',
     },
     livePreview: {
       url: ({ data, collectionConfig }) => {
@@ -238,8 +238,8 @@ export default buildConfig({
   ].filter(Boolean) as string[],
   sharp,
   email: resendAdapter({
-    defaultFromAddress: process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com',
-    defaultFromName: process.env.RESEND_FROM_NAME ?? 'Panic Frame',
+    defaultFromAddress: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
+    defaultFromName: process.env.RESEND_FROM_NAME ?? 'Sons of Mountains',
     apiKey: process.env.RESEND_API_KEY ?? '',
   }),
 })

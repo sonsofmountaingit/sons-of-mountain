@@ -39,7 +39,7 @@ export async function Hero() {
     <>
       <HeroMainBlock backgroundVideoUrl="/hero-bg.mp4">
         <HeroHeadlineBlock text={h?.headline ?? 'Преоткривай света с нас!'} />
-        <HeroSubtextBlock text={h?.subtext ?? 'Пътувай с Panic Frame там, където комфортът среща приключението.'} />
+        <HeroSubtextBlock text={h?.subtext ?? 'Пътувай с Sons of Mountains там, където комфортът среща приключението.'} />
         <HeroCtaBlock label={h?.ctaLabel ?? 'Виж всички дестинации'} url={h?.ctaUrl ?? '/destinations'} />
       </HeroMainBlock>
       <HeroEditButton />

@@ -24,7 +24,7 @@ export function buildMetadata({
       title,
       description,
       url,
-      siteName: 'Panic Frame',
+      siteName: 'Sons of Mountains',
       images: [{ url: ogImage, width: 1200, height: 630 }],
       locale: 'bg_BG',
       type: 'website',

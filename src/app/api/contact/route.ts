@@ -16,8 +16,8 @@ export async function POST(req: NextRequest) {
 
     const resend = new Resend(process.env.RESEND_API_KEY ?? 'placeholder')
     await resend.emails.send({
-      from: `Panic Frame Contact <${process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com'}>`,
-      to: process.env.RESEND_FROM_EMAIL ?? 'info@panicframe.com',
+      from: `Sons of Mountains Contact <${process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com'}>`,
+      to: process.env.RESEND_FROM_EMAIL ?? 'info@sonsofmountain.com',
       replyTo: String(email),
       subject: `Ново съобщение от ${safeName}`,
       html: `

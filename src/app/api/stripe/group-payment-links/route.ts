@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
       results.push({ email: p.email, url: link.url, linkId: link.id, shareAmount: p.shareAmount })
 
       await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com',
+        from: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
         to: p.email,
         subject: 'Your group booking payment link — Sons of Mountains',
         html: `<p>Hi ${p.name},</p><p>Your share for the group booking is €${p.shareAmount.toFixed(2)}. <a href="${link.url}">Pay now</a></p><p>Questions? Visit <a href="${base}">${base}</a></p>`,

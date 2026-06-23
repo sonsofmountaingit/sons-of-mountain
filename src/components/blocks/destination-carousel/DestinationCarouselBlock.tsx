@@ -96,7 +96,7 @@ function DestCard({
 export function DestinationCarouselBlock({
   destinations = [],
   headline = 'Преоткривай света с нас!',
-  subheading = 'Пътувай с Panic Frame там, където комфортът среща приключението.',
+  subheading = 'Пътувай с Sons of Mountains там, където комфортът среща приключението.',
   emptyMessage,
 }: DestinationCarouselBlockProps) {
   if (!destinations.length && emptyMessage) {

@@ -57,7 +57,7 @@ export async function GET(req: NextRequest) {
 
       if (subscribers.length > 0) {
         const batchEmails = subscribers.map((sub) => ({
-          from: `Panic Frame <${process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com'}>`,
+          from: `Sons of Mountains <${process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com'}>`,
           to: sub.email,
           subject: template.subject,
           html: `<p>Здравей, ${escapeHtml(String(sub.firstName ?? '')) || 'приключенец'}!</p>`,

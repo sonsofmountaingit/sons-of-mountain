@@ -24,7 +24,7 @@ async function creditLoyaltyPoints(payload: BasePayload, customerId: string | nu
     if (tier !== oldTier) {
       const { resend } = await import('@/lib/resend')
       await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com',
+        from: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
         to: (cust as any).email,
         subject: `You reached ${tier.charAt(0).toUpperCase() + tier.slice(1)} tier!`,
         html: `<p>Congratulations! You've earned enough points to reach <strong>${tier}</strong> tier. Keep adventuring!</p>`,
@@ -44,7 +44,7 @@ async function notifyWaitlist(payload: BasePayload, itemType: string, itemId: st
     for (const entry of next.docs) {
       const { resend } = await import('@/lib/resend')
       await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com',
+        from: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
         to: (entry as any).email,
         subject: 'A spot is available!',
         html: `<p>Great news, ${escapeHtml(String((entry as any).name ?? '')) || 'adventurer'}! A spot just opened up. <a href="${process.env.NEXT_PUBLIC_SERVER_URL}/shop">Book now</a> before it's gone.</p>`,
@@ -348,7 +348,7 @@ async function sendVoucherEmails(payload: BasePayload, voucherId: string) {
   const base = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
   const voucherUrl = `${base}/vouchers/${v.code}`
   const dashboardUrl = `${base}/vouchers?tab=mine`
-  const from = process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com'
+  const from = process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com'
 
   const { resend } = await import('@/lib/resend')
 
@@ -541,7 +541,7 @@ export async function handleSubscriptionUpsert(sub: Stripe.Subscription, payload
         const emailsSent = sub_doc.dunningEmailsSent ?? 0
         const { resend } = await import('@/lib/resend')
         await resend.emails.send({
-          from: process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com',
+          from: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
           to: sub.customer as string,
           subject: 'Action required: Payment failed for your Adventure Pass',
           html: `<p>Your subscription payment failed. Please update your payment method to continue enjoying your Adventure Pass benefits. <a href="${process.env.NEXT_PUBLIC_SERVER_URL}/dashboard/billing">Update payment method</a></p>`,
@@ -553,7 +553,7 @@ export async function handleSubscriptionUpsert(sub: Stripe.Subscription, payload
       if (status === 'active' && (existing.docs[0] as any).pastDueAt) {
         const { resend } = await import('@/lib/resend')
         await resend.emails.send({
-          from: process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com',
+          from: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
           to: sub.customer as string,
           subject: 'Your Adventure Pass is active again',
           html: `<p>Great news! Your payment was recovered and your Adventure Pass is now active. Keep adventuring!</p>`,
@@ -638,7 +638,7 @@ export async function handleInvoicePaymentFailed(invoice: Stripe.Invoice, payloa
     if (!customerEmail) return
     const retryUrl = invoice.hosted_invoice_url ?? `${process.env.NEXT_PUBLIC_SERVER_URL}/dashboard`
     await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com',
+      from: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
       to: customerEmail,
       subject: 'Payment failed — action required',
       html: `<p>Your payment could not be processed. <a href="${retryUrl}">Click here to retry</a>.</p>`,
@@ -717,7 +717,7 @@ export async function handlePaymentIntentFailed(pi: Stripe.PaymentIntent, payloa
     const email = (doc as any).email
     if (email) {
       await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com',
+        from: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
         to: email,
         subject: 'Balance payment failed — retry link enclosed',
         html: `<p>Your balance payment of €${remainingAmount.toFixed(2)} failed. ${retryLink ? `<a href="${retryLink.url}">Click here to pay now</a>` : 'Please visit your dashboard to complete payment.'}</p>`,

@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
     })
 
     await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL ?? 'noreply@panicframe.com',
+      from: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
       to: email,
       subject: 'Заявката ти е получена — Sons of Mountains',
       html: `

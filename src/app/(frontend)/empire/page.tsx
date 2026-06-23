@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export const metadata: Metadata = { title: 'Empire of Corals — Panic Frame × EXE Group' }
+export const metadata: Metadata = { title: 'Empire of Corals — Sons of Mountains × EXE Group' }
 
 export default function EmpirePage() {
   return (
@@ -11,7 +11,7 @@ export default function EmpirePage() {
         <div className="absolute inset-0 bg-gradient-to-br from-blue-950/50 via-black/60 to-black" />
         <div className="relative z-10 px-8 md:px-16 pb-16 max-w-4xl">
           <div className="flex items-center gap-4 mb-6">
-            <span className="text-xs font-semibold tracking-widest text-white/40 uppercase">Panic Frame × EXE Group</span>
+            <span className="text-xs font-semibold tracking-widest text-white/40 uppercase">Sons of Mountains × EXE Group</span>
           </div>
           <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-4">Empire of Corals</h1>
           <p className="text-xl text-white/60 mb-2">Първият в света мегаяхтен фестивал за електронна музика</p>
@@ -44,7 +44,7 @@ export default function EmpirePage() {
             Empire of Corals е безпрецедентно събитие — комбинация от лукс, музика и природата на Червено море. 6 мегаяхти, 6 артиста, 1 чартърен полет. Само 7 дни, които ще промените завинаги.
           </p>
           <p className="text-white/60 leading-relaxed">
-            Организирано съвместно от Panic Frame и EXE Group.
+            Организирано съвместно от Sons of Mountains и EXE Group.
           </p>
         </div>
       </div>

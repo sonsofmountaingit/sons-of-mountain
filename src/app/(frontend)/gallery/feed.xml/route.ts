@@ -15,7 +15,7 @@ export async function GET() {
     overrideAccess: true,
   })
 
-  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://panicframe.com'
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountain.com'
 
   const items = docs.map((c: any) => {
     const cover = mediaUrl(c.coverImage?.url)
