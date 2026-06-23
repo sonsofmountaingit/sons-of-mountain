@@ -57,78 +57,91 @@ jobs:
 
     steps:
       - name: Deploy to sons via SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          FORGEJO_TOKEN: ${{ secrets.FORGEJO_TOKEN }}
+          FORGEJO_USERNAME: ${{ secrets.FORGEJO_USERNAME }}
+          GIT_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
           mkdir -p ~/.ssh
-          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_ed25519
+          printf '%s' "$DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
-          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no root@${{ secrets.DEPLOY_HOST }} bash << 'REMOTE'
-            set -euo pipefail
-            echo "${{ secrets.FORGEJO_TOKEN }}" | docker login git.amabel.world \
-              -u ${{ secrets.FORGEJO_USERNAME }} --password-stdin
-            docker pull git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:latest
-            docker pull git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:migrator
-            cd /opt/sons-of-mountains
-            docker compose -f docker-compose.prod.yml up -d postgres redis
-            sleep 5
-            docker compose -f docker-compose.prod.yml up \
-              --force-recreate --no-deps --no-build \
-              --exit-code-from migrate migrate || true
-            docker compose -f docker-compose.prod.yml up -d \
-              --force-recreate --no-deps --no-build app
-            docker image prune -f
-            echo "Deployed: ${{ github.sha }}"
+          ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no "root@${DEPLOY_HOST}" \
+            FORGEJO_TOKEN="$FORGEJO_TOKEN" \
+            FORGEJO_USERNAME="$FORGEJO_USERNAME" \
+            GIT_SHA="$GIT_SHA" \
+            bash << 'REMOTE'
+          set -euo pipefail
+          echo "$FORGEJO_TOKEN" | docker login git.amabel.world \
+            -u "$FORGEJO_USERNAME" --password-stdin
+          docker pull "git.amabel.world/${FORGEJO_USERNAME}/sons-of-mountains:latest"
+          docker pull "git.amabel.world/${FORGEJO_USERNAME}/sons-of-mountains:migrator"
+          cd /opt/sons-of-mountains
+          docker compose -f docker-compose.prod.yml up -d postgres redis
+          sleep 5
+          docker compose -f docker-compose.prod.yml up \
+            --force-recreate --no-deps --no-build \
+            --exit-code-from migrate migrate || true
+          docker compose -f docker-compose.prod.yml up -d \
+            --force-recreate --no-deps --no-build app
+          docker image prune -f
+          echo "Deployed: $GIT_SHA"
           REMOTE
 
       - name: Prune old registry versions
+        env:
+          FORGEJO_TOKEN: ${{ secrets.FORGEJO_TOKEN }}
+          FORGEJO_USERNAME: ${{ secrets.FORGEJO_USERNAME }}
         run: |
           set -euo pipefail
-          python3 - <<'PY'
-          import urllib.request, urllib.error, json, sys
+          python3 - <<PY
+import urllib.request, urllib.error, json, sys, os
 
-          token = "${{ secrets.FORGEJO_TOKEN }}"
-          owner = "${{ secrets.FORGEJO_USERNAME }}"
-          base = "https://git.amabel.world/api/v1"
+token = os.environ["FORGEJO_TOKEN"]
+owner = os.environ["FORGEJO_USERNAME"]
+base = "https://git.amabel.world/api/v1"
 
-          def api(path, method="GET"):
-              req = urllib.request.Request(
-                  f"{base}{path}",
-                  headers={"Authorization": f"token {token}"},
-                  method=method,
-              )
-              try:
-                  with urllib.request.urlopen(req) as r:
-                      body = r.read()
-                      return r.status, json.loads(body) if body else None
-              except urllib.error.HTTPError as e:
-                  return e.code, None
+def api(path, method="GET"):
+    req = urllib.request.Request(
+        f"{base}{path}",
+        headers={"Authorization": f"token {token}"},
+        method=method,
+    )
+    try:
+        with urllib.request.urlopen(req) as r:
+            body = r.read()
+            return r.status, json.loads(body) if body else None
+    except urllib.error.HTTPError as e:
+        return e.code, None
 
-          page, all_pkgs = 1, []
-          while True:
-              status, data = api(f"/packages/{owner}?type=container&limit=50&page={page}")
-              if status != 200 or not data:
-                  break
-              all_pkgs.extend(data)
-              if len(data) < 50:
-                  break
-              page += 1
+page, all_pkgs = 1, []
+while True:
+    status, data = api(f"/packages/{owner}?type=container&limit=50&page={page}")
+    if status != 200 or not data:
+        break
+    all_pkgs.extend(data)
+    if len(data) < 50:
+        break
+    page += 1
 
-          from collections import defaultdict
-          by_name = defaultdict(list)
-          for p in all_pkgs:
-              by_name[p["name"]].append(p)
+from collections import defaultdict
+by_name = defaultdict(list)
+for p in all_pkgs:
+    by_name[p["name"]].append(p)
 
-          deleted = 0
-          for name, versions in by_name.items():
-              versions.sort(key=lambda x: x["id"], reverse=True)
-              for v in versions[3:]:
-                  status, _ = api(f"/packages/{owner}/{v['type']}/{v['name']}/{v['version']}", "DELETE")
-                  if status == 204:
-                      deleted += 1
-                      print(f"Deleted {name}:{v['version']}")
-                  else:
-                      print(f"Failed {name}:{v['version']} HTTP {status}", file=sys.stderr)
+deleted = 0
+for name, versions in by_name.items():
+    versions.sort(key=lambda x: x["id"], reverse=True)
+    for v in versions[3:]:
+        status, _ = api(f"/packages/{owner}/{v['type']}/{v['name']}/{v['version']}", "DELETE")
+        if status == 204:
+            deleted += 1
+            print(f"Deleted {name}:{v['version']}")
+        else:
+            print(f"Failed {name}:{v['version']} HTTP {status}", file=sys.stderr)
 
-          print(f"Total deleted: {deleted}")
-          PY
+print(f"Total deleted: {deleted}")
+PY
