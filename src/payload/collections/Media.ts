@@ -11,6 +11,7 @@ const setAltFromFilename: CollectionBeforeChangeHook = ({ data, req }) => {
   return data
 }
 
+
 const compressVideoAfterSave: CollectionAfterChangeHook = ({ doc, operation, req }) => {
   if (operation !== 'create') return doc
   const mime: string = doc.mimeType ?? ''
@@ -79,7 +80,7 @@ export const Media: CollectionConfig = {
   },
   upload: {
     staticDir: 'public/media',
-    mimeTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif', 'video/mp4', 'video/webm', 'video/quicktime'],
+    mimeTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif', 'image/svg+xml', 'video/mp4', 'video/webm', 'video/quicktime'],
     imageSizes: [
       { name: 'thumbnail', width: 400, height: 300, position: 'centre', formatOptions: { format: 'webp', options: { quality: 78, effort: 6, smartSubsample: true } } },
       { name: 'thumbnail_avif', width: 400, height: 300, position: 'centre', formatOptions: { format: 'avif', options: { quality: 60, effort: 7, chromaSubsampling: '4:2:0' } } },
