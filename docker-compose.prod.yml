@@ -21,11 +21,12 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+    ports:
+      - "127.0.0.1:3000:3000"
     volumes:
       - media:/app/public/media
     networks:
       - internal
-      - coolify
     restart: unless-stopped
 
   postgres:
@@ -71,5 +72,3 @@ volumes:
 networks:
   internal:
     driver: bridge
-  coolify:
-    external: true
