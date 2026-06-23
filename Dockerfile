@@ -6,6 +6,11 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --legacy-peer-deps
 
+FROM base AS deps-prod
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --legacy-peer-deps --omit=dev
+
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
@@ -23,9 +28,13 @@ RUN npm run build
 FROM base AS migrator
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+# Strip the large ffmpeg binary — not needed for migrations
+RUN rm -f node_modules/ffmpeg-static/ffmpeg node_modules/ffmpeg-static/ffmpeg.exe
 RUN sed -i 's|import nextEnvImport from '"'"'@next/env'"'"';|import * as nextEnvImport from '"'"'@next/env'"'"';|' \
     node_modules/payload/dist/bin/loadEnv.js
+COPY package.json package-lock.json tsconfig.json next.config.ts ./
+COPY src/payload ./src/payload
+COPY src/lib ./src/lib
 CMD ["npm", "run", "migrate"]
 
 FROM base AS runner

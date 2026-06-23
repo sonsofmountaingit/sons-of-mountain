@@ -55,7 +55,9 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
   const LIGHT_PAGES = ['/calendar']
   const isLightPage = LIGHT_PAGES.some((p) => pathname === p || pathname.startsWith(p + '/'))
   const textBase = 'text-white/80 hover:text-white'
-  const logoSrc = logoHovered ? '/colored-logo.svg' : '/white-logo.svg'
+  const logoSrc = logoHovered
+    ? (logoLightUrl || '/colored-logo.svg')
+    : (logoDarkUrl || '/white-logo.svg')
   const allLinks = [...(navLinksLeft ?? []), ...(navLinksRight ?? [])]
 
   useMotionValueEvent(scrollY, 'change', (current) => {

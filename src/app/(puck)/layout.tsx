@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Toaster } from 'sonner'
 import '../globals.css'
 import '@puckeditor/core/puck.css'
 
@@ -29,6 +30,7 @@ export default function PuckLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body suppressHydrationWarning style={{ margin: 0, padding: 0 }}>
         {children}
+        <Toaster position="bottom-right" richColors closeButton duration={4000} />
       </body>
     </html>
   )

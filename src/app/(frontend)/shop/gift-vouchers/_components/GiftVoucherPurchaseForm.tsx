@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import { toast } from 'sonner'
 
 const schema = z.object({
   amount: z.number().min(10, 'Minimum €10').max(5000),
@@ -69,7 +70,7 @@ export function GiftVoucherPurchaseForm({ destinations, trips, programs }: Props
       const result = await res.json()
       if (result.url) window.location.href = result.url
     } catch {
-      alert('Failed to start checkout. Please try again.')
+      toast.error('Failed to start checkout')
     } finally {
       setLoading(false)
     }

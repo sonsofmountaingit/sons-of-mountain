@@ -1,5 +1,7 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, CollectionAfterChangeHook } from 'payload'
 import { revalidateCollection, revalidateCollectionDelete } from '../hooks/revalidate'
+import { revalidateTag } from 'next/cache'
+import { after } from 'next/server'
 import { CTABlock } from '../blocks/CTABlock'
 import { DestinationCarouselBlock } from '../blocks/DestinationCarouselBlock'
 import { FAQBlock } from '../blocks/FAQBlock'
@@ -12,6 +14,35 @@ import { StoriesBlock } from '../blocks/StoriesBlock'
 import { TeamBlock } from '../blocks/TeamBlock'
 import { TextBlock } from '../blocks/TextBlock'
 import { VideoBlock } from '../blocks/VideoBlock'
+
+const syncToNavigation: CollectionAfterChangeHook = async ({ doc, req }) => {
+  const placement: string = doc?.navigationPlacement?.placement ?? 'none'
+  if (placement === 'none') return doc
+
+  const label: string = doc?.navigationPlacement?.label || doc?.title || ''
+  const href: string = `/${doc.slug}`
+
+  const navDoc = await req.payload.findGlobal({ slug: 'navigation' })
+  const leftLinks: { label: string; href: string }[] = (navDoc.navLinksLeft as { label: string; href: string }[] | null) ?? []
+  const rightLinks: { label: string; href: string }[] = (navDoc.navLinksRight as { label: string; href: string }[] | null) ?? []
+
+  const removeFrom = (arr: { label: string; href: string }[]) =>
+    arr.filter((l) => l.href !== href)
+
+  let newLeft = removeFrom(leftLinks)
+  let newRight = removeFrom(rightLinks)
+
+  if (placement === 'left') newLeft = [...newLeft, { label, href }]
+  if (placement === 'right') newRight = [...newRight, { label, href }]
+
+  await req.payload.updateGlobal({
+    slug: 'navigation',
+    data: { navLinksLeft: newLeft, navLinksRight: newRight },
+  })
+
+  after(() => { try { revalidateTag('navigation', 'max') } catch {} })
+  return doc
+}
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -91,6 +122,29 @@ export const Pages: CollectionConfig = {
       ],
     },
     {
+      name: 'navigationPlacement',
+      type: 'group',
+      label: 'Navigation',
+      admin: { position: 'sidebar', description: 'Add this page to a navigation group.' },
+      fields: [
+        {
+          name: 'placement',
+          type: 'select',
+          defaultValue: 'none',
+          options: [
+            { label: 'None', value: 'none' },
+            { label: 'Left nav', value: 'left' },
+            { label: 'Right nav', value: 'right' },
+          ],
+        },
+        {
+          name: 'label',
+          type: 'text',
+          admin: { description: 'Defaults to page title if left blank.' },
+        },
+      ],
+    },
+    {
       name: 'meta',
       type: 'group',
       fields: [
@@ -101,7 +155,7 @@ export const Pages: CollectionConfig = {
     },
   ],
   hooks: {
-    afterChange: [revalidateCollection('pages', '/')],
+    afterChange: [syncToNavigation, revalidateCollection('pages', '/')],
     afterDelete: [revalidateCollectionDelete('pages', '/')],
   },
 }

@@ -637,12 +637,6 @@
       "size": 4
     },
     {
-      "id": "src/app/api/media/route.ts",
-      "label": "media/route.ts",
-      "group": "api",
-      "size": 4
-    },
-    {
       "id": "src/app/api/customer-ratings/route.ts",
       "label": "customer-ratings/route.ts",
       "group": "api",
@@ -3483,10 +3477,6 @@
       "target": "src/lib/stripe.ts"
     },
     {
-      "source": "src/app/api/media/route.ts",
-      "target": "src/payload/payload.config.ts"
-    },
-    {
       "source": "src/app/api/customer-ratings/route.ts",
       "target": "src/lib/auth.ts"
     },
@@ -5811,6 +5801,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-06-23T15:15:42.817Z",
-  "fileCount": 468
+  "builtAt": "2026-06-23T17:32:15.070Z",
+  "fileCount": 467
 }

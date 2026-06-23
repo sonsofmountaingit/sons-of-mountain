@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import Link from 'next/link'
+import { toast } from 'sonner'
 
 const infoSchema = z.object({
   firstName: z.string().min(1, 'Required'),
@@ -61,7 +62,7 @@ export default function CheckoutPage() {
       const data = await res.json()
       if (data.url) window.location.href = data.url
     } catch {
-      alert('Checkout failed. Please try again.')
+      toast.error('Checkout failed')
     } finally {
       setLoading(false)
     }

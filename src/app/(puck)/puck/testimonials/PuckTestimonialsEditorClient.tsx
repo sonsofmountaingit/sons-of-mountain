@@ -4,6 +4,7 @@ import { Puck, ActionBar, resolveAllData, type Data, blocksPlugin, fieldsPlugin,
 import { puckConfig } from '@/puck/config'
 import { useRouter } from 'next/navigation'
 import { useCallback, useRef, useState } from 'react'
+import { toast } from 'sonner'
 
 async function save(data: Data): Promise<boolean> {
   const res = await fetch('/api/puck/testimonials', {
@@ -27,7 +28,8 @@ export function PuckTestimonialsEditorClient({ initialData }: { initialData: Dat
     try {
       const resolved = await resolveAllData(data, puckConfig)
       const ok = await save(resolved)
-      if (!ok) { alert('Publish failed.'); return }
+      if (!ok) { toast.error('Publish failed'); return }
+      toast.success('Published')
       router.refresh()
     } finally {
       setSaving(false)

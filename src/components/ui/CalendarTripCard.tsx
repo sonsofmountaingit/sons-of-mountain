@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { signIn } from '@/lib/auth-client'
 import { mediaUrl } from '@/lib/media-url'
+import { toast } from 'sonner'
 
 export type CalendarItem = {
   id: string
@@ -152,7 +153,7 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
   const [waitlistOpen, setWaitlistOpen] = useState(false)
   const [waitlistEmail, setWaitlistEmail] = useState('')
   const [waitlistSent, setWaitlistSent] = useState(false)
-  const [toastVisible, setToastVisible] = useState(false)
+
   const [spotsCount, setSpotsCount] = useState(0)
   const [showLoginModal, setShowLoginModal] = useState(false)
   const soldOut = item.status === 'soldOut' || item.spotsAvailable === 0
@@ -246,8 +247,7 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
     e.preventDefault()
     const url = `${window.location.origin}/calendar#trip-${item.id}`
     navigator.clipboard.writeText(url).then(() => {
-      setToastVisible(true)
-      setTimeout(() => setToastVisible(false), 2000)
+      toast.success('Линкът е копиран')
     })
   }
 
@@ -384,11 +384,7 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
           </div>
         )}
 
-        {toastVisible && (
-          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white text-black text-xs px-4 py-2 rounded-full z-50 print:hidden">
-            Линкът е копиран
-          </div>
-        )}
+
       </div>
     </>
   )

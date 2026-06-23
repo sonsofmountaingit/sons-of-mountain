@@ -55,9 +55,10 @@
     ],
     "types": [],
     "imports": [
-      "next"
+      "next",
+      "sonner"
     ],
-    "lines": 36,
+    "lines": 38,
     "group": "puck"
   },
   "src/app/(puck)/puck/footer/PuckFooterEditorClient.tsx": {
@@ -69,9 +70,10 @@
       "@puckeditor/core",
       "@/puck/config",
       "next/navigation",
-      "react"
+      "react",
+      "sonner"
     ],
-    "lines": 115,
+    "lines": 117,
     "group": "puck"
   },
   "src/app/(puck)/puck/footer/page.tsx": {
@@ -101,9 +103,10 @@
       "@puckeditor/core",
       "@/puck/config",
       "next/navigation",
-      "react"
+      "react",
+      "sonner"
     ],
-    "lines": 99,
+    "lines": 101,
     "group": "puck"
   },
   "src/app/(puck)/puck/featured-travels/page.tsx": {
@@ -133,9 +136,10 @@
       "@puckeditor/core",
       "@/puck/config",
       "next/navigation",
-      "react"
+      "react",
+      "sonner"
     ],
-    "lines": 108,
+    "lines": 110,
     "group": "puck"
   },
   "src/app/(puck)/puck/destination-carousel/page.tsx": {
@@ -183,9 +187,10 @@
       "@puckeditor/core",
       "@/puck/config",
       "next/navigation",
-      "react"
+      "react",
+      "sonner"
     ],
-    "lines": 79,
+    "lines": 81,
     "group": "puck"
   },
   "src/app/(puck)/puck/gallery/PuckGalleryEditorClient.tsx": {
@@ -197,9 +202,10 @@
       "@puckeditor/core",
       "@/puck/config",
       "next/navigation",
-      "react"
+      "react",
+      "sonner"
     ],
-    "lines": 77,
+    "lines": 79,
     "group": "puck"
   },
   "src/app/(puck)/puck/gallery/page.tsx": {
@@ -229,9 +235,10 @@
       "@puckeditor/core",
       "@/puck/config",
       "next/navigation",
-      "react"
+      "react",
+      "sonner"
     ],
-    "lines": 115,
+    "lines": 117,
     "group": "puck"
   },
   "src/app/(puck)/puck/shop/page.tsx": {
@@ -261,9 +268,10 @@
       "@puckeditor/core",
       "@/puck/config",
       "next/navigation",
-      "react"
+      "react",
+      "sonner"
     ],
-    "lines": 99,
+    "lines": 101,
     "group": "puck"
   },
   "src/app/(puck)/puck/why-travel-with-us/page.tsx": {
@@ -293,9 +301,10 @@
       "@puckeditor/core",
       "@/puck/config",
       "next/navigation",
-      "react"
+      "react",
+      "sonner"
     ],
-    "lines": 108,
+    "lines": 110,
     "group": "puck"
   },
   "src/app/(puck)/puck/navigation/page.tsx": {
@@ -325,9 +334,10 @@
       "@puckeditor/core",
       "@/puck/config",
       "next/navigation",
-      "react"
+      "react",
+      "sonner"
     ],
-    "lines": 79,
+    "lines": 81,
     "group": "puck"
   },
   "src/app/(puck)/puck/calendar-cta/page.tsx": {
@@ -357,9 +367,10 @@
       "@puckeditor/core",
       "@/puck/config",
       "next/navigation",
-      "react"
+      "react",
+      "sonner"
     ],
-    "lines": 108,
+    "lines": 110,
     "group": "puck"
   },
   "src/app/(puck)/puck/about/page.tsx": {
@@ -390,9 +401,10 @@
       "@puckeditor/core",
       "@/puck/config",
       "next/navigation",
-      "react"
+      "react",
+      "sonner"
     ],
-    "lines": 108,
+    "lines": 110,
     "group": "puck"
   },
   "src/app/(puck)/puck/hero/page.tsx": {
@@ -422,9 +434,10 @@
       "@puckeditor/core",
       "@/puck/config",
       "next/navigation",
-      "react"
+      "react",
+      "sonner"
     ],
-    "lines": 272,
+    "lines": 274,
     "group": "puck"
   },
   "src/app/(puck)/puck/pages/[id]/page.tsx": {
@@ -1523,19 +1536,6 @@
     "lines": 36,
     "group": "api"
   },
-  "src/app/api/media/route.ts": {
-    "exports": [
-      "GET"
-    ],
-    "types": [],
-    "imports": [
-      "next/server",
-      "payload",
-      "@payload-config"
-    ],
-    "lines": 30,
-    "group": "api"
-  },
   "src/app/api/customer-ratings/route.ts": {
     "exports": [
       "GET",
@@ -1919,9 +1919,10 @@
       "react",
       "react-hook-form",
       "@hookform/resolvers/zod",
-      "zod"
+      "zod",
+      "sonner"
     ],
-    "lines": 171,
+    "lines": 172,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/gift-vouchers/page.tsx": {
@@ -1955,9 +1956,10 @@
       "react-hook-form",
       "@hookform/resolvers/zod",
       "zod",
-      "next/link"
+      "next/link",
+      "sonner"
     ],
-    "lines": 192,
+    "lines": 193,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/[tripId]/success/page.tsx": {
@@ -2631,9 +2633,10 @@
       "next/font/google",
       "react",
       "@/components/ui/Navigation",
-      "@/components/ui/Footer"
+      "@/components/ui/Footer",
+      "sonner"
     ],
-    "lines": 42,
+    "lines": 44,
     "group": "frontend"
   },
   "src/app/(frontend)/vouchers/[code]/page.tsx": {
@@ -2666,9 +2669,10 @@
       "@hookform/resolvers/zod",
       "zod",
       "@/lib/auth-client",
-      "@/components/auth/AuthModal"
+      "@/components/auth/AuthModal",
+      "sonner"
     ],
-    "lines": 531,
+    "lines": 532,
     "group": "frontend"
   },
   "src/app/(frontend)/vouchers/page.tsx": {
@@ -3097,6 +3101,8 @@
   },
   "src/app/(payload)/api/[...slug]/route.ts": {
     "exports": [
+      "dynamic",
+      "maxDuration",
       "GET",
       "POST",
       "DELETE",
@@ -3107,7 +3113,7 @@
       "@payloadcms/next/routes",
       "@payload-config"
     ],
-    "lines": 8,
+    "lines": 11,
     "group": "payload-app"
   },
   "src/app/(payload)/api/preview/route.ts": {
@@ -3789,6 +3795,8 @@
     "imports": [
       "payload",
       "../hooks/revalidate",
+      "next/cache",
+      "next/server",
       "../blocks/CTABlock",
       "../blocks/DestinationCarouselBlock",
       "../blocks/FAQBlock",
@@ -3802,7 +3810,7 @@
       "../blocks/TextBlock",
       "../blocks/VideoBlock"
     ],
-    "lines": 108,
+    "lines": 162,
     "group": "collections"
   },
   "src/payload/collections/Campaigns.ts": {
@@ -3992,9 +4000,10 @@
     "imports": [
       "payload",
       "path",
-      "fs"
+      "fs",
+      "next/server"
     ],
-    "lines": 73,
+    "lines": 110,
     "group": "collections"
   },
   "src/payload/collections/Guides.ts": {
@@ -5362,7 +5371,7 @@
       "@/components/shop/CartSheet",
       "@/lib/cart-store"
     ],
-    "lines": 510,
+    "lines": 512,
     "group": "ui"
   },
   "src/components/ui/DestinationCarousel.tsx": {
@@ -5768,9 +5777,10 @@
       "next/image",
       "next/navigation",
       "@/lib/auth-client",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "sonner"
     ],
-    "lines": 396,
+    "lines": 392,
     "group": "ui"
   },
   "src/components/ui/About.tsx": {

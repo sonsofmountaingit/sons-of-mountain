@@ -4,6 +4,7 @@ import { Puck, ActionBar, createUsePuck, resolveAllData, type Data, blocksPlugin
 import { puckConfig } from '@/puck/config'
 import { useRouter } from 'next/navigation'
 import { useCallback, useRef, useState } from 'react'
+import { toast } from 'sonner'
 
 async function saveGalleryPuckData(data: Data): Promise<boolean> {
   const res = await fetch('/api/puck/gallery', {
@@ -27,7 +28,8 @@ export function PuckGalleryEditorClient({ initialData }: { initialData: Data }) 
     try {
       const resolved = await resolveAllData(data, puckConfig)
       const ok = await saveGalleryPuckData(resolved)
-      if (!ok) { alert('Publish failed. Please try again.'); return }
+      if (!ok) { toast.error('Publish failed'); return }
+      toast.success('Published')
       router.refresh()
     } finally {
       setSaving(false)

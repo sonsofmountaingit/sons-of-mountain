@@ -4,6 +4,7 @@ import { Puck, ActionBar, resolveAllData, type Data, blocksPlugin, fieldsPlugin,
 import { puckConfig } from '@/puck/config'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { toast } from 'sonner'
 
 async function saveNavigationPuckData(data: Data): Promise<boolean> {
   const res = await fetch('/api/puck/navigation', {
@@ -43,7 +44,8 @@ export function PuckNavigationEditorClient({ initialData }: { initialData: Data 
     try {
       const resolved = await resolveAllData(data, puckConfig)
       const ok = await saveNavigationPuckData(resolved)
-      if (!ok) { alert('Publish failed. Please try again.'); return }
+      if (!ok) { toast.error('Publish failed'); return }
+      toast.success('Published')
       router.refresh()
     } finally {
       setSaving(false)

@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useSession } from '@/lib/auth-client'
 import { AuthModal } from '@/components/auth/AuthModal'
+import { toast } from 'sonner'
 
 interface Voucher {
   id: string
@@ -177,7 +178,7 @@ function BuyTab({
 
       if (!voucherRes.ok) {
         const err = await voucherRes.json()
-        alert(err.error ?? 'Failed to create voucher')
+        toast.error(err.error ?? 'Failed to create voucher')
         setLoading(false)
         return
       }
@@ -204,7 +205,7 @@ function BuyTab({
       const { url } = await checkoutRes.json()
       if (url) window.location.href = url
     } catch {
-      alert('Something went wrong. Please try again.')
+      toast.error('Something went wrong')
     } finally {
       setLoading(false)
     }

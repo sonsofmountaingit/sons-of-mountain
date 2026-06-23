@@ -3,6 +3,7 @@ import { Space_Grotesk, Dancing_Script } from 'next/font/google'
 import { Suspense } from 'react'
 import { Navigation } from '@/components/ui/Navigation'
 import { Footer } from '@/components/ui/Footer'
+import { Toaster } from 'sonner'
 import '../globals.css'
 
 const spaceGrotesk = Space_Grotesk({
@@ -35,6 +36,7 @@ export default function FrontendLayout({ children }: { children: React.ReactNode
         <Suspense fallback={null}>
           <Footer />
         </Suspense>
+        <Toaster position="bottom-right" richColors closeButton duration={4000} />
       </body>
     </html>
   )

@@ -4,6 +4,7 @@ import { Puck, ActionBar, createUsePuck, resolveAllData, type Data, blocksPlugin
 import { puckConfig } from '@/puck/config'
 import { useRouter } from 'next/navigation'
 import { useCallback, useRef, useState } from 'react'
+import { toast } from 'sonner'
 
 async function save(data: Data): Promise<boolean> {
   const res = await fetch('/api/puck/calendar-cta', {
@@ -27,7 +28,8 @@ export function PuckCalendarCtaEditorClient({ initialData }: { initialData: Data
     try {
       const resolved = await resolveAllData(data, puckConfig)
       const ok = await save(resolved)
-      if (!ok) { alert('Publish failed.'); return }
+      if (!ok) { toast.error('Publish failed'); return }
+      toast.success('Published')
       router.refresh()
     } finally {
       setSaving(false)

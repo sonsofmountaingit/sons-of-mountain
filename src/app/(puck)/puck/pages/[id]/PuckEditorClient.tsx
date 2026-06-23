@@ -4,6 +4,7 @@ import { Puck, ActionBar, createUsePuck, resolveAllData, type Data, blocksPlugin
 import { puckConfig } from '@/puck/config'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { toast } from 'sonner'
 
 interface PuckEditorClientProps {
   pageId: string
@@ -33,7 +34,7 @@ function PreviewButton({ pageId }: { pageId: string }) {
     setPreviewing(true)
     try {
       const ok = await savePuckData(pageId, data)
-      if (!ok) { alert('Save failed before preview. Please try again.'); return }
+      if (!ok) { toast.error('Save failed before preview'); return }
       window.open(`/preview/${pageId}`, '_blank')
     } finally {
       setPreviewing(false)
@@ -166,7 +167,8 @@ export function PuckEditorClient({ pageId, initialData, pageTitle, pageSlug, ser
       try {
         const resolved = await resolveAllData(data, puckConfig)
         const ok = await savePuckData(pageId, resolved)
-        if (!ok) { alert('Publish failed. Please try again.'); return }
+        if (!ok) { toast.error('Publish failed'); return }
+        toast.success('Published')
         router.refresh()
       } finally {
         setSaving(false)
