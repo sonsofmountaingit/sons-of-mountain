@@ -73,3 +73,57 @@ jobs:
             --force-recreate --no-deps --no-build app
           docker image prune -f
           echo "Deployed: ${{ github.sha }}"
+
+      - name: Prune old registry versions
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import urllib.request, urllib.error, json, sys
+
+          token = "${{ secrets.FORGEJO_TOKEN }}"
+          owner = "${{ secrets.FORGEJO_USERNAME }}"
+          base = "https://git.amabel.world/api/v1"
+
+          def api(path, method="GET"):
+              req = urllib.request.Request(
+                  f"{base}{path}",
+                  headers={"Authorization": f"token {token}"},
+                  method=method,
+              )
+              try:
+                  with urllib.request.urlopen(req) as r:
+                      body = r.read()
+                      return r.status, json.loads(body) if body else None
+              except urllib.error.HTTPError as e:
+                  return e.code, None
+
+          # Collect all container packages for this owner
+          page, all_pkgs = 1, []
+          while True:
+              status, data = api(f"/packages/{owner}?type=container&limit=50&page={page}")
+              if status != 200 or not data:
+                  break
+              all_pkgs.extend(data)
+              if len(data) < 50:
+                  break
+              page += 1
+
+          # Group by name, sort by id desc, keep newest 3
+          from collections import defaultdict
+          by_name = defaultdict(list)
+          for p in all_pkgs:
+              by_name[p["name"]].append(p)
+
+          deleted = 0
+          for name, versions in by_name.items():
+              versions.sort(key=lambda x: x["id"], reverse=True)
+              for v in versions[3:]:
+                  status, _ = api(f"/packages/{owner}/{v['type']}/{v['name']}/{v['version']}", "DELETE")
+                  if status == 204:
+                      deleted += 1
+                      print(f"Deleted {name}:{v['version']}")
+                  else:
+                      print(f"Failed to delete {name}:{v['version']} (HTTP {status})", file=sys.stderr)
+
+          print(f"Total deleted: {deleted}")
+          PY
