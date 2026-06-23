@@ -620,6 +620,19 @@
     "lines": 86,
     "group": "api"
   },
+  "src/app/api/destinations/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 30,
+    "group": "api"
+  },
   "src/app/api/gallery/favorites/count/route.ts": {
     "exports": [
       "GET"
@@ -1508,6 +1521,19 @@
       "next/headers"
     ],
     "lines": 36,
+    "group": "api"
+  },
+  "src/app/api/media/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 30,
     "group": "api"
   },
   "src/app/api/customer-ratings/route.ts": {

@@ -253,6 +253,12 @@
       "size": 4
     },
     {
+      "id": "src/app/api/destinations/route.ts",
+      "label": "destinations/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/gallery/favorites/count/route.ts",
       "label": "count/route.ts",
       "group": "api",
@@ -627,6 +633,12 @@
     {
       "id": "src/app/api/stripe/billing-portal/route.ts",
       "label": "billing-portal/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/media/route.ts",
+      "label": "media/route.ts",
       "group": "api",
       "size": 4
     },
@@ -3023,6 +3035,10 @@
       "target": "src/lib/auth.ts"
     },
     {
+      "source": "src/app/api/destinations/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
       "source": "src/app/api/gallery/favorites/count/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -3465,6 +3481,10 @@
     {
       "source": "src/app/api/stripe/billing-portal/route.ts",
       "target": "src/lib/stripe.ts"
+    },
+    {
+      "source": "src/app/api/media/route.ts",
+      "target": "src/payload/payload.config.ts"
     },
     {
       "source": "src/app/api/customer-ratings/route.ts",
@@ -5791,6 +5811,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-06-21T14:37:06.281Z",
-  "fileCount": 466
+  "builtAt": "2026-06-23T14:52:10.718Z",
+  "fileCount": 468
 }
