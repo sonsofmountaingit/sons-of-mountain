@@ -4018,7 +4018,7 @@
       "fs",
       "next/server"
     ],
-    "lines": 113,
+    "lines": 112,
     "group": "collections"
   },
   "src/payload/collections/Guides.ts": {

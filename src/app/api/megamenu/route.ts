@@ -7,54 +7,109 @@ const getMegamenuData = unstable_cache(
   async () => {
     const payload = await getPayload({ config })
 
-    const [bulgariaDests, abroadDests, trips] = await Promise.all([
+    const [bulgariaDests, abroadDests, bulgariaTrips, abroadTrips, individualTrips, bulgariaPrograms, abroadPrograms, individualPrograms] = await Promise.all([
       payload.find({
         collection: 'destinations',
         where: { type: { equals: 'bulgaria' } },
-        limit: 20,
+        limit: 30,
         select: { name: true, slug: true, heroImage: true },
         depth: 1,
       }),
       payload.find({
         collection: 'destinations',
         where: { type: { equals: 'abroad' } },
-        limit: 20,
+        limit: 30,
         select: { name: true, slug: true, heroImage: true },
         depth: 1,
       }),
       payload.find({
         collection: 'trips',
-        where: { status: { equals: 'active' } },
+        where: { and: [{ status: { equals: 'active' } }, { navSection: { equals: 'bulgaria' } }] },
         limit: 20,
-        select: { title: true, destination: true, startDate: true, spotsAvailable: true, price: true, currency: true },
+        select: { title: true, slug: true, heroImage: true, startDate: true, spotsAvailable: true, price: true, currency: true },
+        depth: 1,
+      }),
+      payload.find({
+        collection: 'trips',
+        where: { and: [{ status: { equals: 'active' } }, { navSection: { equals: 'abroad' } }] },
+        limit: 20,
+        select: { title: true, slug: true, heroImage: true, startDate: true, spotsAvailable: true, price: true, currency: true },
+        depth: 1,
+      }),
+      payload.find({
+        collection: 'trips',
+        where: { and: [{ status: { equals: 'active' } }, { navSection: { equals: 'individual' } }] },
+        limit: 20,
+        select: { title: true, slug: true, heroImage: true, startDate: true, spotsAvailable: true, price: true, currency: true },
+        depth: 1,
+      }),
+      payload.find({
+        collection: 'programs',
+        where: { navSection: { equals: 'bulgaria' } },
+        limit: 20,
+        select: { title: true, slug: true, heroImage: true, price: true, currency: true, spotsAvailable: true },
+        depth: 1,
+      }),
+      payload.find({
+        collection: 'programs',
+        where: { navSection: { equals: 'abroad' } },
+        limit: 20,
+        select: { title: true, slug: true, heroImage: true, price: true, currency: true, spotsAvailable: true },
+        depth: 1,
+      }),
+      payload.find({
+        collection: 'programs',
+        where: { navSection: { equals: 'individual' } },
+        limit: 20,
+        select: { title: true, slug: true, heroImage: true, price: true, currency: true, spotsAvailable: true },
         depth: 1,
       }),
     ])
 
-    return {
-      bulgaria: bulgariaDests.docs.map((d: any) => ({
+    function mapDest(d: any) {
+      return {
         name: d.name as string,
         slug: d.slug as string,
         image: (typeof d.heroImage === 'object' ? d.heroImage?.url : null) as string | null,
-      })),
-      abroad: abroadDests.docs.map((d: any) => ({
-        name: d.name as string,
-        slug: d.slug as string,
-        image: (typeof d.heroImage === 'object' ? d.heroImage?.url : null) as string | null,
-      })),
-      trips: trips.docs.map((t: any) => ({
+      }
+    }
+
+    function mapTrip(t: any) {
+      return {
+        kind: 'trip' as const,
         title: t.title as string,
-        destinationSlug: (typeof t.destination === 'object' ? t.destination?.slug : t.destination) as string,
-        destinationName: (typeof t.destination === 'object' ? t.destination?.name : '') as string,
-        startDate: t.startDate as string,
-        spotsAvailable: t.spotsAvailable as number,
+        slug: t.slug as string,
+        image: (typeof t.heroImage === 'object' ? t.heroImage?.url : null) as string | null,
+        startDate: t.startDate as string | null,
+        spotsAvailable: (t.spotsAvailable ?? 0) as number,
         price: t.price as number,
         currency: t.currency as string,
-      })),
+      }
+    }
+
+    function mapProgram(p: any) {
+      return {
+        kind: 'program' as const,
+        title: p.title as string,
+        slug: p.slug as string,
+        image: (typeof p.heroImage === 'object' ? p.heroImage?.url : null) as string | null,
+        startDate: null,
+        spotsAvailable: (p.spotsAvailable ?? 0) as number,
+        price: p.price as number,
+        currency: (p.currency ?? 'EUR') as string,
+      }
+    }
+
+    return {
+      bulgaria: bulgariaDests.docs.map(mapDest),
+      abroad: abroadDests.docs.map(mapDest),
+      bulgariaItems: [...bulgariaTrips.docs.map(mapTrip), ...bulgariaPrograms.docs.map(mapProgram)],
+      abroadItems: [...abroadTrips.docs.map(mapTrip), ...abroadPrograms.docs.map(mapProgram)],
+      individualItems: [...individualTrips.docs.map(mapTrip), ...individualPrograms.docs.map(mapProgram)],
     }
   },
   ['megamenu-data'],
-  { tags: ['destinations', 'trips'], revalidate: false },
+  { tags: ['destinations', 'trips', 'programs', 'megamenu'], revalidate: false },
 )
 
 export async function GET() {
@@ -62,6 +117,6 @@ export async function GET() {
     const data = await getMegamenuData()
     return NextResponse.json(data)
   } catch {
-    return NextResponse.json({ bulgaria: [], abroad: [], trips: [] })
+    return NextResponse.json({ bulgaria: [], abroad: [], bulgariaItems: [], abroadItems: [], individualItems: [] })
   }
 }

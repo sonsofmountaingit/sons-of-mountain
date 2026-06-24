@@ -11,11 +11,12 @@ interface DestinationItem {
   image: string | null
 }
 
-interface TripItem {
+interface ContentItem {
+  kind: 'trip' | 'program'
   title: string
-  destinationSlug: string
-  destinationName: string
-  startDate: string
+  slug: string
+  image: string | null
+  startDate: string | null
   spotsAvailable: number
   price: number
   currency: string
@@ -24,15 +25,17 @@ interface TripItem {
 interface MegamenuData {
   bulgaria: DestinationItem[]
   abroad: DestinationItem[]
-  trips: TripItem[]
+  bulgariaItems: ContentItem[]
+  abroadItems: ContentItem[]
+  individualItems: ContentItem[]
 }
 
-type Tab = 'bulgaria' | 'abroad' | 'trips'
+type Tab = 'bulgaria' | 'abroad' | 'individual'
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'bulgaria', label: 'В БЪЛГАРИЯ' },
   { id: 'abroad', label: 'В ЧУЖБИНА' },
-  { id: 'trips', label: 'ИНДИВИДУАЛНО ПРИКЛЮЧЕНИЕ' },
+  { id: 'individual', label: 'ИНДИВИДУАЛНО ПРИКЛЮЧЕНИЕ' },
 ]
 
 function formatDate(iso: string) {
@@ -64,22 +67,24 @@ export function ProgramsMegaMenu({ open, onClose }: ProgramsMegaMenuProps) {
     return () => document.removeEventListener('keydown', handleKey)
   }, [onClose])
 
-  const currentItems = data
-    ? activeTab === 'trips'
-      ? data.trips
-      : activeTab === 'bulgaria'
-        ? data.bulgaria
-        : data.abroad
+  const destinations = data
+    ? activeTab === 'bulgaria'
+      ? data.bulgaria
+      : activeTab === 'abroad'
+        ? data.abroad
+        : []
     : []
 
-  const previewImage =
-    hoveredSlug && data
-      ? activeTab === 'bulgaria'
-        ? data.bulgaria.find((d) => d.slug === hoveredSlug)?.image
-        : activeTab === 'abroad'
-          ? data.abroad.find((d) => d.slug === hoveredSlug)?.image
-          : null
-      : null
+  const contentItems: ContentItem[] = data
+    ? activeTab === 'bulgaria'
+      ? data.bulgariaItems
+      : activeTab === 'abroad'
+        ? data.abroadItems
+        : data.individualItems
+    : []
+
+  const showDestinations = activeTab !== 'individual' && destinations.length > 0
+  const showItems = contentItems.length > 0
 
   return (
     <AnimatePresence>
@@ -132,7 +137,7 @@ export function ProgramsMegaMenu({ open, onClose }: ProgramsMegaMenuProps) {
                   ))}
                 </div>
 
-                {/* Items grid */}
+                {/* Content */}
                 <div className="flex-1 min-h-[220px] min-w-0 overflow-hidden">
                   <AnimatePresence mode="wait">
                     <motion.div
@@ -141,105 +146,112 @@ export function ProgramsMegaMenu({ open, onClose }: ProgramsMegaMenuProps) {
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -8 }}
                       transition={{ duration: 0.18 }}
+                      className="flex flex-col gap-6"
                     >
                       {!data && (
                         <div className="flex items-center justify-center h-32 text-white/30 text-xs tracking-widest">Зарежда…</div>
                       )}
 
-                      {data && activeTab !== 'trips' && (
-                        <div className="grid grid-cols-3 gap-3">
-                          {(currentItems as DestinationItem[]).map((dest) => (
-                            <Link
-                              key={dest.slug}
-                              href={`/destinations/${dest.slug}`}
-                              onClick={onClose}
-                              onMouseEnter={() => setHoveredSlug(dest.slug)}
-                              onMouseLeave={() => setHoveredSlug(null)}
-                              className="group relative overflow-hidden rounded-sm aspect-[4/3] bg-white/5 flex items-end"
-                            >
-                              {dest.image && (
-                                <Image
-                                  src={dest.image}
-                                  alt={dest.name}
-                                  fill
-                                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                                  sizes="240px"
-                                  unoptimized
-                                />
-                              )}
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                              <span className="relative z-10 px-3 py-2 text-xs font-medium tracking-widest text-white">{dest.name}</span>
-                            </Link>
-                          ))}
-                          {(currentItems as DestinationItem[]).length === 0 && (
-                            <p className="text-white/30 text-xs tracking-widest col-span-3">Няма добавени дестинации.</p>
-                          )}
+                      {/* Destinations grid (bulgaria / abroad tabs only) */}
+                      {data && showDestinations && (
+                        <div>
+                          <p className="text-[10px] tracking-widest text-white/25 mb-3">ДЕСТИНАЦИИ</p>
+                          <div className="grid grid-cols-3 gap-3">
+                            {destinations.map((dest) => (
+                              <Link
+                                key={dest.slug}
+                                href={`/destinations/${dest.slug}`}
+                                onClick={onClose}
+                                onMouseEnter={() => setHoveredSlug(dest.slug)}
+                                onMouseLeave={() => setHoveredSlug(null)}
+                                className="group relative overflow-hidden rounded-sm aspect-[4/3] bg-white/5 flex items-end"
+                              >
+                                {dest.image && (
+                                  <Image
+                                    src={dest.image}
+                                    alt={dest.name}
+                                    fill
+                                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                    sizes="240px"
+                                    unoptimized
+                                  />
+                                )}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                                <span className="relative z-10 px-3 py-2 text-xs font-medium tracking-widest text-white">{dest.name}</span>
+                              </Link>
+                            ))}
+                            {destinations.length === 0 && (
+                              <p className="text-white/30 text-xs tracking-widest col-span-3">Няма добавени дестинации.</p>
+                            )}
+                          </div>
                         </div>
                       )}
 
-                      {data && activeTab === 'trips' && (
-                        <div style={{ overflowX: 'auto', width: '100%', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.2) transparent', paddingBottom: '6px' }}>
-                        <div style={{ display: 'grid', gap: '12px', gridTemplateColumns: `repeat(${Math.ceil((currentItems as TripItem[]).length / 2)}, 180px)`, gridTemplateRows: 'auto auto', gridAutoFlow: 'column', width: 'max-content' }}>
-                          {(currentItems as TripItem[]).map((trip, i) => {
-                            const destImg = data.abroad.find(d => d.slug === trip.destinationSlug)?.image
-                              ?? data.bulgaria.find(d => d.slug === trip.destinationSlug)?.image
-                              ?? null
-                            return (
-                              <motion.div
-                                key={i}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.2, delay: i * 0.03 }}
-                                style={{ width: '180px' }}
-                              >
-                                <Link
-                                  href={`/destinations/${trip.destinationSlug}`}
-                                  onClick={onClose}
-                                  className="group relative overflow-hidden rounded-xl flex flex-col bg-white/5 hover:bg-white/8 border border-white/8 hover:border-white/16 transition-all duration-200"
+                      {/* Trips & Programs */}
+                      {data && showItems && (
+                        <div>
+                          <p className="text-[10px] tracking-widest text-white/25 mb-3">
+                            {activeTab === 'individual' ? 'ПРОГРАМИ И ПЪТУВАНИЯ' : 'ПЪТУВАНИЯ И ПРОГРАМИ'}
+                          </p>
+                          <div style={{ overflowX: 'auto', width: '100%', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.2) transparent', paddingBottom: '6px' }}>
+                            <div style={{ display: 'grid', gap: '12px', gridTemplateColumns: `repeat(${Math.min(contentItems.length, 6)}, 180px)`, width: 'max-content' }}>
+                              {contentItems.map((item, i) => (
+                                <motion.div
+                                  key={`${item.kind}-${item.slug}`}
+                                  initial={{ opacity: 0, y: 10 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{ duration: 0.2, delay: i * 0.03 }}
+                                  style={{ width: '180px' }}
                                 >
-                                  {/* Image */}
-                                  <div className="relative aspect-[16/9] overflow-hidden">
-                                    {destImg ? (
-                                      <Image
-                                        src={destImg}
-                                        alt={trip.destinationName}
-                                        fill
-                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                                        sizes="240px"
-                                        unoptimized
-                                      />
-                                    ) : (
-                                      <div className="absolute inset-0 bg-white/5" />
-                                    )}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                                    {trip.spotsAvailable > 0 && (
-                                      <span className="absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/80 text-white backdrop-blur-sm">
-                                        {trip.spotsAvailable} места
-                                      </span>
-                                    )}
-                                    {trip.spotsAvailable === 0 && (
-                                      <span className="absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-red-500/80 text-white backdrop-blur-sm">
-                                        Няма места
-                                      </span>
-                                    )}
-                                  </div>
-                                  {/* Body */}
-                                  <div className="px-3 py-2.5 flex flex-col gap-0.5">
-                                    <p className="text-xs font-semibold text-white leading-snug line-clamp-2 group-hover:text-white/90 transition-colors">
-                                      {trip.title}
-                                    </p>
-                                    <p className="text-[10px] text-white/40 mt-0.5">{formatDate(trip.startDate)}</p>
-                                    <p className="text-xs font-medium text-[#c0442a] mt-1">{trip.price} {trip.currency}</p>
-                                  </div>
-                                </Link>
-                              </motion.div>
-                            )
-                          })}
-                          {(currentItems as TripItem[]).length === 0 && (
-                            <p className="text-white/30 text-xs tracking-widest">Няма активни пътувания.</p>
-                          )}
+                                  <Link
+                                    href={item.kind === 'trip' ? `/trips/${item.slug}` : `/programs/${item.slug}`}
+                                    onClick={onClose}
+                                    className="group relative overflow-hidden rounded-xl flex flex-col bg-white/5 hover:bg-white/8 border border-white/8 hover:border-white/16 transition-all duration-200"
+                                  >
+                                    <div className="relative aspect-[16/9] overflow-hidden">
+                                      {item.image ? (
+                                        <Image
+                                          src={item.image}
+                                          alt={item.title}
+                                          fill
+                                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                          sizes="240px"
+                                          unoptimized
+                                        />
+                                      ) : (
+                                        <div className="absolute inset-0 bg-white/5" />
+                                      )}
+                                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                                      {item.spotsAvailable > 0 && (
+                                        <span className="absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/80 text-white backdrop-blur-sm">
+                                          {item.spotsAvailable} места
+                                        </span>
+                                      )}
+                                      {item.spotsAvailable === 0 && (
+                                        <span className="absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-red-500/80 text-white backdrop-blur-sm">
+                                          Няма места
+                                        </span>
+                                      )}
+                                    </div>
+                                    <div className="px-3 py-2.5 flex flex-col gap-0.5">
+                                      <p className="text-xs font-semibold text-white leading-snug line-clamp-2 group-hover:text-white/90 transition-colors">
+                                        {item.title}
+                                      </p>
+                                      {item.startDate && (
+                                        <p className="text-[10px] text-white/40 mt-0.5">{formatDate(item.startDate)}</p>
+                                      )}
+                                      <p className="text-xs font-medium text-[#c0442a] mt-1">{item.price} {item.currency}</p>
+                                    </div>
+                                  </Link>
+                                </motion.div>
+                              ))}
+                            </div>
+                          </div>
                         </div>
-                        </div>
+                      )}
+
+                      {data && !showDestinations && !showItems && (
+                        <p className="text-white/30 text-xs tracking-widest">Няма съдържание в тази секция.</p>
                       )}
                     </motion.div>
                   </AnimatePresence>

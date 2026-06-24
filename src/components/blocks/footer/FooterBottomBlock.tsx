@@ -33,7 +33,8 @@ export function FooterBottomBlock({
   creditUrl = 'https://netinsky.com',
 }: Props) {
   const [logoHovered, setLogoHovered] = useState(false)
-  const logoSrc = logoHovered ? '/colored-logo.svg' : '/white-logo.svg'
+  const isCmsLogo = logoUrl && !logoUrl.startsWith('https://framerusercontent.com')
+  const logoSrc = isCmsLogo ? logoUrl : (logoHovered ? '/colored-logo.svg' : '/white-logo.svg')
 
   return (
     <div style={{ paddingTop: '2rem', display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', gap: '1.5rem' }}>

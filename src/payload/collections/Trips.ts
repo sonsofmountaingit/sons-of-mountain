@@ -7,11 +7,11 @@ import { syncStripeProduct } from '@/lib/stripe-product-sync'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const revalidateTag = _revalidateTag
 const revalidateFooterTrips = ({ doc }: { doc: unknown }) => {
-  try { after(() => { revalidateTag('trips', 'max') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('trips', 'max'); revalidateTag('megamenu', 'max') }) } catch { /* noop */ }
   return doc
 }
 const revalidateFooterTripsDelete = () => {
-  try { after(() => { revalidateTag('trips', 'max') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('trips', 'max'); revalidateTag('megamenu', 'max') }) } catch { /* noop */ }
 }
 
 export const Trips: CollectionConfig = {
@@ -33,6 +33,16 @@ export const Trips: CollectionConfig = {
       type: 'text',
       unique: true,
       admin: { position: 'sidebar' },
+    },
+    {
+      name: 'navSection',
+      type: 'select',
+      options: [
+        { label: 'В България', value: 'bulgaria' },
+        { label: 'В чужбина', value: 'abroad' },
+        { label: 'Индивидуално приключение', value: 'individual' },
+      ],
+      admin: { position: 'sidebar', description: 'Секция в навигацията, в която да се показва това пътуване' },
     },
     // Booking / pricing
     {

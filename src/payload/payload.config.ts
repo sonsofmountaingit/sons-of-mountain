@@ -53,6 +53,11 @@ import { CalendarCta } from './globals/CalendarCta'
 import { TestimonialsSection } from './globals/TestimonialsSection'
 import { Testimonials } from './collections/Testimonials'
 import { About } from './globals/About'
+import { ContactPage } from './globals/ContactPage'
+import { BlogPage } from './globals/BlogPage'
+import { StoriesPage } from './globals/StoriesPage'
+import { CalendarPage } from './globals/CalendarPage'
+import { HomePage } from './globals/HomePage'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -139,7 +144,7 @@ export default buildConfig({
     Payouts,
     Testimonials,
   ],
-  globals: [Navigation, Footer, SiteSettings, Hero, DestinationCarousel, Gallery, Shop, WhyTravelWithUs, FeaturedTravels, CalendarCta, TestimonialsSection, About],
+  globals: [Navigation, Footer, SiteSettings, Hero, DestinationCarousel, Gallery, Shop, WhyTravelWithUs, FeaturedTravels, CalendarCta, TestimonialsSection, About, ContactPage, BlogPage, StoriesPage, CalendarPage, HomePage],
   plugins: [
     stripePlugin({
       stripeSecretKey: process.env.STRIPE_SECRET_KEY ?? '',

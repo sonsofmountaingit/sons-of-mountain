@@ -3,9 +3,23 @@
 import { useDocumentInfo } from '@payloadcms/ui'
 
 export function VisualEditorButton() {
-  const { id } = useDocumentInfo()
+  const { id, initialData } = useDocumentInfo()
+  const slug = (initialData as { slug?: string } | undefined)?.slug
 
-  if (!id) {
+  // Pages with dedicated global Puck editors
+  const slugToEditorPath: Record<string, string> = {
+    home: '/puck/home',
+    about: '/puck/about',
+    gallery: '/puck/gallery',
+    shop: '/puck/shop',
+    contact: '/puck/contact',
+    blog: '/puck/blog',
+    stories: '/puck/stories',
+    calendar: '/puck/calendar',
+  }
+  const editorPath = slug && slugToEditorPath[slug] ? slugToEditorPath[slug] : id ? `/puck/pages/${id}` : null
+
+  if (!editorPath) {
     return (
       <div
         style={{
@@ -25,7 +39,7 @@ export function VisualEditorButton() {
 
   return (
     <a
-      href={`/puck/pages/${id}`}
+      href={editorPath}
       target="_blank"
       rel="noopener noreferrer"
       style={{

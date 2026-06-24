@@ -2,37 +2,36 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { Suspense } from 'react'
 import { DestinationCarousel } from '@/components/ui/DestinationCarousel'
-import { StoriesCarouselSection } from '@/components/ui/StoriesCarouselSection'
 import { WhyTravelWithUs } from '@/components/ui/WhyTravelWithUs'
 import { FeaturedTravels } from '@/components/ui/FeaturedTravels'
-import { WhyTravelWithUsSection } from '@/components/ui/destination-page/WhyTravelWithUsSection'
 import { Testimonials } from '@/components/ui/Testimonials'
 import { CalendarCta } from '@/components/ui/CalendarCta'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
+import { PuckRender } from '@/components/blocks/PuckRender'
+import { unstable_cache } from 'next/cache'
+import type { Data } from '@puckeditor/core'
 
 export const dynamic = 'force-dynamic'
 
+const getHomePage = unstable_cache(
+  async () => {
+    try {
+      const payload = await getPayload({ config })
+      return await payload.findGlobal({ slug: 'home-page', depth: 0, overrideAccess: true })
+    } catch { return null }
+  },
+  ['home-page-global'],
+  { tags: ['home-page'], revalidate: false },
+)
 
-async function getStoriesData() {
-  let stories: any[] = []
-  try {
-    const payload = await getPayload({ config })
-    const { docs } = await payload.find({ collection: 'stories', limit: 10, sort: '-createdAt' })
-    stories = docs
-  } catch {}
-  return { stories }
-}
+export default async function HomePage() {
+  const d = (await getHomePage()) as any
+  const puckData = d?.puckData as Data | null | undefined
 
-async function StoriesSection() {
-  const { stories } = await getStoriesData()
-  return (
-    <StoriesCarouselSection
-      stories={stories as Parameters<typeof StoriesCarouselSection>[0]['stories']}
-    />
-  )
-}
+  if (puckData?.content?.length) {
+    return <PuckRender data={puckData} />
+  }
 
-export default function HomePage() {
   return (
     <div>
       <ScrollReveal delay={0}>
@@ -53,10 +52,6 @@ export default function HomePage() {
         </Suspense>
       </ScrollReveal>
 
-      {/* <Suspense fallback={null}>
-        <StoriesSection />
-      </Suspense> */}
-
       <ScrollReveal delay={0.05}>
         <Suspense fallback={null}>
           <Testimonials />
@@ -68,7 +63,6 @@ export default function HomePage() {
           <CalendarCta />
         </Suspense>
       </ScrollReveal>
-
     </div>
   )
 }

@@ -14,8 +14,20 @@ function toDifficulty(raw: number | null | undefined): number | null {
 import Script from 'next/script'
 import { Suspense } from 'react'
 import { unstable_cache } from 'next/cache'
+import { CalendarHeroBlock } from '@/components/blocks/calendar/CalendarHeroBlock'
 
 export const dynamic = 'force-dynamic'
+
+const getCalendarPage = unstable_cache(
+  async () => {
+    try {
+      const payload = await getPayload({ config })
+      return await payload.findGlobal({ slug: 'calendar-page', depth: 0, overrideAccess: true })
+    } catch { return null }
+  },
+  ['calendar-page-global'],
+  { tags: ['calendar-page'], revalidate: false },
+)
 
 
 export const metadata: Metadata = {
@@ -203,15 +215,18 @@ async function CalendarContent() {
   )
 }
 
-export default function CalendarPage() {
+export default async function CalendarPage() {
+  const d = (await getCalendarPage()) as any
+
   return (
-    <div className="pt-28 pb-20 px-6 min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-5xl md:text-6xl font-bold mb-4 text-zinc-900">Календар</h1>
-        <p className="text-zinc-500 mb-12 text-lg">Предстоящи пътувания и програми по месец</p>
-        <Suspense fallback={<div className="text-white/30 text-sm">Зареждане...</div>}>
-          <CalendarContent />
-        </Suspense>
+    <div className="min-h-screen bg-white">
+      <CalendarHeroBlock heading={d?.heading} subheading={d?.subheading} />
+      <div className="pb-20 px-6">
+        <div className="max-w-7xl mx-auto">
+          <Suspense fallback={<div className="text-white/30 text-sm">Зареждане...</div>}>
+            <CalendarContent />
+          </Suspense>
+        </div>
       </div>
     </div>
   )

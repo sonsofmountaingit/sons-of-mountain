@@ -52,6 +52,11 @@ import { AboutHeroBlock } from '@/components/blocks/about/AboutHeroBlock'
 import { AboutAdventureBlock } from '@/components/blocks/about/AboutAdventureBlock'
 import { AboutWhoWeAreBlock } from '@/components/blocks/about/AboutWhoWeAreBlock'
 import { AboutPartnersBlock } from '@/components/blocks/about/AboutPartnersBlock'
+import { ContactHeroBlock } from '@/components/blocks/contact/ContactHeroBlock'
+import { ContactFAQBlock } from '@/components/blocks/contact/ContactFAQBlock'
+import { BlogHeroBlock } from '@/components/blocks/blog/BlogHeroBlock'
+import { StoriesHeroBlock } from '@/components/blocks/stories/StoriesHeroBlock'
+import { CalendarHeroBlock } from '@/components/blocks/calendar/CalendarHeroBlock'
 
 import {
   allStyleFields,
@@ -208,6 +213,11 @@ export type PuckBlocks = {
   AboutAdventureBlock: { adventureHeading: string; adventureSubtext: string; adventureActivities: string; adventureQuote: string; adventureQuoteBody: string }
   AboutWhoWeAreBlock: { whoHeading: string; whoDescription: string; whoImage1Url: string; whoImage2Url: string }
   AboutPartnersBlock: { partnersHeading: string; partnersSubtext: string; partnersCtaLabel: string; partnersCtaUrl: string; partners: { name: string; url: string; logoUrl: string | null }[] }
+  ContactHeroBlock: { heading: string; subheading: string }
+  ContactFAQBlock: { heading: string; faqItems: { question: string; answer: string }[] }
+  BlogHeroBlock: { heading: string; subheading: string }
+  StoriesHeroBlock: { heading: string; subheading: string }
+  CalendarHeroBlock: { heading: string; subheading: string }
 }
 
 // ─── Config ───────────────────────────────────────────────────────────────────
@@ -222,6 +232,10 @@ export const puckConfig: Config<PuckBlocks> = {
     dynamic: { title: 'Dynamic (Live Data)', components: ['StoriesBlock', 'BlogPostsBlock', 'DestinationCarouselBlock', 'SocialFeedBlock', 'GalleryHeroBlock', 'GalleryGridBlock'], defaultExpanded: false },
     global: { title: 'Global', components: ['FooterBlock', 'NavigationLinksBlock', 'WhyTravelWithUsBlock', 'FeaturedTravelsBlock', 'CalendarCtaBlock', 'TestimonialsMarqueeBlock'], defaultExpanded: false },
     about: { title: 'About Page', components: ['AboutHeroBlock', 'AboutAdventureBlock', 'AboutWhoWeAreBlock', 'AboutPartnersBlock'], defaultExpanded: false },
+    contact: { title: 'Contact Page', components: ['ContactHeroBlock', 'ContactFAQBlock'], defaultExpanded: false },
+    blog: { title: 'Blog Page', components: ['BlogHeroBlock', 'BlogPostsBlock'], defaultExpanded: false },
+    stories: { title: 'Stories Page', components: ['StoriesHeroBlock', 'StoriesBlock'], defaultExpanded: false },
+    calendar: { title: 'Calendar Page', components: ['CalendarHeroBlock'], defaultExpanded: false },
   },
 
   components: {
@@ -1639,6 +1653,71 @@ export const puckConfig: Config<PuckBlocks> = {
         partners: [],
       },
       render: (props: any) => <AboutPartnersBlock {...props} />,
+    },
+
+    ContactHeroBlock: {
+      label: 'Contact — Hero',
+      fields: {
+        heading: { type: 'text', label: 'Heading' },
+        subheading: { type: 'text', label: 'Subheading' },
+      },
+      defaultProps: { heading: 'Контакти', subheading: 'Имаш въпрос? Пиши ни.' },
+      render: (props: any) => <ContactHeroBlock {...props} />,
+    },
+
+    ContactFAQBlock: {
+      label: 'Contact — FAQ',
+      fields: {
+        heading: { type: 'text', label: 'Section Heading' },
+        faqItems: {
+          type: 'array',
+          label: 'FAQ Items',
+          arrayFields: {
+            question: { type: 'text', label: 'Question' },
+            answer: { type: 'textarea', label: 'Answer' },
+          },
+          defaultItemProps: { question: 'Въпрос?', answer: 'Отговор.' },
+          getItemSummary: (item: any) => item.question || 'FAQ Item',
+        },
+      },
+      defaultProps: {
+        heading: 'Често задавани въпроси',
+        faqItems: [
+          { question: 'Как да се запиша за пътуване?', answer: 'Намери желаното пътуване на страницата на дестинацията и кликни "ЗАПИШИ СЕ". Ще те се обадим в рамките на 24 часа.' },
+          { question: 'Колко струва депозитът?', answer: 'Депозитът обикновено е 30% от цената на пътуването. Останалата сума се плаща 30 дни преди заминаването.' },
+        ],
+      },
+      render: (props: any) => <ContactFAQBlock {...props} />,
+    },
+
+    BlogHeroBlock: {
+      label: 'Blog — Hero',
+      fields: {
+        heading: { type: 'text', label: 'Heading' },
+        subheading: { type: 'text', label: 'Subheading' },
+      },
+      defaultProps: { heading: 'Блог', subheading: 'Статии, съвети и вдъхновение за пътуване' },
+      render: (props: any) => <BlogHeroBlock {...props} />,
+    },
+
+    StoriesHeroBlock: {
+      label: 'Stories — Hero',
+      fields: {
+        heading: { type: 'text', label: 'Heading' },
+        subheading: { type: 'text', label: 'Subheading' },
+      },
+      defaultProps: { heading: 'Истории', subheading: 'Разкази от нашите пътешественици' },
+      render: (props: any) => <StoriesHeroBlock {...props} />,
+    },
+
+    CalendarHeroBlock: {
+      label: 'Calendar — Hero',
+      fields: {
+        heading: { type: 'text', label: 'Heading' },
+        subheading: { type: 'text', label: 'Subheading' },
+      },
+      defaultProps: { heading: 'Календар', subheading: 'Предстоящи пътувания и програми по месец' },
+      render: (props: any) => <CalendarHeroBlock {...props} />,
     },
   },
 

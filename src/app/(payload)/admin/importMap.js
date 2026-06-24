@@ -34,6 +34,10 @@ import { FeaturedTravelsVisualEditorButton as FeaturedTravelsVisualEditorButton_
 import { CalendarCtaVisualEditorButton as CalendarCtaVisualEditorButton_88a6d61a85d3db3c7f3b3d1daf1462fe } from '@/components/admin/CalendarCtaVisualEditorButton'
 import { TestimonialsVisualEditorButton as TestimonialsVisualEditorButton_81bf3cd4e881256ecd534cd1725c0801 } from '@/components/admin/TestimonialsVisualEditorButton'
 import { AboutVisualEditorButton as AboutVisualEditorButton_b4d3f89837ae7b094a52f32c2c5ef0e9 } from '@/components/admin/AboutVisualEditorButton'
+import { ContactPageVisualEditorButton as ContactPageVisualEditorButton_85959b6af4825e994631260bc583c498 } from '@/components/admin/ContactPageVisualEditorButton'
+import { BlogPageVisualEditorButton as BlogPageVisualEditorButton_304e7778f5426776f8891497f0b4a995 } from '@/components/admin/BlogPageVisualEditorButton'
+import { StoriesPageVisualEditorButton as StoriesPageVisualEditorButton_62b04ac334caea54e3664e175b87bed8 } from '@/components/admin/StoriesPageVisualEditorButton'
+import { CalendarPageVisualEditorButton as CalendarPageVisualEditorButton_38dd789a488785ba7a99b092096c7a7e } from '@/components/admin/CalendarPageVisualEditorButton'
 import { AdminLogo as AdminLogo_b80a86fce1072afc84cd6a430a965697 } from '@/components/admin/AdminLogo'
 import { AdminAfterLogin as AdminAfterLogin_420e5b234db0328ac2462abc35f96929 } from '@/components/admin/AdminAfterLogin'
 import { AdminLoginBackground as AdminLoginBackground_baef77fc865ae3a00a6eb857b0b83031 } from '@/components/admin/AdminLoginBackground'
@@ -79,6 +83,10 @@ export const importMap = {
   "@/components/admin/CalendarCtaVisualEditorButton#CalendarCtaVisualEditorButton": CalendarCtaVisualEditorButton_88a6d61a85d3db3c7f3b3d1daf1462fe,
   "@/components/admin/TestimonialsVisualEditorButton#TestimonialsVisualEditorButton": TestimonialsVisualEditorButton_81bf3cd4e881256ecd534cd1725c0801,
   "@/components/admin/AboutVisualEditorButton#AboutVisualEditorButton": AboutVisualEditorButton_b4d3f89837ae7b094a52f32c2c5ef0e9,
+  "@/components/admin/ContactPageVisualEditorButton#ContactPageVisualEditorButton": ContactPageVisualEditorButton_85959b6af4825e994631260bc583c498,
+  "@/components/admin/BlogPageVisualEditorButton#BlogPageVisualEditorButton": BlogPageVisualEditorButton_304e7778f5426776f8891497f0b4a995,
+  "@/components/admin/StoriesPageVisualEditorButton#StoriesPageVisualEditorButton": StoriesPageVisualEditorButton_62b04ac334caea54e3664e175b87bed8,
+  "@/components/admin/CalendarPageVisualEditorButton#CalendarPageVisualEditorButton": CalendarPageVisualEditorButton_38dd789a488785ba7a99b092096c7a7e,
   "@/components/admin/AdminLogo#AdminLogo": AdminLogo_b80a86fce1072afc84cd6a430a965697,
   "@/components/admin/AdminAfterLogin#AdminAfterLogin": AdminAfterLogin_420e5b234db0328ac2462abc35f96929,
   "@/components/admin/AdminLoginBackground#AdminLoginBackground": AdminLoginBackground_baef77fc865ae3a00a6eb857b0b83031,

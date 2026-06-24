@@ -1,4 +1,4 @@
-import type { GlobalConfig } from 'payload'
+import type { GlobalConfig, GlobalBeforeChangeHook } from 'payload'
 import { revalidateTag as _revalidateTag } from 'next/cache'
 import { after } from 'next/server'
 import { revalidateGlobal } from '../hooks/revalidate'
@@ -8,6 +8,34 @@ const revalidateTag = _revalidateTag
 const revalidateNavigationTag = ({ doc }: { doc: unknown }) => {
   try { after(() => { try { revalidateTag('navigation', 'max') } catch {} }) } catch { /* noop */ }
   return doc
+}
+
+type NavLink = { label: string; page?: string | { slug?: string } | null; href?: string }
+
+const resolveHrefs: GlobalBeforeChangeHook = async ({ data, req }) => {
+  const resolveLinks = async (links: NavLink[] | undefined): Promise<NavLink[]> => {
+    if (!links) return []
+    return Promise.all(
+      links.map(async (link) => {
+        if (!link.page) return link
+        const pageId = typeof link.page === 'string' ? link.page : null
+        if (!pageId) return link
+        try {
+          const page = await req.payload.findByID({ collection: 'pages', id: pageId, depth: 0 })
+          const slug = (page as { slug?: string }).slug
+          return { ...link, href: slug ? `/${slug}` : link.href }
+        } catch {
+          return link
+        }
+      }),
+    )
+  }
+
+  return {
+    ...data,
+    navLinksLeft: await resolveLinks(data.navLinksLeft as NavLink[]),
+    navLinksRight: await resolveLinks(data.navLinksRight as NavLink[]),
+  }
 }
 
 export const Navigation: GlobalConfig = {
@@ -41,7 +69,14 @@ export const Navigation: GlobalConfig = {
       label: 'Left Navigation Links',
       fields: [
         { name: 'label', type: 'text', required: true },
-        { name: 'href', type: 'text', required: true },
+        {
+          name: 'page',
+          type: 'relationship',
+          relationTo: 'pages',
+          required: false,
+          admin: { description: 'Pick a page to auto-fill the href, or leave blank and set href manually.' },
+        },
+        { name: 'href', type: 'text', required: false, admin: { description: 'Auto-filled from page slug. Override here for external links.' } },
       ],
     },
     {
@@ -50,7 +85,14 @@ export const Navigation: GlobalConfig = {
       label: 'Right Navigation Links',
       fields: [
         { name: 'label', type: 'text', required: true },
-        { name: 'href', type: 'text', required: true },
+        {
+          name: 'page',
+          type: 'relationship',
+          relationTo: 'pages',
+          required: false,
+          admin: { description: 'Pick a page to auto-fill the href, or leave blank and set href manually.' },
+        },
+        { name: 'href', type: 'text', required: false, admin: { description: 'Auto-filled from page slug. Override here for external links.' } },
       ],
     },
     {
@@ -72,6 +114,7 @@ export const Navigation: GlobalConfig = {
     },
   ],
   hooks: {
+    beforeChange: [resolveHrefs],
     afterChange: [revalidateNavigationTag, revalidateGlobal('/')],
   },
 }
