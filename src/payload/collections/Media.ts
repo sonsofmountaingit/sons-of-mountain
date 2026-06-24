@@ -93,7 +93,8 @@ export const Media: CollectionConfig = {
       const mime = (doc.mimeType as string) ?? ''
       if (mime.startsWith('video/')) return '/icons/video-placeholder.svg'
       const sizes = doc.sizes as Record<string, { url?: string }> | undefined
-      return sizes?.thumbnail?.url ?? (doc.url as string) ?? ''
+      const raw = sizes?.thumbnail?.url ?? (doc.url as string) ?? ''
+      return raw.replace(/^https?:\/\/[^/]+/, '')
     },
     formatOptions: {
       format: 'webp',
