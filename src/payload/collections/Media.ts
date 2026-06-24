@@ -23,7 +23,7 @@ const compressVideoAfterSave: CollectionAfterChangeHook = ({ doc, operation, req
   // Run async — does not block the upload response
   after(async () => {
     try {
-      const staticDir = path.resolve(process.cwd(), 'public/media')
+      const staticDir = path.resolve(process.cwd(), 'media')
       const filePath = path.join(staticDir, filename)
       if (!fs.existsSync(filePath)) return
 
@@ -79,7 +79,8 @@ export const Media: CollectionConfig = {
     afterChange: [compressVideoAfterSave],
   },
   upload: {
-    staticDir: 'public/media',
+    staticDir: 'media',
+    staticURL: '/api/media/file',
     mimeTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif', 'image/svg+xml', 'video/mp4', 'video/webm', 'video/quicktime'],
     imageSizes: [
       { name: 'thumbnail', width: 400, height: 300, position: 'centre', formatOptions: { format: 'webp', options: { quality: 78, effort: 6, smartSubsample: true } } },
