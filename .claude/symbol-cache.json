@@ -61,6 +61,39 @@
     "lines": 38,
     "group": "puck"
   },
+  "src/app/(puck)/puck/home/PuckHomeEditorClient.tsx": {
+    "exports": [
+      "PuckHomeEditorClient"
+    ],
+    "types": [],
+    "imports": [
+      "@puckeditor/core",
+      "@/puck/config",
+      "next/navigation",
+      "react",
+      "sonner"
+    ],
+    "lines": 71,
+    "group": "puck"
+  },
+  "src/app/(puck)/puck/home/page.tsx": {
+    "exports": [
+      "dynamic",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/headers",
+      "next/navigation",
+      "react",
+      "@puckeditor/core",
+      "./PuckHomeEditorClient"
+    ],
+    "lines": 87,
+    "group": "puck"
+  },
   "src/app/(puck)/puck/footer/PuckFooterEditorClient.tsx": {
     "exports": [
       "PuckFooterEditorClient"
@@ -158,6 +191,72 @@
       "./PuckDestinationCarouselEditorClient"
     ],
     "lines": 62,
+    "group": "puck"
+  },
+  "src/app/(puck)/puck/contact/PuckContactEditorClient.tsx": {
+    "exports": [
+      "PuckContactEditorClient"
+    ],
+    "types": [],
+    "imports": [
+      "@puckeditor/core",
+      "@/puck/config",
+      "next/navigation",
+      "react",
+      "sonner"
+    ],
+    "lines": 70,
+    "group": "puck"
+  },
+  "src/app/(puck)/puck/contact/page.tsx": {
+    "exports": [
+      "dynamic",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/headers",
+      "next/navigation",
+      "react",
+      "@puckeditor/core",
+      "./PuckContactEditorClient"
+    ],
+    "lines": 51,
+    "group": "puck"
+  },
+  "src/app/(puck)/puck/calendar/PuckCalendarEditorClient.tsx": {
+    "exports": [
+      "PuckCalendarEditorClient"
+    ],
+    "types": [],
+    "imports": [
+      "@puckeditor/core",
+      "@/puck/config",
+      "next/navigation",
+      "react",
+      "sonner"
+    ],
+    "lines": 70,
+    "group": "puck"
+  },
+  "src/app/(puck)/puck/calendar/page.tsx": {
+    "exports": [
+      "dynamic",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/headers",
+      "next/navigation",
+      "react",
+      "@puckeditor/core",
+      "./PuckCalendarEditorClient"
+    ],
+    "lines": 39,
     "group": "puck"
   },
   "src/app/(puck)/puck/testimonials/page.tsx": {
@@ -392,6 +491,72 @@
     "lines": 96,
     "group": "puck"
   },
+  "src/app/(puck)/puck/blog/PuckBlogEditorClient.tsx": {
+    "exports": [
+      "PuckBlogEditorClient"
+    ],
+    "types": [],
+    "imports": [
+      "@puckeditor/core",
+      "@/puck/config",
+      "next/navigation",
+      "react",
+      "sonner"
+    ],
+    "lines": 70,
+    "group": "puck"
+  },
+  "src/app/(puck)/puck/blog/page.tsx": {
+    "exports": [
+      "dynamic",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/headers",
+      "next/navigation",
+      "react",
+      "@puckeditor/core",
+      "./PuckBlogEditorClient"
+    ],
+    "lines": 43,
+    "group": "puck"
+  },
+  "src/app/(puck)/puck/stories/PuckStoriesEditorClient.tsx": {
+    "exports": [
+      "PuckStoriesEditorClient"
+    ],
+    "types": [],
+    "imports": [
+      "@puckeditor/core",
+      "@/puck/config",
+      "next/navigation",
+      "react",
+      "sonner"
+    ],
+    "lines": 70,
+    "group": "puck"
+  },
+  "src/app/(puck)/puck/stories/page.tsx": {
+    "exports": [
+      "dynamic",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/headers",
+      "next/navigation",
+      "react",
+      "@puckeditor/core",
+      "./PuckStoriesEditorClient"
+    ],
+    "lines": 43,
+    "group": "puck"
+  },
   "src/app/(puck)/puck/hero/PuckHeroEditorClient.tsx": {
     "exports": [
       "PuckHeroEditorClient"
@@ -437,7 +602,7 @@
       "react",
       "sonner"
     ],
-    "lines": 274,
+    "lines": 279,
     "group": "puck"
   },
   "src/app/(puck)/puck/pages/[id]/page.tsx": {
@@ -1035,7 +1200,7 @@
       "next/cache",
       "next/server"
     ],
-    "lines": 68,
+    "lines": 123,
     "group": "api"
   },
   "src/app/api/why-travel-with-us-data/route.ts": {
@@ -1091,6 +1256,20 @@
     "lines": 47,
     "group": "api"
   },
+  "src/app/api/puck/home/route.ts": {
+    "exports": [
+      "PATCH"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/cache",
+      "@/lib/payload-auth"
+    ],
+    "lines": 18,
+    "group": "api"
+  },
   "src/app/api/puck/footer/route.ts": {
     "exports": [
       "PATCH"
@@ -1131,6 +1310,34 @@
       "@/lib/payload-auth"
     ],
     "lines": 35,
+    "group": "api"
+  },
+  "src/app/api/puck/contact/route.ts": {
+    "exports": [
+      "PATCH"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/cache",
+      "@/lib/payload-auth"
+    ],
+    "lines": 32,
+    "group": "api"
+  },
+  "src/app/api/puck/calendar/route.ts": {
+    "exports": [
+      "PATCH"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/cache",
+      "@/lib/payload-auth"
+    ],
+    "lines": 30,
     "group": "api"
   },
   "src/app/api/puck/testimonials/route.ts": {
@@ -1230,6 +1437,34 @@
       "@/lib/payload-auth"
     ],
     "lines": 58,
+    "group": "api"
+  },
+  "src/app/api/puck/blog/route.ts": {
+    "exports": [
+      "PATCH"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/cache",
+      "@/lib/payload-auth"
+    ],
+    "lines": 30,
+    "group": "api"
+  },
+  "src/app/api/puck/stories/route.ts": {
+    "exports": [
+      "PATCH"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/cache",
+      "@/lib/payload-auth"
+    ],
+    "lines": 30,
     "group": "api"
   },
   "src/app/api/puck/hero/route.ts": {
@@ -1582,15 +1817,23 @@
   },
   "src/app/(frontend)/contact/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
-      "default:function"
+      "default:async"
     ],
     "types": [],
     "imports": [
       "next",
-      "@/components/forms/ContactForm"
+      "next/cache",
+      "payload",
+      "@payload-config",
+      "@/components/forms/ContactForm",
+      "@/components/blocks/contact/ContactHeroBlock",
+      "@/components/blocks/contact/ContactFAQBlock",
+      "@/components/blocks/PuckRender",
+      "@puckeditor/core"
     ],
-    "lines": 43,
+    "lines": 56,
     "group": "frontend"
   },
   "src/app/(frontend)/nolimit/catamarans/page.tsx": {
@@ -1684,7 +1927,7 @@
     "exports": [
       "dynamic",
       "metadata",
-      "default:function"
+      "default:async"
     ],
     "types": [],
     "imports": [
@@ -1696,9 +1939,10 @@
       "@/components/ui/CalendarTripCard",
       "next/script",
       "react",
-      "next/cache"
+      "next/cache",
+      "@/components/blocks/calendar/CalendarHeroBlock"
     ],
-    "lines": 219,
+    "lines": 234,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/page.tsx": {
@@ -2129,7 +2373,7 @@
     "exports": [
       "dynamic",
       "metadata",
-      "default:function"
+      "default:async"
     ],
     "types": [],
     "imports": [
@@ -2140,9 +2384,12 @@
       "next",
       "@/lib/media-url",
       "next/cache",
-      "react"
+      "react",
+      "@/components/blocks/blog/BlogHeroBlock",
+      "@/components/blocks/PuckRender",
+      "@puckeditor/core"
     ],
-    "lines": 79,
+    "lines": 84,
     "group": "frontend"
   },
   "src/app/(frontend)/blog/[slug]/page.tsx": {
@@ -2574,7 +2821,7 @@
     "exports": [
       "dynamic",
       "metadata",
-      "default:function"
+      "default:async"
     ],
     "types": [],
     "imports": [
@@ -2583,9 +2830,12 @@
       "@/components/ui/StoryCard",
       "next",
       "next/cache",
-      "react"
+      "react",
+      "@/components/blocks/stories/StoriesHeroBlock",
+      "@/components/blocks/PuckRender",
+      "@puckeditor/core"
     ],
-    "lines": 62,
+    "lines": 77,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/[slug]/page.tsx": {
@@ -2949,7 +3199,7 @@
   "src/app/(frontend)/page.tsx": {
     "exports": [
       "dynamic",
-      "default:function"
+      "default:async"
     ],
     "types": [],
     "imports": [
@@ -2957,15 +3207,16 @@
       "@payload-config",
       "react",
       "@/components/ui/DestinationCarousel",
-      "@/components/ui/StoriesCarouselSection",
       "@/components/ui/WhyTravelWithUs",
       "@/components/ui/FeaturedTravels",
-      "@/components/ui/destination-page/WhyTravelWithUsSection",
       "@/components/ui/Testimonials",
       "@/components/ui/CalendarCta",
-      "@/components/ui/ScrollReveal"
+      "@/components/ui/ScrollReveal",
+      "@/components/blocks/PuckRender",
+      "next/cache",
+      "@puckeditor/core"
     ],
-    "lines": 75,
+    "lines": 69,
     "group": "frontend"
   },
   "src/app/(frontend)/[slug]/page.tsx": {
@@ -3090,6 +3341,10 @@
       "@/components/admin/CalendarCtaVisualEditorButton",
       "@/components/admin/TestimonialsVisualEditorButton",
       "@/components/admin/AboutVisualEditorButton",
+      "@/components/admin/ContactPageVisualEditorButton",
+      "@/components/admin/BlogPageVisualEditorButton",
+      "@/components/admin/StoriesPageVisualEditorButton",
+      "@/components/admin/CalendarPageVisualEditorButton",
       "@/components/admin/AdminLogo",
       "@/components/admin/AdminAfterLogin",
       "@/components/admin/AdminLoginBackground",
@@ -3097,7 +3352,7 @@
       "@/components/admin/StripeReconciliationView",
       "@payloadcms/next/rsc"
     ],
-    "lines": 89,
+    "lines": 97,
     "group": "payload-app"
   },
   "src/app/(payload)/layout.tsx": {
@@ -3428,6 +3683,19 @@
     "lines": 65,
     "group": "globals"
   },
+  "src/payload/globals/CalendarPage.ts": {
+    "exports": [
+      "CalendarPage"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "next/cache",
+      "next/server"
+    ],
+    "lines": 33,
+    "group": "globals"
+  },
   "src/payload/globals/Navigation.ts": {
     "exports": [
       "Navigation"
@@ -3439,7 +3707,20 @@
       "next/server",
       "../hooks/revalidate"
     ],
-    "lines": 78,
+    "lines": 121,
+    "group": "globals"
+  },
+  "src/payload/globals/HomePage.ts": {
+    "exports": [
+      "HomePage"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "next/cache",
+      "next/server"
+    ],
+    "lines": 31,
     "group": "globals"
   },
   "src/payload/globals/Footer.ts": {
@@ -3510,6 +3791,19 @@
     "lines": 57,
     "group": "globals"
   },
+  "src/payload/globals/BlogPage.ts": {
+    "exports": [
+      "BlogPage"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "next/cache",
+      "next/server"
+    ],
+    "lines": 33,
+    "group": "globals"
+  },
   "src/payload/globals/SiteSettings.ts": {
     "exports": [
       "SiteSettings"
@@ -3519,6 +3813,19 @@
       "payload"
     ],
     "lines": 44,
+    "group": "globals"
+  },
+  "src/payload/globals/ContactPage.ts": {
+    "exports": [
+      "ContactPage"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "next/cache",
+      "next/server"
+    ],
+    "lines": 49,
     "group": "globals"
   },
   "src/payload/globals/TestimonialsSection.ts": {
@@ -3532,6 +3839,19 @@
       "next/cache"
     ],
     "lines": 47,
+    "group": "globals"
+  },
+  "src/payload/globals/StoriesPage.ts": {
+    "exports": [
+      "StoriesPage"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "next/cache",
+      "next/server"
+    ],
+    "lines": 33,
     "group": "globals"
   },
   "src/payload/payload.config.ts": {
@@ -3592,9 +3912,14 @@
       "./globals/CalendarCta",
       "./globals/TestimonialsSection",
       "./collections/Testimonials",
-      "./globals/About"
+      "./globals/About",
+      "./globals/ContactPage",
+      "./globals/BlogPage",
+      "./globals/StoriesPage",
+      "./globals/CalendarPage",
+      "./globals/HomePage"
     ],
-    "lines": 246,
+    "lines": 251,
     "group": "payload"
   },
   "src/payload/seeds/hero.ts": {
@@ -3707,7 +4032,7 @@
       "next/server",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 392,
+    "lines": 402,
     "group": "collections"
   },
   "src/payload/collections/EmailTemplates.ts": {
@@ -3799,7 +4124,7 @@
       "next/server",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 415,
+    "lines": 425,
     "group": "collections"
   },
   "src/payload/collections/Pages.ts": {
@@ -4213,7 +4538,7 @@
       "react",
       "@/components/ui/ShakingCredit"
     ],
-    "lines": 59,
+    "lines": 60,
     "group": "blocks"
   },
   "src/components/blocks/footer/FooterSubscribeBlock.tsx": {
@@ -4260,6 +4585,24 @@
     "lines": 321,
     "group": "blocks"
   },
+  "src/components/blocks/contact/ContactHeroBlock.tsx": {
+    "exports": [
+      "ContactHeroBlock"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 16,
+    "group": "blocks"
+  },
+  "src/components/blocks/contact/ContactFAQBlock.tsx": {
+    "exports": [
+      "ContactFAQBlock"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 28,
+    "group": "blocks"
+  },
   "src/components/blocks/LivePreviewBlocks.tsx": {
     "exports": [
       "LivePreviewBlocks"
@@ -4270,6 +4613,15 @@
       "./ClientBlockRenderer"
     ],
     "lines": 42,
+    "group": "blocks"
+  },
+  "src/components/blocks/calendar/CalendarHeroBlock.tsx": {
+    "exports": [
+      "CalendarHeroBlock"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 16,
     "group": "blocks"
   },
   "src/components/blocks/CounterBlockRenderer.tsx": {
@@ -4647,6 +4999,15 @@
     "lines": 44,
     "group": "blocks"
   },
+  "src/components/blocks/blog/BlogHeroBlock.tsx": {
+    "exports": [
+      "BlogHeroBlock"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 16,
+    "group": "blocks"
+  },
   "src/components/blocks/NewsletterBlockRenderer.tsx": {
     "exports": [
       "NewsletterBlockRenderer"
@@ -4691,6 +5052,15 @@
       "@/lib/media-url"
     ],
     "lines": 84,
+    "group": "blocks"
+  },
+  "src/components/blocks/stories/StoriesHeroBlock.tsx": {
+    "exports": [
+      "StoriesHeroBlock"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 16,
     "group": "blocks"
   },
   "src/components/blocks/SeparatorBlockRenderer.tsx": {
@@ -5004,7 +5374,7 @@
       "next/image",
       "motion/react"
     ],
-    "lines": 255,
+    "lines": 267,
     "group": "ui"
   },
   "src/components/ui/Navbar.tsx": {
@@ -5515,7 +5885,7 @@
       "./FooterShakingLink",
       "./FooterReveal"
     ],
-    "lines": 302,
+    "lines": 303,
     "group": "ui"
   },
   "src/components/ui/Testimonials.tsx": {
@@ -5605,7 +5975,7 @@
       "next/image",
       "react"
     ],
-    "lines": 21,
+    "lines": 22,
     "group": "ui"
   },
   "src/components/ui/GalleryEditButton.tsx": {
@@ -6055,7 +6425,7 @@
     "imports": [
       "@payloadcms/ui"
     ],
-    "lines": 62,
+    "lines": 76,
     "group": "admin"
   },
   "src/components/admin/WhyTravelWithUsVisualEditorButton.tsx": {
@@ -6136,6 +6506,15 @@
     "lines": 117,
     "group": "admin"
   },
+  "src/components/admin/StoriesPageVisualEditorButton.tsx": {
+    "exports": [
+      "StoriesPageVisualEditorButton"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 19,
+    "group": "admin"
+  },
   "src/components/admin/GalleryVisualEditorButton.tsx": {
     "exports": [
       "GalleryVisualEditorButton"
@@ -6143,6 +6522,15 @@
     "types": [],
     "imports": [],
     "lines": 36,
+    "group": "admin"
+  },
+  "src/components/admin/BlogPageVisualEditorButton.tsx": {
+    "exports": [
+      "BlogPageVisualEditorButton"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 19,
     "group": "admin"
   },
   "src/components/admin/FooterVisualEditorButton.tsx": {
@@ -6186,6 +6574,24 @@
     "lines": 36,
     "group": "admin"
   },
+  "src/components/admin/CalendarPageVisualEditorButton.tsx": {
+    "exports": [
+      "CalendarPageVisualEditorButton"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 19,
+    "group": "admin"
+  },
+  "src/components/admin/ContactPageVisualEditorButton.tsx": {
+    "exports": [
+      "ContactPageVisualEditorButton"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 19,
+    "group": "admin"
+  },
   "src/components/admin/StripeReconciliationView.tsx": {
     "exports": [
       "StripeReconciliationView"
@@ -6195,6 +6601,15 @@
       "react"
     ],
     "lines": 148,
+    "group": "admin"
+  },
+  "src/components/admin/HomePageVisualEditorButton.tsx": {
+    "exports": [
+      "HomePageVisualEditorButton"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 19,
     "group": "admin"
   },
   "src/components/admin/ShopVisualEditorButton.tsx": {
@@ -6564,9 +6979,14 @@
       "@/components/blocks/about/AboutHeroBlock",
       "@/components/blocks/about/AboutAdventureBlock",
       "@/components/blocks/about/AboutWhoWeAreBlock",
-      "@/components/blocks/about/AboutPartnersBlock"
+      "@/components/blocks/about/AboutPartnersBlock",
+      "@/components/blocks/contact/ContactHeroBlock",
+      "@/components/blocks/contact/ContactFAQBlock",
+      "@/components/blocks/blog/BlogHeroBlock",
+      "@/components/blocks/stories/StoriesHeroBlock",
+      "@/components/blocks/calendar/CalendarHeroBlock"
     ],
-    "lines": 1701,
+    "lines": 1780,
     "group": "other"
   },
   "src/puck/puckAI.ts": {

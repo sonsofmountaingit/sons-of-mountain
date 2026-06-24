@@ -31,6 +31,18 @@
       "size": 4
     },
     {
+      "id": "src/app/(puck)/puck/home/PuckHomeEditorClient.tsx",
+      "label": "home/PuckHomeEditorClient.tsx",
+      "group": "puck",
+      "size": 6
+    },
+    {
+      "id": "src/app/(puck)/puck/home/page.tsx",
+      "label": "home/page.tsx",
+      "group": "puck",
+      "size": 4
+    },
+    {
       "id": "src/app/(puck)/puck/footer/PuckFooterEditorClient.tsx",
       "label": "footer/PuckFooterEditorClient.tsx",
       "group": "puck",
@@ -63,6 +75,30 @@
     {
       "id": "src/app/(puck)/puck/destination-carousel/page.tsx",
       "label": "destination-carousel/page.tsx",
+      "group": "puck",
+      "size": 4
+    },
+    {
+      "id": "src/app/(puck)/puck/contact/PuckContactEditorClient.tsx",
+      "label": "contact/PuckContactEditorClient.tsx",
+      "group": "puck",
+      "size": 6
+    },
+    {
+      "id": "src/app/(puck)/puck/contact/page.tsx",
+      "label": "contact/page.tsx",
+      "group": "puck",
+      "size": 4
+    },
+    {
+      "id": "src/app/(puck)/puck/calendar/PuckCalendarEditorClient.tsx",
+      "label": "calendar/PuckCalendarEditorClient.tsx",
+      "group": "puck",
+      "size": 6
+    },
+    {
+      "id": "src/app/(puck)/puck/calendar/page.tsx",
+      "label": "calendar/page.tsx",
       "group": "puck",
       "size": 4
     },
@@ -147,6 +183,30 @@
     {
       "id": "src/app/(puck)/puck/about/page.tsx",
       "label": "about/page.tsx",
+      "group": "puck",
+      "size": 4
+    },
+    {
+      "id": "src/app/(puck)/puck/blog/PuckBlogEditorClient.tsx",
+      "label": "blog/PuckBlogEditorClient.tsx",
+      "group": "puck",
+      "size": 6
+    },
+    {
+      "id": "src/app/(puck)/puck/blog/page.tsx",
+      "label": "blog/page.tsx",
+      "group": "puck",
+      "size": 4
+    },
+    {
+      "id": "src/app/(puck)/puck/stories/PuckStoriesEditorClient.tsx",
+      "label": "stories/PuckStoriesEditorClient.tsx",
+      "group": "puck",
+      "size": 6
+    },
+    {
+      "id": "src/app/(puck)/puck/stories/page.tsx",
+      "label": "stories/page.tsx",
       "group": "puck",
       "size": 4
     },
@@ -451,6 +511,12 @@
       "size": 4
     },
     {
+      "id": "src/app/api/puck/home/route.ts",
+      "label": "home/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/puck/footer/route.ts",
       "label": "footer/route.ts",
       "group": "api",
@@ -465,6 +531,18 @@
     {
       "id": "src/app/api/puck/destination-carousel/route.ts",
       "label": "destination-carousel/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/puck/contact/route.ts",
+      "label": "contact/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/puck/calendar/route.ts",
+      "label": "calendar/route.ts",
       "group": "api",
       "size": 4
     },
@@ -507,6 +585,18 @@
     {
       "id": "src/app/api/puck/about/route.ts",
       "label": "about/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/puck/blog/route.ts",
+      "label": "blog/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/puck/stories/route.ts",
+      "label": "stories/route.ts",
       "group": "api",
       "size": 4
     },
@@ -1351,8 +1441,20 @@
       "size": 6
     },
     {
+      "id": "src/payload/globals/CalendarPage.ts",
+      "label": "globals/CalendarPage.ts",
+      "group": "globals",
+      "size": 6
+    },
+    {
       "id": "src/payload/globals/Navigation.ts",
       "label": "globals/Navigation.ts",
+      "group": "globals",
+      "size": 6
+    },
+    {
+      "id": "src/payload/globals/HomePage.ts",
+      "label": "globals/HomePage.ts",
       "group": "globals",
       "size": 6
     },
@@ -1387,14 +1489,32 @@
       "size": 6
     },
     {
+      "id": "src/payload/globals/BlogPage.ts",
+      "label": "globals/BlogPage.ts",
+      "group": "globals",
+      "size": 6
+    },
+    {
       "id": "src/payload/globals/SiteSettings.ts",
       "label": "globals/SiteSettings.ts",
       "group": "globals",
       "size": 6
     },
     {
+      "id": "src/payload/globals/ContactPage.ts",
+      "label": "globals/ContactPage.ts",
+      "group": "globals",
+      "size": 6
+    },
+    {
       "id": "src/payload/globals/TestimonialsSection.ts",
       "label": "globals/TestimonialsSection.ts",
+      "group": "globals",
+      "size": 6
+    },
+    {
+      "id": "src/payload/globals/StoriesPage.ts",
+      "label": "globals/StoriesPage.ts",
       "group": "globals",
       "size": 6
     },
@@ -1723,10 +1843,28 @@
       "size": 8
     },
     {
+      "id": "src/components/blocks/contact/ContactHeroBlock.tsx",
+      "label": "contact/ContactHeroBlock.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/contact/ContactFAQBlock.tsx",
+      "label": "contact/ContactFAQBlock.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
       "id": "src/components/blocks/LivePreviewBlocks.tsx",
       "label": "blocks/LivePreviewBlocks.tsx",
       "group": "blocks",
       "size": 6
+    },
+    {
+      "id": "src/components/blocks/calendar/CalendarHeroBlock.tsx",
+      "label": "calendar/CalendarHeroBlock.tsx",
+      "group": "blocks",
+      "size": 8
     },
     {
       "id": "src/components/blocks/CounterBlockRenderer.tsx",
@@ -1885,6 +2023,12 @@
       "size": 8
     },
     {
+      "id": "src/components/blocks/blog/BlogHeroBlock.tsx",
+      "label": "blog/BlogHeroBlock.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
       "id": "src/components/blocks/NewsletterBlockRenderer.tsx",
       "label": "blocks/NewsletterBlockRenderer.tsx",
       "group": "blocks",
@@ -1909,6 +2053,12 @@
       "size": 8
     },
     {
+      "id": "src/components/blocks/stories/StoriesHeroBlock.tsx",
+      "label": "stories/StoriesHeroBlock.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
       "id": "src/components/blocks/SeparatorBlockRenderer.tsx",
       "label": "blocks/SeparatorBlockRenderer.tsx",
       "group": "blocks",
@@ -1924,7 +2074,7 @@
       "id": "src/components/blocks/PuckRender.tsx",
       "label": "blocks/PuckRender.tsx",
       "group": "blocks",
-      "size": 10
+      "size": 18
     },
     {
       "id": "src/components/blocks/DestinationCarouselRenderer.tsx",
@@ -2110,7 +2260,7 @@
       "id": "src/components/ui/destination-page/WhyTravelWithUsSection.tsx",
       "label": "destination-page/WhyTravelWithUsSection.tsx",
       "group": "ui",
-      "size": 12
+      "size": 10
     },
     {
       "id": "src/components/ui/destination-page/DestinationBookingController.tsx",
@@ -2296,7 +2446,7 @@
       "id": "src/components/ui/StoriesCarouselSection.tsx",
       "label": "ui/StoriesCarouselSection.tsx",
       "group": "ui",
-      "size": 6
+      "size": 4
     },
     {
       "id": "src/components/ui/NavigationEditButton.tsx",
@@ -2581,8 +2731,20 @@
       "size": 6
     },
     {
+      "id": "src/components/admin/StoriesPageVisualEditorButton.tsx",
+      "label": "admin/StoriesPageVisualEditorButton.tsx",
+      "group": "admin",
+      "size": 6
+    },
+    {
       "id": "src/components/admin/GalleryVisualEditorButton.tsx",
       "label": "admin/GalleryVisualEditorButton.tsx",
+      "group": "admin",
+      "size": 6
+    },
+    {
+      "id": "src/components/admin/BlogPageVisualEditorButton.tsx",
+      "label": "admin/BlogPageVisualEditorButton.tsx",
       "group": "admin",
       "size": 6
     },
@@ -2611,10 +2773,28 @@
       "size": 6
     },
     {
+      "id": "src/components/admin/CalendarPageVisualEditorButton.tsx",
+      "label": "admin/CalendarPageVisualEditorButton.tsx",
+      "group": "admin",
+      "size": 6
+    },
+    {
+      "id": "src/components/admin/ContactPageVisualEditorButton.tsx",
+      "label": "admin/ContactPageVisualEditorButton.tsx",
+      "group": "admin",
+      "size": 6
+    },
+    {
       "id": "src/components/admin/StripeReconciliationView.tsx",
       "label": "admin/StripeReconciliationView.tsx",
       "group": "admin",
       "size": 6
+    },
+    {
+      "id": "src/components/admin/HomePageVisualEditorButton.tsx",
+      "label": "admin/HomePageVisualEditorButton.tsx",
+      "group": "admin",
+      "size": 4
     },
     {
       "id": "src/components/admin/ShopVisualEditorButton.tsx",
@@ -2819,6 +2999,18 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/(puck)/puck/home/PuckHomeEditorClient.tsx",
+      "target": "src/puck/config.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/home/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/home/page.tsx",
+      "target": "src/app/(puck)/puck/home/PuckHomeEditorClient.tsx"
+    },
+    {
       "source": "src/app/(puck)/puck/footer/PuckFooterEditorClient.tsx",
       "target": "src/puck/config.tsx"
     },
@@ -2853,6 +3045,30 @@
     {
       "source": "src/app/(puck)/puck/destination-carousel/page.tsx",
       "target": "src/app/(puck)/puck/destination-carousel/PuckDestinationCarouselEditorClient.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/contact/PuckContactEditorClient.tsx",
+      "target": "src/puck/config.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/contact/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/contact/page.tsx",
+      "target": "src/app/(puck)/puck/contact/PuckContactEditorClient.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/calendar/PuckCalendarEditorClient.tsx",
+      "target": "src/puck/config.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/calendar/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/calendar/page.tsx",
+      "target": "src/app/(puck)/puck/calendar/PuckCalendarEditorClient.tsx"
     },
     {
       "source": "src/app/(puck)/puck/testimonials/page.tsx",
@@ -2941,6 +3157,30 @@
     {
       "source": "src/app/(puck)/puck/about/page.tsx",
       "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/blog/PuckBlogEditorClient.tsx",
+      "target": "src/puck/config.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/blog/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/blog/page.tsx",
+      "target": "src/app/(puck)/puck/blog/PuckBlogEditorClient.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/stories/PuckStoriesEditorClient.tsx",
+      "target": "src/puck/config.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/stories/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/stories/page.tsx",
+      "target": "src/app/(puck)/puck/stories/PuckStoriesEditorClient.tsx"
     },
     {
       "source": "src/app/(puck)/puck/hero/PuckHeroEditorClient.tsx",
@@ -3207,6 +3447,14 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/puck/home/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/home/route.ts",
+      "target": "src/lib/payload-auth.ts"
+    },
+    {
       "source": "src/app/api/puck/footer/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -3228,6 +3476,22 @@
     },
     {
       "source": "src/app/api/puck/destination-carousel/route.ts",
+      "target": "src/lib/payload-auth.ts"
+    },
+    {
+      "source": "src/app/api/puck/contact/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/contact/route.ts",
+      "target": "src/lib/payload-auth.ts"
+    },
+    {
+      "source": "src/app/api/puck/calendar/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/calendar/route.ts",
       "target": "src/lib/payload-auth.ts"
     },
     {
@@ -3284,6 +3548,22 @@
     },
     {
       "source": "src/app/api/puck/about/route.ts",
+      "target": "src/lib/payload-auth.ts"
+    },
+    {
+      "source": "src/app/api/puck/blog/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/blog/route.ts",
+      "target": "src/lib/payload-auth.ts"
+    },
+    {
+      "source": "src/app/api/puck/stories/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/stories/route.ts",
       "target": "src/lib/payload-auth.ts"
     },
     {
@@ -3500,7 +3780,23 @@
     },
     {
       "source": "src/app/(frontend)/contact/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/contact/page.tsx",
       "target": "src/components/forms/ContactForm.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/contact/page.tsx",
+      "target": "src/components/blocks/contact/ContactHeroBlock.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/contact/page.tsx",
+      "target": "src/components/blocks/contact/ContactFAQBlock.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/contact/page.tsx",
+      "target": "src/components/blocks/PuckRender.tsx"
     },
     {
       "source": "src/app/(frontend)/nolimit/sign-up/page.tsx",
@@ -3529,6 +3825,10 @@
     {
       "source": "src/app/(frontend)/calendar/page.tsx",
       "target": "src/components/ui/CalendarTripCard.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/calendar/page.tsx",
+      "target": "src/components/blocks/calendar/CalendarHeroBlock.tsx"
     },
     {
       "source": "src/app/(frontend)/destinations/page.tsx",
@@ -3827,6 +4127,14 @@
       "target": "src/lib/media-url.ts"
     },
     {
+      "source": "src/app/(frontend)/blog/page.tsx",
+      "target": "src/components/blocks/blog/BlogHeroBlock.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/blog/page.tsx",
+      "target": "src/components/blocks/PuckRender.tsx"
+    },
+    {
       "source": "src/app/(frontend)/blog/[slug]/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -4051,6 +4359,14 @@
       "target": "src/components/ui/StoryCard.tsx"
     },
     {
+      "source": "src/app/(frontend)/stories/page.tsx",
+      "target": "src/components/blocks/stories/StoriesHeroBlock.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/stories/page.tsx",
+      "target": "src/components/blocks/PuckRender.tsx"
+    },
+    {
       "source": "src/app/(frontend)/stories/[slug]/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -4256,19 +4572,11 @@
     },
     {
       "source": "src/app/(frontend)/page.tsx",
-      "target": "src/components/ui/StoriesCarouselSection.tsx"
-    },
-    {
-      "source": "src/app/(frontend)/page.tsx",
       "target": "src/components/ui/WhyTravelWithUs.tsx"
     },
     {
       "source": "src/app/(frontend)/page.tsx",
       "target": "src/components/ui/FeaturedTravels.tsx"
-    },
-    {
-      "source": "src/app/(frontend)/page.tsx",
-      "target": "src/components/ui/destination-page/WhyTravelWithUsSection.tsx"
     },
     {
       "source": "src/app/(frontend)/page.tsx",
@@ -4281,6 +4589,10 @@
     {
       "source": "src/app/(frontend)/page.tsx",
       "target": "src/components/ui/ScrollReveal.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/page.tsx",
+      "target": "src/components/blocks/PuckRender.tsx"
     },
     {
       "source": "src/app/(frontend)/[slug]/page.tsx",
@@ -4373,6 +4685,22 @@
     {
       "source": "src/app/(payload)/admin/importMap.js",
       "target": "src/components/admin/AboutVisualEditorButton.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/ContactPageVisualEditorButton.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/BlogPageVisualEditorButton.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/StoriesPageVisualEditorButton.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/CalendarPageVisualEditorButton.tsx"
     },
     {
       "source": "src/app/(payload)/admin/importMap.js",
@@ -4613,6 +4941,26 @@
     {
       "source": "src/payload/payload.config.ts",
       "target": "src/payload/globals/About.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/ContactPage.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/BlogPage.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/StoriesPage.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/CalendarPage.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/HomePage.ts"
     },
     {
       "source": "src/payload/payload.config.ts",
@@ -5796,6 +6144,26 @@
     },
     {
       "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/contact/ContactHeroBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/contact/ContactFAQBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/blog/BlogHeroBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/stories/StoriesHeroBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/calendar/CalendarHeroBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
       "target": "src/puck/styleFields.tsx"
     },
     {
@@ -5811,6 +6179,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-06-24T11:26:01.175Z",
-  "fileCount": 468
+  "builtAt": "2026-06-24T13:15:44.444Z",
+  "fileCount": 498
 }
