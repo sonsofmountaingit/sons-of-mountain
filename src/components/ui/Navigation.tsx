@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { NavbarClient } from './NavbarClient'
 import { NavigationEditButton } from './NavigationEditButton'
+import { mediaUrl } from '@/lib/media-url'
 
 const getNavigationData = unstable_cache(
   async () => {
@@ -16,8 +17,8 @@ const getNavigationData = unstable_cache(
         instagramUrl: (d?.instagramUrl ?? 'https://instagram.com/sonsofmountains') as string,
         facebookUrl: (d?.facebookUrl ?? 'https://facebook.com/sonsofmountains') as string,
         tiktokUrl: (d?.tiktokUrl ?? '') as string,
-        logoDarkUrl: (typeof d?.logoDark === 'object' ? d.logoDark?.url : null) ?? 'https://framerusercontent.com/images/sQ2kYkKWnh9M8mP6NCkfgP6bXuE.png',
-        logoLightUrl: (typeof d?.logoLight === 'object' ? d.logoLight?.url : null) ?? '',
+        logoDarkUrl: mediaUrl(typeof d?.logoDark === 'object' ? d.logoDark?.url : null) ?? 'https://framerusercontent.com/images/sQ2kYkKWnh9M8mP6NCkfgP6bXuE.png',
+        logoLightUrl: mediaUrl(typeof d?.logoLight === 'object' ? d.logoLight?.url : null) ?? '',
       }
     } catch {
       return {
