@@ -21,6 +21,7 @@ const nextConfig: NextConfig = {
     ],
     localPatterns: [
       { pathname: '/media/**' },
+      { pathname: '/api/media/file/**' },
       { pathname: '/**' },
     ],
   },
@@ -35,8 +36,8 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: '/api/media/file/:filename',
-        destination: '/media/:filename',
+        source: '/media/:filename',
+        destination: '/api/media/file/:filename',
       },
     ]
   },

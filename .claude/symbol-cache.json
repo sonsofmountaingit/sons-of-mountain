@@ -1536,6 +1536,21 @@
     "lines": 36,
     "group": "api"
   },
+  "src/app/api/media/file/[filename]/route.ts": {
+    "exports": [
+      "dynamic",
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "fs",
+      "path",
+      "stream"
+    ],
+    "lines": 39,
+    "group": "api"
+  },
   "src/app/api/customer-ratings/route.ts": {
     "exports": [
       "GET",
@@ -4003,7 +4018,7 @@
       "fs",
       "next/server"
     ],
-    "lines": 111,
+    "lines": 112,
     "group": "collections"
   },
   "src/payload/collections/Guides.ts": {
@@ -5757,9 +5772,10 @@
       "payload",
       "@payload-config",
       "./NavbarClient",
-      "./NavigationEditButton"
+      "./NavigationEditButton",
+      "@/lib/media-url"
     ],
-    "lines": 54,
+    "lines": 55,
     "group": "ui"
   },
   "src/components/ui/CalendarTripCard.tsx": {
@@ -6316,7 +6332,7 @@
     ],
     "types": [],
     "imports": [],
-    "lines": 15,
+    "lines": 6,
     "group": "lib"
   },
   "src/lib/pricing/dynamic.ts": {

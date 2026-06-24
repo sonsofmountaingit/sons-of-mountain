@@ -637,6 +637,12 @@
       "size": 4
     },
     {
+      "id": "src/app/api/media/file/[filename]/route.ts",
+      "label": "[filename]/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/customer-ratings/route.ts",
       "label": "customer-ratings/route.ts",
       "group": "api",
@@ -5457,6 +5463,10 @@
       "target": "src/components/ui/NavigationEditButton.tsx"
     },
     {
+      "source": "src/components/ui/Navigation.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
       "source": "src/components/ui/CalendarTripCard.tsx",
       "target": "src/lib/auth-client.ts"
     },
@@ -5801,6 +5811,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-06-23T19:15:32.195Z",
-  "fileCount": 467
+  "builtAt": "2026-06-24T06:29:36.482Z",
+  "fileCount": 468
 }
