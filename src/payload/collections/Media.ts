@@ -80,7 +80,6 @@ export const Media: CollectionConfig = {
   },
   upload: {
     staticDir: 'public/media',
-    staticURL: '/api/media/file',
     mimeTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif', 'image/svg+xml', 'video/mp4', 'video/webm', 'video/quicktime'],
     imageSizes: [
       { name: 'thumbnail', width: 400, height: 300, position: 'centre', formatOptions: { format: 'webp', options: { quality: 78, effort: 6, smartSubsample: true } } },
