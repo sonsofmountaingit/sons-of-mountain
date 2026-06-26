@@ -3358,6 +3358,7 @@
       "@/components/admin/BlogPageVisualEditorButton",
       "@/components/admin/StoriesPageVisualEditorButton",
       "@/components/admin/CalendarPageVisualEditorButton",
+      "@/components/admin/HomePageVisualEditorButton",
       "@/components/admin/AdminLogo",
       "@/components/admin/AdminAfterLogin",
       "@/components/admin/AdminLoginBackground",
@@ -3365,7 +3366,7 @@
       "@/components/admin/StripeReconciliationView",
       "@payloadcms/next/rsc"
     ],
-    "lines": 97,
+    "lines": 99,
     "group": "payload-app"
   },
   "src/app/(payload)/layout.tsx": {
