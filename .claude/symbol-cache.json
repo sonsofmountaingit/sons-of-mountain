@@ -1,4 +1,16 @@
 {
+  "src/migrations/20260624_add_page_columns.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 106,
+    "group": "other"
+  },
   "src/migrations/20260528_add_missing_tables.ts": {
     "exports": [
       "up",
@@ -17,9 +29,10 @@
     ],
     "types": [],
     "imports": [
-      "./20260528_add_missing_tables"
+      "./20260528_add_missing_tables",
+      "./20260624_add_page_columns"
     ],
-    "lines": 10,
+    "lines": 16,
     "group": "other"
   },
   "src/seed/gallery.ts": {

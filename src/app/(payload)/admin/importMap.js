@@ -38,6 +38,7 @@ import { ContactPageVisualEditorButton as ContactPageVisualEditorButton_85959b6a
 import { BlogPageVisualEditorButton as BlogPageVisualEditorButton_304e7778f5426776f8891497f0b4a995 } from '@/components/admin/BlogPageVisualEditorButton'
 import { StoriesPageVisualEditorButton as StoriesPageVisualEditorButton_62b04ac334caea54e3664e175b87bed8 } from '@/components/admin/StoriesPageVisualEditorButton'
 import { CalendarPageVisualEditorButton as CalendarPageVisualEditorButton_38dd789a488785ba7a99b092096c7a7e } from '@/components/admin/CalendarPageVisualEditorButton'
+import { HomePageVisualEditorButton as HomePageVisualEditorButton_2f86f7e8bd1d09a50e072cb0afa32c06 } from '@/components/admin/HomePageVisualEditorButton'
 import { AdminLogo as AdminLogo_b80a86fce1072afc84cd6a430a965697 } from '@/components/admin/AdminLogo'
 import { AdminAfterLogin as AdminAfterLogin_420e5b234db0328ac2462abc35f96929 } from '@/components/admin/AdminAfterLogin'
 import { AdminLoginBackground as AdminLoginBackground_baef77fc865ae3a00a6eb857b0b83031 } from '@/components/admin/AdminLoginBackground'
@@ -87,6 +88,7 @@ export const importMap = {
   "@/components/admin/BlogPageVisualEditorButton#BlogPageVisualEditorButton": BlogPageVisualEditorButton_304e7778f5426776f8891497f0b4a995,
   "@/components/admin/StoriesPageVisualEditorButton#StoriesPageVisualEditorButton": StoriesPageVisualEditorButton_62b04ac334caea54e3664e175b87bed8,
   "@/components/admin/CalendarPageVisualEditorButton#CalendarPageVisualEditorButton": CalendarPageVisualEditorButton_38dd789a488785ba7a99b092096c7a7e,
+  "@/components/admin/HomePageVisualEditorButton#HomePageVisualEditorButton": HomePageVisualEditorButton_2f86f7e8bd1d09a50e072cb0afa32c06,
   "@/components/admin/AdminLogo#AdminLogo": AdminLogo_b80a86fce1072afc84cd6a430a965697,
   "@/components/admin/AdminAfterLogin#AdminAfterLogin": AdminAfterLogin_420e5b234db0328ac2462abc35f96929,
   "@/components/admin/AdminLoginBackground#AdminLoginBackground": AdminLoginBackground_baef77fc865ae3a00a6eb857b0b83031,

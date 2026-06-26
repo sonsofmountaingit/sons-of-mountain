@@ -65,7 +65,7 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
             <div className="flex flex-wrap justify-center gap-2 mb-8">
               {durationDays && (
                 <span className="border border-black/20 rounded-full px-4 py-1.5 text-sm font-semibold text-black/70">
-                  {durationDays} дни
+                  {durationDays} {durationDays === 1 ? 'ден' : 'дни'}
                 </span>
               )}
               {maxParticipants && (

@@ -79,7 +79,7 @@ function DestCard({
         <div className="flex items-center justify-between mt-2 gap-2">
           {dest.price != null && (
             <span className="text-xs font-bold text-white bg-white/15 backdrop-blur-sm px-2 py-0.5 rounded-full">
-              от {dest.price} €
+              {dest.price} €
             </span>
           )}
           {dest.availableSpots != null && (
