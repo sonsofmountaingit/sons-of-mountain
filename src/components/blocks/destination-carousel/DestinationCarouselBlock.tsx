@@ -24,6 +24,7 @@ interface DestinationCarouselBlockProps {
   headline?: string
   subheading?: string
   emptyMessage?: string
+  introSlide?: { headline: string; subheading: string; backgroundImageUrl?: string }
 }
 
 function DestCard({
@@ -98,17 +99,19 @@ export function DestinationCarouselBlock({
   headline = 'Преоткривай света с нас!',
   subheading = 'Пътувай с Sons of Mountains там, където комфортът среща приключението.',
   emptyMessage,
+  introSlide,
 }: DestinationCarouselBlockProps) {
   if (!destinations.length && emptyMessage) {
     return <section className="py-16 text-center text-neutral-400">{emptyMessage}</section>
   }
-  const [activeIndex, setActiveIndex] = useState(0)
+  const [activeIndex, setActiveIndex] = useState(-1)
   const trackRef = useRef<HTMLDivElement>(null)
   const isDragging = useRef(false)
   const startX = useRef(0)
   const scrollLeftRef = useRef(0)
 
-  const activeDest = destinations[activeIndex] ?? null
+  const activeDest = activeIndex >= 0 ? destinations[activeIndex] : null
+  const showDestinationView = activeIndex >= 0
   const textPanelRef = useRef<HTMLDivElement>(null)
   const cardsPanelRef = useRef<HTMLDivElement>(null)
 
@@ -124,7 +127,7 @@ export function DestinationCarouselBlock({
   }, [])
 
   const handleSelect = useCallback((i: number) => {
-    setActiveIndex(i)
+    setActiveIndex(prev => prev === i ? -1 : i)
   }, [])
 
   function onMouseDown(e: React.MouseEvent) {
@@ -142,121 +145,317 @@ export function DestinationCarouselBlock({
     isDragging.current = false
   }
 
+  if (!showDestinationView && introSlide) {
+    return (
+      <section className="relative flex flex-col overflow-x-hidden bg-[#0a0a0a]" style={{ minHeight: '100svh' }}>
+        {/* Background */}
+        <AnimatePresence initial={false}>
+          <motion.div
+            key="intro-bg"
+            className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.9, ease: 'easeInOut' }}
+          >
+            {introSlide.backgroundImageUrl && (
+              <Image
+                src={introSlide.backgroundImageUrl}
+                alt="Intro"
+                fill
+                priority
+                className="object-cover"
+                sizes="100vw"
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/10" />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/70" />
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Spacer */}
+        <div className="flex-1" />
+
+        {/* Text - centered */}
+        <div className="relative z-10 flex flex-col items-center text-center px-12 md:px-20 lg:px-28 pb-8 w-full">
+          <h1 className="font-black text-white uppercase leading-none mb-4 tracking-tight" style={{ fontSize: 'clamp(2rem, 4.5vw, 4rem)' }}>
+            {introSlide.headline}
+          </h1>
+          <p className="text-sm md:text-base text-white/65 mb-8 max-w-sm leading-relaxed">
+            {introSlide.subheading}
+          </p>
+          <Link
+            href="/destinations"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-white/15 backdrop-blur-md border border-white/25 text-white font-semibold text-sm rounded-lg hover:bg-white/25 transition-colors"
+          >
+            Разгледај
+            <span>→</span>
+          </Link>
+        </div>
+
+        {/* Cards - row below text */}
+        <div ref={cardsPanelRef} className="relative z-10 w-full pb-10 pointer-events-none">
+          <div
+            ref={trackRef}
+            className="flex gap-4 overflow-x-auto select-none pb-2 pointer-events-auto w-full pl-12 md:pl-20 lg:pl-28 pr-8"
+            style={{
+              scrollbarWidth: 'none',
+              maskImage: 'linear-gradient(to right, black 80%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to right, black 80%, transparent 100%)',
+            }}
+            onMouseDown={onMouseDown}
+            onMouseMove={onMouseMove}
+            onMouseUp={onMouseUp}
+            onMouseLeave={onMouseUp}
+          >
+            {destinations.map((dest, i) => (
+              <DestCard
+                key={dest.id}
+                dest={dest}
+                isActive={i === activeIndex}
+                onClick={() => handleSelect(i)}
+              />
+            ))}
+            <div className="flex-shrink-0 w-8" />
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  // After a card is clicked: original side-by-side layout
+  if (showDestinationView) {
+    return (
+      <section className="relative flex overflow-x-hidden bg-[#0a0a0a]" style={{ minHeight: '100svh' }}>
+        {/* Background crossfade */}
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={activeDest?.id ?? 'bg-empty'}
+            className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.9, ease: 'easeInOut' }}
+          >
+            {activeDest && mediaUrl(activeDest.heroImage?.url) && (
+              <Image
+                src={mediaUrl(activeDest.heroImage!.url)!}
+                alt={activeDest.name}
+                fill
+                priority
+                className="object-cover"
+                sizes="100vw"
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/10" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40" />
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Vertical dot nav — hidden on mobile */}
+        {destinations.length > 0 && (
+          <div className="hidden md:flex absolute left-5 top-1/2 -translate-y-1/2 z-20 flex-col items-center gap-3">
+            {destinations.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => handleSelect(i)}
+                className={`rounded-full transition-all duration-300 focus:outline-none ${
+                  i === activeIndex ? 'w-1.5 h-8 bg-white' : 'w-1.5 h-1.5 bg-white/35 hover:bg-white/60'
+                }`}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Mobile horizontal dot nav */}
+        {destinations.length > 0 && (
+          <div className="flex md:hidden absolute bottom-[calc(180px+2.5rem)] left-0 right-0 z-20 flex-row items-center justify-center gap-2">
+            {destinations.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => handleSelect(i)}
+                className={`rounded-full transition-all duration-300 focus:outline-none ${
+                  i === activeIndex ? 'w-8 h-1.5 bg-white' : 'w-1.5 h-1.5 bg-white/35'
+                }`}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Mobile styles */}
+        <style>{`
+          @media (max-width: 767px) {
+            .dc-text-panel { position: absolute; top: 0; bottom: 200px; left: 0; right: 0; padding: 4.5rem 1.5rem 1rem !important; width: 100% !important; align-items: center !important; text-align: center !important; justify-content: center !important; }
+            .dc-hero-title { font-size: clamp(2.4rem, 11vw, 3.5rem) !important; line-height: 0.92 !important; margin-bottom: 0.75rem !important; }
+            .dc-hero-sub { margin-bottom: 1.25rem !important; max-width: 280px !important; }
+            .dc-hero-btn { padding: 0.625rem 1.25rem !important; font-size: 0.75rem !important; gap: 0.5rem !important; align-self: center !important; }
+          }
+        `}</style>
+
+        {/* Text panel */}
+        <div ref={textPanelRef} className="relative z-10 flex flex-col justify-center px-12 md:px-20 lg:px-28 w-full md:w-[52%] py-28 dc-text-panel">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeDest?.id ?? 'text-empty'}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col"
+            >
+              <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white uppercase leading-none mb-6 tracking-tight dc-hero-title">
+                {activeDest?.name ?? headline}
+              </h1>
+
+              <p className="text-sm md:text-base text-white/65 mb-10 max-w-sm leading-relaxed dc-hero-sub">
+                {subheading}
+              </p>
+
+              <Link
+                href={activeDest ? `/destinations/${activeDest.slug}` : '/destinations'}
+                className="self-start inline-flex items-center gap-3 px-8 py-4 bg-white/15 backdrop-blur-md border border-white/25 text-white font-semibold text-sm rounded-lg hover:bg-white/25 transition-colors dc-hero-btn"
+              >
+                Разгледай
+                <span>→</span>
+              </Link>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Counter */}
+          {destinations.length > 0 && (
+            <div className="absolute bottom-8 left-12 md:left-20 lg:left-28 font-mono text-xs text-white/40 hidden md:flex items-end gap-1">
+              <span className="text-white/90 text-sm font-bold">{String(activeIndex + 1).padStart(2, '0')}</span>
+              <span>/</span>
+              <span>{String(destinations.length).padStart(2, '0')}</span>
+            </div>
+          )}
+        </div>
+
+        {/* Right: cards — desktop */}
+        <div ref={cardsPanelRef} className="absolute inset-y-0 right-0 z-10 hidden md:flex items-center w-[55%] py-24 pointer-events-none">
+          <div
+            ref={trackRef}
+            className="flex gap-4 overflow-x-auto select-none pb-2 pointer-events-auto w-full pl-4 pr-0"
+            style={{
+              scrollbarWidth: 'none',
+              maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 100%)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 100%)',
+            }}
+            onMouseDown={onMouseDown}
+            onMouseMove={onMouseMove}
+            onMouseUp={onMouseUp}
+            onMouseLeave={onMouseUp}
+          >
+            {destinations.map((dest, i) => (
+              <DestCard
+                key={dest.id}
+                dest={dest}
+                isActive={introSlide ? i + 1 === activeIndex : i === activeIndex}
+                onClick={() => handleSelect(introSlide ? i + 1 : i)}
+              />
+            ))}
+            <div className="flex-shrink-0 w-8" />
+          </div>
+        </div>
+
+        {/* Bottom: cards — mobile */}
+        <div className="absolute bottom-0 left-0 right-0 z-10 flex md:hidden items-end pb-4 pointer-events-none" style={{ height: '180px' }}>
+          <div
+            ref={trackRef}
+            className="flex gap-3 overflow-x-auto select-none pointer-events-auto w-full px-4"
+            style={{ scrollbarWidth: 'none' }}
+            onMouseDown={onMouseDown}
+            onMouseMove={onMouseMove}
+            onMouseUp={onMouseUp}
+            onMouseLeave={onMouseUp}
+          >
+            {destinations.map((dest, i) => (
+              <button
+                key={dest.id}
+                onClick={() => handleSelect(i)}
+                className={`relative flex-shrink-0 rounded-xl overflow-hidden cursor-pointer focus:outline-none transition-all duration-500 ${
+                  i === activeIndex ? 'opacity-100 scale-100' : 'opacity-50 scale-95'
+                }`}
+                style={{ width: 100, height: 160 }}
+              >
+                {mediaUrl(dest.heroImage?.url) ? (
+                  <Image
+                    src={mediaUrl(dest.heroImage!.url)!}
+                    alt={dest.name}
+                    fill
+                    className="object-cover"
+                    sizes="100px"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-white/10" />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-2">
+                  <p className="text-[10px] font-bold text-white leading-tight truncate">{dest.name}</p>
+                </div>
+              </button>
+            ))}
+            <div className="flex-shrink-0 w-4" />
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  // No card clicked, no introSlide: text centered, cards at bottom
   return (
-    <section className="relative flex overflow-x-hidden bg-[#0a0a0a]" style={{ minHeight: '100svh' }}>
-      {/* Background crossfade */}
+    <section className="relative flex flex-col overflow-x-hidden bg-[#0a0a0a]" style={{ minHeight: '100svh' }}>
+      {/* Background */}
       <AnimatePresence initial={false}>
         <motion.div
-          key={activeDest?.id ?? 'bg-empty'}
+          key="bg-empty"
           className="absolute inset-0"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.9, ease: 'easeInOut' }}
         >
-          {activeDest && mediaUrl(activeDest.heroImage?.url) && (
-            <Image
-              src={mediaUrl(activeDest.heroImage!.url)!}
-              alt={activeDest.name}
-              fill
-              priority
-              className="object-cover"
-              sizes="100vw"
-            />
-          )}
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/10" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/70" />
         </motion.div>
       </AnimatePresence>
 
-      {/* Vertical dot nav — hidden on mobile */}
-      {destinations.length > 0 && (
-        <div className="hidden md:flex absolute left-5 top-1/2 -translate-y-1/2 z-20 flex-col items-center gap-3">
-          {destinations.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => handleSelect(i)}
-              className={`rounded-full transition-all duration-300 focus:outline-none ${
-                i === activeIndex ? 'w-1.5 h-8 bg-white' : 'w-1.5 h-1.5 bg-white/35 hover:bg-white/60'
-              }`}
-            />
-          ))}
-        </div>
-      )}
+      {/* Spacer */}
+      <div className="flex-1" style={{ maxHeight: '40vh' }} />
 
-      {/* Mobile horizontal dot nav */}
-      {destinations.length > 0 && (
-        <div className="flex md:hidden absolute bottom-[calc(180px+2.5rem)] left-0 right-0 z-20 flex-row items-center justify-center gap-2">
-          {destinations.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => handleSelect(i)}
-              className={`rounded-full transition-all duration-300 focus:outline-none ${
-                i === activeIndex ? 'w-8 h-1.5 bg-white' : 'w-1.5 h-1.5 bg-white/35'
-              }`}
-            />
-          ))}
-        </div>
-      )}
-
-      {/* Mobile styles */}
-      <style>{`
-        @media (max-width: 767px) {
-          .dc-text-panel { position: absolute; top: 0; bottom: 200px; left: 0; right: 0; padding: 4.5rem 1.5rem 1rem !important; width: 100% !important; align-items: center !important; text-align: center !important; justify-content: center !important; }
-          .dc-hero-title { font-size: clamp(2.4rem, 11vw, 3.5rem) !important; line-height: 0.92 !important; margin-bottom: 0.75rem !important; }
-          .dc-hero-sub { margin-bottom: 1.25rem !important; max-width: 280px !important; }
-          .dc-hero-btn { padding: 0.625rem 1.25rem !important; font-size: 0.75rem !important; gap: 0.5rem !important; align-self: center !important; }
-        }
-      `}</style>
-
-      {/* Text panel */}
-      <div ref={textPanelRef} className="relative z-10 flex flex-col justify-center px-12 md:px-20 lg:px-28 w-full md:w-[52%] py-28 dc-text-panel">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeDest?.id ?? 'text-empty'}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col"
-          >
-            <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white uppercase leading-none mb-6 tracking-tight dc-hero-title">
-              {activeDest?.name ?? headline}
-            </h1>
-
-            <p className="text-sm md:text-base text-white/65 mb-10 max-w-sm leading-relaxed dc-hero-sub">
-              {subheading}
-            </p>
-
-            <Link
-              href={activeDest ? `/destinations/${activeDest.slug}` : '/destinations'}
-              className="self-start inline-flex items-center gap-3 px-8 py-4 bg-white/15 backdrop-blur-md border border-white/25 text-white font-semibold text-sm rounded-lg hover:bg-white/25 transition-colors dc-hero-btn"
-            >
-              Разгледай
-              <span>→</span>
-            </Link>
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Counter */}
+      {/* Text panel — centered */}
+      <div ref={textPanelRef} className="relative z-10 flex flex-col items-center text-center px-6 md:px-20 lg:px-28 pb-8 w-full">
+        <h1 className="font-black text-white uppercase leading-none mb-6 tracking-tight" style={{ fontSize: 'clamp(2rem, 4.5vw, 4rem)' }}>
+          {headline}
+        </h1>
+        <p className="text-sm md:text-base text-white/65 mb-10 max-w-sm leading-relaxed">
+          {subheading}
+        </p>
+        <Link
+          href="/destinations"
+          className="inline-flex items-center gap-3 px-8 py-4 bg-white/15 backdrop-blur-md border border-white/25 text-white font-semibold text-sm rounded-lg hover:bg-white/25 transition-colors"
+        >
+          Разгледай
+          <span>→</span>
+        </Link>
         {destinations.length > 0 && (
-          <div className="absolute bottom-8 left-12 md:left-20 lg:left-28 font-mono text-xs text-white/40 hidden md:flex items-end gap-1">
-            <span className="text-white/90 text-sm font-bold">{String(activeIndex + 1).padStart(2, '0')}</span>
+          <div className="mt-8 font-mono text-xs text-white/40 flex items-end gap-1">
+            <span className="text-white/90 text-sm font-bold">00</span>
             <span>/</span>
             <span>{String(destinations.length).padStart(2, '0')}</span>
           </div>
         )}
       </div>
 
-      {/* Right: cards — desktop */}
-      <div ref={cardsPanelRef} className="absolute inset-y-0 right-0 z-10 hidden md:flex items-center w-[55%] py-24 pointer-events-none">
+      {/* Cards — new row below text */}
+      <div ref={cardsPanelRef} className="relative z-10 w-full pb-10 pointer-events-none">
         <div
           ref={trackRef}
-          className="flex gap-4 overflow-x-auto select-none pb-2 pointer-events-auto w-full pl-4 pr-0"
+          className="flex gap-4 overflow-x-auto select-none pb-2 pointer-events-auto w-full pl-6 md:pl-20 lg:pl-28 pr-8"
           style={{
             scrollbarWidth: 'none',
-            maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 100%)',
-            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 100%)',
+            maskImage: 'linear-gradient(to right, black 80%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, black 80%, transparent 100%)',
           }}
           onMouseDown={onMouseDown}
           onMouseMove={onMouseMove}
@@ -274,47 +473,7 @@ export function DestinationCarouselBlock({
           <div className="flex-shrink-0 w-8" />
         </div>
       </div>
-
-      {/* Bottom: cards — mobile */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 flex md:hidden items-end pb-4 pointer-events-none" style={{ height: '180px' }}>
-        <div
-          ref={trackRef}
-          className="flex gap-3 overflow-x-auto select-none pointer-events-auto w-full px-4"
-          style={{ scrollbarWidth: 'none' }}
-          onMouseDown={onMouseDown}
-          onMouseMove={onMouseMove}
-          onMouseUp={onMouseUp}
-          onMouseLeave={onMouseUp}
-        >
-          {destinations.map((dest, i) => (
-            <button
-              key={dest.id}
-              onClick={() => handleSelect(i)}
-              className={`relative flex-shrink-0 rounded-xl overflow-hidden cursor-pointer focus:outline-none transition-all duration-500 ${
-                i === activeIndex ? 'opacity-100 scale-100' : 'opacity-50 scale-95'
-              }`}
-              style={{ width: 100, height: 160 }}
-            >
-              {mediaUrl(dest.heroImage?.url) ? (
-                <Image
-                  src={mediaUrl(dest.heroImage!.url)!}
-                  alt={dest.name}
-                  fill
-                  className="object-cover"
-                  sizes="100px"
-                />
-              ) : (
-                <div className="absolute inset-0 bg-white/10" />
-              )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-2">
-                <p className="text-[10px] font-bold text-white leading-tight truncate">{dest.name}</p>
-              </div>
-            </button>
-          ))}
-          <div className="flex-shrink-0 w-4" />
-        </div>
-      </div>
     </section>
   )
 }
+

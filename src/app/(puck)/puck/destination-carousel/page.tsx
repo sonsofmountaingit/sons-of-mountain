@@ -29,19 +29,44 @@ async function EditorContent() {
     heroImage: typeof d.heroImage === 'object' ? d.heroImage : null,
   }))
 
-  const puckData: Data = c?.puckData?.content?.length ? c.puckData : {
-    root: { props: {} },
-    content: [
-      {
-        type: 'HomeDestCarouselBlock',
-        props: {
-          id: 'destination-carousel-main',
-          sectionTitle: c?.sectionTitle ?? 'Дестинации',
-          destinations: mappedDestinations,
-        },
-      },
-    ],
-  }
+  const introImageUrl = typeof c?.introSlideBackgroundImage === 'object' && c.introSlideBackgroundImage?.url
+    ? c.introSlideBackgroundImage.url
+    : ''
+
+  const puckData: Data = c?.puckData?.content?.length
+    ? {
+        ...c.puckData,
+        content: c.puckData.content.map((block: any) =>
+          block.type === 'HomeDestCarouselBlock'
+            ? {
+                ...block,
+                props: {
+                  ...block.props,
+                  introSlideHeadline: block.props.introSlideHeadline ?? c?.introSlideHeadline ?? '',
+                  introSlideSubheading: block.props.introSlideSubheading ?? c?.introSlideSubheading ?? '',
+                  introSlideBackgroundImageUrl: block.props.introSlideBackgroundImageUrl ?? introImageUrl,
+                  destinations: mappedDestinations,
+                },
+              }
+            : block
+        ),
+      }
+    : {
+        root: { props: {} },
+        content: [
+          {
+            type: 'HomeDestCarouselBlock',
+            props: {
+              id: 'destination-carousel-main',
+              sectionTitle: c?.sectionTitle ?? 'Дестинации',
+              introSlideHeadline: c?.introSlideHeadline ?? '',
+              introSlideSubheading: c?.introSlideSubheading ?? '',
+              introSlideBackgroundImageUrl: introImageUrl,
+              destinations: mappedDestinations,
+            },
+          },
+        ],
+      }
 
   return <PuckDestinationCarouselEditorClient initialData={puckData} />
 }

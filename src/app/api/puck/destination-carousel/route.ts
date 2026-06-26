@@ -25,6 +25,8 @@ export async function PATCH(request: Request) {
     data: {
       puckData,
       ...(carouselBlock.sectionTitle !== undefined && { sectionTitle: carouselBlock.sectionTitle }),
+      ...(carouselBlock.introSlideHeadline !== undefined && { introSlideHeadline: carouselBlock.introSlideHeadline }),
+      ...(carouselBlock.introSlideSubheading !== undefined && { introSlideSubheading: carouselBlock.introSlideSubheading }),
     },
     overrideAccess: true,
   }).catch(() => {})

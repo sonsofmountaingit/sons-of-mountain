@@ -197,7 +197,7 @@ export type PuckBlocks = {
   HeroHeadlineBlock: { text: string; fontSize: string; color: string; fontWeight: string; textAlign: string }
   HeroSubtextBlock: { text: string; fontSize: string; color: string; textAlign: string }
   HeroCtaBlock: { label: string; url: string; style: string; fontSize: string; align: string }
-  HomeDestCarouselBlock: { sectionTitle: string; destinations: { id: string; name: string; slug: string; month: string; spotsLabel: string }[] }
+  HomeDestCarouselBlock: { sectionTitle: string; introSlideHeadline: string; introSlideSubheading: string; introSlideBackgroundImageUrl: string; destinations: { id: string; name: string; slug: string; month: string; spotsLabel: string }[] }
   GalleryHeroBlock: { heading: string; subheading: string; ctaLabel: string }
   GalleryGridBlock: Record<string, never>
   ShopHeroBlock: { title: string; subtitle: string; imageUrl: string }
@@ -1247,13 +1247,26 @@ export const puckConfig: Config<PuckBlocks> = {
       label: 'Home — Destination Carousel',
       fields: {
         sectionTitle: { type: 'text', label: 'Section Title' },
+        introSlideHeadline: { type: 'text', label: 'Intro Slide Headline' },
+        introSlideSubheading: { type: 'text', label: 'Intro Slide Subheading' },
+        introSlideBackgroundImageUrl: { type: 'text', label: 'Intro Slide Background Image URL' },
         destinations: { type: 'custom', label: '', visible: false, render: () => <></> },
       },
       defaultProps: {
         sectionTitle: 'Дестинации',
+        introSlideHeadline: '',
+        introSlideSubheading: '',
+        introSlideBackgroundImageUrl: '',
         destinations: [],
       },
-      render: (props: any) => <HomeDestinationCarouselBlock sectionTitle={props.sectionTitle} destinations={props.destinations ?? []} />,
+      render: (props: any) => {
+        const introSlide = props.introSlideHeadline && props.introSlideSubheading ? {
+          headline: props.introSlideHeadline,
+          subheading: props.introSlideSubheading,
+          backgroundImageUrl: props.introSlideBackgroundImageUrl || undefined,
+        } : undefined
+        return <HomeDestinationCarouselBlock sectionTitle={props.sectionTitle} destinations={props.destinations ?? []} introSlide={introSlide} />
+      },
     },
 
     // ── FOOTER ────────────────────────────────────────────────────────────────

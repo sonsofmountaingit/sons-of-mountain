@@ -203,7 +203,7 @@
       "@puckeditor/core",
       "./PuckDestinationCarouselEditorClient"
     ],
-    "lines": 62,
+    "lines": 87,
     "group": "puck"
   },
   "src/app/(puck)/puck/contact/PuckContactEditorClient.tsx": {
@@ -1322,7 +1322,7 @@
       "next/cache",
       "@/lib/payload-auth"
     ],
-    "lines": 35,
+    "lines": 37,
     "group": "api"
   },
   "src/app/api/puck/contact/route.ts": {
@@ -3762,7 +3762,7 @@
       "next/cache",
       "../hooks/revalidate"
     ],
-    "lines": 68,
+    "lines": 93,
     "group": "globals"
   },
   "src/payload/globals/FeaturedTravels.ts": {
@@ -4596,7 +4596,7 @@
       "@/lib/media-url",
       "gsap"
     ],
-    "lines": 321,
+    "lines": 480,
     "group": "blocks"
   },
   "src/components/blocks/contact/ContactHeroBlock.tsx": {
@@ -5786,7 +5786,7 @@
       "@/components/blocks/destination-carousel/DestinationCarouselBlock",
       "./DestinationCarouselEditButton"
     ],
-    "lines": 89,
+    "lines": 99,
     "group": "ui"
   },
   "src/components/ui/TripCard.tsx": {
@@ -7000,7 +7000,7 @@
       "@/components/blocks/stories/StoriesHeroBlock",
       "@/components/blocks/calendar/CalendarHeroBlock"
     ],
-    "lines": 1780,
+    "lines": 1793,
     "group": "other"
   },
   "src/puck/puckAI.ts": {

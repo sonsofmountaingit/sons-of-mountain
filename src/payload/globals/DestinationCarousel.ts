@@ -56,6 +56,31 @@ export const DestinationCarousel: GlobalConfig = {
       ],
     },
     {
+      name: 'introSlideHeadline',
+      type: 'text',
+      label: 'Intro Slide Headline',
+      admin: {
+        description: 'Main headline for the first introductory slide',
+      },
+    },
+    {
+      name: 'introSlideSubheading',
+      type: 'text',
+      label: 'Intro Slide Subheading',
+      admin: {
+        description: 'Subheading for the first introductory slide',
+      },
+    },
+    {
+      name: 'introSlideBackgroundImage',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Intro Slide Background Image',
+      admin: {
+        description: 'Background image for the intro slide',
+      },
+    },
+    {
       name: 'puckData',
       type: 'json',
       admin: { hidden: true },
