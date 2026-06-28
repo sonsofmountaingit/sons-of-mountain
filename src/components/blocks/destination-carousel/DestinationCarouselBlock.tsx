@@ -24,7 +24,8 @@ interface DestinationCarouselBlockProps {
   headline?: string
   subheading?: string
   emptyMessage?: string
-  introSlide?: { headline: string; subheading: string; backgroundImageUrl?: string }
+  destinationButtonText?: string
+  introSlide?: { headline: string; subheading: string; backgroundImageUrl?: string; buttonText?: string }
 }
 
 function DestCard({
@@ -99,6 +100,7 @@ export function DestinationCarouselBlock({
   headline = 'Преоткривай света с нас!',
   subheading = 'Пътувай с Sons of Mountains там, където комфортът среща приключението.',
   emptyMessage,
+  destinationButtonText = 'Разгледай',
   introSlide,
 }: DestinationCarouselBlockProps) {
   if (!destinations.length && emptyMessage) {
@@ -188,7 +190,7 @@ export function DestinationCarouselBlock({
             href="/destinations"
             className="inline-flex items-center gap-3 px-8 py-4 bg-white/15 backdrop-blur-md border border-white/25 text-white font-semibold text-sm rounded-lg hover:bg-white/25 transition-colors"
           >
-            Разгледај
+            {introSlide.buttonText || 'Разгледај'}
             <span>→</span>
           </Link>
         </div>
@@ -315,7 +317,7 @@ export function DestinationCarouselBlock({
                 href={activeDest ? `/destinations/${activeDest.slug}` : '/destinations'}
                 className="self-start inline-flex items-center gap-3 px-8 py-4 bg-white/15 backdrop-blur-md border border-white/25 text-white font-semibold text-sm rounded-lg hover:bg-white/25 transition-colors dc-hero-btn"
               >
-                Разгледай
+                {destinationButtonText}
                 <span>→</span>
               </Link>
             </motion.div>
@@ -435,7 +437,7 @@ export function DestinationCarouselBlock({
           href="/destinations"
           className="inline-flex items-center gap-3 px-8 py-4 bg-white/15 backdrop-blur-md border border-white/25 text-white font-semibold text-sm rounded-lg hover:bg-white/25 transition-colors"
         >
-          Разгледай
+          {destinationButtonText}
           <span>→</span>
         </Link>
         {destinations.length > 0 && (

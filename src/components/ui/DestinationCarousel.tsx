@@ -12,6 +12,8 @@ interface CarouselGlobal {
   introSlideHeadline?: string
   introSlideSubheading?: string
   introSlideBackgroundImage?: { url?: string | null } | null
+  introSlideButtonText?: string
+  destinationButtonText?: string
 }
 
 interface DestinationDoc {
@@ -80,6 +82,7 @@ export async function DestinationCarousel() {
     headline: carousel.introSlideHeadline,
     subheading: carousel.introSlideSubheading,
     backgroundImageUrl: carousel.introSlideBackgroundImage?.url ? mediaUrl(carousel.introSlideBackgroundImage.url) ?? undefined : undefined,
+    buttonText: carousel.introSlideButtonText ?? 'Разгледај',
   } : undefined
 
   return (
@@ -88,6 +91,7 @@ export async function DestinationCarousel() {
         sectionTitle={carousel?.sectionTitle ?? 'Дестинации'}
         headline={carousel?.headline}
         subheading={carousel?.subheading}
+        destinationButtonText={carousel?.destinationButtonText ?? 'Разгледай'}
         destinations={mapped}
         emptyMessage="В момента няма данни"
         introSlide={introSlide}

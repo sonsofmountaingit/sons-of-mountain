@@ -56,6 +56,30 @@ export const DestinationCarousel: GlobalConfig = {
       ],
     },
     {
+      name: 'headline',
+      type: 'text',
+      label: 'Carousel Headline',
+      defaultValue: 'Преоткривай света с нас!',
+    },
+    {
+      name: 'subheading',
+      type: 'text',
+      label: 'Carousel Subheading',
+      defaultValue: 'Пътувай с Sons of Mountains там, където комфортът среща приключението.',
+    },
+    {
+      name: 'introSlideButtonText',
+      type: 'text',
+      label: 'Intro Slide Button Text',
+      defaultValue: 'Разгледај',
+    },
+    {
+      name: 'destinationButtonText',
+      type: 'text',
+      label: 'Destination Button Text',
+      defaultValue: 'Разгледай',
+    },
+    {
       name: 'introSlideHeadline',
       type: 'text',
       label: 'Intro Slide Headline',

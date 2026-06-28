@@ -319,12 +319,6 @@
       "size": 4
     },
     {
-      "id": "src/app/api/destinations/route.ts",
-      "label": "destinations/route.ts",
-      "group": "api",
-      "size": 4
-    },
-    {
       "id": "src/app/api/gallery/favorites/count/route.ts",
       "label": "count/route.ts",
       "group": "api",
@@ -621,6 +615,12 @@
     {
       "id": "src/app/api/site-settings-public/route.ts",
       "label": "site-settings-public/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/destinations-list/route.ts",
+      "label": "destinations-list/route.ts",
       "group": "api",
       "size": 4
     },
@@ -3285,10 +3285,6 @@
       "target": "src/lib/auth.ts"
     },
     {
-      "source": "src/app/api/destinations/route.ts",
-      "target": "src/payload/payload.config.ts"
-    },
-    {
       "source": "src/app/api/gallery/favorites/count/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -3590,6 +3586,10 @@
     },
     {
       "source": "src/app/api/site-settings-public/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/destinations-list/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
@@ -6193,6 +6193,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-06-28T09:42:13.053Z",
+  "builtAt": "2026-06-28T10:36:31.688Z",
   "fileCount": 499
 }

@@ -42,9 +42,13 @@ async function EditorContent() {
                 ...block,
                 props: {
                   ...block.props,
+                  headline: block.props.headline ?? c?.headline ?? 'Преоткривай света с нас!',
+                  subheading: block.props.subheading ?? c?.subheading ?? 'Пътувай с Sons of Mountains там, където комфортът среща приключението.',
                   introSlideHeadline: block.props.introSlideHeadline ?? c?.introSlideHeadline ?? '',
                   introSlideSubheading: block.props.introSlideSubheading ?? c?.introSlideSubheading ?? '',
                   introSlideBackgroundImageUrl: block.props.introSlideBackgroundImageUrl ?? introImageUrl,
+                  introSlideButtonText: block.props.introSlideButtonText ?? c?.introSlideButtonText ?? 'Разгледај',
+                  destinationButtonText: block.props.destinationButtonText ?? c?.destinationButtonText ?? 'Разгледай',
                   destinations: mappedDestinations,
                 },
               }
@@ -59,9 +63,13 @@ async function EditorContent() {
             props: {
               id: 'destination-carousel-main',
               sectionTitle: c?.sectionTitle ?? 'Дестинации',
+              headline: c?.headline ?? 'Преоткривай света с нас!',
+              subheading: c?.subheading ?? 'Пътувай с Sons of Mountains там, където комфортът среща приключението.',
               introSlideHeadline: c?.introSlideHeadline ?? '',
               introSlideSubheading: c?.introSlideSubheading ?? '',
               introSlideBackgroundImageUrl: introImageUrl,
+              introSlideButtonText: c?.introSlideButtonText ?? 'Разгледај',
+              destinationButtonText: c?.destinationButtonText ?? 'Разгледай',
               destinations: mappedDestinations,
             },
           },

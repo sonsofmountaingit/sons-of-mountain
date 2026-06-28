@@ -203,7 +203,7 @@
       "@puckeditor/core",
       "./PuckDestinationCarouselEditorClient"
     ],
-    "lines": 87,
+    "lines": 95,
     "group": "puck"
   },
   "src/app/(puck)/puck/contact/PuckContactEditorClient.tsx": {
@@ -811,19 +811,6 @@
     "lines": 86,
     "group": "api"
   },
-  "src/app/api/destinations/route.ts": {
-    "exports": [
-      "GET"
-    ],
-    "types": [],
-    "imports": [
-      "next/server",
-      "payload",
-      "@payload-config"
-    ],
-    "lines": 30,
-    "group": "api"
-  },
   "src/app/api/gallery/favorites/count/route.ts": {
     "exports": [
       "GET"
@@ -1322,7 +1309,7 @@
       "next/cache",
       "@/lib/payload-auth"
     ],
-    "lines": 37,
+    "lines": 41,
     "group": "api"
   },
   "src/app/api/puck/contact/route.ts": {
@@ -1517,6 +1504,19 @@
       "@payload-config"
     ],
     "lines": 17,
+    "group": "api"
+  },
+  "src/app/api/destinations-list/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 30,
     "group": "api"
   },
   "src/app/api/cron/send-campaigns/route.ts": {
@@ -3762,7 +3762,7 @@
       "next/cache",
       "../hooks/revalidate"
     ],
-    "lines": 93,
+    "lines": 117,
     "group": "globals"
   },
   "src/payload/globals/FeaturedTravels.ts": {
@@ -4596,7 +4596,7 @@
       "@/lib/media-url",
       "gsap"
     ],
-    "lines": 480,
+    "lines": 482,
     "group": "blocks"
   },
   "src/components/blocks/contact/ContactHeroBlock.tsx": {
@@ -5786,7 +5786,7 @@
       "@/components/blocks/destination-carousel/DestinationCarouselBlock",
       "./DestinationCarouselEditButton"
     ],
-    "lines": 99,
+    "lines": 103,
     "group": "ui"
   },
   "src/components/ui/TripCard.tsx": {
@@ -7000,7 +7000,7 @@
       "@/components/blocks/stories/StoriesHeroBlock",
       "@/components/blocks/calendar/CalendarHeroBlock"
     ],
-    "lines": 1793,
+    "lines": 1802,
     "group": "other"
   },
   "src/puck/puckAI.ts": {

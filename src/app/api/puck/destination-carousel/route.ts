@@ -25,8 +25,12 @@ export async function PATCH(request: Request) {
     data: {
       puckData,
       ...(carouselBlock.sectionTitle !== undefined && { sectionTitle: carouselBlock.sectionTitle }),
+      ...(carouselBlock.headline !== undefined && { headline: carouselBlock.headline }),
+      ...(carouselBlock.subheading !== undefined && { subheading: carouselBlock.subheading }),
       ...(carouselBlock.introSlideHeadline !== undefined && { introSlideHeadline: carouselBlock.introSlideHeadline }),
       ...(carouselBlock.introSlideSubheading !== undefined && { introSlideSubheading: carouselBlock.introSlideSubheading }),
+      ...(carouselBlock.introSlideButtonText !== undefined && { introSlideButtonText: carouselBlock.introSlideButtonText }),
+      ...(carouselBlock.destinationButtonText !== undefined && { destinationButtonText: carouselBlock.destinationButtonText }),
     },
     overrideAccess: true,
   }).catch(() => {})
