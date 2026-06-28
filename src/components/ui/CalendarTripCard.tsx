@@ -10,7 +10,7 @@ import { toast } from 'sonner'
 
 export type CalendarItem = {
   id: string
-  kind: 'trip' | 'program'
+  kind: 'trip' | 'program' | 'destination'
   category: 'bulgaria' | 'abroad' | 'individual'
   title: string
   destinationName: string
@@ -21,7 +21,7 @@ export type CalendarItem = {
   endDate: string
   spotsAvailable: number
   spotsTotal: number
-  status: 'active' | 'soldOut' | 'draft'
+  status: 'active' | 'soldOut' | 'draft' | 'archived'
   tags: string[]
   href: string
   difficulty: number | null
@@ -251,9 +251,12 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
     })
   }
 
+  const archived = item.status === 'archived'
   const badgeBase = 'text-[10px] tracking-widest px-2 py-0.5 rounded-full font-semibold'
   let spotsBadge: React.ReactNode = null
-  if (soldOut) {
+  if (archived) {
+    spotsBadge = <span className={`${badgeBase} text-zinc-400 bg-zinc-100`}>МИНАЛИ</span>
+  } else if (soldOut) {
     spotsBadge = <span className={`${badgeBase} text-white`} style={{ background: '#F45B26' }}>НЯМА МЕСТА</span>
   } else if (item.spotsAvailable <= 3) {
     spotsBadge = (
@@ -281,7 +284,7 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
         ref={cardRef}
         data-card
         style={{ transition: 'transform 0.2s ease' }}
-        className="group"
+        className={`group${archived ? ' opacity-50' : ''}`}
       >
         {/* Card row + wishlist button */}
         <div className="flex items-stretch gap-0">

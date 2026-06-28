@@ -34,7 +34,7 @@ async function getTripData(slug: string) {
       collection: 'trips',
       where: { slug: { equals: slug } },
       limit: 1,
-      depth: 1,
+      depth: 2,
       overrideAccess: true,
     })
     const trip = docs[0] ?? null
@@ -80,23 +80,36 @@ async function TripContent({ params }: Props) {
   const t = trip as Record<string, unknown>
 
   const heroImage = t.heroImage as { url?: string | null; alt?: string } | null
+  const whyVideosRaw = t.whyVideos as { video: { url?: string | null } | null; thumbnail: { url?: string | null; alt?: string } | null; thumbnailAlt?: string | null; label?: string | null }[] | null
   const whyImagesRaw = t.whyImages as { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null
   const travelImage = t.travelImage as { url?: string | null; alt?: string } | null
   const transportImage = t.transportImage as { url?: string | null; alt?: string } | null
   const whyVisit = t.whyVisit as { heading?: string; content?: Record<string, unknown> } | null
-  const fitnessRatings = t.fitnessRatings as { difficulty?: number; comfort?: number; nature?: number; culture?: number } | null
+  const fitnessRatings = t.fitnessRatings as { label?: string; value?: number }[] | null
   const itinerary = (t.itinerary as { day: number; title: string; content?: Record<string, unknown> | null; image?: { url?: string | null; alt?: string } | null; stats?: { ascent?: string | null; descent?: string | null; distance?: string | null; duration?: string | null; accommodation?: string | null; meals?: string | null } | null }[] | null) ?? []
   const accommodations = t.accommodations as { locationLabel?: string | null; name?: string | null; description?: Record<string, unknown> | null; learnMoreUrl?: string | null; gallery?: { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null }[] | null
+  const accommodationsSectionEyebrow = t.accommodationsSectionEyebrow as string | null ?? null
+  const accommodationsSectionHeadline = t.accommodationsSectionHeadline as string | null ?? null
+  const accommodationsSectionSubtext = t.accommodationsSectionSubtext as string | null ?? null
   const communityPhotos = t.communityPhotos as { photo?: { url?: string | null; alt?: string } | null }[] | null
   const faq = t.faq as { question?: string | null; answer?: Record<string, unknown> | null }[] | null
   const included = t.included as { item?: string | null }[] | null
   const notIncluded = t.notIncluded as { item?: string | null }[] | null
   const equipmentList = t.equipmentList as { item: string }[] | null
   const readinessChecklist = t.readinessChecklist as { category: string; items: { item: string }[] }[] | null
-  const guides = t.guides as { id: string; name: string; photo?: { url?: string | null; alt?: string } | null; bio?: string | null; instagram?: string | null; specializations?: { item: string }[] | null; yearsExperience?: number | null }[] | null
+  const guides = t.guides as { id: string; name: string; photo?: { url?: string | null; alt?: string } | null; bio?: Record<string, unknown> | null; instagram?: string | null; specializations?: { item: string }[] | null; yearsExperience?: number | null }[] | null
 
   const title = trip.title as string
   const subtitle = t.shortDescription as string | null
+
+  const whyVideos = (whyVideosRaw ?? [])
+    .filter((v) => v.video?.url)
+    .map((v) => ({
+      videoUrl: mediaUrl(v.video!.url)!,
+      thumbnailUrl: v.thumbnail?.url ? mediaUrl(v.thumbnail.url) : null,
+      thumbnailAlt: v.thumbnailAlt ?? v.thumbnail?.alt ?? undefined,
+      label: v.label ?? undefined,
+    }))
 
   const whyImages = (() => {
     const explicit = (whyImagesRaw ?? [])
@@ -113,7 +126,7 @@ async function TripContent({ params }: Props) {
   })()
 
   const durationDays = trip.startDate && trip.endDate
-    ? Math.ceil((new Date(trip.endDate as string).getTime() - new Date(trip.startDate as string).getTime()) / 86400000)
+    ? Math.round((new Date(trip.endDate as string).getTime() - new Date(trip.startDate as string).getTime()) / 86400000) + 1
     : null
 
   const thisTrip = {
@@ -174,6 +187,8 @@ async function TripContent({ params }: Props) {
         tripTitle={title}
         spotsAvailable={trip.spotsAvailable as number | null}
         depositAmount={t.depositAmount as number | null}
+        earlyBirdPrice={t.earlyBirdPrice as number | null}
+        earlyBirdUntil={t.earlyBirdUntil as string | null}
       />
 
       <HeroSection
@@ -185,6 +200,7 @@ async function TripContent({ params }: Props) {
 
       <WhySection
         name={title}
+        whyVideos={whyVideos}
         whyImages={whyImages}
         heading={whyVisit?.heading}
         content={whyVisit?.content}
@@ -215,7 +231,7 @@ async function TripContent({ params }: Props) {
       <ReadinessChecklistSection categories={readinessChecklist ?? []} />
       <GuidesSection guides={guides ?? []} />
 
-      <AccommodationsSection accommodations={accommodations} />
+      <AccommodationsSection accommodations={accommodations} eyebrow={accommodationsSectionEyebrow} headline={accommodationsSectionHeadline} subtext={accommodationsSectionSubtext} />
 
       <AdventureCtaSection
         durationDays={durationDays}
@@ -246,7 +262,18 @@ async function TripContent({ params }: Props) {
         destinations={siblingCards}
       />
 
-      <WhyTravelWithUsSection images={whyImages.length ? whyImages : heroImage?.url ? [{ url: mediaUrl(heroImage.url)!, alt: heroImage.alt }] : []} />
+      <WhyTravelWithUsSection
+        images={(() => {
+          const raw = t.whyTravelImages as { image: { url?: string | null; alt?: string } | null; alt?: string; focalPoint?: string; focalX?: number | null; focalY?: number | null }[] | null
+          const explicit = (raw ?? []).filter(w => w.image?.url).map(w => ({ url: mediaUrl(w.image!.url!)!, alt: w.alt ?? w.image?.alt, focalPoint: w.focalPoint, focalX: w.focalX, focalY: w.focalY }))
+          if (explicit.length) return explicit
+          return whyImages.length ? whyImages : heroImage?.url ? [{ url: mediaUrl(heroImage.url)!, alt: heroImage.alt }] : []
+        })()}
+        heading={t.whyTravelHeading as string | null}
+        subtext={t.whyTravelSubtext as string | null}
+        ctaLabel={t.whyTravelCtaLabel as string | null}
+        ctaHref={t.whyTravelCtaHref as string | null}
+      />
     </article>
   )
 }

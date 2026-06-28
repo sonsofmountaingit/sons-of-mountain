@@ -82,19 +82,23 @@ async function ProgramContent({ params }: Props) {
 
   const heroImage = program.heroImage as { url?: string | null; alt?: string } | null
   const whyImage = p.whyImage as { url?: string | null; alt?: string } | null
+  const whyVideosRaw = p.whyVideos as { video: { url?: string | null } | null; thumbnail: { url?: string | null; alt?: string } | null; thumbnailAlt?: string | null; label?: string | null }[] | null
   const whyImagesRaw = p.whyImages as { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null
   const travelImage = p.travelImage as { url?: string | null; alt?: string } | null
   const transportImage = p.transportImage as { url?: string | null; alt?: string } | null
-  const fitnessRatings = p.fitnessRatings as { difficulty?: number; comfort?: number; nature?: number; culture?: number } | null
+  const fitnessRatings = p.fitnessRatings as { label?: string; value?: number }[] | null
   const itinerary = program.itinerary as { day: number; title: string; content?: Record<string, unknown> | null; image?: { url?: string | null; alt?: string } | null; stats?: { ascent?: string | null; descent?: string | null; distance?: string | null; duration?: string | null; accommodation?: string | null; meals?: string | null } | null }[] | null
   const accommodations = p.accommodations as { locationLabel?: string | null; name?: string | null; description?: Record<string, unknown> | null; learnMoreUrl?: string | null; gallery?: { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null }[] | null
+  const accommodationsSectionEyebrow = p.accommodationsSectionEyebrow as string | null ?? null
+  const accommodationsSectionHeadline = p.accommodationsSectionHeadline as string | null ?? null
+  const accommodationsSectionSubtext = p.accommodationsSectionSubtext as string | null ?? null
   const communityPhotos = p.communityPhotos as { photo?: { url?: string | null; alt?: string } | null }[] | null
   const faq = p.faq as { question?: string | null; answer?: Record<string, unknown> | null }[] | null
   const included = program.included as { item?: string | null }[] | null
   const notIncluded = program.notIncluded as { item?: string | null }[] | null
   const equipmentList = program.equipmentList as { item: string }[] | null
   const readinessChecklist = program.readinessChecklist as { category: string; items: { item: string }[] }[] | null
-  const guides = program.guides as { id: string; name: string; photo?: { url?: string | null; alt?: string } | null; bio?: string | null; instagram?: string | null; specializations?: { item: string }[] | null; yearsExperience?: number | null }[] | null
+  const guides = program.guides as { id: string; name: string; photo?: { url?: string | null; alt?: string } | null; bio?: Record<string, unknown> | null; instagram?: string | null; specializations?: { item: string }[] | null; yearsExperience?: number | null }[] | null
 
   const programAsTripSummary = [{
     id: String(program.id),
@@ -132,6 +136,15 @@ async function ProgramContent({ params }: Props) {
     },
   }
 
+  const whyVideos = (whyVideosRaw ?? [])
+    .filter((v) => v.video?.url)
+    .map((v) => ({
+      videoUrl: mediaUrl(v.video!.url)!,
+      thumbnailUrl: v.thumbnail?.url ? mediaUrl(v.thumbnail.url) : null,
+      thumbnailAlt: v.thumbnailAlt ?? v.thumbnail?.alt ?? undefined,
+      label: v.label ?? undefined,
+    }))
+
   const whyImages = (() => {
     const explicit = (whyImagesRaw ?? [])
       .filter((w) => w.image?.url)
@@ -165,6 +178,8 @@ async function ProgramContent({ params }: Props) {
         itemType="program"
         spotsAvailable={program.spotsAvailable as number | null}
         depositAmount={p.depositAmount as number | null}
+        earlyBirdPrice={p.earlyBirdPrice as number | null}
+        earlyBirdUntil={p.earlyBirdUntil as string | null}
       />
 
       <HeroSection
@@ -176,6 +191,7 @@ async function ProgramContent({ params }: Props) {
 
       <WhySection
         name={program.title ?? ''}
+        whyVideos={whyVideos}
         whyImages={whyImages}
         heading={p.fitnessSummaryHeading as string | null}
         content={program.description as Record<string, unknown> | null}
@@ -206,7 +222,7 @@ async function ProgramContent({ params }: Props) {
       <ReadinessChecklistSection categories={readinessChecklist ?? []} />
       <GuidesSection guides={guides ?? []} />
 
-      <AccommodationsSection accommodations={accommodations} />
+      <AccommodationsSection accommodations={accommodations} eyebrow={accommodationsSectionEyebrow} headline={accommodationsSectionHeadline} subtext={accommodationsSectionSubtext} />
 
       <AdventureCtaSection
         durationDays={p.durationDays as number | null}
@@ -238,7 +254,18 @@ async function ProgramContent({ params }: Props) {
         destinations={siblingCards}
       />
 
-      <WhyTravelWithUsSection images={whyImages.length ? whyImages : heroImage?.url ? [{ url: mediaUrl(heroImage.url)!, alt: heroImage.alt }] : []} />
+      <WhyTravelWithUsSection
+        images={(() => {
+          const raw = p.whyTravelImages as { image: { url?: string | null; alt?: string } | null; alt?: string; focalPoint?: string; focalX?: number | null; focalY?: number | null }[] | null
+          const explicit = (raw ?? []).filter(w => w.image?.url).map(w => ({ url: mediaUrl(w.image!.url!)!, alt: w.alt ?? w.image?.alt, focalPoint: w.focalPoint, focalX: w.focalX, focalY: w.focalY }))
+          if (explicit.length) return explicit
+          return whyImages.length ? whyImages : heroImage?.url ? [{ url: mediaUrl(heroImage.url)!, alt: heroImage.alt }] : []
+        })()}
+        heading={p.whyTravelHeading as string | null}
+        subtext={p.whyTravelSubtext as string | null}
+        ctaLabel={p.whyTravelCtaLabel as string | null}
+        ctaHref={p.whyTravelCtaHref as string | null}
+      />
     </article>
   )
 }

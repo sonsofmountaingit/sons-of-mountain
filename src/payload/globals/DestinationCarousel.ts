@@ -53,6 +53,24 @@ export const DestinationCarousel: GlobalConfig = {
           relationTo: 'destinations',
           required: true,
         },
+        {
+          name: 'overrideTitle',
+          type: 'text',
+          label: 'Override Title',
+          admin: { description: 'Replaces the destination name shown in the text panel' },
+        },
+        {
+          name: 'overrideDescription',
+          type: 'textarea',
+          label: 'Override Description',
+          admin: { description: 'Replaces the carousel subheading for this destination' },
+        },
+        {
+          name: 'overrideButtonText',
+          type: 'text',
+          label: 'Override Button Text',
+          admin: { description: 'Replaces the destination button text for this destination' },
+        },
       ],
     },
     {

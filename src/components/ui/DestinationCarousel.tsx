@@ -14,6 +14,21 @@ interface CarouselGlobal {
   introSlideBackgroundImage?: { url?: string | null } | null
   introSlideButtonText?: string
   destinationButtonText?: string
+  destinationSource?: 'auto' | 'manual'
+  selectedDestinations?: Array<{
+    destination?: {
+      id?: string
+      name?: string
+      slug?: string
+      heroImage?: { url?: string | null } | null
+      month?: string
+      availableSpots?: number | null
+      price?: number | null
+    } | null
+    overrideTitle?: string | null
+    overrideDescription?: string | null
+    overrideButtonText?: string | null
+  }>
 }
 
 interface DestinationDoc {
@@ -24,6 +39,9 @@ interface DestinationDoc {
   month?: string
   availableSpots?: number | null
   price?: number | null
+  overrideTitle?: string
+  overrideDescription?: string
+  overrideButtonText?: string
 }
 
 interface CarouselData {
@@ -35,13 +53,33 @@ const getCarouselData = unstable_cache(
   async (): Promise<CarouselData> => {
     try {
       const payload = await getPayload({ config })
-      const [carousel, { docs }] = await Promise.all([
-        payload.findGlobal({ slug: 'destination-carousel', depth: 2, overrideAccess: true }),
-        payload.find({ collection: 'destinations', limit: 50, sort: 'name', depth: 2, draft: true, overrideAccess: true }),
-      ])
-      return {
-        carousel: carousel as CarouselGlobal,
-        destinations: docs.map((d) => {
+      const carousel = await payload.findGlobal({ slug: 'destination-carousel', depth: 2, overrideAccess: true }) as CarouselGlobal
+
+      let destinations: DestinationDoc[] = []
+
+      if (carousel.destinationSource === 'manual' && carousel.selectedDestinations?.length) {
+        destinations = carousel.selectedDestinations
+          .filter((row) => row.destination?.id)
+          .map((row) => {
+            const d = row.destination!
+            return {
+              id: String(d.id),
+              name: d.name ?? '',
+              slug: d.slug ?? '',
+              heroImage: d.heroImage
+                ? { url: d.heroImage.url ? mediaUrl(d.heroImage.url) : null }
+                : null,
+              month: d.month,
+              availableSpots: d.availableSpots ?? null,
+              price: d.price ?? null,
+              overrideTitle: row.overrideTitle ?? undefined,
+              overrideDescription: row.overrideDescription ?? undefined,
+              overrideButtonText: row.overrideButtonText ?? undefined,
+            }
+          })
+      } else {
+        const { docs } = await payload.find({ collection: 'destinations', limit: 50, sort: 'name', depth: 2, draft: true, overrideAccess: true })
+        destinations = docs.map((d) => {
           const doc = d as unknown as DestinationDoc & { heroImage?: { url?: string | null } | null }
           return {
             id: String(doc.id),
@@ -54,8 +92,10 @@ const getCarouselData = unstable_cache(
             availableSpots: doc.availableSpots ?? null,
             price: doc.price ?? null,
           }
-        }),
+        })
       }
+
+      return { carousel, destinations }
     } catch {
       return { carousel: null, destinations: [] }
     }
@@ -76,6 +116,9 @@ export async function DestinationCarousel() {
     spotsLabel: d.availableSpots != null ? `Само ${d.availableSpots} места` : undefined,
     availableSpots: d.availableSpots ?? undefined,
     price: d.price ?? undefined,
+    overrideTitle: d.overrideTitle,
+    overrideDescription: d.overrideDescription,
+    overrideButtonText: d.overrideButtonText,
   }))
 
   const introSlide = carousel?.introSlideHeadline && carousel?.introSlideSubheading ? {

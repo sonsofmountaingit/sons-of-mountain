@@ -91,6 +91,42 @@ export const Registrations: CollectionConfig = {
       defaultValue: false,
     },
     {
+      name: 'carpool',
+      type: 'select',
+      label: 'Споделено пътуване',
+      options: [
+        { label: 'Организатор', value: 'organizer' },
+        { label: 'Пътник', value: 'passenger' },
+        { label: 'Сам', value: 'solo' },
+      ],
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'carpoolRide',
+      type: 'relationship',
+      relationTo: 'carpool-rides',
+      label: 'Споделено пътуване (запис)',
+      admin: { position: 'sidebar', description: 'Свързан запис за споделено пътуване' },
+    },
+    {
+      name: 'carpoolVehicleType',
+      type: 'text',
+      label: 'Тип превозно средство',
+      admin: { condition: (data) => data.carpool === 'organizer' },
+    },
+    {
+      name: 'carpoolSeats',
+      type: 'number',
+      label: 'Свободни места',
+      admin: { condition: (data) => data.carpool === 'organizer' },
+    },
+    {
+      name: 'carpoolFrom',
+      type: 'text',
+      label: 'Тръгване от',
+      admin: { condition: (data) => data.carpool === 'organizer' },
+    },
+    {
       name: 'stripeSessionId',
       type: 'text',
       admin: { readOnly: true },

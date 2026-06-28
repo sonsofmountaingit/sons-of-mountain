@@ -17,6 +17,8 @@ interface Props {
   itemType?: 'trip' | 'program'
   spotsAvailable?: number | null
   depositAmount?: number | null
+  earlyBirdPrice?: number | null
+  earlyBirdUntil?: string | null
 }
 
 export function DestinationBookingController(props: Props) {

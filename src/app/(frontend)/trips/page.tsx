@@ -105,16 +105,18 @@ function TripCard({ trip }: { trip: Record<string, unknown> }) {
             ))}
           </div>
         )}
-        {price !== null && (
+        {(isEarlyBird || price !== null) && (
           <div className="flex items-end gap-2">
             {isEarlyBird && (
               <span className="text-amber-400 font-bold text-xl">
                 {earlyBirdPrice} {currency}
               </span>
             )}
-            <span className={`font-bold text-xl ${isEarlyBird ? 'text-white/30 line-through text-base' : 'text-white'}`}>
-              {price} {currency}
-            </span>
+            {price !== null && (
+              <span className={`font-bold text-xl ${isEarlyBird ? 'text-white/30 line-through text-base' : 'text-white'}`}>
+                {price} {currency}
+              </span>
+            )}
           </div>
         )}
       </div>
@@ -128,8 +130,9 @@ async function TripsContent() {
     trips = (await getTrips()) as unknown as Record<string, unknown>[]
   } catch {}
 
-  const active = trips.filter(t => t.status !== 'soldOut')
+  const active = trips.filter(t => t.status !== 'soldOut' && t.status !== 'archived')
   const soldOut = trips.filter(t => t.status === 'soldOut')
+  const archived = trips.filter(t => t.status === 'archived')
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -165,6 +168,20 @@ async function TripsContent() {
             ))}
           </div>
         </>
+      )}
+      {archived.length > 0 && (
+        <details className="mt-16 group">
+          <summary className="cursor-pointer text-white/40 hover:text-white/70 transition-colors text-sm font-semibold uppercase tracking-widest mb-8 list-none flex items-center gap-2">
+            <span className="border border-white/20 rounded px-3 py-1.5 group-open:border-white/40">
+              Виж предходни пътувания ({archived.length})
+            </span>
+          </summary>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 opacity-60">
+            {archived.map((trip) => (
+              <TripCard key={trip.id as string} trip={trip} />
+            ))}
+          </div>
+        </details>
       )}
     </>
   )

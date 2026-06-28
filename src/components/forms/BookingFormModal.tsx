@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -15,6 +15,10 @@ const step1Schema = z.object({
 
 const step2Schema = z.object({
   participantCount: z.number().min(1).max(10),
+  carpool: z.enum(['organizer', 'passenger', 'solo'] as const),
+  carpoolVehicleType: z.string().optional(),
+  carpoolSeats: z.number().min(1).max(8).optional(),
+  carpoolFrom: z.string().optional(),
   dietaryNotes: z.string().optional(),
   questions: z.string().optional(),
 })
@@ -26,6 +30,16 @@ const step3Schema = z.object({
 type Step1Data = z.infer<typeof step1Schema>
 type Step2Data = z.infer<typeof step2Schema>
 type Step3Data = z.infer<typeof step3Schema>
+
+interface CarpoolRide {
+  id: string
+  vehicleType: string
+  seatsAvailable: number
+  departureFrom: string
+  departureTime: string | null
+  organizerName: string
+  passengersCount: number
+}
 
 interface Trip {
   id: string
@@ -47,15 +61,34 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
   const [step2Data, setStep2Data] = useState<Step2Data | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [availableRides, setAvailableRides] = useState<CarpoolRide[]>([])
+  const [ridesLoading, setRidesLoading] = useState(false)
+  const [selectedRideId, setSelectedRideId] = useState<string | null>(null)
 
   const isSoldOut = trip.status === 'soldOut' || trip.spotsAvailable === 0
 
   const form1 = useForm<Step1Data>({ resolver: zodResolver(step1Schema) })
   const form2 = useForm<Step2Data>({
     resolver: zodResolver(step2Schema),
-    defaultValues: { participantCount: 1 },
+    defaultValues: { participantCount: 1, carpool: 'solo' },
   })
   const form3 = useForm<Step3Data>({ resolver: zodResolver(step3Schema) })
+
+  const carpoolValue = form2.watch('carpool')
+
+  useEffect(() => {
+    if (carpoolValue !== 'passenger') {
+      setAvailableRides([])
+      setSelectedRideId(null)
+      return
+    }
+    setRidesLoading(true)
+    fetch(`/api/carpool-rides?tripId=${trip.id}`)
+      .then((r) => r.json())
+      .then((data) => setAvailableRides(data.rides ?? []))
+      .catch(() => setAvailableRides([]))
+      .finally(() => setRidesLoading(false))
+  }, [carpoolValue, trip.id])
 
   function onStep1(data: Step1Data) {
     setStep1Data(data)
@@ -79,6 +112,7 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
           ...step1Data,
           ...step2Data,
           agreedToTerms: true,
+          ...(step2Data.carpool === 'passenger' && selectedRideId ? { carpoolRideId: selectedRideId } : {}),
         }),
       })
       if (res.ok) {
@@ -95,12 +129,15 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
     setOpen(false)
     setStep(1)
     setSubmitted(false)
+    setSelectedRideId(null)
+    setAvailableRides([])
     form1.reset()
     form2.reset()
     form3.reset()
   }
 
   const dateRange = `${new Date(trip.startDate).toLocaleDateString('bg-BG', { day: 'numeric', month: 'long' })} — ${new Date(trip.endDate).toLocaleDateString('bg-BG', { day: 'numeric', month: 'long', year: 'numeric' })}`
+  const selectedRide = availableRides.find((r) => r.id === selectedRideId)
 
   return (
     <>
@@ -148,9 +185,9 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.96 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full max-w-[420px] bg-[#111] border border-white/10 rounded-xl overflow-hidden"
+              className="w-full max-w-[420px] bg-[#111] border border-white/10 rounded-xl overflow-hidden max-h-[90vh] flex flex-col"
             >
-              <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 flex-shrink-0">
                 <div>
                   <p className="text-xs text-white/40 uppercase tracking-widest">Записване</p>
                   <p className="text-sm font-medium">{trip.title || dateRange}</p>
@@ -162,13 +199,13 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
                 </button>
               </div>
 
-              <div className="flex gap-1 px-6 py-3 border-b border-white/10">
+              <div className="flex gap-1 px-6 py-3 border-b border-white/10 flex-shrink-0">
                 {[1, 2, 3].map((s) => (
                   <div key={s} className={`h-0.5 flex-1 rounded-full transition-colors ${s <= step ? 'bg-white' : 'bg-white/20'}`} />
                 ))}
               </div>
 
-              <div className="p-6">
+              <div className="p-6 overflow-y-auto">
                 {submitted ? (
                   <div className="text-center py-6">
                     <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-4">
@@ -216,11 +253,104 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
                         className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30"
                       />
                     </div>
+
                     <div>
-                      <textarea {...form2.register('dietaryNotes')} placeholder="Хранителни предпочитания / алергии (по желание)" rows={3} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30 resize-none" />
+                      <label className="text-xs text-white/50 mb-2 block">Споделено пътуване</label>
+                      <div className="space-y-2">
+                        {([
+                          ['organizer', 'Аз съм организатор на споделено пътуване'],
+                          ['passenger', 'Искам да участвам в споделено пътуване'],
+                          ['solo', 'Сам ще дойда'],
+                        ] as const).map(([val, label]) => (
+                          <label key={val} className="flex items-center gap-3 cursor-pointer group">
+                            <input
+                              {...form2.register('carpool')}
+                              type="radio"
+                              value={val}
+                              className="accent-white"
+                            />
+                            <span className="text-sm text-white/70 group-hover:text-white transition-colors">{label}</span>
+                          </label>
+                        ))}
+                      </div>
+
+                      {/* Organizer fields */}
+                      {carpoolValue === 'organizer' && (
+                        <div className="mt-3 space-y-3 border-t border-white/10 pt-3">
+                          <div>
+                            <label className="text-xs text-white/50 mb-1.5 block">Тип превозно средство</label>
+                            <input
+                              {...form2.register('carpoolVehicleType')}
+                              placeholder="напр. SUV, седан, бус..."
+                              className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30"
+                            />
+                          </div>
+                          <div>
+                            <label className="text-xs text-white/50 mb-1.5 block">Свободни места</label>
+                            <input
+                              {...form2.register('carpoolSeats', { valueAsNumber: true })}
+                              type="number" min={1} max={8}
+                              placeholder="брой свободни места"
+                              className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30"
+                            />
+                            {form2.formState.errors.carpoolSeats && (
+                              <p className="text-xs text-red-400 mt-1">{form2.formState.errors.carpoolSeats.message}</p>
+                            )}
+                          </div>
+                          <div>
+                            <label className="text-xs text-white/50 mb-1.5 block">Тръгване от</label>
+                            <input
+                              {...form2.register('carpoolFrom')}
+                              placeholder="напр. София, кв. Лозенец..."
+                              className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30"
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Passenger — available rides */}
+                      {carpoolValue === 'passenger' && (
+                        <div className="mt-3 border-t border-white/10 pt-3">
+                          <p className="text-xs text-white/50 mb-2">Налични пътувания</p>
+                          {ridesLoading ? (
+                            <p className="text-xs text-white/30">Зареждане...</p>
+                          ) : availableRides.length === 0 ? (
+                            <p className="text-xs text-white/30">Няма налични споделени пътувания за тази дата. Заявката ти ще бъде записана и ще те свържем с организатор.</p>
+                          ) : (
+                            <div className="space-y-2">
+                              {availableRides.map((ride) => (
+                                <button
+                                  key={ride.id}
+                                  type="button"
+                                  onClick={() => setSelectedRideId(ride.id === selectedRideId ? null : ride.id)}
+                                  className={`w-full text-left px-3 py-2.5 rounded border text-sm transition-colors ${
+                                    selectedRideId === ride.id
+                                      ? 'border-white bg-white/10 text-white'
+                                      : 'border-white/10 bg-white/5 text-white/70 hover:border-white/30'
+                                  }`}
+                                >
+                                  <div className="font-medium">{ride.departureFrom}</div>
+                                  <div className="text-xs text-white/50 mt-0.5">
+                                    {ride.vehicleType} · {ride.seatsAvailable - ride.passengersCount} свободни места · {ride.organizerName}
+                                  </div>
+                                  {ride.departureTime && (
+                                    <div className="text-xs text-white/40 mt-0.5">
+                                      {new Date(ride.departureTime).toLocaleDateString('bg-BG', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })}
+                                    </div>
+                                  )}
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+
+                    <div>
+                      <textarea {...form2.register('dietaryNotes')} placeholder="Хранителни предпочитания / алергии (по желание)" rows={2} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30 resize-none" />
                     </div>
                     <div>
-                      <textarea {...form2.register('questions')} placeholder="Въпроси (по желание)" rows={3} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30 resize-none" />
+                      <textarea {...form2.register('questions')} placeholder="Въпроси (по желание)" rows={2} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30 resize-none" />
                     </div>
                     <div className="flex gap-3">
                       <button type="button" onClick={() => setStep(1)} className="flex-1 py-3 border border-white/20 text-sm font-medium rounded hover:bg-white/5 transition-colors">
@@ -238,6 +368,22 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
                       <p className="text-white/50">{step1Data?.email}</p>
                       <p className="text-white/50">{step1Data?.phone}</p>
                       <p className="text-white/50">{step2Data?.participantCount} участник(а)</p>
+                      {step2Data?.carpool === 'organizer' && (
+                        <>
+                          <p className="text-white/50">Организатор на споделено пътуване</p>
+                          {step2Data.carpoolVehicleType && <p className="text-white/50">Превозно средство: {step2Data.carpoolVehicleType}</p>}
+                          {step2Data.carpoolSeats && <p className="text-white/50">Свободни места: {step2Data.carpoolSeats}</p>}
+                          {step2Data.carpoolFrom && <p className="text-white/50">Тръгване от: {step2Data.carpoolFrom}</p>}
+                        </>
+                      )}
+                      {step2Data?.carpool === 'passenger' && (
+                        <>
+                          <p className="text-white/50">Търси споделено пътуване</p>
+                          {selectedRide && (
+                            <p className="text-white/50">Избрано: {selectedRide.departureFrom} · {selectedRide.vehicleType}</p>
+                          )}
+                        </>
+                      )}
                     </div>
                     <label className="flex items-start gap-3 cursor-pointer">
                       <input {...form3.register('agreedToTerms')} type="checkbox" className="mt-0.5 accent-white" />

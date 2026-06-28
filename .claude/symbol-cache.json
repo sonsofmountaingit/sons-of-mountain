@@ -50,6 +50,16 @@
     "lines": 216,
     "group": "other"
   },
+  "src/app/llms.txt/route.ts": {
+    "exports": [
+      "dynamic",
+      "GET"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 44,
+    "group": "app"
+  },
   "src/app/robots.ts": {
     "exports": [
       "default:function"
@@ -58,7 +68,7 @@
     "imports": [
       "next"
     ],
-    "lines": 17,
+    "lines": 39,
     "group": "app"
   },
   "src/app/(puck)/layout.tsx": {
@@ -637,6 +647,19 @@
     "lines": 67,
     "group": "puck"
   },
+  "src/app/llms-full.txt/route.ts": {
+    "exports": [
+      "dynamic",
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 100,
+    "group": "app"
+  },
   "src/app/sitemap.ts": {
     "exports": [
       "dynamic",
@@ -648,7 +671,7 @@
       "@payload-config",
       "next"
     ],
-    "lines": 55,
+    "lines": 139,
     "group": "app"
   },
   "src/app/api/waitlist/join/route.ts": {
@@ -1844,9 +1867,10 @@
       "@/components/blocks/contact/ContactHeroBlock",
       "@/components/blocks/contact/ContactFAQBlock",
       "@/components/blocks/PuckRender",
-      "@puckeditor/core"
+      "@puckeditor/core",
+      "@/lib/metadata"
     ],
-    "lines": 56,
+    "lines": 88,
     "group": "frontend"
   },
   "src/app/(frontend)/nolimit/catamarans/page.tsx": {
@@ -1856,9 +1880,10 @@
     ],
     "types": [],
     "imports": [
-      "next"
+      "next",
+      "@/lib/metadata"
     ],
-    "lines": 28,
+    "lines": 33,
     "group": "frontend"
   },
   "src/app/(frontend)/nolimit/sign-up/page.tsx": {
@@ -1871,7 +1896,7 @@
       "next",
       "@/components/forms/ContactForm"
     ],
-    "lines": 17,
+    "lines": 21,
     "group": "frontend"
   },
   "src/app/(frontend)/nolimit/gallery/page.tsx": {
@@ -1881,9 +1906,10 @@
     ],
     "types": [],
     "imports": [
-      "next"
+      "next",
+      "@/lib/metadata"
     ],
-    "lines": 15,
+    "lines": 20,
     "group": "frontend"
   },
   "src/app/(frontend)/nolimit/layout.tsx": {
@@ -1906,9 +1932,10 @@
     ],
     "types": [],
     "imports": [
-      "next"
+      "next",
+      "@/lib/metadata"
     ],
-    "lines": 36,
+    "lines": 41,
     "group": "frontend"
   },
   "src/app/(frontend)/nolimit/page.tsx": {
@@ -1919,9 +1946,10 @@
     "types": [],
     "imports": [
       "next",
-      "next/link"
+      "next/link",
+      "@/lib/metadata"
     ],
-    "lines": 41,
+    "lines": 59,
     "group": "frontend"
   },
   "src/app/(frontend)/nolimit/nextgen/page.tsx": {
@@ -1931,9 +1959,10 @@
     ],
     "types": [],
     "imports": [
-      "next"
+      "next",
+      "@/lib/metadata"
     ],
-    "lines": 17,
+    "lines": 22,
     "group": "frontend"
   },
   "src/app/(frontend)/calendar/page.tsx": {
@@ -1971,9 +2000,10 @@
       "@/components/ui/DestinationCard",
       "next",
       "next/cache",
-      "react"
+      "react",
+      "@/lib/metadata"
     ],
-    "lines": 66,
+    "lines": 87,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/[slug]/page.tsx": {
@@ -1990,6 +2020,7 @@
       "next",
       "react",
       "@/lib/media-url",
+      "@/lib/metadata",
       "@/lib/weather",
       "@/components/ui/TrackRecentlyViewed",
       "@/components/ui/destination-page/HeroSection",
@@ -2009,7 +2040,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/DestinationBookingController"
     ],
-    "lines": 310,
+    "lines": 314,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -2090,9 +2121,10 @@
       "@/components/ui/GalleryKeyboardHints",
       "@/lib/media-url",
       "react",
-      "next/cache"
+      "next/cache",
+      "@/lib/metadata"
     ],
-    "lines": 110,
+    "lines": 112,
     "group": "frontend"
   },
   "src/app/(frontend)/gallery/[slug]/GalleryCollectionClient.tsx": {
@@ -2114,7 +2146,7 @@
   "src/app/(frontend)/gallery/[slug]/page.tsx": {
     "exports": [
       "dynamic",
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -2126,9 +2158,10 @@
       "react",
       "next",
       "./GalleryCollectionClient",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "@/lib/metadata"
     ],
-    "lines": 113,
+    "lines": 135,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/cancel/page.tsx": {
@@ -2141,13 +2174,13 @@
       "next",
       "next/link"
     ],
-    "lines": 27,
+    "lines": 30,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/products/[slug]/page.tsx": {
     "exports": [
       "dynamic",
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -2159,13 +2192,14 @@
       "next/image",
       "react",
       "@/lib/media-url",
+      "@/lib/metadata",
       "@/components/shop/AddToCartButton",
       "@/components/shop/WishlistButton",
       "@/components/shop/StockAlertButton",
       "@/components/shop/WaitlistButton",
       "@/components/shop/StarRating"
     ],
-    "lines": 144,
+    "lines": 183,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/success/page.tsx": {
@@ -2179,7 +2213,7 @@
       "next/link",
       "react"
     ],
-    "lines": 37,
+    "lines": 40,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/gift-vouchers/_components/GiftVoucherPurchaseForm.tsx": {
@@ -2208,11 +2242,24 @@
       "payload",
       "@payload-config",
       "next",
+      "@/lib/metadata",
       "./_components/GiftVoucherPurchaseForm",
       "react",
       "next/cache"
     ],
-    "lines": 86,
+    "lines": 88,
+    "group": "frontend"
+  },
+  "src/app/(frontend)/shop/checkout/layout.tsx": {
+    "exports": [
+      "metadata",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "next"
+    ],
+    "lines": 11,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/checkout/page.tsx": {
@@ -2250,15 +2297,17 @@
   "src/app/(frontend)/shop/[tripId]/page.tsx": {
     "exports": [
       "dynamic",
+      "metadata",
       "default:async"
     ],
     "types": [],
     "imports": [
+      "next",
       "payload",
       "@payload-config",
       "next/navigation"
     ],
-    "lines": 21,
+    "lines": 24,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/orders/[id]/page.tsx": {
@@ -2279,7 +2328,7 @@
       "@/components/shop/OrderStatusBadge",
       "react"
     ],
-    "lines": 190,
+    "lines": 193,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/orders/page.tsx": {
@@ -2319,9 +2368,10 @@
       "next/image",
       "react",
       "@/components/shop/ProductCard",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "@/lib/metadata"
     ],
-    "lines": 253,
+    "lines": 255,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/bundles/page.tsx": {
@@ -2338,15 +2388,16 @@
       "next/link",
       "next/image",
       "@/lib/media-url",
-      "react"
+      "react",
+      "@/lib/metadata"
     ],
-    "lines": 122,
+    "lines": 124,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/bundles/[slug]/page.tsx": {
     "exports": [
       "dynamic",
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -2358,10 +2409,11 @@
       "next/image",
       "next/link",
       "@/lib/media-url",
+      "@/lib/metadata",
       "@/components/shop/AddToCartButton",
       "react"
     ],
-    "lines": 177,
+    "lines": 216,
     "group": "frontend"
   },
   "src/app/(frontend)/about/page.tsx": {
@@ -2400,15 +2452,16 @@
       "react",
       "@/components/blocks/blog/BlogHeroBlock",
       "@/components/blocks/PuckRender",
-      "@puckeditor/core"
+      "@puckeditor/core",
+      "@/lib/metadata"
     ],
-    "lines": 84,
+    "lines": 109,
     "group": "frontend"
   },
   "src/app/(frontend)/blog/[slug]/page.tsx": {
     "exports": [
       "dynamic",
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -2420,9 +2473,10 @@
       "next",
       "@payloadcms/richtext-lexical/react",
       "@/lib/media-url",
-      "react"
+      "react",
+      "@/lib/metadata"
     ],
-    "lines": 64,
+    "lines": 95,
     "group": "frontend"
   },
   "src/app/(frontend)/gift/page.tsx": {
@@ -2433,9 +2487,10 @@
     "types": [],
     "imports": [
       "next",
+      "@/lib/metadata",
       "@/components/forms/GiftVoucherForm"
     ],
-    "lines": 18,
+    "lines": 23,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/NoRegistrationGate.tsx": {
@@ -2791,9 +2846,10 @@
       "react",
       "next/link",
       "next/image",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "@/lib/metadata"
     ],
-    "lines": 141,
+    "lines": 168,
     "group": "frontend"
   },
   "src/app/(frontend)/programs/[slug]/page.tsx": {
@@ -2810,6 +2866,7 @@
       "react",
       "next",
       "@/lib/media-url",
+      "@/lib/metadata",
       "@/components/ui/destination-page/HeroSection",
       "@/components/ui/destination-page/WhySection",
       "@/components/ui/destination-page/IsThisForYouSection",
@@ -2827,7 +2884,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 249,
+    "lines": 253,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/page.tsx": {
@@ -2846,15 +2903,16 @@
       "react",
       "@/components/blocks/stories/StoriesHeroBlock",
       "@/components/blocks/PuckRender",
-      "@puckeditor/core"
+      "@puckeditor/core",
+      "@/lib/metadata"
     ],
-    "lines": 77,
+    "lines": 100,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/[slug]/page.tsx": {
     "exports": [
       "dynamic",
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -2867,9 +2925,10 @@
       "next",
       "@payloadcms/richtext-lexical/react",
       "@/lib/media-url",
+      "@/lib/metadata",
       "react"
     ],
-    "lines": 78,
+    "lines": 106,
     "group": "frontend"
   },
   "src/app/(frontend)/forgot-password/ForgotClient.tsx": {
@@ -2914,7 +2973,7 @@
       "@/components/ui/Footer",
       "sonner"
     ],
-    "lines": 44,
+    "lines": 60,
     "group": "frontend"
   },
   "src/app/(frontend)/vouchers/[code]/page.tsx": {
@@ -3002,11 +3061,13 @@
   },
   "src/app/(frontend)/preview/[id]/page.tsx": {
     "exports": [
+      "metadata",
       "dynamic",
       "default:async"
     ],
     "types": [],
     "imports": [
+      "next",
       "payload",
       "@payload-config",
       "next/headers",
@@ -3015,7 +3076,7 @@
       "@/components/blocks/PuckRender",
       "@puckeditor/core"
     ],
-    "lines": 48,
+    "lines": 52,
     "group": "frontend"
   },
   "src/app/(frontend)/photographers/page.tsx": {
@@ -3032,15 +3093,16 @@
       "next/link",
       "next/image",
       "@/lib/media-url",
+      "@/lib/metadata",
       "react"
     ],
-    "lines": 79,
+    "lines": 81,
     "group": "frontend"
   },
   "src/app/(frontend)/photographers/[username]/page.tsx": {
     "exports": [
       "dynamic",
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -3054,9 +3116,10 @@
       "next/link",
       "next/navigation",
       "@/components/blocks/gallery/GalleryGridBlock",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "@/lib/metadata"
     ],
-    "lines": 159,
+    "lines": 186,
     "group": "frontend"
   },
   "src/app/(frontend)/account/loyalty/page.tsx": {
@@ -3075,7 +3138,7 @@
       "next",
       "react"
     ],
-    "lines": 209,
+    "lines": 212,
     "group": "frontend"
   },
   "src/app/(frontend)/account/wishlist/page.tsx": {
@@ -3095,7 +3158,7 @@
       "next/link",
       "react"
     ],
-    "lines": 68,
+    "lines": 71,
     "group": "frontend"
   },
   "src/app/(frontend)/empire/page.tsx": {
@@ -3107,9 +3170,10 @@
     "imports": [
       "next",
       "next/image",
-      "next/link"
+      "next/link",
+      "@/lib/metadata"
     ],
-    "lines": 54,
+    "lines": 77,
     "group": "frontend"
   },
   "src/app/(frontend)/legal/terms/page.tsx": {
@@ -3121,7 +3185,7 @@
     "imports": [
       "next"
     ],
-    "lines": 17,
+    "lines": 22,
     "group": "frontend"
   },
   "src/app/(frontend)/legal/cookies/page.tsx": {
@@ -3133,7 +3197,7 @@
     "imports": [
       "next"
     ],
-    "lines": 17,
+    "lines": 22,
     "group": "frontend"
   },
   "src/app/(frontend)/photos/page.tsx": {
@@ -3148,10 +3212,11 @@
       "@payload-config",
       "next/image",
       "next",
+      "@/lib/metadata",
       "next/cache",
       "react"
     ],
-    "lines": 65,
+    "lines": 70,
     "group": "frontend"
   },
   "src/app/(frontend)/trips/page.tsx": {
@@ -3169,9 +3234,10 @@
       "react",
       "next/link",
       "next/image",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "@/lib/metadata"
     ],
-    "lines": 168,
+    "lines": 186,
     "group": "frontend"
   },
   "src/app/(frontend)/trips/[slug]/page.tsx": {
@@ -3188,6 +3254,7 @@
       "next",
       "react",
       "@/lib/media-url",
+      "@/lib/metadata",
       "@/components/ui/TrackRecentlyViewed",
       "@/components/ui/destination-page/HeroSection",
       "@/components/ui/destination-page/WhySection",
@@ -3206,12 +3273,13 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 257,
+    "lines": 261,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {
     "exports": [
       "dynamic",
+      "generateMetadata",
       "default:async"
     ],
     "types": [],
@@ -3219,6 +3287,7 @@
       "payload",
       "@payload-config",
       "react",
+      "next",
       "@/components/ui/DestinationCarousel",
       "@/components/ui/WhyTravelWithUs",
       "@/components/ui/FeaturedTravels",
@@ -3227,9 +3296,10 @@
       "@/components/ui/ScrollReveal",
       "@/components/blocks/PuckRender",
       "next/cache",
-      "@puckeditor/core"
+      "@puckeditor/core",
+      "@/lib/metadata"
     ],
-    "lines": 69,
+    "lines": 116,
     "group": "frontend"
   },
   "src/app/(frontend)/[slug]/page.tsx": {
@@ -3246,12 +3316,13 @@
       "next/navigation",
       "next",
       "react",
+      "@/lib/metadata",
       "@/components/blocks/BlockRenderer",
       "@/components/blocks/LivePreviewBlocks",
       "@/components/blocks/PuckRender",
       "@puckeditor/core"
     ],
-    "lines": 85,
+    "lines": 87,
     "group": "frontend"
   },
   "src/app/(frontend)/login/LoginClient.tsx": {

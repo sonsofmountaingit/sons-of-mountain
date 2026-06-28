@@ -135,6 +135,7 @@ export const Destinations: CollectionConfig = {
         { label: 'Active', value: 'active' },
         { label: 'Sold Out', value: 'soldOut' },
         { label: 'Unavailable', value: 'unavailable' },
+        { label: 'Archived', value: 'archived' },
       ],
       defaultValue: 'active',
       admin: { position: 'sidebar' },
@@ -192,21 +193,22 @@ export const Destinations: CollectionConfig = {
     {
       name: 'whyVideos',
       type: 'array',
-      admin: { description: 'Videos shown in the "Защо?" section.' },
+      maxRows: 2,
+      admin: { description: 'Videos for the "Защо?" section (up to 2 shown as tilted cards)' },
       fields: [
-        { name: 'video', type: 'upload', relationTo: 'media', required: true },
+        { name: 'video', type: 'upload', relationTo: 'media', required: true, filterOptions: { mimeType: { contains: 'video' } } },
         { name: 'thumbnail', type: 'upload', relationTo: 'media' },
-        { name: 'label', type: 'text' },
+        { name: 'thumbnailAlt', type: 'text' },
+        { name: 'label', type: 'text', admin: { description: 'Short caption shown on the card' } },
       ],
     },
     {
       name: 'fitnessRatings',
-      type: 'group',
+      type: 'array',
+      admin: { description: 'Arc gauges — add, remove, or reorder freely. Value 0–100.' },
       fields: [
-        { name: 'difficulty', type: 'number', min: 0, max: 100, defaultValue: 50 },
-        { name: 'comfort', type: 'number', min: 0, max: 100, defaultValue: 50 },
-        { name: 'nature', type: 'number', min: 0, max: 100, defaultValue: 50 },
-        { name: 'culture', type: 'number', min: 0, max: 100, defaultValue: 50 },
+        { name: 'label', type: 'text', required: true },
+        { name: 'value', type: 'number', min: 0, max: 100, defaultValue: 50, required: true },
       ],
     },
     {
@@ -222,6 +224,66 @@ export const Destinations: CollectionConfig = {
       fields: [
         { name: 'image', type: 'upload', relationTo: 'media', required: true },
         { name: 'alt', type: 'text' },
+      ],
+    },
+    {
+      name: 'whyTravelHeading',
+      type: 'text',
+      admin: { description: 'Heading for the "Why Travel With Us" bottom section' },
+    },
+    {
+      name: 'whyTravelSubtext',
+      type: 'textarea',
+      admin: { description: 'Subtext paragraph for the "Why Travel With Us" bottom section' },
+    },
+    {
+      name: 'whyTravelCtaLabel',
+      type: 'text',
+      admin: { description: 'Button label for the "Why Travel With Us" bottom section' },
+    },
+    {
+      name: 'whyTravelCtaHref',
+      type: 'text',
+      admin: { description: 'Button URL for the "Why Travel With Us" bottom section' },
+    },
+    {
+      name: 'whyTravelImages',
+      type: 'array',
+      admin: { description: 'Images for the "Why Travel With Us" bottom section. Use focal point to control crop position.' },
+      fields: [
+        { name: 'image', type: 'upload', relationTo: 'media', required: true },
+        { name: 'alt', type: 'text' },
+        {
+          name: 'focalPoint',
+          type: 'select',
+          defaultValue: 'center',
+          options: [
+            { label: 'Center', value: 'center' },
+            { label: 'Top', value: 'top' },
+            { label: 'Bottom', value: 'bottom' },
+            { label: 'Left', value: 'left' },
+            { label: 'Right', value: 'right' },
+            { label: 'Top Left', value: 'top left' },
+            { label: 'Top Right', value: 'top right' },
+            { label: 'Bottom Left', value: 'bottom left' },
+            { label: 'Bottom Right', value: 'bottom right' },
+          ],
+          admin: { description: 'Which part of the image to show when cropped' },
+        },
+        {
+          name: 'focalX',
+          type: 'number',
+          min: 0,
+          max: 100,
+          admin: { description: 'Manual horizontal position (0–100%). Overrides focal point preset if set.' },
+        },
+        {
+          name: 'focalY',
+          type: 'number',
+          min: 0,
+          max: 100,
+          admin: { description: 'Manual vertical position (0–100%). Overrides focal point preset if set.' },
+        },
       ],
     },
     {
@@ -260,6 +322,21 @@ export const Destinations: CollectionConfig = {
       name: 'transportImage',
       type: 'upload',
       relationTo: 'media',
+    },
+    {
+      name: 'accommodationsSectionEyebrow',
+      type: 'text',
+      admin: { description: 'Small label above headline, e.g. ЗА НАСТАНЯВАНЕТО' },
+    },
+    {
+      name: 'accommodationsSectionHeadline',
+      type: 'text',
+      admin: { description: 'Main heading for accommodations section' },
+    },
+    {
+      name: 'accommodationsSectionSubtext',
+      type: 'text',
+      admin: { description: 'Subtext below the heading' },
     },
     {
       name: 'accommodations',
@@ -400,6 +477,15 @@ export const Destinations: CollectionConfig = {
     },
   ],
   hooks: {
+    beforeChange: [
+      ({ data }: { data: Record<string, unknown> }) => {
+        const endDate = data.endDate as string | null
+        if (endDate && new Date(endDate) < new Date() && data.bookingStatus !== 'archived') {
+          data.bookingStatus = 'archived'
+        }
+        return data
+      },
+    ],
     afterChange: [
       revalidateCollection('destinations', '/destinations'),
       async ({ doc, previousDoc, req }) => {

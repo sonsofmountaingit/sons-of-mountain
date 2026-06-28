@@ -15,7 +15,7 @@ function durationDays(start: string | null | undefined, end: string | null | und
   if (!start || !end) return null
   const ms = new Date(end).getTime() - new Date(start).getTime()
   if (isNaN(ms) || ms <= 0) return null
-  return Math.round(ms / 86400000)
+  return Math.round(ms / 86400000) + 1
 }
 
 export async function GET() {

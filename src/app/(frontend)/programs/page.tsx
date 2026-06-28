@@ -33,8 +33,9 @@ const getPrograms = unstable_cache(
     const payload = await getPayload({ config })
     const { docs } = await payload.find({
       collection: 'programs',
-      limit: 100,
-      sort: 'title',
+      where: { status: { not_equals: 'draft' } },
+      limit: 200,
+      sort: 'startDate',
       overrideAccess: true,
     })
     return docs
@@ -54,6 +55,9 @@ function ProgramCard({ program }: { program: Record<string, unknown> }) {
   const spotsAvailable = program.spotsAvailable as number | null
   const status = program.status as string | null
   const startDate = program.startDate as string | null
+  const earlyBirdPrice = program.earlyBirdPrice as number | null
+  const earlyBirdUntil = program.earlyBirdUntil as string | null
+  const isEarlyBird = earlyBirdPrice && earlyBirdUntil && new Date(earlyBirdUntil) > new Date()
 
   return (
     <Link href={href} className="group block bg-white/5 hover:bg-white/10 transition-colors rounded-2xl overflow-hidden">
@@ -100,8 +104,15 @@ function ProgramCard({ program }: { program: Record<string, unknown> }) {
         {typeof program.location === 'string' && (
           <p className="text-white/40 text-xs mb-3">{program.location}</p>
         )}
-        {price !== null && (
-          <p className="text-white font-bold text-xl">{price} {currency}</p>
+        {(isEarlyBird || price !== null) && (
+          <div className="flex items-baseline gap-2">
+            {isEarlyBird && (
+              <p className="text-orange-400 font-bold text-xl">{earlyBirdPrice} {currency}</p>
+            )}
+            {price !== null && (
+              <p className={`font-bold ${isEarlyBird ? 'text-white/30 line-through text-base' : 'text-white text-xl'}`}>{price} {currency}</p>
+            )}
+          </div>
         )}
       </div>
     </Link>
@@ -114,16 +125,35 @@ async function ProgramsContent() {
     programs = (await getPrograms()) as unknown as Record<string, unknown>[]
   } catch {}
 
+  const active = programs.filter(p => p.status !== 'archived')
+  const archived = programs.filter(p => p.status === 'archived')
+
   return (
     <>
-      {programs.length === 0 && (
+      {active.length === 0 && archived.length === 0 && (
         <p className="text-white/30 text-center py-20">Скоро ще добавим програми.</p>
       )}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {programs.map((program) => (
-          <ProgramCard key={program.id as string} program={program} />
-        ))}
-      </div>
+      {active.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {active.map((program) => (
+            <ProgramCard key={program.id as string} program={program} />
+          ))}
+        </div>
+      )}
+      {archived.length > 0 && (
+        <details className="mt-16 group">
+          <summary className="cursor-pointer text-white/40 hover:text-white/70 transition-colors text-sm font-semibold uppercase tracking-widest mb-8 list-none flex items-center gap-2">
+            <span className="border border-white/20 rounded px-3 py-1.5 group-open:border-white/40">
+              Виж предходни програми ({archived.length})
+            </span>
+          </summary>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 opacity-60">
+            {archived.map((program) => (
+              <ProgramCard key={program.id as string} program={program} />
+            ))}
+          </div>
+        </details>
+      )}
     </>
   )
 }

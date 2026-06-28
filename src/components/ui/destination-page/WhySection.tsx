@@ -56,7 +56,7 @@ function VideoCard({
   return (
     <button
       onClick={onPlay}
-      className={`relative w-52 sm:w-64 aspect-[4/3] rounded-2xl overflow-hidden shadow-xl flex-shrink-0 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black ${rotate}`}
+      className={`relative w-40 sm:w-52 aspect-[9/16] rounded-2xl overflow-hidden shadow-xl flex-shrink-0 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black ${rotate}`}
       aria-label={`Пусни видео${video.label ? `: ${video.label}` : ''}`}
     >
       {video.thumbnailUrl ? (
@@ -65,7 +65,7 @@ function VideoCard({
           alt={video.thumbnailAlt ?? video.label ?? 'Video thumbnail'}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-105"
-          sizes="(max-width: 640px) 208px, 256px"
+          sizes="(max-width: 640px) 160px, 208px"
         />
       ) : (
         <div className="absolute inset-0 bg-gray-200" />
@@ -147,7 +147,7 @@ function VideoModal({
           </svg>
         </button>
 
-        <div className="relative w-full aspect-video bg-black">
+        <div className="relative w-full bg-black flex items-center justify-center" style={{ maxHeight: '80vh' }}>
           <video
             ref={videoRef}
             src={video.videoUrl}
@@ -155,11 +155,11 @@ function VideoModal({
             playsInline
             muted
             loop
-            className="w-full h-full object-cover"
+            className="max-h-[80vh] w-full object-contain"
             poster={video.thumbnailUrl ?? undefined}
           />
 
-          <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-5 pt-16 pb-4 pointer-events-none">
+          <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-5 pt-16 pb-4 pointer-events-none z-10">
             {tripTitle && (
               <p className="text-white font-semibold text-base mb-2">{tripTitle}</p>
             )}
@@ -247,8 +247,11 @@ export function WhySection({
   if (!heading && !content && whyImages.length === 0 && whyVideos.length === 0) return null
 
   const hasVideos = whyVideos.length > 0
+  const hasImages = !hasVideos && whyImages.length > 0
   const left = hasVideos ? whyVideos[0] : null
   const right = hasVideos && whyVideos.length > 1 ? whyVideos[1] : null
+  const leftImg = hasImages ? whyImages[0] : null
+  const rightImg = hasImages && whyImages.length > 1 ? whyImages[1] : null
 
   function openBooking() {
     setActiveVideo(null)
@@ -258,11 +261,19 @@ export function WhySection({
   return (
     <>
       <section ref={sectionRef} className="py-16 sm:py-20 px-4 sm:px-6 bg-white text-black overflow-hidden">
-        <div className={`max-w-6xl mx-auto flex flex-col items-center gap-8 sm:gap-10 ${hasVideos ? 'md:flex-row md:justify-between' : 'md:justify-center'}`}>
+        <div className={`max-w-6xl mx-auto flex flex-col items-center gap-8 sm:gap-10 ${hasVideos || hasImages ? 'md:flex-row md:justify-between' : 'md:justify-center'}`}>
 
           {left && (
             <div ref={leftCardRef} className="hidden md:flex justify-end flex-1">
               <VideoCard video={left} rotate="-rotate-3" onPlay={() => setActiveVideo(left)} />
+            </div>
+          )}
+
+          {leftImg && (
+            <div ref={leftCardRef} className="hidden md:flex justify-end flex-1">
+              <div className="-rotate-3 rounded-2xl overflow-hidden shadow-xl w-48 h-64 sm:w-56 sm:h-72 relative flex-shrink-0">
+                <Image src={leftImg.url} alt={leftImg.alt ?? ''} fill className="object-cover" sizes="224px" />
+              </div>
             </div>
           )}
 
@@ -281,7 +292,7 @@ export function WhySection({
               </div>
             )}
             {hasVideos && (
-              <div className="md:hidden flex justify-center gap-3 sm:gap-4 mt-6 sm:mt-8 overflow-x-auto pb-2">
+              <div className="md:hidden flex justify-center gap-4 sm:gap-6 mt-6 sm:mt-8 overflow-x-auto pb-2">
                 {whyVideos.slice(0, 2).map((v, i) => (
                   <VideoCard
                     key={i}
@@ -289,6 +300,15 @@ export function WhySection({
                     rotate={i === 0 ? '-rotate-2' : 'rotate-2'}
                     onPlay={() => setActiveVideo(v)}
                   />
+                ))}
+              </div>
+            )}
+            {hasImages && (
+              <div className="md:hidden flex justify-center gap-4 sm:gap-6 mt-6 sm:mt-8 overflow-x-auto pb-2">
+                {whyImages.slice(0, 2).map((img, i) => (
+                  <div key={i} className={`${i === 0 ? '-rotate-2' : 'rotate-2'} rounded-2xl overflow-hidden shadow-xl w-36 h-48 relative flex-shrink-0`}>
+                    <Image src={img.url} alt={img.alt ?? ''} fill className="object-cover" sizes="144px" />
+                  </div>
                 ))}
               </div>
             )}
@@ -300,6 +320,17 @@ export function WhySection({
             </div>
           )}
           {!right && left && (
+            <div className="hidden md:flex flex-1" />
+          )}
+
+          {rightImg && (
+            <div ref={rightCardRef} className="hidden md:flex justify-start flex-1">
+              <div className="rotate-3 rounded-2xl overflow-hidden shadow-xl w-48 h-64 sm:w-56 sm:h-72 relative flex-shrink-0">
+                <Image src={rightImg.url} alt={rightImg.alt ?? ''} fill className="object-cover" sizes="224px" />
+              </div>
+            </div>
+          )}
+          {!rightImg && leftImg && (
             <div className="hidden md:flex flex-1" />
           )}
         </div>

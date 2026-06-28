@@ -16,6 +16,9 @@ interface Destination {
   spotsLabel?: string
   availableSpots?: number
   price?: number
+  overrideTitle?: string
+  overrideDescription?: string
+  overrideButtonText?: string
 }
 
 interface DestinationCarouselBlockProps {
@@ -68,14 +71,6 @@ function DestCard({
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 p-3">
-        <div className="flex gap-1 mb-1">
-          {[1, 2, 3, 4, 5].map((s) => (
-            <span
-              key={s}
-              className={`w-1.5 h-1.5 rounded-full inline-block ${s <= 4 ? 'bg-white' : 'bg-white/30'}`}
-            />
-          ))}
-        </div>
         <h3 className="text-sm font-bold text-white leading-tight">{dest.name}</h3>
         {dest.month && <p className="text-xs text-white/60 lowercase mt-0.5">{dest.month}</p>}
         <div className="flex items-center justify-between mt-2 gap-2">
@@ -306,18 +301,18 @@ export function DestinationCarouselBlock({
               className="flex flex-col"
             >
               <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white uppercase leading-none mb-6 tracking-tight dc-hero-title">
-                {activeDest?.name ?? headline}
+                {activeDest?.overrideTitle ?? activeDest?.name ?? headline}
               </h1>
 
               <p className="text-sm md:text-base text-white/65 mb-10 max-w-sm leading-relaxed dc-hero-sub">
-                {subheading}
+                {activeDest?.overrideDescription ?? subheading}
               </p>
 
               <Link
                 href={activeDest ? `/destinations/${activeDest.slug}` : '/destinations'}
                 className="self-start inline-flex items-center gap-3 px-8 py-4 bg-white/15 backdrop-blur-md border border-white/25 text-white font-semibold text-sm rounded-lg hover:bg-white/25 transition-colors dc-hero-btn"
               >
-                {destinationButtonText}
+                {activeDest?.overrideButtonText ?? destinationButtonText}
                 <span>→</span>
               </Link>
             </motion.div>

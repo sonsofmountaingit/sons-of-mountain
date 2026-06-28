@@ -17,6 +17,8 @@ interface Props {
   itemType?: 'trip' | 'program'
   spotsAvailable?: number | null
   depositAmount?: number | null
+  earlyBirdPrice?: number | null
+  earlyBirdUntil?: string | null
   footerSelector?: string
   onBook?: () => void
 }
@@ -43,9 +45,12 @@ export function FloatingBookingBar({
   itemType = 'trip',
   spotsAvailable,
   depositAmount,
+  earlyBirdPrice,
+  earlyBirdUntil,
   footerSelector = 'footer',
   onBook,
 }: Props) {
+  const isEarlyBird = !!(earlyBirdPrice && earlyBirdUntil && new Date(earlyBirdUntil) > new Date())
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(false)
   const barRef = useRef<HTMLDivElement>(null)
@@ -141,10 +146,13 @@ export function FloatingBookingBar({
         )}
 
         {/* Price */}
-        {price > 0 && (
+        {(isEarlyBird || price > 0) && (
           <span className="flex items-center gap-1 text-sm font-bold text-white">
             <span className="text-white/60 font-normal text-xs">от</span>
-            <span>{formatPrice(price, currency)}</span>
+            {isEarlyBird && (
+              <span className="text-orange-400">{formatPrice(earlyBirdPrice!, currency)}</span>
+            )}
+            <span className={isEarlyBird ? 'line-through text-white/40 font-normal text-xs' : ''}>{formatPrice(price, currency)}</span>
           </span>
         )}
 

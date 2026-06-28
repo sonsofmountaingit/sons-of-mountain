@@ -100,23 +100,26 @@ async function DestinationContent({ params }: Props) {
   const heroGalleryRaw = destination.heroGallery as { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null
   const whyImage = destination.whyImage as { url?: string | null; alt?: string } | null
   const whyImagesRaw = destination.whyImages as { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null
-  const whyVideosRaw = destination.whyVideos as { video: { url?: string | null } | null; thumbnail: { url?: string | null; alt?: string } | null; label?: string | null }[] | null
+  const whyVideosRaw = destination.whyVideos as { video: { url?: string | null } | null; thumbnail: { url?: string | null; alt?: string } | null; thumbnailAlt?: string | null; label?: string | null }[] | null
   const travelImage = destination.travelImage as { url?: string | null; alt?: string } | null
   const transportImage = destination.transportImage as { url?: string | null; alt?: string } | null
   const whyVisit = destination.whyVisit as { heading?: string; content?: Record<string, unknown> } | null
-  const fitnessRatings = destination.fitnessRatings as { difficulty?: number; comfort?: number; nature?: number; culture?: number } | null
+  const fitnessRatings = destination.fitnessRatings as { label?: string; value?: number }[] | null
   const itinerary = destination.itinerary as { day: number; title: string; content?: Record<string, unknown> | null; image?: { url?: string | null; alt?: string } | null; stats?: { ascent?: string | null; descent?: string | null; distance?: string | null; duration?: string | null; accommodation?: string | null; meals?: string | null } | null }[] | null
   const accommodations = destination.accommodations as { locationLabel?: string | null; name?: string | null; description?: Record<string, unknown> | null; learnMoreUrl?: string | null; gallery?: { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null }[] | null
+  const accommodationsSectionEyebrow = destination.accommodationsSectionEyebrow as string | null ?? null
+  const accommodationsSectionHeadline = destination.accommodationsSectionHeadline as string | null ?? null
+  const accommodationsSectionSubtext = destination.accommodationsSectionSubtext as string | null ?? null
   const communityPhotos = destination.communityPhotos as { photo?: { url?: string | null; alt?: string } | null }[] | null
   const faq = destination.faq as { question?: string | null; answer?: Record<string, unknown> | null }[] | null
   const included = destination.included as { item?: string | null }[] | null
   const notIncluded = destination.notIncluded as { item?: string | null }[] | null
   const equipmentList = destination.equipmentList as { item: string }[] | null
   const readinessChecklist = destination.readinessChecklist as { category: string; items: { item: string }[] }[] | null
-  const guides = destination.guides as { id: string; name: string; photo?: { url?: string | null; alt?: string } | null; bio?: string | null; instagram?: string | null; specializations?: { item: string }[] | null; yearsExperience?: number | null }[] | null
+  const guides = destination.guides as { id: string; name: string; photo?: { url?: string | null; alt?: string } | null; bio?: Record<string, unknown> | null; instagram?: string | null; specializations?: { item: string }[] | null; yearsExperience?: number | null }[] | null
 
   const durationDays = (d.startDate && d.endDate)
-    ? Math.ceil((new Date(d.endDate as string).getTime() - new Date(d.startDate as string).getTime()) / 86400000)
+    ? Math.round((new Date(d.endDate as string).getTime() - new Date(d.startDate as string).getTime()) / 86400000) + 1
     : (d.durationDays as number | null) ?? null
 
   const thisItem = {
@@ -187,6 +190,8 @@ async function DestinationContent({ params }: Props) {
         tripTitle={destination.name}
         spotsAvailable={(d.spotsAvailable as number | null)}
         depositAmount={(d.depositAmount as number | null)}
+        earlyBirdPrice={(d.earlyBirdPrice as number | null)}
+        earlyBirdUntil={(d.earlyBirdUntil as string | null)}
       />
 
       <HeroSection
@@ -199,7 +204,7 @@ async function DestinationContent({ params }: Props) {
           .filter(g => g.image?.url)
           .map(g => ({ url: mediaUrl(g.image!.url)!, alt: g.alt ?? g.image?.alt }))}
         departureCity={d.departureCity as string | null}
-        difficulty={fitnessRatings?.difficulty ?? null}
+        difficulty={fitnessRatings?.find(r => r.label?.toLowerCase().includes('трудност'))?.value ?? fitnessRatings?.[0]?.value ?? null}
         spotsAvailable={(d.spotsAvailable as number | null)}
         spotsTotal={(d.spotsTotal as number | null)}
         avgRating={avgRating}
@@ -223,8 +228,8 @@ async function DestinationContent({ params }: Props) {
           .filter(v => v.video?.url)
           .map(v => ({
             videoUrl: mediaUrl(v.video!.url)!,
-            thumbnailUrl: v.thumbnail?.url ? mediaUrl(v.thumbnail.url) : undefined,
-            thumbnailAlt: v.thumbnail?.alt,
+            thumbnailUrl: v.thumbnail?.url ? mediaUrl(v.thumbnail.url) : null,
+            thumbnailAlt: v.thumbnailAlt ?? v.thumbnail?.alt,
             label: v.label ?? undefined,
           }))}
         heading={whyVisit?.heading}
@@ -234,7 +239,7 @@ async function DestinationContent({ params }: Props) {
         price={(d.price as number | null) ?? 0}
         spotsAvailable={(d.spotsAvailable as number | null) ?? null}
         spotsTotal={(d.spotsTotal as number | null) ?? null}
-        difficulty={(fitnessRatings?.difficulty as number | null) ?? null}
+        difficulty={(fitnessRatings?.find(r => r.label?.toLowerCase().includes('трудност'))?.value ?? fitnessRatings?.[0]?.value) ?? null}
         startDate={d.startDate as string | null}
         endDate={d.endDate as string | null}
       />
@@ -268,7 +273,17 @@ async function DestinationContent({ params }: Props) {
       </section>
       <GuidesSection guides={guides ?? []} />
 
-      <AccommodationsSection accommodations={accommodations} />
+      <AccommodationsSection accommodations={accommodations} eyebrow={accommodationsSectionEyebrow} headline={accommodationsSectionHeadline} subtext={accommodationsSectionSubtext} />
+      <TravelTransportSection
+        travelTitle={d.travelTitle as string | null}
+        travelDescription={d.travelDescription as Record<string, unknown> | null}
+        travelImage={mediaUrl(travelImage?.url)}
+        travelImageAlt={travelImage?.alt}
+        transportTitle={d.transportTitle as string | null}
+        transportDescription={d.transportDescription as Record<string, unknown> | null}
+        transportImage={mediaUrl(transportImage?.url)}
+        transportImageAlt={transportImage?.alt}
+      />
 
       <AdventureCtaSection
         durationDays={durationDays}
@@ -299,7 +314,18 @@ async function DestinationContent({ params }: Props) {
         destinations={siblingCards}
       />
 
-      <WhyTravelWithUsSection images={whyImages.length ? whyImages : heroImage?.url ? [{ url: mediaUrl(heroImage.url)!, alt: heroImage.alt }] : []} />
+      <WhyTravelWithUsSection
+        images={(() => {
+          const raw = d.whyTravelImages as { image: { url?: string | null; alt?: string } | null; alt?: string; focalPoint?: string; focalX?: number | null; focalY?: number | null }[] | null
+          const explicit = (raw ?? []).filter(w => w.image?.url).map(w => ({ url: mediaUrl(w.image!.url!)!, alt: w.alt ?? w.image?.alt, focalPoint: w.focalPoint, focalX: w.focalX, focalY: w.focalY }))
+          if (explicit.length) return explicit
+          return whyImages.length ? whyImages : heroImage?.url ? [{ url: mediaUrl(heroImage.url)!, alt: heroImage.alt }] : []
+        })()}
+        heading={d.whyTravelHeading as string | null}
+        subtext={d.whyTravelSubtext as string | null}
+        ctaLabel={d.whyTravelCtaLabel as string | null}
+        ctaHref={d.whyTravelCtaHref as string | null}
+      />
     </article>
   )
 }

@@ -17,13 +17,13 @@ export function FooterReveal({ children }: { children: React.ReactNode }) {
     items.forEach((item, i) => {
       gsap.fromTo(
         item,
-        { opacity: 0, y: 14 },
+        { opacity: 0, y: 8 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.5,
+          duration: 0.3,
           ease: 'power2.out',
-          delay: i * 0.04,
+          delay: i * 0.025,
           scrollTrigger: {
             trigger: item,
             start: 'top 95%',

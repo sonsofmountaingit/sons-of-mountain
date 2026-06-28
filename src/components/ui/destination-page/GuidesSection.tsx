@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { RichText } from '@payloadcms/richtext-lexical/react'
 import { mediaUrl } from '@/lib/media-url'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -12,7 +13,7 @@ type Guide = {
   id: string
   name: string
   photo?: { url?: string | null; alt?: string } | null
-  bio?: string | null
+  bio?: Record<string, unknown> | null
   instagram?: string | null
   specializations?: { item: string }[] | null
   yearsExperience?: number | null
@@ -105,9 +106,9 @@ export default function GuidesSection({ guides }: Props) {
                     ) : null}
 
                     {guide.bio && (
-                      <p className="text-[13px] text-black/45 leading-relaxed line-clamp-2">
-                        {guide.bio.split('\n\n')[0]}
-                      </p>
+                      <div className="text-[13px] text-black/45 leading-relaxed line-clamp-3 [&_p]:mb-0">
+                        <RichText data={guide.bio as unknown as Parameters<typeof RichText>[0]['data']} />
+                      </div>
                     )}
                   </div>
                 </div>
@@ -116,15 +117,15 @@ export default function GuidesSection({ guides }: Props) {
           </div>
 
           {/* Right: photo cards */}
-          <div ref={rightRef} className="flex gap-3 items-stretch">
+          <div ref={rightRef} className={`flex gap-3 ${guides.length === 1 ? 'justify-center' : 'items-stretch'}`}>
             {guides.map((guide, idx) => {
               const photoUrl = mediaUrl(guide.photo?.url)
               const color = CARD_COLORS[idx % CARD_COLORS.length]
               return (
                 <div
                   key={guide.id}
-                  className={`relative rounded-2xl overflow-hidden flex-1 ${color}`}
-                  style={{ minHeight: 280 }}
+                  className={`relative rounded-2xl overflow-hidden ${guides.length === 1 ? 'w-64 sm:w-72' : 'flex-1'} ${color}`}
+                  style={{ minHeight: guides.length === 1 ? 420 : 280 }}
                 >
                   <div className="absolute top-3 left-3 right-3 z-10 bg-black/70 backdrop-blur-sm rounded-xl px-3 py-2">
                     <p className="text-white text-[11px] font-black tracking-tight leading-tight">{guide.name}</p>

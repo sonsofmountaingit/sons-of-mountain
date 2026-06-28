@@ -12,23 +12,32 @@ interface AccommodationItem {
 
 interface Props {
   accommodations?: AccommodationItem[] | null
+  eyebrow?: string | null
+  headline?: string | null
+  subtext?: string | null
 }
 
-export function AccommodationsSection({ accommodations }: Props) {
+export function AccommodationsSection({ accommodations, eyebrow, headline, subtext }: Props) {
   if (!accommodations?.length) return null
 
   return (
     <section className="py-16 px-4 sm:px-6 bg-gray-50 text-black">
       <div className="max-w-5xl mx-auto">
-        <p className="text-xs font-semibold tracking-widest text-black/60 uppercase text-center mb-2" data-animate="fade-up">
-          ЗА НАСТАНЯВАНЕТО
-        </p>
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-          Екзотични убежища в хармония с природата
-        </h2>
-        <p className="text-center text-black/60 mb-12 max-w-xl mx-auto">
-          Открийте дивите красоти, без да жертвате удобството
-        </p>
+        {eyebrow && (
+          <p className="text-xs font-semibold tracking-widest text-black/60 uppercase text-center mb-2" data-animate="fade-up">
+            {eyebrow}
+          </p>
+        )}
+        {headline && (
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
+            {headline}
+          </h2>
+        )}
+        {subtext && (
+          <p className="text-center text-black/60 mb-12 max-w-xl mx-auto">
+            {subtext}
+          </p>
+        )}
 
         <div className="space-y-6" data-animate="stagger-children">
           {accommodations.map((acc, i) => {

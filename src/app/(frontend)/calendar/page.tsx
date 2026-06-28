@@ -87,20 +87,40 @@ type ProgramDoc = {
   fitnessRatings?: { difficulty?: number; comfort?: number; nature?: number; culture?: number }
 }
 
+type DestinationDoc = {
+  id: string
+  name?: string
+  slug?: string
+  startDate?: string
+  endDate?: string
+  spotsAvailable?: number
+  spotsTotal?: number
+  bookingStatus?: string
+  type?: string
+  tags?: { tag?: string }[]
+  heroImage?: { url?: string; alt?: string } | string
+  latitude?: number
+  longitude?: number
+  fitnessRatings?: { difficulty?: number; comfort?: number; nature?: number; culture?: number }
+}
+
 
 const fetchCalendarData = unstable_cache(
   async () => {
   let tripsRes = { docs: [] as any[] }
   let programsRes = { docs: [] as any[] }
+  let destinationsRes = { docs: [] as any[] }
   try {
     const payload = await getPayload({ config })
 
     const results = await Promise.all([
       payload.find({ collection: 'trips', where: { status: { not_equals: 'draft' } }, sort: 'startDate', limit: 500, depth: 2, overrideAccess: true }),
       payload.find({ collection: 'programs', where: { status: { not_equals: 'draft' } }, sort: 'startDate', limit: 500, depth: 2, overrideAccess: true }),
+      payload.find({ collection: 'destinations', where: { startDate: { exists: true } }, sort: 'startDate', limit: 500, depth: 1, overrideAccess: true }),
     ])
     tripsRes = results[0]
     programsRes = results[1]
+    destinationsRes = results[2]
   } catch {}
 
   const items: CalendarItem[] = []
@@ -160,6 +180,33 @@ const fetchCalendarData = unstable_cache(
     if (lat && lng) itemCoords[prog.id] = { lat, lng }
   }
 
+  for (const dest of destinationsRes.docs as DestinationDoc[]) {
+    if (!dest.startDate) continue
+    const heroImg = dest.heroImage && typeof dest.heroImage === 'object' ? dest.heroImage : null
+    const type = dest.type ?? 'abroad'
+    items.push({
+      id: `dest-${dest.id}`,
+      kind: 'destination',
+      category: type === 'bulgaria' ? 'bulgaria' : 'abroad',
+      title: dest.name ?? '',
+      destinationName: dest.name ?? '',
+      destinationSlug: dest.slug ?? null,
+      imageUrl: mediaUrl(heroImg?.url) ?? null,
+      imageAlt: heroImg?.alt ?? dest.name ?? '',
+      startDate: dest.startDate,
+      endDate: dest.endDate ?? dest.startDate,
+      spotsAvailable: dest.spotsAvailable ?? 0,
+      spotsTotal: dest.spotsTotal ?? 0,
+      status: (dest.bookingStatus === 'archived' ? 'archived' : dest.bookingStatus === 'soldOut' ? 'soldOut' : 'active') as CalendarItem['status'],
+      tags: (dest.tags ?? []).map((t) => t.tag ?? '').filter(Boolean),
+      href: dest.slug ? `/destinations/${dest.slug}` : '#',
+      difficulty: toDifficulty(dest.fitnessRatings?.difficulty ?? null),
+    })
+    if (dest.latitude && dest.longitude) {
+      itemCoords[`dest-${dest.id}`] = { lat: dest.latitude, lng: dest.longitude }
+    }
+  }
+
   items.sort((a, b) => a.startDate.localeCompare(b.startDate))
 
   const byMonth = new Map<string, CalendarItem[]>()
@@ -181,7 +228,7 @@ const fetchCalendarData = unstable_cache(
   return { groups, firstImage, events: items, itemCoords }
   },
   ['calendar-data'],
-  { tags: ['trips', 'programs'], revalidate: false },
+  { tags: ['trips', 'programs', 'destinations'], revalidate: false },
 )
 
 async function CalendarContent() {

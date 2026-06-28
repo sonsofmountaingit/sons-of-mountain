@@ -8,7 +8,12 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
     const resend = new Resend(process.env.RESEND_API_KEY ?? 'placeholder')
-    const { tripId, destinationId, firstName, lastName, email, phone, participantCount, dietaryNotes, questions, agreedToTerms } = body
+    const {
+      tripId, destinationId, programId,
+      firstName, lastName, email, phone,
+      participantCount, dietaryNotes, questions, agreedToTerms,
+      carpool, carpoolVehicleType, carpoolSeats, carpoolFrom,
+    } = body
 
     if (!firstName || !lastName || !email || !phone) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
@@ -30,7 +35,6 @@ export async function POST(req: NextRequest) {
       currency = trip.currency ?? 'EUR'
     }
 
-    // Resolve customer record if authenticated
     let customerId: string | undefined
     let customerDocId: string | undefined
     if (session?.user?.id) {
@@ -50,6 +54,7 @@ export async function POST(req: NextRequest) {
         ...(customerDocId ? { customer: customerDocId } : {}),
         ...(tripId ? { trip: tripId } : {}),
         ...(destinationId ? { destination: destinationId } : {}),
+        ...(programId ? { program: programId } : {}),
         status: 'pending',
         firstName,
         lastName,
@@ -61,8 +66,70 @@ export async function POST(req: NextRequest) {
         agreedToTerms: true,
         totalAmount,
         currency,
+        ...(carpool ? { carpool } : {}),
+        ...(carpool === 'organizer' && carpoolVehicleType ? { carpoolVehicleType } : {}),
+        ...(carpool === 'organizer' && carpoolSeats ? { carpoolSeats } : {}),
+        ...(carpool === 'organizer' && carpoolFrom ? { carpoolFrom } : {}),
       },
     })
+
+    // If organizer — create a CarpoolRide record
+    let carpoolRideId: string | undefined
+    if (carpool === 'organizer') {
+      const ride = await payload.create({
+        collection: 'carpool-rides',
+        data: {
+          source: 'registration',
+          status: 'open',
+          vehicleType: carpoolVehicleType ?? '',
+          seatsAvailable: carpoolSeats ?? 1,
+          departureFrom: carpoolFrom ?? '',
+          ...(tripId ? { trip: tripId } : {}),
+          ...(destinationId ? { destination: destinationId } : {}),
+          ...(programId ? { program: programId } : {}),
+          organizerRegistration: registration.id,
+          organizerName: `${firstName} ${lastName}`,
+          organizerEmail: email,
+          organizerPhone: phone,
+          passengers: [],
+        },
+      })
+      carpoolRideId = ride.id as string
+      // Link back registration → ride
+      await payload.update({
+        collection: 'registrations',
+        id: registration.id,
+        data: { carpoolRide: carpoolRideId },
+      })
+    }
+
+    // If passenger — link to chosen ride if provided, add as passenger
+    if (carpool === 'passenger' && body.carpoolRideId) {
+      const ride = await payload.findByID({ collection: 'carpool-rides', id: body.carpoolRideId })
+      if (ride) {
+        const existing = (ride.passengers as any[]) ?? []
+        await payload.update({
+          collection: 'carpool-rides',
+          id: body.carpoolRideId,
+          data: {
+            passengers: [
+              ...existing,
+              {
+                registration: registration.id,
+                name: `${firstName} ${lastName}`,
+                email,
+                phone,
+              },
+            ],
+          },
+        })
+        await payload.update({
+          collection: 'registrations',
+          id: registration.id,
+          data: { carpoolRide: body.carpoolRideId },
+        })
+      }
+    }
 
     await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
@@ -77,7 +144,7 @@ export async function POST(req: NextRequest) {
       `,
     })
 
-    return NextResponse.json({ ok: true, registrationId: registration.id })
+    return NextResponse.json({ ok: true, registrationId: registration.id, ...(carpoolRideId ? { carpoolRideId } : {}) })
   } catch (err) {
     console.error('Booking error:', err)
     return NextResponse.json({ error: 'Internal error' }, { status: 500 })

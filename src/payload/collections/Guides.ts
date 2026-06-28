@@ -29,7 +29,7 @@ export const Guides: CollectionConfig = {
     },
     {
       name: 'bio',
-      type: 'textarea',
+      type: 'richText',
       required: true,
     },
     {

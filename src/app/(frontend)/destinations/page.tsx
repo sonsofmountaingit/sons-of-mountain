@@ -20,8 +20,8 @@ const getDestinations = unstable_cache(
     const payload = await getPayload({ config })
     const { docs } = await payload.find({
       collection: 'destinations',
-      limit: 50,
-      sort: 'name',
+      limit: 200,
+      sort: 'startDate',
       overrideAccess: true,
     })
     return docs
@@ -48,6 +48,9 @@ async function DestinationsContent() {
     })),
   }
 
+  const active = destinations.filter((d: any) => d.bookingStatus !== 'archived')
+  const archived = destinations.filter((d: any) => d.bookingStatus === 'archived')
+
   return (
     <>
       <script
@@ -55,7 +58,7 @@ async function DestinationsContent() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {destinations.map((dest) => (
+        {active.map((dest: any) => (
           <DestinationCard
             key={dest.id}
             name={dest.name}
@@ -64,8 +67,27 @@ async function DestinationsContent() {
           />
         ))}
       </div>
-      {destinations.length === 0 && (
+      {active.length === 0 && archived.length === 0 && (
         <p className="text-white/30 text-center py-20">Скоро ще добавим дестинации.</p>
+      )}
+      {archived.length > 0 && (
+        <details className="mt-16 group">
+          <summary className="cursor-pointer text-white/40 hover:text-white/70 transition-colors text-sm font-semibold uppercase tracking-widest mb-8 list-none flex items-center gap-2">
+            <span className="border border-white/20 rounded px-3 py-1.5 group-open:border-white/40">
+              Виж предходни дестинации ({archived.length})
+            </span>
+          </summary>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8 opacity-60">
+            {archived.map((dest: any) => (
+              <DestinationCard
+                key={dest.id}
+                name={dest.name}
+                slug={dest.slug}
+                heroImage={dest.heroImage as { url?: string | null; alt: string } | null}
+              />
+            ))}
+          </div>
+        </details>
       )}
     </>
   )

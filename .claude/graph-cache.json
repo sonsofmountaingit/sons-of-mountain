@@ -25,6 +25,12 @@
       "size": 4
     },
     {
+      "id": "src/app/llms.txt/route.ts",
+      "label": "llms.txt/route.ts",
+      "group": "app",
+      "size": 4
+    },
+    {
       "id": "src/app/robots.ts",
       "label": "app/robots.ts",
       "group": "app",
@@ -238,6 +244,12 @@
       "id": "src/app/(puck)/puck/pages/[id]/page.tsx",
       "label": "[id]/page.tsx",
       "group": "puck",
+      "size": 4
+    },
+    {
+      "id": "src/app/llms-full.txt/route.ts",
+      "label": "llms-full.txt/route.ts",
+      "group": "app",
       "size": 4
     },
     {
@@ -885,6 +897,12 @@
     {
       "id": "src/app/(frontend)/shop/gift-vouchers/page.tsx",
       "label": "gift-vouchers/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/(frontend)/shop/checkout/layout.tsx",
+      "label": "checkout/layout.tsx",
       "group": "frontend",
       "size": 4
     },
@@ -2860,7 +2878,7 @@
       "id": "src/lib/metadata.ts",
       "label": "lib/metadata.ts",
       "group": "lib",
-      "size": 4
+      "size": 20
     },
     {
       "id": "src/lib/media-url.ts",
@@ -3219,6 +3237,10 @@
     {
       "source": "src/app/(puck)/puck/pages/[id]/page.tsx",
       "target": "src/puck/converter.ts"
+    },
+    {
+      "source": "src/app/llms-full.txt/route.ts",
+      "target": "src/payload/payload.config.ts"
     },
     {
       "source": "src/app/sitemap.ts",
@@ -3809,8 +3831,20 @@
       "target": "src/components/blocks/PuckRender.tsx"
     },
     {
+      "source": "src/app/(frontend)/contact/page.tsx",
+      "target": "src/lib/metadata.ts"
+    },
+    {
+      "source": "src/app/(frontend)/nolimit/catamarans/page.tsx",
+      "target": "src/lib/metadata.ts"
+    },
+    {
       "source": "src/app/(frontend)/nolimit/sign-up/page.tsx",
       "target": "src/components/forms/ContactForm.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/nolimit/gallery/page.tsx",
+      "target": "src/lib/metadata.ts"
     },
     {
       "source": "src/app/(frontend)/nolimit/layout.tsx",
@@ -3819,6 +3853,18 @@
     {
       "source": "src/app/(frontend)/nolimit/layout.tsx",
       "target": "src/components/ui/Footer.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/nolimit/itinerary/page.tsx",
+      "target": "src/lib/metadata.ts"
+    },
+    {
+      "source": "src/app/(frontend)/nolimit/page.tsx",
+      "target": "src/lib/metadata.ts"
+    },
+    {
+      "source": "src/app/(frontend)/nolimit/nextgen/page.tsx",
+      "target": "src/lib/metadata.ts"
     },
     {
       "source": "src/app/(frontend)/calendar/page.tsx",
@@ -3849,12 +3895,20 @@
       "target": "src/components/ui/DestinationCard.tsx"
     },
     {
+      "source": "src/app/(frontend)/destinations/page.tsx",
+      "target": "src/lib/metadata.ts"
+    },
+    {
       "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
     {
       "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
       "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/lib/metadata.ts"
     },
     {
       "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
@@ -3981,6 +4035,10 @@
       "target": "src/lib/media-url.ts"
     },
     {
+      "source": "src/app/(frontend)/gallery/page.tsx",
+      "target": "src/lib/metadata.ts"
+    },
+    {
       "source": "src/app/(frontend)/gallery/[slug]/GalleryCollectionClient.tsx",
       "target": "src/components/ui/GalleryFilterBar.tsx"
     },
@@ -4009,12 +4067,20 @@
       "target": "src/lib/media-url.ts"
     },
     {
+      "source": "src/app/(frontend)/gallery/[slug]/page.tsx",
+      "target": "src/lib/metadata.ts"
+    },
+    {
       "source": "src/app/(frontend)/shop/products/[slug]/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
     {
       "source": "src/app/(frontend)/shop/products/[slug]/page.tsx",
       "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/products/[slug]/page.tsx",
+      "target": "src/lib/metadata.ts"
     },
     {
       "source": "src/app/(frontend)/shop/products/[slug]/page.tsx",
@@ -4039,6 +4105,10 @@
     {
       "source": "src/app/(frontend)/shop/gift-vouchers/page.tsx",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/gift-vouchers/page.tsx",
+      "target": "src/lib/metadata.ts"
     },
     {
       "source": "src/app/(frontend)/shop/gift-vouchers/page.tsx",
@@ -4097,6 +4167,10 @@
       "target": "src/lib/media-url.ts"
     },
     {
+      "source": "src/app/(frontend)/shop/page.tsx",
+      "target": "src/lib/metadata.ts"
+    },
+    {
       "source": "src/app/(frontend)/shop/bundles/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -4105,12 +4179,20 @@
       "target": "src/lib/media-url.ts"
     },
     {
+      "source": "src/app/(frontend)/shop/bundles/page.tsx",
+      "target": "src/lib/metadata.ts"
+    },
+    {
       "source": "src/app/(frontend)/shop/bundles/[slug]/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
     {
       "source": "src/app/(frontend)/shop/bundles/[slug]/page.tsx",
       "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/bundles/[slug]/page.tsx",
+      "target": "src/lib/metadata.ts"
     },
     {
       "source": "src/app/(frontend)/shop/bundles/[slug]/page.tsx",
@@ -4145,12 +4227,24 @@
       "target": "src/components/blocks/PuckRender.tsx"
     },
     {
+      "source": "src/app/(frontend)/blog/page.tsx",
+      "target": "src/lib/metadata.ts"
+    },
+    {
       "source": "src/app/(frontend)/blog/[slug]/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
     {
       "source": "src/app/(frontend)/blog/[slug]/page.tsx",
       "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/blog/[slug]/page.tsx",
+      "target": "src/lib/metadata.ts"
+    },
+    {
+      "source": "src/app/(frontend)/gift/page.tsx",
+      "target": "src/lib/metadata.ts"
     },
     {
       "source": "src/app/(frontend)/gift/page.tsx",
@@ -4289,12 +4383,20 @@
       "target": "src/lib/media-url.ts"
     },
     {
+      "source": "src/app/(frontend)/programs/page.tsx",
+      "target": "src/lib/metadata.ts"
+    },
+    {
       "source": "src/app/(frontend)/programs/[slug]/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
     {
       "source": "src/app/(frontend)/programs/[slug]/page.tsx",
       "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/lib/metadata.ts"
     },
     {
       "source": "src/app/(frontend)/programs/[slug]/page.tsx",
@@ -4377,12 +4479,20 @@
       "target": "src/components/blocks/PuckRender.tsx"
     },
     {
+      "source": "src/app/(frontend)/stories/page.tsx",
+      "target": "src/lib/metadata.ts"
+    },
+    {
       "source": "src/app/(frontend)/stories/[slug]/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
     {
       "source": "src/app/(frontend)/stories/[slug]/page.tsx",
       "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/stories/[slug]/page.tsx",
+      "target": "src/lib/metadata.ts"
     },
     {
       "source": "src/app/(frontend)/forgot-password/ForgotClient.tsx",
@@ -4457,6 +4567,10 @@
       "target": "src/lib/media-url.ts"
     },
     {
+      "source": "src/app/(frontend)/photographers/page.tsx",
+      "target": "src/lib/metadata.ts"
+    },
+    {
       "source": "src/app/(frontend)/photographers/[username]/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -4469,6 +4583,10 @@
       "target": "src/lib/media-url.ts"
     },
     {
+      "source": "src/app/(frontend)/photographers/[username]/page.tsx",
+      "target": "src/lib/metadata.ts"
+    },
+    {
       "source": "src/app/(frontend)/account/loyalty/page.tsx",
       "target": "src/lib/auth.ts"
     },
@@ -4483,12 +4601,20 @@
     {
       "source": "src/app/(frontend)/account/wishlist/page.tsx",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/empire/page.tsx",
+      "target": "src/lib/metadata.ts"
     },
     {
       "source": "src/app/(frontend)/photos/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/(frontend)/photos/page.tsx",
+      "target": "src/lib/metadata.ts"
+    },
+    {
       "source": "src/app/(frontend)/trips/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -4497,12 +4623,20 @@
       "target": "src/lib/media-url.ts"
     },
     {
+      "source": "src/app/(frontend)/trips/page.tsx",
+      "target": "src/lib/metadata.ts"
+    },
+    {
       "source": "src/app/(frontend)/trips/[slug]/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
     {
       "source": "src/app/(frontend)/trips/[slug]/page.tsx",
       "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/lib/metadata.ts"
     },
     {
       "source": "src/app/(frontend)/trips/[slug]/page.tsx",
@@ -4605,8 +4739,16 @@
       "target": "src/components/blocks/PuckRender.tsx"
     },
     {
+      "source": "src/app/(frontend)/page.tsx",
+      "target": "src/lib/metadata.ts"
+    },
+    {
       "source": "src/app/(frontend)/[slug]/page.tsx",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/[slug]/page.tsx",
+      "target": "src/lib/metadata.ts"
     },
     {
       "source": "src/app/(frontend)/[slug]/page.tsx",
@@ -6193,6 +6335,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-06-28T10:36:38.524Z",
-  "fileCount": 499
+  "builtAt": "2026-06-28T12:38:29.926Z",
+  "fileCount": 502
 }

@@ -18,15 +18,13 @@ interface TripSummary {
   currency: string
 }
 
-interface FitnessRatings {
-  difficulty?: number | null
-  comfort?: number | null
-  nature?: number | null
-  culture?: number | null
+interface FitnessRating {
+  label?: string | null
+  value?: number | null
 }
 
 interface Props {
-  fitnessRatings?: FitnessRatings | null
+  fitnessRatings?: FitnessRating[] | null
   summaryHeading?: string | null
   summaryText?: Record<string, unknown> | null
   upcomingTrips?: TripSummary[]
@@ -94,7 +92,7 @@ function ArcStat({ label, value, index }: { label: string; value: number; index:
 }
 
 export function IsThisForYouSection({ fitnessRatings, summaryHeading, summaryText, upcomingTrips = [], thumbnailImage, thumbnailImageAlt }: Props) {
-  if (!fitnessRatings && !summaryHeading && !summaryText) return null
+  if ((!fitnessRatings || fitnessRatings.length === 0) && !summaryHeading && !summaryText) return null
 
   const nextTrip = upcomingTrips[0]
   const fillPct = nextTrip ? Math.round(((nextTrip.spotsTotal - nextTrip.spotsAvailable) / nextTrip.spotsTotal) * 100) : 0
@@ -203,12 +201,11 @@ export function IsThisForYouSection({ fitnessRatings, summaryHeading, summaryTex
           ) : <div className="hidden md:block" />}
 
           {/* Col 3 — arc gauges */}
-          {fitnessRatings && (
+          {fitnessRatings && fitnessRatings.length > 0 && (
             <div ref={statsColRef} className="grid grid-cols-2 gap-4 md:flex md:flex-col md:gap-4 md:min-w-[140px]">
-              <ArcStat label="ТРУДНОСТ" value={toScale(fitnessRatings.difficulty)} index={0} />
-              <ArcStat label="КОМФОРТ" value={toScale(fitnessRatings.comfort)} index={1} />
-              <ArcStat label="ПРИРОДА" value={toScale(fitnessRatings.nature)} index={2} />
-              <ArcStat label="КУЛТУРА" value={toScale(fitnessRatings.culture)} index={3} />
+              {fitnessRatings.map((rating, i) => (
+                <ArcStat key={i} label={rating.label || ''} value={toScale(rating.value)} index={i} />
+              ))}
             </div>
           )}
         </div>
