@@ -96,7 +96,8 @@ const getCarouselData = unstable_cache(
       }
 
       return { carousel, destinations }
-    } catch {
+    } catch (e) {
+      console.error('[DestinationCarousel] fetch error:', e)
       return { carousel: null, destinations: [] }
     }
   },

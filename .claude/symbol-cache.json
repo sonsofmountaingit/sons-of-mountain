@@ -831,7 +831,7 @@
       "resend",
       "@/lib/auth"
     ],
-    "lines": 86,
+    "lines": 153,
     "group": "api"
   },
   "src/app/api/gallery/favorites/count/route.ts": {
@@ -1517,6 +1517,20 @@
     "lines": 32,
     "group": "api"
   },
+  "src/app/api/carpool-rides/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "payload"
+    ],
+    "lines": 43,
+    "group": "api"
+  },
   "src/app/api/site-settings-public/route.ts": {
     "exports": [
       "GET"
@@ -1984,7 +1998,7 @@
       "next/cache",
       "@/components/blocks/calendar/CalendarHeroBlock"
     ],
-    "lines": 234,
+    "lines": 281,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/page.tsx": {
@@ -2003,7 +2017,7 @@
       "react",
       "@/lib/metadata"
     ],
-    "lines": 87,
+    "lines": 109,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/[slug]/page.tsx": {
@@ -2040,7 +2054,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/DestinationBookingController"
     ],
-    "lines": 314,
+    "lines": 340,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -2849,7 +2863,7 @@
       "@/lib/media-url",
       "@/lib/metadata"
     ],
-    "lines": 168,
+    "lines": 198,
     "group": "frontend"
   },
   "src/app/(frontend)/programs/[slug]/page.tsx": {
@@ -2884,7 +2898,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 253,
+    "lines": 280,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/page.tsx": {
@@ -3237,7 +3251,7 @@
       "@/lib/media-url",
       "@/lib/metadata"
     ],
-    "lines": 186,
+    "lines": 203,
     "group": "frontend"
   },
   "src/app/(frontend)/trips/[slug]/page.tsx": {
@@ -3273,7 +3287,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 261,
+    "lines": 288,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {
@@ -3833,7 +3847,7 @@
       "next/cache",
       "../hooks/revalidate"
     ],
-    "lines": 117,
+    "lines": 135,
     "group": "globals"
   },
   "src/payload/globals/FeaturedTravels.ts": {
@@ -3964,6 +3978,7 @@
       "./collections/Customers",
       "./collections/Orders",
       "./collections/Registrations",
+      "./collections/CarpoolRides",
       "./collections/GiftVouchers",
       "./collections/Users",
       "./collections/Subscribers",
@@ -4004,7 +4019,7 @@
       "./globals/CalendarPage",
       "./globals/HomePage"
     ],
-    "lines": 251,
+    "lines": 253,
     "group": "payload"
   },
   "src/payload/seeds/hero.ts": {
@@ -4117,7 +4132,7 @@
       "next/server",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 402,
+    "lines": 498,
     "group": "collections"
   },
   "src/payload/collections/EmailTemplates.ts": {
@@ -4153,6 +4168,17 @@
     "lines": 220,
     "group": "collections"
   },
+  "src/payload/collections/CarpoolRides.ts": {
+    "exports": [
+      "CarpoolRides"
+    ],
+    "types": [],
+    "imports": [
+      "payload"
+    ],
+    "lines": 163,
+    "group": "collections"
+  },
   "src/payload/collections/StockAlerts.ts": {
     "exports": [
       "StockAlerts"
@@ -4173,7 +4199,7 @@
       "payload",
       "../hooks/syncTripSpots"
     ],
-    "lines": 223,
+    "lines": 259,
     "group": "collections"
   },
   "src/payload/collections/Favorites.ts": {
@@ -4209,7 +4235,7 @@
       "next/server",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 425,
+    "lines": 521,
     "group": "collections"
   },
   "src/payload/collections/Pages.ts": {
@@ -4490,7 +4516,7 @@
       "next/server",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 416,
+    "lines": 502,
     "group": "collections"
   },
   "src/payload/collections/Waitlist.ts": {
@@ -4667,7 +4693,7 @@
       "@/lib/media-url",
       "gsap"
     ],
-    "lines": 482,
+    "lines": 477,
     "group": "blocks"
   },
   "src/components/blocks/contact/ContactHeroBlock.tsx": {
@@ -5542,7 +5568,7 @@
       "@/lib/cart-store",
       "next/navigation"
     ],
-    "lines": 164,
+    "lines": 172,
     "group": "ui"
   },
   "src/components/ui/destination-page/BookingDrawer.tsx": {
@@ -5587,7 +5613,7 @@
       "gsap",
       "gsap/ScrollTrigger"
     ],
-    "lines": 80,
+    "lines": 129,
     "group": "ui"
   },
   "src/components/ui/destination-page/DestinationBookingController.tsx": {
@@ -5600,7 +5626,7 @@
       "./FloatingBookingBar",
       "./BookingDrawer"
     ],
-    "lines": 55,
+    "lines": 57,
     "group": "ui"
   },
   "src/components/ui/destination-page/GuidesSection.tsx": {
@@ -5613,9 +5639,10 @@
       "react",
       "gsap",
       "gsap/ScrollTrigger",
+      "@payloadcms/richtext-lexical/react",
       "@/lib/media-url"
     ],
-    "lines": 158,
+    "lines": 159,
     "group": "ui"
   },
   "src/components/ui/destination-page/AccommodationsCarousel.tsx": {
@@ -5656,7 +5683,7 @@
       "./AccommodationsCarousel",
       "@/lib/media-url"
     ],
-    "lines": 75,
+    "lines": 84,
     "group": "ui"
   },
   "src/components/ui/destination-page/DestinationPageAnimator.tsx": {
@@ -5711,7 +5738,7 @@
       "gsap",
       "gsap/ScrollTrigger"
     ],
-    "lines": 219,
+    "lines": 216,
     "group": "ui"
   },
   "src/components/ui/destination-page/TravelTransportSection.tsx": {
@@ -5768,7 +5795,7 @@
       "gsap",
       "gsap/ScrollTrigger"
     ],
-    "lines": 325,
+    "lines": 356,
     "group": "ui"
   },
   "src/components/ui/destination-page/BookingCtaSection.tsx": {
@@ -5857,7 +5884,7 @@
       "@/components/blocks/destination-carousel/DestinationCarouselBlock",
       "./DestinationCarouselEditButton"
     ],
-    "lines": 103,
+    "lines": 146,
     "group": "ui"
   },
   "src/components/ui/TripCard.tsx": {
@@ -6251,7 +6278,7 @@
       "@/lib/media-url",
       "sonner"
     ],
-    "lines": 392,
+    "lines": 395,
     "group": "ui"
   },
   "src/components/ui/About.tsx": {
@@ -6335,7 +6362,7 @@
       "zod",
       "motion/react"
     ],
-    "lines": 277,
+    "lines": 423,
     "group": "components"
   },
   "src/components/auth/AuthModal.tsx": {
