@@ -197,7 +197,7 @@ export type PuckBlocks = {
   HeroHeadlineBlock: { text: string; fontSize: string; color: string; fontWeight: string; textAlign: string }
   HeroSubtextBlock: { text: string; fontSize: string; color: string; textAlign: string }
   HeroCtaBlock: { label: string; url: string; style: string; fontSize: string; align: string }
-  HomeDestCarouselBlock: { sectionTitle: string; introSlideHeadline: string; introSlideSubheading: string; introSlideBackgroundImageUrl: string; destinations: { id: string; name: string; slug: string; month: string; spotsLabel: string }[] }
+  HomeDestCarouselBlock: { sectionTitle: string; headline: string; subheading: string; introSlideHeadline: string; introSlideSubheading: string; introSlideBackgroundImageUrl: string; introSlideButtonText: string; destinationButtonText: string; destinations: { id: string; name: string; slug: string; month: string; spotsLabel: string }[] }
   GalleryHeroBlock: { heading: string; subheading: string; ctaLabel: string }
   GalleryGridBlock: Record<string, never>
   ShopHeroBlock: { title: string; subtitle: string; imageUrl: string }
@@ -558,7 +558,7 @@ export const puckConfig: Config<PuckBlocks> = {
       resolveData: async ({ props }, { changed }) => {
         if (!changed.limit && props._destinations?.length) return { props }
         try {
-          const res = await fetch(`/api/destinations?limit=${props.limit}&sort=name&depth=1`, { credentials: 'include' })
+          const res = await fetch(`/api/destinations-list?limit=${props.limit}&sort=name&depth=1`, { credentials: 'include' })
           if (!res.ok) return { props }
           const { docs } = await res.json()
           return { props: { ...props, _destinations: docs } }
@@ -1247,16 +1247,24 @@ export const puckConfig: Config<PuckBlocks> = {
       label: 'Home — Destination Carousel',
       fields: {
         sectionTitle: { type: 'text', label: 'Section Title' },
+        headline: { type: 'text', label: 'Carousel Headline' },
+        subheading: { type: 'textarea', label: 'Carousel Subheading' },
         introSlideHeadline: { type: 'text', label: 'Intro Slide Headline' },
         introSlideSubheading: { type: 'text', label: 'Intro Slide Subheading' },
         introSlideBackgroundImageUrl: { type: 'text', label: 'Intro Slide Background Image URL' },
+        introSlideButtonText: { type: 'text', label: 'Intro Slide Button Text' },
+        destinationButtonText: { type: 'text', label: 'Destination Button Text' },
         destinations: { type: 'custom', label: '', visible: false, render: () => <></> },
       },
       defaultProps: {
         sectionTitle: 'Дестинации',
+        headline: 'Преоткривай света с нас!',
+        subheading: 'Пътувай с Sons of Mountains там, където комфортът среща приключението.',
         introSlideHeadline: '',
         introSlideSubheading: '',
         introSlideBackgroundImageUrl: '',
+        introSlideButtonText: 'Разгледај',
+        destinationButtonText: 'Разгледай',
         destinations: [],
       },
       render: (props: any) => {
@@ -1264,8 +1272,9 @@ export const puckConfig: Config<PuckBlocks> = {
           headline: props.introSlideHeadline,
           subheading: props.introSlideSubheading,
           backgroundImageUrl: props.introSlideBackgroundImageUrl || undefined,
+          buttonText: props.introSlideButtonText || 'Разгледај',
         } : undefined
-        return <HomeDestinationCarouselBlock sectionTitle={props.sectionTitle} destinations={props.destinations ?? []} introSlide={introSlide} />
+        return <HomeDestinationCarouselBlock sectionTitle={props.sectionTitle} headline={props.headline} subheading={props.subheading} destinationButtonText={props.destinationButtonText} destinations={props.destinations ?? []} introSlide={introSlide} />
       },
     },
 
