@@ -1,7 +1,12 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { buildMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = { title: 'NoLimit Yacht Festival' }
+export const metadata: Metadata = buildMetadata({
+  title: 'NoLimit Yacht Festival — Sons of Mountains',
+  description: 'NoLimit е яхтен фестивал в Червено море — 7 дни на яхта, музика, острови и незабравими приключения. Sons of Mountains × NoLimit 2026.',
+  slug: 'nolimit',
+})
 
 const SECTIONS = [
   { title: 'Острови и плажове', desc: 'Нетронати плажове, кристални води и незабравими залези.' },
@@ -11,7 +16,19 @@ const SECTIONS = [
 ]
 
 export default function NolimitPage() {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Festival',
+    name: 'NoLimit Yacht Festival',
+    url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/nolimit`,
+    description: 'Яхтен фестивал в Червено море — музика, острови и приключения.',
+    organizer: { '@type': 'Organization', name: 'Sons of Mountains' },
+    location: { '@type': 'Place', name: 'Червено море, Египет' },
+  }
+
   return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     <div className="min-h-screen">
       <div className="relative h-screen flex items-end">
         <div className="absolute inset-0 bg-gradient-to-b from-teal-950/30 to-black/80" />
@@ -36,5 +53,6 @@ export default function NolimitPage() {
         </div>
       </div>
     </div>
+    </>
   )
 }

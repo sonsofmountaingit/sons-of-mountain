@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { mediaUrl } from '@/lib/media-url'
+import { buildMetadata } from '@/lib/metadata'
 import { HeroSection } from '@/components/ui/destination-page/HeroSection'
 import { WhySection } from '@/components/ui/destination-page/WhySection'
 import { IsThisForYouSection } from '@/components/ui/destination-page/IsThisForYouSection'
@@ -62,10 +63,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!data) return { title: 'Програма — Sons of Mountains' }
   const { program } = data
   const meta = (program as Record<string, unknown>).meta as { title?: string; description?: string } | null
-  return {
+  const heroImage = (program as Record<string, unknown>).heroImage as { url?: string | null } | null
+  return buildMetadata({
     title: meta?.title ?? `${program.title} — Sons of Mountains`,
-    description: meta?.description ?? program.shortDescription ?? undefined,
-  }
+    description: meta?.description ?? (program as any).shortDescription ?? undefined,
+    slug: `programs/${slug}`,
+    image: heroImage?.url ?? undefined,
+  })
 }
 
 async function ProgramContent({ params }: Props) {

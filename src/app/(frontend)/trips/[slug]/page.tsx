@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { mediaUrl } from '@/lib/media-url'
+import { buildMetadata } from '@/lib/metadata'
 import { TrackRecentlyViewed } from '@/components/ui/TrackRecentlyViewed'
 import { HeroSection } from '@/components/ui/destination-page/HeroSection'
 import { WhySection } from '@/components/ui/destination-page/WhySection'
@@ -61,10 +62,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const data = await getTripData(slug)
   if (!data) return { title: 'Пътуване — Sons of Mountains' }
   const t = data.trip as Record<string, unknown>
-  return {
+  const heroImage = t.heroImage as { url?: string | null } | null
+  return buildMetadata({
     title: `${data.trip.title} — Sons of Mountains`,
-    description: t.shortDescription as string ?? undefined,
-  }
+    description: (t.shortDescription as string) ?? undefined,
+    slug: `trips/${slug}`,
+    image: heroImage?.url ?? undefined,
+  })
 }
 
 async function TripContent({ params }: Props) {

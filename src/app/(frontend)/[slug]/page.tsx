@@ -4,6 +4,7 @@ import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
+import { buildMetadata } from '@/lib/metadata'
 import { BlockRenderer } from '@/components/blocks/BlockRenderer'
 import { LivePreviewBlocks } from '@/components/blocks/LivePreviewBlocks'
 import { PuckRender } from '@/components/blocks/PuckRender'
@@ -45,10 +46,11 @@ export async function generateMetadata({ params }: Args): Promise<Metadata> {
   const page = await getPageCached(slug)
   if (!page) return {}
   const meta = (page as { meta?: { title?: string; description?: string } }).meta
-  return {
-    title: meta?.title ?? (page as { title?: string }).title,
-    description: meta?.description,
-  }
+  return buildMetadata({
+    title: meta?.title ?? ((page as { title?: string }).title ?? slug),
+    description: meta?.description ?? undefined,
+    slug,
+  })
 }
 
 async function PageContent({ paramsPromise }: { paramsPromise: Promise<{ slug: string }> }) {

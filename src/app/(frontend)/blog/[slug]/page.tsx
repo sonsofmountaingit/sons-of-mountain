@@ -6,6 +6,7 @@ import type { Metadata } from 'next'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import { mediaUrl } from '@/lib/media-url'
 import { Suspense } from 'react'
+import { buildMetadata } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
@@ -22,7 +23,18 @@ async function getBlogPost(slug: string) {
   }
 }
 
-export const metadata: Metadata = { title: 'Блог — Sons of Mountains' }
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params
+  const post = await getBlogPost(slug)
+  if (!post) return { title: 'Блог — Sons of Mountains' }
+  const heroImage = post.heroImage as { url?: string | null } | null
+  return buildMetadata({
+    title: post.title,
+    description: (post as any).excerpt ?? undefined,
+    slug: `blog/${slug}`,
+    image: heroImage?.url ?? undefined,
+  })
+}
 
 async function BlogPostContent({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -31,26 +43,45 @@ async function BlogPostContent({ params }: { params: Promise<{ slug: string }> }
 
   const heroImage = post.heroImage as { url?: string | null; alt: string } | null
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/blog/${slug}`,
+    ...(mediaUrl(heroImage?.url) && { image: mediaUrl(heroImage!.url) }),
+    datePublished: (post as any).createdAt,
+    dateModified: (post as any).updatedAt,
+    author: post.author ? { '@type': 'Person', name: post.author } : { '@type': 'Organization', name: 'Sons of Mountains' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Sons of Mountains',
+      url: process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com',
+    },
+  }
+
   return (
-    <article className="pt-24 pb-20 px-6 min-h-screen">
-      <div className="max-w-3xl mx-auto">
-        {mediaUrl(heroImage?.url) && (
-          <div className="relative aspect-video rounded-lg overflow-hidden mb-8">
-            <Image src={mediaUrl(heroImage!.url)!} alt={heroImage!.alt} fill priority quality={88} className="object-cover" sizes="(max-width: 768px) 100vw, 768px" />
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <article className="pt-24 pb-20 px-6 min-h-screen">
+        <div className="max-w-3xl mx-auto">
+          {mediaUrl(heroImage?.url) && (
+            <div className="relative aspect-video rounded-lg overflow-hidden mb-8">
+              <Image src={mediaUrl(heroImage!.url)!} alt={heroImage!.alt} fill priority quality={88} className="object-cover" sizes="(max-width: 768px) 100vw, 768px" />
+            </div>
+          )}
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">{post.title}</h1>
+          <div className="flex items-center gap-4 text-sm text-white/40 mb-10 pb-8 border-b border-white/10">
+            {post.author && <span>{post.author}</span>}
+            {post.readingTime && <span>{post.readingTime} мин. четене</span>}
           </div>
-        )}
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">{post.title}</h1>
-        <div className="flex items-center gap-4 text-sm text-white/40 mb-10 pb-8 border-b border-white/10">
-          {post.author && <span>{post.author}</span>}
-          {post.readingTime && <span>{post.readingTime} мин. четене</span>}
+          {post.content && (
+            <div className="prose prose-invert max-w-none">
+              <RichText data={post.content as Parameters<typeof RichText>[0]['data']} />
+            </div>
+          )}
         </div>
-        {post.content && (
-          <div className="prose prose-invert max-w-none">
-            <RichText data={post.content as Parameters<typeof RichText>[0]['data']} />
-          </div>
-        )}
-      </div>
-    </article>
+      </article>
+    </>
   )
 }
 

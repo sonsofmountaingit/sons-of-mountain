@@ -5,6 +5,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import { Suspense } from 'react'
 import { mediaUrl } from "@/lib/media-url"
+import { buildMetadata } from '@/lib/metadata'
 import { AddToCartButton } from '@/components/shop/AddToCartButton'
 import { WishlistButton } from '@/components/shop/WishlistButton'
 import { StockAlertButton } from '@/components/shop/StockAlertButton'
@@ -13,8 +14,30 @@ import { StarRating } from '@/components/shop/StarRating'
 
 export const dynamic = 'force-dynamic'
 
-
-export const metadata: Metadata = { title: 'Shop — Sons of Mountains' }
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  try {
+    const payload = await getPayload({ config })
+    const { docs } = await payload.find({
+      collection: 'products',
+      where: { slug: { equals: slug } },
+      limit: 1,
+      depth: 1,
+      overrideAccess: true,
+    })
+    const product = docs[0] as any
+    if (!product) return { title: 'Продукт — Sons of Mountains' }
+    const image = product.images?.[0]?.image as { url?: string | null } | null
+    return buildMetadata({
+      title: `${product.title} — Sons of Mountains`,
+      description: product.description ?? undefined,
+      slug: `shop/products/${slug}`,
+      image: image?.url ?? undefined,
+    })
+  } catch {
+    return { title: 'Продукт — Sons of Mountains' }
+  }
+}
 
 async function getProduct(slug: string) {
   try {
@@ -39,8 +62,24 @@ async function ProductContent({ params }: { params: Promise<{ slug: string }> })
   const firstImage = p.images?.[0]?.image
   const avgRating = ratings.length > 0 ? ratings.reduce((s: number, r: any) => s + r.rating, 0) / ratings.length : null
 
+  const productJsonLd = product ? {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: (product as any).title,
+    url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/shop/products/${slug}`,
+    description: (product as any).description ?? undefined,
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'BGN',
+      price: (product as any).price ?? 0,
+      availability: 'https://schema.org/InStock',
+      seller: { '@type': 'Organization', name: 'Sons of Mountains' },
+    },
+  } : null
+
   return (
     <main className="mx-auto max-w-6xl px-6 py-12">
+      {productJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />}
       <div className="grid gap-12 lg:grid-cols-2">
         {/* Images */}
         <div className="space-y-3">

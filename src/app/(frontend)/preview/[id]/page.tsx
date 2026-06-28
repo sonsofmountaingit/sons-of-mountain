@@ -1,3 +1,7 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = { title: 'Предварителен преглед', robots: { index: false, follow: false } }
+
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { headers } from 'next/headers'

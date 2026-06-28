@@ -7,14 +7,16 @@ import Image from 'next/image'
 import { Suspense } from 'react'
 import { ProductCard } from '@/components/shop/ProductCard'
 import { mediaUrl } from "@/lib/media-url"
+import { buildMetadata } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
 
-export const metadata: Metadata = {
-  title: 'Shop — Sons of Mountains',
-  description: 'Gear, experiences, and adventures',
-}
+export const metadata: Metadata = buildMetadata({
+  title: 'Магазин — Sons of Mountains',
+  description: 'Пътнически пакети, аксесоари и ваучери от Sons of Mountains. Открий всичко необходимо за твоето следващо приключение.',
+  slug: 'shop',
+})
 
 const getCatalog = unstable_cache(
   async () => {

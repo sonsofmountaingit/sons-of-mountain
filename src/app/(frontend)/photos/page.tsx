@@ -2,13 +2,18 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import Image from 'next/image'
 import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/metadata'
 import { unstable_cache } from 'next/cache'
 import { Suspense } from 'react'
 
 export const dynamic = 'force-dynamic'
 
 
-export const metadata: Metadata = { title: 'Всички снимки' }
+export const metadata: Metadata = buildMetadata({
+  title: 'Всички снимки — Sons of Mountains',
+  description: 'Всички снимки от пътуванията на Sons of Mountains. Разгледай фотографиите от нашите дестинации и пътешественици.',
+  slug: 'photos',
+})
 
 const getDestinations = unstable_cache(
   async () => {

@@ -1,11 +1,33 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import { buildMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = { title: 'Empire of Corals — Sons of Mountains × EXE Group' }
+export const metadata: Metadata = buildMetadata({
+  title: 'Empire of Corals — Sons of Mountains × EXE Group',
+  description: 'Empire of Corals — мегасъбитие на Sons of Mountains и EXE Group. 6 мега яхти, 6 артисти, 1 чартърен полет. Хургада, Египет, 14–21 ноември 2026.',
+  slug: 'empire',
+})
 
 export default function EmpirePage() {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'MusicFestival',
+    name: 'Empire of Corals',
+    url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/empire`,
+    description: 'Sons of Mountains × EXE Group мегасъбитие в Хургада, Египет.',
+    startDate: '2026-11-14',
+    endDate: '2026-11-21',
+    location: { '@type': 'Place', name: 'Хургада, Египет', address: { '@type': 'PostalAddress', addressCountry: 'EG', addressLocality: 'Хургада' } },
+    organizer: [
+      { '@type': 'Organization', name: 'Sons of Mountains', url: process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com' },
+      { '@type': 'Organization', name: 'EXE Group' },
+    ],
+  }
+
   return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     <div className="min-h-screen">
       <div className="relative h-screen flex items-end">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-950/50 via-black/60 to-black" />
@@ -49,5 +71,6 @@ export default function EmpirePage() {
         </div>
       </div>
     </div>
+    </>
   )
 }

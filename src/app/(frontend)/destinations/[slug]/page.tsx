@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { mediaUrl } from '@/lib/media-url'
+import { buildMetadata } from '@/lib/metadata'
 import { fetchWeather } from '@/lib/weather'
 import { TrackRecentlyViewed } from '@/components/ui/TrackRecentlyViewed'
 import { HeroSection } from '@/components/ui/destination-page/HeroSection'
@@ -77,10 +78,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const data = await getPageData(slug)
   if (!data) return { title: 'Дестинация — Sons of Mountains' }
-  return {
+  const heroImage = (data.destination as any).heroImage as { url?: string | null } | null
+  return buildMetadata({
     title: `${data.destination.name} — Sons of Mountains`,
-    description: data.destination.introText ?? undefined,
-  }
+    description: (data.destination as any).introText ?? undefined,
+    slug: `destinations/${slug}`,
+    image: heroImage?.url ?? undefined,
+  })
 }
 
 async function DestinationContent({ params }: Props) {

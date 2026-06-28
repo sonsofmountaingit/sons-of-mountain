@@ -6,6 +6,7 @@ import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { GalleryCollectionClient } from './GalleryCollectionClient'
 import { mediaUrl } from '@/lib/media-url'
+import { buildMetadata } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
@@ -69,8 +70,29 @@ async function getCollectionWithPhotographer(slug: string) {
 }
 
 
-export const metadata: Metadata = {
-  title: 'Галерия — Sons of Mountains',
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  try {
+    const payload = await getPayload({ config })
+    const { docs } = await payload.find({
+      collection: 'gallery-collections',
+      where: { slug: { equals: slug } },
+      limit: 1,
+      depth: 1,
+      overrideAccess: true,
+    })
+    const collection = docs[0] as any
+    if (!collection) return { title: 'Галерия — Sons of Mountains' }
+    const firstImage = collection.images?.[0]?.image as { url?: string | null } | null
+    return buildMetadata({
+      title: `${collection.title} — Галерия Sons of Mountains`,
+      description: collection.description ?? undefined,
+      slug: `gallery/${slug}`,
+      image: firstImage?.url ?? undefined,
+    })
+  } catch {
+    return { title: 'Галерия — Sons of Mountains' }
+  }
 }
 
 async function GalleryCollectionContent({ params }: Props) {

@@ -1,6 +1,11 @@
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = { title: 'Политика за поверителност' }
+export const metadata: Metadata = {
+  title: 'Политика за бисквитки — Sons of Mountains',
+  description: 'Политика за бисквитки на Sons of Mountains.',
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/legal/cookies` },
+  robots: { index: true, follow: true },
+}
 
 export default function CookiesPage() {
   return (

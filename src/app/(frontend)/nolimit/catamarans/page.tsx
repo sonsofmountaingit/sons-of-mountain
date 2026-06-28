@@ -1,6 +1,11 @@
 import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = { title: 'Катамарани — NoLimit Festival' }
+export const metadata: Metadata = buildMetadata({
+  title: 'Катамарани — NoLimit Yacht Festival',
+  description: 'Флотата от катамарани за NoLimit Yacht Festival. Просторни, луксозни и оборудвани за незабравимо морско приключение.',
+  slug: 'nolimit/catamarans',
+})
 
 export default function NolimitCatamaransPage() {
   return (

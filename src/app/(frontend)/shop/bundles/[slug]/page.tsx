@@ -5,13 +5,36 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { mediaUrl } from "@/lib/media-url"
+import { buildMetadata } from '@/lib/metadata'
 import { AddToCartButton } from '@/components/shop/AddToCartButton'
 import { Suspense } from 'react'
 
 export const dynamic = 'force-dynamic'
 
-
-export const metadata: Metadata = { title: 'Bundle — Sons of Mountains' }
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  try {
+    const payload = await getPayload({ config })
+    const { docs } = await payload.find({
+      collection: 'bundles',
+      where: { slug: { equals: slug } },
+      limit: 1,
+      depth: 1,
+      overrideAccess: true,
+    })
+    const bundle = docs[0] as any
+    if (!bundle) return { title: 'Пакет — Sons of Mountains' }
+    const image = bundle.heroImage as { url?: string | null } | null
+    return buildMetadata({
+      title: `${bundle.title} — Sons of Mountains`,
+      description: bundle.description ?? undefined,
+      slug: `shop/bundles/${slug}`,
+      image: image?.url ?? undefined,
+    })
+  } catch {
+    return { title: 'Пакет — Sons of Mountains' }
+  }
+}
 
 async function getBundle(slug: string) {
   try {
@@ -40,8 +63,24 @@ async function BundleContent({ params }: { params: Promise<{ slug: string }> }) 
       ? (mediaUrl(bundle.image) ?? undefined)
       : undefined
 
+  const productJsonLd = bundle ? {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: (bundle as any).title,
+    url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/shop/bundles/${slug}`,
+    description: (bundle as any).description ?? undefined,
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'BGN',
+      price: (bundle as any).bundlePrice ?? 0,
+      availability: 'https://schema.org/InStock',
+      seller: { '@type': 'Organization', name: 'Sons of Mountains' },
+    },
+  } : null
+
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white">
+      {productJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />}
       {/* Hero */}
       <section className="relative min-h-[55vh] flex items-end overflow-hidden -mt-24">
         {heroUrl ? (

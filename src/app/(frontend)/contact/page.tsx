@@ -7,6 +7,7 @@ import { ContactHeroBlock } from '@/components/blocks/contact/ContactHeroBlock'
 import { ContactFAQBlock } from '@/components/blocks/contact/ContactFAQBlock'
 import { PuckRender } from '@/components/blocks/PuckRender'
 import type { Data } from '@puckeditor/core'
+import { buildMetadata } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
@@ -21,14 +22,39 @@ const getContactPage = unstable_cache(
   { tags: ['contact-page'], revalidate: false },
 )
 
-export const metadata: Metadata = { title: 'Контакти' }
+export const metadata: Metadata = buildMetadata({
+  title: 'Контакти — Sons of Mountains',
+  description: 'Свържи се с нас за въпроси, резервации или партньорства. Отговаряме в рамките на 24 часа.',
+  slug: 'contact',
+})
 
 export default async function ContactPage() {
   const d = (await getContactPage()) as any
   const puckData = d?.puckData as Data | null | undefined
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'TravelAgency',
+    name: 'Sons of Mountains',
+    url: process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com',
+    description: 'Организираме пътешествия до трудно достъпни места.',
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer service',
+      availableLanguage: 'Bulgarian',
+    },
+  }
+
   if (puckData?.content?.length) {
-    return <PuckRender data={puckData} />
+    return (
+      <>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <PuckRender data={puckData} />
+      </>
+    )
   }
 
   const faqItems = ((d?.faqItems ?? []) as { question: string; answer: string }[]).length
@@ -42,14 +68,20 @@ export default async function ContactPage() {
       ]
 
   return (
-    <div className="min-h-screen pb-20">
-      <ContactHeroBlock heading={d?.heading} subheading={d?.subheading} />
-      <div className="px-6 mb-12">
-        <div className="max-w-3xl mx-auto">
-          <ContactForm />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <div className="min-h-screen pb-20">
+        <ContactHeroBlock heading={d?.heading} subheading={d?.subheading} />
+        <div className="px-6 mb-12">
+          <div className="max-w-3xl mx-auto">
+            <ContactForm />
+          </div>
         </div>
+        <ContactFAQBlock faqItems={faqItems} />
       </div>
-      <ContactFAQBlock faqItems={faqItems} />
-    </div>
+    </>
   )
 }

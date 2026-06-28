@@ -1,6 +1,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/metadata'
 import { GiftVoucherPurchaseForm } from './_components/GiftVoucherPurchaseForm'
 import { Suspense } from 'react'
 import { unstable_cache } from 'next/cache'
@@ -8,10 +9,11 @@ import { unstable_cache } from 'next/cache'
 export const dynamic = 'force-dynamic'
 
 
-export const metadata: Metadata = {
-  title: 'Gift Vouchers — Sons of Mountains',
-  description: 'Give the gift of adventure',
-}
+export const metadata: Metadata = buildMetadata({
+  title: 'Ваучери за подарък — Sons of Mountains',
+  description: 'Подари незабравимо преживяване с ваучер от Sons of Mountains. Изненадай близък с авантюра по неговия избор.',
+  slug: 'shop/gift-vouchers',
+})
 
 const getVoucherOptions = unstable_cache(
   async () => {

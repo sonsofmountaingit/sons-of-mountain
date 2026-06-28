@@ -4,11 +4,16 @@ import { DestinationCard } from '@/components/ui/DestinationCard'
 import type { Metadata } from 'next'
 import { unstable_cache } from 'next/cache'
 import { Suspense } from 'react'
+import { buildMetadata } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
 
-export const metadata: Metadata = { title: 'Дестинации' }
+export const metadata: Metadata = buildMetadata({
+  title: 'Дестинации — Sons of Mountains',
+  description: 'Открий всички наши дестинации — от Балканите до Хималаите, от Средиземно море до Индонезия. Приключения за всеки вкус.',
+  slug: 'destinations',
+})
 
 const getDestinations = unstable_cache(
   async () => {
@@ -31,8 +36,24 @@ async function DestinationsContent() {
     destinations = await getDestinations()
   } catch {}
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Дестинации — Sons of Mountains',
+    url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/destinations`,
+    itemListElement: (destinations as any[]).slice(0, 50).map((d: any, i: number) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: { '@type': 'Place', name: d.name, url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/destinations/${d.slug}` },
+    })),
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {destinations.map((dest) => (
           <DestinationCard

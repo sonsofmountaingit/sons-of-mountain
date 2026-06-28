@@ -10,7 +10,10 @@ import { Suspense } from 'react'
 export const dynamic = 'force-dynamic'
 
 
-export const metadata: Metadata = { title: 'Wishlist — Sons of Mountains' }
+export const metadata: Metadata = {
+  title: 'Списък с желания — Sons of Mountains',
+  robots: { index: false, follow: false },
+}
 
 async function WishlistContent() {
   const session = await auth.api.getSession({ headers: await headers() })

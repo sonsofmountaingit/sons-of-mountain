@@ -11,8 +11,8 @@ export const dynamic = 'force-dynamic'
 
 
 export const metadata: Metadata = {
-  title: 'Gift Vouchers — Sons of Mountains',
-  description: 'Buy, send, or redeem a Sons of Mountains gift voucher.',
+  title: 'Ваучери — Sons of Mountains',
+  robots: { index: false, follow: false },
 }
 
 const getVoucherOptions = unstable_cache(

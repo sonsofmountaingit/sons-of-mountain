@@ -25,6 +25,22 @@ export const metadata: Metadata = {
   },
   description: 'Пътувай с Sons of Mountains там, където комфортът среща приключението.',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'),
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
+  openGraph: {
+    siteName: 'Sons of Mountains',
+    locale: 'bg_BG',
+    type: 'website',
+  },
 }
 
 export default function FrontendLayout({ children }: { children: React.ReactNode }) {

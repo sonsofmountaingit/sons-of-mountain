@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { GalleryGridBlock } from '@/components/blocks/gallery/GalleryGridBlock'
 import { mediaUrl } from '@/lib/media-url'
+import { buildMetadata } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
@@ -77,8 +78,18 @@ const getPhotographerData = (username: string) =>
   )()
 
 
-export const metadata: Metadata = {
-  title: 'Фотограф — Sons of Mountains',
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { username } = await params
+  const data = await getPhotographerData(username)
+  if (!data) return { title: 'Фотограф — Sons of Mountains' }
+  const { user } = data
+  const avatarUrl = mediaUrl((user as any).profileImage?.url)
+  return buildMetadata({
+    title: `${(user as any).name ?? username} — Фотограф Sons of Mountains`,
+    description: `Фотографски колекции от ${(user as any).name ?? username}. ${data.stats.photos} снимки от ${data.stats.destinations} дестинации.`,
+    slug: `photographers/${username}`,
+    image: avatarUrl ?? undefined,
+  })
 }
 
 const STAT_LABELS: { key: keyof ReturnType<typeof stubStats>; label: string }[] = [
@@ -97,9 +108,24 @@ async function PhotographerContent({ params }: Props) {
   const { user, stats, collections } = data
   const avatarUrl = mediaUrl(user.profileImage?.url)
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: user.name ?? username,
+    url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/photographers/${username}`,
+    ...(avatarUrl && { image: avatarUrl }),
+    jobTitle: 'Фотограф',
+    worksFor: { '@type': 'Organization', name: 'Sons of Mountains' },
+  }
+
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
-      <div className="max-w-[1440px] mx-auto px-6 pt-24 pb-12">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <div className="min-h-screen bg-[#0a0a0a]">
+        <div className="max-w-[1440px] mx-auto px-6 pt-24 pb-12">
         <div className="flex flex-col md:flex-row gap-8 items-start mb-16">
           {avatarUrl ? (
             <div className="relative w-28 h-28 rounded-full overflow-hidden border-2 border-white/20 shrink-0">
@@ -144,8 +170,9 @@ async function PhotographerContent({ params }: Props) {
             <GalleryGridBlock collections={collections} />
           </>
         )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

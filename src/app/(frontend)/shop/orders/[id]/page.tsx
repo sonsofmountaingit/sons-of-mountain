@@ -11,7 +11,10 @@ import { Suspense } from 'react'
 export const dynamic = 'force-dynamic'
 
 
-export const metadata: Metadata = { title: 'Order Details — Sons of Mountains' }
+export const metadata: Metadata = {
+  title: 'Order Details — Sons of Mountains',
+  robots: { index: false, follow: false },
+}
 
 async function getCachedOrderData(orderId: string, betterAuthUserId: string) {
   try {

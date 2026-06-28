@@ -6,10 +6,15 @@ import { Suspense } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { mediaUrl } from '@/lib/media-url'
+import { buildMetadata } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = { title: 'Пътувания — Sons of Mountains' }
+export const metadata: Metadata = buildMetadata({
+  title: 'Пътувания — Sons of Mountains',
+  description: 'Всички организирани групови пътувания. Планини, острови, джунгли — открий следващото си приключение с Sons of Mountains.',
+  slug: 'trips',
+})
 
 const getTrips = unstable_cache(
   async () => {
@@ -126,8 +131,21 @@ async function TripsContent() {
   const active = trips.filter(t => t.status !== 'soldOut')
   const soldOut = trips.filter(t => t.status === 'soldOut')
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Пътувания — Sons of Mountains',
+    url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/trips`,
+    itemListElement: (trips as any[]).slice(0, 30).map((t: any, i: number) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: { '@type': 'Event', name: t.title, url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/trips/${t.slug}` },
+    })),
+  }
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       {active.length === 0 && soldOut.length === 0 && (
         <p className="text-white/30 text-center py-20">Скоро ще добавим пътувания.</p>
       )}

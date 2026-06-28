@@ -9,7 +9,10 @@ import { Suspense } from 'react'
 export const dynamic = 'force-dynamic'
 
 
-export const metadata: Metadata = { title: 'Loyalty Points — Sons of Mountains' }
+export const metadata: Metadata = {
+  title: 'Лоялност — Sons of Mountains',
+  robots: { index: false, follow: false },
+}
 
 const TIER_CONFIG = {
   bronze: { label: 'Bronze', nextThreshold: 500, color: '#8B4513', icon: '🥉' },

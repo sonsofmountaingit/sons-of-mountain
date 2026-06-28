@@ -2,7 +2,10 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Suspense } from 'react'
 
-export const metadata: Metadata = { title: 'Order Confirmed — Sons of Mountains' }
+export const metadata: Metadata = {
+  title: 'Order Confirmed — Sons of Mountains',
+  robots: { index: false, follow: false },
+}
 
 async function SuccessContent({ searchParams }: { searchParams: Promise<{ session_id?: string }> }) {
   await searchParams

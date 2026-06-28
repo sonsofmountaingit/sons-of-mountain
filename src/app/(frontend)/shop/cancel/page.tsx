@@ -1,7 +1,10 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata: Metadata = { title: 'Payment Cancelled — Sons of Mountains' }
+export const metadata: Metadata = {
+  title: 'Payment Cancelled — Sons of Mountains',
+  robots: { index: false, follow: false },
+}
 
 export default function CancelPage() {
   return (

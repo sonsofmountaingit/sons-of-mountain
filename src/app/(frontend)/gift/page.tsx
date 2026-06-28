@@ -1,7 +1,12 @@
 import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/metadata'
 import { GiftVoucherForm } from '@/components/forms/GiftVoucherForm'
 
-export const metadata: Metadata = { title: 'Подари ваучер' }
+export const metadata: Metadata = buildMetadata({
+  title: 'Ваучер за пътуване — Sons of Mountains',
+  description: 'Подари незабравимо преживяване с ваучер за пътуване от Sons of Mountains. Идеалният подарък за всеки авантюрист.',
+  slug: 'gift',
+})
 
 export default function GiftPage() {
   return (

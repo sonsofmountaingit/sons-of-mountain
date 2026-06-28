@@ -9,10 +9,15 @@ import { Suspense } from 'react'
 import { BlogHeroBlock } from '@/components/blocks/blog/BlogHeroBlock'
 import { PuckRender } from '@/components/blocks/PuckRender'
 import type { Data } from '@puckeditor/core'
+import { buildMetadata } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = { title: 'Блог' }
+export const metadata: Metadata = buildMetadata({
+  title: 'Блог — Sons of Mountains',
+  description: 'Статии, съвети и истории за пътуване от екипа на Sons of Mountains. Вдъхнови се за следващото си приключение.',
+  slug: 'blog',
+})
 
 const getBlogPage = unstable_cache(
   async () => {
@@ -68,16 +73,36 @@ export default async function BlogPage() {
     return <PuckRender data={puckData} />
   }
 
+  const posts = await getPosts()
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Блог — Sons of Mountains',
+    url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/blog`,
+    itemListElement: posts.slice(0, 20).map((post: any, i: number) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: {
+        '@type': 'BlogPosting',
+        name: post.title,
+        url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/blog/${post.slug}`,
+      },
+    })),
+  }
+
   return (
-    <div className="min-h-screen pb-20">
-      <BlogHeroBlock heading={d?.heading} subheading={d?.subheading} />
-      <div className="pt-4 pb-20 px-6">
-        <div className="max-w-[1440px] mx-auto">
-          <Suspense>
-            <BlogContent />
-          </Suspense>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <div className="min-h-screen pb-20">
+        <BlogHeroBlock heading={d?.heading} subheading={d?.subheading} />
+        <div className="pt-4 pb-20 px-6">
+          <div className="max-w-[1440px] mx-auto">
+            <Suspense>
+              <BlogContent />
+            </Suspense>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }

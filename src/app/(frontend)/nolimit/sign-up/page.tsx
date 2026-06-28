@@ -1,7 +1,11 @@
 import type { Metadata } from 'next'
 import { ContactForm } from '@/components/forms/ContactForm'
 
-export const metadata: Metadata = { title: 'Запиши се — NoLimit Festival' }
+export const metadata: Metadata = {
+  title: 'Запиши се — NoLimit Yacht Festival',
+  description: 'Регистрирай се за NoLimit Yacht Festival 2026.',
+  robots: { index: false, follow: false },
+}
 
 export default function NolimitSignUpPage() {
   return (

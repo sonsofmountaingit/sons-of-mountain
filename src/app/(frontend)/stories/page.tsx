@@ -7,10 +7,15 @@ import { Suspense } from 'react'
 import { StoriesHeroBlock } from '@/components/blocks/stories/StoriesHeroBlock'
 import { PuckRender } from '@/components/blocks/PuckRender'
 import type { Data } from '@puckeditor/core'
+import { buildMetadata } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = { title: 'Истории' }
+export const metadata: Metadata = buildMetadata({
+  title: 'Истории от пътешественици — Sons of Mountains',
+  description: 'Лични разкази и истории от нашите пътешественици. Вдъхнови се за следващото си приключение.',
+  slug: 'stories',
+})
 
 const getStoriesPage = unstable_cache(
   async () => {
@@ -61,16 +66,34 @@ export default async function StoriesPage() {
     return <PuckRender data={puckData} />
   }
 
+  let stories: any[] = []
+  try { stories = await getStories() } catch {}
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Истории от пътешественици — Sons of Mountains',
+    url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/stories`,
+    itemListElement: stories.slice(0, 30).map((s: any, i: number) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: { '@type': 'Article', name: s.title, url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/stories/${s.slug}` },
+    })),
+  }
+
   return (
-    <div className="min-h-screen pb-20">
-      <StoriesHeroBlock heading={d?.heading} subheading={d?.subheading} />
-      <div className="pt-4 pb-20 px-6">
-        <div className="max-w-[1440px] mx-auto">
-          <Suspense>
-            <StoriesContent />
-          </Suspense>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <div className="min-h-screen pb-20">
+        <StoriesHeroBlock heading={d?.heading} subheading={d?.subheading} />
+        <div className="pt-4 pb-20 px-6">
+          <div className="max-w-[1440px] mx-auto">
+            <Suspense>
+              <StoriesContent />
+            </Suspense>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }

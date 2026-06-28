@@ -6,7 +6,8 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import { mediaUrl } from '@/lib/media-url'
-import { Suspense } from 'react'
+import { buildMetadata } from '@/lib/metadata'
+import { Suspense, Fragment } from 'react'
 
 export const dynamic = 'force-dynamic'
 
@@ -25,7 +26,19 @@ async function getStory(slug: string) {
   }
 }
 
-export const metadata: Metadata = { title: 'Истории — Sons of Mountains' }
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params
+  const story = await getStory(slug)
+  if (!story) return { title: 'Истории — Sons of Mountains' }
+  const heroImage = story.heroImage as { url?: string | null } | null
+  const author = story.author as { name: string } | null
+  return buildMetadata({
+    title: story.title,
+    description: author ? `История от ${author.name}` : undefined,
+    slug: `stories/${slug}`,
+    image: heroImage?.url ?? undefined,
+  })
+}
 
 async function StoryContent({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -36,8 +49,22 @@ async function StoryContent({ params }: { params: Promise<{ slug: string }> }) {
   const heroImage = story.heroImage as { url?: string | null; alt: string } | null
   const author = story.author as { name: string; avatar?: { url?: string | null; alt: string } | null }
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: story.title,
+    url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/stories/${slug}`,
+    ...(mediaUrl(heroImage?.url) && { image: mediaUrl(heroImage!.url) }),
+    datePublished: (story as any).createdAt,
+    dateModified: (story as any).updatedAt,
+    author: { '@type': 'Person', name: author.name },
+    publisher: { '@type': 'Organization', name: 'Sons of Mountains', url: process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com' },
+  }
+
   return (
-    <article className="pt-24 pb-20 px-6 min-h-screen">
+    <Fragment>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <article className="pt-24 pb-20 px-6 min-h-screen">
       <div className="max-w-3xl mx-auto">
         {destination && (
           <Link href={`/destinations/${destination.slug}`} className="text-xs font-semibold tracking-widest text-white/40 uppercase hover:text-white/70 transition-colors mb-6 inline-block">
@@ -64,7 +91,8 @@ async function StoryContent({ params }: { params: Promise<{ slug: string }> }) {
           </div>
         )}
       </div>
-    </article>
+      </article>
+    </Fragment>
   )
 }
 

@@ -5,14 +5,16 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { mediaUrl } from "@/lib/media-url"
 import { Suspense } from 'react'
+import { buildMetadata } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
 
-export const metadata: Metadata = {
-  title: 'Bundle Deals — Sons of Mountains',
-  description: 'Adventure bundles at unbeatable prices',
-}
+export const metadata: Metadata = buildMetadata({
+  title: 'Пакети — Sons of Mountains',
+  description: 'Пътнически пакети и бъндъли от Sons of Mountains. Спести с комбинирани оферти за оборудване и аксесоари.',
+  slug: 'shop/bundles',
+})
 
 async function getBundles() {
   try {

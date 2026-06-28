@@ -8,6 +8,7 @@ import { GalleryKeyboardHints } from '@/components/ui/GalleryKeyboardHints'
 import { mediaUrl } from '@/lib/media-url'
 import { Suspense } from 'react'
 import { unstable_cache } from 'next/cache'
+import { buildMetadata } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
@@ -55,10 +56,11 @@ const getGalleryData = unstable_cache(
   { tags: ['gallery'], revalidate: false },
 )
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: 'Галерия — Sons of Mountains',
-  description: 'Фото галерии от нашите дестинации',
-}
+  description: 'Фотографски колекции от нашите дестинации. Открий красотата на света през обектива на нашите фотографи.',
+  slug: 'gallery',
+})
 
 async function GalleryContent() {
   const { gallery, collections } = await getGalleryData()

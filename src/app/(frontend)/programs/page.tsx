@@ -6,10 +6,15 @@ import { Suspense } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { mediaUrl } from '@/lib/media-url'
+import { buildMetadata } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = { title: 'Индивидуални програми — Sons of Mountains' }
+export const metadata: Metadata = buildMetadata({
+  title: 'Индивидуални програми — Sons of Mountains',
+  description: 'Персонализирани пътнически програми, създадени специално за теб. Избери дестинация и ние ще изградим идеалното пътешествие.',
+  slug: 'programs',
+})
 
 const PROGRAM_TYPE_LABELS: Record<string, string> = {
   Yoga: 'Йога',
@@ -123,18 +128,40 @@ async function ProgramsContent() {
   )
 }
 
+async function ProgramsJsonLd() {
+  let programs: Record<string, unknown>[] = []
+  try { programs = (await getPrograms()) as unknown as Record<string, unknown>[] } catch {}
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Индивидуални програми — Sons of Mountains',
+    url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/programs`,
+    itemListElement: programs.slice(0, 30).map((p, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: { '@type': 'Event', name: p.title, url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/programs/${p.slug}` },
+    })),
+  }
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+}
+
 export default function ProgramsPage() {
   return (
-    <div className="pt-24 pb-20 px-6 min-h-screen">
-      <div className="max-w-[1440px] mx-auto">
-        <h1 className="text-5xl md:text-6xl font-bold mb-4">Индивидуални програми</h1>
-        <p className="text-white/50 mb-12 text-lg">
-          Изцяло персонализирани пътувания — ние организираме всичко за теб
-        </p>
-        <Suspense fallback={null}>
-          <ProgramsContent />
-        </Suspense>
+    <>
+      <Suspense fallback={null}>
+        <ProgramsJsonLd />
+      </Suspense>
+      <div className="pt-24 pb-20 px-6 min-h-screen">
+        <div className="max-w-[1440px] mx-auto">
+          <h1 className="text-5xl md:text-6xl font-bold mb-4">Индивидуални програми</h1>
+          <p className="text-white/50 mb-12 text-lg">
+            Изцяло персонализирани пътувания — ние организираме всичко за теб
+          </p>
+          <Suspense fallback={null}>
+            <ProgramsContent />
+          </Suspense>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
