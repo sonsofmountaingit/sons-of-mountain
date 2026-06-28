@@ -4,10 +4,10 @@ import type { NextConfig } from 'next'
 const nextConfig: NextConfig = {
   output: 'standalone',
   images: {
-    formats: ['image/avif', 'image/webp'],
-    qualities: [60, 65, 75, 80, 88, 90],
-    deviceSizes: [390, 640, 750, 828, 1080, 1200, 1920, 2560],
-    imageSizes: [16, 32, 48, 64, 96, 128, 192, 256, 384],
+    formats: ['image/webp', 'image/avif'],
+    qualities: [60, 70, 80, 85, 90],
+    deviceSizes: [390, 640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 31536000,
     remotePatterns: [
       {
@@ -26,7 +26,6 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  cacheComponents: false,
   experimental: {
     staleTimes: {
       dynamic: 0,

@@ -2987,7 +2987,7 @@
       "@/components/ui/Footer",
       "sonner"
     ],
-    "lines": 60,
+    "lines": 66,
     "group": "frontend"
   },
   "src/app/(frontend)/vouchers/[code]/page.tsx": {
@@ -4944,13 +4944,14 @@
     ],
     "imports": [
       "next/link",
+      "next/image",
       "react",
       "gsap",
       "gsap/ScrollTrigger",
       "@/components/ui/destination-page/BookingDrawer",
       "@/components/ui/WhyTravelWithUs"
     ],
-    "lines": 447,
+    "lines": 451,
     "group": "blocks"
   },
   "src/components/blocks/why-travel-with-us/icons/GlobeIcon.tsx": {
@@ -5320,9 +5321,10 @@
     "types": [],
     "imports": [
       "react",
+      "next/image",
       "@puckeditor/core"
     ],
-    "lines": 60,
+    "lines": 75,
     "group": "blocks"
   },
   "src/components/blocks/hero/HeroHeadlineBlock.tsx": {
@@ -5485,7 +5487,7 @@
       "next/image",
       "motion/react"
     ],
-    "lines": 267,
+    "lines": 314,
     "group": "ui"
   },
   "src/components/ui/Navbar.tsx": {
@@ -5868,7 +5870,7 @@
       "@/components/shop/CartSheet",
       "@/lib/cart-store"
     ],
-    "lines": 512,
+    "lines": 529,
     "group": "ui"
   },
   "src/components/ui/DestinationCarousel.tsx": {

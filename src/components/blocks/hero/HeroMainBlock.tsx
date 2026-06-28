@@ -1,10 +1,12 @@
 'use client'
 
 import React from 'react'
+import Image from 'next/image'
 import { DropZone } from '@puckeditor/core'
 
 interface HeroMainBlockProps {
   backgroundVideoUrl?: string
+  backgroundPosterUrl?: string
   overlayOpacity?: number
   contentAlign?: string
   height?: string
@@ -18,24 +20,36 @@ const alignClass: Record<string, string> = {
 }
 
 const heightStyle: Record<string, string> = {
-  screen: '100vh',
-  '80vh': '80vh',
-  '60vh': '60vh',
+  screen: '100dvh',
+  '80vh': '80dvh',
+  '60vh': '60dvh',
 }
 
 export function HeroMainBlock({
   backgroundVideoUrl = '/hero-bg.mp4',
+  backgroundPosterUrl,
   overlayOpacity = 40,
   contentAlign = 'bottom-center',
   height = 'screen',
   children,
 }: HeroMainBlockProps) {
   const align = alignClass[contentAlign] ?? alignClass['bottom-center']
-  const sectionHeight = heightStyle[height] ?? '100vh'
+  const sectionHeight = heightStyle[height] ?? '100dvh'
   const opacity = Math.min(100, Math.max(0, overlayOpacity ?? 40)) / 100
 
   return (
     <section className="relative overflow-hidden bg-[#0a0a0a]" style={{ height: sectionHeight }}>
+      {backgroundPosterUrl && (
+        <Image
+          src={backgroundPosterUrl}
+          alt=""
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
+          quality={80}
+        />
+      )}
       {backgroundVideoUrl && (
         <video
           src={backgroundVideoUrl}
@@ -43,6 +57,7 @@ export function HeroMainBlock({
           muted
           loop
           playsInline
+          poster={backgroundPosterUrl}
           className="absolute inset-0 w-full h-full object-cover"
         />
       )}

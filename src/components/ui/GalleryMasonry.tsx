@@ -127,7 +127,7 @@ export function GalleryMasonry({ images, photographerName, collectionId, filter 
 
           if (is3col) {
             return (
-              <div key={rowIdx} className="flex gap-[3px]" style={{ height: '100vh' }}>
+              <div key={rowIdx} className="flex gap-[3px]" style={{ height: '100dvh' }}>
                 {row.map((img, colIdx) => {
                   const url = mediaUrl(img.image?.url)
                   const idx = flatIndex(rowIdx, colIdx)
@@ -158,7 +158,7 @@ export function GalleryMasonry({ images, photographerName, collectionId, filter 
 
           if (is2col) {
             return (
-              <div key={rowIdx} className="flex gap-[3px]" style={{ height: '100vh' }}>
+              <div key={rowIdx} className="flex gap-[3px]" style={{ height: '100dvh' }}>
                 {row.map((img, colIdx) => {
                   const url = mediaUrl(img.image?.url)
                   const idx = flatIndex(rowIdx, colIdx)
@@ -195,7 +195,7 @@ export function GalleryMasonry({ images, photographerName, collectionId, filter 
             const url = mediaUrl(img.image?.url)
             const idx = flatIndex(rowIdx, 0)
             return (
-              <div key={rowIdx} data-gi className="relative overflow-hidden cursor-pointer group" style={{ height: '100vh' }} onClick={() => setLightboxIndex(idx)}>
+              <div key={rowIdx} data-gi className="relative overflow-hidden cursor-pointer group" style={{ height: '100dvh' }} onClick={() => setLightboxIndex(idx)}>
                 {url && (
                   <img
                     src={url}

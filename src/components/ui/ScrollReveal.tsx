@@ -44,7 +44,7 @@ export function ScrollReveal({ children, delay = 0, className }: Props) {
   }, [delay])
 
   return (
-    <div ref={ref} className={className} style={{ willChange: 'transform, opacity' }}>
+    <div ref={ref} className={className}>
       {children}
     </div>
   )

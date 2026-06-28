@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRef, useEffect, useState, useCallback } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -86,19 +87,22 @@ function TripVideoCard({
       onClick={playing ? handlePause : handlePlay}
     >
       {card.posterUrl && !playing && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <Image
           src={card.posterUrl}
           alt={card.title}
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+          fill
+          className="object-cover"
+          sizes="(max-width: 640px) 100vw, 50vw"
+          quality={75}
         />
       )}
       {card.videoUrl && (
         <video
           ref={videoRef}
-          src={card.videoUrl}
+          src={playing ? card.videoUrl : undefined}
           loop
           playsInline
+          preload="none"
           style={{
             position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover',
             opacity: playing ? 1 : 0,

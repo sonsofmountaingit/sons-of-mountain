@@ -131,6 +131,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
           'fixed left-0 right-0 z-50 transition-all duration-300 overflow-visible',
           scrolled ? 'top-0 backdrop-blur-md bg-black/60' : isLightPage ? 'top-0 bg-black' : 'top-2 bg-transparent',
         ].join(' ')}
+        style={{ contain: 'layout' }}
       >
         <nav className={['relative w-full px-14 flex items-center justify-between transition-all duration-300 whitespace-nowrap overflow-visible', scrolled ? 'h-[56px]' : 'h-[88px]'].join(' ')}>
 
@@ -346,10 +347,11 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
       <Link
         href="/"
         className="fixed left-1/2 -translate-x-1/2 top-2 z-[51] flex items-center justify-center"
+        style={{ contain: 'layout style' }}
         onMouseEnter={() => setLogoHovered(true)}
         onMouseLeave={() => setLogoHovered(false)}
       >
-        <Image src={logoSrc} alt="Logo" width={140} height={140} priority className={['w-auto', scrolled ? 'h-10' : 'h-20'].join(' ')} unoptimized />
+        <Image src={logoSrc} alt="Logo" width={140} height={140} priority className={['w-auto transition-[height] duration-300', scrolled ? 'h-10' : 'h-20'].join(' ')} />
       </Link>
 
       {/* Desktop megamenu */}
@@ -452,7 +454,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
           >
             <div className="flex items-center justify-between px-6 h-16">
               <Link href="/" onClick={() => setMobileOpen(false)}>
-                <Image src={logoSrc} alt="Logo" width={140} height={64} className="h-16 w-auto" unoptimized />
+                <Image src={logoSrc} alt="Logo" width={140} height={64} className="h-16 w-auto" />
               </Link>
               <button className="p-2 text-white" onClick={() => setMobileOpen(false)} aria-label="Close menu">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">

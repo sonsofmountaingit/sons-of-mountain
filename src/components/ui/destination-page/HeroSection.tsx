@@ -181,7 +181,7 @@ export function HeroSection({
 
   return (
     <>
-      <section ref={sectionRef} className="relative h-screen min-h-[600px] flex items-end overflow-hidden">
+      <section ref={sectionRef} className="relative h-[100dvh] min-h-[600px] flex items-end overflow-hidden">
 
         {/* Background */}
         <div ref={bgRef} className="absolute inset-0 will-change-transform">

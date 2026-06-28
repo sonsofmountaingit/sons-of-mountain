@@ -173,8 +173,7 @@ export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuP
                                     alt={dest.name}
                                     fill
                                     className="object-cover transition-transform duration-500 group-hover:scale-105"
-                                    sizes="200px"
-                                    unoptimized
+                                    sizes="(max-width: 1280px) 160px, 200px"
                                   />
                                 )}
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -282,8 +281,7 @@ function ContentCard({ item, index, onClose }: { item: ContentItem; index: numbe
               alt={item.title}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-105"
-              sizes="240px"
-              unoptimized
+              sizes="180px"
             />
           ) : (
             <div className="absolute inset-0 bg-white/5" />

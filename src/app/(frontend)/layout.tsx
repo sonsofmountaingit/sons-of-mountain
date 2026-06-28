@@ -7,15 +7,21 @@ import { Toaster } from 'sonner'
 import '../globals.css'
 
 const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
+  subsets: ['latin', 'latin-ext'],
   variable: '--font-space-grotesk',
   display: 'swap',
+  preload: true,
+  adjustFontFallback: true,
+  weight: ['400', '500', '600', '700'],
 })
 
 const dancingScript = Dancing_Script({
-  subsets: ['latin'],
+  subsets: ['latin', 'latin-ext'],
   variable: '--font-dancing-script',
   display: 'swap',
+  preload: false,
+  adjustFontFallback: true,
+  weight: ['400', '700'],
 })
 
 export const metadata: Metadata = {
