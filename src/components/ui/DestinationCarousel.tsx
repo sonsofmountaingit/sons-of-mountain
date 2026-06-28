@@ -79,7 +79,7 @@ export async function DestinationCarousel() {
   const introSlide = carousel?.introSlideHeadline && carousel?.introSlideSubheading ? {
     headline: carousel.introSlideHeadline,
     subheading: carousel.introSlideSubheading,
-    backgroundImageUrl: carousel.introSlideBackgroundImage?.url ? mediaUrl(carousel.introSlideBackgroundImage.url) : undefined,
+    backgroundImageUrl: carousel.introSlideBackgroundImage?.url ? mediaUrl(carousel.introSlideBackgroundImage.url) ?? undefined : undefined,
   } : undefined
 
   return (
