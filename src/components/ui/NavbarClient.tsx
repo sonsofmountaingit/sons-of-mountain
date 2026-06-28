@@ -50,6 +50,8 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
 
   const [cartOpen, setCartOpen] = useState(false)
   const [logoHovered, setLogoHovered] = useState(false)
+  const [navHeight, setNavHeight] = useState(80)
+  const headerRef = useRef<HTMLElement>(null)
   const itemCount = useCartStore((s) => s.itemCount())
   const pathname = usePathname()
   const LIGHT_PAGES = ['/calendar']
@@ -69,6 +71,16 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
     return () => { document.body.style.overflow = '' }
   }, [mobileOpen])
 
+  // track nav height for megamenu positioning
+  useEffect(() => {
+    function measure() {
+      if (headerRef.current) setNavHeight(headerRef.current.getBoundingClientRect().height + (scrolled ? 0 : 8))
+    }
+    measure()
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
+  }, [scrolled])
+
   // close panels on outside click
   useEffect(() => {
     function handle(e: MouseEvent) {
@@ -76,6 +88,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
       if (!t.closest('[data-panel="search"]')) setSearchOpen(false)
       if (!t.closest('[data-panel="lang"]')) setLangOpen(false)
       if (!t.closest('[data-panel="profile"]')) setProfileOpen(false)
+      if (!t.closest('[data-panel="megamenu"]') && !t.closest('[data-megamenu-trigger]')) setMegaOpen(false)
     }
     document.addEventListener('mousedown', handle)
     return () => document.removeEventListener('mousedown', handle)
@@ -111,6 +124,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
   return (
     <>
       <motion.header
+        ref={headerRef}
         animate={{ y: 0 }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
         className={[
@@ -123,6 +137,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
           {/* Left */}
           <div className="hidden lg:flex items-center gap-5 flex-1">
             <button
+              data-megamenu-trigger
               onClick={() => { setMegaOpen((v) => !v); setSearchOpen(false); setLangOpen(false) }}
               className={['flex items-center gap-1.5 text-sm font-medium tracking-widest transition-colors duration-200', megaOpen ? (isLightPage && !scrolled ? 'text-zinc-900' : 'text-white') : (isLightPage && !scrolled ? 'text-zinc-600 hover:text-zinc-900' : 'text-white/80 hover:text-white')].join(' ')}
             >
@@ -338,7 +353,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
       </Link>
 
       {/* Desktop megamenu */}
-      <ProgramsMegaMenu open={megaOpen} onClose={() => setMegaOpen(false)} />
+      <ProgramsMegaMenu open={megaOpen} onClose={() => setMegaOpen(false)} navHeight={navHeight} />
 
       {/* Cart sheet */}
       <CartSheet open={cartOpen} onClose={() => setCartOpen(false)} />

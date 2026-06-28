@@ -46,13 +46,13 @@ function formatDate(iso: string) {
 interface ProgramsMegaMenuProps {
   open: boolean
   onClose: () => void
+  navHeight: number
 }
 
-export function ProgramsMegaMenu({ open, onClose }: ProgramsMegaMenuProps) {
+export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuProps) {
   const [data, setData] = useState<MegamenuData | null>(null)
   const [activeTab, setActiveTab] = useState<Tab>('bulgaria')
-  const [hoveredSlug, setHoveredSlug] = useState<string | null>(null)
-  const ref = useRef<HTMLDivElement>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!open || data) return
@@ -83,8 +83,9 @@ export function ProgramsMegaMenu({ open, onClose }: ProgramsMegaMenuProps) {
         : data.individualItems
     : []
 
+  const trips = contentItems.filter((i) => i.kind === 'trip')
+  const programs = contentItems.filter((i) => i.kind === 'program')
   const showDestinations = activeTab !== 'individual' && destinations.length > 0
-  const showItems = contentItems.length > 0
 
   return (
     <AnimatePresence>
@@ -102,12 +103,14 @@ export function ProgramsMegaMenu({ open, onClose }: ProgramsMegaMenuProps) {
 
           {/* Panel */}
           <motion.div
-            ref={ref}
+            ref={panelRef}
+            data-panel="megamenu"
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed top-[var(--nav-height,80px)] left-0 right-0 z-50 bg-[#0a0a0a]/95 backdrop-blur-xl border-b border-white/10"
+            style={{ top: navHeight }}
+            className="fixed left-0 right-0 z-50 bg-[#0a0a0a]/97 backdrop-blur-xl border-b border-white/10"
           >
             <div className="mx-auto max-w-[1440px] px-6 py-8">
               <div className="flex gap-12">
@@ -146,24 +149,22 @@ export function ProgramsMegaMenu({ open, onClose }: ProgramsMegaMenuProps) {
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -8 }}
                       transition={{ duration: 0.18 }}
-                      className="flex flex-col gap-6"
+                      className="flex flex-col gap-8"
                     >
                       {!data && (
                         <div className="flex items-center justify-center h-32 text-white/30 text-xs tracking-widest">Зарежда…</div>
                       )}
 
-                      {/* Destinations grid (bulgaria / abroad tabs only) */}
+                      {/* Destinations row */}
                       {data && showDestinations && (
                         <div>
                           <p className="text-[10px] tracking-widest text-white/25 mb-3">ДЕСТИНАЦИИ</p>
-                          <div className="grid grid-cols-3 gap-3">
+                          <div className="grid grid-cols-4 gap-3 xl:grid-cols-6">
                             {destinations.map((dest) => (
                               <Link
                                 key={dest.slug}
                                 href={`/destinations/${dest.slug}`}
                                 onClick={onClose}
-                                onMouseEnter={() => setHoveredSlug(dest.slug)}
-                                onMouseLeave={() => setHoveredSlug(null)}
                                 className="group relative overflow-hidden rounded-sm aspect-[4/3] bg-white/5 flex items-end"
                               >
                                 {dest.image && (
@@ -172,7 +173,7 @@ export function ProgramsMegaMenu({ open, onClose }: ProgramsMegaMenuProps) {
                                     alt={dest.name}
                                     fill
                                     className="object-cover transition-transform duration-500 group-hover:scale-105"
-                                    sizes="240px"
+                                    sizes="200px"
                                     unoptimized
                                   />
                                 )}
@@ -180,78 +181,74 @@ export function ProgramsMegaMenu({ open, onClose }: ProgramsMegaMenuProps) {
                                 <span className="relative z-10 px-3 py-2 text-xs font-medium tracking-widest text-white">{dest.name}</span>
                               </Link>
                             ))}
-                            {destinations.length === 0 && (
-                              <p className="text-white/30 text-xs tracking-widest col-span-3">Няма добавени дестинации.</p>
-                            )}
                           </div>
                         </div>
                       )}
 
-                      {/* Trips & Programs */}
-                      {data && showItems && (
+                      {/* Trips row */}
+                      {data && trips.length > 0 && (
                         <div>
-                          <p className="text-[10px] tracking-widest text-white/25 mb-3">
-                            {activeTab === 'individual' ? 'ПРОГРАМИ И ПЪТУВАНИЯ' : 'ПЪТУВАНИЯ И ПРОГРАМИ'}
-                          </p>
+                          <p className="text-[10px] tracking-widest text-white/25 mb-3">ПЪТУВАНИЯ</p>
                           <div style={{ overflowX: 'auto', width: '100%', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.2) transparent', paddingBottom: '6px' }}>
-                            <div style={{ display: 'grid', gap: '12px', gridTemplateColumns: `repeat(${Math.min(contentItems.length, 6)}, 180px)`, width: 'max-content' }}>
-                              {contentItems.map((item, i) => (
-                                <motion.div
-                                  key={`${item.kind}-${item.slug}`}
-                                  initial={{ opacity: 0, y: 10 }}
-                                  animate={{ opacity: 1, y: 0 }}
-                                  transition={{ duration: 0.2, delay: i * 0.03 }}
-                                  style={{ width: '180px' }}
-                                >
-                                  <Link
-                                    href={item.kind === 'trip' ? `/trips/${item.slug}` : `/programs/${item.slug}`}
-                                    onClick={onClose}
-                                    className="group relative overflow-hidden rounded-xl flex flex-col bg-white/5 hover:bg-white/8 border border-white/8 hover:border-white/16 transition-all duration-200"
-                                  >
-                                    <div className="relative aspect-[16/9] overflow-hidden">
-                                      {item.image ? (
-                                        <Image
-                                          src={item.image}
-                                          alt={item.title}
-                                          fill
-                                          className="object-cover transition-transform duration-500 group-hover:scale-105"
-                                          sizes="240px"
-                                          unoptimized
-                                        />
-                                      ) : (
-                                        <div className="absolute inset-0 bg-white/5" />
-                                      )}
-                                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                                      {item.spotsAvailable > 0 && (
-                                        <span className="absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/80 text-white backdrop-blur-sm">
-                                          {item.spotsAvailable} места
-                                        </span>
-                                      )}
-                                      {item.spotsAvailable === 0 && (
-                                        <span className="absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-red-500/80 text-white backdrop-blur-sm">
-                                          Няма места
-                                        </span>
-                                      )}
-                                    </div>
-                                    <div className="px-3 py-2.5 flex flex-col gap-0.5">
-                                      <p className="text-xs font-semibold text-white leading-snug line-clamp-2 group-hover:text-white/90 transition-colors">
-                                        {item.title}
-                                      </p>
-                                      {item.startDate && (
-                                        <p className="text-[10px] text-white/40 mt-0.5">{formatDate(item.startDate)}</p>
-                                      )}
-                                      <p className="text-xs font-medium text-[#c0442a] mt-1">{item.price} {item.currency}</p>
-                                    </div>
-                                  </Link>
-                                </motion.div>
+                            <div style={{ display: 'grid', gap: '12px', gridTemplateColumns: `repeat(${Math.min(trips.length, 6)}, 180px)`, width: 'max-content' }}>
+                              {trips.map((item, i) => (
+                                <ContentCard key={`trip-${item.slug}`} item={item} index={i} onClose={onClose} />
                               ))}
                             </div>
                           </div>
                         </div>
                       )}
 
-                      {data && !showDestinations && !showItems && (
+                      {/* Programs row */}
+                      {data && programs.length > 0 && (
+                        <div>
+                          <p className="text-[10px] tracking-widest text-white/25 mb-3">ПРОГРАМИ</p>
+                          <div style={{ overflowX: 'auto', width: '100%', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.2) transparent', paddingBottom: '6px' }}>
+                            <div style={{ display: 'grid', gap: '12px', gridTemplateColumns: `repeat(${Math.min(programs.length, 6)}, 180px)`, width: 'max-content' }}>
+                              {programs.map((item, i) => (
+                                <ContentCard key={`program-${item.slug}`} item={item} index={i} onClose={onClose} />
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Individual tab: all items in one row */}
+                      {data && activeTab === 'individual' && contentItems.length > 0 && (
+                        <div>
+                          <p className="text-[10px] tracking-widest text-white/25 mb-3">ПРОГРАМИ И ПЪТУВАНИЯ</p>
+                          <div style={{ overflowX: 'auto', width: '100%', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.2) transparent', paddingBottom: '6px' }}>
+                            <div style={{ display: 'grid', gap: '12px', gridTemplateColumns: `repeat(${Math.min(contentItems.length, 6)}, 180px)`, width: 'max-content' }}>
+                              {contentItems.map((item, i) => (
+                                <ContentCard key={`ind-${item.slug}`} item={item} index={i} onClose={onClose} />
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {data && !showDestinations && trips.length === 0 && programs.length === 0 && activeTab !== 'individual' && (
                         <p className="text-white/30 text-xs tracking-widest">Няма съдържание в тази секция.</p>
+                      )}
+
+                      {data && activeTab === 'individual' && contentItems.length === 0 && (
+                        <p className="text-white/30 text-xs tracking-widest">Няма съдържание в тази секция.</p>
+                      )}
+
+                      {/* See all button */}
+                      {data && (
+                        <div className="pt-2">
+                          <Link
+                            href="/calendar"
+                            onClick={onClose}
+                            className="inline-flex items-center gap-2 px-5 py-2 text-xs font-medium tracking-widest text-white/60 hover:text-white border border-white/15 hover:border-white/40 rounded-sm transition-colors duration-200"
+                          >
+                            ВИЖ ВСИЧКИ В КАЛЕНДАРА
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                              <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </Link>
+                        </div>
                       )}
                     </motion.div>
                   </AnimatePresence>
@@ -262,5 +259,57 @@ export function ProgramsMegaMenu({ open, onClose }: ProgramsMegaMenuProps) {
         </>
       )}
     </AnimatePresence>
+  )
+}
+
+function ContentCard({ item, index, onClose }: { item: ContentItem; index: number; onClose: () => void }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2, delay: index * 0.03 }}
+      style={{ width: '180px' }}
+    >
+      <Link
+        href={item.kind === 'trip' ? `/trips/${item.slug}` : `/programs/${item.slug}`}
+        onClick={onClose}
+        className="group relative overflow-hidden rounded-xl flex flex-col bg-white/5 hover:bg-white/8 border border-white/8 hover:border-white/16 transition-all duration-200"
+      >
+        <div className="relative aspect-[16/9] overflow-hidden">
+          {item.image ? (
+            <Image
+              src={item.image}
+              alt={item.title}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              sizes="240px"
+              unoptimized
+            />
+          ) : (
+            <div className="absolute inset-0 bg-white/5" />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+          {item.spotsAvailable > 0 && (
+            <span className="absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/80 text-white backdrop-blur-sm">
+              {item.spotsAvailable} места
+            </span>
+          )}
+          {item.spotsAvailable === 0 && (
+            <span className="absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-red-500/80 text-white backdrop-blur-sm">
+              Няма места
+            </span>
+          )}
+        </div>
+        <div className="px-3 py-2.5 flex flex-col gap-0.5">
+          <p className="text-xs font-semibold text-white leading-snug line-clamp-2 group-hover:text-white/90 transition-colors">
+            {item.title}
+          </p>
+          {item.startDate && (
+            <p className="text-[10px] text-white/40 mt-0.5">{formatDate(item.startDate)}</p>
+          )}
+          <p className="text-xs font-medium text-[#c0442a] mt-1">{item.price} {item.currency}</p>
+        </div>
+      </Link>
+    </motion.div>
   )
 }

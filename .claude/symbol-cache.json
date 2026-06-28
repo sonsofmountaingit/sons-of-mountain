@@ -5884,7 +5884,7 @@
       "@/components/blocks/destination-carousel/DestinationCarouselBlock",
       "./DestinationCarouselEditButton"
     ],
-    "lines": 146,
+    "lines": 147,
     "group": "ui"
   },
   "src/components/ui/TripCard.tsx": {
