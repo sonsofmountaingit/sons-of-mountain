@@ -4826,7 +4826,7 @@
       "gsap",
       "gsap/ScrollTrigger"
     ],
-    "lines": 263,
+    "lines": 267,
     "group": "blocks"
   },
   "src/components/blocks/destination-carousel/DestinationCarouselBlock.tsx": {
@@ -5704,7 +5704,7 @@
       "@/components/blocks/featured-travels/FeaturedTravelsBlock",
       "./FeaturedTravelsEditButton"
     ],
-    "lines": 127,
+    "lines": 139,
     "group": "ui"
   },
   "src/components/ui/GalleryFilterBar.tsx": {

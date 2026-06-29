@@ -67,7 +67,7 @@ export function WhyTravelWithUsSection({
       ? `${img.focalX}% ${img.focalY}%`
       : (img.focalPoint ?? 'center')
     return (
-      <span style={{ display: 'inline-block', width, height: 56, borderRadius: 999, overflow: 'hidden', position: 'relative', top: -4, flexShrink: 0 }}>
+      <span style={{ display: 'inline-block', width, height: 56, borderRadius: 999, overflow: 'hidden', position: 'relative', verticalAlign: 'middle', flexShrink: 0 }}>
         <Image
           src={img.url}
           alt={img.alt ?? ''}
