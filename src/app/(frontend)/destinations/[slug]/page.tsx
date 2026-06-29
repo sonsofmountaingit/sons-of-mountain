@@ -205,6 +205,7 @@ async function DestinationContent({ params }: Props) {
         heroGallery={(heroGalleryRaw ?? [])
           .filter(g => g.image?.url)
           .map(g => ({ url: mediaUrl(g.image!.url)!, alt: g.alt ?? g.image?.alt }))}
+        location={d.location as string | null}
         departureCity={d.departureCity as string | null}
         difficulty={fitnessRatings?.find(r => r.label?.toLowerCase().includes('трудност'))?.value ?? fitnessRatings?.[0]?.value ?? null}
         spotsAvailable={(d.spotsAvailable as number | null)}

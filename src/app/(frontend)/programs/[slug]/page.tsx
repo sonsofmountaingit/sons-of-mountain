@@ -189,6 +189,7 @@ async function ProgramContent({ params }: Props) {
         subtitle={program.shortDescription}
         heroImage={mediaUrl(heroImage?.url)!}
         heroImageAlt={heroImage?.alt ?? program.title}
+        location={p.location as string | null}
       />
 
       <WhySection

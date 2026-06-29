@@ -198,6 +198,7 @@ async function TripContent({ params }: Props) {
         subtitle={subtitle}
         heroImage={mediaUrl(heroImage?.url)!}
         heroImageAlt={heroImage?.alt ?? title}
+        location={t.location as string | null}
       />
 
       <WhySection

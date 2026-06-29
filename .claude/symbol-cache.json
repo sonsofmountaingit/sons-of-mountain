@@ -2173,7 +2173,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/DestinationBookingController"
     ],
-    "lines": 344,
+    "lines": 345,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -4665,7 +4665,7 @@
       "next/server",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 506,
+    "lines": 511,
     "group": "collections"
   },
   "src/payload/collections/Waitlist.ts": {

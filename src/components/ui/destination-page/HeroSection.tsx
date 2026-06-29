@@ -25,6 +25,7 @@ interface Props {
   avgRating?: number | null
   reviewCount?: number | null
   weather?: WeatherData | null
+  location?: string | null
   startDate?: string | null
   endDate?: string | null
   tripId?: string
@@ -89,7 +90,7 @@ function Countdown({ target }: { target: string }) {
 export function HeroSection({
   title, subtitle, heroImage, heroImageAlt, heroVideo, heroGallery,
   departureCity, difficulty, spotsAvailable,
-  avgRating, reviewCount, weather, startDate, endDate,
+  avgRating, reviewCount, weather, location, startDate, endDate,
   tripId, tripTitle, price = 0, currency = 'EUR',
   depositAmount, durationDays, month, itemType = 'trip', archived = false,
 }: Props) {
@@ -254,6 +255,15 @@ export function HeroSection({
               </span>
             )}
             {startDate && <Countdown target={startDate} />}
+            {location && (
+              <span className="inline-flex items-center gap-1.5 text-sm text-white/70">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                  <circle cx="12" cy="9" r="2.5"/>
+                </svg>
+                <span className="text-white/80">{location}</span>
+              </span>
+            )}
             {weather && (
               <span className="inline-flex items-center gap-1.5 text-sm text-white/70">
                 <span>{weather.icon}</span>
