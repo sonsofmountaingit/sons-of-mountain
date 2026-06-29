@@ -5,6 +5,19 @@ import { mediaUrl } from '@/lib/media-url'
 import { DestinationCarouselBlock } from '@/components/blocks/destination-carousel/DestinationCarouselBlock'
 import { DestinationCarouselEditButton } from './DestinationCarouselEditButton'
 
+type RelatedItem = {
+  id?: string
+  // destinations use `name`, trips/programs use `title`
+  name?: string
+  title?: string
+  slug?: string
+  heroImage?: { url?: string | null } | null
+  month?: string
+  availableSpots?: number | null
+  spotsAvailable?: number | null
+  price?: number | null
+}
+
 interface CarouselGlobal {
   sectionTitle?: string
   headline?: string
@@ -15,16 +28,15 @@ interface CarouselGlobal {
   introSlideButtonText?: string
   destinationButtonText?: string
   destinationSource?: 'auto' | 'manual'
+  selectedItems?: Array<{
+    item?: { relationTo: 'destinations' | 'trips' | 'programs'; value: RelatedItem } | null
+    overrideTitle?: string | null
+    overrideDescription?: string | null
+    overrideButtonText?: string | null
+  }>
+  /** @deprecated use selectedItems */
   selectedDestinations?: Array<{
-    destination?: {
-      id?: string
-      name?: string
-      slug?: string
-      heroImage?: { url?: string | null } | null
-      month?: string
-      availableSpots?: number | null
-      price?: number | null
-    } | null
+    destination?: RelatedItem | null
     overrideTitle?: string | null
     overrideDescription?: string | null
     overrideButtonText?: string | null
@@ -57,20 +69,29 @@ const getCarouselData = unstable_cache(
 
       let destinations: DestinationDoc[] = []
 
-      if (carousel.destinationSource === 'manual' && carousel.selectedDestinations?.length) {
-        destinations = carousel.selectedDestinations
-          .filter((row) => row.destination?.id)
+      const manualItems = carousel.selectedItems?.length
+        ? carousel.selectedItems
+        : carousel.selectedDestinations?.map((row) => ({
+            item: row.destination ? { relationTo: 'destinations' as const, value: row.destination } : null,
+            overrideTitle: row.overrideTitle,
+            overrideDescription: row.overrideDescription,
+            overrideButtonText: row.overrideButtonText,
+          })) ?? []
+
+      if (carousel.destinationSource === 'manual' && manualItems.length) {
+        destinations = manualItems
+          .filter((row) => row.item?.value?.id)
           .map((row) => {
-            const d = row.destination!
+            const d = row.item!.value
             return {
               id: String(d.id),
-              name: d.name ?? '',
+              name: d.name ?? d.title ?? '',
               slug: d.slug ?? '',
               heroImage: d.heroImage
                 ? { url: d.heroImage.url ? mediaUrl(d.heroImage.url) : null }
                 : null,
               month: d.month,
-              availableSpots: d.availableSpots ?? null,
+              availableSpots: d.availableSpots ?? d.spotsAvailable ?? null,
               price: d.price ?? null,
               overrideTitle: row.overrideTitle ?? undefined,
               overrideDescription: row.overrideDescription ?? undefined,

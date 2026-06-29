@@ -5534,7 +5534,7 @@
       "@/components/blocks/featured-travels/FeaturedTravelsBlock",
       "./FeaturedTravelsEditButton"
     ],
-    "lines": 125,
+    "lines": 127,
     "group": "ui"
   },
   "src/components/ui/GalleryFilterBar.tsx": {

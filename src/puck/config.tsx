@@ -57,6 +57,8 @@ import { ContactFAQBlock } from '@/components/blocks/contact/ContactFAQBlock'
 import { BlogHeroBlock } from '@/components/blocks/blog/BlogHeroBlock'
 import { StoriesHeroBlock } from '@/components/blocks/stories/StoriesHeroBlock'
 import { CalendarHeroBlock } from '@/components/blocks/calendar/CalendarHeroBlock'
+import { PrivacyPolicyContentBlock } from '@/components/blocks/privacy-policy/PrivacyPolicyContentBlock'
+import { TermsAndConditionsContentBlock } from '@/components/blocks/terms-and-conditions/TermsAndConditionsContentBlock'
 
 import {
   allStyleFields,
@@ -218,6 +220,8 @@ export type PuckBlocks = {
   BlogHeroBlock: { heading: string; subheading: string }
   StoriesHeroBlock: { heading: string; subheading: string }
   CalendarHeroBlock: { heading: string; subheading: string }
+  PrivacyPolicyContentBlock: { title: string; lastUpdated: string; content: unknown }
+  TermsAndConditionsContentBlock: { title: string; lastUpdated: string; content: unknown }
 }
 
 // ─── Config ───────────────────────────────────────────────────────────────────
@@ -236,6 +240,7 @@ export const puckConfig: Config<PuckBlocks> = {
     blog: { title: 'Blog Page', components: ['BlogHeroBlock', 'BlogPostsBlock'], defaultExpanded: false },
     stories: { title: 'Stories Page', components: ['StoriesHeroBlock', 'StoriesBlock'], defaultExpanded: false },
     calendar: { title: 'Calendar Page', components: ['CalendarHeroBlock'], defaultExpanded: false },
+    legal: { title: 'Legal Pages', components: ['PrivacyPolicyContentBlock', 'TermsAndConditionsContentBlock'], defaultExpanded: false },
   },
 
   components: {
@@ -1740,6 +1745,30 @@ export const puckConfig: Config<PuckBlocks> = {
       },
       defaultProps: { heading: 'Календар', subheading: 'Предстоящи пътувания и програми по месец' },
       render: (props: any) => <CalendarHeroBlock {...props} />,
+    },
+
+    // ── PRIVACY POLICY ────────────────────────────────────────────────────────
+    PrivacyPolicyContentBlock: {
+      label: 'Privacy Policy — Content',
+      fields: {
+        title: { type: 'text', label: 'Title' },
+        lastUpdated: { type: 'text', label: 'Last Updated (ISO date)' },
+        content: { type: 'richtext', label: 'Content', initialHeight: 400, options: { bold: {} as any, italic: {} as any, underline: {} as any, link: {} as any, blockquote: {} as any, h1: {} as any, h2: {} as any, h3: {} as any, ul: {} as any, ol: {} as any } as any },
+      },
+      defaultProps: { title: 'Политика за поверителност', lastUpdated: '', content: '' as unknown },
+      render: (props: any) => <PrivacyPolicyContentBlock {...props} />,
+    },
+
+    // ── TERMS AND CONDITIONS ──────────────────────────────────────────────────
+    TermsAndConditionsContentBlock: {
+      label: 'Terms & Conditions — Content',
+      fields: {
+        title: { type: 'text', label: 'Title' },
+        lastUpdated: { type: 'text', label: 'Last Updated (ISO date)' },
+        content: { type: 'richtext', label: 'Content', initialHeight: 400, options: { bold: {} as any, italic: {} as any, underline: {} as any, link: {} as any, blockquote: {} as any, h1: {} as any, h2: {} as any, h3: {} as any, ul: {} as any, ol: {} as any } as any },
+      },
+      defaultProps: { title: 'Общи условия', lastUpdated: '', content: '' as unknown },
+      render: (props: any) => <TermsAndConditionsContentBlock {...props} />,
     },
   },
 
