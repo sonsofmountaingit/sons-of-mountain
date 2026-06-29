@@ -339,6 +339,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
   const [year, setYear] = useState(searchParams.get('year') ?? 'all')
   const [onlyAvailable, setOnlyAvailable] = useState(false)
   const [onlyWishlisted, setOnlyWishlisted] = useState(false)
+  const [onlyUpcoming, setOnlyUpcoming] = useState(true)
   const [difficulty, setDifficulty] = useState(searchParams.get('difficulty') ?? 'all')
   const [search, setSearch] = useState('')
   const [wishlistIds, setWishlistIds] = useState<Set<string>>(new Set(initialWishlist))
@@ -449,13 +450,14 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
     if (year !== 'all' && new Date(item.startDate).getFullYear() !== Number(year)) return false
     if (onlyAvailable && (item.spotsAvailable === 0 || item.status === 'soldOut')) return false
     if (onlyWishlisted && !wishlistIds.has(item.id)) return false
+    if (onlyUpcoming && item.status === 'archived') return false
     if (difficulty !== 'all' && item.difficulty !== Number(difficulty)) return false
     if (search) {
       const q = search.toLowerCase()
       if (!item.title.toLowerCase().includes(q) && !item.destinationName.toLowerCase().includes(q)) return false
     }
     return true
-  }, [category, tag, year, onlyAvailable, onlyWishlisted, wishlistIds, difficulty, search])
+  }, [category, tag, year, onlyAvailable, onlyWishlisted, onlyUpcoming, wishlistIds, difficulty, search])
 
   const filteredGroups = useMemo(() =>
     groups.map((g) => ({ ...g, items: g.items.filter(filterItem) })).filter((g) => g.items.length > 0),
@@ -628,6 +630,17 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
                 ].join(' ')}
               >
                 САМО СВОБОДНИ
+              </button>
+              <button
+                onClick={() => setOnlyUpcoming((p) => !p)}
+                className={[
+                  'text-left text-[10px] tracking-widest px-3 py-1.5 rounded-md border transition-all duration-150',
+                  onlyUpcoming
+                    ? 'border-zinc-400 text-zinc-900 bg-zinc-100'
+                    : 'border-transparent text-zinc-400 hover:text-zinc-700 hover:border-zinc-200',
+                ].join(' ')}
+              >
+                САМО ПРЕДСТОЯЩИ
               </button>
               {isLoggedIn && (
                 <button

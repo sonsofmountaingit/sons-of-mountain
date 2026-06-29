@@ -7,7 +7,7 @@ export const Destinations: CollectionConfig = {
   slug: 'destinations',
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'slug', 'type', 'updatedAt'],
+    defaultColumns: ['name', 'bookingStatus', 'startDate', 'endDate', 'type', 'updatedAt'],
     group: 'Пътувания',
   },
   versions: {
@@ -480,8 +480,12 @@ export const Destinations: CollectionConfig = {
     beforeChange: [
       ({ data }: { data: Record<string, unknown> }) => {
         const endDate = data.endDate as string | null
-        if (endDate && new Date(endDate) < new Date() && data.bookingStatus !== 'archived') {
+        if (!endDate) return data
+        const isPast = new Date(endDate) < new Date()
+        if (isPast && data.bookingStatus !== 'archived') {
           data.bookingStatus = 'archived'
+        } else if (!isPast && data.bookingStatus === 'archived') {
+          data.bookingStatus = 'active'
         }
         return data
       },

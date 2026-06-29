@@ -475,8 +475,12 @@ export const Trips: CollectionConfig = {
     beforeChange: [
       ({ data }: { data: Record<string, unknown> }) => {
         const endDate = data.endDate as string | null
-        if (endDate && new Date(endDate) < new Date() && data.status !== 'draft' && data.status !== 'archived') {
+        if (!endDate || data.status === 'draft') return data
+        const isPast = new Date(endDate) < new Date()
+        if (isPast && data.status !== 'archived') {
           data.status = 'archived'
+        } else if (!isPast && data.status === 'archived') {
+          data.status = 'active'
         }
         return data
       },

@@ -2055,7 +2055,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/DestinationBookingController"
     ],
-    "lines": 344,
+    "lines": 342,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -2899,7 +2899,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 284,
+    "lines": 282,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/page.tsx": {
@@ -3288,7 +3288,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 292,
+    "lines": 290,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {
@@ -5826,10 +5826,9 @@
       "react",
       "gsap",
       "gsap/ScrollTrigger",
-      "@/lib/media-url",
-      "@/lib/pricing/dynamic"
+      "@/lib/media-url"
     ],
-    "lines": 149,
+    "lines": 147,
     "group": "ui"
   },
   "src/components/ui/destination-page/ReadinessChecklistSection.tsx": {

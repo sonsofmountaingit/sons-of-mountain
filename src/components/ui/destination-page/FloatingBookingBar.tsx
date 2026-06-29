@@ -148,7 +148,6 @@ export function FloatingBookingBar({
         {/* Price */}
         {(isEarlyBird || price > 0) && (
           <span className="flex items-center gap-1 text-sm font-bold text-white">
-            <span className="text-white/60 font-normal text-xs">от</span>
             {isEarlyBird && (
               <span className="text-orange-400">{formatPrice(earlyBirdPrice!, currency)}</span>
             )}
