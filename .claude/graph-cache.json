@@ -13,6 +13,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260629_tags_free_text.ts",
+      "label": "migrations/20260629_tags_free_text.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/index.ts",
       "label": "migrations/index.ts",
       "group": "other",
@@ -3141,6 +3147,10 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260624_add_page_columns.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260629_tags_free_text.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -6551,6 +6561,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-06-29T19:09:12.139Z",
-  "fileCount": 522
+  "builtAt": "2026-06-29T19:17:05.209Z",
+  "fileCount": 523
 }

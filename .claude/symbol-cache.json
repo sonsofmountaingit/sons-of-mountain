@@ -23,6 +23,18 @@
     "lines": 59,
     "group": "other"
   },
+  "src/migrations/20260629_tags_free_text.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 26,
+    "group": "other"
+  },
   "src/migrations/index.ts": {
     "exports": [
       "migrations"
@@ -30,9 +42,10 @@
     "types": [],
     "imports": [
       "./20260528_add_missing_tables",
-      "./20260624_add_page_columns"
+      "./20260624_add_page_columns",
+      "./20260629_tags_free_text"
     ],
-    "lines": 16,
+    "lines": 22,
     "group": "other"
   },
   "src/seed/gallery.ts": {
@@ -2173,7 +2186,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/DestinationBookingController"
     ],
-    "lines": 346,
+    "lines": 347,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -3017,7 +3030,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 285,
+    "lines": 286,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/page.tsx": {
@@ -3408,7 +3421,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 305,
+    "lines": 306,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {
@@ -4281,7 +4294,7 @@
       "next/server",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 502,
+    "lines": 501,
     "group": "collections"
   },
   "src/payload/collections/EmailTemplates.ts": {
@@ -4384,7 +4397,7 @@
       "next/server",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 525,
+    "lines": 524,
     "group": "collections"
   },
   "src/payload/collections/Pages.ts": {
@@ -5896,7 +5909,7 @@
       "gsap/ScrollTrigger",
       "./BookingDrawer"
     ],
-    "lines": 360,
+    "lines": 371,
     "group": "ui"
   },
   "src/components/ui/destination-page/IsThisForYouSection.tsx": {
