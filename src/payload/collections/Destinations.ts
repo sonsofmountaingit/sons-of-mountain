@@ -170,6 +170,11 @@ export const Destinations: CollectionConfig = {
       admin: { readOnly: true, position: 'sidebar' },
     },
     {
+      name: 'location',
+      type: 'text',
+      admin: { description: 'e.g. Рила, България' },
+    },
+    {
       name: 'introText',
       type: 'textarea',
       required: true,

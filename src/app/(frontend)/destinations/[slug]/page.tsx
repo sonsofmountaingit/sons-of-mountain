@@ -168,6 +168,7 @@ async function DestinationContent({ params }: Props) {
     name: destination.name,
     description: destination.introText,
     image: mediaUrl(heroImage?.url) ?? undefined,
+    location: (d.location as string | null) || undefined,
   }
 
   return (

@@ -315,6 +315,39 @@
     "lines": 81,
     "group": "puck"
   },
+  "src/app/(puck)/puck/privacy-policy/PuckPrivacyPolicyEditorClient.tsx": {
+    "exports": [
+      "PuckPrivacyPolicyEditorClient"
+    ],
+    "types": [],
+    "imports": [
+      "@puckeditor/core",
+      "@/puck/config",
+      "next/navigation",
+      "react",
+      "sonner"
+    ],
+    "lines": 91,
+    "group": "puck"
+  },
+  "src/app/(puck)/puck/privacy-policy/page.tsx": {
+    "exports": [
+      "dynamic",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/headers",
+      "next/navigation",
+      "react",
+      "@puckeditor/core",
+      "./PuckPrivacyPolicyEditorClient"
+    ],
+    "lines": 50,
+    "group": "puck"
+  },
   "src/app/(puck)/puck/gallery/PuckGalleryEditorClient.tsx": {
     "exports": [
       "PuckGalleryEditorClient"
@@ -578,6 +611,39 @@
       "./PuckStoriesEditorClient"
     ],
     "lines": 43,
+    "group": "puck"
+  },
+  "src/app/(puck)/puck/terms-and-conditions/PuckTermsAndConditionsEditorClient.tsx": {
+    "exports": [
+      "PuckTermsAndConditionsEditorClient"
+    ],
+    "types": [],
+    "imports": [
+      "@puckeditor/core",
+      "@/puck/config",
+      "next/navigation",
+      "react",
+      "sonner"
+    ],
+    "lines": 91,
+    "group": "puck"
+  },
+  "src/app/(puck)/puck/terms-and-conditions/page.tsx": {
+    "exports": [
+      "dynamic",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/headers",
+      "next/navigation",
+      "react",
+      "@puckeditor/core",
+      "./PuckTermsAndConditionsEditorClient"
+    ],
+    "lines": 50,
     "group": "puck"
   },
   "src/app/(puck)/puck/hero/PuckHeroEditorClient.tsx": {
@@ -932,6 +998,18 @@
     "lines": 85,
     "group": "api"
   },
+  "src/app/api/terms-and-conditions-data/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 9,
+    "group": "api"
+  },
   "src/app/api/shipping/rates/route.ts": {
     "exports": [
       "POST"
@@ -1083,6 +1161,18 @@
       "@payload-config"
     ],
     "lines": 63,
+    "group": "api"
+  },
+  "src/app/api/privacy-policy-data/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 9,
     "group": "api"
   },
   "src/app/api/testimonials-data/route.ts": {
@@ -1377,6 +1467,20 @@
     "lines": 35,
     "group": "api"
   },
+  "src/app/api/puck/privacy-policy/route.ts": {
+    "exports": [
+      "PATCH"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/cache",
+      "@/lib/payload-auth"
+    ],
+    "lines": 34,
+    "group": "api"
+  },
   "src/app/api/puck/gallery/route.ts": {
     "exports": [
       "PATCH"
@@ -1488,6 +1592,20 @@
       "@/lib/payload-auth"
     ],
     "lines": 30,
+    "group": "api"
+  },
+  "src/app/api/puck/terms-and-conditions/route.ts": {
+    "exports": [
+      "PATCH"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/cache",
+      "@/lib/payload-auth"
+    ],
+    "lines": 34,
     "group": "api"
   },
   "src/app/api/puck/hero/route.ts": {
@@ -3198,9 +3316,10 @@
     ],
     "types": [],
     "imports": [
-      "next"
+      "next",
+      "@/components/ui/TermsAndConditions"
     ],
-    "lines": 22,
+    "lines": 14,
     "group": "frontend"
   },
   "src/app/(frontend)/legal/cookies/page.tsx": {
@@ -3210,9 +3329,10 @@
     ],
     "types": [],
     "imports": [
-      "next"
+      "next",
+      "@/components/ui/PrivacyPolicy"
     ],
-    "lines": 22,
+    "lines": 14,
     "group": "frontend"
   },
   "src/app/(frontend)/photos/page.tsx": {
@@ -3848,7 +3968,7 @@
       "next/cache",
       "../hooks/revalidate"
     ],
-    "lines": 135,
+    "lines": 136,
     "group": "globals"
   },
   "src/payload/globals/FeaturedTravels.ts": {
@@ -3878,6 +3998,19 @@
     "lines": 151,
     "group": "globals"
   },
+  "src/payload/globals/PrivacyPolicy.ts": {
+    "exports": [
+      "PrivacyPolicy"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "next/cache",
+      "next/server"
+    ],
+    "lines": 57,
+    "group": "globals"
+  },
   "src/payload/globals/CalendarCta.ts": {
     "exports": [
       "CalendarCta"
@@ -3902,6 +4035,19 @@
       "next/server"
     ],
     "lines": 33,
+    "group": "globals"
+  },
+  "src/payload/globals/TermsAndConditions.ts": {
+    "exports": [
+      "TermsAndConditions"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "next/cache",
+      "next/server"
+    ],
+    "lines": 57,
     "group": "globals"
   },
   "src/payload/globals/SiteSettings.ts": {
@@ -4015,12 +4161,14 @@
       "./collections/Testimonials",
       "./globals/About",
       "./globals/ContactPage",
+      "./globals/PrivacyPolicy",
+      "./globals/TermsAndConditions",
       "./globals/BlogPage",
       "./globals/StoriesPage",
       "./globals/CalendarPage",
       "./globals/HomePage"
     ],
-    "lines": 253,
+    "lines": 255,
     "group": "payload"
   },
   "src/payload/seeds/hero.ts": {
@@ -4868,6 +5016,17 @@
     "lines": 82,
     "group": "blocks"
   },
+  "src/components/blocks/privacy-policy/PrivacyPolicyContentBlock.tsx": {
+    "exports": [
+      "PrivacyPolicyContentBlock"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/richtext-lexical/react"
+    ],
+    "lines": 28,
+    "group": "blocks"
+  },
   "src/components/blocks/PricingBlockRenderer.tsx": {
     "exports": [
       "PricingBlockRenderer"
@@ -5227,6 +5386,17 @@
       "@/puck/BlockWrapper"
     ],
     "lines": 75,
+    "group": "blocks"
+  },
+  "src/components/blocks/terms-and-conditions/TermsAndConditionsContentBlock.tsx": {
+    "exports": [
+      "TermsAndConditionsContentBlock"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/richtext-lexical/react"
+    ],
+    "lines": 28,
     "group": "blocks"
   },
   "src/components/blocks/TabbedContentBlockRenderer.tsx": {
@@ -5855,6 +6025,21 @@
     "lines": 46,
     "group": "ui"
   },
+  "src/components/ui/PrivacyPolicy.tsx": {
+    "exports": [
+      "PrivacyPolicy"
+    ],
+    "types": [],
+    "imports": [
+      "next/cache",
+      "payload",
+      "@payload-config",
+      "@payloadcms/richtext-lexical/react",
+      "./PrivacyPolicyEditButton"
+    ],
+    "lines": 50,
+    "group": "ui"
+  },
   "src/components/ui/NavbarClient.tsx": {
     "exports": [
       "NavbarClient"
@@ -5887,7 +6072,7 @@
       "@/components/blocks/destination-carousel/DestinationCarouselBlock",
       "./DestinationCarouselEditButton"
     ],
-    "lines": 147,
+    "lines": 168,
     "group": "ui"
   },
   "src/components/ui/TripCard.tsx": {
@@ -6104,6 +6289,17 @@
     "lines": 32,
     "group": "ui"
   },
+  "src/components/ui/PrivacyPolicyEditButton.tsx": {
+    "exports": [
+      "PrivacyPolicyEditButton"
+    ],
+    "types": [],
+    "imports": [
+      "react"
+    ],
+    "lines": 51,
+    "group": "ui"
+  },
   "src/components/ui/TrackRecentlyViewed.tsx": {
     "exports": [
       "TrackRecentlyViewed"
@@ -6223,6 +6419,21 @@
     "lines": 241,
     "group": "ui"
   },
+  "src/components/ui/TermsAndConditions.tsx": {
+    "exports": [
+      "TermsAndConditions"
+    ],
+    "types": [],
+    "imports": [
+      "next/cache",
+      "payload",
+      "@payload-config",
+      "@payloadcms/richtext-lexical/react",
+      "./TermsAndConditionsEditButton"
+    ],
+    "lines": 50,
+    "group": "ui"
+  },
   "src/components/ui/CalendarMap.tsx": {
     "exports": [
       "CalendarMap"
@@ -6282,6 +6493,17 @@
       "sonner"
     ],
     "lines": 395,
+    "group": "ui"
+  },
+  "src/components/ui/TermsAndConditionsEditButton.tsx": {
+    "exports": [
+      "TermsAndConditionsEditButton"
+    ],
+    "types": [],
+    "imports": [
+      "react"
+    ],
+    "lines": 51,
     "group": "ui"
   },
   "src/components/ui/About.tsx": {
@@ -6669,6 +6891,15 @@
     "lines": 26,
     "group": "admin"
   },
+  "src/components/admin/TermsAndConditionsVisualEditorButton.tsx": {
+    "exports": [
+      "TermsAndConditionsVisualEditorButton"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 36,
+    "group": "admin"
+  },
   "src/components/admin/StripeManagementView.tsx": {
     "exports": [
       "StripeManagementView"
@@ -6725,6 +6956,15 @@
     "types": [],
     "imports": [],
     "lines": 19,
+    "group": "admin"
+  },
+  "src/components/admin/PrivacyPolicyVisualEditorButton.tsx": {
+    "exports": [
+      "PrivacyPolicyVisualEditorButton"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 36,
     "group": "admin"
   },
   "src/components/admin/ShopVisualEditorButton.tsx": {
@@ -7099,9 +7339,11 @@
       "@/components/blocks/contact/ContactFAQBlock",
       "@/components/blocks/blog/BlogHeroBlock",
       "@/components/blocks/stories/StoriesHeroBlock",
-      "@/components/blocks/calendar/CalendarHeroBlock"
+      "@/components/blocks/calendar/CalendarHeroBlock",
+      "@/components/blocks/privacy-policy/PrivacyPolicyContentBlock",
+      "@/components/blocks/terms-and-conditions/TermsAndConditionsContentBlock"
     ],
-    "lines": 1802,
+    "lines": 1831,
     "group": "other"
   },
   "src/puck/puckAI.ts": {

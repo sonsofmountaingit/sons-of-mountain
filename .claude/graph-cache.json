@@ -127,6 +127,18 @@
       "size": 6
     },
     {
+      "id": "src/app/(puck)/puck/privacy-policy/PuckPrivacyPolicyEditorClient.tsx",
+      "label": "privacy-policy/PuckPrivacyPolicyEditorClient.tsx",
+      "group": "puck",
+      "size": 6
+    },
+    {
+      "id": "src/app/(puck)/puck/privacy-policy/page.tsx",
+      "label": "privacy-policy/page.tsx",
+      "group": "puck",
+      "size": 4
+    },
+    {
       "id": "src/app/(puck)/puck/gallery/PuckGalleryEditorClient.tsx",
       "label": "gallery/PuckGalleryEditorClient.tsx",
       "group": "puck",
@@ -219,6 +231,18 @@
     {
       "id": "src/app/(puck)/puck/stories/page.tsx",
       "label": "stories/page.tsx",
+      "group": "puck",
+      "size": 4
+    },
+    {
+      "id": "src/app/(puck)/puck/terms-and-conditions/PuckTermsAndConditionsEditorClient.tsx",
+      "label": "terms-and-conditions/PuckTermsAndConditionsEditorClient.tsx",
+      "group": "puck",
+      "size": 6
+    },
+    {
+      "id": "src/app/(puck)/puck/terms-and-conditions/page.tsx",
+      "label": "terms-and-conditions/page.tsx",
       "group": "puck",
       "size": 4
     },
@@ -373,6 +397,12 @@
       "size": 4
     },
     {
+      "id": "src/app/api/terms-and-conditions-data/route.ts",
+      "label": "terms-and-conditions-data/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/shipping/rates/route.ts",
       "label": "rates/route.ts",
       "group": "api",
@@ -435,6 +465,12 @@
     {
       "id": "src/app/api/photographer-data/[username]/route.ts",
       "label": "[username]/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/privacy-policy-data/route.ts",
+      "label": "privacy-policy-data/route.ts",
       "group": "api",
       "size": 4
     },
@@ -565,6 +601,12 @@
       "size": 4
     },
     {
+      "id": "src/app/api/puck/privacy-policy/route.ts",
+      "label": "privacy-policy/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/puck/gallery/route.ts",
       "label": "gallery/route.ts",
       "group": "api",
@@ -609,6 +651,12 @@
     {
       "id": "src/app/api/puck/stories/route.ts",
       "label": "stories/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/puck/terms-and-conditions/route.ts",
+      "label": "terms-and-conditions/route.ts",
       "group": "api",
       "size": 4
     },
@@ -1513,6 +1561,12 @@
       "size": 6
     },
     {
+      "id": "src/payload/globals/PrivacyPolicy.ts",
+      "label": "globals/PrivacyPolicy.ts",
+      "group": "globals",
+      "size": 6
+    },
+    {
       "id": "src/payload/globals/CalendarCta.ts",
       "label": "globals/CalendarCta.ts",
       "group": "globals",
@@ -1521,6 +1575,12 @@
     {
       "id": "src/payload/globals/BlogPage.ts",
       "label": "globals/BlogPage.ts",
+      "group": "globals",
+      "size": 6
+    },
+    {
+      "id": "src/payload/globals/TermsAndConditions.ts",
+      "label": "globals/TermsAndConditions.ts",
       "group": "globals",
       "size": 6
     },
@@ -1951,6 +2011,12 @@
       "size": 8
     },
     {
+      "id": "src/components/blocks/privacy-policy/PrivacyPolicyContentBlock.tsx",
+      "label": "privacy-policy/PrivacyPolicyContentBlock.tsx",
+      "group": "blocks",
+      "size": 6
+    },
+    {
       "id": "src/components/blocks/PricingBlockRenderer.tsx",
       "label": "blocks/PricingBlockRenderer.tsx",
       "group": "blocks",
@@ -2117,6 +2183,12 @@
       "label": "blocks/DestinationCarouselRenderer.tsx",
       "group": "blocks",
       "size": 12
+    },
+    {
+      "id": "src/components/blocks/terms-and-conditions/TermsAndConditionsContentBlock.tsx",
+      "label": "terms-and-conditions/TermsAndConditionsContentBlock.tsx",
+      "group": "blocks",
+      "size": 6
     },
     {
       "id": "src/components/blocks/TabbedContentBlockRenderer.tsx",
@@ -2401,6 +2473,12 @@
       "size": 6
     },
     {
+      "id": "src/components/ui/PrivacyPolicy.tsx",
+      "label": "ui/PrivacyPolicy.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
       "id": "src/components/ui/NavbarClient.tsx",
       "label": "ui/NavbarClient.tsx",
       "group": "ui",
@@ -2509,6 +2587,12 @@
       "size": 6
     },
     {
+      "id": "src/components/ui/PrivacyPolicyEditButton.tsx",
+      "label": "ui/PrivacyPolicyEditButton.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
       "id": "src/components/ui/TrackRecentlyViewed.tsx",
       "label": "ui/TrackRecentlyViewed.tsx",
       "group": "ui",
@@ -2569,6 +2653,12 @@
       "size": 6
     },
     {
+      "id": "src/components/ui/TermsAndConditions.tsx",
+      "label": "ui/TermsAndConditions.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
       "id": "src/components/ui/CalendarMap.tsx",
       "label": "ui/CalendarMap.tsx",
       "group": "ui",
@@ -2591,6 +2681,12 @@
       "label": "ui/CalendarTripCard.tsx",
       "group": "ui",
       "size": 14
+    },
+    {
+      "id": "src/components/ui/TermsAndConditionsEditButton.tsx",
+      "label": "ui/TermsAndConditionsEditButton.tsx",
+      "group": "ui",
+      "size": 6
     },
     {
       "id": "src/components/ui/About.tsx",
@@ -2797,6 +2893,12 @@
       "size": 6
     },
     {
+      "id": "src/components/admin/TermsAndConditionsVisualEditorButton.tsx",
+      "label": "admin/TermsAndConditionsVisualEditorButton.tsx",
+      "group": "admin",
+      "size": 4
+    },
+    {
       "id": "src/components/admin/StripeManagementView.tsx",
       "label": "admin/StripeManagementView.tsx",
       "group": "admin",
@@ -2831,6 +2933,12 @@
       "label": "admin/HomePageVisualEditorButton.tsx",
       "group": "admin",
       "size": 6
+    },
+    {
+      "id": "src/components/admin/PrivacyPolicyVisualEditorButton.tsx",
+      "label": "admin/PrivacyPolicyVisualEditorButton.tsx",
+      "group": "admin",
+      "size": 4
     },
     {
       "id": "src/components/admin/ShopVisualEditorButton.tsx",
@@ -3123,6 +3231,18 @@
       "target": "src/puck/config.tsx"
     },
     {
+      "source": "src/app/(puck)/puck/privacy-policy/PuckPrivacyPolicyEditorClient.tsx",
+      "target": "src/puck/config.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/privacy-policy/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/privacy-policy/page.tsx",
+      "target": "src/app/(puck)/puck/privacy-policy/PuckPrivacyPolicyEditorClient.tsx"
+    },
+    {
       "source": "src/app/(puck)/puck/gallery/PuckGalleryEditorClient.tsx",
       "target": "src/puck/config.tsx"
     },
@@ -3221,6 +3341,18 @@
     {
       "source": "src/app/(puck)/puck/stories/page.tsx",
       "target": "src/app/(puck)/puck/stories/PuckStoriesEditorClient.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/terms-and-conditions/PuckTermsAndConditionsEditorClient.tsx",
+      "target": "src/puck/config.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/terms-and-conditions/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/terms-and-conditions/page.tsx",
+      "target": "src/app/(puck)/puck/terms-and-conditions/PuckTermsAndConditionsEditorClient.tsx"
     },
     {
       "source": "src/app/(puck)/puck/hero/PuckHeroEditorClient.tsx",
@@ -3355,6 +3487,10 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/terms-and-conditions-data/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
       "source": "src/app/api/unsubscribe/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -3408,6 +3544,10 @@
     },
     {
       "source": "src/app/api/photographer-data/[username]/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/privacy-policy-data/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
@@ -3543,6 +3683,14 @@
       "target": "src/lib/payload-auth.ts"
     },
     {
+      "source": "src/app/api/puck/privacy-policy/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/privacy-policy/route.ts",
+      "target": "src/lib/payload-auth.ts"
+    },
+    {
       "source": "src/app/api/puck/gallery/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -3604,6 +3752,14 @@
     },
     {
       "source": "src/app/api/puck/stories/route.ts",
+      "target": "src/lib/payload-auth.ts"
+    },
+    {
+      "source": "src/app/api/puck/terms-and-conditions/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/terms-and-conditions/route.ts",
       "target": "src/lib/payload-auth.ts"
     },
     {
@@ -4623,6 +4779,14 @@
       "target": "src/lib/metadata.ts"
     },
     {
+      "source": "src/app/(frontend)/legal/terms/page.tsx",
+      "target": "src/components/ui/TermsAndConditions.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/legal/cookies/page.tsx",
+      "target": "src/components/ui/PrivacyPolicy.tsx"
+    },
+    {
       "source": "src/app/(frontend)/photos/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -5121,6 +5285,14 @@
     {
       "source": "src/payload/payload.config.ts",
       "target": "src/payload/globals/ContactPage.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/PrivacyPolicy.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/TermsAndConditions.ts"
     },
     {
       "source": "src/payload/payload.config.ts",
@@ -5827,6 +5999,14 @@
       "target": "src/lib/media-url.ts"
     },
     {
+      "source": "src/components/ui/PrivacyPolicy.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/components/ui/PrivacyPolicy.tsx",
+      "target": "src/components/ui/PrivacyPolicyEditButton.tsx"
+    },
+    {
       "source": "src/components/ui/NavbarClient.tsx",
       "target": "src/components/ui/ProgramsMegaMenu.tsx"
     },
@@ -5961,6 +6141,14 @@
     {
       "source": "src/components/ui/GalleryMasonry.tsx",
       "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/components/ui/TermsAndConditions.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/components/ui/TermsAndConditions.tsx",
+      "target": "src/components/ui/TermsAndConditionsEditButton.tsx"
     },
     {
       "source": "src/components/ui/CalendarMap.tsx",
@@ -6340,6 +6528,14 @@
     },
     {
       "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/privacy-policy/PrivacyPolicyContentBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/terms-and-conditions/TermsAndConditionsContentBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
       "target": "src/puck/styleFields.tsx"
     },
     {
@@ -6355,6 +6551,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-06-29T18:03:57.335Z",
-  "fileCount": 504
+  "builtAt": "2026-06-29T18:14:05.930Z",
+  "fileCount": 522
 }
