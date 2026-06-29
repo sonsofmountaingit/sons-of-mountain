@@ -33,7 +33,7 @@ const getPrograms = unstable_cache(
     const payload = await getPayload({ config })
     const { docs } = await payload.find({
       collection: 'programs',
-      where: { status: { not_equals: 'draft' } },
+      where: { and: [{ status: { not_equals: 'draft' } }, { status: { not_equals: 'archived' } }] },
       limit: 200,
       sort: 'startDate',
       overrideAccess: true,
@@ -125,8 +125,20 @@ async function ProgramsContent() {
     programs = (await getPrograms()) as unknown as Record<string, unknown>[]
   } catch {}
 
-  const active = programs.filter(p => p.status !== 'archived')
-  const archived = programs.filter(p => p.status === 'archived')
+  const active = programs
+
+  let archived: Record<string, unknown>[] = []
+  try {
+    const payload = await getPayload({ config })
+    const { docs } = await payload.find({
+      collection: 'programs',
+      where: { status: { equals: 'archived' } },
+      sort: '-startDate',
+      limit: 100,
+      overrideAccess: true,
+    })
+    archived = docs as unknown as Record<string, unknown>[]
+  } catch {}
 
   return (
     <>

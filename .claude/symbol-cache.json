@@ -4133,7 +4133,7 @@
       "next/server",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 498,
+    "lines": 502,
     "group": "collections"
   },
   "src/payload/collections/EmailTemplates.ts": {
@@ -4236,7 +4236,7 @@
       "next/server",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 521,
+    "lines": 525,
     "group": "collections"
   },
   "src/payload/collections/Pages.ts": {
@@ -4517,7 +4517,7 @@
       "next/server",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 502,
+    "lines": 506,
     "group": "collections"
   },
   "src/payload/collections/Waitlist.ts": {
@@ -5571,7 +5571,7 @@
       "@/lib/cart-store",
       "next/navigation"
     ],
-    "lines": 172,
+    "lines": 171,
     "group": "ui"
   },
   "src/components/ui/destination-page/BookingDrawer.tsx": {
@@ -5979,7 +5979,7 @@
       "next/navigation",
       "./CalendarTripCard"
     ],
-    "lines": 728,
+    "lines": 741,
     "group": "ui"
   },
   "src/components/ui/Footer.tsx": {

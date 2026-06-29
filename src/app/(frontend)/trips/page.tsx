@@ -21,7 +21,7 @@ const getTrips = unstable_cache(
     const payload = await getPayload({ config })
     const { docs } = await payload.find({
       collection: 'trips',
-      where: { status: { not_equals: 'draft' } },
+      where: { and: [{ status: { not_equals: 'draft' } }, { status: { not_equals: 'archived' } }] },
       sort: 'startDate',
       limit: 100,
       depth: 1,
@@ -130,9 +130,22 @@ async function TripsContent() {
     trips = (await getTrips()) as unknown as Record<string, unknown>[]
   } catch {}
 
-  const active = trips.filter(t => t.status !== 'soldOut' && t.status !== 'archived')
+  const active = trips.filter(t => t.status !== 'soldOut')
   const soldOut = trips.filter(t => t.status === 'soldOut')
-  const archived = trips.filter(t => t.status === 'archived')
+
+  let archived: Record<string, unknown>[] = []
+  try {
+    const payload = await getPayload({ config })
+    const { docs } = await payload.find({
+      collection: 'trips',
+      where: { status: { equals: 'archived' } },
+      sort: '-startDate',
+      limit: 100,
+      depth: 1,
+      overrideAccess: true,
+    })
+    archived = docs as unknown as Record<string, unknown>[]
+  } catch {}
 
   const jsonLd = {
     '@context': 'https://schema.org',

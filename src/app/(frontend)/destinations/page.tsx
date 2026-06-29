@@ -20,6 +20,7 @@ const getDestinations = unstable_cache(
     const payload = await getPayload({ config })
     const { docs } = await payload.find({
       collection: 'destinations',
+      where: { bookingStatus: { not_equals: 'archived' } },
       limit: 200,
       sort: 'startDate',
       overrideAccess: true,
@@ -48,8 +49,18 @@ async function DestinationsContent() {
     })),
   }
 
-  const active = destinations.filter((d: any) => d.bookingStatus !== 'archived')
-  const archived = destinations.filter((d: any) => d.bookingStatus === 'archived')
+  let archived: any[] = []
+  try {
+    const payload = await getPayload({ config })
+    const { docs } = await payload.find({
+      collection: 'destinations',
+      where: { bookingStatus: { equals: 'archived' } },
+      sort: '-startDate',
+      limit: 100,
+      overrideAccess: true,
+    })
+    archived = docs
+  } catch {}
 
   return (
     <>
@@ -57,8 +68,11 @@ async function DestinationsContent() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {destinations.length === 0 && archived.length === 0 && (
+        <p className="text-white/30 text-center py-20">Скоро ще добавим дестинации.</p>
+      )}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {active.map((dest: any) => (
+        {destinations.map((dest: any) => (
           <DestinationCard
             key={dest.id}
             name={dest.name}
@@ -67,9 +81,6 @@ async function DestinationsContent() {
           />
         ))}
       </div>
-      {active.length === 0 && archived.length === 0 && (
-        <p className="text-white/30 text-center py-20">Скоро ще добавим дестинации.</p>
-      )}
       {archived.length > 0 && (
         <details className="mt-16 group">
           <summary className="cursor-pointer text-white/40 hover:text-white/70 transition-colors text-sm font-semibold uppercase tracking-widest mb-8 list-none flex items-center gap-2">
