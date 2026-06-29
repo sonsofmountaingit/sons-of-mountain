@@ -39,6 +39,7 @@ interface Props {
   archived?: boolean
   earlyBirdPrice?: number | null
   earlyBirdUntil?: string | null
+  tags?: string[]
 }
 
 function difficultyLabel(d: number) {
@@ -95,7 +96,7 @@ export function HeroSection({
   avgRating, reviewCount, weather, location, startDate, endDate,
   tripId, tripTitle, price = 0, currency = 'EUR',
   depositAmount, durationDays, month, itemType = 'trip', archived = false,
-  earlyBirdPrice, earlyBirdUntil,
+  earlyBirdPrice, earlyBirdUntil, tags,
 }: Props) {
   const thumbs = heroGallery?.filter(g => g.url).slice(0, 5) ?? []
   const [activeImage, setActiveImage] = useState<string | null>(null)
@@ -237,6 +238,16 @@ export function HeroSection({
             <p ref={subtitleRef} className="text-sm sm:text-base md:text-lg text-white/75 max-w-lg leading-relaxed opacity-0 line-clamp-3 sm:line-clamp-none">
               {subtitle}
             </p>
+          )}
+
+          {tags && tags.length > 0 && (
+            <div className="flex flex-wrap gap-1.5">
+              {tags.map((tag, i) => (
+                <span key={i} className="text-white/60 text-xs border border-white/20 px-2 py-0.5 rounded-full">
+                  {tag}
+                </span>
+              ))}
+            </div>
           )}
 
           {/* Meta grid 2×2 */}

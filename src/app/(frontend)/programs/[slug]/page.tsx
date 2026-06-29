@@ -190,6 +190,7 @@ async function ProgramContent({ params }: Props) {
         heroImage={mediaUrl(heroImage?.url)!}
         heroImageAlt={heroImage?.alt ?? program.title}
         location={p.location as string | null}
+        tags={(p.tags as { tag: string }[] | null ?? []).map(tag => tag.tag).filter(Boolean)}
       />
 
       <WhySection

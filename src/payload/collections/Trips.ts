@@ -188,8 +188,7 @@ export const Trips: CollectionConfig = {
       fields: [
         {
           name: 'tag',
-          type: 'select',
-          options: ['Singles Only', 'Family', 'Adventure', 'Cultural', 'Beach', 'Yacht', 'Hiking', 'Ski', 'Wellness'],
+          type: 'text',
         },
       ],
     },

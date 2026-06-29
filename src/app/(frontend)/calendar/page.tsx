@@ -198,7 +198,7 @@ const fetchCalendarData = unstable_cache(
       spotsAvailable: dest.spotsAvailable ?? 0,
       spotsTotal: dest.spotsTotal ?? 0,
       status: (dest.bookingStatus === 'archived' ? 'archived' : dest.bookingStatus === 'soldOut' ? 'soldOut' : 'active') as CalendarItem['status'],
-      tags: (dest.tags ?? []).map((t) => t.tag ?? '').filter(Boolean),
+      tags: (dest.tags ?? []).map((t) => t.label ?? '').filter(Boolean),
       href: dest.slug ? `/destinations/${dest.slug}` : '#',
       difficulty: toDifficulty(dest.fitnessRatings?.difficulty ?? null),
     })

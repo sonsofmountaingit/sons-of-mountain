@@ -197,6 +197,7 @@ async function DestinationContent({ params }: Props) {
       />
 
       <HeroSection
+        tags={(d.tags as { label: string }[] | null ?? []).map(t => t.label).filter(Boolean)}
         title={destination.name}
         subtitle={destination.introText}
         heroImage={mediaUrl(heroImage?.url)!}

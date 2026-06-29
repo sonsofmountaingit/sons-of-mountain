@@ -195,8 +195,7 @@ export const Programs: CollectionConfig = {
       fields: [
         {
           name: 'tag',
-          type: 'select',
-          options: ['Singles Only', 'Family', 'Couples', 'Photography', 'Yoga', 'Ski', 'Sailing', 'Adventure', 'Wellness', 'Hiking', 'Cultural'],
+          type: 'text',
         },
       ],
     },

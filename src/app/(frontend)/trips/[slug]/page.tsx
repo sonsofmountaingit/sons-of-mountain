@@ -211,6 +211,7 @@ async function TripContent({ params }: Props) {
         archived={(trip.status as string) === 'archived'}
         earlyBirdPrice={t.earlyBirdPrice as number | null}
         earlyBirdUntil={t.earlyBirdUntil as string | null}
+        tags={(t.tags as { tag: string }[] | null ?? []).map(tag => tag.tag).filter(Boolean)}
       />
 
       <WhySection
