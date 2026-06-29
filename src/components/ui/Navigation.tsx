@@ -17,7 +17,7 @@ const getNavigationData = unstable_cache(
         instagramUrl: (d?.instagramUrl ?? 'https://instagram.com/sonsofmountains') as string,
         facebookUrl: (d?.facebookUrl ?? 'https://facebook.com/sonsofmountains') as string,
         tiktokUrl: (d?.tiktokUrl ?? '') as string,
-        logoDarkUrl: mediaUrl(typeof d?.logoDark === 'object' ? d.logoDark?.url : null) ?? 'https://framerusercontent.com/images/sQ2kYkKWnh9M8mP6NCkfgP6bXuE.png',
+        logoDarkUrl: mediaUrl(typeof d?.logoDark === 'object' ? d.logoDark?.url : null) ?? '/white-logo.svg',
         logoLightUrl: mediaUrl(typeof d?.logoLight === 'object' ? d.logoLight?.url : null) ?? '',
       }
     } catch {
@@ -34,7 +34,7 @@ const getNavigationData = unstable_cache(
         instagramUrl: 'https://instagram.com/sonsofmountains',
         facebookUrl: 'https://facebook.com/sonsofmountains',
         tiktokUrl: '',
-        logoDarkUrl: 'https://framerusercontent.com/images/sQ2kYkKWnh9M8mP6NCkfgP6bXuE.png',
+        logoDarkUrl: '/white-logo.svg',
         logoLightUrl: '',
       }
     }

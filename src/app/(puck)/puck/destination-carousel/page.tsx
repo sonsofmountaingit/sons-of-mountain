@@ -42,7 +42,7 @@ async function EditorContent() {
                 ...block,
                 props: {
                   ...block.props,
-                  headline: block.props.headline ?? c?.headline ?? 'Преоткривай света с нас!',
+                  headline: block.props.headline ?? c?.headline ?? 'Преходи, пътешествия и експедиции в България и по света!',
                   subheading: block.props.subheading ?? c?.subheading ?? 'Пътувай с Sons of Mountains там, където комфортът среща приключението.',
                   introSlideHeadline: block.props.introSlideHeadline ?? c?.introSlideHeadline ?? '',
                   introSlideSubheading: block.props.introSlideSubheading ?? c?.introSlideSubheading ?? '',
@@ -63,7 +63,7 @@ async function EditorContent() {
             props: {
               id: 'destination-carousel-main',
               sectionTitle: c?.sectionTitle ?? 'Дестинации',
-              headline: c?.headline ?? 'Преоткривай света с нас!',
+              headline: c?.headline ?? 'Преходи, пътешествия и експедиции в България и по света!',
               subheading: c?.subheading ?? 'Пътувай с Sons of Mountains там, където комфортът среща приключението.',
               introSlideHeadline: c?.introSlideHeadline ?? '',
               introSlideSubheading: c?.introSlideSubheading ?? '',

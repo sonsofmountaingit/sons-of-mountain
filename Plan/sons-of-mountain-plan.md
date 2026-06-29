@@ -167,7 +167,7 @@ Plan: Clone panicframe.com — Full Platform
 
  Homepage — All Sections (top → bottom)
 
- 1. Full-viewport hero: layered/duplicated animated headline "Преоткривай света с нас!" (staggered word-by-word, translateY +
+ 1. Full-viewport hero: layered/duplicated animated headline "Преходи, пътешествия и експедиции в България и по света!" (staggered word-by-word, translateY +
  opacity), subtitle "Пътувай с Panic Frame там, където комфортът среща приключението.", CTA button "Виж всички дестинации →" →
  /destinations
  2. Horizontal destination scroll carousel: draggable (Motion drag + inertia). Cards: portrait image, destination name (large white),

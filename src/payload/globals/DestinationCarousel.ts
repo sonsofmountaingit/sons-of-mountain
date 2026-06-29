@@ -77,7 +77,7 @@ export const DestinationCarousel: GlobalConfig = {
       name: 'headline',
       type: 'text',
       label: 'Carousel Headline',
-      defaultValue: 'Преоткривай света с нас!',
+      defaultValue: 'Преходи, пътешествия и експедиции в България и по света!',
     },
     {
       name: 'subheading',

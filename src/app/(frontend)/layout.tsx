@@ -27,7 +27,7 @@ const dancingScript = Dancing_Script({
 export const metadata: Metadata = {
   title: {
     template: '%s | Sons of Mountains',
-    default: 'Sons of Mountains — Преоткривай света с нас',
+    default: 'Sons of Mountains — Преходи, пътешествия и експедиции в България и по света',
   },
   description: 'Пътувай с Sons of Mountains там, където комфортът среща приключението.',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'),

@@ -36,7 +36,7 @@ async function EditorContent() {
           type: 'HeroHeadlineBlock',
           props: {
             id: 'hero-headline',
-            text: h?.headline ?? 'Преоткривай света с нас!',
+            text: h?.headline ?? 'Преходи, пътешествия и експедиции в България и по света!',
             fontSize: '4rem',
             color: '#ffffff',
             fontWeight: '700',

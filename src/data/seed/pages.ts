@@ -5,7 +5,7 @@ async function seedPages() {
   const payload = await getPayload({ config })
 
   const pages: Array<{ title: string; slug: string; headline: string; subheadline: string }> = [
-    { title: 'Home', slug: 'home', headline: 'Sons of Mountains', subheadline: 'Преоткривай света с нас' },
+    { title: 'Home', slug: 'home', headline: 'Sons of Mountains', subheadline: 'Преходи, пътешествия и експедиции в България и по света' },
     { title: 'About', slug: 'about', headline: 'За нас', subheadline: 'Кои сме ние и защо го правим' },
     { title: 'Blog', slug: 'blog', headline: 'Блог', subheadline: 'Истории от пътя' },
     { title: 'Calendar', slug: 'calendar', headline: 'Календар', subheadline: 'Предстоящи пътувания' },

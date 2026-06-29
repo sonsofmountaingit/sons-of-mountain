@@ -11,7 +11,7 @@ interface HeroHeadlineBlockProps {
 }
 
 export function HeroHeadlineBlock({
-  text = 'Преоткривай света с нас!',
+  text = 'Преходи, пътешествия и експедиции в България и по света!',
   fontSize = '4rem',
   color = '#ffffff',
   fontWeight = '700',

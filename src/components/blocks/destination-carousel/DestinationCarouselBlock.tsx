@@ -92,7 +92,7 @@ function DestCard({
 
 export function DestinationCarouselBlock({
   destinations = [],
-  headline = 'Преоткривай света с нас!',
+  headline = 'Преходи, пътешествия и експедиции в България и по света!',
   subheading = 'Пътувай с Sons of Mountains там, където комфортът среща приключението.',
   emptyMessage,
   destinationButtonText = 'Разгледай',

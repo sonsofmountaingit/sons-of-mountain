@@ -28,7 +28,7 @@ export const Hero: GlobalConfig = {
     {
       name: 'headline',
       type: 'text',
-      defaultValue: 'Преоткривай света с нас!',
+      defaultValue: 'Преходи, пътешествия и експедиции в България и по света!',
     },
     {
       name: 'subtext',
