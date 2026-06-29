@@ -35,6 +35,7 @@ interface Props {
   durationDays?: number | null
   month?: string | null
   itemType?: 'trip' | 'program'
+  archived?: boolean
 }
 
 function difficultyLabel(d: number) {
@@ -90,7 +91,7 @@ export function HeroSection({
   departureCity, difficulty, spotsAvailable,
   avgRating, reviewCount, weather, startDate, endDate,
   tripId, tripTitle, price = 0, currency = 'EUR',
-  depositAmount, durationDays, month, itemType = 'trip',
+  depositAmount, durationDays, month, itemType = 'trip', archived = false,
 }: Props) {
   const thumbs = heroGallery?.filter(g => g.url).slice(0, 5) ?? []
   const [activeImage, setActiveImage] = useState<string | null>(null)
@@ -273,12 +274,14 @@ export function HeroSection({
 
           {/* CTA + thumbnails */}
           <div ref={ctaRef} className="flex flex-wrap items-end justify-between gap-3 mt-1 opacity-0">
-            <button
-              onClick={() => setDrawerOpen(true)}
-              className="inline-flex items-center gap-2 bg-white text-black text-sm font-semibold px-5 py-2.5 sm:px-6 sm:py-3 rounded-sm hover:bg-white/90 transition-colors"
-            >
-              Резервирай място →
-            </button>
+            {!archived && (
+              <button
+                onClick={() => setDrawerOpen(true)}
+                className="inline-flex items-center gap-2 bg-white text-black text-sm font-semibold px-5 py-2.5 sm:px-6 sm:py-3 rounded-sm hover:bg-white/90 transition-colors"
+              >
+                Резервирай място →
+              </button>
+            )}
 
             {thumbs.length > 0 && (
               <div className="flex gap-1.5 sm:gap-2">

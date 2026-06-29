@@ -19,9 +19,11 @@ interface Props {
   depositAmount?: number | null
   earlyBirdPrice?: number | null
   earlyBirdUntil?: string | null
+  archived?: boolean
 }
 
 export function DestinationBookingController(props: Props) {
+  if (props.archived) return null
   const [open, setOpen] = useState(false)
 
   useEffect(() => {

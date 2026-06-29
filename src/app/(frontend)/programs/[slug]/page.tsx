@@ -167,20 +167,22 @@ async function ProgramContent({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <DestinationPageAnimator />
-      <FloatingBookingBar
-        month={program.startDate ? new Date(program.startDate as string).toLocaleDateString('bg-BG', { month: 'long' }) : null}
-        maxParticipants={p.maxParticipants as number | null}
-        durationDays={p.durationDays as number | null}
-        price={program.price ?? 0}
-        currency={(program.currency ?? 'EUR') as string}
-        tripId={String(program.id)}
-        tripTitle={program.title as string}
-        itemType="program"
-        spotsAvailable={program.spotsAvailable as number | null}
-        depositAmount={p.depositAmount as number | null}
-        earlyBirdPrice={p.earlyBirdPrice as number | null}
-        earlyBirdUntil={p.earlyBirdUntil as string | null}
-      />
+      {(program.status as string) !== 'archived' && (
+        <FloatingBookingBar
+          month={program.startDate ? new Date(program.startDate as string).toLocaleDateString('bg-BG', { month: 'long' }) : null}
+          maxParticipants={p.maxParticipants as number | null}
+          durationDays={p.durationDays as number | null}
+          price={program.price ?? 0}
+          currency={(program.currency ?? 'EUR') as string}
+          tripId={String(program.id)}
+          tripTitle={program.title as string}
+          itemType="program"
+          spotsAvailable={program.spotsAvailable as number | null}
+          depositAmount={p.depositAmount as number | null}
+          earlyBirdPrice={p.earlyBirdPrice as number | null}
+          earlyBirdUntil={p.earlyBirdUntil as string | null}
+        />
+      )}
 
       <HeroSection
         title={program.title ?? ''}

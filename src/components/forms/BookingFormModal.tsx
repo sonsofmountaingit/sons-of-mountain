@@ -258,7 +258,7 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
                       <label className="text-xs text-white/50 mb-2 block">Споделено пътуване</label>
                       <div className="space-y-2">
                         {([
-                          ['organizer', 'Аз съм организатор на споделено пътуване'],
+                          ['organizer', 'Аз съм шофьор на споделено пътуване'],
                           ['passenger', 'Искам да участвам в споделено пътуване'],
                           ['solo', 'Сам ще дойда'],
                         ] as const).map(([val, label]) => (

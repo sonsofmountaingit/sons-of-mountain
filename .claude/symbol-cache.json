@@ -2018,7 +2018,7 @@
       "react",
       "@/lib/metadata"
     ],
-    "lines": 109,
+    "lines": 120,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/[slug]/page.tsx": {
@@ -2864,7 +2864,7 @@
       "@/lib/media-url",
       "@/lib/metadata"
     ],
-    "lines": 198,
+    "lines": 210,
     "group": "frontend"
   },
   "src/app/(frontend)/programs/[slug]/page.tsx": {
@@ -3252,7 +3252,7 @@
       "@/lib/media-url",
       "@/lib/metadata"
     ],
-    "lines": 203,
+    "lines": 216,
     "group": "frontend"
   },
   "src/app/(frontend)/trips/[slug]/page.tsx": {

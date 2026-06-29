@@ -177,19 +177,21 @@ async function TripContent({ params }: Props) {
       />
       <DestinationPageAnimator />
       <TrackRecentlyViewed id={String(trip.id)} />
-      <FloatingBookingBar
-        month={trip.startDate ? new Date(trip.startDate as string).toLocaleDateString('bg-BG', { month: 'long' }) : null}
-        maxParticipants={t.maxParticipantsPerRegistration as number | null}
-        durationDays={durationDays}
-        price={trip.price ?? 0}
-        currency={(trip.currency ?? 'EUR') as string}
-        tripId={String(trip.id)}
-        tripTitle={title}
-        spotsAvailable={trip.spotsAvailable as number | null}
-        depositAmount={t.depositAmount as number | null}
-        earlyBirdPrice={t.earlyBirdPrice as number | null}
-        earlyBirdUntil={t.earlyBirdUntil as string | null}
-      />
+      {(trip.status as string) !== 'archived' && (
+        <FloatingBookingBar
+          month={trip.startDate ? new Date(trip.startDate as string).toLocaleDateString('bg-BG', { month: 'long' }) : null}
+          maxParticipants={t.maxParticipantsPerRegistration as number | null}
+          durationDays={durationDays}
+          price={trip.price ?? 0}
+          currency={(trip.currency ?? 'EUR') as string}
+          tripId={String(trip.id)}
+          tripTitle={title}
+          spotsAvailable={trip.spotsAvailable as number | null}
+          depositAmount={t.depositAmount as number | null}
+          earlyBirdPrice={t.earlyBirdPrice as number | null}
+          earlyBirdUntil={t.earlyBirdUntil as string | null}
+        />
+      )}
 
       <HeroSection
         title={title}

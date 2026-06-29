@@ -300,9 +300,21 @@ export function DestinationCarouselBlock({
               transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-col"
             >
-              <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white uppercase leading-none mb-6 tracking-tight dc-hero-title">
+              <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white uppercase leading-none mb-4 tracking-tight dc-hero-title">
                 {activeDest?.overrideTitle ?? activeDest?.name ?? headline}
               </h1>
+
+              {activeDest && (activeDest.month || activeDest.price != null || activeDest.availableSpots != null) && (
+                <p className="text-sm text-white/55 mb-3 flex items-center gap-3 dc-hero-sub">
+                  {activeDest.month && <span>{activeDest.month}</span>}
+                  {activeDest.price != null && <span>{activeDest.price} €</span>}
+                  {activeDest.availableSpots != null && (
+                    <span className={activeDest.availableSpots <= 3 ? 'text-red-400' : ''}>
+                      {activeDest.availableSpots} места
+                    </span>
+                  )}
+                </p>
+              )}
 
               <p className="text-sm md:text-base text-white/65 mb-10 max-w-sm leading-relaxed dc-hero-sub">
                 {activeDest?.overrideDescription ?? subheading}

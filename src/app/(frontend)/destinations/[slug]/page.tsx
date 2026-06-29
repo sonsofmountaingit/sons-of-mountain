@@ -192,6 +192,7 @@ async function DestinationContent({ params }: Props) {
         depositAmount={(d.depositAmount as number | null)}
         earlyBirdPrice={(d.earlyBirdPrice as number | null)}
         earlyBirdUntil={(d.earlyBirdUntil as string | null)}
+        archived={(d.bookingStatus as string | null) === 'archived'}
       />
 
       <HeroSection
@@ -219,6 +220,7 @@ async function DestinationContent({ params }: Props) {
         depositAmount={(d.depositAmount as number | null)}
         durationDays={durationDays}
         month={(d.month as string | null) ?? null}
+        archived={(d.bookingStatus as string | null) === 'archived'}
       />
 
       <WhySection

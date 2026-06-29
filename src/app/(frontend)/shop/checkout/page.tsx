@@ -32,7 +32,7 @@ interface CarpoolRide {
 }
 
 const participationTabs: { value: ParticipationType; label: string }[] = [
-  { value: 'organizer', label: 'Аз съм организатор на споделено пътуване' },
+  { value: 'organizer', label: 'Аз съм шофьор на споделено пътуване' },
   { value: 'join', label: 'Искам да участвам в споделено пътуване' },
   { value: 'solo', label: 'Сам ще дойда' },
 ]
