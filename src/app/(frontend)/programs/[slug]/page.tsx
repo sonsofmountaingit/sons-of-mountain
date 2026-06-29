@@ -231,6 +231,10 @@ async function ProgramContent({ params }: Props) {
         currency={(program.currency ?? 'EUR') as string}
         priceIncludes={p.priceIncludes as string | null}
         communityPhotos={communityPhotos}
+        earlyBirdPrice={p.earlyBirdPrice as number | null}
+        earlyBirdUntil={p.earlyBirdUntil as string | null}
+        earlyBirdSpots={p.earlyBirdSpots as number | null}
+        spotsAvailable={(program.spotsAvailable as number | null) ?? 0}
       />
 
       <BookingCtaSection

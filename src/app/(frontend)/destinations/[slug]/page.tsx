@@ -292,6 +292,10 @@ async function DestinationContent({ params }: Props) {
         currency="EUR"
         priceIncludes={d.priceIncludes as string | null}
         communityPhotos={communityPhotos}
+        earlyBirdPrice={d.earlyBirdPrice as number | null}
+        earlyBirdUntil={d.earlyBirdUntil as string | null}
+        earlyBirdSpots={d.earlyBirdSpots as number | null}
+        spotsAvailable={(d.spotsAvailable as number | null) ?? 0}
       />
 
       <BookingCtaSection

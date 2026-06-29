@@ -5,6 +5,7 @@ import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { mediaUrl } from '@/lib/media-url'
+import { getEarlyBirdPrice } from '@/lib/pricing/dynamic'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -19,6 +20,10 @@ interface Props {
   currency: string
   priceIncludes?: string | null
   communityPhotos?: CommunityPhoto[] | null
+  earlyBirdPrice?: number | null
+  earlyBirdUntil?: string | null
+  earlyBirdSpots?: number | null
+  spotsAvailable?: number | null
 }
 
 function formatPrice(price: number, currency: string) {
@@ -26,7 +31,8 @@ function formatPrice(price: number, currency: string) {
   return `${sym}${price.toLocaleString('bg-BG')}`
 }
 
-export function AdventureCtaSection({ durationDays, maxParticipants, price, currency, priceIncludes, communityPhotos }: Props) {
+export function AdventureCtaSection({ durationDays, maxParticipants, price, currency, priceIncludes, communityPhotos, earlyBirdPrice, earlyBirdUntil, earlyBirdSpots, spotsAvailable }: Props) {
+  const { price: displayPrice, isEarlyBird } = getEarlyBirdPrice(price, earlyBirdPrice, earlyBirdUntil, earlyBirdSpots, spotsAvailable ?? 0)
   const photos = (communityPhotos ?? []).filter((p) => mediaUrl(p.photo?.url))
   const communityCount = Math.floor(photos.length / 10) * 10 + 10
 
@@ -79,8 +85,18 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
 
         <div className="w-full">
           <p className="text-xs font-bold tracking-[0.25em] text-black/40 uppercase mb-2">Цена на човек</p>
-          <div ref={priceRef} className="text-6xl sm:text-7xl md:text-8xl font-black leading-none tracking-tighter mb-3">
-            {formatPrice(price, currency)}
+          <div ref={priceRef} className="mb-3">
+            {isEarlyBird && (
+              <div className="flex items-center justify-center gap-2 mb-1">
+                <span className="text-2xl sm:text-3xl font-bold text-black/30 line-through leading-none">
+                  {formatPrice(price, currency)}
+                </span>
+                <span className="bg-black text-white text-xs font-black uppercase tracking-widest px-2 py-0.5">Early Bird</span>
+              </div>
+            )}
+            <div className={`font-black leading-none tracking-tighter ${isEarlyBird ? 'text-5xl sm:text-6xl md:text-7xl' : 'text-6xl sm:text-7xl md:text-8xl'}`}>
+              {formatPrice(displayPrice, currency)}
+            </div>
           </div>
           {priceIncludes && (
             <p className="text-sm text-black/50 leading-relaxed mb-6 sm:mb-8 max-w-sm mx-auto">{priceIncludes}</p>
