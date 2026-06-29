@@ -17,7 +17,7 @@ export const dynamic = 'force-dynamic'
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata({
-    title: 'Sons of Mountains — Преходи, пътешествия и експедиции в България и по света ',
+    title: 'Sons of Mountains — Преходи, пътешествия и експедиции в България и по света',
     description: 'Организираме пътешествия до трудно достъпни места — там, където комфортът среща приключението. Групови пътувания, индивидуални програми и фотографски експедиции.',
     slug: '',
   })
