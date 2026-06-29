@@ -74,6 +74,7 @@ const getData = unstable_cache(async () => {
         return {
           id: String(doc.id),
           kind: 'trip' as const,
+          region: (doc.type === 'abroad' ? 'abroad' : 'bulgaria') as 'bulgaria' | 'abroad',
           title: str(doc.title),
           subtitle: str(doc.shortDescription),
           image: imageUrl(doc.heroImage),
@@ -92,6 +93,7 @@ const getData = unstable_cache(async () => {
         return {
           id: String(doc.id),
           kind: 'program' as const,
+          region: (doc.type === 'abroad' ? 'abroad' : 'bulgaria') as 'bulgaria' | 'abroad',
           title: str(doc.title),
           subtitle: str(doc.shortDescription),
           image: imageUrl(doc.heroImage),
