@@ -2173,7 +2173,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/DestinationBookingController"
     ],
-    "lines": 345,
+    "lines": 346,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -3017,7 +3017,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 284,
+    "lines": 285,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/page.tsx": {
@@ -3408,7 +3408,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 292,
+    "lines": 305,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {
@@ -5111,7 +5111,7 @@
       "@/components/ui/destination-page/BookingDrawer",
       "@/components/ui/WhyTravelWithUs"
     ],
-    "lines": 451,
+    "lines": 463,
     "group": "blocks"
   },
   "src/components/blocks/why-travel-with-us/icons/GlobeIcon.tsx": {
@@ -5754,7 +5754,7 @@
       "@/lib/cart-store",
       "next/navigation"
     ],
-    "lines": 200,
+    "lines": 214,
     "group": "ui"
   },
   "src/components/ui/destination-page/ItinerarySectionClient.tsx": {
@@ -5799,7 +5799,7 @@
       "./FloatingBookingBar",
       "./BookingDrawer"
     ],
-    "lines": 59,
+    "lines": 61,
     "group": "ui"
   },
   "src/components/ui/destination-page/GuidesSection.tsx": {
@@ -5896,7 +5896,7 @@
       "gsap/ScrollTrigger",
       "./BookingDrawer"
     ],
-    "lines": 345,
+    "lines": 360,
     "group": "ui"
   },
   "src/components/ui/destination-page/IsThisForYouSection.tsx": {
@@ -6099,7 +6099,7 @@
       "./WhyTravelWithUsEditButton",
       "@/lib/media-url"
     ],
-    "lines": 121,
+    "lines": 169,
     "group": "ui"
   },
   "src/components/ui/ScrollReveal.tsx": {

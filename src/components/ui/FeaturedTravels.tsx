@@ -15,6 +15,15 @@ interface FeaturedTravelsGlobal {
 
 function str(v: unknown): string { return typeof v === 'string' ? v : '' }
 function numOrNull(v: unknown): number | null { return typeof v === 'number' ? v : null }
+function difficultyFromRatings(ratings: unknown): number | null {
+  if (!Array.isArray(ratings)) return null
+  const match = ratings.find((r: unknown) => {
+    if (!r || typeof r !== 'object') return false
+    const label = (r as { label?: unknown }).label
+    return typeof label === 'string' && label.toLowerCase().includes('трудност')
+  }) as { value?: unknown } | undefined
+  return match != null ? numOrNull(match.value) : null
+}
 function imageUrl(v: unknown): string | null {
   if (v && typeof v === 'object' && 'url' in v && typeof (v as { url?: unknown }).url === 'string') {
     return mediaUrl((v as { url: string }).url)
@@ -65,6 +74,7 @@ const getData = unstable_cache(async () => {
           price: numOrNull(doc.price),
           currency: 'EUR',
           spotsAvailable: numOrNull(doc.availableSpots),
+          fitnessDifficulty: difficultyFromRatings(doc.fitnessRatings),
           href: `/destinations/${doc.slug}`,
         }
       }
@@ -84,6 +94,7 @@ const getData = unstable_cache(async () => {
           price: numOrNull(doc.price),
           currency: typeof doc.currency === 'string' ? doc.currency : 'EUR',
           spotsAvailable: numOrNull(doc.spotsAvailable),
+          fitnessDifficulty: difficultyFromRatings(doc.fitnessRatings),
           href: doc.slug ? `/trips/${doc.slug}` : `/trips`,
         }
       }
@@ -103,6 +114,7 @@ const getData = unstable_cache(async () => {
           price: numOrNull(doc.price),
           currency: typeof doc.currency === 'string' ? doc.currency : 'EUR',
           spotsAvailable: numOrNull(doc.spotsAvailable),
+          fitnessDifficulty: difficultyFromRatings(doc.fitnessRatings),
           href: doc.slug ? `/programs/${doc.slug}` : `/programs/${doc.id}`,
         }
       }

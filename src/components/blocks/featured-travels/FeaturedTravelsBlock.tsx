@@ -21,6 +21,7 @@ export type FeaturedTravelItem = {
   price: number | null
   currency: string
   spotsAvailable: number | null
+  fitnessDifficulty: number | null
   href: string
 }
 
@@ -41,13 +42,16 @@ const KIND_COLOR: Record<string, string> = {
   program: 'bg-violet-500/80',
 }
 
-function StarRating({ n = 5 }: { n?: number }) {
+function DifficultyRating({ value }: { value: number | null }) {
+  const filled = value != null ? Math.round((value / 100) * 5) : 0
   return (
-    <div className="flex items-center gap-0.5">
+    <div className="flex items-center gap-1">
+      <span className="text-[9px] uppercase tracking-widest text-white/50 mr-0.5">Трудност</span>
       {Array.from({ length: 5 }).map((_, i) => (
-        <svg key={i} width="11" height="11" viewBox="0 0 24 24" fill={i < n ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" className={i < n ? 'text-amber-400' : 'text-white/30'}>
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-        </svg>
+        <span
+          key={i}
+          className={`w-1.5 h-1.5 rounded-full ${i < filled ? 'bg-amber-400' : 'bg-white/25'}`}
+        />
       ))}
     </div>
   )
@@ -103,7 +107,7 @@ function Card({ item }: { item: FeaturedTravelItem }) {
         </h3>
 
         <div className="flex items-center justify-between mt-2 gap-2">
-          <StarRating />
+          <DifficultyRating value={item.fitnessDifficulty} />
           <div className="flex items-center gap-1.5 flex-wrap justify-end">
             {item.month && (
               <span className="text-[10px] text-white/70 bg-white/10 backdrop-blur-sm px-2 py-0.5 rounded-full">{item.month}</span>
