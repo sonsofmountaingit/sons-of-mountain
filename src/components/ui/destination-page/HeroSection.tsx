@@ -92,7 +92,7 @@ export function HeroSection({
   tripId, tripTitle, price = 0, currency = 'EUR',
   depositAmount, durationDays, month, itemType = 'trip',
 }: Props) {
-  const thumbs = heroGallery?.filter(g => g.url).slice(0, 3) ?? []
+  const thumbs = heroGallery?.filter(g => g.url).slice(0, 5) ?? []
   const [activeImage, setActiveImage] = useState<string | null>(null)
   const [scrolled, setScrolled] = useState(false)
   const [drawerOpen, setDrawerOpen] = useState(false)

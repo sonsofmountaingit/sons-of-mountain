@@ -967,7 +967,7 @@
       "@payload-config",
       "@/lib/cart-store"
     ],
-    "lines": 228,
+    "lines": 272,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {
@@ -1519,7 +1519,8 @@
   },
   "src/app/api/carpool-rides/route.ts": {
     "exports": [
-      "GET"
+      "GET",
+      "POST"
     ],
     "types": [],
     "imports": [
@@ -1528,7 +1529,7 @@
       "@payload-config",
       "payload"
     ],
-    "lines": 43,
+    "lines": 81,
     "group": "api"
   },
   "src/app/api/site-settings-public/route.ts": {
@@ -2292,7 +2293,7 @@
       "next/link",
       "sonner"
     ],
-    "lines": 215,
+    "lines": 353,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/[tripId]/success/page.tsx": {
@@ -4298,7 +4299,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 302,
+    "lines": 318,
     "group": "collections"
   },
   "src/payload/collections/Stories.ts": {
