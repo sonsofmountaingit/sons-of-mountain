@@ -233,8 +233,6 @@ async function ProgramContent({ params }: Props) {
         communityPhotos={communityPhotos}
         earlyBirdPrice={p.earlyBirdPrice as number | null}
         earlyBirdUntil={p.earlyBirdUntil as string | null}
-        earlyBirdSpots={p.earlyBirdSpots as number | null}
-        spotsAvailable={(program.spotsAvailable as number | null) ?? 0}
       />
 
       <BookingCtaSection

@@ -5,7 +5,6 @@ import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { mediaUrl } from '@/lib/media-url'
-import { getEarlyBirdPrice } from '@/lib/pricing/dynamic'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -22,8 +21,6 @@ interface Props {
   communityPhotos?: CommunityPhoto[] | null
   earlyBirdPrice?: number | null
   earlyBirdUntil?: string | null
-  earlyBirdSpots?: number | null
-  spotsAvailable?: number | null
 }
 
 function formatPrice(price: number, currency: string) {
@@ -31,8 +28,9 @@ function formatPrice(price: number, currency: string) {
   return `${sym}${price.toLocaleString('bg-BG')}`
 }
 
-export function AdventureCtaSection({ durationDays, maxParticipants, price, currency, priceIncludes, communityPhotos, earlyBirdPrice, earlyBirdUntil, earlyBirdSpots, spotsAvailable }: Props) {
-  const { price: displayPrice, isEarlyBird } = getEarlyBirdPrice(price, earlyBirdPrice, earlyBirdUntil, earlyBirdSpots, spotsAvailable ?? 0)
+export function AdventureCtaSection({ durationDays, maxParticipants, price, currency, priceIncludes, communityPhotos, earlyBirdPrice, earlyBirdUntil }: Props) {
+  const isEarlyBird = !!(earlyBirdPrice && earlyBirdUntil && new Date() < new Date(earlyBirdUntil))
+  const displayPrice = isEarlyBird ? earlyBirdPrice! : price
   const photos = (communityPhotos ?? []).filter((p) => mediaUrl(p.photo?.url))
   const communityCount = Math.floor(photos.length / 10) * 10 + 10
 

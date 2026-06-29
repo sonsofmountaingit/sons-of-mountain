@@ -2902,7 +2902,7 @@
       "id": "src/lib/pricing/dynamic.ts",
       "label": "pricing/dynamic.ts",
       "group": "lib",
-      "size": 6
+      "size": 8
     },
     {
       "id": "src/lib/auth.ts",
@@ -5827,6 +5827,10 @@
       "target": "src/lib/media-url.ts"
     },
     {
+      "source": "src/components/ui/destination-page/AdventureCtaSection.tsx",
+      "target": "src/lib/pricing/dynamic.ts"
+    },
+    {
       "source": "src/components/ui/NavbarClient.tsx",
       "target": "src/components/ui/ProgramsMegaMenu.tsx"
     },
@@ -6355,6 +6359,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-06-29T14:53:13.631Z",
+  "builtAt": "2026-06-29T14:59:03.460Z",
   "fileCount": 504
 }

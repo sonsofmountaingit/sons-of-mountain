@@ -242,8 +242,6 @@ async function TripContent({ params }: Props) {
         communityPhotos={communityPhotos}
         earlyBirdPrice={t.earlyBirdPrice as number | null}
         earlyBirdUntil={t.earlyBirdUntil as string | null}
-        earlyBirdSpots={t.earlyBirdSpots as number | null}
-        spotsAvailable={(trip.spotsAvailable as number | null) ?? 0}
       />
 
       <BookingCtaSection
