@@ -11,6 +11,7 @@ gsap.registerPlugin(ScrollTrigger)
 export type FeaturedTravelItem = {
   id: string
   kind: 'destination' | 'trip' | 'program'
+  region?: 'bulgaria' | 'abroad' | null
   title: string
   subtitle: string
   image: string | null
@@ -21,6 +22,11 @@ export type FeaturedTravelItem = {
   currency: string
   spotsAvailable: number | null
   href: string
+}
+
+const REGION_LABEL: Record<string, string> = {
+  bulgaria: 'България',
+  abroad: 'Чужбина',
 }
 
 const KIND_LABEL: Record<string, string> = {
@@ -72,7 +78,7 @@ function Card({ item }: { item: FeaturedTravelItem }) {
       {/* top: kind badge + spots */}
       <div className="absolute top-3 left-3 right-3 flex items-start justify-between">
         <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-sm ${KIND_COLOR[item.kind] ?? 'bg-black/50'}`}>
-          {KIND_LABEL[item.kind] ?? item.kind}
+          {item.region ? (REGION_LABEL[item.region] ?? item.region) : (KIND_LABEL[item.kind] ?? item.kind)}
         </span>
         {item.spotsAvailable !== null && (
           item.spotsAvailable === 0

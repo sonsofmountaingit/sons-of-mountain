@@ -339,7 +339,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
   const [year, setYear] = useState(searchParams.get('year') ?? 'all')
   const [onlyAvailable, setOnlyAvailable] = useState(false)
   const [onlyWishlisted, setOnlyWishlisted] = useState(false)
-  const [onlyUpcoming, setOnlyUpcoming] = useState(true)
+  const [onlyUpcoming, setOnlyUpcoming] = useState(false)
   const [difficulty, setDifficulty] = useState(searchParams.get('difficulty') ?? 'all')
   const [search, setSearch] = useState('')
   const [wishlistIds, setWishlistIds] = useState<Set<string>>(new Set(initialWishlist))
