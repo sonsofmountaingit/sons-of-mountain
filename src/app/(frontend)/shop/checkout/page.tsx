@@ -20,11 +20,20 @@ const infoSchema = z.object({
 
 type InfoForm = z.infer<typeof infoSchema>
 
+type ParticipationType = 'organizer' | 'join' | 'solo'
+
+const participationTabs: { value: ParticipationType; label: string }[] = [
+  { value: 'organizer', label: 'Аз съм организатор на споделено пътуване' },
+  { value: 'join', label: 'Искам да участвам в споделено пътуване' },
+  { value: 'solo', label: 'Сам ще дойда' },
+]
+
 const steps = ['Info', 'Review', 'Payment']
 
 export default function CheckoutPage() {
   const [step, setStep] = useState(0)
   const [loading, setLoading] = useState(false)
+  const [participationType, setParticipationType] = useState<ParticipationType>('solo')
   const { items, subtotal, discountAmount, voucherAmount, total, loyaltyPointsToRedeem, appliedDiscount, appliedVoucher, corporatePeopleCount } = useCartStore()
 
   const { register, handleSubmit, getValues, formState: { errors } } = useForm<InfoForm>({
@@ -56,6 +65,7 @@ export default function CheckoutPage() {
           discountCodeId: appliedDiscount ? undefined : undefined,
           loyaltyPointsRedeemed: loyaltyPointsToRedeem,
           corporatePeopleCount,
+          participationType,
           enableBnpl: true,
         }),
       })
@@ -78,7 +88,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="mx-auto max-w-5xl px-6 py-12">
+    <main className="mx-auto max-w-5xl px-6 pt-28 pb-16">
       {/* Steps */}
       <nav className="mb-10 flex gap-2" aria-label="Checkout steps">
         {steps.map((s, i) => (
@@ -96,6 +106,18 @@ export default function CheckoutPage() {
           {step === 0 && (
             <form onSubmit={handleSubmit(() => setStep(1))} className="space-y-4">
               <h2 className="text-xl font-semibold">Contact information</h2>
+              <div className="flex rounded-lg border border-white/20 overflow-hidden">
+                {participationTabs.map((tab) => (
+                  <button
+                    key={tab.value}
+                    type="button"
+                    onClick={() => setParticipationType(tab.value)}
+                    className={`flex-1 px-3 py-3 text-xs font-medium text-center transition-colors leading-tight ${participationType === tab.value ? 'bg-white text-gray-900' : 'bg-transparent text-gray-400 hover:text-white'}`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label className="block text-sm font-medium mb-1">First name</label>
@@ -147,7 +169,7 @@ export default function CheckoutPage() {
           {step === 1 && (
             <div className="space-y-6">
               <h2 className="text-xl font-semibold">Order review</h2>
-              <div className="divide-y border rounded-lg">
+              <div className="divide-y border rounded-lg bg-white">
                 {items.map((item) => <CartItemRow key={`${item.id}-${item.variantId}`} item={item} />)}
               </div>
               <DiscountCodeInput />

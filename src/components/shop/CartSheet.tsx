@@ -29,7 +29,7 @@ export function CartSheet({ open, onClose }: CartSheetProps) {
       )}
       <div
         ref={ref}
-        className={`fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col bg-white shadow-2xl transition-transform duration-300 ${open ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col bg-white text-gray-900 shadow-2xl transition-transform duration-300 ${open ? 'translate-x-0' : 'translate-x-full'}`}
         aria-label="Shopping cart"
       >
         <div className="flex items-center justify-between border-b px-6 py-4">

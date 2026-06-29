@@ -14,7 +14,7 @@ export function CartItemRow({ item }: { item: CartItem }) {
         </div>
       )}
       <div className="flex flex-1 flex-col gap-1">
-        <p className="text-sm font-medium">{item.title}</p>
+        <p className="text-sm font-medium text-gray-900">{item.title}</p>
         {item.variantLabel && <p className="text-xs text-gray-500">{item.variantLabel}</p>}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -32,7 +32,7 @@ export function CartItemRow({ item }: { item: CartItem }) {
               +
             </button>
           </div>
-          <p className="text-sm font-semibold">€{(item.unitPrice * item.quantity).toFixed(2)}</p>
+          <p className="text-sm font-semibold text-gray-900">€{(item.unitPrice * item.quantity).toFixed(2)}</p>
         </div>
       </div>
       <button
