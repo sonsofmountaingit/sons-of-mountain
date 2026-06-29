@@ -40,6 +40,9 @@ export async function POST(req: NextRequest) {
       customerEmail,
       enableBnpl,
       orderTotal,
+      participationType,
+      carpool,
+      carpoolRideId,
     } = body
 
     const base = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
@@ -181,8 +184,49 @@ export async function POST(req: NextRequest) {
           quantity: item.quantity,
           unitPrice: item.unitPrice,
         })),
+        participationType: participationType ?? 'solo',
       },
     })
+
+    // Handle carpool: create ride (organizer) or add passenger (join)
+    let resolvedCarpoolRideId: string | null = null
+    if (participationType === 'organizer' && carpool) {
+      try {
+        const rideRes = await fetch(`${base}/api/carpool-rides`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...carpool, organizerName: `${body.firstName ?? ''} ${body.lastName ?? ''}`.trim(), organizerEmail: customerEmail, organizerPhone: body.phone }),
+        })
+        const rideData = await rideRes.json()
+        if (rideData.id) resolvedCarpoolRideId = rideData.id
+      } catch (e) {
+        console.error('Failed to create carpool ride:', e)
+      }
+    } else if (participationType === 'join' && carpoolRideId) {
+      resolvedCarpoolRideId = carpoolRideId
+      try {
+        const existing = await payload.findByID({ collection: 'carpool-rides', id: carpoolRideId, overrideAccess: true }) as any
+        const passengers = existing.passengers ?? []
+        await payload.update({
+          collection: 'carpool-rides',
+          id: carpoolRideId,
+          data: {
+            passengers: [...passengers, {
+              name: `${body.firstName ?? ''} ${body.lastName ?? ''}`.trim(),
+              email: customerEmail ?? '',
+              phone: body.phone ?? '',
+            }],
+          } as any,
+          overrideAccess: true,
+        })
+      } catch (e) {
+        console.error('Failed to add carpool passenger:', e)
+      }
+    }
+
+    if (resolvedCarpoolRideId) {
+      await payload.update({ collection: 'orders', id: orderRecord.id, data: { carpoolRide: resolvedCarpoolRideId } as any }).catch(() => null)
+    }
 
     const paymentMethods: any[] = ['card']
 

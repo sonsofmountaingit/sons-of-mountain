@@ -297,5 +297,21 @@ export const Orders: CollectionConfig = {
       type: 'date',
       admin: { readOnly: true },
     },
+    {
+      name: 'carpoolRide',
+      type: 'relationship',
+      relationTo: 'carpool-rides',
+      admin: { description: 'Свързано споделено пътуване (организатор или пътник)' },
+    },
+    {
+      name: 'participationType',
+      type: 'select',
+      options: [
+        { label: 'Организатор', value: 'organizer' },
+        { label: 'Пътник', value: 'join' },
+        { label: 'Сам', value: 'solo' },
+      ],
+      admin: { description: 'Тип участие в споделено пътуване' },
+    },
   ],
 }

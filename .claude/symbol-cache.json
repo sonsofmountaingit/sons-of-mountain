@@ -2292,7 +2292,7 @@
       "next/link",
       "sonner"
     ],
-    "lines": 193,
+    "lines": 215,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/[tripId]/success/page.tsx": {
