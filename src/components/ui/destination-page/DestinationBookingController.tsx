@@ -52,6 +52,8 @@ export function DestinationBookingController(props: Props) {
         durationDays={props.durationDays}
         month={props.month}
         itemType={props.itemType}
+        earlyBirdPrice={props.earlyBirdPrice}
+        earlyBirdUntil={props.earlyBirdUntil}
       />
     </>
   )

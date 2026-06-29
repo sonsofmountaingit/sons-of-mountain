@@ -18,6 +18,8 @@ interface Props {
   durationDays?: number | null
   month?: string | null
   itemType?: 'trip' | 'program'
+  earlyBirdPrice?: number | null
+  earlyBirdUntil?: string | null
 }
 
 function formatPrice(p: number, c: string) {
@@ -31,7 +33,10 @@ export function BookingDrawer({
   open, onClose, tripId, tripTitle, price, currency,
   spotsAvailable, depositAmount, startDate, endDate,
   durationDays, month, itemType = 'trip',
+  earlyBirdPrice, earlyBirdUntil,
 }: Props) {
+  const isEarlyBird = !!(earlyBirdPrice && earlyBirdUntil && new Date(earlyBirdUntil) > new Date())
+  const effectivePrice = isEarlyBird ? earlyBirdPrice! : price
   const addItem = useCartStore(s => s.addItem)
   const router = useRouter()
   const drawerRef = useRef<HTMLDivElement>(null)
@@ -53,8 +58,8 @@ export function BookingDrawer({
     addItem({
       id: `${itemType}-${tripId}`,
       type: itemType,
-      title: tripTitle,
-      unitPrice: price,
+      title: isEarlyBird ? `${tripTitle} (Early Bird)` : tripTitle,
+      unitPrice: effectivePrice,
       quantity: qty,
       tripId: itemType === 'trip' ? tripId : undefined,
       programId: itemType === 'program' ? tripId : undefined,
@@ -136,9 +141,18 @@ export function BookingDrawer({
 
           {/* Price breakdown */}
           <div className="border border-neutral-100 rounded-lg p-4 flex flex-col gap-3">
+            {isEarlyBird && (
+              <div className="flex items-center gap-2 bg-orange-50 border border-orange-200 rounded-md px-3 py-2">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ea580c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <span className="text-xs font-semibold text-orange-700">Early Bird цена — до {new Date(earlyBirdUntil!).toLocaleDateString('bg-BG', { day: 'numeric', month: 'long' })}</span>
+              </div>
+            )}
             <div className="flex items-center justify-between">
               <span className="text-sm text-black">Цена на човек</span>
-              <span className="text-xl font-black text-black">{formatPrice(price, currency)}</span>
+              <span className="flex items-baseline gap-2">
+                <span className="text-xl font-black text-black">{formatPrice(effectivePrice, currency)}</span>
+                {isEarlyBird && <span className="text-sm line-through text-black/40">{formatPrice(price, currency)}</span>}
+              </span>
             </div>
 
             {/* Qty picker */}
@@ -163,7 +177,7 @@ export function BookingDrawer({
 
             <div className="flex items-center justify-between text-sm border-t border-neutral-100 pt-2">
               <span className="text-black">Общо</span>
-              <span className="font-black text-black">{formatPrice(price * qty, currency)}</span>
+              <span className="font-black text-black">{formatPrice(effectivePrice * qty, currency)}</span>
             </div>
 
             {depositAmount && (

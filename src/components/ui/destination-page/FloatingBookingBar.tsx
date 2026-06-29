@@ -81,8 +81,8 @@ export function FloatingBookingBar({
     addItem({
       id: `${itemType}-${tripId}`,
       type: itemType,
-      title: tripTitle,
-      unitPrice: price,
+      title: isEarlyBird ? `${tripTitle} (Early Bird)` : tripTitle,
+      unitPrice: isEarlyBird ? earlyBirdPrice! : price,
       quantity: 1,
       tripId: itemType === 'trip' ? tripId : undefined,
       programId: itemType === 'program' ? tripId : undefined,

@@ -199,6 +199,18 @@ async function TripContent({ params }: Props) {
         heroImage={mediaUrl(heroImage?.url)!}
         heroImageAlt={heroImage?.alt ?? title}
         location={t.location as string | null}
+        tripId={String(trip.id)}
+        tripTitle={title}
+        price={trip.price ?? 0}
+        currency={(trip.currency ?? 'EUR') as string}
+        spotsAvailable={trip.spotsAvailable as number | null}
+        depositAmount={t.depositAmount as number | null}
+        startDate={trip.startDate as string}
+        endDate={trip.endDate as string}
+        durationDays={durationDays}
+        archived={(trip.status as string) === 'archived'}
+        earlyBirdPrice={t.earlyBirdPrice as number | null}
+        earlyBirdUntil={t.earlyBirdUntil as string | null}
       />
 
       <WhySection

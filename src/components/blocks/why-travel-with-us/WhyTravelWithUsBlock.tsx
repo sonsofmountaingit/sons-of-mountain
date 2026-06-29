@@ -151,9 +151,17 @@ function TripVideoCard({
       }}>
         <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 800, color: 'white', lineHeight: 1.3 }}>{card.title}</p>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8, flexWrap: 'wrap' }}>
-          <span style={{ fontSize: 15, fontWeight: 900, color: 'white' }}>
-            {formatPrice(card.price, card.currency)}
-          </span>
+          {(() => {
+            const isEB = !!(card.earlyBirdPrice && card.earlyBirdUntil && new Date(card.earlyBirdUntil) > new Date())
+            return isEB ? (
+              <>
+                <span style={{ fontSize: 15, fontWeight: 900, color: '#fb923c' }}>{formatPrice(card.earlyBirdPrice!, card.currency)}</span>
+                <span style={{ fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.5)', textDecoration: 'line-through' }}>{formatPrice(card.price, card.currency)}</span>
+              </>
+            ) : (
+              <span style={{ fontSize: 15, fontWeight: 900, color: 'white' }}>{formatPrice(card.price, card.currency)}</span>
+            )
+          })()}
           {card.spotsAvailable !== null && (
             <span style={{
               fontSize: 10, fontWeight: 700, color: 'white',
@@ -344,6 +352,8 @@ export function WhyTravelWithUsBlock({
             durationDays={drawerCard.durationDays}
             month={drawerCard.month}
             itemType={drawerCard.itemType === 'program' ? 'program' : 'trip'}
+            earlyBirdPrice={drawerCard.earlyBirdPrice}
+            earlyBirdUntil={drawerCard.earlyBirdUntil}
           />
         )}
       </section>
@@ -443,6 +453,8 @@ export function WhyTravelWithUsBlock({
           durationDays={drawerCard.durationDays}
           month={drawerCard.month}
           itemType={drawerCard.itemType === 'program' ? 'program' : 'trip'}
+          earlyBirdPrice={drawerCard.earlyBirdPrice}
+          earlyBirdUntil={drawerCard.earlyBirdUntil}
         />
       )}
     </section>

@@ -37,6 +37,8 @@ interface Props {
   month?: string | null
   itemType?: 'trip' | 'program'
   archived?: boolean
+  earlyBirdPrice?: number | null
+  earlyBirdUntil?: string | null
 }
 
 function difficultyLabel(d: number) {
@@ -93,6 +95,7 @@ export function HeroSection({
   avgRating, reviewCount, weather, location, startDate, endDate,
   tripId, tripTitle, price = 0, currency = 'EUR',
   depositAmount, durationDays, month, itemType = 'trip', archived = false,
+  earlyBirdPrice, earlyBirdUntil,
 }: Props) {
   const thumbs = heroGallery?.filter(g => g.url).slice(0, 5) ?? []
   const [activeImage, setActiveImage] = useState<string | null>(null)
@@ -348,6 +351,8 @@ export function HeroSection({
         durationDays={durationDays}
         month={month}
         itemType={itemType}
+        earlyBirdPrice={earlyBirdPrice}
+        earlyBirdUntil={earlyBirdUntil}
       />
     </>
   )
