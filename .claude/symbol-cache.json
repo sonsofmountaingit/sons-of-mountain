@@ -2149,7 +2149,7 @@
       "react",
       "@/lib/metadata"
     ],
-    "lines": 120,
+    "lines": 124,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/[slug]/page.tsx": {
@@ -2186,7 +2186,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/DestinationBookingController"
     ],
-    "lines": 347,
+    "lines": 353,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -2995,7 +2995,7 @@
       "@/lib/media-url",
       "@/lib/metadata"
     ],
-    "lines": 210,
+    "lines": 224,
     "group": "frontend"
   },
   "src/app/(frontend)/programs/[slug]/page.tsx": {
@@ -3030,7 +3030,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 290,
+    "lines": 297,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/page.tsx": {
@@ -3385,7 +3385,7 @@
       "@/lib/media-url",
       "@/lib/metadata"
     ],
-    "lines": 216,
+    "lines": 225,
     "group": "frontend"
   },
   "src/app/(frontend)/trips/[slug]/page.tsx": {
@@ -3421,7 +3421,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 310,
+    "lines": 314,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {
@@ -5754,7 +5754,7 @@
       "@/lib/cart-store",
       "next/navigation"
     ],
-    "lines": 171,
+    "lines": 179,
     "group": "ui"
   },
   "src/components/ui/destination-page/BookingDrawer.tsx": {
@@ -5767,7 +5767,7 @@
       "@/lib/cart-store",
       "next/navigation"
     ],
-    "lines": 214,
+    "lines": 223,
     "group": "ui"
   },
   "src/components/ui/destination-page/ItinerarySectionClient.tsx": {
@@ -5812,7 +5812,7 @@
       "./FloatingBookingBar",
       "./BookingDrawer"
     ],
-    "lines": 61,
+    "lines": 63,
     "group": "ui"
   },
   "src/components/ui/destination-page/GuidesSection.tsx": {
@@ -5909,7 +5909,7 @@
       "gsap/ScrollTrigger",
       "./BookingDrawer"
     ],
-    "lines": 371,
+    "lines": 382,
     "group": "ui"
   },
   "src/components/ui/destination-page/IsThisForYouSection.tsx": {
@@ -6011,7 +6011,7 @@
       "gsap/ScrollTrigger",
       "@/lib/media-url"
     ],
-    "lines": 147,
+    "lines": 159,
     "group": "ui"
   },
   "src/components/ui/destination-page/ReadinessChecklistSection.tsx": {
@@ -6226,7 +6226,7 @@
       "next/image",
       "@/lib/media-url"
     ],
-    "lines": 60,
+    "lines": 80,
     "group": "ui"
   },
   "src/components/ui/StoryCard.tsx": {

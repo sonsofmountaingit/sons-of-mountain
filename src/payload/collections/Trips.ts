@@ -151,6 +151,15 @@ export const Trips: CollectionConfig = {
       relationTo: 'media',
     },
     {
+      name: 'heroGallery',
+      type: 'array',
+      admin: { description: 'Additional images shown as thumbnails at the bottom-right of the hero.' },
+      fields: [
+        { name: 'image', type: 'upload', relationTo: 'media', required: true },
+        { name: 'alt', type: 'text' },
+      ],
+    },
+    {
       name: 'previewVideo',
       type: 'upload',
       relationTo: 'media',
