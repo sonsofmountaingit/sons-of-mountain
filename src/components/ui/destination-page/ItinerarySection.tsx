@@ -11,12 +11,14 @@ import { mediaUrl } from '@/lib/media-url'
 gsap.registerPlugin(ScrollTrigger)
 
 interface DayStats {
+  transferStart?: string | null
   ascent?: string | null
   descent?: string | null
   distance?: string | null
   duration?: string | null
   accommodation?: string | null
   meals?: string | null
+  transferEnd?: string | null
 }
 
 export interface ItineraryDay {
@@ -32,12 +34,14 @@ interface Props {
 }
 
 const STAT_ITEMS = [
+  { key: 'transferStart' as const, label: 'ТРЪГВАНЕ', icon: '/icons/transfer.svg' },
   { key: 'ascent' as const, label: 'ИЗКАЧВАНЕ', icon: '/icons/ascent.svg' },
   { key: 'descent' as const, label: 'СПУСКАНЕ', icon: '/icons/descent.svg' },
   { key: 'distance' as const, label: 'РАЗСТОЯНИЕ', icon: '/icons/distance.svg' },
   { key: 'duration' as const, label: 'ВРЕМЕ', icon: '/icons/duration.svg' },
   { key: 'accommodation' as const, label: 'НАСТАНЯВАНЕ', icon: '/icons/accommodation.svg' },
   { key: 'meals' as const, label: 'ВКЛЮЧЕНО ИЗХРАНВАНЕ', icon: '/icons/meals.svg' },
+  { key: 'transferEnd' as const, label: 'ВРЪЩАНЕ', icon: '/icons/transfer.svg' },
 ]
 
 export function DayStatsBar({ stats }: { stats: DayStats }) {

@@ -86,7 +86,7 @@ async function TripContent({ params }: Props) {
   const transportImage = t.transportImage as { url?: string | null; alt?: string } | null
   const whyVisit = t.whyVisit as { heading?: string; content?: Record<string, unknown> } | null
   const fitnessRatings = t.fitnessRatings as { label?: string; value?: number }[] | null
-  const itinerary = (t.itinerary as { day: number; title: string; content?: Record<string, unknown> | null; image?: { url?: string | null; alt?: string } | null; stats?: { ascent?: string | null; descent?: string | null; distance?: string | null; duration?: string | null; accommodation?: string | null; meals?: string | null } | null }[] | null) ?? []
+  const itinerary = (t.itinerary as { day: number; title: string; content?: Record<string, unknown> | null; image?: { url?: string | null; alt?: string } | null; stats?: { transferStart?: string | null; ascent?: string | null; descent?: string | null; distance?: string | null; duration?: string | null; accommodation?: string | null; meals?: string | null; transferEnd?: string | null } | null }[] | null) ?? []
   const accommodations = t.accommodations as { locationLabel?: string | null; name?: string | null; description?: Record<string, unknown> | null; learnMoreUrl?: string | null; gallery?: { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null }[] | null
   const accommodationsSectionEyebrow = t.accommodationsSectionEyebrow as string | null ?? null
   const accommodationsSectionHeadline = t.accommodationsSectionHeadline as string | null ?? null
