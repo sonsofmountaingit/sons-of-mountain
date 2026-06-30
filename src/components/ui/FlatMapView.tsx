@@ -66,7 +66,7 @@ function PinModal({ state, onClose }: { state: ModalState; onClose: () => void }
   if (!state) return null
   const { item, pd } = state
   const color = pinColor(item)
-  const kind = item.kind === 'trip' ? 'ПЪТУВАНЕ' : item.kind === 'program' ? 'ПРОГРАМА' : 'ИНДИВИДУАЛНО'
+  const kind = item.kind === 'trip' ? 'ПЪТУВАНЕ' : item.kind === 'program' ? 'ПРОГРАМА' : 'ИНДИВИДУАЛНА ПРОГРАМА'
   return (
     <>
       <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 9998, background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(3px)' }} />

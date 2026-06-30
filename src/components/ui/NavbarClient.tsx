@@ -479,7 +479,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                       {[
                         { label: 'В БЪЛГАРИЯ', href: '/destinations?type=bulgaria' },
                         { label: 'В ЧУЖБИНА', href: '/destinations?type=abroad' },
-                        { label: 'ИНДИВИДУАЛНО ПРИКЛЮЧЕНИЕ', href: '/destinations?type=trips' },
+                        { label: 'ИНДИВИДУАЛНА ПРОГРАМА', href: '/destinations?type=trips' },
                       ].map((item) => (
                         <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)} className="block pl-4 py-3 text-base font-medium text-white/60 hover:text-white transition-colors border-b border-white/5">
                           {item.label}

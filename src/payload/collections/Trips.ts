@@ -40,7 +40,7 @@ export const Trips: CollectionConfig = {
       options: [
         { label: 'В България', value: 'bulgaria' },
         { label: 'В чужбина', value: 'abroad' },
-        { label: 'Индивидуално приключение', value: 'individual' },
+        { label: 'Индивидуална програма', value: 'individual' },
       ],
       admin: { position: 'sidebar', description: 'Секция в навигацията, в която да се показва това пътуване' },
     },

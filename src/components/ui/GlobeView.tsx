@@ -80,7 +80,7 @@ function PinModal({ state, onClose }: { state: ModalState; onClose: () => void }
   const { item, pd } = state
   const color = pinColor(item)
   const kindLabel =
-    item.kind === 'trip' ? 'ПЪТУВАНЕ' : item.kind === 'program' ? 'ПРОГРАМА' : 'ИНДИВИДУАЛНО'
+    item.kind === 'trip' ? 'ПЪТУВАНЕ' : item.kind === 'program' ? 'ПРОГРАМА' : 'ИНДИВИДУАЛНА ПРОГРАМА'
 
   return (
     <>

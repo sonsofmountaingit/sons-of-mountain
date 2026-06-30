@@ -3030,7 +3030,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 286,
+    "lines": 290,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/page.tsx": {
@@ -3421,7 +3421,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 306,
+    "lines": 310,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {
@@ -5945,7 +5945,7 @@
     ],
     "types": [],
     "imports": [],
-    "lines": 30,
+    "lines": 31,
     "group": "ui"
   },
   "src/components/ui/destination-page/ItinerarySection.tsx": {

@@ -17,7 +17,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   all: 'ВСИЧКИ',
   bulgaria: 'В БЪЛГАРИЯ',
   abroad: 'В ЧУЖБИНА',
-  individual: 'ИНДИВИДУАЛНО',
+  individual: 'ИНДИВИДУАЛНА ПРОГРАМА',
 }
 
 const TAG_OPTIONS = ['Всички', 'Singles Only', 'Yoga', 'Adventure', 'Ski', 'Sailing', 'Photography', 'Wellness', 'Family', 'Couples', 'Hiking', 'Cultural']

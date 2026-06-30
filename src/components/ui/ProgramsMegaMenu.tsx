@@ -35,7 +35,7 @@ type Tab = 'bulgaria' | 'abroad' | 'individual'
 const TABS: { id: Tab; label: string }[] = [
   { id: 'bulgaria', label: 'В БЪЛГАРИЯ' },
   { id: 'abroad', label: 'В ЧУЖБИНА' },
-  { id: 'individual', label: 'ИНДИВИДУАЛНО ПРИКЛЮЧЕНИЕ' },
+  { id: 'individual', label: 'ИНДИВИДУАЛНА ПРОГРАМА' },
 ]
 
 function formatDate(iso: string) {
