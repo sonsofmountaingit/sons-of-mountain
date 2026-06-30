@@ -4294,7 +4294,7 @@
       "next/server",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 501,
+    "lines": 503,
     "group": "collections"
   },
   "src/payload/collections/EmailTemplates.ts": {
@@ -4397,7 +4397,7 @@
       "next/server",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 524,
+    "lines": 526,
     "group": "collections"
   },
   "src/payload/collections/Pages.ts": {
@@ -4678,7 +4678,7 @@
       "next/server",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 511,
+    "lines": 513,
     "group": "collections"
   },
   "src/payload/collections/Waitlist.ts": {
@@ -5966,7 +5966,7 @@
       "./ItinerarySectionClient",
       "@/lib/media-url"
     ],
-    "lines": 192,
+    "lines": 196,
     "group": "ui"
   },
   "src/components/ui/destination-page/WhySection.tsx": {
