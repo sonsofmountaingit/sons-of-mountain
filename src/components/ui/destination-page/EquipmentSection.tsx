@@ -1,12 +1,13 @@
 type Props = {
   items: string[]
+  fullWidth?: boolean
 }
 
-export default function EquipmentSection({ items }: Props) {
+export default function EquipmentSection({ items, fullWidth }: Props) {
   if (!items?.length) return null
 
   return (
-    <div className="px-5 sm:px-8 lg:px-16 py-10 sm:py-0 border-b sm:border-b-0 sm:border-r border-white/10">
+    <div className={`px-5 sm:px-8 lg:px-16 py-10 sm:py-0 border-b sm:border-b-0 sm:border-r border-white/10${fullWidth ? ' lg:col-span-2 lg:border-r-0' : ''}`}>
       <p className="text-xs font-semibold tracking-widest text-white/40 uppercase mb-3" data-animate="fade-up">
         Екипировка
       </p>
@@ -14,7 +15,7 @@ export default function EquipmentSection({ items }: Props) {
         Необходима лична<br />екипировка
       </h2>
 
-      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8" data-animate="stagger-children">
+      <ul className={`grid gap-x-8${fullWidth ? ' grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : ' grid-cols-1 sm:grid-cols-2'}`} data-animate="stagger-children">
         {items.map((item, i) => (
           <li key={i} className="flex items-center gap-3 py-3 border-b border-white/10 group">
             <span className="flex-shrink-0 w-6 h-6 rounded-full border border-white/20 flex items-center justify-center text-white/30 text-xs font-mono group-hover:border-white/50 group-hover:text-white/60 transition-colors duration-150">

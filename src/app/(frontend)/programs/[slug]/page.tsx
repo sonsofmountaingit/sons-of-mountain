@@ -222,8 +222,12 @@ async function ProgramContent({ params }: Props) {
       />
 
       <ItinerarySection itinerary={itinerary ?? []} />
-      <EquipmentSection items={(equipmentList ?? []).map(e => e.item)} />
-      <ReadinessChecklistSection categories={readinessChecklist ?? []} />
+      <section className="bg-black text-white py-10 sm:py-20">
+        <div className="w-full grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 divide-white/10">
+          <EquipmentSection items={(equipmentList ?? []).map(e => e.item)} fullWidth={!(readinessChecklist ?? []).length} />
+          <ReadinessChecklistSection categories={readinessChecklist ?? []} />
+        </div>
+      </section>
       <GuidesSection guides={guides ?? []} />
 
       <AccommodationsSection accommodations={accommodations} eyebrow={accommodationsSectionEyebrow} headline={accommodationsSectionHeadline} subtext={accommodationsSectionSubtext} />
