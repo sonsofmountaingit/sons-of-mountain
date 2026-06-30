@@ -181,6 +181,7 @@ async function ProgramContent({ params }: Props) {
           depositAmount={p.depositAmount as number | null}
           earlyBirdPrice={p.earlyBirdPrice as number | null}
           earlyBirdUntil={p.earlyBirdUntil as string | null}
+          earlyBirdSpots={p.earlyBirdSpots as number | null}
         />
       )}
 
@@ -191,6 +192,10 @@ async function ProgramContent({ params }: Props) {
         heroImageAlt={heroImage?.alt ?? program.title}
         location={p.location as string | null}
         tags={(p.tags as { tag: string }[] | null ?? []).map(tag => tag.tag).filter(Boolean)}
+        earlyBirdPrice={p.earlyBirdPrice as number | null}
+        earlyBirdUntil={p.earlyBirdUntil as string | null}
+        earlyBirdSpots={p.earlyBirdSpots as number | null}
+        spotsAvailable={program.spotsAvailable as number | null}
       />
 
       <WhySection
@@ -241,6 +246,8 @@ async function ProgramContent({ params }: Props) {
         communityPhotos={communityPhotos}
         earlyBirdPrice={p.earlyBirdPrice as number | null}
         earlyBirdUntil={p.earlyBirdUntil as string | null}
+        earlyBirdSpots={p.earlyBirdSpots as number | null}
+        spotsAvailable={program.spotsAvailable as number | null}
       />
 
       <BookingCtaSection

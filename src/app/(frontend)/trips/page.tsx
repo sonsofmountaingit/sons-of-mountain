@@ -51,7 +51,11 @@ function TripCard({ trip }: { trip: Record<string, unknown> }) {
   const status = trip.status as string
   const earlyBirdPrice = trip.earlyBirdPrice as number | null
   const earlyBirdUntil = trip.earlyBirdUntil as string | null
+  const earlyBirdSpots = trip.earlyBirdSpots as number | null
   const isEarlyBird = earlyBirdPrice && earlyBirdUntil && new Date(earlyBirdUntil) > new Date()
+  const earlyBirdSpotsLeft = isEarlyBird && earlyBirdSpots != null && spotsAvailable != null
+    ? Math.min(spotsAvailable, earlyBirdSpots)
+    : null
   const tags = trip.tags as { tag: string }[] | null
 
   return (
@@ -74,8 +78,13 @@ function TripCard({ trip }: { trip: Record<string, unknown> }) {
           </div>
         )}
         {isEarlyBird && status === 'active' && (
-          <div className="absolute top-3 left-3 bg-amber-400 text-black text-xs font-bold px-2 py-1 rounded">
-            EARLY BIRD
+          <div className="absolute top-3 left-3 flex flex-col gap-1">
+            <span className="bg-amber-400 text-black text-xs font-bold px-2 py-1 rounded">EARLY BIRD</span>
+            {earlyBirdSpotsLeft != null && (
+              <span className="bg-black/70 text-amber-400 text-xs font-semibold px-2 py-0.5 rounded">
+                {earlyBirdSpotsLeft} {earlyBirdSpotsLeft === 1 ? 'място' : 'места'}
+              </span>
+            )}
           </div>
         )}
         {spotsAvailable !== null && spotsAvailable <= 5 && status === 'active' && (

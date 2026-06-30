@@ -19,6 +19,7 @@ interface Props {
   depositAmount?: number | null
   earlyBirdPrice?: number | null
   earlyBirdUntil?: string | null
+  earlyBirdSpots?: number | null
   footerSelector?: string
   onBook?: () => void
 }
@@ -47,10 +48,14 @@ export function FloatingBookingBar({
   depositAmount,
   earlyBirdPrice,
   earlyBirdUntil,
+  earlyBirdSpots,
   footerSelector = 'footer',
   onBook,
 }: Props) {
   const isEarlyBird = !!(earlyBirdPrice && earlyBirdUntil && new Date(earlyBirdUntil) > new Date())
+  const earlyBirdSpotsLeft = isEarlyBird && earlyBirdSpots != null && spotsAvailable != null
+    ? Math.min(spotsAvailable, earlyBirdSpots)
+    : null
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(false)
   const barRef = useRef<HTMLDivElement>(null)
@@ -147,11 +152,14 @@ export function FloatingBookingBar({
 
         {/* Price */}
         {(isEarlyBird || price > 0) && (
-          <span className="flex items-center gap-1 text-sm font-bold text-white">
+          <span className="flex items-center gap-1.5 text-sm font-bold text-white">
             {isEarlyBird && (
-              <span className="text-orange-400">{formatPrice(earlyBirdPrice!, currency)}</span>
+              <span className="text-amber-400">{formatPrice(earlyBirdPrice!, currency)}</span>
             )}
             <span className={isEarlyBird ? 'line-through text-white/40 font-normal text-xs' : ''}>{formatPrice(price, currency)}</span>
+            {earlyBirdSpotsLeft != null && (
+              <span className="text-amber-400 font-semibold text-xs">· {earlyBirdSpotsLeft} early bird {earlyBirdSpotsLeft === 1 ? 'място' : 'места'}</span>
+            )}
           </span>
         )}
 

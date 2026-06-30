@@ -19,6 +19,7 @@ interface Props {
   depositAmount?: number | null
   earlyBirdPrice?: number | null
   earlyBirdUntil?: string | null
+  earlyBirdSpots?: number | null
   archived?: boolean
 }
 
@@ -54,6 +55,7 @@ export function DestinationBookingController(props: Props) {
         itemType={props.itemType}
         earlyBirdPrice={props.earlyBirdPrice}
         earlyBirdUntil={props.earlyBirdUntil}
+        earlyBirdSpots={props.earlyBirdSpots}
       />
     </>
   )

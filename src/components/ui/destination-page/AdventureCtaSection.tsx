@@ -21,6 +21,8 @@ interface Props {
   communityPhotos?: CommunityPhoto[] | null
   earlyBirdPrice?: number | null
   earlyBirdUntil?: string | null
+  earlyBirdSpots?: number | null
+  spotsAvailable?: number | null
 }
 
 function formatPrice(price: number, currency: string) {
@@ -28,9 +30,12 @@ function formatPrice(price: number, currency: string) {
   return `${sym}${price.toLocaleString('bg-BG')}`
 }
 
-export function AdventureCtaSection({ durationDays, maxParticipants, price, currency, priceIncludes, communityPhotos, earlyBirdPrice, earlyBirdUntil }: Props) {
+export function AdventureCtaSection({ durationDays, maxParticipants, price, currency, priceIncludes, communityPhotos, earlyBirdPrice, earlyBirdUntil, earlyBirdSpots, spotsAvailable }: Props) {
   const isEarlyBird = !!(earlyBirdPrice && earlyBirdUntil && new Date() < new Date(earlyBirdUntil))
   const displayPrice = isEarlyBird ? earlyBirdPrice! : price
+  const earlyBirdSpotsLeft = isEarlyBird && earlyBirdSpots != null && spotsAvailable != null
+    ? Math.min(spotsAvailable, earlyBirdSpots)
+    : null
   const photos = (communityPhotos ?? []).filter((p) => mediaUrl(p.photo?.url))
   const communityCount = Math.floor(photos.length / 10) * 10 + 10
 
@@ -85,11 +90,18 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
           <p className="text-xs font-bold tracking-[0.25em] text-black/40 uppercase mb-2">Цена на човек</p>
           <div ref={priceRef} className="mb-3">
             {isEarlyBird && (
-              <div className="flex items-center justify-center gap-2 mb-1">
-                <span className="text-2xl sm:text-3xl font-bold text-black/30 line-through leading-none">
-                  {formatPrice(price, currency)}
-                </span>
-                <span className="bg-black text-white text-xs font-black uppercase tracking-widest px-2 py-0.5">Early Bird</span>
+              <div className="flex flex-col items-center gap-1 mb-1">
+                <div className="flex items-center justify-center gap-2">
+                  <span className="text-2xl sm:text-3xl font-bold text-black/30 line-through leading-none">
+                    {formatPrice(price, currency)}
+                  </span>
+                  <span className="bg-black text-white text-xs font-black uppercase tracking-widest px-2 py-0.5">Early Bird</span>
+                </div>
+                {earlyBirdSpotsLeft != null && (
+                  <span className="text-xs font-semibold text-black/60 uppercase tracking-wider">
+                    {earlyBirdSpotsLeft} early bird {earlyBirdSpotsLeft === 1 ? 'място' : 'места'} останали
+                  </span>
+                )}
               </div>
             )}
             <div className={`font-black leading-none tracking-tighter ${isEarlyBird ? 'text-5xl sm:text-6xl md:text-7xl' : 'text-6xl sm:text-7xl md:text-8xl'}`}>

@@ -193,10 +193,14 @@ async function DestinationContent({ params }: Props) {
         depositAmount={(d.depositAmount as number | null)}
         earlyBirdPrice={(d.earlyBirdPrice as number | null)}
         earlyBirdUntil={(d.earlyBirdUntil as string | null)}
+        earlyBirdSpots={(d.earlyBirdSpots as number | null)}
         archived={(d.bookingStatus as string | null) === 'archived'}
       />
 
       <HeroSection
+        earlyBirdPrice={(d.earlyBirdPrice as number | null)}
+        earlyBirdUntil={(d.earlyBirdUntil as string | null)}
+        earlyBirdSpots={(d.earlyBirdSpots as number | null)}
         tags={(d.tags as { label: string }[] | null ?? []).map(t => t.label).filter(Boolean)}
         title={destination.name}
         subtitle={destination.introText}
@@ -299,6 +303,8 @@ async function DestinationContent({ params }: Props) {
         communityPhotos={communityPhotos}
         earlyBirdPrice={d.earlyBirdPrice as number | null}
         earlyBirdUntil={d.earlyBirdUntil as string | null}
+        earlyBirdSpots={d.earlyBirdSpots as number | null}
+        spotsAvailable={d.spotsAvailable as number | null}
       />
 
       <BookingCtaSection

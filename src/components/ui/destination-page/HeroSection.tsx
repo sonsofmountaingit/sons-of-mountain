@@ -39,6 +39,7 @@ interface Props {
   archived?: boolean
   earlyBirdPrice?: number | null
   earlyBirdUntil?: string | null
+  earlyBirdSpots?: number | null
   tags?: string[]
 }
 
@@ -96,7 +97,7 @@ export function HeroSection({
   avgRating, reviewCount, weather, location, startDate, endDate,
   tripId, tripTitle, price = 0, currency = 'EUR',
   depositAmount, durationDays, month, itemType = 'trip', archived = false,
-  earlyBirdPrice, earlyBirdUntil, tags,
+  earlyBirdPrice, earlyBirdUntil, earlyBirdSpots, tags,
 }: Props) {
   const thumbs = heroGallery?.filter(g => g.url).slice(0, 5) ?? []
   const [activeImage, setActiveImage] = useState<string | null>(null)
@@ -184,6 +185,10 @@ export function HeroSection({
   const showImageAlt = !activeImage ? (heroImageAlt ?? title) : (thumbs.find(t => t.url === activeImage)?.alt ?? title)
   const urgentSpots = spotsAvailable != null && spotsAvailable > 0 && spotsAvailable <= 3
   const soldOut = spotsAvailable === 0
+  const isEarlyBirdActive = !!(earlyBirdPrice && earlyBirdUntil && new Date(earlyBirdUntil) > new Date())
+  const earlyBirdSpotsLeft = isEarlyBirdActive && earlyBirdSpots != null && spotsAvailable != null
+    ? Math.min(spotsAvailable, earlyBirdSpots)
+    : null
 
   return (
     <>
@@ -203,16 +208,22 @@ export function HeroSection({
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/80" />
 
         {/* Urgency badge */}
-        {(soldOut || urgentSpots) && (
-          <div ref={urgencyRef} className="absolute top-4 right-4 sm:top-6 sm:right-6 md:right-12 z-10 opacity-0">
+        {(soldOut || urgentSpots || earlyBirdSpotsLeft != null) && (
+          <div ref={urgencyRef} className="absolute top-4 right-4 sm:top-6 sm:right-6 md:right-12 z-10 opacity-0 flex flex-col items-end gap-2">
             {soldOut ? (
               <span className="bg-red-600 text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
                 Разпродадено
               </span>
-            ) : (
+            ) : urgentSpots ? (
               <span className="flex items-center gap-2 bg-orange-600/90 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
                 <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
                 Само {spotsAvailable} места
+              </span>
+            ) : null}
+            {earlyBirdSpotsLeft != null && (
+              <span className="flex items-center gap-2 bg-amber-400/95 backdrop-blur-sm text-black text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
+                <span className="w-2 h-2 rounded-full bg-black/40 animate-pulse" />
+                {earlyBirdSpotsLeft} early bird {earlyBirdSpotsLeft === 1 ? 'място' : 'места'}
               </span>
             )}
           </div>

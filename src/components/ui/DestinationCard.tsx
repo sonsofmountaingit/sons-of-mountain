@@ -9,6 +9,9 @@ interface DestinationCardProps {
   month?: string
   spotsAvailable?: number
   spotsTotal?: number
+  earlyBirdPrice?: number | null
+  earlyBirdUntil?: string | null
+  earlyBirdSpots?: number | null
 }
 
 export function DestinationCard({
@@ -18,9 +21,16 @@ export function DestinationCard({
   month,
   spotsAvailable,
   spotsTotal,
+  earlyBirdPrice,
+  earlyBirdUntil,
+  earlyBirdSpots,
 }: DestinationCardProps) {
   const isSoldOut = spotsAvailable !== undefined && spotsAvailable === 0
   const hasSpots = spotsAvailable !== undefined && spotsAvailable > 0
+  const isEarlyBird = !!(earlyBirdPrice && earlyBirdUntil && new Date(earlyBirdUntil) > new Date())
+  const earlyBirdSpotsLeft = isEarlyBird && earlyBirdSpots != null && spotsAvailable != null
+    ? Math.min(spotsAvailable, earlyBirdSpots)
+    : null
 
   return (
     <Link
@@ -38,6 +48,16 @@ export function DestinationCard({
         />
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+      {isEarlyBird && (
+        <div className="absolute top-3 left-3 flex flex-col gap-1">
+          <span className="bg-amber-400 text-black text-xs font-bold px-2 py-0.5 rounded">EARLY BIRD</span>
+          {earlyBirdSpotsLeft != null && (
+            <span className="bg-black/70 text-amber-400 text-xs font-semibold px-2 py-0.5 rounded">
+              {earlyBirdSpotsLeft} {earlyBirdSpotsLeft === 1 ? 'място' : 'места'}
+            </span>
+          )}
+        </div>
+      )}
       <div className="absolute bottom-0 left-0 right-0 p-4">
         {month && (
           <p className="text-xs text-white/60 uppercase tracking-wider mb-1">{month}</p>

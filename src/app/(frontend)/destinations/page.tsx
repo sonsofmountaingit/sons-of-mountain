@@ -78,6 +78,10 @@ async function DestinationsContent() {
             name={dest.name}
             slug={dest.slug}
             heroImage={dest.heroImage as { url?: string | null; alt: string } | null}
+            spotsAvailable={dest.spotsAvailable ?? undefined}
+            earlyBirdPrice={dest.earlyBirdPrice ?? null}
+            earlyBirdUntil={dest.earlyBirdUntil ?? null}
+            earlyBirdSpots={dest.earlyBirdSpots ?? null}
           />
         ))}
       </div>

@@ -57,7 +57,11 @@ function ProgramCard({ program }: { program: Record<string, unknown> }) {
   const startDate = program.startDate as string | null
   const earlyBirdPrice = program.earlyBirdPrice as number | null
   const earlyBirdUntil = program.earlyBirdUntil as string | null
+  const earlyBirdSpots = program.earlyBirdSpots as number | null
   const isEarlyBird = earlyBirdPrice && earlyBirdUntil && new Date(earlyBirdUntil) > new Date()
+  const earlyBirdSpotsLeft = isEarlyBird && earlyBirdSpots != null && spotsAvailable != null
+    ? Math.min(spotsAvailable, earlyBirdSpots)
+    : null
 
   return (
     <Link href={href} className="group block bg-white/5 hover:bg-white/10 transition-colors rounded-2xl overflow-hidden">
@@ -78,11 +82,21 @@ function ProgramCard({ program }: { program: Record<string, unknown> }) {
             <span className="text-white font-bold text-lg tracking-widest">РАЗПРОДАДЕНО</span>
           </div>
         )}
-        {type && (
-          <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-sm text-white text-xs font-semibold px-2 py-1 rounded">
-            {PROGRAM_TYPE_LABELS[type] ?? type}
-          </div>
-        )}
+        <div className="absolute top-3 left-3 flex flex-col gap-1">
+          {type && (
+            <span className="bg-black/60 backdrop-blur-sm text-white text-xs font-semibold px-2 py-1 rounded">
+              {PROGRAM_TYPE_LABELS[type] ?? type}
+            </span>
+          )}
+          {isEarlyBird && status === 'active' && (
+            <span className="bg-amber-400 text-black text-xs font-bold px-2 py-1 rounded">EARLY BIRD</span>
+          )}
+          {earlyBirdSpotsLeft != null && status === 'active' && (
+            <span className="bg-black/70 text-amber-400 text-xs font-semibold px-2 py-0.5 rounded">
+              {earlyBirdSpotsLeft} {earlyBirdSpotsLeft === 1 ? 'място' : 'места'}
+            </span>
+          )}
+        </div>
         {spotsAvailable !== null && spotsAvailable <= 5 && status === 'active' && (
           <div className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
             {spotsAvailable} места

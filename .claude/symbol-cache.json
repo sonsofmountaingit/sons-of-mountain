@@ -6177,7 +6177,7 @@
       "next/navigation",
       "./CalendarTripCard"
     ],
-    "lines": 741,
+    "lines": 748,
     "group": "ui"
   },
   "src/components/ui/Footer.tsx": {
