@@ -9,14 +9,22 @@ interface Props {
   whoHeading?: string
   whoDescription?: string
   whoImage1Url?: string
+  whoImage1Caption?: string
+  whoImage1Instagram?: string
   whoImage2Url?: string
+  whoImage2Caption?: string
+  whoImage2Instagram?: string
 }
 
 export function AboutWhoWeAreBlock({
   whoHeading = 'Кои сме ние?',
   whoDescription = 'Ние сме приключенци като теб. Търсим нови изживявания в непознатото, организираме триповете си сами, пътуваме само с добри приятели.',
   whoImage1Url,
+  whoImage1Caption,
+  whoImage1Instagram,
   whoImage2Url,
+  whoImage2Caption,
+  whoImage2Instagram,
 }: Props) {
   const sectionRef = useRef<HTMLElement>(null)
 
@@ -55,7 +63,6 @@ export function AboutWhoWeAreBlock({
       }}
     >
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
-        {/* Header */}
         <div style={{ marginBottom: '4rem', maxWidth: 560 }}>
           <h2
             data-animate
@@ -83,7 +90,6 @@ export function AboutWhoWeAreBlock({
           </p>
         </div>
 
-        {/* Photo grid — staggered */}
         <div
           style={{
             display: 'grid',
@@ -93,52 +99,89 @@ export function AboutWhoWeAreBlock({
             maxWidth: 900,
           }}
         >
-          {/* Left image — offset lower */}
-          <div
-            data-animate
-            style={{
-              position: 'relative',
-              aspectRatio: '3/4',
-              borderRadius: 20,
-              overflow: 'hidden',
-              marginTop: '4rem',
-              background: '#1a1a1a',
-            }}
-          >
-            {whoImage1Url ? (
-              <Image
-                src={whoImage1Url}
-                alt="Кои сме ние — снимка 1"
-                fill
-                sizes="(max-width: 900px) 50vw, 350px"
-                style={{ objectFit: 'cover', objectPosition: 'center top' }}
-              />
-            ) : (
-              <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #1a1a1a, #2a2a2a)' }} />
+          <div data-animate style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '4rem' }}>
+            <div
+              style={{
+                position: 'relative',
+                aspectRatio: '3/4',
+                borderRadius: 20,
+                overflow: 'hidden',
+                background: '#1a1a1a',
+              }}
+            >
+              {whoImage1Url ? (
+                <Image
+                  src={whoImage1Url}
+                  alt="Кои сме ние — снимка 1"
+                  fill
+                  sizes="(max-width: 900px) 50vw, 350px"
+                  style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                />
+              ) : (
+                <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #1a1a1a, #2a2a2a)' }} />
+              )}
+            </div>
+            {(whoImage1Caption || whoImage1Instagram) && (
+              <div style={{ paddingLeft: 4 }}>
+                {whoImage1Caption && (
+                  <p style={{ margin: 0, fontSize: '0.875rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.5 }}>
+                    {whoImage1Caption}
+                  </p>
+                )}
+                {whoImage1Instagram && (
+                  <a
+                    href={`https://instagram.com/${whoImage1Instagram.replace(/^@/, '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.35)', textDecoration: 'none', fontWeight: 500 }}
+                  >
+                    @{whoImage1Instagram.replace(/^@/, '')}
+                  </a>
+                )}
+              </div>
             )}
           </div>
 
-          {/* Right image — offset higher */}
-          <div
-            data-animate
-            style={{
-              position: 'relative',
-              aspectRatio: '4/5',
-              borderRadius: 20,
-              overflow: 'hidden',
-              background: '#1a1a1a',
-            }}
-          >
-            {whoImage2Url ? (
-              <Image
-                src={whoImage2Url}
-                alt="Кои сме ние — снимка 2"
-                fill
-                sizes="(max-width: 900px) 50vw, 450px"
-                style={{ objectFit: 'cover', objectPosition: 'center' }}
-              />
-            ) : (
-              <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #1a1a1a, #2a2a2a)' }} />
+          <div data-animate style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <div
+              style={{
+                position: 'relative',
+                aspectRatio: '4/5',
+                borderRadius: 20,
+                overflow: 'hidden',
+                background: '#1a1a1a',
+              }}
+            >
+              {whoImage2Url ? (
+                <Image
+                  src={whoImage2Url}
+                  alt="Кои сме ние — снимка 2"
+                  fill
+                  sizes="(max-width: 900px) 50vw, 450px"
+                  style={{ objectFit: 'cover', objectPosition: 'center' }}
+                />
+              ) : (
+                <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #1a1a1a, #2a2a2a)' }} />
+              )}
+            </div>
+            {(whoImage2Caption || whoImage2Instagram) && (
+              <div style={{ paddingLeft: 4 }}>
+                {whoImage2Caption && (
+                  <p style={{ margin: 0, fontSize: '0.875rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.5 }}>
+                    {whoImage2Caption}
+                  </p>
+                )}
+                {whoImage2Instagram && (
+                  <a
+                    href={`https://instagram.com/${whoImage2Instagram.replace(/^@/, '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.35)', textDecoration: 'none', fontWeight: 500 }}
+                  >
+                    @{whoImage2Instagram.replace(/^@/, '')}
+                  </a>
+                )}
+              </div>
             )}
           </div>
         </div>

@@ -104,9 +104,25 @@ export const About: GlobalConfig = {
       relationTo: 'media',
     },
     {
+      name: 'whoImage1Caption',
+      type: 'text',
+    },
+    {
+      name: 'whoImage1Instagram',
+      type: 'text',
+    },
+    {
       name: 'whoImage2',
       type: 'upload',
       relationTo: 'media',
+    },
+    {
+      name: 'whoImage2Caption',
+      type: 'text',
+    },
+    {
+      name: 'whoImage2Instagram',
+      type: 'text',
     },
     // Partners
     {

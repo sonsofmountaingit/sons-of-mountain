@@ -3421,7 +3421,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 314,
+    "lines": 318,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {
@@ -4294,7 +4294,7 @@
       "next/server",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 503,
+    "lines": 512,
     "group": "collections"
   },
   "src/payload/collections/EmailTemplates.ts": {

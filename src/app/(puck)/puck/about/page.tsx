@@ -60,7 +60,11 @@ async function EditorContent() {
           whoHeading: d?.whoHeading ?? 'Кои сме ние?',
           whoDescription: d?.whoDescription ?? 'Ние сме приключенци като теб.',
           whoImage1Url,
+          whoImage1Caption: d?.whoImage1Caption ?? '',
+          whoImage1Instagram: d?.whoImage1Instagram ?? '',
           whoImage2Url,
+          whoImage2Caption: d?.whoImage2Caption ?? '',
+          whoImage2Instagram: d?.whoImage2Instagram ?? '',
         },
       },
       {
