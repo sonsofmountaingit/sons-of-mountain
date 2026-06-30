@@ -51,7 +51,7 @@ export function DayStatsBar({ stats }: { stats: DayStats }) {
     <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3 pt-5 border-t border-black/6">
       {visible.map(({ key, label, icon }) => (
         <div key={key} className="flex items-center gap-2">
-          <img src={icon} alt="" className="w-3.5 h-3.5 opacity-25 flex-shrink-0" />
+          <Image src={icon} alt="" width={14} height={14} className={`opacity-25 flex-shrink-0${key === 'descent' ? ' scale-x-[-1]' : ''}`} />
           <span className="text-[10px] text-black/35 uppercase tracking-widest">{label}</span>
           <span className="text-[11px] font-bold text-black/80">{stats[key]}</span>
         </div>
