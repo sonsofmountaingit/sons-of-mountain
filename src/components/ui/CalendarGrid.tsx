@@ -20,7 +20,6 @@ const CATEGORY_LABELS: Record<string, string> = {
   individual: 'ИНДИВИДУАЛНА ПРОГРАМА',
 }
 
-const TAG_OPTIONS = ['Всички', 'Singles Only', 'Yoga', 'Adventure', 'Ski', 'Sailing', 'Photography', 'Wellness', 'Family', 'Couples', 'Hiking', 'Cultural']
 
 const SEASON_LABELS: Record<number, string> = {
   0: 'ЗИМА', 1: 'ЗИМА', 11: 'ЗИМА',
@@ -336,6 +335,14 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
 
   const [category, setCategory] = useState(searchParams.get('category') ?? 'all')
   const [tag, setTag] = useState(searchParams.get('tag') ?? 'Всички')
+
+  const tagOptions = useMemo(() => {
+    const seen = new Set<string>()
+    for (const item of allItems) {
+      for (const t of item.tags) if (t) seen.add(t)
+    }
+    return ['Всички', ...Array.from(seen).sort()]
+  }, [allItems])
   const [year, setYear] = useState(searchParams.get('year') ?? 'all')
   const [onlyAvailable, setOnlyAvailable] = useState(false)
   const [onlyWishlisted, setOnlyWishlisted] = useState(false)
@@ -546,7 +553,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
             summary={tag !== 'Всички' ? tag.toUpperCase() : undefined}
           >
             <div className="flex flex-wrap gap-1.5 p-3" style={{ maxWidth: '320px' }}>
-              {TAG_OPTIONS.map((t) => (
+              {tagOptions.map((t) => (
                 <button
                   key={t}
                   onClick={() => setAndSyncTag(t)}
