@@ -31,10 +31,30 @@ const getDestinations = unstable_cache(
   { tags: ['destinations'], revalidate: false },
 )
 
+const getAbroadTrips = unstable_cache(
+  async () => {
+    const payload = await getPayload({ config })
+    const { docs } = await payload.find({
+      collection: 'trips',
+      where: { and: [{ navSection: { equals: 'abroad' } }, { status: { not_equals: 'archived' } }] },
+      limit: 200,
+      sort: 'startDate',
+      overrideAccess: true,
+    })
+    return docs
+  },
+  ['destinations-abroad-trips'],
+  { tags: ['trips'], revalidate: false },
+)
+
 async function DestinationsContent() {
   let destinations: any[] = []
+  let abroadTrips: any[] = []
   try {
     destinations = await getDestinations()
+  } catch {}
+  try {
+    abroadTrips = await getAbroadTrips()
   } catch {}
 
   const jsonLd = {
@@ -42,10 +62,19 @@ async function DestinationsContent() {
     '@type': 'ItemList',
     name: 'Дестинации — Sons of Mountains',
     url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/destinations`,
-    itemListElement: (destinations as any[]).slice(0, 50).map((d: any, i: number) => ({
+    itemListElement: [
+      ...(destinations as any[]).map((d: any) => ({
+        name: d.name,
+        url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/destinations/${d.slug}`,
+      })),
+      ...(abroadTrips as any[]).map((t: any) => ({
+        name: t.title,
+        url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/trips/${t.slug}`,
+      })),
+    ].slice(0, 50).map((entry, i) => ({
       '@type': 'ListItem',
       position: i + 1,
-      item: { '@type': 'Place', name: d.name, url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/destinations/${d.slug}` },
+      item: { '@type': 'Place', name: entry.name, url: entry.url },
     })),
   }
 
@@ -68,7 +97,7 @@ async function DestinationsContent() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      {destinations.length === 0 && archived.length === 0 && (
+      {destinations.length === 0 && abroadTrips.length === 0 && archived.length === 0 && (
         <p className="text-white/30 text-center py-20">Скоро ще добавим дестинации.</p>
       )}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -82,6 +111,19 @@ async function DestinationsContent() {
             earlyBirdPrice={dest.earlyBirdPrice ?? null}
             earlyBirdUntil={dest.earlyBirdUntil ?? null}
             earlyBirdSpots={dest.earlyBirdSpots ?? null}
+          />
+        ))}
+        {abroadTrips.map((trip: any) => (
+          <DestinationCard
+            key={trip.id}
+            name={trip.title}
+            slug={trip.slug}
+            href={`/trips/${trip.slug}`}
+            heroImage={trip.heroImage as { url?: string | null; alt: string } | null}
+            spotsAvailable={trip.spotsAvailable ?? undefined}
+            earlyBirdPrice={trip.earlyBirdPrice ?? null}
+            earlyBirdUntil={trip.earlyBirdUntil ?? null}
+            earlyBirdSpots={trip.earlyBirdSpots ?? null}
           />
         ))}
       </div>

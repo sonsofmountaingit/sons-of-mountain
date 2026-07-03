@@ -390,7 +390,7 @@ export const Destinations: CollectionConfig = {
     {
       name: 'continent',
       type: 'text',
-      admin: { position: 'sidebar', description: 'e.g. Африка — used in "Други пътешествия в Африка"' },
+      admin: { position: 'sidebar', description: 'e.g. Африка — used in "Други преходи в Африка"' },
     },
     {
       name: 'departureCity',

@@ -33,7 +33,7 @@ interface Props {
 }
 
 function toScale(v: number | null | undefined): number {
-  return Math.round((v ?? 50) / 20)
+  return (v ?? 50) / 20
 }
 
 function ArcStat({ label, value, index }: { label: string; value: number; index: number }) {
@@ -83,7 +83,7 @@ function ArcStat({ label, value, index }: { label: string; value: number; index:
           <path ref={arcRef} d={arcPath(startAngle, fillDeg)} fill="none" stroke="#111" strokeWidth={strokeWidth} strokeLinecap="round" />
         </svg>
         <span className="absolute inset-0 flex items-center justify-center text-lg font-black text-black leading-none">
-          {value}
+          {Math.round(value)}
         </span>
       </div>
       <span className="text-[10px] font-semibold tracking-widest text-black/50 uppercase leading-tight">{label}</span>

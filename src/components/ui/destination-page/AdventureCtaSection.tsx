@@ -79,7 +79,7 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
               )}
               {maxParticipants && (
                 <span className="border border-black/20 rounded-full px-4 py-1.5 text-sm font-semibold text-black/70">
-                  {maxParticipants} пътешественика
+                  {maxParticipants} човека
                 </span>
               )}
             </div>

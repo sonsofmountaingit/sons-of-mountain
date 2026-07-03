@@ -81,6 +81,7 @@ async function TripContent({ params }: Props) {
 
   const heroImage = t.heroImage as { url?: string | null; alt?: string } | null
   const heroGalleryRaw = t.heroGallery as { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null
+  const galleryRaw = t.gallery as { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null
   const whyVideosRaw = t.whyVideos as { video: { url?: string | null } | null; thumbnail: { url?: string | null; alt?: string } | null; thumbnailAlt?: string | null; label?: string | null }[] | null
   const whyImagesRaw = t.whyImages as { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null
   const travelImage = t.travelImage as { url?: string | null; alt?: string } | null
@@ -215,9 +216,15 @@ async function TripContent({ params }: Props) {
         earlyBirdUntil={t.earlyBirdUntil as string | null}
         earlyBirdSpots={t.earlyBirdSpots as number | null}
         tags={(t.tags as { tag: string }[] | null ?? []).map(tag => tag.tag).filter(Boolean)}
-        heroGallery={(heroGalleryRaw ?? [])
-          .filter((g) => g.image?.url)
-          .map((g) => ({ url: mediaUrl(g.image!.url)!, alt: g.alt ?? g.image?.alt ?? undefined }))}
+        heroGallery={(() => {
+          const fromHeroGallery = (heroGalleryRaw ?? [])
+            .filter((g) => g.image?.url)
+            .map((g) => ({ url: mediaUrl(g.image!.url)!, alt: g.alt ?? g.image?.alt ?? undefined }))
+          if (fromHeroGallery.length) return fromHeroGallery
+          return (galleryRaw ?? [])
+            .filter((g) => g.image?.url)
+            .map((g) => ({ url: mediaUrl(g.image!.url)!, alt: g.alt ?? g.image?.alt ?? undefined }))
+        })()}
       />
 
       <WhySection

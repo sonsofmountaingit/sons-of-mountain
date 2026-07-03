@@ -5,10 +5,12 @@ import { mediaUrl } from '@/lib/media-url'
 import { CalendarGrid, type MonthGroup } from '@/components/ui/CalendarGrid'
 import type { CalendarItem } from '@/components/ui/CalendarTripCard'
 
-function toDifficulty(raw: number | null | undefined): number | null {
+function pickDifficulty(ratings: { label?: string; value?: number }[] | undefined): number | null {
+  if (!ratings?.length) return null
+  const match = ratings.find((r) => r.label?.toLowerCase().includes('трудност'))
+  const raw = match?.value ?? ratings[0]?.value ?? null
   if (raw == null) return null
-  const level = Math.ceil(raw / 20)
-  return Math.max(1, Math.min(5, level))
+  return Math.max(1, Math.min(5, Math.ceil(raw / 20)))
 }
 
 import Script from 'next/script'
@@ -46,6 +48,7 @@ const MONTHS_BG = ['Януари', 'Февруари', 'Март', 'Април',
 type TripDoc = {
   id: string
   title?: string
+  slug?: string
   startDate?: string
   endDate?: string
   spotsAvailable?: number
@@ -53,18 +56,11 @@ type TripDoc = {
   price?: number
   currency?: string
   status?: string
+  navSection?: string
+  location?: string
   tags?: { tag?: string }[]
-  destination?: {
-    id?: string
-    name?: string
-    slug?: string
-    type?: string
-    heroImage?: { url?: string; alt?: string } | string
-    latitude?: number
-    longitude?: number
-    fitnessRatings?: { difficulty?: number; comfort?: number; nature?: number; culture?: number }
-  } | string
-  fitnessRatings?: { difficulty?: number; comfort?: number; nature?: number; culture?: number }
+  heroImage?: { url?: string; alt?: string } | string
+  fitnessRatings?: { label?: string; value?: number }[]
 }
 
 type ProgramDoc = {
@@ -78,13 +74,13 @@ type ProgramDoc = {
   currency?: string
   status?: string
   type?: string
+  location?: string
   tags?: { tag?: string }[]
   slug?: string
   heroImage?: { url?: string; alt?: string } | string
-  destination?: { name?: string; slug?: string; latitude?: number; longitude?: number } | string
   latitude?: number
   longitude?: number
-  fitnessRatings?: { difficulty?: number; comfort?: number; nature?: number; culture?: number }
+  fitnessRatings?: { label?: string; value?: number }[]
 }
 
 type DestinationDoc = {
@@ -101,7 +97,7 @@ type DestinationDoc = {
   heroImage?: { url?: string; alt?: string } | string
   latitude?: number
   longitude?: number
-  fitnessRatings?: { difficulty?: number; comfort?: number; nature?: number; culture?: number }
+  fitnessRatings?: { label?: string; value?: number }[]
 }
 
 
@@ -128,30 +124,25 @@ const fetchCalendarData = unstable_cache(
 
   for (const trip of tripsRes.docs as TripDoc[]) {
     if (!trip.startDate) continue
-    const dest = typeof trip.destination === 'object' ? trip.destination : null
-    const heroImg = dest?.heroImage && typeof dest.heroImage === 'object' ? dest.heroImage : null
-    const type = dest?.type ?? 'abroad'
+    const heroImg = trip.heroImage && typeof trip.heroImage === 'object' ? trip.heroImage : null
     items.push({
       id: trip.id,
       kind: 'trip',
-      category: type === 'bulgaria' ? 'bulgaria' : 'abroad',
-      title: trip.title ?? (dest?.name ?? ''),
-      destinationName: dest?.name ?? '',
-      destinationSlug: dest?.slug ?? null,
+      category: trip.navSection === 'bulgaria' ? 'bulgaria' : 'abroad',
+      title: trip.title ?? '',
+      destinationName: trip.location ?? '',
+      destinationSlug: null,
       imageUrl: mediaUrl(heroImg?.url) ?? null,
-      imageAlt: heroImg?.alt ?? dest?.name ?? '',
+      imageAlt: heroImg?.alt ?? trip.title ?? '',
       startDate: trip.startDate,
       endDate: trip.endDate ?? trip.startDate,
       spotsAvailable: trip.spotsAvailable ?? 0,
       spotsTotal: trip.spotsTotal ?? 0,
       status: (trip.status as CalendarItem['status']) ?? 'active',
       tags: (trip.tags ?? []).map((t) => t.tag ?? '').filter(Boolean),
-      href: dest?.slug ? `/destinations/${dest.slug}` : '#',
-      difficulty: toDifficulty(trip.fitnessRatings?.difficulty ?? dest?.fitnessRatings?.difficulty ?? null),
+      href: trip.slug ? `/trips/${trip.slug}` : '#',
+      difficulty: pickDifficulty(trip.fitnessRatings),
     })
-    if (dest?.latitude && dest?.longitude) {
-      itemCoords[trip.id] = { lat: dest.latitude, lng: dest.longitude }
-    }
   }
 
   for (const prog of programsRes.docs as ProgramDoc[]) {
@@ -162,8 +153,8 @@ const fetchCalendarData = unstable_cache(
       kind: 'program',
       category: 'individual',
       title: prog.title ?? '',
-      destinationName: typeof prog.destination === 'object' ? (prog.destination?.name ?? '') : '',
-      destinationSlug: typeof prog.destination === 'object' ? (prog.destination?.slug ?? null) : null,
+      destinationName: prog.location ?? '',
+      destinationSlug: null,
       imageUrl: mediaUrl(heroImg?.url) ?? null,
       imageAlt: heroImg?.alt ?? prog.title ?? '',
       startDate: prog.startDate,
@@ -173,11 +164,9 @@ const fetchCalendarData = unstable_cache(
       status: (prog.status as CalendarItem['status']) ?? 'active',
       tags: (prog.tags ?? []).map((t) => t.tag ?? '').filter(Boolean),
       href: prog.slug ? `/programs/${prog.slug}` : '#',
-      difficulty: toDifficulty(prog.fitnessRatings?.difficulty ?? null),
+      difficulty: pickDifficulty(prog.fitnessRatings),
     })
-    const lat = prog.latitude ?? (typeof prog.destination === 'object' ? prog.destination?.latitude : undefined)
-    const lng = prog.longitude ?? (typeof prog.destination === 'object' ? prog.destination?.longitude : undefined)
-    if (lat && lng) itemCoords[prog.id] = { lat, lng }
+    if (prog.latitude && prog.longitude) itemCoords[prog.id] = { lat: prog.latitude, lng: prog.longitude }
   }
 
   for (const dest of destinationsRes.docs as DestinationDoc[]) {
@@ -200,7 +189,7 @@ const fetchCalendarData = unstable_cache(
       status: (dest.bookingStatus === 'archived' ? 'archived' : dest.bookingStatus === 'soldOut' ? 'soldOut' : 'active') as CalendarItem['status'],
       tags: (dest.tags ?? []).map((t) => (t as unknown as { label?: string }).label ?? '').filter(Boolean),
       href: dest.slug ? `/destinations/${dest.slug}` : '#',
-      difficulty: toDifficulty(dest.fitnessRatings?.difficulty ?? null),
+      difficulty: pickDifficulty(dest.fitnessRatings),
     })
     if (dest.latitude && dest.longitude) {
       itemCoords[`dest-${dest.id}`] = { lat: dest.latitude, lng: dest.longitude }

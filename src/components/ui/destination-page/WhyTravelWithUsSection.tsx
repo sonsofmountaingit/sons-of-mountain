@@ -62,12 +62,12 @@ export function WhyTravelWithUsSection({
     return () => ctx.revert()
   }, [])
 
-  const inlineImg = (img: ImageEntry, width: number) => {
+  const inlineImg = (img: ImageEntry, width: number, key: string) => {
     const objectPosition = (img.focalX != null && img.focalY != null)
       ? `${img.focalX}% ${img.focalY}%`
       : (img.focalPoint ?? 'center')
     return (
-      <span style={{ display: 'inline-block', width, height: 56, borderRadius: 999, overflow: 'hidden', position: 'relative', verticalAlign: 'middle', flexShrink: 0 }}>
+      <span key={key} style={{ display: 'inline-block', width, height: 56, borderRadius: 999, overflow: 'hidden', position: 'relative', verticalAlign: 'middle', margin: '0 0.4em' }}>
         <Image
           src={img.url}
           alt={img.alt ?? ''}
@@ -89,24 +89,23 @@ export function WhyTravelWithUsSection({
           <span className="hidden sm:inline">
             {part2 !== null ? (
               <>
-                <span className="inline-flex flex-wrap justify-center items-center gap-x-4 gap-y-3">
-                  <span>{part1}</span>
-                  {img1 && inlineImg(img1, 176)}
-                  {part2 && <span>{part2}</span>}
-                </span>
+                {part1}
+                {img1 && inlineImg(img1, 176, 'img1')}
+                {part2}
                 {part3 !== null && (
-                  <span className="inline-flex flex-wrap justify-center items-center gap-x-4 gap-y-3 mt-2">
-                    {img2 && img2 !== img1 && inlineImg(img2, 152)}
-                    <span>{part3}</span>
-                  </span>
+                  <>
+                    {' '}
+                    {img2 && img2 !== img1 && inlineImg(img2, 152, 'img2')}
+                    {part3}
+                  </>
                 )}
               </>
             ) : (
-              <span className="inline-flex flex-wrap justify-center items-center gap-x-4 gap-y-3">
-                {img1 && inlineImg(img1, 176)}
-                <span>{part1}</span>
-                {img2 && img2 !== img1 && inlineImg(img2, 152)}
-              </span>
+              <>
+                {img1 && inlineImg(img1, 176, 'img1')}
+                {part1}
+                {img2 && img2 !== img1 && inlineImg(img2, 152, 'img2')}
+              </>
             )}
           </span>
         </h2>

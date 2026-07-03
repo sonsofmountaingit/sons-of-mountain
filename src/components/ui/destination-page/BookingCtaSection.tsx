@@ -34,6 +34,10 @@ function formatDate(d: string) {
   return new Date(d).toLocaleDateString('bg-BG', { day: '2-digit', month: 'long', year: 'numeric' })
 }
 
+function isSameDay(a: string, b: string) {
+  return new Date(a).toDateString() === new Date(b).toDateString()
+}
+
 function formatPrice(price: number, currency: string) {
   const sym = currency === 'EUR' ? '€' : currency === 'USD' ? '$' : 'лв.'
   return `${sym}${price.toLocaleString('bg-BG')}`
@@ -79,9 +83,9 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
             Записване
           </p>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#111] leading-tight mb-8 sm:mb-12 max-w-2xl">
-            Готов за {name}?{' '}
+          Готов ли си за {name}?{' '}
             <span className="text-[#888] font-black">
-              Избери дата, запази място и тръгваме заедно.
+            Запази място и отиваме заедно. 
             </span>
           </h2>
         </div>
@@ -105,7 +109,7 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
             <div className="absolute inset-0 bg-black/40" />
             <div className="relative z-10">
               <span className="inline-flex items-center bg-white/20 backdrop-blur-sm text-white text-xs font-semibold px-4 py-1.5 rounded-full mb-6 border border-white/30">
-                {activeTrip ? `${formatDate(activeTrip.startDate)} – ${formatDate(activeTrip.endDate)}` : 'Предстояща дата'}
+                {activeTrip ? (isSameDay(activeTrip.startDate, activeTrip.endDate) ? formatDate(activeTrip.startDate) : `${formatDate(activeTrip.startDate)} – ${formatDate(activeTrip.endDate)}`) : 'Предстояща дата'}
               </span>
               <h3 className="text-2xl sm:text-3xl font-black text-white leading-tight drop-shadow-md">
                 Запази място,<br />тръгваме заедно

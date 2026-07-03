@@ -80,18 +80,77 @@ const getAllTripsPool = unstable_cache(
   { tags: ['footer', 'trips'], revalidate: false },
 )
 
+const getAllProgramsPool = unstable_cache(
+  async () => {
+    try {
+      const payload = await getPayload({ config })
+      const { docs } = await payload.find({
+        collection: 'programs',
+        where: { status: { not_equals: 'draft' } },
+        sort: 'startDate',
+        limit: 100,
+        depth: 1,
+        overrideAccess: true,
+      })
+      return docs
+    } catch {
+      return []
+    }
+  },
+  ['footer-programs-pool'],
+  { tags: ['footer', 'programs'], revalidate: false },
+)
+
+const getAllActivePrograms = unstable_cache(
+  async () => {
+    try {
+      const payload = await getPayload({ config })
+      const { docs } = await payload.find({
+        collection: 'programs',
+        where: { status: { equals: 'active' } },
+        sort: 'startDate',
+        limit: 20,
+        depth: 1,
+        overrideAccess: true,
+      })
+      return docs
+    } catch {
+      return []
+    }
+  },
+  ['footer-programs-auto'],
+  { tags: ['footer', 'programs'], revalidate: false },
+)
+
 export async function Footer() {
   const [data, navData] = await Promise.all([getFooterData(), getNavigationData()])
   const source = (data as any)?.travelLinkSource ?? 'auto'
-  const selectedTrips: { trip: any }[] = (data as any)?.selectedTrips ?? []
-  const manualIds = selectedTrips.map((s) => typeof s.trip === 'object' ? s.trip?.id : s.trip).filter(Boolean)
-  const allTrips = source === 'manual' && manualIds.length > 0
-    ? await getAllTripsPool()
-    : await getAllActiveTrips()
+  const selectedTrips: { trip: any; relationTo?: string }[] = (data as any)?.selectedTrips ?? []
 
-  const trips = source === 'manual' && manualIds.length > 0
-    ? manualIds.map((id) => allTrips.find((t: any) => String(t.id) === String(id))).filter(Boolean)
-    : allTrips
+  let trips: (any & { __kind: 'trip' | 'program' })[] = []
+
+  if (source === 'manual' && selectedTrips.length > 0) {
+    const [tripsPool, programsPool] = await Promise.all([getAllTripsPool(), getAllProgramsPool()])
+    trips = selectedTrips
+      .map((s) => {
+        const isRelObj = s.trip && typeof s.trip === 'object' && 'value' in s.trip
+        const id = isRelObj ? s.trip.value : (typeof s.trip === 'object' ? s.trip?.id : s.trip)
+        const kind = isRelObj ? s.trip.relationTo : (s.relationTo ?? 'trips')
+        const pool = kind === 'programs' ? programsPool : tripsPool
+        const doc = pool.find((t: any) => String(t.id) === String(id))
+        return doc ? { ...doc, __kind: kind === 'programs' ? 'program' : 'trip' } : null
+      })
+      .filter(Boolean) as any[]
+  } else if (source === 'autoWithPrograms') {
+    const [activeTrips, activePrograms] = await Promise.all([getAllActiveTrips(), getAllActivePrograms()])
+    trips = [
+      ...activeTrips.map((t: any) => ({ ...t, __kind: 'trip' as const })),
+      ...activePrograms.map((p: any) => ({ ...p, __kind: 'program' as const })),
+    ].sort((a, b) => new Date(a.startDate ?? 0).getTime() - new Date(b.startDate ?? 0).getTime())
+  } else {
+    const activeTrips = await getAllActiveTrips()
+    trips = activeTrips.map((t: any) => ({ ...t, __kind: 'trip' as const }))
+  }
 
   const subscribeHeading = (data as any)?.subscribeHeading ?? 'Абонирай се'
   const subscribeSubtext = (data as any)?.subscribeSubtext ?? 'Научавай първи за предстоящи пътешествия, отстъпки и събития.'
@@ -116,7 +175,8 @@ export async function Footer() {
     const year = date ? date.getFullYear() : null
     const month = date ? BG_MONTHS[date.getMonth()] : ''
     const monthLabel = year ? `${month} ${year}` : month
-    const href = trip.slug ? `/shop/${trip.slug}` : `/shop/${trip.id}`
+    const base = trip.__kind === 'program' ? '/programs' : '/trips'
+    const href = trip.slug ? `${base}/${trip.slug}` : `/shop/${trip.id}`
     return {
       name: trip.title,
       month: monthLabel,

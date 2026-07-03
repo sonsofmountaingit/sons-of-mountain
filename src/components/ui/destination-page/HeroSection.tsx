@@ -137,10 +137,6 @@ export function HeroSection({
         .fromTo(metaRef.current,       { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, 0.55)
         .fromTo(ctaRef.current,        { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, 0.68)
 
-      if (urgencyRef.current) {
-        tl.fromTo(urgencyRef.current, { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.5 }, 0.3)
-      }
-
       // Parallax background on scroll
       if (bgRef.current) {
         gsap.to(bgRef.current, {
@@ -207,38 +203,37 @@ export function HeroSection({
 
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/80" />
 
-        {/* Urgency badge */}
-        {(soldOut || urgentSpots || earlyBirdSpotsLeft != null) && (
-          <div ref={urgencyRef} className="absolute top-4 right-4 sm:top-6 sm:right-6 md:right-12 z-10 opacity-0 flex flex-col items-end gap-2">
-            {soldOut ? (
-              <span className="bg-red-600 text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
-                Разпродадено
-              </span>
-            ) : urgentSpots ? (
-              <span className="flex items-center gap-2 bg-orange-600/90 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
-                <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                Само {spotsAvailable} места
-              </span>
-            ) : null}
-            {earlyBirdSpotsLeft != null && (
-              <span className="flex items-center gap-2 bg-amber-400/95 backdrop-blur-sm text-black text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
-                <span className="w-2 h-2 rounded-full bg-black/40 animate-pulse" />
-                {earlyBirdSpotsLeft} early bird {earlyBirdSpotsLeft === 1 ? 'място' : 'места'}
-              </span>
-            )}
-          </div>
-        )}
-
         {/* Bottom content */}
         <div className="relative z-10 w-full px-4 sm:px-6 md:px-12 pb-6 sm:pb-10 md:pb-14 flex flex-col gap-2 sm:gap-3">
 
-          <div ref={breadcrumbRef} className="opacity-0">
+          <div ref={breadcrumbRef} className="flex items-center gap-3 opacity-0">
             <a href="/destinations" className="inline-flex items-center gap-1.5 text-white/60 hover:text-white text-sm transition-colors">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M19 12H5M12 5l-7 7 7 7"/>
               </svg>
               Всички дестинации
             </a>
+
+            {(soldOut || urgentSpots || earlyBirdSpotsLeft != null) && (
+              <div ref={urgencyRef} className="flex items-center gap-2">
+                {soldOut ? (
+                  <span className="bg-red-600 text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
+                    Разпродадено
+                  </span>
+                ) : urgentSpots ? (
+                  <span className="flex items-center gap-2 bg-orange-600/90 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
+                    <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                    Само {spotsAvailable} места
+                  </span>
+                ) : null}
+                {earlyBirdSpotsLeft != null && (
+                  <span className="flex items-center gap-2 bg-amber-400/95 backdrop-blur-sm text-black text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
+                    <span className="w-2 h-2 rounded-full bg-black/40 animate-pulse" />
+                    {earlyBirdSpotsLeft} early bird {earlyBirdSpotsLeft === 1 ? 'място' : 'места'}
+                  </span>
+                )}
+              </div>
+            )}
           </div>
 
           <h1 ref={titleRef} className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-white uppercase tracking-tight leading-[0.9] opacity-0">

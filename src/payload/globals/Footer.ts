@@ -138,13 +138,14 @@ export const Footer: GlobalConfig = {
       defaultValue: 'auto',
       options: [
         { label: 'Автоматично (всички активни пътувания по дата)', value: 'auto' },
-        { label: 'Ръчно избрани пътувания', value: 'manual' },
+        { label: 'Автоматично (пътувания + програми по дата)', value: 'autoWithPrograms' },
+        { label: 'Ръчно избрани', value: 'manual' },
       ],
     },
     {
       name: 'selectedTrips',
       type: 'array',
-      label: 'Избрани пътувания (ръчно)',
+      label: 'Избрани пътувания / програми (ръчно)',
       admin: {
         condition: (_, siblingData) => siblingData?.travelLinkSource === 'manual',
       },
@@ -152,7 +153,7 @@ export const Footer: GlobalConfig = {
         {
           name: 'trip',
           type: 'relationship',
-          relationTo: 'trips',
+          relationTo: ['trips', 'programs'],
           required: true,
         },
       ],

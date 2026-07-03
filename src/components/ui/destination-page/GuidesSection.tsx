@@ -89,6 +89,16 @@ export default function GuidesSection({ guides }: Props) {
                           {guide.yearsExperience}+ г.
                         </span>
                       ) : null}
+                      {guide.instagram ? (
+                        <a
+                          href={`https://instagram.com/${guide.instagram.replace(/^@/, '')}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[11px] font-semibold text-black/40 hover:text-black transition-colors"
+                        >
+                          @{guide.instagram.replace(/^@/, '')}
+                        </a>
+                      ) : null}
                     </div>
 
                     {/* Specializations */}
@@ -131,6 +141,16 @@ export default function GuidesSection({ guides }: Props) {
                     <p className="text-white text-[11px] font-black tracking-tight leading-tight">{guide.name}</p>
                     {guide.specializations?.[0] && (
                       <p className="text-white/45 text-[9px] leading-tight mt-0.5 tracking-wide">{guide.specializations[0].item}</p>
+                    )}
+                    {guide.instagram && (
+                      <a
+                        href={`https://instagram.com/${guide.instagram.replace(/^@/, '')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block text-white/60 hover:text-white text-[9px] leading-tight mt-0.5 tracking-wide transition-colors"
+                      >
+                        @{guide.instagram.replace(/^@/, '')}
+                      </a>
                     )}
                   </div>
 

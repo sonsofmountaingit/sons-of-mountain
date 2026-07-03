@@ -557,7 +557,7 @@
       "./PuckAboutEditorClient",
       "@/lib/media-url"
     ],
-    "lines": 96,
+    "lines": 100,
     "group": "puck"
   },
   "src/app/(puck)/puck/blog/PuckBlogEditorClient.tsx": {
@@ -1576,7 +1576,7 @@
       "next/cache",
       "@/lib/payload-auth"
     ],
-    "lines": 58,
+    "lines": 62,
     "group": "api"
   },
   "src/app/api/puck/blog/route.ts": {
@@ -4008,7 +4008,7 @@
       "../hooks/revalidate",
       "next/server"
     ],
-    "lines": 151,
+    "lines": 167,
     "group": "globals"
   },
   "src/payload/globals/PrivacyPolicy.ts": {
@@ -5226,7 +5226,7 @@
       "gsap",
       "gsap/ScrollTrigger"
     ],
-    "lines": 149,
+    "lines": 192,
     "group": "blocks"
   },
   "src/components/blocks/about/AboutPartnersBlock.tsx": {
@@ -6535,7 +6535,7 @@
       "@/components/blocks/about/AboutPartnersBlock",
       "./AboutEditButton"
     ],
-    "lines": 71,
+    "lines": 75,
     "group": "ui"
   },
   "src/components/forms/BookingFormWrapper.tsx": {
@@ -7356,7 +7356,7 @@
       "@/components/blocks/privacy-policy/PrivacyPolicyContentBlock",
       "@/components/blocks/terms-and-conditions/TermsAndConditionsContentBlock"
     ],
-    "lines": 1831,
+    "lines": 1839,
     "group": "other"
   },
   "src/puck/puckAI.ts": {

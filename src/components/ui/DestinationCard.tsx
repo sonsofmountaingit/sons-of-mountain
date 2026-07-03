@@ -5,6 +5,7 @@ import { mediaUrl } from '@/lib/media-url'
 interface DestinationCardProps {
   name: string
   slug: string
+  href?: string
   heroImage: { url?: string | null; alt: string } | null
   month?: string
   spotsAvailable?: number
@@ -17,6 +18,7 @@ interface DestinationCardProps {
 export function DestinationCard({
   name,
   slug,
+  href,
   heroImage,
   month,
   spotsAvailable,
@@ -34,7 +36,7 @@ export function DestinationCard({
 
   return (
     <Link
-      href={`/destinations/${slug}`}
+      href={href ?? `/destinations/${slug}`}
       className="group relative flex-shrink-0 w-[280px] aspect-[3/4] rounded-lg overflow-hidden block"
     >
       {mediaUrl(heroImage?.url) && (
