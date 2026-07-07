@@ -213,7 +213,7 @@ export type PuckBlocks = {
   TestimonialsMarqueeBlock: { heading: string; subheading: string }
   AboutHeroBlock: { heroHeading: string; heroSubtext: string; heroCtaLabel: string; heroCtaUrl: string; heroStatNumber: string; heroStatLabel: string; heroImageUrl: string }
   AboutAdventureBlock: { adventureHeading: string; adventureSubtext: string; adventureActivities: string; adventureQuote: string; adventureQuoteBody: string }
-  AboutWhoWeAreBlock: { whoHeading: string; whoDescription: string; whoImage1Url: string; whoImage2Url: string }
+  AboutWhoWeAreBlock: { whoHeading: string; whoDescription: string; whoImage1Url: string; whoImage1Caption: string; whoImage1Instagram: string; whoImage2Url: string; whoImage2Caption: string; whoImage2Instagram: string }
   AboutPartnersBlock: { partnersHeading: string; partnersSubtext: string; partnersCtaLabel: string; partnersCtaUrl: string; partners: { name: string; url: string; logoUrl: string | null }[] }
   ContactHeroBlock: { heading: string; subheading: string }
   ContactFAQBlock: { heading: string; faqItems: { question: string; answer: string }[] }

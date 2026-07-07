@@ -2130,7 +2130,7 @@
       "next/cache",
       "@/components/blocks/calendar/CalendarHeroBlock"
     ],
-    "lines": 281,
+    "lines": 270,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/page.tsx": {
@@ -2149,7 +2149,7 @@
       "react",
       "@/lib/metadata"
     ],
-    "lines": 124,
+    "lines": 166,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/[slug]/page.tsx": {
@@ -3421,7 +3421,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 318,
+    "lines": 325,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {
@@ -3967,7 +3967,7 @@
       "../hooks/revalidate",
       "next/server"
     ],
-    "lines": 249,
+    "lines": 250,
     "group": "globals"
   },
   "src/payload/globals/DestinationCarousel.ts": {
@@ -5799,7 +5799,7 @@
       "gsap",
       "gsap/ScrollTrigger"
     ],
-    "lines": 129,
+    "lines": 128,
     "group": "ui"
   },
   "src/components/ui/destination-page/DestinationBookingController.tsx": {
@@ -5828,7 +5828,7 @@
       "@payloadcms/richtext-lexical/react",
       "@/lib/media-url"
     ],
-    "lines": 159,
+    "lines": 179,
     "group": "ui"
   },
   "src/components/ui/destination-page/AccommodationsCarousel.tsx": {
@@ -5909,7 +5909,7 @@
       "gsap/ScrollTrigger",
       "./BookingDrawer"
     ],
-    "lines": 382,
+    "lines": 377,
     "group": "ui"
   },
   "src/components/ui/destination-page/IsThisForYouSection.tsx": {
@@ -5996,7 +5996,7 @@
       "gsap",
       "gsap/ScrollTrigger"
     ],
-    "lines": 232,
+    "lines": 236,
     "group": "ui"
   },
   "src/components/ui/destination-page/AdventureCtaSection.tsx": {
@@ -6198,7 +6198,7 @@
       "./FooterShakingLink",
       "./FooterReveal"
     ],
-    "lines": 303,
+    "lines": 363,
     "group": "ui"
   },
   "src/components/ui/Testimonials.tsx": {
@@ -6226,7 +6226,7 @@
       "next/image",
       "@/lib/media-url"
     ],
-    "lines": 80,
+    "lines": 82,
     "group": "ui"
   },
   "src/components/ui/StoryCard.tsx": {
