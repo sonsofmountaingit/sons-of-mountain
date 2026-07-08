@@ -59,6 +59,11 @@ import { StoriesHeroBlock } from '@/components/blocks/stories/StoriesHeroBlock'
 import { CalendarHeroBlock } from '@/components/blocks/calendar/CalendarHeroBlock'
 import { PrivacyPolicyContentBlock } from '@/components/blocks/privacy-policy/PrivacyPolicyContentBlock'
 import { TermsAndConditionsContentBlock } from '@/components/blocks/terms-and-conditions/TermsAndConditionsContentBlock'
+import { VouchersHeroBlock } from '@/components/blocks/vouchers/VouchersHeroBlock'
+import { VouchersTabsBlock } from '@/components/blocks/vouchers/VouchersTabsBlock'
+import { VouchersBuyFormBlock } from '@/components/blocks/vouchers/VouchersBuyFormBlock'
+import { VouchersRedeemBlock } from '@/components/blocks/vouchers/VouchersRedeemBlock'
+import { VouchersMineBlock } from '@/components/blocks/vouchers/VouchersMineBlock'
 
 import {
   allStyleFields,
@@ -222,6 +227,17 @@ export type PuckBlocks = {
   CalendarHeroBlock: { heading: string; subheading: string }
   PrivacyPolicyContentBlock: { title: string; lastUpdated: string; content: unknown }
   TermsAndConditionsContentBlock: { title: string; lastUpdated: string; content: unknown }
+  VouchersHeroBlock: { eyebrow: string; heading: string; subtext: string }
+  VouchersTabsBlock: { buyTabLabel: string; redeemTabLabel: string; mineTabLabel: string }
+  VouchersBuyFormBlock: {
+    forMyselfLabel: string; giftSomeoneLabel: string; chooseAmountLabel: string; customAmountLabel: string
+    customAmountPlaceholder: string; forSpecificLabel: string; openTypeLabel: string; destinationTypeLabel: string
+    tripTypeLabel: string; programTypeLabel: string; recipientDetailsLabel: string; recipientNamePlaceholder: string
+    recipientEmailPlaceholder: string; personalMessageLabel: string; scheduleDeliveryLabel: string
+    submitButtonPrefix: string; submitButtonSuffix: string
+  }
+  VouchersRedeemBlock: { redeemPromptLabel: string; redeemCodePlaceholder: string; redeemButtonLabel: string }
+  VouchersMineBlock: { mineSignInPrompt: string; mineSignInButtonLabel: string; mineEmptyLabel: string }
 }
 
 // ─── Config ───────────────────────────────────────────────────────────────────
@@ -241,6 +257,7 @@ export const puckConfig: Config<PuckBlocks> = {
     stories: { title: 'Stories Page', components: ['StoriesHeroBlock', 'StoriesBlock'], defaultExpanded: false },
     calendar: { title: 'Calendar Page', components: ['CalendarHeroBlock'], defaultExpanded: false },
     legal: { title: 'Legal Pages', components: ['PrivacyPolicyContentBlock', 'TermsAndConditionsContentBlock'], defaultExpanded: false },
+    vouchers: { title: 'Vouchers Page', components: ['VouchersHeroBlock', 'VouchersTabsBlock', 'VouchersBuyFormBlock', 'VouchersRedeemBlock', 'VouchersMineBlock'], defaultExpanded: false },
   },
 
   components: {
@@ -1777,6 +1794,103 @@ export const puckConfig: Config<PuckBlocks> = {
       },
       defaultProps: { title: 'Общи условия', lastUpdated: '', content: '' as unknown },
       render: (props: any) => <TermsAndConditionsContentBlock {...props} />,
+    },
+
+    // ── VOUCHERS ─────────────────────────────────────────────────────────────
+    VouchersHeroBlock: {
+      label: 'Vouchers Hero',
+      fields: {
+        eyebrow: { type: 'text', label: 'Eyebrow', contentEditable: true },
+        heading: { type: 'text', label: 'Heading', contentEditable: true },
+        subtext: { type: 'textarea', label: 'Subtext', contentEditable: true },
+      },
+      defaultProps: {
+        eyebrow: 'Sons of Mountains',
+        heading: 'Gift Vouchers',
+        subtext: 'Give the gift of adventure — or treat yourself. Redeemable on any trip, program, or product.',
+      },
+      render: ({ eyebrow, heading, subtext }) => (
+        <VouchersHeroBlock eyebrow={eyebrow} heading={heading} subtext={subtext} />
+      ),
+    },
+
+    VouchersTabsBlock: {
+      label: 'Vouchers Tabs',
+      fields: {
+        buyTabLabel: { type: 'text', label: 'Buy Tab Label', contentEditable: true },
+        redeemTabLabel: { type: 'text', label: 'Redeem Tab Label', contentEditable: true },
+        mineTabLabel: { type: 'text', label: 'My Vouchers Tab Label', contentEditable: true },
+      },
+      defaultProps: {
+        buyTabLabel: 'Buy a Voucher',
+        redeemTabLabel: 'Redeem',
+        mineTabLabel: 'My Vouchers',
+      },
+      render: ({ buyTabLabel, redeemTabLabel, mineTabLabel }) => (
+        <VouchersTabsBlock buyTabLabel={buyTabLabel} redeemTabLabel={redeemTabLabel} mineTabLabel={mineTabLabel} />
+      ),
+    },
+
+    VouchersBuyFormBlock: {
+      label: 'Vouchers — Buy Form (preview)',
+      fields: {
+        forMyselfLabel: { type: 'text', label: 'For Myself Label', contentEditable: true },
+        giftSomeoneLabel: { type: 'text', label: 'Gift Someone Label', contentEditable: true },
+        chooseAmountLabel: { type: 'text', label: 'Choose Amount Label', contentEditable: true },
+        customAmountLabel: { type: 'text', label: 'Custom Amount Label', contentEditable: true },
+        customAmountPlaceholder: { type: 'text', label: 'Custom Amount Placeholder' },
+        forSpecificLabel: { type: 'text', label: 'For A Specific Label', contentEditable: true },
+        openTypeLabel: { type: 'text', label: 'Open Type Label', contentEditable: true },
+        destinationTypeLabel: { type: 'text', label: 'Destination Type Label' },
+        tripTypeLabel: { type: 'text', label: 'Trip Type Label' },
+        programTypeLabel: { type: 'text', label: 'Program Type Label' },
+        recipientDetailsLabel: { type: 'text', label: 'Recipient Details Label', contentEditable: true },
+        recipientNamePlaceholder: { type: 'text', label: 'Recipient Name Placeholder' },
+        recipientEmailPlaceholder: { type: 'text', label: 'Recipient Email Placeholder' },
+        personalMessageLabel: { type: 'text', label: 'Personal Message Label', contentEditable: true },
+        scheduleDeliveryLabel: { type: 'text', label: 'Schedule Delivery Label' },
+        submitButtonPrefix: { type: 'text', label: 'Submit Button Prefix', contentEditable: true },
+        submitButtonSuffix: { type: 'text', label: 'Submit Button Suffix', contentEditable: true },
+      },
+      defaultProps: {
+        forMyselfLabel: 'For myself', giftSomeoneLabel: 'Gift someone', chooseAmountLabel: 'Choose amount',
+        customAmountLabel: 'Custom', customAmountPlaceholder: 'Enter amount (€)', forSpecificLabel: 'For a specific',
+        openTypeLabel: 'Any adventure', destinationTypeLabel: 'Destination', tripTypeLabel: 'Trip', programTypeLabel: 'Program',
+        recipientDetailsLabel: 'Recipient details', recipientNamePlaceholder: 'Recipient name',
+        recipientEmailPlaceholder: 'Recipient email', personalMessageLabel: 'Personal message',
+        scheduleDeliveryLabel: 'Schedule delivery', submitButtonPrefix: 'Purchase', submitButtonSuffix: 'Voucher',
+      },
+      render: (props) => <VouchersBuyFormBlock {...props} />,
+    },
+
+    VouchersRedeemBlock: {
+      label: 'Vouchers — Redeem (preview)',
+      fields: {
+        redeemPromptLabel: { type: 'text', label: 'Prompt Label', contentEditable: true },
+        redeemCodePlaceholder: { type: 'text', label: 'Code Placeholder' },
+        redeemButtonLabel: { type: 'text', label: 'Button Label', contentEditable: true },
+      },
+      defaultProps: {
+        redeemPromptLabel: 'Enter your voucher code',
+        redeemCodePlaceholder: 'SOM-XXXX-XXXX',
+        redeemButtonLabel: 'Redeem Voucher',
+      },
+      render: (props) => <VouchersRedeemBlock {...props} />,
+    },
+
+    VouchersMineBlock: {
+      label: 'Vouchers — My Vouchers (preview)',
+      fields: {
+        mineSignInPrompt: { type: 'text', label: 'Sign In Prompt', contentEditable: true },
+        mineSignInButtonLabel: { type: 'text', label: 'Sign In Button Label' },
+        mineEmptyLabel: { type: 'text', label: 'Empty State Label', contentEditable: true },
+      },
+      defaultProps: {
+        mineSignInPrompt: 'Sign in to view your vouchers.',
+        mineSignInButtonLabel: 'Sign In',
+        mineEmptyLabel: 'No vouchers yet.',
+      },
+      render: (props) => <VouchersMineBlock {...props} />,
     },
   },
 

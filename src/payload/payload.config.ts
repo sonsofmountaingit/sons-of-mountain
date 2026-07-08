@@ -61,6 +61,7 @@ import { BlogPage } from './globals/BlogPage'
 import { StoriesPage } from './globals/StoriesPage'
 import { CalendarPage } from './globals/CalendarPage'
 import { HomePage } from './globals/HomePage'
+import { Vouchers } from './globals/Vouchers'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -148,7 +149,7 @@ export default buildConfig({
     Payouts,
     Testimonials,
   ],
-  globals: [Navigation, Footer, SiteSettings, Hero, DestinationCarousel, Gallery, Shop, WhyTravelWithUs, FeaturedTravels, CalendarCta, TestimonialsSection, About, ContactPage, BlogPage, StoriesPage, CalendarPage, HomePage, PrivacyPolicy, TermsAndConditions],
+  globals: [Navigation, Footer, SiteSettings, Hero, DestinationCarousel, Gallery, Shop, WhyTravelWithUs, FeaturedTravels, CalendarCta, TestimonialsSection, About, ContactPage, BlogPage, StoriesPage, CalendarPage, HomePage, PrivacyPolicy, TermsAndConditions, Vouchers],
   plugins: [
     stripePlugin({
       stripeSecretKey: process.env.STRIPE_SECRET_KEY ?? '',

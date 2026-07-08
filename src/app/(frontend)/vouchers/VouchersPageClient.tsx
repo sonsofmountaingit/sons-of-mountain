@@ -22,24 +22,81 @@ interface Voucher {
   isGift?: boolean
 }
 
+export const VOUCHERS_DEFAULTS = {
+  eyebrow: 'Sons of Mountains',
+  heading: 'Gift Vouchers',
+  subtext: 'Give the gift of adventure — or treat yourself. Redeemable on any trip, program, or product.',
+  buyTabLabel: 'Buy a Voucher',
+  redeemTabLabel: 'Redeem',
+  mineTabLabel: 'My Vouchers',
+  forMyselfLabel: 'For myself',
+  giftSomeoneLabel: 'Gift someone',
+  chooseAmountLabel: 'Choose amount',
+  amountPresets: [{ amount: 50 }, { amount: 100 }, { amount: 200 }, { amount: 300 }, { amount: 500 }],
+  customAmountLabel: 'Custom',
+  customAmountPlaceholder: 'Enter amount (€)',
+  minAmount: 10,
+  maxAmount: 5000,
+  minAmountError: 'Minimum €10',
+  maxAmountError: 'Maximum €5000',
+  forSpecificLabel: 'For a specific',
+  openTypeLabel: 'Any adventure',
+  destinationTypeLabel: 'Destination',
+  tripTypeLabel: 'Trip',
+  programTypeLabel: 'Program',
+  selectDestinationLabel: 'Select destination',
+  selectTripLabel: 'Select trip',
+  selectProgramLabel: 'Select program',
+  recipientDetailsLabel: 'Recipient details',
+  recipientNamePlaceholder: 'Recipient name',
+  recipientEmailPlaceholder: 'Recipient email',
+  recipientNameRequiredError: 'Required',
+  recipientEmailInvalidError: 'Invalid email',
+  personalMessageLabel: 'Personal message',
+  giftMessagePlaceholder: 'Write a personal message for the recipient (optional)',
+  selfMessagePlaceholder: 'A note for this voucher (optional)',
+  scheduleDeliveryLabel: 'Schedule delivery',
+  signedInAsPrefix: 'Signed in as',
+  signInPromptText: "You'll be asked to sign in or create an account before checkout.",
+  submitLoadingLabel: 'Redirecting...',
+  submitButtonPrefix: 'Purchase',
+  submitButtonSuffix: 'Voucher',
+  voucherCreateError: 'Failed to create voucher',
+  genericError: 'Something went wrong',
+  giftDescriptionPrefix: 'Gift Voucher for',
+  selfDescriptionPrefix: 'Adventure Voucher —',
+  redeemPromptLabel: 'Enter your voucher code',
+  redeemCodePlaceholder: 'SOM-XXXX-XXXX',
+  redeemButtonLabel: 'Redeem Voucher',
+  redeemLoadingLabel: '...',
+  redeemSuccessPrefix: 'Voucher redeemed! Value:',
+  redeemGenericError: 'Something went wrong',
+  redeemSignInPrefix: 'Sign in',
+  redeemSignInSuffix: 'to redeem a voucher.',
+  mineSignInPrompt: 'Sign in to view your vouchers.',
+  mineSignInButtonLabel: 'Sign In',
+  mineEmptyLabel: 'No vouchers yet.',
+  mineGiftBadgeLabel: 'Gift',
+  mineForPrefix: 'For:',
+  mineExpiresPrefix: 'Expires',
+  statusActiveLabel: 'Active',
+  statusRedeemedLabel: 'Redeemed',
+  statusExpiredLabel: 'Expired',
+  statusCancelledLabel: 'Cancelled',
+}
+
+export type VouchersContent = typeof VOUCHERS_DEFAULTS
+
 interface Props {
   destinations: any[]
   trips: any[]
   programs: any[]
   myVouchers: Voucher[]
+  content?: Partial<VouchersContent>
 }
-
-const STATUS_MAP: Record<string, { label: string; color: string }> = {
-  active: { label: 'Active', color: 'text-green-400' },
-  redeemed: { label: 'Redeemed', color: 'text-white/30' },
-  expired: { label: 'Expired', color: 'text-white/30' },
-  cancelled: { label: 'Cancelled', color: 'text-red-400' },
-}
-
-const AMOUNTS = [50, 100, 200, 300, 500]
 
 const baseSchema = {
-  amount: z.number().min(10, 'Minimum €10').max(5000, 'Maximum €5000'),
+  amount: z.number(),
   voucherType: z.enum(['open', 'destination', 'trip', 'program']),
   destinationId: z.string().optional(),
   tripId: z.string().optional(),
@@ -53,14 +110,15 @@ const selfSchema = z.object({ ...baseSchema, isGift: z.literal(false) })
 const giftSchema = z.object({
   ...baseSchema,
   isGift: z.literal(true),
-  recipientName: z.string().min(1, 'Required'),
-  recipientEmail: z.string().email('Invalid email'),
+  recipientName: z.string().min(1),
+  recipientEmail: z.string().email(),
 })
 
 const schema = z.discriminatedUnion('isGift', [selfSchema, giftSchema])
 type FormData = z.infer<typeof schema>
 
-export function VouchersPageClient({ destinations, trips, programs, myVouchers: initialVouchers }: Props) {
+export function VouchersPageClient({ destinations, trips, programs, myVouchers: initialVouchers, content }: Props) {
+  const c: VouchersContent = { ...VOUCHERS_DEFAULTS, ...content }
   const { data: sessionData } = useSession()
   const session = sessionData?.user ?? null
   const [tab, setTab] = useState<'buy' | 'redeem' | 'mine'>('buy')
@@ -86,15 +144,15 @@ export function VouchersPageClient({ destinations, trips, programs, myVouchers: 
     <main className="min-h-screen bg-[#0a0a0a] text-white">
       <div className="mx-auto max-w-4xl px-6 pt-32 pb-20">
         <div className="mb-16 text-center">
-          <p className="text-xs tracking-[0.3em] text-white/30 uppercase mb-4">Sons of Mountains</p>
-          <h1 className="text-4xl font-light tracking-wide">Gift Vouchers</h1>
+          <p className="text-xs tracking-[0.3em] text-white/30 uppercase mb-4">{c.eyebrow}</p>
+          <h1 className="text-4xl font-light tracking-wide">{c.heading}</h1>
           <p className="mt-4 text-white/40 max-w-md mx-auto text-sm leading-relaxed">
-            Give the gift of adventure — or treat yourself. Redeemable on any trip, program, or product.
+            {c.subtext}
           </p>
         </div>
 
         <div className="flex gap-0 border border-white/10 rounded-sm mb-12 overflow-hidden">
-          {([['buy', 'Buy a Voucher'], ['redeem', 'Redeem'], ['mine', 'My Vouchers']] as const).map(([id, label]) => (
+          {([['buy', c.buyTabLabel], ['redeem', c.redeemTabLabel], ['mine', c.mineTabLabel]] as const).map(([id, label]) => (
             <button
               key={id}
               data-tab={id}
@@ -116,10 +174,11 @@ export function VouchersPageClient({ destinations, trips, programs, myVouchers: 
               programs={programs}
               session={session}
               onPurchased={refreshVouchers}
+              c={c}
             />
           )}
-          {tab === 'redeem' && <RedeemTab session={session} />}
-          {tab === 'mine' && <MineTab vouchers={vouchers} session={session} />}
+          {tab === 'redeem' && <RedeemTab session={session} c={c} />}
+          {tab === 'mine' && <MineTab vouchers={vouchers} session={session} c={c} />}
         </div>
       </div>
     </main>
@@ -127,13 +186,14 @@ export function VouchersPageClient({ destinations, trips, programs, myVouchers: 
 }
 
 function BuyTab({
-  destinations, trips, programs, session, onPurchased,
+  destinations, trips, programs, session, onPurchased, c,
 }: {
   destinations: any[]
   trips: any[]
   programs: any[]
   session: any
   onPurchased: () => void
+  c: VouchersContent
 }) {
   const [loading, setLoading] = useState(false)
   const [customAmount, setCustomAmount] = useState(false)
@@ -143,9 +203,16 @@ function BuyTab({
     session ? { id: session.id, name: session.name ?? '', email: session.email } : null,
   )
 
+  const amounts = c.amountPresets.map((p) => p.amount)
+
+  const dynamicSchema = z.discriminatedUnion('isGift', [
+    z.object({ ...baseSchema, amount: z.number().min(c.minAmount, c.minAmountError).max(c.maxAmount, c.maxAmountError), isGift: z.literal(false) }),
+    z.object({ ...baseSchema, amount: z.number().min(c.minAmount, c.minAmountError).max(c.maxAmount, c.maxAmountError), isGift: z.literal(true), recipientName: z.string().min(1, c.recipientNameRequiredError), recipientEmail: z.string().email(c.recipientEmailInvalidError) }),
+  ])
+
   const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<FormData>({
-    resolver: zodResolver(schema),
-    defaultValues: { isGift: false, voucherType: 'open', amount: 100 },
+    resolver: zodResolver(dynamicSchema),
+    defaultValues: { isGift: false, voucherType: 'open', amount: amounts[1] ?? amounts[0] ?? 100 },
   })
 
   const isGift = watch('isGift')
@@ -178,7 +245,7 @@ function BuyTab({
 
       if (!voucherRes.ok) {
         const err = await voucherRes.json()
-        toast.error(err.error ?? 'Failed to create voucher')
+        toast.error(err.error ?? c.voucherCreateError)
         setLoading(false)
         return
       }
@@ -194,8 +261,8 @@ function BuyTab({
           amount: data.amount,
           currency: 'eur',
           description: data.isGift
-            ? `Gift Voucher for ${recipientName}`
-            : `Adventure Voucher — €${data.amount}`,
+            ? `${c.giftDescriptionPrefix} ${recipientName}`
+            : `${c.selfDescriptionPrefix} €${data.amount}`,
           customerEmail: user.email,
           successPath: '/vouchers?tab=mine&success=1',
           cancelPath: '/vouchers',
@@ -205,7 +272,7 @@ function BuyTab({
       const { url } = await checkoutRes.json()
       if (url) window.location.href = url
     } catch {
-      toast.error('Something went wrong')
+      toast.error(c.genericError)
     } finally {
       setLoading(false)
     }
@@ -230,6 +297,13 @@ function BuyTab({
     }
   }
 
+  const typeLabels: Record<string, string> = {
+    open: c.openTypeLabel,
+    destination: c.destinationTypeLabel,
+    trip: c.tripTypeLabel,
+    program: c.programTypeLabel,
+  }
+
   return (
     <>
       {showAuth && <AuthModal onSuccess={onAuthSuccess} onClose={() => setShowAuth(false)} />}
@@ -241,22 +315,22 @@ function BuyTab({
             onClick={() => setValue('isGift', false as any)}
             className={`flex-1 py-2.5 text-xs tracking-widest uppercase transition-colors ${!isGift ? 'bg-white text-black' : 'text-white/40 hover:text-white'}`}
           >
-            For myself
+            {c.forMyselfLabel}
           </button>
           <button
             type="button"
             onClick={() => setValue('isGift', true as any)}
             className={`flex-1 py-2.5 text-xs tracking-widest uppercase transition-colors ${isGift ? 'bg-white text-black' : 'text-white/40 hover:text-white'}`}
           >
-            Gift someone
+            {c.giftSomeoneLabel}
           </button>
         </div>
 
         <div className="grid gap-10 lg:grid-cols-2">
           <div>
-            <p className="text-xs tracking-widest text-white/30 uppercase mb-6">Choose amount</p>
+            <p className="text-xs tracking-widest text-white/30 uppercase mb-6">{c.chooseAmountLabel}</p>
             <div className="grid grid-cols-3 gap-2 mb-4">
-              {AMOUNTS.map((a) => (
+              {amounts.map((a) => (
                 <button
                   key={a}
                   type="button"
@@ -277,7 +351,7 @@ function BuyTab({
                   customAmount ? 'border-white text-white bg-white/5' : 'border-white/10 text-white/50 hover:border-white/30'
                 }`}
               >
-                Custom
+                {c.customAmountLabel}
               </button>
             </div>
             {customAmount && (
@@ -285,14 +359,14 @@ function BuyTab({
                 <input
                   type="number"
                   {...register('amount', { valueAsNumber: true })}
-                  placeholder="Enter amount (€)"
+                  placeholder={c.customAmountPlaceholder}
                   className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-sm text-white placeholder-white/20 outline-none focus:border-white/30 transition-colors"
                 />
                 {errors.amount && <p className="text-xs text-red-400 mt-1">{errors.amount.message}</p>}
               </div>
             )}
 
-            <p className="text-xs tracking-widest text-white/30 uppercase mb-4 mt-8">For a specific</p>
+            <p className="text-xs tracking-widest text-white/30 uppercase mb-4 mt-8">{c.forSpecificLabel}</p>
             <div className="flex gap-2 flex-wrap mb-4">
               {(['open', 'destination', 'trip', 'program'] as const).map((t) => (
                 <button
@@ -303,25 +377,25 @@ function BuyTab({
                     voucherType === t ? 'border-white text-white bg-white/5' : 'border-white/10 text-white/40 hover:border-white/30'
                   }`}
                 >
-                  {t === 'open' ? 'Any adventure' : t}
+                  {typeLabels[t]}
                 </button>
               ))}
             </div>
             {voucherType === 'destination' && (
               <select {...register('destinationId')} className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-sm text-white outline-none focus:border-white/30 transition-colors">
-                <option value="">Select destination</option>
+                <option value="">{c.selectDestinationLabel}</option>
                 {destinations.map((d: any) => <option key={d.id} value={d.id}>{d.name}</option>)}
               </select>
             )}
             {voucherType === 'trip' && (
               <select {...register('tripId')} className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-sm text-white outline-none focus:border-white/30 transition-colors">
-                <option value="">Select trip</option>
+                <option value="">{c.selectTripLabel}</option>
                 {trips.map((t: any) => <option key={t.id} value={t.id}>{t.title ?? t.id}</option>)}
               </select>
             )}
             {voucherType === 'program' && (
               <select {...register('programId')} className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-sm text-white outline-none focus:border-white/30 transition-colors">
-                <option value="">Select program</option>
+                <option value="">{c.selectProgramLabel}</option>
                 {programs.map((p: any) => <option key={p.id} value={p.id}>{p.title ?? p.id}</option>)}
               </select>
             )}
@@ -330,11 +404,11 @@ function BuyTab({
           <div className="space-y-4">
             {isGift && (
               <>
-                <p className="text-xs tracking-widest text-white/30 uppercase">Recipient details</p>
+                <p className="text-xs tracking-widest text-white/30 uppercase">{c.recipientDetailsLabel}</p>
                 <div>
                   <input
                     {...register('recipientName')}
-                    placeholder="Recipient name"
+                    placeholder={c.recipientNamePlaceholder}
                     className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-sm text-white placeholder-white/20 outline-none focus:border-white/30 transition-colors"
                   />
                   {'recipientName' in errors && errors.recipientName && (
@@ -345,7 +419,7 @@ function BuyTab({
                   <input
                     {...register('recipientEmail')}
                     type="email"
-                    placeholder="Recipient email"
+                    placeholder={c.recipientEmailPlaceholder}
                     className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-sm text-white placeholder-white/20 outline-none focus:border-white/30 transition-colors"
                   />
                   {'recipientEmail' in errors && errors.recipientEmail && (
@@ -355,17 +429,17 @@ function BuyTab({
               </>
             )}
 
-            <p className="text-xs tracking-widest text-white/30 uppercase pt-2">Personal message</p>
+            <p className="text-xs tracking-widest text-white/30 uppercase pt-2">{c.personalMessageLabel}</p>
             <textarea
               {...register('message')}
-              placeholder={isGift ? 'Write a personal message for the recipient (optional)' : 'A note for this voucher (optional)'}
+              placeholder={isGift ? c.giftMessagePlaceholder : c.selfMessagePlaceholder}
               rows={3}
               className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-sm text-white placeholder-white/20 outline-none focus:border-white/30 transition-colors resize-none"
             />
 
             {isGift && (
               <div>
-                <label className="text-xs text-white/30 mb-1 block tracking-widest uppercase">Schedule delivery</label>
+                <label className="text-xs text-white/30 mb-1 block tracking-widest uppercase">{c.scheduleDeliveryLabel}</label>
                 <input
                   {...register('deliveryDate')}
                   type="date"
@@ -378,12 +452,12 @@ function BuyTab({
               <div className="flex items-center gap-2 py-2">
                 <div className="w-2 h-2 rounded-full bg-green-400" />
                 <p className="text-xs text-white/40">
-                  Signed in as <span className="text-white/70">{(authedUser ?? session)?.email}</span>
+                  {c.signedInAsPrefix} <span className="text-white/70">{(authedUser ?? session)?.email}</span>
                 </p>
               </div>
             ) : (
               <p className="text-xs text-white/30 pt-1">
-                You'll be asked to sign in or create an account before checkout.
+                {c.signInPromptText}
               </p>
             )}
 
@@ -392,7 +466,7 @@ function BuyTab({
               disabled={loading}
               className="w-full py-3.5 text-xs tracking-widest uppercase border border-white text-white hover:bg-white hover:text-black transition-colors rounded-sm disabled:opacity-40"
             >
-              {loading ? 'Redirecting...' : `Purchase €${amount || '—'} Voucher`}
+              {loading ? c.submitLoadingLabel : `${c.submitButtonPrefix} €${amount || '—'} ${c.submitButtonSuffix}`}
             </button>
           </div>
         </div>
@@ -401,7 +475,7 @@ function BuyTab({
   )
 }
 
-function RedeemTab({ session }: { session: any }) {
+function RedeemTab({ session, c }: { session: any; c: VouchersContent }) {
   const [code, setCode] = useState('')
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null)
   const [loading, setLoading] = useState(false)
@@ -416,10 +490,10 @@ function RedeemTab({ session }: { session: any }) {
     const data = await res.json()
     setLoading(false)
     if (res.ok) {
-      setMsg({ text: `Voucher redeemed! Value: €${data.voucher?.amount} ${data.voucher?.currency}`, ok: true })
+      setMsg({ text: `${c.redeemSuccessPrefix} €${data.voucher?.amount} ${data.voucher?.currency}`, ok: true })
       setCode('')
     } else {
-      setMsg({ text: data.error ?? 'Something went wrong', ok: false })
+      setMsg({ text: data.error ?? c.redeemGenericError, ok: false })
     }
   }
 
@@ -427,12 +501,12 @@ function RedeemTab({ session }: { session: any }) {
     <>
       {showAuth && <AuthModal onSuccess={() => setShowAuth(false)} onClose={() => setShowAuth(false)} />}
       <div className="max-w-md mx-auto">
-        <p className="text-xs tracking-widest text-white/30 uppercase mb-6">Enter your voucher code</p>
+        <p className="text-xs tracking-widest text-white/30 uppercase mb-6">{c.redeemPromptLabel}</p>
         <form onSubmit={redeem} className="space-y-4">
           <input
             value={code}
             onChange={(e) => setCode(e.target.value.toUpperCase())}
-            placeholder="SOM-XXXX-XXXX"
+            placeholder={c.redeemCodePlaceholder}
             className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm font-mono text-white placeholder-white/20 outline-none focus:border-white/30 transition-colors tracking-wider"
           />
           <button
@@ -440,13 +514,13 @@ function RedeemTab({ session }: { session: any }) {
             disabled={loading || !code}
             className="w-full py-3.5 text-xs tracking-widest uppercase border border-white text-white hover:bg-white hover:text-black transition-colors rounded-sm disabled:opacity-40"
           >
-            {loading ? '...' : 'Redeem Voucher'}
+            {loading ? c.redeemLoadingLabel : c.redeemButtonLabel}
           </button>
         </form>
         {msg && <p className={`mt-4 text-sm ${msg.ok ? 'text-green-400' : 'text-red-400'}`}>{msg.text}</p>}
         {!session && (
           <p className="mt-6 text-xs text-white/30 text-center">
-            <button onClick={() => setShowAuth(true)} className="underline hover:text-white transition-colors">Sign in</button> to redeem a voucher.
+            <button onClick={() => setShowAuth(true)} className="underline hover:text-white transition-colors">{c.redeemSignInPrefix}</button> {c.redeemSignInSuffix}
           </p>
         )}
       </div>
@@ -454,9 +528,16 @@ function RedeemTab({ session }: { session: any }) {
   )
 }
 
-function MineTab({ vouchers, session }: { vouchers: Voucher[]; session: any }) {
+function MineTab({ vouchers, session, c }: { vouchers: Voucher[]; session: any; c: VouchersContent }) {
   const listRef = useRef<HTMLDivElement>(null)
   const [showAuth, setShowAuth] = useState(false)
+
+  const statusMap: Record<string, { label: string; color: string }> = {
+    active: { label: c.statusActiveLabel, color: 'text-green-400' },
+    redeemed: { label: c.statusRedeemedLabel, color: 'text-white/30' },
+    expired: { label: c.statusExpiredLabel, color: 'text-white/30' },
+    cancelled: { label: c.statusCancelledLabel, color: 'text-red-400' },
+  }
 
   useEffect(() => {
     if (!listRef.current || !vouchers.length) return
@@ -472,12 +553,12 @@ function MineTab({ vouchers, session }: { vouchers: Voucher[]; session: any }) {
       <>
         {showAuth && <AuthModal onSuccess={() => setShowAuth(false)} onClose={() => setShowAuth(false)} />}
         <div className="text-center py-16">
-          <p className="text-white/40 text-sm mb-6">Sign in to view your vouchers.</p>
+          <p className="text-white/40 text-sm mb-6">{c.mineSignInPrompt}</p>
           <button
             onClick={() => setShowAuth(true)}
             className="text-xs tracking-widest uppercase border border-white/30 px-6 py-3 text-white/70 hover:text-white hover:border-white transition-colors rounded-sm"
           >
-            Sign In
+            {c.mineSignInButtonLabel}
           </button>
         </div>
       </>
@@ -487,7 +568,7 @@ function MineTab({ vouchers, session }: { vouchers: Voucher[]; session: any }) {
   if (!vouchers.length) {
     return (
       <div className="text-center py-16">
-        <p className="text-white/30 text-sm">No vouchers yet.</p>
+        <p className="text-white/30 text-sm">{c.mineEmptyLabel}</p>
       </div>
     )
   }
@@ -495,7 +576,7 @@ function MineTab({ vouchers, session }: { vouchers: Voucher[]; session: any }) {
   return (
     <div ref={listRef} className="space-y-3">
       {vouchers.map((v) => {
-        const { label, color } = STATUS_MAP[v.status] ?? { label: v.status, color: 'text-white/40' }
+        const { label, color } = statusMap[v.status] ?? { label: v.status, color: 'text-white/40' }
         return (
           <div key={v.id} className="v-row border border-white/10 rounded-sm p-5 hover:border-white/20 transition-colors">
             <div className="flex items-start justify-between gap-4">
@@ -503,18 +584,18 @@ function MineTab({ vouchers, session }: { vouchers: Voucher[]; session: any }) {
                 <div className="flex items-center gap-3 mb-1">
                   <p className="font-mono text-sm text-white/90 tracking-wider">{v.code}</p>
                   {v.isGift && (
-                    <span className="text-[10px] tracking-widest uppercase border border-amber-700/50 text-amber-400/80 px-2 py-0.5 rounded-sm">Gift</span>
+                    <span className="text-[10px] tracking-widest uppercase border border-amber-700/50 text-amber-400/80 px-2 py-0.5 rounded-sm">{c.mineGiftBadgeLabel}</span>
                   )}
                 </div>
                 {v.recipientName && (
-                  <p className="text-xs text-white/40">For: {v.recipientName} · {v.recipientEmail}</p>
+                  <p className="text-xs text-white/40">{c.mineForPrefix} {v.recipientName} · {v.recipientEmail}</p>
                 )}
                 {v.message && (
                   <p className="text-xs text-white/30 mt-1 italic truncate max-w-xs">"{v.message}"</p>
                 )}
                 {v.expiresAt && (
                   <p className="text-xs text-white/20 mt-1">
-                    Expires {new Date(v.expiresAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                    {c.mineExpiresPrefix} {new Date(v.expiresAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </p>
                 )}
               </div>

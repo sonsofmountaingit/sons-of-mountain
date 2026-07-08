@@ -109,6 +109,11 @@ const componentToCategory: Record<string, string> = {
   FooterTravelBlock: 'global',
   FooterNavBlock: 'global',
   FooterBottomBlock: 'global',
+  VouchersHeroBlock: 'vouchers',
+  VouchersTabsBlock: 'vouchers',
+  VouchersBuyFormBlock: 'vouchers',
+  VouchersRedeemBlock: 'vouchers',
+  VouchersMineBlock: 'vouchers',
 }
 
 const knownTypes = new Set(Object.keys(puckConfig.components))
