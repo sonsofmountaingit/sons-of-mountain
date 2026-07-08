@@ -92,7 +92,10 @@ jobs:
             --exit-code-from migrate migrate || true
           docker compose -f docker-compose.prod.yml up -d \
             --force-recreate --no-deps --no-build app
-          docker image prune -f
+          sleep 5
+          docker ps --filter "name=sons-of-mountains-app" --filter "status=running" --format '{{.Names}}' | grep -q . \
+            || { echo "app container not running after deploy, skipping image cleanup"; exit 1; }
+          docker image prune -af --filter "label!=keep"
           echo "Deployed: $GIT_SHA"
           REMOTE
 

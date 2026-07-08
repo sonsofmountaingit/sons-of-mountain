@@ -77,7 +77,7 @@ export default function ReadinessChecklistSection({ categories, fullWidth }: Pro
         </div>
       )}
 
-      <div className="grid gap-x-8 gap-y-6 sm:gap-y-8 grid-cols-1 sm:grid-cols-2" data-animate="stagger-children">
+      <div className={`grid gap-x-8 gap-y-6 sm:gap-y-8${fullWidth ? ' grid-cols-1' : ' grid-cols-1 sm:grid-cols-2'}`} data-animate="stagger-children">
         {categories.map((cat) => (
           <div key={cat.category}>
             <p className="text-xs font-semibold tracking-widest text-white/30 uppercase mb-3 border-b border-white/10 pb-2">
