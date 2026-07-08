@@ -116,7 +116,7 @@ export default function GuidesSection({ guides }: Props) {
                     ) : null}
 
                     {guide.bio && (
-                      <div className="text-[13px] text-black/45 leading-relaxed line-clamp-3 [&_p]:mb-0">
+                      <div className="text-[13px] text-black/45 leading-relaxed [&_p]:mb-2 [&_p:last-child]:mb-0 [&_strong]:font-bold [&_strong]:text-black/70 [&_em]:italic [&_a]:underline [&_a]:text-black/70 [&_ul]:list-disc [&_ul]:pl-4 [&_ol]:list-decimal [&_ol]:pl-4">
                         <RichText data={guide.bio as unknown as Parameters<typeof RichText>[0]['data']} />
                       </div>
                     )}
