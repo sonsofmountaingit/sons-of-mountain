@@ -183,7 +183,7 @@ export async function Footer() {
       href,
     }
   })
-  const copyright = (data as any)?.copyright ?? '© 2018-2026 Паник Фрейм енд Травел'
+  const copyright = (data as any)?.copyright ?? '© 2018-2026 Сонс оф Моунтаин'
   const licenseText = (data as any)?.licenseText ?? 'Номер на лиценз: РК-01-8245 / 28.07.2022'
   const insuranceText = (data as any)?.insuranceText ?? 'Номер на застрахователна полица: 03700100005995 / 31.08.2025'
   const creditPrefix = (data as any)?.creditPrefix ?? 'Дизайн и разработка от'

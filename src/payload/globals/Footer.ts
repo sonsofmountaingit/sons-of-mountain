@@ -196,7 +196,7 @@ export const Footer: GlobalConfig = {
     {
       name: 'copyright',
       type: 'text',
-      defaultValue: '© 2018-2026 Паник Фрейм енд Травел',
+      defaultValue: '© 2018-2026 Сонс оф Моунтаин',
     },
     {
       name: 'licenseText',

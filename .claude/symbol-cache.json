@@ -6033,7 +6033,7 @@
       "gsap/ScrollTrigger",
       "./BookingDrawer"
     ],
-    "lines": 377,
+    "lines": 383,
     "group": "ui"
   },
   "src/components/ui/destination-page/IsThisForYouSection.tsx": {
@@ -6048,7 +6048,7 @@
       "gsap",
       "gsap/ScrollTrigger"
     ],
-    "lines": 216,
+    "lines": 217,
     "group": "ui"
   },
   "src/components/ui/destination-page/TravelTransportSection.tsx": {
@@ -6105,7 +6105,7 @@
       "gsap",
       "gsap/ScrollTrigger"
     ],
-    "lines": 356,
+    "lines": 362,
     "group": "ui"
   },
   "src/components/ui/destination-page/BookingCtaSection.tsx": {
@@ -6538,7 +6538,7 @@
       "gsap",
       "gsap/ScrollTrigger"
     ],
-    "lines": 43,
+    "lines": 50,
     "group": "ui"
   },
   "src/components/ui/GalleryMasonry.tsx": {
