@@ -243,7 +243,7 @@ Plan: Clone panicframe.com — Full Platform
 
  [Animated logo GIF]: framerusercontent.com/images/xAELSxhOFDDnqiDsAfvMhSuuw.png
 
- © 2018-2026 Паник Фрейм енд Травел
+ © 2018-2026 Сонс оф Моунтаинс
  Номер на лиценз: РК-01-8245 / 28.07.2022 (links to PDF)
  Номер на застрахователна полица: 03700100005995 / 31.08.2025 (links to PDF)
  [Общи условия] [Политика за поверителност]

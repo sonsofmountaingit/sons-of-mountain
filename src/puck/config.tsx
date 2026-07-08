@@ -1377,7 +1377,7 @@ export const puckConfig: Config<PuckBlocks> = {
         creditUrl: { type: 'text', label: 'Credit URL' },
       },
       defaultProps: {
-        copyright: '© 2018-2026 Паник Фрейм енд Травел',
+        copyright: '© 2018-2026 Сонс оф Маунтин',
         licenseText: 'Номер на лиценз: РК-01-8245 / 28.07.2022',
         insuranceText: 'Номер на застрахователна полица: 03700100005995 / 31.08.2025',
         logoUrl: '/white-logo.svg',

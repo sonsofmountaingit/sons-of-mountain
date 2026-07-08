@@ -65,9 +65,9 @@ async function EditorContent() {
         type: 'FooterBottomBlock',
         props: {
           id: 'footer-bottom',
-          copyright: f?.copyright ?? '© 2018-2026 Паник Фрейм енд Травел',
-          licenseText: f?.licenseText ?? 'Номер на лиценз: РК-01-8245 / 28.07.2022',
-          insuranceText: f?.insuranceText ?? 'Номер на застрахователна полица: 03700100005995 / 31.08.2025',
+          copyright: f?.copyright ?? '© 2018-2026 Сонс оф Маунтин',
+          licenseText: f?.licenseText ?? 'Номер на лиценз: ',
+          insuranceText: f?.insuranceText ?? 'Номер на застрахователна полица: ',
           logoUrl,
           termsLabel: f?.termsLabel ?? 'Общи условия',
           termsUrl: f?.termsUrl ?? '/legal/terms',
