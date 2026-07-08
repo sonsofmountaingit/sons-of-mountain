@@ -11,9 +11,10 @@ type ChecklistCategory = {
 
 type Props = {
   categories: ChecklistCategory[]
+  fullWidth?: boolean
 }
 
-export default function ReadinessChecklistSection({ categories }: Props) {
+export default function ReadinessChecklistSection({ categories, fullWidth }: Props) {
   const [checked, setChecked] = useState<Set<string>>(new Set())
   const progressBarRef = useRef<HTMLDivElement>(null)
   const messageRef = useRef<HTMLDivElement>(null)
@@ -51,7 +52,7 @@ export default function ReadinessChecklistSection({ categories }: Props) {
   if (!categories?.length) return null
 
   return (
-    <div className="px-5 sm:px-8 lg:px-16 py-10 sm:py-0">
+    <div className={`px-5 sm:px-8 lg:px-16 py-10 sm:py-0${fullWidth ? ' lg:col-span-2' : ''}`}>
       <p className="text-xs font-semibold tracking-widest text-white/40 uppercase mb-3" data-animate="fade-up">
         Готовност
       </p>
@@ -82,7 +83,7 @@ export default function ReadinessChecklistSection({ categories }: Props) {
             <p className="text-xs font-semibold tracking-widest text-white/30 uppercase mb-3 border-b border-white/10 pb-2">
               {cat.category}
             </p>
-            <ul className="space-y-0.5">
+            <ul className={`space-y-0.5${fullWidth ? ' grid grid-cols-1 lg:grid-cols-2 gap-x-8' : ''}`}>
               {cat.items.map((i) => {
                 const key = `${cat.category}::${i.item}`
                 const isChecked = checked.has(key)
