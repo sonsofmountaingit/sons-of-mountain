@@ -36,12 +36,18 @@ interface Props {
   endDate?: string | null
 }
 
+const DIFFICULTY_LABELS: Record<number, string> = {
+  1: 'Много лесно',
+  2: 'Лесно',
+  3: 'Умерено',
+  4: 'Трудно',
+  5: 'Много трудно',
+}
+
 function DifficultyLabel(score: number | null | undefined) {
   if (score == null) return null
-  if (score < 35) return 'Лесно'
-  if (score < 65) return 'Умерено'
-  if (score < 85) return 'Предизвикателно'
-  return 'Трудно'
+  const level = Math.max(1, Math.min(5, Math.ceil(score / 20)))
+  return DIFFICULTY_LABELS[level]
 }
 
 function VideoCard({

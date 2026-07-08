@@ -13,9 +13,10 @@ export function FooterReveal({ children }: { children: React.ReactNode }) {
     if (!ref.current) return
     const el = ref.current
     const items = el.querySelectorAll<HTMLElement>('[data-reveal]')
+    const triggers: ScrollTrigger[] = []
 
     items.forEach((item, i) => {
-      gsap.fromTo(
+      const tween = gsap.fromTo(
         item,
         { opacity: 0, y: 8 },
         {
@@ -28,13 +29,19 @@ export function FooterReveal({ children }: { children: React.ReactNode }) {
             trigger: item,
             start: 'top 95%',
             toggleActions: 'play none none none',
+            fastScrollEnd: true,
           },
         }
       )
+      const st = tween.scrollTrigger
+      if (st) triggers.push(st)
     })
 
+    const raf = requestAnimationFrame(() => ScrollTrigger.refresh())
+
     return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill())
+      cancelAnimationFrame(raf)
+      triggers.forEach((t) => t.kill())
     }
   }, [])
 

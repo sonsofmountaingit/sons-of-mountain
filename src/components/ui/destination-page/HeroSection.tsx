@@ -43,11 +43,17 @@ interface Props {
   tags?: string[]
 }
 
+const DIFFICULTY_LABELS: Record<number, string> = {
+  1: 'Много лесно',
+  2: 'Лесно',
+  3: 'Умерено',
+  4: 'Трудно',
+  5: 'Много трудно',
+}
+
 function difficultyLabel(d: number) {
-  if (d <= 25) return 'Лесно'
-  if (d <= 50) return 'Умерено'
-  if (d <= 75) return 'Умерено трудно'
-  return 'Трудно'
+  const level = Math.max(1, Math.min(5, Math.ceil(d / 20)))
+  return DIFFICULTY_LABELS[level]
 }
 
 function Stars({ rating }: { rating: number }) {
