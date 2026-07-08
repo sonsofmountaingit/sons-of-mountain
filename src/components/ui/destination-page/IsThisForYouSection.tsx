@@ -33,11 +33,11 @@ interface Props {
 }
 
 function toScale(v: number | null | undefined): number {
-  return (v ?? 50) / 20
+  return v ?? 50
 }
 
 function ArcStat({ label, value, index }: { label: string; value: number; index: number }) {
-  const max = 5
+  const max = 100
   const size = 64
   const strokeWidth = 5
   const r = (size - strokeWidth) / 2

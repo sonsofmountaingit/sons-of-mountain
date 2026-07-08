@@ -52,7 +52,7 @@ export default function GuidesSection({ guides }: Props) {
   if (!guides?.length) return null
 
   const eyebrow = guides.length === 1 ? 'ВАШИЯТ ВОДАЧ' : 'ВАШИТЕ ВОДАЧИ'
-  const heading = guides.length === 1 ? 'Кой ще ви води?' : 'Кои ще са вашите водачи?'
+  const heading = guides.length === 1 ? 'Кой ще е вашият водач' : 'Кои ще са вашите водачи?'
 
   return (
     <section ref={sectionRef} className="py-14 sm:py-20 px-4 sm:px-6 bg-white text-black">

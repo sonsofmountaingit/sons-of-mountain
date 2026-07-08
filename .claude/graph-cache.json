@@ -253,6 +253,18 @@
       "size": 4
     },
     {
+      "id": "src/app/(puck)/puck/vouchers/PuckVouchersEditorClient.tsx",
+      "label": "vouchers/PuckVouchersEditorClient.tsx",
+      "group": "puck",
+      "size": 6
+    },
+    {
+      "id": "src/app/(puck)/puck/vouchers/page.tsx",
+      "label": "vouchers/page.tsx",
+      "group": "puck",
+      "size": 4
+    },
+    {
       "id": "src/app/(puck)/puck/hero/PuckHeroEditorClient.tsx",
       "label": "hero/PuckHeroEditorClient.tsx",
       "group": "puck",
@@ -667,6 +679,12 @@
       "size": 4
     },
     {
+      "id": "src/app/api/puck/vouchers/route.ts",
+      "label": "vouchers/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/puck/hero/route.ts",
       "label": "hero/route.ts",
       "group": "api",
@@ -687,6 +705,12 @@
     {
       "id": "src/app/api/site-settings-public/route.ts",
       "label": "site-settings-public/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/vouchers-data/route.ts",
+      "label": "vouchers-data/route.ts",
       "group": "api",
       "size": 4
     },
@@ -1507,6 +1531,12 @@
       "size": 6
     },
     {
+      "id": "src/payload/globals/Vouchers.ts",
+      "label": "globals/Vouchers.ts",
+      "group": "globals",
+      "size": 6
+    },
+    {
       "id": "src/payload/globals/Shop.ts",
       "label": "globals/Shop.ts",
       "group": "globals",
@@ -2203,6 +2233,36 @@
       "size": 8
     },
     {
+      "id": "src/components/blocks/vouchers/VouchersHeroBlock.tsx",
+      "label": "vouchers/VouchersHeroBlock.tsx",
+      "group": "blocks",
+      "size": 6
+    },
+    {
+      "id": "src/components/blocks/vouchers/VouchersMineBlock.tsx",
+      "label": "vouchers/VouchersMineBlock.tsx",
+      "group": "blocks",
+      "size": 6
+    },
+    {
+      "id": "src/components/blocks/vouchers/VouchersTabsBlock.tsx",
+      "label": "vouchers/VouchersTabsBlock.tsx",
+      "group": "blocks",
+      "size": 6
+    },
+    {
+      "id": "src/components/blocks/vouchers/VouchersBuyFormBlock.tsx",
+      "label": "vouchers/VouchersBuyFormBlock.tsx",
+      "group": "blocks",
+      "size": 6
+    },
+    {
+      "id": "src/components/blocks/vouchers/VouchersRedeemBlock.tsx",
+      "label": "vouchers/VouchersRedeemBlock.tsx",
+      "group": "blocks",
+      "size": 6
+    },
+    {
       "id": "src/components/blocks/TestimonialsGridBlockRenderer.tsx",
       "label": "blocks/TestimonialsGridBlockRenderer.tsx",
       "group": "blocks",
@@ -2677,6 +2737,12 @@
       "size": 6
     },
     {
+      "id": "src/components/ui/VouchersEditButton.tsx",
+      "label": "ui/VouchersEditButton.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
       "id": "src/components/ui/Navigation.tsx",
       "label": "ui/Navigation.tsx",
       "group": "ui",
@@ -2825,6 +2891,12 @@
       "label": "admin/WhyTravelWithUsVisualEditorButton.tsx",
       "group": "admin",
       "size": 6
+    },
+    {
+      "id": "src/components/admin/VouchersVisualEditorButton.tsx",
+      "label": "admin/VouchersVisualEditorButton.tsx",
+      "group": "admin",
+      "size": 4
     },
     {
       "id": "src/components/admin/DestinationCarouselVisualEditorButton.tsx",
@@ -3365,6 +3437,18 @@
       "target": "src/app/(puck)/puck/terms-and-conditions/PuckTermsAndConditionsEditorClient.tsx"
     },
     {
+      "source": "src/app/(puck)/puck/vouchers/PuckVouchersEditorClient.tsx",
+      "target": "src/puck/config.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/vouchers/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/vouchers/page.tsx",
+      "target": "src/app/(puck)/puck/vouchers/PuckVouchersEditorClient.tsx"
+    },
+    {
       "source": "src/app/(puck)/puck/hero/PuckHeroEditorClient.tsx",
       "target": "src/puck/config.tsx"
     },
@@ -3773,6 +3857,14 @@
       "target": "src/lib/payload-auth.ts"
     },
     {
+      "source": "src/app/api/puck/vouchers/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/vouchers/route.ts",
+      "target": "src/lib/payload-auth.ts"
+    },
+    {
       "source": "src/app/api/puck/hero/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -3790,6 +3882,10 @@
     },
     {
       "source": "src/app/api/site-settings-public/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/vouchers-data/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
@@ -4721,6 +4817,10 @@
       "target": "src/app/(frontend)/vouchers/VouchersPageClient.tsx"
     },
     {
+      "source": "src/app/(frontend)/vouchers/page.tsx",
+      "target": "src/components/ui/VouchersEditButton.tsx"
+    },
+    {
       "source": "src/app/(frontend)/reset-password/ResetClient.tsx",
       "target": "src/components/auth/AuthForm.tsx"
     },
@@ -5319,6 +5419,10 @@
     {
       "source": "src/payload/payload.config.ts",
       "target": "src/payload/globals/HomePage.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/Vouchers.ts"
     },
     {
       "source": "src/payload/payload.config.ts",
@@ -6546,6 +6650,26 @@
     },
     {
       "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/vouchers/VouchersHeroBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/vouchers/VouchersTabsBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/vouchers/VouchersBuyFormBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/vouchers/VouchersRedeemBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/vouchers/VouchersMineBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
       "target": "src/puck/styleFields.tsx"
     },
     {
@@ -6561,6 +6685,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-08T13:47:15.921Z",
-  "fileCount": 523
+  "builtAt": "2026-07-08T14:02:39.916Z",
+  "fileCount": 535
 }

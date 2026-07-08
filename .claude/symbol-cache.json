@@ -659,6 +659,39 @@
     "lines": 50,
     "group": "puck"
   },
+  "src/app/(puck)/puck/vouchers/PuckVouchersEditorClient.tsx": {
+    "exports": [
+      "PuckVouchersEditorClient"
+    ],
+    "types": [],
+    "imports": [
+      "@puckeditor/core",
+      "@/puck/config",
+      "next/navigation",
+      "react",
+      "sonner"
+    ],
+    "lines": 110,
+    "group": "puck"
+  },
+  "src/app/(puck)/puck/vouchers/page.tsx": {
+    "exports": [
+      "dynamic",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/headers",
+      "next/navigation",
+      "react",
+      "@puckeditor/core",
+      "./PuckVouchersEditorClient"
+    ],
+    "lines": 100,
+    "group": "puck"
+  },
   "src/app/(puck)/puck/hero/PuckHeroEditorClient.tsx": {
     "exports": [
       "PuckHeroEditorClient"
@@ -704,7 +737,7 @@
       "react",
       "sonner"
     ],
-    "lines": 279,
+    "lines": 284,
     "group": "puck"
   },
   "src/app/(puck)/puck/pages/[id]/page.tsx": {
@@ -1621,6 +1654,20 @@
     "lines": 34,
     "group": "api"
   },
+  "src/app/api/puck/vouchers/route.ts": {
+    "exports": [
+      "PATCH"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/cache",
+      "@/lib/payload-auth"
+    ],
+    "lines": 40,
+    "group": "api"
+  },
   "src/app/api/puck/hero/route.ts": {
     "exports": [
       "PATCH"
@@ -1673,6 +1720,20 @@
       "@payload-config"
     ],
     "lines": 17,
+    "group": "api"
+  },
+  "src/app/api/vouchers-data/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "next/cache"
+    ],
+    "lines": 24,
     "group": "api"
   },
   "src/app/api/destinations-list/route.ts": {
@@ -3142,9 +3203,12 @@
   },
   "src/app/(frontend)/vouchers/VouchersPageClient.tsx": {
     "exports": [
+      "VOUCHERS_DEFAULTS",
       "VouchersPageClient"
     ],
-    "types": [],
+    "types": [
+      "VouchersContent"
+    ],
     "imports": [
       "react",
       "gsap",
@@ -3155,7 +3219,7 @@
       "@/components/auth/AuthModal",
       "sonner"
     ],
-    "lines": 532,
+    "lines": 613,
     "group": "frontend"
   },
   "src/app/(frontend)/vouchers/page.tsx": {
@@ -3173,9 +3237,10 @@
       "@payload-config",
       "next/cache",
       "@/lib/auth",
-      "./VouchersPageClient"
+      "./VouchersPageClient",
+      "@/components/ui/VouchersEditButton"
     ],
-    "lines": 67,
+    "lines": 73,
     "group": "frontend"
   },
   "src/app/(frontend)/reset-password/ResetClient.tsx": {
@@ -3876,6 +3941,19 @@
     "lines": 106,
     "group": "globals"
   },
+  "src/payload/globals/Vouchers.ts": {
+    "exports": [
+      "Vouchers"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "next/cache",
+      "next/server"
+    ],
+    "lines": 121,
+    "group": "globals"
+  },
   "src/payload/globals/Shop.ts": {
     "exports": [
       "Shop"
@@ -4179,9 +4257,10 @@
       "./globals/BlogPage",
       "./globals/StoriesPage",
       "./globals/CalendarPage",
-      "./globals/HomePage"
+      "./globals/HomePage",
+      "./globals/Vouchers"
     ],
-    "lines": 255,
+    "lines": 256,
     "group": "payload"
   },
   "src/payload/seeds/hero.ts": {
@@ -5424,6 +5503,51 @@
     "lines": 41,
     "group": "blocks"
   },
+  "src/components/blocks/vouchers/VouchersHeroBlock.tsx": {
+    "exports": [
+      "VouchersHeroBlock"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 20,
+    "group": "blocks"
+  },
+  "src/components/blocks/vouchers/VouchersMineBlock.tsx": {
+    "exports": [
+      "VouchersMineBlock"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 20,
+    "group": "blocks"
+  },
+  "src/components/blocks/vouchers/VouchersTabsBlock.tsx": {
+    "exports": [
+      "VouchersTabsBlock"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 22,
+    "group": "blocks"
+  },
+  "src/components/blocks/vouchers/VouchersBuyFormBlock.tsx": {
+    "exports": [
+      "VouchersBuyFormBlock"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 49,
+    "group": "blocks"
+  },
+  "src/components/blocks/vouchers/VouchersRedeemBlock.tsx": {
+    "exports": [
+      "VouchersRedeemBlock"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 20,
+    "group": "blocks"
+  },
   "src/components/blocks/TestimonialsGridBlockRenderer.tsx": {
     "exports": [
       "TestimonialsGridBlockRenderer"
@@ -6471,6 +6595,17 @@
     "lines": 51,
     "group": "ui"
   },
+  "src/components/ui/VouchersEditButton.tsx": {
+    "exports": [
+      "VouchersEditButton"
+    ],
+    "types": [],
+    "imports": [
+      "react"
+    ],
+    "lines": 54,
+    "group": "ui"
+  },
   "src/components/ui/Navigation.tsx": {
     "exports": [
       "Navigation"
@@ -6781,6 +6916,15 @@
   "src/components/admin/WhyTravelWithUsVisualEditorButton.tsx": {
     "exports": [
       "WhyTravelWithUsVisualEditorButton"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 36,
+    "group": "admin"
+  },
+  "src/components/admin/VouchersVisualEditorButton.tsx": {
+    "exports": [
+      "VouchersVisualEditorButton"
     ],
     "types": [],
     "imports": [],
@@ -7354,9 +7498,14 @@
       "@/components/blocks/stories/StoriesHeroBlock",
       "@/components/blocks/calendar/CalendarHeroBlock",
       "@/components/blocks/privacy-policy/PrivacyPolicyContentBlock",
-      "@/components/blocks/terms-and-conditions/TermsAndConditionsContentBlock"
+      "@/components/blocks/terms-and-conditions/TermsAndConditionsContentBlock",
+      "@/components/blocks/vouchers/VouchersHeroBlock",
+      "@/components/blocks/vouchers/VouchersTabsBlock",
+      "@/components/blocks/vouchers/VouchersBuyFormBlock",
+      "@/components/blocks/vouchers/VouchersRedeemBlock",
+      "@/components/blocks/vouchers/VouchersMineBlock"
     ],
-    "lines": 1839,
+    "lines": 1953,
     "group": "other"
   },
   "src/puck/puckAI.ts": {
