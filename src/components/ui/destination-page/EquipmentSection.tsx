@@ -15,7 +15,7 @@ export default function EquipmentSection({ items, fullWidth }: Props) {
         Необходима лична<br />екипировка
       </h2>
 
-      <ul className={`grid gap-x-8${fullWidth ? ' grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : ' grid-cols-1 sm:grid-cols-2'}`} data-animate="stagger-children">
+      <ul className="grid gap-x-8 grid-cols-1 sm:grid-cols-2" data-animate="stagger-children">
         {items.map((item, i) => (
           <li key={i} className="flex items-center gap-3 py-3 border-b border-white/10 group">
             <span className="flex-shrink-0 w-6 h-6 rounded-full border border-white/20 flex items-center justify-center text-white/30 text-xs font-mono group-hover:border-white/50 group-hover:text-white/60 transition-colors duration-150">
