@@ -61,16 +61,12 @@ const TRIP_NAV_SECTION_LABELS: Record<string, string> = {
 async function DestinationsContent({ type }: { type?: string }) {
   let destinations: any[] = []
   let trips: any[] = []
-  let destinationsError: string | null = null
-  let tripsError: string | null = null
   try {
     destinations = await getDestinations()
-  } catch (e: any) { destinationsError = String(e?.message ?? e) }
+  } catch {}
   try {
     trips = await getTrips()
-  } catch (e: any) { tripsError = String(e?.message ?? e) }
-
-  const debugPreFilter = `type=${JSON.stringify(type)} destinations=${destinations.length} trips=${trips.length} tripsNavSections=${JSON.stringify(trips.map((t: any) => t.navSection))} destErr=${destinationsError} tripErr=${tripsError}`
+  } catch {}
 
   if (type === 'bulgaria' || type === 'abroad') {
     destinations = destinations.filter((d: any) => d.type === type)
@@ -122,8 +118,6 @@ async function DestinationsContent({ type }: { type?: string }) {
 
   return (
     <>
-      {/* DEBUG */}
-      <p style={{ display: 'none' }} data-debug={debugPreFilter} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
