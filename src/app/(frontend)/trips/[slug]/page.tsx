@@ -245,14 +245,11 @@ async function TripContent({ params }: Props) {
       />
 
       <TravelTransportSection
+        variant="travel"
         travelTitle={t.travelTitle as string | null}
         travelDescription={t.travelDescription as Record<string, unknown> | null}
         travelImage={mediaUrl(travelImage?.url)}
         travelImageAlt={travelImage?.alt}
-        transportTitle={t.transportTitle as string | null}
-        transportDescription={t.transportDescription as Record<string, unknown> | null}
-        transportImage={mediaUrl(transportImage?.url)}
-        transportImageAlt={transportImage?.alt}
       />
 
       <ItinerarySection itinerary={itinerary} />
@@ -265,6 +262,13 @@ async function TripContent({ params }: Props) {
       <GuidesSection guides={guides ?? []} />
 
       <AccommodationsSection accommodations={accommodations} eyebrow={accommodationsSectionEyebrow} headline={accommodationsSectionHeadline} subtext={accommodationsSectionSubtext} />
+      <TravelTransportSection
+        variant="transport"
+        transportTitle={t.transportTitle as string | null}
+        transportDescription={t.transportDescription as Record<string, unknown> | null}
+        transportImage={mediaUrl(transportImage?.url)}
+        transportImageAlt={transportImage?.alt}
+      />
 
       <AdventureCtaSection
         durationDays={durationDays}

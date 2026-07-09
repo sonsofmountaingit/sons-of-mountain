@@ -2247,7 +2247,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/DestinationBookingController"
     ],
-    "lines": 353,
+    "lines": 347,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -4056,7 +4056,7 @@
       "../hooks/revalidate",
       "next/server"
     ],
-    "lines": 250,
+    "lines": 256,
     "group": "globals"
   },
   "src/payload/globals/DestinationCarousel.ts": {
@@ -6075,7 +6075,7 @@
       "next/image",
       "@payloadcms/richtext-lexical/react"
     ],
-    "lines": 89,
+    "lines": 91,
     "group": "ui"
   },
   "src/components/ui/destination-page/EquipmentSection.tsx": {
@@ -6339,7 +6339,7 @@
       "./FooterShakingLink",
       "./FooterReveal"
     ],
-    "lines": 363,
+    "lines": 364,
     "group": "ui"
   },
   "src/components/ui/Testimonials.tsx": {
@@ -6429,7 +6429,7 @@
       "next/image",
       "react"
     ],
-    "lines": 22,
+    "lines": 24,
     "group": "ui"
   },
   "src/components/ui/GalleryEditButton.tsx": {
