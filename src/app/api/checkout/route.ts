@@ -117,7 +117,14 @@ export async function POST(req: NextRequest) {
             (doc as any)?.price ??
             (doc as any)?.bundlePrice ??
             (doc as any)?.pricePerPerson
-          if (expectedPrice != null && Math.abs(item.unitPrice - expectedPrice) > 0.01) {
+          const expectedEarlyBirdPrice = (doc as any)?.earlyBirdPrice
+          const priceMatchesRegular = expectedPrice != null && Math.abs(item.unitPrice - expectedPrice) <= 0.01
+          const priceMatchesBreakdown =
+            item.priceBreakdown &&
+            Math.abs(item.priceBreakdown.totalPrice / item.quantity - item.unitPrice) <= 0.01 &&
+            (item.priceBreakdown.earlyBirdCount === 0 || item.priceBreakdown.earlyBirdPrice === expectedEarlyBirdPrice) &&
+            item.priceBreakdown.regularPrice === expectedPrice
+          if (expectedPrice != null && !priceMatchesRegular && !priceMatchesBreakdown) {
             return NextResponse.json({
               error: `Price mismatch for "${item.title}": expected €${expectedPrice.toFixed(2)}, got €${item.unitPrice.toFixed(2)}`,
             }, { status: 400 })
@@ -183,6 +190,10 @@ export async function POST(req: NextRequest) {
           variantId: item.variantId ?? null,
           quantity: item.quantity,
           unitPrice: item.unitPrice,
+          earlyBirdCount: item.priceBreakdown?.earlyBirdCount ?? null,
+          earlyBirdPrice: item.priceBreakdown?.earlyBirdPrice ?? null,
+          regularCount: item.priceBreakdown?.regularCount ?? null,
+          regularPrice: item.priceBreakdown?.regularPrice ?? null,
         })),
         participationType: participationType ?? 'solo',
       },

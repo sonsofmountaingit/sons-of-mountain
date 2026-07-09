@@ -3229,7 +3229,7 @@
       "sonner",
       "@/lib/currency"
     ],
-    "lines": 614,
+    "lines": 624,
     "group": "frontend"
   },
   "src/app/(frontend)/vouchers/page.tsx": {

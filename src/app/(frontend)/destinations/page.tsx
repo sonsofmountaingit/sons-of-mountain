@@ -58,7 +58,7 @@ const TRIP_NAV_SECTION_LABELS: Record<string, string> = {
   individual: 'Индивидуална програма',
 }
 
-async function DestinationsContent() {
+async function DestinationsContent({ type }: { type?: string }) {
   let destinations: any[] = []
   let trips: any[] = []
   try {
@@ -67,6 +67,14 @@ async function DestinationsContent() {
   try {
     trips = await getTrips()
   } catch {}
+
+  if (type === 'bulgaria' || type === 'abroad') {
+    destinations = destinations.filter((d: any) => d.type === type)
+    trips = trips.filter((t: any) => t.navSection === type)
+  } else if (type === 'trips') {
+    destinations = []
+    trips = trips.filter((t: any) => t.navSection === 'individual')
+  }
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -101,6 +109,12 @@ async function DestinationsContent() {
     })
     archived = docs
   } catch {}
+
+  if (type === 'bulgaria' || type === 'abroad') {
+    archived = archived.filter((d: any) => d.type === type)
+  } else if (type === 'trips') {
+    archived = []
+  }
 
   return (
     <>
@@ -164,14 +178,19 @@ async function DestinationsContent() {
   )
 }
 
-export default function DestinationsPage() {
+export default async function DestinationsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ type?: string }>
+}) {
+  const { type } = await searchParams
   return (
     <div className="pt-24 pb-20 px-6 min-h-screen">
       <div className="max-w-[1440px] mx-auto">
         <h1 className="text-5xl md:text-6xl font-bold mb-4">Дестинации</h1>
         <p className="text-white/50 mb-12 text-lg">Избери своето следващо приключение</p>
         <Suspense>
-          <DestinationsContent />
+          <DestinationsContent type={type} />
         </Suspense>
       </div>
     </div>

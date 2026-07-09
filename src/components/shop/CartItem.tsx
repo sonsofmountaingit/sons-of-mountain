@@ -33,8 +33,17 @@ export function CartItemRow({ item }: { item: CartItem }) {
               +
             </button>
           </div>
-          <p className="text-sm font-semibold">{formatPrice(item.unitPrice * item.quantity)}</p>
+          <p className="text-sm font-semibold">
+            {formatPrice(item.priceBreakdown?.totalPrice ?? item.unitPrice * item.quantity)}
+          </p>
         </div>
+        {item.priceBreakdown && item.priceBreakdown.earlyBirdCount > 0 && item.priceBreakdown.regularCount > 0 && (
+          <p className="text-xs text-green-600">
+            {item.priceBreakdown.earlyBirdCount} × {formatPrice(item.priceBreakdown.earlyBirdPrice)} early bird
+            {' + '}
+            {item.priceBreakdown.regularCount} × {formatPrice(item.priceBreakdown.regularPrice)} regular
+          </p>
+        )}
       </div>
       <button
         onClick={() => removeItem(item.id)}

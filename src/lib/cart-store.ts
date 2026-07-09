@@ -5,6 +5,14 @@ import { persist } from 'zustand/middleware'
 
 export type CartItemType = 'trip' | 'product' | 'program' | 'gift-voucher' | 'bundle'
 
+export interface CartItemPriceBreakdown {
+  earlyBirdCount: number
+  earlyBirdPrice: number
+  regularCount: number
+  regularPrice: number
+  totalPrice: number
+}
+
 export interface CartItem {
   id: string
   type: CartItemType
@@ -12,6 +20,7 @@ export interface CartItem {
   image?: string
   unitPrice: number
   quantity: number
+  priceBreakdown?: CartItemPriceBreakdown
   // Trip/program specific
   tripId?: string
   programId?: string
@@ -122,7 +131,7 @@ export const useCartStore = create<CartState>()(
       setLoyaltyPointsToRedeem: (points) => set({ loyaltyPointsToRedeem: points }),
       setPreferredCurrency: (currency) => set({ preferredCurrency: currency }),
 
-      subtotal: () => get().items.reduce((sum, i) => sum + i.unitPrice * i.quantity, 0),
+      subtotal: () => get().items.reduce((sum, i) => sum + (i.priceBreakdown?.totalPrice ?? i.unitPrice * i.quantity), 0),
 
       discountAmount: () => {
         const { appliedDiscount, subtotal } = get()

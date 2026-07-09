@@ -113,6 +113,10 @@ export const Orders: CollectionConfig = {
         { name: 'variantId', type: 'text', admin: { description: 'Product variant ID if applicable' } },
         { name: 'quantity', type: 'number', defaultValue: 1 },
         { name: 'unitPrice', type: 'number' },
+        { name: 'earlyBirdCount', type: 'number', admin: { description: 'Spots charged at early bird price' } },
+        { name: 'earlyBirdPrice', type: 'number' },
+        { name: 'regularCount', type: 'number', admin: { description: 'Spots charged at regular price' } },
+        { name: 'regularPrice', type: 'number' },
         { name: 'participantCount', type: 'number', defaultValue: 1 },
         {
           name: 'participantDetails',

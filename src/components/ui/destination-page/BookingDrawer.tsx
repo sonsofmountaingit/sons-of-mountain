@@ -57,12 +57,25 @@ export function BookingDrawer({
   }, [open, onClose])
 
   function handleBook() {
+    const earlyBirdCount = earlyBirdSpotsLeft != null ? Math.min(qty, earlyBirdSpotsLeft) : 0
+    const regularCount = qty - earlyBirdCount
+    const priceBreakdown = earlyBirdCount > 0
+      ? {
+          earlyBirdCount,
+          earlyBirdPrice: earlyBirdPrice!,
+          regularCount,
+          regularPrice: price,
+          totalPrice: earlyBirdCount * earlyBirdPrice! + regularCount * price,
+        }
+      : undefined
+
     addItem({
       id: `${itemType}-${tripId}`,
       type: itemType,
       title: isEarlyBird ? `${tripTitle} (Early Bird)` : tripTitle,
-      unitPrice: effectivePrice,
+      unitPrice: priceBreakdown ? priceBreakdown.totalPrice / qty : effectivePrice,
       quantity: qty,
+      priceBreakdown,
       tripId: itemType === 'trip' ? tripId : undefined,
       programId: itemType === 'program' ? tripId : undefined,
       spotsAvailable: spotsAvailable ?? undefined,

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { CartItem } from '@/lib/cart-store'
-import { getDynamicPrice, getEarlyBirdPrice } from '@/lib/pricing/dynamic'
+import { getDynamicPrice, getPriceBreakdown } from '@/lib/pricing/dynamic'
 
 export async function POST(req: NextRequest) {
   try {
@@ -20,9 +20,9 @@ export async function POST(req: NextRequest) {
           validated.push({ ...item, outOfStock: true, warning: `Only ${trip.spotsAvailable} spots left` })
           continue
         }
-        const { price: ebPrice } = getEarlyBirdPrice(trip.price, trip.earlyBirdPrice, trip.earlyBirdUntil, trip.earlyBirdSpots, trip.spotsAvailable)
-        const dynamicPrice = getDynamicPrice(ebPrice, trip.spotsTotal, trip.spotsAvailable)
-        validated.push({ ...item, unitPrice: dynamicPrice, spotsAvailable: trip.spotsAvailable })
+        const dynamicPrice = getDynamicPrice(trip.price, trip.spotsTotal, trip.spotsAvailable)
+        const breakdown = getPriceBreakdown(item.quantity, dynamicPrice, trip.earlyBirdPrice, trip.earlyBirdUntil, trip.earlyBirdSpots, trip.spotsAvailable)
+        validated.push({ ...item, unitPrice: breakdown.totalPrice / item.quantity, priceBreakdown: breakdown, spotsAvailable: trip.spotsAvailable })
 
       } else if (item.type === 'program' && item.programId) {
         const program = await payload.findByID({ collection: 'programs', id: item.programId }).catch(() => null)
@@ -31,8 +31,8 @@ export async function POST(req: NextRequest) {
           validated.push({ ...item, outOfStock: true, warning: `Only ${program.spotsAvailable} spots left` })
           continue
         }
-        const { price: ebPrice } = getEarlyBirdPrice(program.price, program.earlyBirdPrice, program.earlyBirdUntil, program.earlyBirdSpots, program.spotsAvailable)
-        validated.push({ ...item, unitPrice: ebPrice, spotsAvailable: program.spotsAvailable })
+        const breakdown = getPriceBreakdown(item.quantity, program.price, program.earlyBirdPrice, program.earlyBirdUntil, program.earlyBirdSpots, program.spotsAvailable)
+        validated.push({ ...item, unitPrice: breakdown.totalPrice / item.quantity, priceBreakdown: breakdown, spotsAvailable: program.spotsAvailable })
 
       } else if (item.type === 'product' && item.productId) {
         const product = await payload.findByID({ collection: 'products', id: item.productId }).catch(() => null)

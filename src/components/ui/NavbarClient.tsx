@@ -411,7 +411,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                     {[
                       { label: 'Преходи в България', href: '/destinations?type=bulgaria' },
                       { label: 'Преходи в чужбина', href: '/destinations?type=abroad' },
-                      { label: 'Индивидуални пътувания', href: '/destinations?type=trips' },
+                      { label: 'Индивидуални програми', href: '/destinations?type=trips' },
                       { label: 'Календар', href: '/calendar' },
                       { label: 'Блог', href: '/blog' },
                       { label: 'Магазин', href: '/shop' },

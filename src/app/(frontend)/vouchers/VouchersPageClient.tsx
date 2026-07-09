@@ -89,10 +89,23 @@ export const VOUCHERS_DEFAULTS = {
 
 export type VouchersContent = typeof VOUCHERS_DEFAULTS
 
+interface ProgramGroupItem {
+  id: string
+  title: string
+  kind: 'trip' | 'program'
+}
+
+interface ProgramGroup {
+  id: string
+  label: string
+  items: ProgramGroupItem[]
+}
+
 interface Props {
   destinations: any[]
   trips: any[]
   programs: any[]
+  programGroups: ProgramGroup[]
   myVouchers: Voucher[]
   content?: Partial<VouchersContent>
 }
@@ -119,7 +132,7 @@ const giftSchema = z.object({
 const schema = z.discriminatedUnion('isGift', [selfSchema, giftSchema])
 type FormData = z.infer<typeof schema>
 
-export function VouchersPageClient({ destinations, trips, programs, myVouchers: initialVouchers, content }: Props) {
+export function VouchersPageClient({ destinations, trips, programs, programGroups, myVouchers: initialVouchers, content }: Props) {
   const c: VouchersContent = { ...VOUCHERS_DEFAULTS, ...content }
   const { data: sessionData } = useSession()
   const session = sessionData?.user ?? null
@@ -172,8 +185,7 @@ export function VouchersPageClient({ destinations, trips, programs, myVouchers: 
           {tab === 'buy' && (
             <BuyTab
               destinations={destinations}
-              trips={trips}
-              programs={programs}
+              programGroups={programGroups}
               session={session}
               onPurchased={refreshVouchers}
               c={c}
@@ -188,11 +200,10 @@ export function VouchersPageClient({ destinations, trips, programs, myVouchers: 
 }
 
 function BuyTab({
-  destinations, trips, programs, session, onPurchased, c,
+  destinations, programGroups, session, onPurchased, c,
 }: {
   destinations: any[]
-  trips: any[]
-  programs: any[]
+  programGroups: ProgramGroup[]
   session: any
   onPurchased: () => void
   c: VouchersContent
@@ -220,8 +231,22 @@ function BuyTab({
   const isGift = watch('isGift')
   const voucherType = watch('voucherType')
   const amount = watch('amount')
+  const tripId = watch('tripId')
   const programId = watch('programId')
-  const selectedProgram = programs.find((p: any) => p.id === programId)
+  const selectedProgram = programGroups
+    .flatMap((g) => g.items)
+    .find((i) => (i.kind === 'program' ? i.id === programId : i.id === tripId))
+
+  function onProgramSelectChange(value: string) {
+    if (!value) {
+      setValue('tripId', undefined)
+      setValue('programId', undefined)
+      return
+    }
+    const [kind, id] = value.split(':')
+    setValue('tripId', kind === 'trip' ? id : undefined)
+    setValue('programId', kind === 'program' ? id : undefined)
+  }
 
   async function proceed(data: FormData, user: { id: string; name: string; email: string }) {
     setLoading(true)
@@ -372,7 +397,7 @@ function BuyTab({
 
             <p className="text-xs tracking-widest text-white/30 uppercase mb-4 mt-8">{c.forSpecificLabel}</p>
             <div className="flex gap-2 flex-wrap mb-4">
-              {(['open', 'destination', 'trip', 'program'] as const).map((t) => (
+              {(['open', 'destination', 'program'] as const).map((t) => (
                 <button
                   key={t}
                   type="button"
@@ -391,21 +416,27 @@ function BuyTab({
                 {destinations.map((d: any) => <option key={d.id} value={d.id}>{d.name}</option>)}
               </select>
             )}
-            {voucherType === 'trip' && (
-              <select {...register('tripId')} className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-sm text-white outline-none focus:border-white/30 transition-colors">
-                <option value="">{c.selectTripLabel}</option>
-                {trips.map((t: any) => <option key={t.id} value={t.id}>{t.title ?? t.id}</option>)}
-              </select>
-            )}
             {voucherType === 'program' && (
               <>
-                <select {...register('programId')} className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-sm text-white outline-none focus:border-white/30 transition-colors">
+                <select
+                  value={programId ? `program:${programId}` : tripId ? `trip:${tripId}` : ''}
+                  onChange={(e) => onProgramSelectChange(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-sm text-white outline-none focus:border-white/30 transition-colors"
+                >
                   <option value="">{c.selectProgramLabel}</option>
-                  {programs.map((p: any) => <option key={p.id} value={p.id}>{p.title ?? p.id}</option>)}
+                  {programGroups.map((group) => (
+                    <optgroup key={group.id} label={group.label}>
+                      {group.items.map((item) => (
+                        <option key={`${item.kind}:${item.id}`} value={`${item.kind}:${item.id}`}>
+                          {item.title}
+                        </option>
+                      ))}
+                    </optgroup>
+                  ))}
                 </select>
                 {selectedProgram && (
                   <p className="text-xs text-white/40 mt-2">
-                    {c.selectedProgramPrefix} <span className="text-white/70">{selectedProgram.title ?? selectedProgram.id}</span>
+                    {c.selectedProgramPrefix} <span className="text-white/70">{selectedProgram.title}</span>
                   </p>
                 )}
               </>

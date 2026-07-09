@@ -28,3 +28,49 @@ export function getEarlyBirdPrice(
   if (earlyBirdSpots != null && spotsAvailable > earlyBirdSpots) return { price: basePrice, isEarlyBird: false }
   return { price: earlyBirdPrice, isEarlyBird: true }
 }
+
+export interface PriceBreakdown {
+  earlyBirdCount: number
+  earlyBirdPrice: number
+  regularCount: number
+  regularPrice: number
+  totalPrice: number
+}
+
+// Splits a quantity purchase across the remaining early-bird allocation and the regular price.
+// spotsAvailable/earlyBirdSpots both count remaining spots, so the number of early-bird
+// spots left equals earlyBirdSpots itself (spots beyond that are already at regular price).
+export function getPriceBreakdown(
+  quantity: number,
+  basePrice: number,
+  earlyBirdPrice: number | null | undefined,
+  earlyBirdUntil: string | null | undefined,
+  earlyBirdSpots: number | null | undefined,
+  spotsAvailable: number,
+): PriceBreakdown {
+  const noEarlyBird = (): PriceBreakdown => ({
+    earlyBirdCount: 0,
+    earlyBirdPrice: basePrice,
+    regularCount: quantity,
+    regularPrice: basePrice,
+    totalPrice: basePrice * quantity,
+  })
+
+  if (!earlyBirdPrice || !earlyBirdUntil || earlyBirdSpots == null) return noEarlyBird()
+
+  const now = new Date()
+  const deadline = new Date(earlyBirdUntil)
+  if (now > deadline) return noEarlyBird()
+
+  const earlyBirdRemaining = Math.max(0, Math.min(earlyBirdSpots, spotsAvailable))
+  const earlyBirdCount = Math.min(quantity, earlyBirdRemaining)
+  const regularCount = quantity - earlyBirdCount
+
+  return {
+    earlyBirdCount,
+    earlyBirdPrice,
+    regularCount,
+    regularPrice: basePrice,
+    totalPrice: earlyBirdCount * earlyBirdPrice + regularCount * basePrice,
+  }
+}
