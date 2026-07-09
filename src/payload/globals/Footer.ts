@@ -174,10 +174,27 @@ export const Footer: GlobalConfig = {
       label: 'Навигация (ръчно)',
       admin: {
         condition: (_, siblingData) => siblingData?.navLinkSource === 'manual',
+        description: 'Избери линк от Navigation глобала или задай ръчно label/href.',
       },
       fields: [
-        { name: 'label', type: 'text', required: true },
-        { name: 'href', type: 'text', required: true },
+        {
+          name: 'sourceLink',
+          type: 'select',
+          label: 'Линк от Навигация',
+          options: [
+            { label: 'Линк 1', value: '0' },
+            { label: 'Линк 2', value: '1' },
+            { label: 'Линк 3', value: '2' },
+            { label: 'Линк 4', value: '3' },
+            { label: 'Линк 5', value: '4' },
+            { label: 'Линк 6', value: '5' },
+            { label: 'Линк 7', value: '6' },
+            { label: 'Линк 8', value: '7' },
+          ],
+          admin: { description: 'Съответства на реда на линковете в Site Settings → Navigation (Left + Right, в реда, в който излизат в менюто).' },
+        },
+        { name: 'label', type: 'text', admin: { description: 'Оставѝ празно, за да ползваш label от Навигация.' } },
+        { name: 'href', type: 'text', admin: { description: 'Оставѝ празно, за да ползваш href от Навигация.' } },
       ],
     },
     {

@@ -60,12 +60,20 @@ const getFooterData = unstable_cache(
     })
 
     const navLinkSource = d?.navLinkSource ?? 'auto'
-    const manualNavLinks: { label: string; href: string }[] = d?.navLinks ?? []
     const n = navData as any
-    const autoNavLinks: { label: string; href: string }[] = [
-      ...(n?.navLinksLeft ?? []),
-      ...(n?.navLinksRight ?? []),
-    ]
+    const navLinksLeft: { label: string; href: string }[] = n?.navLinksLeft ?? []
+    const navLinksRight: { label: string; href: string }[] = n?.navLinksRight ?? []
+    const autoNavLinks: { label: string; href: string }[] = [...navLinksLeft, ...navLinksRight]
+
+    const rawManualLinks: { sourceLink?: string; label?: string; href?: string }[] = d?.navLinks ?? []
+    const manualNavLinks: { label: string; href: string }[] = rawManualLinks.map((link) => {
+      const sourceItem = autoNavLinks[Number(link.sourceLink)]
+      return {
+        label: link.label || sourceItem?.label || '',
+        href: link.href || sourceItem?.href || '',
+      }
+    }).filter((link) => link.label && link.href)
+
     const navLinks = navLinkSource === 'manual' ? manualNavLinks : autoNavLinks
 
     return { ...d, travelLinks, navLinks }

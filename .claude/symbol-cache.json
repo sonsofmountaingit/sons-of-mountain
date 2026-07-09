@@ -259,7 +259,7 @@
       "@puckeditor/core",
       "./PuckContactEditorClient"
     ],
-    "lines": 51,
+    "lines": 64,
     "group": "puck"
   },
   "src/app/(puck)/puck/calendar/PuckCalendarEditorClient.tsx": {
@@ -864,9 +864,11 @@
     "imports": [
       "next/server",
       "resend",
-      "@/lib/escape-html"
+      "zod",
+      "@/lib/escape-html",
+      "@/lib/rate-limit"
     ],
-    "lines": 36,
+    "lines": 60,
     "group": "api"
   },
   "src/app/api/gallery-data/route.ts": {
@@ -1482,7 +1484,7 @@
       "next/cache",
       "@/lib/payload-auth"
     ],
-    "lines": 32,
+    "lines": 37,
     "group": "api"
   },
   "src/app/api/puck/calendar/route.ts": {
@@ -2073,11 +2075,12 @@
       "@/components/forms/ContactForm",
       "@/components/blocks/contact/ContactHeroBlock",
       "@/components/blocks/contact/ContactFAQBlock",
+      "@/components/blocks/contact/ContactGuidesBlock",
       "@/components/blocks/PuckRender",
       "@puckeditor/core",
       "@/lib/metadata"
     ],
-    "lines": 88,
+    "lines": 104,
     "group": "frontend"
   },
   "src/app/(frontend)/nolimit/catamarans/page.tsx": {
@@ -4029,7 +4032,7 @@
       "next/server",
       "../hooks/revalidate"
     ],
-    "lines": 121,
+    "lines": 122,
     "group": "globals"
   },
   "src/payload/globals/HomePage.ts": {
@@ -4173,7 +4176,7 @@
       "next/cache",
       "next/server"
     ],
-    "lines": 49,
+    "lines": 63,
     "group": "globals"
   },
   "src/payload/globals/TestimonialsSection.ts": {
@@ -4949,6 +4952,20 @@
     "lines": 489,
     "group": "blocks"
   },
+  "src/components/blocks/contact/ContactGuidesBlock.tsx": {
+    "exports": [
+      "ContactGuidesBlock"
+    ],
+    "types": [],
+    "imports": [
+      "next/cache",
+      "payload",
+      "@payload-config",
+      "./ContactGuidesBlockRenderer"
+    ],
+    "lines": 32,
+    "group": "blocks"
+  },
   "src/components/blocks/contact/ContactHeroBlock.tsx": {
     "exports": [
       "ContactHeroBlock"
@@ -4965,6 +4982,17 @@
     "types": [],
     "imports": [],
     "lines": 28,
+    "group": "blocks"
+  },
+  "src/components/blocks/contact/ContactGuidesBlockRenderer.tsx": {
+    "exports": [
+      "ContactGuidesBlockRenderer"
+    ],
+    "types": [],
+    "imports": [
+      "next/image"
+    ],
+    "lines": 47,
     "group": "blocks"
   },
   "src/components/blocks/LivePreviewBlocks.tsx": {
@@ -5691,7 +5719,7 @@
       "react",
       "@/puck/BlockWrapper"
     ],
-    "lines": 84,
+    "lines": 105,
     "group": "blocks"
   },
   "src/components/blocks/BeforeAfterBlockRenderer.tsx": {
@@ -6723,7 +6751,7 @@
       "@hookform/resolvers/zod",
       "zod"
     ],
-    "lines": 90,
+    "lines": 135,
     "group": "components"
   },
   "src/components/forms/GiftVoucherForm.tsx": {
@@ -7295,6 +7323,15 @@
     "lines": 6,
     "group": "lib"
   },
+  "src/lib/rate-limit.ts": {
+    "exports": [
+      "isRateLimited"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 14,
+    "group": "lib"
+  },
   "src/lib/pricing/dynamic.ts": {
     "exports": [
       "getDynamicPrice",
@@ -7530,6 +7567,7 @@
       "@/components/blocks/about/AboutPartnersBlock",
       "@/components/blocks/contact/ContactHeroBlock",
       "@/components/blocks/contact/ContactFAQBlock",
+      "@/components/blocks/contact/ContactGuidesBlockRenderer",
       "@/components/blocks/blog/BlogHeroBlock",
       "@/components/blocks/stories/StoriesHeroBlock",
       "@/components/blocks/calendar/CalendarHeroBlock",
@@ -7541,7 +7579,7 @@
       "@/components/blocks/vouchers/VouchersRedeemBlock",
       "@/components/blocks/vouchers/VouchersMineBlock"
     ],
-    "lines": 1953,
+    "lines": 1975,
     "group": "other"
   },
   "src/puck/puckAI.ts": {

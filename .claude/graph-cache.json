@@ -1975,6 +1975,12 @@
       "size": 8
     },
     {
+      "id": "src/components/blocks/contact/ContactGuidesBlock.tsx",
+      "label": "contact/ContactGuidesBlock.tsx",
+      "group": "blocks",
+      "size": 6
+    },
+    {
       "id": "src/components/blocks/contact/ContactHeroBlock.tsx",
       "label": "contact/ContactHeroBlock.tsx",
       "group": "blocks",
@@ -1983,6 +1989,12 @@
     {
       "id": "src/components/blocks/contact/ContactFAQBlock.tsx",
       "label": "contact/ContactFAQBlock.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/contact/ContactGuidesBlockRenderer.tsx",
+      "label": "contact/ContactGuidesBlockRenderer.tsx",
       "group": "blocks",
       "size": 8
     },
@@ -3091,6 +3103,12 @@
       "size": 20
     },
     {
+      "id": "src/lib/rate-limit.ts",
+      "label": "lib/rate-limit.ts",
+      "group": "lib",
+      "size": 6
+    },
+    {
       "id": "src/lib/pricing/dynamic.ts",
       "label": "pricing/dynamic.ts",
       "group": "lib",
@@ -3521,6 +3539,10 @@
     {
       "source": "src/app/api/contact/route.ts",
       "target": "src/lib/escape-html.ts"
+    },
+    {
+      "source": "src/app/api/contact/route.ts",
+      "target": "src/lib/rate-limit.ts"
     },
     {
       "source": "src/app/api/gallery-data/route.ts",
@@ -4109,6 +4131,10 @@
     {
       "source": "src/app/(frontend)/contact/page.tsx",
       "target": "src/components/blocks/contact/ContactFAQBlock.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/contact/page.tsx",
+      "target": "src/components/blocks/contact/ContactGuidesBlock.tsx"
     },
     {
       "source": "src/app/(frontend)/contact/page.tsx",
@@ -5699,6 +5725,14 @@
       "target": "src/lib/media-url.ts"
     },
     {
+      "source": "src/components/blocks/contact/ContactGuidesBlock.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/components/blocks/contact/ContactGuidesBlock.tsx",
+      "target": "src/components/blocks/contact/ContactGuidesBlockRenderer.tsx"
+    },
+    {
       "source": "src/components/blocks/LivePreviewBlocks.tsx",
       "target": "src/components/blocks/ClientBlockRenderer.tsx"
     },
@@ -6724,6 +6758,10 @@
     },
     {
       "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/contact/ContactGuidesBlockRenderer.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
       "target": "src/components/blocks/blog/BlogHeroBlock.tsx"
     },
     {
@@ -6779,6 +6817,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-09T19:18:54.011Z",
-  "fileCount": 536
+  "builtAt": "2026-07-09T19:29:53.930Z",
+  "fileCount": 539
 }
