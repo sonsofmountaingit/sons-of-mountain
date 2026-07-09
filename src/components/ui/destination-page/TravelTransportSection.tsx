@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 
 interface Props {
+  variant?: 'travel' | 'transport' | 'both'
   travelTitle?: string | null
   travelDescription?: Record<string, unknown> | null
   travelImage?: string | null
@@ -13,11 +14,12 @@ interface Props {
 }
 
 export function TravelTransportSection({
+  variant = 'both',
   travelTitle, travelDescription, travelImage, travelImageAlt,
   transportTitle, transportDescription, transportImage, transportImageAlt,
 }: Props) {
-  const hasTravel = travelTitle || travelDescription || travelImage
-  const hasTransport = transportTitle || transportDescription || transportImage
+  const hasTravel = variant !== 'transport' && (travelTitle || travelDescription || travelImage)
+  const hasTransport = variant !== 'travel' && (transportTitle || transportDescription || transportImage)
   if (!hasTravel && !hasTransport) return null
 
   return (

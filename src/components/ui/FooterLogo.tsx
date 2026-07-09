@@ -3,12 +3,14 @@
 import Image from 'next/image'
 import { useState } from 'react'
 
-export function FooterLogo({ logoUrl }: { logoUrl?: string | null }) {
+export function FooterLogo({ logoUrl, logoColoredUrl }: { logoUrl?: string | null; logoColoredUrl?: string | null }) {
   const [hovered, setHovered] = useState(false)
-  const defaultSrc = hovered ? '/colored-logo.svg' : '/white-logo.svg'
+  const src = hovered
+    ? (logoColoredUrl || '/colored-logo.svg')
+    : (logoUrl || '/white-logo.svg')
   return (
     <Image
-      src={logoUrl ?? defaultSrc}
+      src={src}
       alt="Logo"
       width={72}
       height={72}

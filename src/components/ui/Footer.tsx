@@ -194,6 +194,7 @@ export async function Footer() {
   const privacyUrl = (data as any)?.privacyUrl ?? '/legal/cookies'
   const privacyLabel = (data as any)?.privacyLabel ?? 'Политика за поверителност'
   const logoUrl = typeof (data as any)?.logo === 'object' ? (data as any)?.logo?.url : null
+  const logoColoredUrl = typeof (data as any)?.logoColored === 'object' ? (data as any)?.logoColored?.url : null
   const submitLabel = (data as any)?.submitLabel ?? 'Абонирай се'
   const firstNamePlaceholder = (data as any)?.firstNamePlaceholder ?? 'Име'
   const lastNamePlaceholder = (data as any)?.lastNamePlaceholder ?? 'Фамилия'
@@ -330,7 +331,7 @@ export async function Footer() {
           {/* Bottom bar */}
           <div data-reveal className="footer-bottom" style={{ paddingTop: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1.5rem', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-              <FooterLogo logoUrl={logoUrl} />
+              <FooterLogo logoUrl={logoUrl} logoColoredUrl={logoColoredUrl} />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
                 <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', margin: 0 }}>{copyright}</p>
                 <p style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.3)', margin: 0 }}>{licenseText}</p>

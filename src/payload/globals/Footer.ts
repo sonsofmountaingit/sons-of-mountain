@@ -184,7 +184,13 @@ export const Footer: GlobalConfig = {
       name: 'logo',
       type: 'upload',
       relationTo: 'media',
-      label: 'Logo',
+      label: 'Logo (white)',
+    },
+    {
+      name: 'logoColored',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Logo (colored, shown on hover)',
     },
     {
       name: 'logoGif',

@@ -263,14 +263,11 @@ async function DestinationContent({ params }: Props) {
       />
 
       <TravelTransportSection
+        variant="travel"
         travelTitle={d.travelTitle as string | null}
         travelDescription={d.travelDescription as Record<string, unknown> | null}
         travelImage={mediaUrl(travelImage?.url)}
         travelImageAlt={travelImage?.alt}
-        transportTitle={d.transportTitle as string | null}
-        transportDescription={d.transportDescription as Record<string, unknown> | null}
-        transportImage={mediaUrl(transportImage?.url)}
-        transportImageAlt={transportImage?.alt}
       />
 
       <ItinerarySection itinerary={itinerary ?? []} />
@@ -284,10 +281,7 @@ async function DestinationContent({ params }: Props) {
 
       <AccommodationsSection accommodations={accommodations} eyebrow={accommodationsSectionEyebrow} headline={accommodationsSectionHeadline} subtext={accommodationsSectionSubtext} />
       <TravelTransportSection
-        travelTitle={d.travelTitle as string | null}
-        travelDescription={d.travelDescription as Record<string, unknown> | null}
-        travelImage={mediaUrl(travelImage?.url)}
-        travelImageAlt={travelImage?.alt}
+        variant="transport"
         transportTitle={d.transportTitle as string | null}
         transportDescription={d.transportDescription as Record<string, unknown> | null}
         transportImage={mediaUrl(transportImage?.url)}
