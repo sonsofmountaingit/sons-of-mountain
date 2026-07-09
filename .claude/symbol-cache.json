@@ -4901,7 +4901,7 @@
       "react",
       "@/components/ui/ShakingCredit"
     ],
-    "lines": 60,
+    "lines": 58,
     "group": "blocks"
   },
   "src/components/blocks/footer/FooterSubscribeBlock.tsx": {
