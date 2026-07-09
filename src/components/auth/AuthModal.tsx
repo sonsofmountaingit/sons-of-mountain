@@ -12,14 +12,14 @@ interface Props {
 }
 
 const loginSchema = z.object({
-  email: z.string().email('Invalid email'),
-  password: z.string().min(6, 'Min 6 characters'),
+  email: z.string().email('Невалиден имейл'),
+  password: z.string().min(6, 'Минимум 6 символа'),
 })
 
 const signupSchema = z.object({
-  name: z.string().min(2, 'Min 2 characters'),
-  email: z.string().email('Invalid email'),
-  password: z.string().min(8, 'Min 8 characters'),
+  name: z.string().min(2, 'Минимум 2 символа'),
+  email: z.string().email('Невалиден имейл'),
+  password: z.string().min(8, 'Минимум 8 символа'),
 })
 
 export function AuthModal({ onSuccess, onClose }: Props) {
@@ -42,7 +42,7 @@ export function AuthModal({ onSuccess, onClose }: Props) {
 
   async function onLogin(values: z.infer<typeof loginSchema>) {
     const result = await signIn.email({ email: values.email, password: values.password })
-    if (result.error) return { error: result.error.message ?? 'Invalid email or password' }
+    if (result.error) return { error: result.error.message ?? 'Невалиден имейл или парола' }
     const user = (result.data as any)?.user
     if (user) onSuccess({ id: user.id, name: user.name ?? '', email: user.email })
     return {}
@@ -50,7 +50,7 @@ export function AuthModal({ onSuccess, onClose }: Props) {
 
   async function onSignup(values: z.infer<typeof signupSchema>) {
     const result = await signUp.email({ name: values.name, email: values.email, password: values.password })
-    if (result.error) return { error: result.error.message ?? 'Registration failed' }
+    if (result.error) return { error: result.error.message ?? 'Регистрацията неуспешна' }
     const user = (result.data as any)?.user
     if (user) onSuccess({ id: user.id, name: user.name ?? values.name, email: user.email ?? values.email })
     return {}
@@ -70,9 +70,9 @@ export function AuthModal({ onSuccess, onClose }: Props) {
         <div className="mb-8 text-center">
           <p className="text-xs tracking-[0.3em] text-white/30 uppercase mb-2">Sons of Mountains</p>
           <h2 className="text-xl font-light tracking-wide text-white">
-            {mode === 'login' ? 'Sign in to continue' : 'Create an account'}
+            {mode === 'login' ? 'Влизане в профил' : 'Създаване на профил'}
           </h2>
-          <p className="mt-2 text-xs text-white/40">Your voucher will be saved to your account</p>
+          <p className="mt-2 text-xs text-white/40">Ваучерът ще бъде запазен във вашия профил</p>
         </div>
 
         <div className="flex border border-white/10 rounded-sm mb-8 overflow-hidden">
@@ -80,13 +80,13 @@ export function AuthModal({ onSuccess, onClose }: Props) {
             onClick={() => setMode('login')}
             className={`flex-1 py-2.5 text-xs tracking-widest uppercase transition-colors ${mode === 'login' ? 'bg-white text-black' : 'text-white/40 hover:text-white'}`}
           >
-            Sign In
+            Вход
           </button>
           <button
             onClick={() => setMode('signup')}
             className={`flex-1 py-2.5 text-xs tracking-widest uppercase transition-colors ${mode === 'signup' ? 'bg-white text-black' : 'text-white/40 hover:text-white'}`}
           >
-            Register
+            Регистрация
           </button>
         </div>
 
@@ -96,10 +96,10 @@ export function AuthModal({ onSuccess, onClose }: Props) {
             schema={loginSchema}
             defaultValues={{ email: '', password: '' }}
             fields={[
-              { name: 'email', label: 'Email', type: 'email', placeholder: 'you@example.com' },
-              { name: 'password', label: 'Password', type: 'password', placeholder: '••••••••' },
+              { name: 'email', label: 'Имейл', type: 'email', placeholder: 'you@example.com' },
+              { name: 'password', label: 'Парола', type: 'password', placeholder: '••••••••' },
             ]}
-            submitLabel="SIGN IN"
+            submitLabel="ВХОД"
             onSubmit={onLogin}
           />
         ) : (
@@ -108,11 +108,11 @@ export function AuthModal({ onSuccess, onClose }: Props) {
             schema={signupSchema}
             defaultValues={{ name: '', email: '', password: '' }}
             fields={[
-              { name: 'name', label: 'Full name', placeholder: 'John Smith' },
-              { name: 'email', label: 'Email', type: 'email', placeholder: 'you@example.com' },
-              { name: 'password', label: 'Password', type: 'password', placeholder: '••••••••' },
+              { name: 'name', label: 'Пълно име', placeholder: 'Иван Иванов' },
+              { name: 'email', label: 'Имейл', type: 'email', placeholder: 'you@example.com' },
+              { name: 'password', label: 'Парола', type: 'password', placeholder: '••••••••' },
             ]}
-            submitLabel="CREATE ACCOUNT"
+            submitLabel="СЪЗДАЙ ПРОФИЛ"
             onSubmit={onSignup}
           />
         )}

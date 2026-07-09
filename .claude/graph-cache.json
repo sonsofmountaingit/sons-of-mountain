@@ -3031,6 +3031,12 @@
       "size": 20
     },
     {
+      "id": "src/lib/currency.ts",
+      "label": "lib/currency.ts",
+      "group": "lib",
+      "size": 20
+    },
+    {
       "id": "src/lib/stripe-webhooks.ts",
       "label": "lib/stripe-webhooks.ts",
       "group": "lib",
@@ -4354,6 +4360,10 @@
     },
     {
       "source": "src/app/(frontend)/shop/products/[slug]/page.tsx",
+      "target": "src/lib/currency.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/products/[slug]/page.tsx",
       "target": "src/lib/media-url.ts"
     },
     {
@@ -4405,6 +4415,10 @@
       "target": "src/components/shop/DiscountCodeInput.tsx"
     },
     {
+      "source": "src/app/(frontend)/shop/checkout/page.tsx",
+      "target": "src/lib/currency.ts"
+    },
+    {
       "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -4421,6 +4435,10 @@
       "target": "src/components/shop/OrderStatusBadge.tsx"
     },
     {
+      "source": "src/app/(frontend)/shop/orders/[id]/page.tsx",
+      "target": "src/lib/currency.ts"
+    },
+    {
       "source": "src/app/(frontend)/shop/orders/page.tsx",
       "target": "src/lib/auth.ts"
     },
@@ -4431,6 +4449,10 @@
     {
       "source": "src/app/(frontend)/shop/orders/page.tsx",
       "target": "src/components/shop/OrderStatusBadge.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/orders/page.tsx",
+      "target": "src/lib/currency.ts"
     },
     {
       "source": "src/app/(frontend)/shop/page.tsx",
@@ -4449,6 +4471,10 @@
       "target": "src/lib/metadata.ts"
     },
     {
+      "source": "src/app/(frontend)/shop/page.tsx",
+      "target": "src/lib/currency.ts"
+    },
+    {
       "source": "src/app/(frontend)/shop/bundles/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -4459,6 +4485,10 @@
     {
       "source": "src/app/(frontend)/shop/bundles/page.tsx",
       "target": "src/lib/metadata.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/bundles/page.tsx",
+      "target": "src/lib/currency.ts"
     },
     {
       "source": "src/app/(frontend)/shop/bundles/[slug]/page.tsx",
@@ -4475,6 +4505,10 @@
     {
       "source": "src/app/(frontend)/shop/bundles/[slug]/page.tsx",
       "target": "src/components/shop/AddToCartButton.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/bundles/[slug]/page.tsx",
+      "target": "src/lib/currency.ts"
     },
     {
       "source": "src/app/(frontend)/about/page.tsx",
@@ -4665,6 +4699,10 @@
       "target": "src/lib/metadata.ts"
     },
     {
+      "source": "src/app/(frontend)/programs/page.tsx",
+      "target": "src/lib/currency.ts"
+    },
+    {
       "source": "src/app/(frontend)/programs/[slug]/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -4797,12 +4835,20 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/(frontend)/vouchers/[code]/page.tsx",
+      "target": "src/lib/currency.ts"
+    },
+    {
       "source": "src/app/(frontend)/vouchers/VouchersPageClient.tsx",
       "target": "src/lib/auth-client.ts"
     },
     {
       "source": "src/app/(frontend)/vouchers/VouchersPageClient.tsx",
       "target": "src/components/auth/AuthModal.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/vouchers/VouchersPageClient.tsx",
+      "target": "src/lib/currency.ts"
     },
     {
       "source": "src/app/(frontend)/vouchers/page.tsx",
@@ -4883,6 +4929,10 @@
     {
       "source": "src/app/(frontend)/account/wishlist/page.tsx",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/account/wishlist/page.tsx",
+      "target": "src/lib/currency.ts"
     },
     {
       "source": "src/app/(frontend)/empire/page.tsx",
@@ -5641,6 +5691,10 @@
       "target": "src/components/ui/FooterForm.tsx"
     },
     {
+      "source": "src/components/blocks/featured-travels/FeaturedTravelsBlock.tsx",
+      "target": "src/lib/currency.ts"
+    },
+    {
       "source": "src/components/blocks/destination-carousel/DestinationCarouselBlock.tsx",
       "target": "src/lib/media-url.ts"
     },
@@ -5839,6 +5893,10 @@
     {
       "source": "src/components/blocks/why-travel-with-us/WhyTravelWithUsBlock.tsx",
       "target": "src/components/ui/WhyTravelWithUs.tsx"
+    },
+    {
+      "source": "src/components/blocks/why-travel-with-us/WhyTravelWithUsBlock.tsx",
+      "target": "src/lib/currency.ts"
     },
     {
       "source": "src/components/blocks/FooterBlockRenderer.tsx",
@@ -6065,8 +6123,16 @@
       "target": "src/lib/cart-store.ts"
     },
     {
+      "source": "src/components/ui/destination-page/FloatingBookingBar.tsx",
+      "target": "src/lib/currency.ts"
+    },
+    {
       "source": "src/components/ui/destination-page/BookingDrawer.tsx",
       "target": "src/lib/cart-store.ts"
+    },
+    {
+      "source": "src/components/ui/destination-page/BookingDrawer.tsx",
+      "target": "src/lib/currency.ts"
     },
     {
       "source": "src/components/ui/destination-page/ItinerarySectionClient.tsx",
@@ -6109,8 +6175,16 @@
       "target": "src/lib/media-url.ts"
     },
     {
+      "source": "src/components/ui/destination-page/BookingCtaSection.tsx",
+      "target": "src/lib/currency.ts"
+    },
+    {
       "source": "src/components/ui/destination-page/AdventureCtaSection.tsx",
       "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/components/ui/destination-page/AdventureCtaSection.tsx",
+      "target": "src/lib/currency.ts"
     },
     {
       "source": "src/components/ui/PrivacyPolicy.tsx",
@@ -6345,12 +6419,20 @@
       "target": "src/lib/cart-store.ts"
     },
     {
+      "source": "src/components/shop/CartItem.tsx",
+      "target": "src/lib/currency.ts"
+    },
+    {
       "source": "src/components/shop/ProductCard.tsx",
       "target": "src/components/shop/AddToCartButton.tsx"
     },
     {
       "source": "src/components/shop/ProductCard.tsx",
       "target": "src/components/shop/WishlistButton.tsx"
+    },
+    {
+      "source": "src/components/shop/ProductCard.tsx",
+      "target": "src/lib/currency.ts"
     },
     {
       "source": "src/components/shop/AddToCartButton.tsx",
@@ -6365,8 +6447,20 @@
       "target": "src/components/shop/CartItem.tsx"
     },
     {
+      "source": "src/components/shop/CartSheet.tsx",
+      "target": "src/lib/currency.ts"
+    },
+    {
+      "source": "src/components/shop/EarlyBirdBadge.tsx",
+      "target": "src/lib/currency.ts"
+    },
+    {
       "source": "src/components/shop/DiscountCodeInput.tsx",
       "target": "src/lib/cart-store.ts"
+    },
+    {
+      "source": "src/components/shop/DiscountCodeInput.tsx",
+      "target": "src/lib/currency.ts"
     },
     {
       "source": "src/lib/stripe-webhooks.ts",
@@ -6685,6 +6779,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-09T15:00:18.480Z",
-  "fileCount": 535
+  "builtAt": "2026-07-09T15:22:02.965Z",
+  "fileCount": 536
 }

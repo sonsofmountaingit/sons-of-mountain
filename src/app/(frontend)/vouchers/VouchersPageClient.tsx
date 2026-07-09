@@ -48,6 +48,7 @@ export const VOUCHERS_DEFAULTS = {
   selectDestinationLabel: 'Select destination',
   selectTripLabel: 'Select trip',
   selectProgramLabel: 'Select program',
+  selectedProgramPrefix: 'This voucher is for',
   recipientDetailsLabel: 'Recipient details',
   recipientNamePlaceholder: 'Recipient name',
   recipientEmailPlaceholder: 'Recipient email',
@@ -219,6 +220,8 @@ function BuyTab({
   const isGift = watch('isGift')
   const voucherType = watch('voucherType')
   const amount = watch('amount')
+  const programId = watch('programId')
+  const selectedProgram = programs.find((p: any) => p.id === programId)
 
   async function proceed(data: FormData, user: { id: string; name: string; email: string }) {
     setLoading(true)
@@ -395,10 +398,17 @@ function BuyTab({
               </select>
             )}
             {voucherType === 'program' && (
-              <select {...register('programId')} className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-sm text-white outline-none focus:border-white/30 transition-colors">
-                <option value="">{c.selectProgramLabel}</option>
-                {programs.map((p: any) => <option key={p.id} value={p.id}>{p.title ?? p.id}</option>)}
-              </select>
+              <>
+                <select {...register('programId')} className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-sm text-white outline-none focus:border-white/30 transition-colors">
+                  <option value="">{c.selectProgramLabel}</option>
+                  {programs.map((p: any) => <option key={p.id} value={p.id}>{p.title ?? p.id}</option>)}
+                </select>
+                {selectedProgram && (
+                  <p className="text-xs text-white/40 mt-2">
+                    {c.selectedProgramPrefix} <span className="text-white/70">{selectedProgram.title ?? selectedProgram.id}</span>
+                  </p>
+                )}
+              </>
             )}
           </div>
 
