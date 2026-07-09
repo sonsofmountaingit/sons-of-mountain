@@ -1091,7 +1091,7 @@
       "@payload-config",
       "@/lib/cart-store"
     ],
-    "lines": 272,
+    "lines": 283,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {
@@ -2198,7 +2198,7 @@
     "exports": [
       "dynamic",
       "metadata",
-      "default:function"
+      "default:async"
     ],
     "types": [],
     "imports": [
@@ -2210,7 +2210,7 @@
       "react",
       "@/lib/metadata"
     ],
-    "lines": 180,
+    "lines": 199,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/[slug]/page.tsx": {
@@ -3229,7 +3229,7 @@
       "sonner",
       "@/lib/currency"
     ],
-    "lines": 624,
+    "lines": 655,
     "group": "frontend"
   },
   "src/app/(frontend)/vouchers/page.tsx": {
@@ -3250,7 +3250,7 @@
       "./VouchersPageClient",
       "@/components/ui/VouchersEditButton"
     ],
-    "lines": 73,
+    "lines": 87,
     "group": "frontend"
   },
   "src/app/(frontend)/reset-password/ResetClient.tsx": {
@@ -4550,7 +4550,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 318,
+    "lines": 322,
     "group": "collections"
   },
   "src/payload/collections/Stories.ts": {
@@ -5906,7 +5906,7 @@
       "next/navigation",
       "@/lib/currency"
     ],
-    "lines": 221,
+    "lines": 234,
     "group": "ui"
   },
   "src/components/ui/destination-page/ItinerarySectionClient.tsx": {
@@ -6826,7 +6826,7 @@
       "@/lib/cart-store",
       "@/lib/currency"
     ],
-    "lines": 51,
+    "lines": 60,
     "group": "components"
   },
   "src/components/shop/ProductCard.tsx": {
@@ -7263,6 +7263,7 @@
     ],
     "types": [
       "CartItemType",
+      "CartItemPriceBreakdown",
       "CartItem",
       "AppliedDiscount",
       "AppliedVoucher"
@@ -7271,7 +7272,7 @@
       "zustand",
       "zustand/middleware"
     ],
-    "lines": 164,
+    "lines": 173,
     "group": "lib"
   },
   "src/lib/metadata.ts": {
@@ -7298,11 +7299,14 @@
     "exports": [
       "getDynamicPrice",
       "getDynamicPriceLabel",
-      "getEarlyBirdPrice"
+      "getEarlyBirdPrice",
+      "getPriceBreakdown"
     ],
-    "types": [],
+    "types": [
+      "PriceBreakdown"
+    ],
     "imports": [],
-    "lines": 31,
+    "lines": 77,
     "group": "lib"
   },
   "src/lib/auth.ts": {

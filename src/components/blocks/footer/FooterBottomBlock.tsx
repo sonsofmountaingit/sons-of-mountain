@@ -23,7 +23,6 @@ export function FooterBottomBlock({
   copyright = '© 2018-2026 Сонс оф Маунтин',
   licenseText = 'Номер на лиценз: РК-01-8245 / 28.07.2022',
   insuranceText = 'Номер на застрахователна полица: 03700100005995 / 31.08.2025',
-  logoUrl = 'https://framerusercontent.com/images/xAELSxhOFDDnqiDsAfvMhSuuw.png',
   termsLabel = 'Общи условия',
   termsUrl = '/legal/terms',
   privacyLabel = 'Политика за поверителност',
@@ -33,8 +32,7 @@ export function FooterBottomBlock({
   creditUrl = 'https://netinsky.com',
 }: Props) {
   const [logoHovered, setLogoHovered] = useState(false)
-  const isCmsLogo = logoUrl && !logoUrl.startsWith('https://framerusercontent.com')
-  const logoSrc = isCmsLogo ? logoUrl : (logoHovered ? '/colored-logo.svg' : '/white-logo.svg')
+  const logoSrc = logoHovered ? '/colored-logo-2.png' : '/white-logo-2.png'
 
   return (
     <div style={{ paddingTop: '2rem', display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', gap: '1.5rem' }}>
