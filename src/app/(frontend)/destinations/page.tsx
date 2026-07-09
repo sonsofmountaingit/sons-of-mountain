@@ -36,7 +36,7 @@ const getTrips = unstable_cache(
     const payload = await getPayload({ config })
     const { docs } = await payload.find({
       collection: 'trips',
-      where: { status: { not_equals: 'archived' } },
+      where: { status: { in: ['active', 'soldOut'] } },
       limit: 200,
       sort: 'startDate',
       overrideAccess: true,
