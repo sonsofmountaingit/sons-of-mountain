@@ -83,6 +83,7 @@ export const Navigation: GlobalConfig = {
       name: 'navLinksRight',
       type: 'array',
       label: 'Right Navigation Links',
+      defaultValue: [{ label: 'Контакти', href: '/contact' }],
       fields: [
         { name: 'label', type: 'text', required: true },
         {

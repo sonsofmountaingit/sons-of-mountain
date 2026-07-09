@@ -3497,7 +3497,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 325,
+    "lines": 329,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {

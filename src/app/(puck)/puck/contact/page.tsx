@@ -25,7 +25,20 @@ async function EditorContent() {
       },
       {
         type: 'ContactFormBlock',
-        props: { id: 'contact-form', heading: '', subheading: '', showPhone: false, showEmail: false },
+        props: {
+          id: 'contact-form',
+          heading: '',
+          subheading: '',
+          showPhone: 'false',
+          showSubject: 'false',
+          buttonText: d?.submitLabel ?? 'Изпрати съобщение',
+          formAction: '/api/contact',
+          successMessage: d?.successHeading ?? 'Съобщението е изпратено!',
+        },
+      },
+      {
+        type: 'ContactGuidesBlock',
+        props: { id: 'contact-guides', heading: d?.guidesHeading ?? 'Последвай водачите ни', _guides: [] },
       },
       {
         type: 'ContactFAQBlock',

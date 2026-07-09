@@ -5,6 +5,7 @@ import config from '@payload-config'
 import { ContactForm } from '@/components/forms/ContactForm'
 import { ContactHeroBlock } from '@/components/blocks/contact/ContactHeroBlock'
 import { ContactFAQBlock } from '@/components/blocks/contact/ContactFAQBlock'
+import { ContactGuidesBlock } from '@/components/blocks/contact/ContactGuidesBlock'
 import { PuckRender } from '@/components/blocks/PuckRender'
 import type { Data } from '@puckeditor/core'
 import { buildMetadata } from '@/lib/metadata'
@@ -77,9 +78,24 @@ export default async function ContactPage() {
         <ContactHeroBlock heading={d?.heading} subheading={d?.subheading} />
         <div className="px-6 mb-12">
           <div className="max-w-3xl mx-auto">
-            <ContactForm />
+            <ContactForm
+              namePlaceholder={d?.namePlaceholder}
+              emailPlaceholder={d?.emailPlaceholder}
+              messagePlaceholder={d?.messagePlaceholder}
+              submitLabel={d?.submitLabel}
+              submitLoadingLabel={d?.submitLoadingLabel}
+              successHeading={d?.successHeading}
+              successSubtext={d?.successSubtext}
+              successResetLabel={d?.successResetLabel}
+              errorText={d?.errorText}
+              rateLimitedText={d?.rateLimitedText}
+              nameMinError={d?.nameMinError}
+              emailInvalidError={d?.emailInvalidError}
+              messageMinError={d?.messageMinError}
+            />
           </div>
         </div>
+        <ContactGuidesBlock heading={d?.guidesHeading} />
         <ContactFAQBlock faqItems={faqItems} />
       </div>
     </>

@@ -15,12 +15,17 @@ export async function PATCH(request: Request) {
   const get = (type: string) => content.find((b: any) => b.type === type)?.props ?? {}
 
   const hero = get('ContactHeroBlock')
+  const formBlock = get('ContactFormBlock')
+  const guidesBlock = get('ContactGuidesBlock')
   const faqBlock = get('ContactFAQBlock')
 
   const updateData: Record<string, unknown> = {
     puckData,
     ...(hero.heading !== undefined && { heading: hero.heading }),
     ...(hero.subheading !== undefined && { subheading: hero.subheading }),
+    ...(formBlock.buttonText !== undefined && { submitLabel: formBlock.buttonText }),
+    ...(formBlock.successMessage !== undefined && { successHeading: formBlock.successMessage }),
+    ...(guidesBlock.heading !== undefined && { guidesHeading: guidesBlock.heading }),
     ...(faqBlock.faqItems !== undefined && { faqItems: faqBlock.faqItems }),
   }
 

@@ -19,7 +19,8 @@ export function ContactFormBlockRenderer({ block }: ContactFormBlockProps) {
   const { heading, subheading, showPhone, showSubject, buttonText, formAction, successMessage, ...styleProps } = block
   const [sent, setSent] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' })
+  const [error, setError] = useState<string | null>(null)
+  const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '', company: '' })
 
   const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }))
@@ -27,15 +28,24 @@ export function ContactFormBlockRenderer({ block }: ContactFormBlockProps) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
+    setError(null)
     try {
-      if (formAction) {
-        await fetch(formAction, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(form),
-        })
+      const res = await fetch(formAction || '/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      if (res.status === 429) {
+        setError('Too many requests. Try again later.')
+        return
+      }
+      if (!res.ok) {
+        setError('Something went wrong. Please try again.')
+        return
       }
       setSent(true)
+    } catch {
+      setError('Something went wrong. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -51,6 +61,16 @@ export function ContactFormBlockRenderer({ block }: ContactFormBlockProps) {
         <p className="text-green-400 font-semibold text-center py-8">{successMessage || '✓ Message sent! We\'ll be in touch.'}</p>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="text"
+            name="company"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            value={form.company}
+            onChange={set('company')}
+            style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }}
+          />
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <input type="text" placeholder="Your name" required value={form.name} onChange={set('name')} className={inputClass} />
             <input type="email" placeholder="Email address" required value={form.email} onChange={set('email')} className={inputClass} />
@@ -76,6 +96,7 @@ export function ContactFormBlockRenderer({ block }: ContactFormBlockProps) {
           >
             {loading ? 'Sending…' : (buttonText || 'Send Message')}
           </button>
+          {error && <p className="text-red-400 text-sm text-center">{error}</p>}
         </form>
       )}
     </BlockWrapper>

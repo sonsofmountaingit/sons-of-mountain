@@ -54,6 +54,7 @@ import { AboutWhoWeAreBlock } from '@/components/blocks/about/AboutWhoWeAreBlock
 import { AboutPartnersBlock } from '@/components/blocks/about/AboutPartnersBlock'
 import { ContactHeroBlock } from '@/components/blocks/contact/ContactHeroBlock'
 import { ContactFAQBlock } from '@/components/blocks/contact/ContactFAQBlock'
+import { ContactGuidesBlockRenderer } from '@/components/blocks/contact/ContactGuidesBlockRenderer'
 import { BlogHeroBlock } from '@/components/blocks/blog/BlogHeroBlock'
 import { StoriesHeroBlock } from '@/components/blocks/stories/StoriesHeroBlock'
 import { CalendarHeroBlock } from '@/components/blocks/calendar/CalendarHeroBlock'
@@ -221,6 +222,7 @@ export type PuckBlocks = {
   AboutWhoWeAreBlock: { whoHeading: string; whoDescription: string; whoImage1Url: string; whoImage1Caption: string; whoImage1Instagram: string; whoImage2Url: string; whoImage2Caption: string; whoImage2Instagram: string }
   AboutPartnersBlock: { partnersHeading: string; partnersSubtext: string; partnersCtaLabel: string; partnersCtaUrl: string; partners: { name: string; url: string; logoUrl: string | null }[] }
   ContactHeroBlock: { heading: string; subheading: string }
+  ContactGuidesBlock: { heading: string; _guides: unknown[] }
   ContactFAQBlock: { heading: string; faqItems: { question: string; answer: string }[] }
   BlogHeroBlock: { heading: string; subheading: string }
   StoriesHeroBlock: { heading: string; subheading: string }
@@ -252,7 +254,7 @@ export const puckConfig: Config<PuckBlocks> = {
     dynamic: { title: 'Dynamic (Live Data)', components: ['StoriesBlock', 'BlogPostsBlock', 'DestinationCarouselBlock', 'SocialFeedBlock', 'GalleryHeroBlock', 'GalleryGridBlock'], defaultExpanded: false },
     global: { title: 'Global', components: ['FooterBlock', 'NavigationLinksBlock', 'WhyTravelWithUsBlock', 'FeaturedTravelsBlock', 'CalendarCtaBlock', 'TestimonialsMarqueeBlock'], defaultExpanded: false },
     about: { title: 'About Page', components: ['AboutHeroBlock', 'AboutAdventureBlock', 'AboutWhoWeAreBlock', 'AboutPartnersBlock'], defaultExpanded: false },
-    contact: { title: 'Contact Page', components: ['ContactHeroBlock', 'ContactFAQBlock'], defaultExpanded: false },
+    contact: { title: 'Contact Page', components: ['ContactHeroBlock', 'ContactFormBlock', 'ContactGuidesBlock', 'ContactFAQBlock'], defaultExpanded: false },
     blog: { title: 'Blog Page', components: ['BlogHeroBlock', 'BlogPostsBlock'], defaultExpanded: false },
     stories: { title: 'Stories Page', components: ['StoriesHeroBlock', 'StoriesBlock'], defaultExpanded: false },
     calendar: { title: 'Calendar Page', components: ['CalendarHeroBlock'], defaultExpanded: false },
@@ -751,11 +753,11 @@ export const puckConfig: Config<PuckBlocks> = {
         showPhone: { type: 'radio', label: 'Show Phone Field', options: [{ value: 'true', label: 'Yes' }, { value: 'false', label: 'No' }] },
         showSubject: { type: 'radio', label: 'Show Subject Field', options: [{ value: 'true', label: 'Yes' }, { value: 'false', label: 'No' }] },
         buttonText: { type: 'text', label: 'Button Text', placeholder: 'Send Message', contentEditable: true },
-        formAction: { type: 'text', label: 'Form POST URL (optional)' },
+        formAction: { type: 'text', label: 'Form POST URL', placeholder: '/api/contact' },
         successMessage: { type: 'text', label: 'Success Message' },
         ...allStyleFields(),
       },
-      defaultProps: { heading: 'Get in touch', subheading: '', showPhone: 'false', showSubject: 'true', buttonText: 'Send Message', formAction: '', successMessage: "Thanks! We'll be in touch.", ...allStyleDefaults() },
+      defaultProps: { heading: 'Get in touch', subheading: '', showPhone: 'false', showSubject: 'true', buttonText: 'Send Message', formAction: '/api/contact', successMessage: "Thanks! We'll be in touch.", ...allStyleDefaults() },
       render: ({ heading, subheading, showPhone, showSubject, buttonText, formAction, successMessage, ...style }) => (
         <ContactFormBlockRenderer block={{ heading: heading || null, subheading: subheading || null, showPhone: showPhone || null, showSubject: showSubject || null, buttonText: buttonText || null, formAction: formAction || null, successMessage: successMessage || null, ...style }} />
       ),
@@ -1715,6 +1717,26 @@ export const puckConfig: Config<PuckBlocks> = {
       },
       defaultProps: { heading: 'Контакти', subheading: 'Имаш въпрос? Пиши ни.' },
       render: (props: any) => <ContactHeroBlock {...props} />,
+    },
+
+    ContactGuidesBlock: {
+      label: 'Contact — Guides (Instagram)',
+      fields: {
+        heading: { type: 'text', label: 'Section Heading' },
+        _guides: { type: 'custom', label: '', visible: false, render: () => <></> },
+      },
+      defaultProps: { heading: 'Последвай водачите ни', _guides: [] },
+      resolveData: async ({ props }) => {
+        try {
+          const res = await fetch('/api/guides?where[instagram][exists]=true&limit=50&depth=1', { credentials: 'include' })
+          if (!res.ok) return { props }
+          const { docs } = await res.json()
+          return { props: { ...props, _guides: docs } }
+        } catch { return { props } }
+      },
+      render: ({ heading, _guides }: any) => (
+        <ContactGuidesBlockRenderer heading={heading} guides={_guides ?? []} />
+      ),
     },
 
     ContactFAQBlock: {
