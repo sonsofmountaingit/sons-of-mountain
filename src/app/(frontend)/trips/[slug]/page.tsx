@@ -259,7 +259,7 @@ async function TripContent({ params }: Props) {
       <section className="bg-black text-white py-10 sm:py-20">
         <div className="w-full grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 divide-white/10">
           <EquipmentSection items={(equipmentList ?? []).map(e => e.item)} fullWidth={!(readinessChecklist ?? []).length} />
-          <ReadinessChecklistSection categories={readinessChecklist ?? []} />
+          <ReadinessChecklistSection categories={readinessChecklist ?? []} fullWidth={!(equipmentList ?? []).length} />
         </div>
       </section>
       <GuidesSection guides={guides ?? []} />
