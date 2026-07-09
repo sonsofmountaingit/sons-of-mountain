@@ -7,15 +7,11 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { BookingDrawer } from '@/components/ui/destination-page/BookingDrawer'
 import type { VideoCard } from '@/components/ui/WhyTravelWithUs'
+import { formatPrice } from '@/lib/currency'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export type WtuwItem = { icon: 'camera' | 'globe' | 'city'; title: string; body: string }
-
-function formatPrice(price: number, currency: string) {
-  const sym = currency === 'EUR' ? '€' : currency === 'USD' ? '$' : 'лв.'
-  return `${sym}${price.toLocaleString('bg-BG')}`
-}
 
 function DifficultyBar({ value }: { value: number }) {
   return (
@@ -155,11 +151,11 @@ function TripVideoCard({
             const isEB = !!(card.earlyBirdPrice && card.earlyBirdUntil && new Date(card.earlyBirdUntil) > new Date())
             return isEB ? (
               <>
-                <span style={{ fontSize: 15, fontWeight: 900, color: '#fb923c' }}>{formatPrice(card.earlyBirdPrice!, card.currency)}</span>
-                <span style={{ fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.5)', textDecoration: 'line-through' }}>{formatPrice(card.price, card.currency)}</span>
+                <span style={{ fontSize: 15, fontWeight: 900, color: '#fb923c' }}>{formatPrice(card.earlyBirdPrice!)}</span>
+                <span style={{ fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.5)', textDecoration: 'line-through' }}>{formatPrice(card.price)}</span>
               </>
             ) : (
-              <span style={{ fontSize: 15, fontWeight: 900, color: 'white' }}>{formatPrice(card.price, card.currency)}</span>
+              <span style={{ fontSize: 15, fontWeight: 900, color: 'white' }}>{formatPrice(card.price)}</span>
             )
           })()}
           {card.spotsAvailable !== null && (

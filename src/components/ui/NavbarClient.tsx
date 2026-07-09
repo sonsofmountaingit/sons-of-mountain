@@ -409,8 +409,8 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                   <p className="text-[10px] tracking-widest text-white/25 mb-3">БЪРЗИ ВРЪЗКИ</p>
                   <div className="grid grid-cols-2 gap-0.5">
                     {[
-                      { label: 'Дестинации в България', href: '/destinations?type=bulgaria' },
-                      { label: 'Дестинации в чужбина', href: '/destinations?type=abroad' },
+                      { label: 'Преходи в България', href: '/destinations?type=bulgaria' },
+                      { label: 'Преходи в чужбина', href: '/destinations?type=abroad' },
                       { label: 'Индивидуални пътувания', href: '/destinations?type=trips' },
                       { label: 'Календар', href: '/calendar' },
                       { label: 'Блог', href: '/blog' },

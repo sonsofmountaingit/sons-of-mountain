@@ -7,6 +7,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Suspense } from 'react'
 import { OrderStatusBadge } from '@/components/shop/OrderStatusBadge'
+import { formatPrice } from '@/lib/currency'
 
 export const dynamic = 'force-dynamic'
 
@@ -67,7 +68,7 @@ async function OrdersContent() {
               </div>
               <div className="text-right flex flex-col items-end gap-2">
                 <OrderStatusBadge status={order.status} />
-                <p className="font-semibold">€{(order.totalAmount ?? 0).toFixed(2)}</p>
+                <p className="font-semibold">{formatPrice(order.totalAmount ?? 0)}</p>
               </div>
             </Link>
           ))}
@@ -86,7 +87,7 @@ async function OrdersContent() {
                 </div>
                 <div className="text-right flex flex-col items-end gap-2">
                   <OrderStatusBadge status={reg.status} />
-                  <p className="font-semibold">€{(reg.totalAmount ?? 0).toFixed(2)}</p>
+                  <p className="font-semibold">{formatPrice(reg.totalAmount ?? 0)}</p>
                 </div>
               </div>
             )

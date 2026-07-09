@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useCartStore } from '@/lib/cart-store'
+import { formatPrice } from '@/lib/currency'
 
 export function DiscountCodeInput() {
   const [code, setCode] = useState('')
@@ -31,7 +32,7 @@ export function DiscountCodeInput() {
   if (appliedDiscount) {
     return (
       <div className="flex items-center justify-between rounded border border-green-200 bg-green-50 px-3 py-2 text-sm">
-        <span className="text-green-800 font-medium">Code <strong>{appliedDiscount.code}</strong> applied — −€{appliedDiscount.discountAmount.toFixed(2)}</span>
+        <span className="text-green-800 font-medium">Code <strong>{appliedDiscount.code}</strong> applied — −{formatPrice(appliedDiscount.discountAmount)}</span>
         <button onClick={() => setDiscount(null)} className="text-green-600 hover:text-green-900 text-xs underline ml-2">Remove</button>
       </div>
     )

@@ -8,6 +8,7 @@ import { mediaUrl } from "@/lib/media-url"
 import { buildMetadata } from '@/lib/metadata'
 import { AddToCartButton } from '@/components/shop/AddToCartButton'
 import { Suspense } from 'react'
+import { formatPrice } from '@/lib/currency'
 
 export const dynamic = 'force-dynamic'
 
@@ -137,7 +138,7 @@ async function BundleContent({ params }: { params: Promise<{ slug: string }> }) 
                   {(bundle.corporatePricing as any[]).map((tier: any, i: number) => (
                     <div key={i} className="grid grid-cols-2 border-b border-[#1a1a1a] last:border-b-0 px-8 py-5">
                       <span className="text-white/70">{tier.minPeople}+ people{tier.label ? ` — ${tier.label}` : ''}</span>
-                      <span className="font-bold text-white text-right">€{tier.pricePerPerson}<span className="text-white/30 font-normal text-xs">/person</span></span>
+                      <span className="font-bold text-white text-right">{formatPrice(tier.pricePerPerson)}<span className="text-white/30 font-normal text-xs">/person</span></span>
                     </div>
                   ))}
                 </div>
@@ -150,9 +151,9 @@ async function BundleContent({ params }: { params: Promise<{ slug: string }> }) 
             <div>
               <p className="text-xs tracking-widest uppercase text-white/30 mb-3">Bundle price</p>
               <div className="flex items-baseline gap-3">
-                <span className="text-4xl font-bold text-white">€{bundle.bundlePrice}</span>
+                <span className="text-4xl font-bold text-white">{formatPrice(bundle.bundlePrice)}</span>
                 {bundle.basePrice && (
-                  <span className="text-sm text-white/30 line-through">€{bundle.basePrice}</span>
+                  <span className="text-sm text-white/30 line-through">{formatPrice(bundle.basePrice)}</span>
                 )}
               </div>
               {bundle.savingsPercent && (
@@ -189,7 +190,7 @@ async function BundleContent({ params }: { params: Promise<{ slug: string }> }) 
               {bundle.basePrice && (
                 <div className="flex justify-between text-xs text-white/30">
                   <span>Individual value</span>
-                  <span>€{bundle.basePrice}</span>
+                  <span>{formatPrice(bundle.basePrice)}</span>
                 </div>
               )}
               {bundle.savingsPercent && (

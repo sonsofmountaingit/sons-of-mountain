@@ -359,8 +359,8 @@ export function DestinationCarouselBlock({
               <DestCard
                 key={dest.id}
                 dest={dest}
-                isActive={introSlide ? i + 1 === activeIndex : i === activeIndex}
-                onClick={() => handleSelect(introSlide ? i + 1 : i)}
+                isActive={i === activeIndex}
+                onClick={() => handleSelect(i)}
               />
             ))}
             <div className="flex-shrink-0 w-8" />

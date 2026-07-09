@@ -8,6 +8,7 @@ import { Suspense } from 'react'
 import { ProductCard } from '@/components/shop/ProductCard'
 import { mediaUrl } from "@/lib/media-url"
 import { buildMetadata } from '@/lib/metadata'
+import { formatPrice } from '@/lib/currency'
 
 export const dynamic = 'force-dynamic'
 
@@ -140,8 +141,8 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
                   <p className="text-sm font-semibold text-white">{bundle.title}</p>
                   <p className="text-sm text-white/40 line-clamp-2">{bundle.description}</p>
                   <div className="flex items-baseline gap-3 mt-auto">
-                    <span className="text-2xl font-bold text-white">€{bundle.bundlePrice}</span>
-                    {bundle.basePrice && <span className="text-sm text-white/30 line-through">€{bundle.basePrice}</span>}
+                    <span className="text-2xl font-bold text-white">{formatPrice(bundle.bundlePrice)}</span>
+                    {bundle.basePrice && <span className="text-sm text-white/30 line-through">{formatPrice(bundle.basePrice)}</span>}
                     {bundle.savingsPercent && (
                       <span className="text-xs font-semibold text-green-400">Save {bundle.savingsPercent}%</span>
                     )}
@@ -167,7 +168,7 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
               <div className="flex items-center gap-6 shrink-0">
                 <div className="flex gap-2">
                   {[50, 100, 200, 500].map((a) => (
-                    <span key={a} className="border border-amber-900/40 px-3 py-2 text-xs text-amber-300/70">€{a}</span>
+                    <span key={a} className="border border-amber-900/40 px-3 py-2 text-xs text-amber-300/70">{formatPrice(a)}</span>
                   ))}
                 </div>
                 <span className="text-xs tracking-widest text-white/30 group-hover:text-white transition-colors">Buy →</span>
@@ -239,7 +240,7 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
                       <span className="text-xs text-white/30">
                         {trip.startDate ? new Date(trip.startDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : ''}
                       </span>
-                      <span className="text-xl font-bold text-white">€{trip.price}</span>
+                      <span className="text-xl font-bold text-white">{formatPrice(trip.price)}</span>
                     </div>
                     {!soldOut && <p className="text-xs text-white/20 mt-1">{trip.spotsAvailable} spots left</p>}
                   </Link>

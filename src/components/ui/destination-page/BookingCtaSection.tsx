@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { formatPrice } from '@/lib/currency'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -36,11 +37,6 @@ function formatDate(d: string) {
 
 function isSameDay(a: string, b: string) {
   return new Date(a).toDateString() === new Date(b).toDateString()
-}
-
-function formatPrice(price: number, currency: string) {
-  const sym = currency === 'EUR' ? '€' : currency === 'USD' ? '$' : 'лв.'
-  return `${sym}${price.toLocaleString('bg-BG')}`
 }
 
 export function BookingCtaSection({ name, trips = [], included = [], notIncluded = [], bgImage, bgImageAlt, bookingHref }: Props) {
@@ -151,7 +147,7 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
                 )}
                 {activeTrip && (
                   <span className="text-sm font-black text-white tracking-wide uppercase drop-shadow">
-                    {formatPrice(activeTrip.price, activeTrip.currency)} / човек
+                    {formatPrice(activeTrip.price)} / човек
                   </span>
                 )}
               </div>

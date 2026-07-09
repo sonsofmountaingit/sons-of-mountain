@@ -31,30 +31,41 @@ const getDestinations = unstable_cache(
   { tags: ['destinations'], revalidate: false },
 )
 
-const getAbroadTrips = unstable_cache(
+const getTrips = unstable_cache(
   async () => {
     const payload = await getPayload({ config })
     const { docs } = await payload.find({
       collection: 'trips',
-      where: { and: [{ navSection: { equals: 'abroad' } }, { status: { not_equals: 'archived' } }] },
+      where: { status: { not_equals: 'archived' } },
       limit: 200,
       sort: 'startDate',
       overrideAccess: true,
     })
     return docs
   },
-  ['destinations-abroad-trips'],
+  ['destinations-all-trips'],
   { tags: ['trips'], revalidate: false },
 )
 
+const DESTINATION_TYPE_LABELS: Record<string, string> = {
+  bulgaria: 'В България',
+  abroad: 'В чужбина',
+}
+
+const TRIP_NAV_SECTION_LABELS: Record<string, string> = {
+  bulgaria: 'В България',
+  abroad: 'В чужбина',
+  individual: 'Индивидуална програма',
+}
+
 async function DestinationsContent() {
   let destinations: any[] = []
-  let abroadTrips: any[] = []
+  let trips: any[] = []
   try {
     destinations = await getDestinations()
   } catch {}
   try {
-    abroadTrips = await getAbroadTrips()
+    trips = await getTrips()
   } catch {}
 
   const jsonLd = {
@@ -67,7 +78,7 @@ async function DestinationsContent() {
         name: d.name,
         url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/destinations/${d.slug}`,
       })),
-      ...(abroadTrips as any[]).map((t: any) => ({
+      ...(trips as any[]).map((t: any) => ({
         name: t.title,
         url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/trips/${t.slug}`,
       })),
@@ -97,7 +108,7 @@ async function DestinationsContent() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      {destinations.length === 0 && abroadTrips.length === 0 && archived.length === 0 && (
+      {destinations.length === 0 && trips.length === 0 && archived.length === 0 && (
         <p className="text-white/30 text-center py-20">Скоро ще добавим дестинации.</p>
       )}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -111,9 +122,10 @@ async function DestinationsContent() {
             earlyBirdPrice={dest.earlyBirdPrice ?? null}
             earlyBirdUntil={dest.earlyBirdUntil ?? null}
             earlyBirdSpots={dest.earlyBirdSpots ?? null}
+            label={DESTINATION_TYPE_LABELS[dest.type] ?? undefined}
           />
         ))}
-        {abroadTrips.map((trip: any) => (
+        {trips.map((trip: any) => (
           <DestinationCard
             key={trip.id}
             name={trip.title}
@@ -124,6 +136,7 @@ async function DestinationsContent() {
             earlyBirdPrice={trip.earlyBirdPrice ?? null}
             earlyBirdUntil={trip.earlyBirdUntil ?? null}
             earlyBirdSpots={trip.earlyBirdSpots ?? null}
+            label={TRIP_NAV_SECTION_LABELS[trip.navSection] ?? undefined}
           />
         ))}
       </div>
@@ -141,6 +154,7 @@ async function DestinationsContent() {
                 name={dest.name}
                 slug={dest.slug}
                 heroImage={dest.heroImage as { url?: string | null; alt: string } | null}
+                label={DESTINATION_TYPE_LABELS[dest.type] ?? undefined}
               />
             ))}
           </div>

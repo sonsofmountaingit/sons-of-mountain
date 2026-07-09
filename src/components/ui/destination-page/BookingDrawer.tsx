@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useCartStore } from '@/lib/cart-store'
 import { useRouter } from 'next/navigation'
+import { formatPrice } from '@/lib/currency'
 
 interface Props {
   open: boolean
@@ -23,9 +24,6 @@ interface Props {
   earlyBirdSpots?: number | null
 }
 
-function formatPrice(p: number, c: string) {
-  return `${c === 'EUR' ? '€' : c === 'USD' ? '$' : 'лв.'}${p.toLocaleString('bg-BG')}`
-}
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('bg-BG', { day: 'numeric', month: 'long', year: 'numeric' })
 }
@@ -159,8 +157,8 @@ export function BookingDrawer({
             <div className="flex items-center justify-between">
               <span className="text-sm text-black">Цена на човек</span>
               <span className="flex items-baseline gap-2">
-                <span className="text-xl font-black text-black">{formatPrice(effectivePrice, currency)}</span>
-                {isEarlyBird && <span className="text-sm line-through text-black/40">{formatPrice(price, currency)}</span>}
+                <span className="text-xl font-black text-black">{formatPrice(effectivePrice)}</span>
+                {isEarlyBird && <span className="text-sm line-through text-black/40">{formatPrice(price)}</span>}
               </span>
             </div>
 
@@ -186,13 +184,13 @@ export function BookingDrawer({
 
             <div className="flex items-center justify-between text-sm border-t border-neutral-100 pt-2">
               <span className="text-black">Общо</span>
-              <span className="font-black text-black">{formatPrice(effectivePrice * qty, currency)}</span>
+              <span className="font-black text-black">{formatPrice(effectivePrice * qty)}</span>
             </div>
 
             {depositAmount && (
               <div className="flex items-center justify-between text-sm">
                 <span className="text-black">Депозит за резервация</span>
-                <span className="font-semibold text-green-700">{formatPrice(depositAmount * qty, currency)}</span>
+                <span className="font-semibold text-green-700">{formatPrice(depositAmount * qty)}</span>
               </div>
             )}
             {depositAmount && (
@@ -207,7 +205,7 @@ export function BookingDrawer({
             onClick={handleBook}
             className="w-full bg-orange-700 hover:bg-orange-800 text-white font-black uppercase tracking-widest text-sm py-4 rounded-sm transition-colors"
           >
-            {depositAmount ? `Резервирай с депозит ${formatPrice(depositAmount, currency)}` : 'Резервирай сега'}
+            {depositAmount ? `Резервирай с депозит ${formatPrice(depositAmount)}` : 'Резервирай сега'}
           </button>
           <button
             onClick={onClose}

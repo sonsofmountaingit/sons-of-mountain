@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { formatPrice } from '@/lib/currency'
 
 interface EarlyBirdBadgeProps {
   earlyBirdUntil: string
@@ -27,7 +28,7 @@ export function EarlyBirdBadge({ earlyBirdUntil, savings }: EarlyBirdBadgeProps)
 
   return (
     <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-800">
-      Early Bird — save €{savings} · {timeLeft}
+      Early Bird — save {formatPrice(savings)} · {timeLeft}
     </span>
   )
 }

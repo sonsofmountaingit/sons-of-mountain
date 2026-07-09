@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { formatPrice } from '@/lib/currency'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -58,9 +59,7 @@ function DifficultyRating({ value }: { value: number | null }) {
 }
 
 function Card({ item }: { item: FeaturedTravelItem }) {
-  const fmtPrice = item.price != null
-    ? `${item.currency === 'EUR' ? '€' : item.currency === 'USD' ? '$' : 'лв.'}${item.price.toLocaleString('bg-BG')}`
-    : null
+  const fmtPrice = item.price != null ? formatPrice(item.price) : null
 
   return (
     <Link href={item.href} className="group relative overflow-hidden block h-full w-full">

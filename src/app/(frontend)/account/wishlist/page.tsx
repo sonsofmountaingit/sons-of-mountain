@@ -6,6 +6,7 @@ import config from '@payload-config'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Suspense } from 'react'
+import { formatPrice } from '@/lib/currency'
 
 export const dynamic = 'force-dynamic'
 
@@ -51,7 +52,7 @@ async function WishlistContent() {
               <Link key={i} href={href} className="rounded-lg border bg-white p-4 hover:shadow-md transition-shadow">
                 <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">{item.itemType}</p>
                 <p className="font-semibold">{entity?.title ?? entity?.name ?? 'Item'}</p>
-                {entity?.price && <p className="text-sm text-gray-500 mt-1">€{entity.price}</p>}
+                {entity?.price && <p className="text-sm text-gray-500 mt-1">{formatPrice(entity.price)}</p>}
               </Link>
             )
           })}

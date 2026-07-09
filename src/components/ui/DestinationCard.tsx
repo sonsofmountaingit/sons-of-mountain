@@ -13,6 +13,7 @@ interface DestinationCardProps {
   earlyBirdPrice?: number | null
   earlyBirdUntil?: string | null
   earlyBirdSpots?: number | null
+  label?: string
 }
 
 export function DestinationCard({
@@ -26,6 +27,7 @@ export function DestinationCard({
   earlyBirdPrice,
   earlyBirdUntil,
   earlyBirdSpots,
+  label,
 }: DestinationCardProps) {
   const isSoldOut = spotsAvailable !== undefined && spotsAvailable === 0
   const hasSpots = spotsAvailable !== undefined && spotsAvailable > 0
@@ -50,6 +52,11 @@ export function DestinationCard({
         />
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+      {label && (
+        <span className="absolute top-3 right-3 bg-black/70 text-white/80 text-xs font-semibold px-2 py-0.5 rounded">
+          {label}
+        </span>
+      )}
       {isEarlyBird && (
         <div className="absolute top-3 left-3 flex flex-col gap-1">
           <span className="bg-amber-400 text-black text-xs font-bold px-2 py-0.5 rounded">EARLY BIRD</span>

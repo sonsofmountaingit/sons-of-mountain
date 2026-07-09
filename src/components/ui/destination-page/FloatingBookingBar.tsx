@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useCartStore } from '@/lib/cart-store'
 import { useRouter } from 'next/navigation'
+import { formatPrice } from '@/lib/currency'
 
 interface Props {
   month?: string | null
@@ -22,11 +23,6 @@ interface Props {
   earlyBirdSpots?: number | null
   footerSelector?: string
   onBook?: () => void
-}
-
-function formatPrice(price: number, currency: string) {
-  const sym = currency === 'EUR' ? '€' : currency === 'USD' ? '$' : 'лв.'
-  return `${sym}${price.toLocaleString('bg-BG')}`
 }
 
 function formatDate(iso: string) {
@@ -154,9 +150,9 @@ export function FloatingBookingBar({
         {(isEarlyBird || price > 0) && (
           <span className="flex items-center gap-1.5 text-sm font-bold text-white">
             {isEarlyBird && (
-              <span className="text-amber-400">{formatPrice(earlyBirdPrice!, currency)}</span>
+              <span className="text-amber-400">{formatPrice(earlyBirdPrice!)}</span>
             )}
-            <span className={isEarlyBird ? 'line-through text-white/40 font-normal text-xs' : ''}>{formatPrice(price, currency)}</span>
+            <span className={isEarlyBird ? 'line-through text-white/40 font-normal text-xs' : ''}>{formatPrice(price)}</span>
             {earlyBirdSpotsLeft != null && (
               <span className="text-amber-400 font-semibold text-xs">· {earlyBirdSpotsLeft} early bird {earlyBirdSpotsLeft === 1 ? 'място' : 'места'}</span>
             )}

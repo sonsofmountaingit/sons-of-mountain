@@ -4,6 +4,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import Link from 'next/link'
 import { Suspense } from 'react'
+import { formatPrice } from '@/lib/currency'
 
 export const dynamic = 'force-dynamic'
 
@@ -58,8 +59,7 @@ async function VoucherContent({ params }: { params: Promise<{ code: string }> })
         <div className="border border-white/10 rounded-sm overflow-hidden mb-6">
           <div className="bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] p-10 text-center">
             <p className="text-xs tracking-widest text-white/30 uppercase mb-3">Value</p>
-            <p className="text-6xl font-light text-white mb-2">€{voucher.amount}</p>
-            <p className="text-xs text-white/30">{voucher.currency}</p>
+            <p className="text-6xl font-light text-white mb-2">{formatPrice(voucher.amount)}</p>
 
             <div className="mt-8 inline-block bg-black border border-white/10 rounded-sm px-6 py-3">
               <p className="text-xs tracking-widest text-white/30 uppercase mb-1">Voucher code</p>

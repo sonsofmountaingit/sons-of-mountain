@@ -5,6 +5,7 @@ import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { mediaUrl } from '@/lib/media-url'
+import { formatPrice } from '@/lib/currency'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -23,11 +24,6 @@ interface Props {
   earlyBirdUntil?: string | null
   earlyBirdSpots?: number | null
   spotsAvailable?: number | null
-}
-
-function formatPrice(price: number, currency: string) {
-  const sym = currency === 'EUR' ? '€' : currency === 'USD' ? '$' : 'лв.'
-  return `${sym}${price.toLocaleString('bg-BG')}`
 }
 
 export function AdventureCtaSection({ durationDays, maxParticipants, price, currency, priceIncludes, communityPhotos, earlyBirdPrice, earlyBirdUntil, earlyBirdSpots, spotsAvailable }: Props) {
@@ -93,7 +89,7 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
               <div className="flex flex-col items-center gap-1 mb-1">
                 <div className="flex items-center justify-center gap-2">
                   <span className="text-2xl sm:text-3xl font-bold text-black/30 line-through leading-none">
-                    {formatPrice(price, currency)}
+                    {formatPrice(price)}
                   </span>
                   <span className="bg-black text-white text-xs font-black uppercase tracking-widest px-2 py-0.5">Early Bird</span>
                 </div>
@@ -105,7 +101,7 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
               </div>
             )}
             <div className={`font-black leading-none tracking-tighter ${isEarlyBird ? 'text-5xl sm:text-6xl md:text-7xl' : 'text-6xl sm:text-7xl md:text-8xl'}`}>
-              {formatPrice(displayPrice, currency)}
+              {formatPrice(displayPrice)}
             </div>
           </div>
           {priceIncludes && (

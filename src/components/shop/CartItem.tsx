@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useCartStore, type CartItem } from '@/lib/cart-store'
+import { formatPrice } from '@/lib/currency'
 
 export function CartItemRow({ item }: { item: CartItem }) {
   const { removeItem, updateQuantity } = useCartStore()
@@ -32,7 +33,7 @@ export function CartItemRow({ item }: { item: CartItem }) {
               +
             </button>
           </div>
-          <p className="text-sm font-semibold">€{(item.unitPrice * item.quantity).toFixed(2)}</p>
+          <p className="text-sm font-semibold">{formatPrice(item.unitPrice * item.quantity)}</p>
         </div>
       </div>
       <button

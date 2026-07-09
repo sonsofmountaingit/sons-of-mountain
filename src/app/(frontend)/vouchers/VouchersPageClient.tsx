@@ -8,6 +8,7 @@ import { z } from 'zod'
 import { useSession } from '@/lib/auth-client'
 import { AuthModal } from '@/components/auth/AuthModal'
 import { toast } from 'sonner'
+import { formatPrice } from '@/lib/currency'
 
 interface Voucher {
   id: string
@@ -262,7 +263,7 @@ function BuyTab({
           currency: 'eur',
           description: data.isGift
             ? `${c.giftDescriptionPrefix} ${recipientName}`
-            : `${c.selfDescriptionPrefix} €${data.amount}`,
+            : `${c.selfDescriptionPrefix} ${formatPrice(data.amount)}`,
           customerEmail: user.email,
           successPath: '/vouchers?tab=mine&success=1',
           cancelPath: '/vouchers',
@@ -341,7 +342,7 @@ function BuyTab({
                       : 'border-white/10 text-white/50 hover:border-white/30 hover:text-white/80'
                   }`}
                 >
-                  €{a}
+                  {formatPrice(a)}
                 </button>
               ))}
               <button
@@ -466,7 +467,7 @@ function BuyTab({
               disabled={loading}
               className="w-full py-3.5 text-xs tracking-widest uppercase border border-white text-white hover:bg-white hover:text-black transition-colors rounded-sm disabled:opacity-40"
             >
-              {loading ? c.submitLoadingLabel : `${c.submitButtonPrefix} €${amount || '—'} ${c.submitButtonSuffix}`}
+              {loading ? c.submitLoadingLabel : `${c.submitButtonPrefix} ${amount ? formatPrice(amount) : '—'} ${c.submitButtonSuffix}`}
             </button>
           </div>
         </div>
@@ -490,7 +491,7 @@ function RedeemTab({ session, c }: { session: any; c: VouchersContent }) {
     const data = await res.json()
     setLoading(false)
     if (res.ok) {
-      setMsg({ text: `${c.redeemSuccessPrefix} €${data.voucher?.amount} ${data.voucher?.currency}`, ok: true })
+      setMsg({ text: `${c.redeemSuccessPrefix} ${formatPrice(data.voucher?.amount)}`, ok: true })
       setCode('')
     } else {
       setMsg({ text: data.error ?? c.redeemGenericError, ok: false })
@@ -601,7 +602,7 @@ function MineTab({ vouchers, session, c }: { vouchers: Voucher[]; session: any; 
               </div>
               <div className="text-right shrink-0">
                 <p className={`text-xs tracking-widest uppercase ${color}`}>{label}</p>
-                <p className="text-lg font-light text-white mt-1">€{v.amount}</p>
+                <p className="text-lg font-light text-white mt-1">{formatPrice(v.amount)}</p>
               </div>
             </div>
           </div>

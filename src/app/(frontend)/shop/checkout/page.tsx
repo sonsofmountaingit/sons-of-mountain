@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import Link from 'next/link'
 import { toast } from 'sonner'
+import { formatPrice } from '@/lib/currency'
 
 const infoSchema = z.object({
   firstName: z.string().min(1, 'Required'),
@@ -330,7 +331,7 @@ export default function CheckoutPage() {
                   disabled={loading}
                   className="flex-1 rounded bg-white py-3 text-sm font-semibold text-gray-900 hover:bg-white/90 disabled:opacity-50"
                 >
-                  {loading ? 'Пренасочване...' : `Плати €${total().toFixed(2)}`}
+                  {loading ? 'Пренасочване...' : `Плати ${formatPrice(total())}`}
                 </button>
               </div>
             </div>
@@ -340,11 +341,11 @@ export default function CheckoutPage() {
         {/* Order summary */}
         <div className="rounded-lg border border-white/10 bg-white/5 p-6 h-fit space-y-3 text-sm text-white">
           <h3 className="font-semibold text-base">Обобщение</h3>
-          <div className="flex justify-between text-white/70"><span>Междинна сума</span><span>€{subtotal().toFixed(2)}</span></div>
-          {discountAmount() > 0 && <div className="flex justify-between text-green-400"><span>Отстъпка ({appliedDiscount?.code})</span><span>−€{discountAmount().toFixed(2)}</span></div>}
-          {voucherAmount() > 0 && <div className="flex justify-between text-green-400"><span>Ваучер</span><span>−€{voucherAmount().toFixed(2)}</span></div>}
-          {loyaltyPointsToRedeem > 0 && <div className="flex justify-between text-green-400"><span>Точки ({loyaltyPointsToRedeem} бр.)</span><span>−€{(loyaltyPointsToRedeem / 100).toFixed(2)}</span></div>}
-          <div className="border-t border-white/10 pt-3 flex justify-between font-bold text-base"><span>Общо</span><span>€{total().toFixed(2)}</span></div>
+          <div className="flex justify-between text-white/70"><span>Междинна сума</span><span>{formatPrice(subtotal())}</span></div>
+          {discountAmount() > 0 && <div className="flex justify-between text-green-400"><span>Отстъпка ({appliedDiscount?.code})</span><span>−{formatPrice(discountAmount())}</span></div>}
+          {voucherAmount() > 0 && <div className="flex justify-between text-green-400"><span>Ваучер</span><span>−{formatPrice(voucherAmount())}</span></div>}
+          {loyaltyPointsToRedeem > 0 && <div className="flex justify-between text-green-400"><span>Точки ({loyaltyPointsToRedeem} бр.)</span><span>−{formatPrice(loyaltyPointsToRedeem / 100)}</span></div>}
+          <div className="border-t border-white/10 pt-3 flex justify-between font-bold text-base"><span>Общо</span><span>{formatPrice(total())}</span></div>
         </div>
       </div>
     </main>

@@ -7,6 +7,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { mediaUrl } from '@/lib/media-url'
 import { buildMetadata } from '@/lib/metadata'
+import { formatPrice } from '@/lib/currency'
 
 export const dynamic = 'force-dynamic'
 
@@ -121,10 +122,10 @@ function ProgramCard({ program }: { program: Record<string, unknown> }) {
         {(isEarlyBird || price !== null) && (
           <div className="flex items-baseline gap-2">
             {isEarlyBird && (
-              <p className="text-orange-400 font-bold text-xl">{earlyBirdPrice} {currency}</p>
+              <p className="text-orange-400 font-bold text-xl">{formatPrice(earlyBirdPrice)}</p>
             )}
             {price !== null && (
-              <p className={`font-bold ${isEarlyBird ? 'text-white/30 line-through text-base' : 'text-white text-xl'}`}>{price} {currency}</p>
+              <p className={`font-bold ${isEarlyBird ? 'text-white/30 line-through text-base' : 'text-white text-xl'}`}>{formatPrice(price)}</p>
             )}
           </div>
         )}

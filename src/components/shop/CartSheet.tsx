@@ -4,6 +4,7 @@ import { useCartStore } from '@/lib/cart-store'
 import { CartItemRow } from './CartItem'
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
+import { formatPrice } from '@/lib/currency'
 
 interface CartSheetProps {
   open: boolean
@@ -58,11 +59,11 @@ export function CartSheet({ open, onClose }: CartSheetProps) {
           <div className="border-t px-6 py-6 space-y-4">
             <div className="flex justify-between text-sm">
               <span>Subtotal</span>
-              <span>€{subtotal().toFixed(2)}</span>
+              <span>{formatPrice(subtotal())}</span>
             </div>
             <div className="flex justify-between font-semibold">
               <span>Total</span>
-              <span>€{total().toFixed(2)}</span>
+              <span>{formatPrice(total())}</span>
             </div>
             <Link
               href="/shop/checkout"

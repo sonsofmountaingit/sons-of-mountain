@@ -7,6 +7,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { OrderStatusBadge } from '@/components/shop/OrderStatusBadge'
 import { Suspense } from 'react'
+import { formatPrice } from '@/lib/currency'
 
 export const dynamic = 'force-dynamic'
 
@@ -89,7 +90,7 @@ async function OrderDetailContent({ id }: { id: string }) {
 
         <div className="rounded-lg border bg-white p-6">
           <p className="text-sm font-semibold text-gray-600 mb-2">Total Amount</p>
-          <p className="text-lg font-semibold">€{(order.totalAmount ?? 0).toFixed(2)}</p>
+          <p className="text-lg font-semibold">{formatPrice(order.totalAmount ?? 0)}</p>
         </div>
       </div>
 
@@ -110,7 +111,7 @@ async function OrderDetailContent({ id }: { id: string }) {
                     )}
                   </p>
                 </div>
-                <p className="font-semibold">€{((item.unitPrice ?? 0) * (item.quantity ?? 1)).toFixed(2)}</p>
+                <p className="font-semibold">{formatPrice((item.unitPrice ?? 0) * (item.quantity ?? 1))}</p>
               </div>
             ))}
           </div>
@@ -125,11 +126,11 @@ async function OrderDetailContent({ id }: { id: string }) {
           <div className="grid gap-4 md:grid-cols-2">
             <div>
               <p className="text-sm font-semibold text-blue-700 mb-1">Deposit Paid</p>
-              <p className="text-lg font-semibold">€{(order.depositAmount ?? 0).toFixed(2)}</p>
+              <p className="text-lg font-semibold">{formatPrice(order.depositAmount ?? 0)}</p>
             </div>
             <div>
               <p className="text-sm font-semibold text-blue-700 mb-1">Remaining Balance</p>
-              <p className="text-lg font-semibold">€{((order.totalAmount ?? 0) - (order.depositAmount ?? 0)).toFixed(2)}</p>
+              <p className="text-lg font-semibold">{formatPrice((order.totalAmount ?? 0) - (order.depositAmount ?? 0))}</p>
             </div>
             {order.remainingDueDate && (
               <div className="md:col-span-2">

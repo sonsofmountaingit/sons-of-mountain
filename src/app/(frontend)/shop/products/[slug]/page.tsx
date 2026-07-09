@@ -2,6 +2,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import { formatPrice } from '@/lib/currency'
 import Image from 'next/image'
 import { Suspense } from 'react'
 import { mediaUrl } from "@/lib/media-url"
@@ -120,8 +121,8 @@ async function ProductContent({ params }: { params: Promise<{ slug: string }> })
           )}
 
           <div className="flex items-baseline gap-3">
-            <span className="text-3xl font-bold">€{p.price.toFixed(2)}</span>
-            {p.compareAtPrice && <span className="text-lg text-gray-400 line-through">€{p.compareAtPrice.toFixed(2)}</span>}
+            <span className="text-3xl font-bold">{formatPrice(p.price)}</span>
+            {p.compareAtPrice && <span className="text-lg text-gray-400 line-through">{formatPrice(p.compareAtPrice)}</span>}
           </div>
 
           {soldOut ? (

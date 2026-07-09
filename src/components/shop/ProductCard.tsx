@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { AddToCartButton } from './AddToCartButton'
 import { WishlistButton } from './WishlistButton'
+import { formatPrice } from '@/lib/currency'
 
 interface ProductCardProps {
   id: string
@@ -32,7 +33,7 @@ export function ProductCard({ id, slug, title, price, compareAtPrice, image, sto
         )}
         {savings && (
           <span className="absolute top-3 left-3 bg-red-500 px-2 py-0.5 text-xs font-bold text-white">
-            −€{savings.toFixed(0)}
+            −{formatPrice(savings, { decimals: 0 })}
           </span>
         )}
         {soldOut && (
@@ -52,8 +53,8 @@ export function ProductCard({ id, slug, title, price, compareAtPrice, image, sto
         </Link>
         <div className="mt-auto flex items-center justify-between pt-2">
           <div className="flex items-baseline gap-2">
-            <span className="font-bold text-white">€{price.toFixed(2)}</span>
-            {compareAtPrice && <span className="text-xs text-white/30 line-through">€{compareAtPrice.toFixed(2)}</span>}
+            <span className="font-bold text-white">{formatPrice(price)}</span>
+            {compareAtPrice && <span className="text-xs text-white/30 line-through">{formatPrice(compareAtPrice)}</span>}
           </div>
           {!soldOut && (
             <AddToCartButton

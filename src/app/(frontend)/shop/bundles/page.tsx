@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { mediaUrl } from "@/lib/media-url"
 import { Suspense } from 'react'
 import { buildMetadata } from '@/lib/metadata'
+import { formatPrice } from '@/lib/currency'
 
 export const dynamic = 'force-dynamic'
 
@@ -88,9 +89,9 @@ async function BundlesContent() {
 
                   <div className="mt-auto flex items-center justify-between pt-6 border-t border-[#1a1a1a]">
                     <div className="flex items-baseline gap-3">
-                      <span className="text-2xl font-bold text-white">€{bundle.bundlePrice}</span>
+                      <span className="text-2xl font-bold text-white">{formatPrice(bundle.bundlePrice)}</span>
                       {bundle.basePrice && (
-                        <span className="text-sm text-white/30 line-through">€{bundle.basePrice}</span>
+                        <span className="text-sm text-white/30 line-through">{formatPrice(bundle.basePrice)}</span>
                       )}
                       {bundle.savingsPercent && (
                         <span className="text-xs font-semibold text-green-400">Save {bundle.savingsPercent}%</span>
