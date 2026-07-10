@@ -28,6 +28,7 @@ import { Campaigns } from './collections/Campaigns'
 import { CustomerMedia } from './collections/CustomerMedia'
 import { CustomerRatings } from './collections/CustomerRatings'
 import { Programs } from './collections/Programs'
+import { ProgramInquiries } from './collections/ProgramInquiries'
 import { Guides } from './collections/Guides'
 import { GalleryCollections } from './collections/GalleryCollections'
 import { Favorites } from './collections/Favorites'
@@ -55,6 +56,7 @@ import { TestimonialsSection } from './globals/TestimonialsSection'
 import { Testimonials } from './collections/Testimonials'
 import { About } from './globals/About'
 import { ContactPage } from './globals/ContactPage'
+import { IndividualProgramsPage } from './globals/IndividualProgramsPage'
 import { PrivacyPolicy } from './globals/PrivacyPolicy'
 import { TermsAndConditions } from './globals/TermsAndConditions'
 import { BlogPage } from './globals/BlogPage'
@@ -135,6 +137,7 @@ export default buildConfig({
     CustomerMedia,
     CustomerRatings,
     Programs,
+    ProgramInquiries,
     Guides,
     GalleryCollections,
     Favorites,
@@ -149,7 +152,7 @@ export default buildConfig({
     Payouts,
     Testimonials,
   ],
-  globals: [Navigation, Footer, SiteSettings, Hero, DestinationCarousel, Gallery, Shop, WhyTravelWithUs, FeaturedTravels, CalendarCta, TestimonialsSection, About, ContactPage, BlogPage, StoriesPage, CalendarPage, HomePage, PrivacyPolicy, TermsAndConditions, Vouchers],
+  globals: [Navigation, Footer, SiteSettings, Hero, DestinationCarousel, Gallery, Shop, WhyTravelWithUs, FeaturedTravels, CalendarCta, TestimonialsSection, About, ContactPage, IndividualProgramsPage, BlogPage, StoriesPage, CalendarPage, HomePage, PrivacyPolicy, TermsAndConditions, Vouchers],
   plugins: [
     stripePlugin({
       stripeSecretKey: process.env.STRIPE_SECRET_KEY ?? '',

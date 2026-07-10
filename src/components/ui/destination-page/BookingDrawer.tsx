@@ -44,6 +44,9 @@ export function BookingDrawer({
   const drawerRef = useRef<HTMLDivElement>(null)
   const [qty, setQty] = useState(1)
   const maxQty = spotsAvailable ?? 99
+  const earlyBirdCount = earlyBirdSpotsLeft != null ? Math.min(qty, earlyBirdSpotsLeft) : 0
+  const regularCount = qty - earlyBirdCount
+  const totalPrice = earlyBirdCount * effectivePrice + regularCount * price
 
   useEffect(() => {
     if (!open) return
@@ -57,15 +60,13 @@ export function BookingDrawer({
   }, [open, onClose])
 
   function handleBook() {
-    const earlyBirdCount = earlyBirdSpotsLeft != null ? Math.min(qty, earlyBirdSpotsLeft) : 0
-    const regularCount = qty - earlyBirdCount
     const priceBreakdown = earlyBirdCount > 0
       ? {
           earlyBirdCount,
           earlyBirdPrice: earlyBirdPrice!,
           regularCount,
           regularPrice: price,
-          totalPrice: earlyBirdCount * earlyBirdPrice! + regularCount * price,
+          totalPrice,
         }
       : undefined
 
@@ -197,7 +198,7 @@ export function BookingDrawer({
 
             <div className="flex items-center justify-between text-sm border-t border-neutral-100 pt-2">
               <span className="text-black">Общо</span>
-              <span className="font-black text-black">{formatPrice(effectivePrice * qty)}</span>
+              <span className="font-black text-black">{formatPrice(totalPrice)}</span>
             </div>
 
             {depositAmount && (

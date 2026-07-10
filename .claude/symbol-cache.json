@@ -1043,7 +1043,7 @@
       "@payload-config",
       "next/cache"
     ],
-    "lines": 85,
+    "lines": 93,
     "group": "api"
   },
   "src/app/api/terms-and-conditions-data/route.ts": {
@@ -4059,7 +4059,7 @@
       "../hooks/revalidate",
       "next/server"
     ],
-    "lines": 256,
+    "lines": 273,
     "group": "globals"
   },
   "src/payload/globals/DestinationCarousel.ts": {

@@ -212,7 +212,22 @@ export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuP
                         </div>
                       )}
 
-                      {/* Individual tab: all items in one row */}
+                      {/* Individual tab: summary page link */}
+                      {data && activeTab === 'individual' && (
+                        <div>
+                          <Link
+                            href="/individual-programs"
+                            onClick={onClose}
+                            className="inline-flex items-center gap-2 px-4 py-2.5 mb-6 text-xs font-semibold tracking-widest text-white bg-white/8 hover:bg-white/12 border border-white/15 rounded-sm transition-colors duration-200"
+                          >
+                            КАКВО Е ИНДИВИДУАЛНА ПРОГРАМА?
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                              <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </Link>
+                        </div>
+                      )}
+
                       {data && activeTab === 'individual' && contentItems.length > 0 && (
                         <div>
                           <p className="text-[10px] tracking-widest text-white/25 mb-3">ПРОГРАМИ И ПЪТУВАНИЯ</p>

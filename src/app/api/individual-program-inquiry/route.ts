@@ -1,0 +1,87 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { Resend } from 'resend'
+import { z } from 'zod'
+import { getPayload } from 'payload'
+import config from '@payload-config'
+import { escapeHtml } from '@/lib/escape-html'
+import { isRateLimited } from '@/lib/rate-limit'
+
+const schema = z.object({
+  name: z.string().trim().min(2).max(100),
+  email: z.string().trim().email().max(200),
+  phone: z.string().trim().max(30).optional(),
+  company: z.string().max(0).optional(),
+  answers: z.array(
+    z.object({
+      question: z.string().trim().min(1).max(300),
+      answer: z.string().trim().max(3000),
+    }),
+  ).max(50),
+})
+
+export async function POST(req: NextRequest) {
+  try {
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
+    if (isRateLimited(`program-inquiry:${ip}`, 5, 10 * 60 * 1000)) {
+      return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
+    }
+
+    const body = await req.json()
+    const parsed = schema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json({ error: 'Invalid input' }, { status: 400 })
+    }
+
+    const { name, email, phone, company, answers } = parsed.data
+    if (company) {
+      return NextResponse.json({ ok: true })
+    }
+
+    const safeName = escapeHtml(name)
+    const safeEmail = escapeHtml(email)
+    const safePhone = phone ? escapeHtml(phone) : null
+
+    const payload = await getPayload({ config })
+    const doc = await payload.create({
+      collection: 'program-inquiries',
+      data: { name, email, phone, answers, ip },
+      overrideAccess: true,
+    })
+
+    let emailSent = false
+    try {
+      const resend = new Resend(process.env.RESEND_API_KEY ?? 'placeholder')
+      await resend.emails.send({
+        from: `Sons of Mountains — Индивидуални програми <${process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com'}>`,
+        to: process.env.RESEND_FROM_EMAIL ?? 'info@sonsofmountain.com',
+        replyTo: email,
+        subject: `Ново запитване за индивидуална програма — от ${safeName}`,
+        html: `
+          <p><strong>От:</strong> ${safeName} (${safeEmail})</p>
+          ${safePhone ? `<p><strong>Телефон:</strong> ${safePhone}</p>` : ''}
+          <p><strong>Отговори на въпросника:</strong></p>
+          <ul>
+            ${answers.map((a) => `<li><strong>${escapeHtml(a.question)}:</strong> ${escapeHtml(a.answer).replace(/\n/g, '<br/>')}</li>`).join('')}
+          </ul>
+        `,
+      })
+      emailSent = true
+    } catch (emailErr) {
+      console.error('Program inquiry email error:', emailErr)
+    }
+
+    if (emailSent) {
+      await payload.update({
+        collection: 'program-inquiries',
+        id: doc.id,
+        data: { emailSent: true },
+        overrideAccess: true,
+      })
+    }
+
+    return NextResponse.json({ ok: true })
+  } catch (err) {
+    console.error('Program inquiry error:', err)
+    return NextResponse.json({ error: 'Internal error' }, { status: 500 })
+  }
+}

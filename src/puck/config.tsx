@@ -52,6 +52,11 @@ import { AboutHeroBlock } from '@/components/blocks/about/AboutHeroBlock'
 import { AboutAdventureBlock } from '@/components/blocks/about/AboutAdventureBlock'
 import { AboutWhoWeAreBlock } from '@/components/blocks/about/AboutWhoWeAreBlock'
 import { AboutPartnersBlock } from '@/components/blocks/about/AboutPartnersBlock'
+import { IndividualProgramsHeroBlock } from '@/components/blocks/individual-programs/IndividualProgramsHeroBlock'
+import { IndividualProgramsOfferBlock } from '@/components/blocks/individual-programs/IndividualProgramsOfferBlock'
+import { IndividualProgramsHowBlock } from '@/components/blocks/individual-programs/IndividualProgramsHowBlock'
+import { IndividualProgramsWhyBlock } from '@/components/blocks/individual-programs/IndividualProgramsWhyBlock'
+import { IndividualProgramsQuestionnaireBlock } from '@/components/blocks/individual-programs/IndividualProgramsQuestionnaireBlock'
 import { ContactHeroBlock } from '@/components/blocks/contact/ContactHeroBlock'
 import { ContactFAQBlock } from '@/components/blocks/contact/ContactFAQBlock'
 import { ContactGuidesBlockRenderer } from '@/components/blocks/contact/ContactGuidesBlockRenderer'
@@ -221,6 +226,17 @@ export type PuckBlocks = {
   AboutAdventureBlock: { adventureHeading: string; adventureSubtext: string; adventureActivities: string; adventureQuote: string; adventureQuoteBody: string }
   AboutWhoWeAreBlock: { whoHeading: string; whoDescription: string; whoImage1Url: string; whoImage1Caption: string; whoImage1Instagram: string; whoImage2Url: string; whoImage2Caption: string; whoImage2Instagram: string }
   AboutPartnersBlock: { partnersHeading: string; partnersSubtext: string; partnersCtaLabel: string; partnersCtaUrl: string; partners: { name: string; url: string; logoUrl: string | null }[] }
+  IndividualProgramsHeroBlock: { heroHeading: string; heroSubtext: string; heroCtaLabel: string; heroCtaUrl: string; heroImageUrl: string }
+  IndividualProgramsOfferBlock: { offerHeading: string; offerSubtext: string; offerItems: { title: string; description: string; icon: string }[] }
+  IndividualProgramsHowBlock: { howHeading: string; howSubtext: string; howSteps: { step: string; title: string; description: string }[] }
+  IndividualProgramsWhyBlock: { whyHeading: string; whySubtext: string; whyImageUrl: string; whyPoints: { text: string }[] }
+  IndividualProgramsQuestionnaireBlock: {
+    questionnaireHeading: string; questionnaireSubtext: string
+    questions: { label: string; fieldType: string; placeholder?: string; required?: boolean; options?: { value: string }[] }[]
+    formNamePlaceholder: string; formEmailPlaceholder: string; formPhonePlaceholder: string
+    formSubmitLabel: string; formSubmitLoadingLabel: string; formSuccessHeading: string; formSuccessSubtext: string
+    formErrorText: string; formRateLimitedText: string; formNameMinError: string; formEmailInvalidError: string
+  }
   ContactHeroBlock: { heading: string; subheading: string }
   ContactGuidesBlock: { heading: string; _guides: unknown[] }
   ContactFAQBlock: { heading: string; faqItems: { question: string; answer: string }[] }
@@ -254,6 +270,7 @@ export const puckConfig: Config<PuckBlocks> = {
     dynamic: { title: 'Dynamic (Live Data)', components: ['StoriesBlock', 'BlogPostsBlock', 'DestinationCarouselBlock', 'SocialFeedBlock', 'GalleryHeroBlock', 'GalleryGridBlock'], defaultExpanded: false },
     global: { title: 'Global', components: ['FooterBlock', 'NavigationLinksBlock', 'WhyTravelWithUsBlock', 'FeaturedTravelsBlock', 'CalendarCtaBlock', 'TestimonialsMarqueeBlock'], defaultExpanded: false },
     about: { title: 'About Page', components: ['AboutHeroBlock', 'AboutAdventureBlock', 'AboutWhoWeAreBlock', 'AboutPartnersBlock'], defaultExpanded: false },
+    individualPrograms: { title: 'Individual Programs Page', components: ['IndividualProgramsHeroBlock', 'IndividualProgramsOfferBlock', 'IndividualProgramsHowBlock', 'IndividualProgramsWhyBlock', 'IndividualProgramsQuestionnaireBlock'], defaultExpanded: false },
     contact: { title: 'Contact Page', components: ['ContactHeroBlock', 'ContactFormBlock', 'ContactGuidesBlock', 'ContactFAQBlock'], defaultExpanded: false },
     blog: { title: 'Blog Page', components: ['BlogHeroBlock', 'BlogPostsBlock'], defaultExpanded: false },
     stories: { title: 'Stories Page', components: ['StoriesHeroBlock', 'StoriesBlock'], defaultExpanded: false },
@@ -1707,6 +1724,166 @@ export const puckConfig: Config<PuckBlocks> = {
         partners: [],
       },
       render: (props: any) => <AboutPartnersBlock {...props} />,
+    },
+
+    // ── INDIVIDUAL PROGRAMS PAGE BLOCKS ──────────────────────────────────────
+    IndividualProgramsHeroBlock: {
+      label: 'Individual Programs — Hero',
+      fields: {
+        heroHeading: { type: 'text', label: 'Heading' },
+        heroSubtext: { type: 'text', label: 'Subtext' },
+        heroCtaLabel: { type: 'text', label: 'CTA Label' },
+        heroCtaUrl: { type: 'text', label: 'CTA URL' },
+        heroImageUrl: { type: 'text', label: 'Hero Image URL (from Payload)' },
+      },
+      defaultProps: {
+        heroHeading: 'Индивидуални програми',
+        heroSubtext: 'Пътуване, скроено изцяло по твоите желания — дестинация, дати, темпо и хора по твой избор.',
+        heroCtaLabel: 'Изпрати запитване',
+        heroCtaUrl: '#questionnaire',
+        heroImageUrl: '',
+      },
+      render: (props: any) => <IndividualProgramsHeroBlock {...props} />,
+    },
+
+    IndividualProgramsOfferBlock: {
+      label: 'Individual Programs — What We Offer',
+      fields: {
+        offerHeading: { type: 'text', label: 'Heading' },
+        offerSubtext: { type: 'text', label: 'Subtext' },
+        offerItems: {
+          type: 'array',
+          label: 'Offer Items',
+          arrayFields: {
+            title: { type: 'text', label: 'Title' },
+            description: { type: 'textarea', label: 'Description' },
+            icon: { type: 'text', label: 'Icon (emoji)' },
+          },
+          defaultItemProps: { title: 'Item', description: '', icon: '' },
+          getItemSummary: (item: any) => item.title || 'Item',
+        },
+      },
+      defaultProps: {
+        offerHeading: 'Какво предлагаме',
+        offerSubtext: 'Индивидуална програма, изградена изцяло около теб — от идеята до последния ден.',
+        offerItems: [],
+      },
+      render: (props: any) => <IndividualProgramsOfferBlock {...props} />,
+    },
+
+    IndividualProgramsHowBlock: {
+      label: 'Individual Programs — How We Offer It',
+      fields: {
+        howHeading: { type: 'text', label: 'Heading' },
+        howSubtext: { type: 'text', label: 'Subtext' },
+        howSteps: {
+          type: 'array',
+          label: 'Steps',
+          arrayFields: {
+            step: { type: 'text', label: 'Step (e.g. 01)' },
+            title: { type: 'text', label: 'Title' },
+            description: { type: 'textarea', label: 'Description' },
+          },
+          defaultItemProps: { step: '01', title: 'Step', description: '' },
+          getItemSummary: (item: any) => item.title || 'Step',
+        },
+      },
+      defaultProps: {
+        howHeading: 'Как работим',
+        howSubtext: 'Процесът е прост — ти споделяш визията, ние я превръщаме в пътуване.',
+        howSteps: [],
+      },
+      render: (props: any) => <IndividualProgramsHowBlock {...props} />,
+    },
+
+    IndividualProgramsWhyBlock: {
+      label: 'Individual Programs — Why We Offer It',
+      fields: {
+        whyHeading: { type: 'text', label: 'Heading' },
+        whySubtext: { type: 'text', label: 'Subtext' },
+        whyImageUrl: { type: 'text', label: 'Image URL (from Payload)' },
+        whyPoints: {
+          type: 'array',
+          label: 'Points',
+          arrayFields: {
+            text: { type: 'text', label: 'Point' },
+          },
+          defaultItemProps: { text: 'Point' },
+          getItemSummary: (item: any) => item.text || 'Point',
+        },
+      },
+      defaultProps: {
+        whyHeading: 'Защо индивидуална програма',
+        whySubtext: 'Защото всяко пътешествие е лично и заслужава собствена история.',
+        whyImageUrl: '',
+        whyPoints: [],
+      },
+      render: (props: any) => <IndividualProgramsWhyBlock {...props} />,
+    },
+
+    IndividualProgramsQuestionnaireBlock: {
+      label: 'Individual Programs — Questionnaire',
+      fields: {
+        questionnaireHeading: { type: 'text', label: 'Heading' },
+        questionnaireSubtext: { type: 'text', label: 'Subtext' },
+        questions: {
+          type: 'array',
+          label: 'Questions',
+          arrayFields: {
+            label: { type: 'text', label: 'Question' },
+            fieldType: {
+              type: 'select',
+              label: 'Field Type',
+              options: [
+                { value: 'text', label: 'Short text' },
+                { value: 'textarea', label: 'Long text' },
+                { value: 'number', label: 'Number' },
+                { value: 'date', label: 'Date' },
+                { value: 'select', label: 'Select (one)' },
+              ],
+            },
+            placeholder: { type: 'text', label: 'Placeholder' },
+            required: { type: 'radio', label: 'Required', options: [{ value: true, label: 'Yes' }, { value: false, label: 'No' }] },
+            options: {
+              type: 'array',
+              label: 'Options (only for Select)',
+              arrayFields: { value: { type: 'text', label: 'Option' } },
+              defaultItemProps: { value: '' },
+              getItemSummary: (item: any) => item.value || 'Option',
+            },
+          },
+          defaultItemProps: { label: 'Question', fieldType: 'text', placeholder: '', required: false, options: [] },
+          getItemSummary: (item: any) => item.label || 'Question',
+        },
+        formNamePlaceholder: { type: 'text', label: 'Name Placeholder' },
+        formEmailPlaceholder: { type: 'text', label: 'Email Placeholder' },
+        formPhonePlaceholder: { type: 'text', label: 'Phone Placeholder' },
+        formSubmitLabel: { type: 'text', label: 'Submit Label' },
+        formSubmitLoadingLabel: { type: 'text', label: 'Submit Loading Label' },
+        formSuccessHeading: { type: 'text', label: 'Success Heading' },
+        formSuccessSubtext: { type: 'text', label: 'Success Subtext' },
+        formErrorText: { type: 'text', label: 'Error Text' },
+        formRateLimitedText: { type: 'text', label: 'Rate Limited Text' },
+        formNameMinError: { type: 'text', label: 'Name Min Error' },
+        formEmailInvalidError: { type: 'text', label: 'Email Invalid Error' },
+      },
+      defaultProps: {
+        questionnaireHeading: 'Разкажи ни за твоето пътуване',
+        questionnaireSubtext: 'Попълни въпросника и ще се свържем с теб в рамките на 24 часа с персонализирано предложение.',
+        questions: [],
+        formNamePlaceholder: 'Твоето име',
+        formEmailPlaceholder: 'Имейл адрес',
+        formPhonePlaceholder: 'Телефон',
+        formSubmitLabel: 'Изпрати запитване',
+        formSubmitLoadingLabel: 'Изпращане...',
+        formSuccessHeading: 'Получихме твоето запитване!',
+        formSuccessSubtext: 'Благодарим ти! Ще се свържем с теб съвсем скоро.',
+        formErrorText: 'Възникна грешка. Моля, опитай отново.',
+        formRateLimitedText: 'Твърде много опити. Опитай отново по-късно.',
+        formNameMinError: 'Минимум 2 символа',
+        formEmailInvalidError: 'Невалиден имейл',
+      },
+      render: (props: any) => <IndividualProgramsQuestionnaireBlock {...props} />,
     },
 
     ContactHeroBlock: {
