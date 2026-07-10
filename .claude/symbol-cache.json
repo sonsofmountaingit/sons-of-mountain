@@ -6274,7 +6274,7 @@
       "gsap/ScrollTrigger",
       "./BookingDrawer"
     ],
-    "lines": 383,
+    "lines": 384,
     "group": "ui"
   },
   "src/components/ui/destination-page/IsThisForYouSection.tsx": {

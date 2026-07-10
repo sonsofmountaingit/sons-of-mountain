@@ -1,8 +1,6 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { useCartStore } from '@/lib/cart-store'
-import { useRouter } from 'next/navigation'
 import { formatPrice } from '@/lib/currency'
 
 interface Props {
@@ -53,10 +51,7 @@ export function FloatingBookingBar({
     ? Math.min(spotsAvailable, earlyBirdSpots)
     : null
   const [visible, setVisible] = useState(false)
-  const [loading, setLoading] = useState(false)
   const barRef = useRef<HTMLDivElement>(null)
-  const addItem = useCartStore((s) => s.addItem)
-  const router = useRouter()
 
   useEffect(() => {
     let ticking = false
@@ -78,19 +73,7 @@ export function FloatingBookingBar({
 
   function handleBook() {
     if (onBook) { onBook(); return }
-    setLoading(true)
-    addItem({
-      id: `${itemType}-${tripId}`,
-      type: itemType,
-      title: isEarlyBird ? `${tripTitle} (Early Bird)` : tripTitle,
-      unitPrice: isEarlyBird ? earlyBirdPrice! : price,
-      quantity: 1,
-      tripId: itemType === 'trip' ? tripId : undefined,
-      programId: itemType === 'program' ? tripId : undefined,
-      spotsAvailable: spotsAvailable ?? undefined,
-      depositAmount: depositAmount ?? undefined,
-    })
-    router.push('/shop/checkout')
+    window.dispatchEvent(new Event('open-booking-drawer'))
   }
 
   const dateLabel = startDate && endDate
@@ -163,10 +146,9 @@ export function FloatingBookingBar({
 
         <button
           onClick={handleBook}
-          disabled={loading}
-          className="bg-orange-700 hover:bg-orange-800 disabled:opacity-60 text-white font-black uppercase tracking-widest text-xs sm:text-sm px-4 sm:px-5 py-2 rounded-full transition-colors cursor-pointer"
+          className="bg-orange-700 hover:bg-orange-800 text-white font-black uppercase tracking-widest text-xs sm:text-sm px-4 sm:px-5 py-2 rounded-full transition-colors cursor-pointer"
         >
-          {loading ? '...' : 'Запиши се'}
+          Запиши се
         </button>
       </div>
     </div>

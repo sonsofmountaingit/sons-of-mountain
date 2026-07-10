@@ -201,6 +201,12 @@ export function BookingDrawer({
               <span className="font-black text-black">{formatPrice(totalPrice)}</span>
             </div>
 
+            {earlyBirdCount > 0 && regularCount > 0 && (
+              <p className="text-xs text-orange-700">
+                {earlyBirdCount} × {formatPrice(earlyBirdPrice!)} early bird + {regularCount} × {formatPrice(price)} редовна цена
+              </p>
+            )}
+
             {depositAmount && (
               <div className="flex items-center justify-between text-sm">
                 <span className="text-black">Депозит за резервация</span>

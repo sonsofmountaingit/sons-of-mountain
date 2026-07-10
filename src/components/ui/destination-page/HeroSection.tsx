@@ -110,6 +110,12 @@ export function HeroSection({
   const [scrolled, setScrolled] = useState(false)
   const [drawerOpen, setDrawerOpen] = useState(false)
 
+  useEffect(() => {
+    const handler = () => setDrawerOpen(true)
+    window.addEventListener('open-booking-drawer', handler)
+    return () => window.removeEventListener('open-booking-drawer', handler)
+  }, [])
+
   const sectionRef = useRef<HTMLElement>(null)
   const bgRef = useRef<HTMLDivElement>(null)
   const breadcrumbRef = useRef<HTMLDivElement>(null)
