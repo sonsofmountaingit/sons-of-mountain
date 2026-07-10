@@ -2,11 +2,15 @@ import type { CollectionConfig } from 'payload'
 
 export const RegistrationForms: CollectionConfig = {
   slug: 'registration-forms',
+  labels: {
+    singular: 'Формуляр за безплатен трансфер',
+    plural: 'Формуляри за безплатен трансфер',
+  },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'destination', 'trip', 'sendAfterDays', 'sendBeforeDaysMin'],
     group: 'Регистрации',
-    description: 'Формуляр за записване, изпращан по имейл на всички записали се за връх/пътуване.',
+    description: 'Формуляр за записване, изпращан по имейл на всички записали се за връх/пътуване, след като се въведе датата на връха (полето "peak").',
   },
   fields: [
     {

@@ -11,6 +11,18 @@
     "lines": 106,
     "group": "other"
   },
+  "src/migrations/20260710_free_transfer_peak.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 18,
+    "group": "other"
+  },
   "src/migrations/20260528_add_missing_tables.ts": {
     "exports": [
       "up",
@@ -43,9 +55,10 @@
     "imports": [
       "./20260528_add_missing_tables",
       "./20260624_add_page_columns",
-      "./20260629_tags_free_text"
+      "./20260629_tags_free_text",
+      "./20260710_free_transfer_peak"
     ],
-    "lines": 22,
+    "lines": 28,
     "group": "other"
   },
   "src/seed/gallery.ts": {
@@ -1822,10 +1835,9 @@
       "next/server",
       "payload",
       "@payload-config",
-      "resend",
-      "@/lib/escape-html"
+      "@/lib/send-registration-forms"
     ],
-    "lines": 121,
+    "lines": 50,
     "group": "api"
   },
   "src/app/api/cron/send-campaigns/route.ts": {
@@ -4561,9 +4573,10 @@
       "../hooks/revalidate",
       "next/cache",
       "next/server",
-      "@/lib/stripe-product-sync"
+      "@/lib/stripe-product-sync",
+      "@/lib/send-registration-forms"
     ],
-    "lines": 526,
+    "lines": 544,
     "group": "collections"
   },
   "src/payload/collections/EmailTemplates.ts": {
@@ -4979,9 +4992,10 @@
       "payload",
       "../hooks/revalidate",
       "next/server",
-      "@/lib/stripe-product-sync"
+      "@/lib/stripe-product-sync",
+      "@/lib/send-registration-forms"
     ],
-    "lines": 527,
+    "lines": 545,
     "group": "collections"
   },
   "src/payload/collections/Waitlist.ts": {
@@ -7638,6 +7652,19 @@
       "zustand/middleware"
     ],
     "lines": 173,
+    "group": "lib"
+  },
+  "src/lib/send-registration-forms.ts": {
+    "exports": [
+      "sendRegistrationFormsFor"
+    ],
+    "types": [],
+    "imports": [
+      "resend",
+      "payload",
+      "@/lib/escape-html"
+    ],
+    "lines": 127,
     "group": "lib"
   },
   "src/lib/metadata.ts": {
