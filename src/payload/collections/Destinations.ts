@@ -474,6 +474,20 @@ export const Destinations: CollectionConfig = {
       label: 'Водачи',
     },
     {
+      name: 'freeTransfer',
+      type: 'group',
+      label: 'Безплатен трансфер',
+      admin: { description: 'Показва се над секцията за резервация само ако заглавието и текстът са попълнени.' },
+      fields: [
+        { name: 'image', type: 'upload', relationTo: 'media', label: 'Снимка' },
+        { name: 'headline', type: 'text', label: 'Заглавие' },
+        { name: 'paragraph', type: 'textarea', label: 'Текст' },
+        { name: 'smallSpanText', type: 'text', label: 'Малък надпис' },
+        { name: 'departureDate', type: 'date', label: 'Дата на тръгване', admin: { date: { pickerAppearance: 'dayOnly' } } },
+        { name: 'departureTime', type: 'text', label: 'Час на тръгване', admin: { placeholder: '09:30' } },
+      ],
+    },
+    {
       name: 'meta',
       type: 'group',
       fields: [

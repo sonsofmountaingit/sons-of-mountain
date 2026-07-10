@@ -18,6 +18,8 @@ import { Media } from './collections/Media'
 import { Customers } from './collections/Customers'
 import { Orders } from './collections/Orders'
 import { Registrations } from './collections/Registrations'
+import { RegistrationForms } from './collections/RegistrationForms'
+import { FormSubmissions } from './collections/FormSubmissions'
 import { CarpoolRides } from './collections/CarpoolRides'
 import { GiftVouchers } from './collections/GiftVouchers'
 import { Users } from './collections/Users'
@@ -127,6 +129,8 @@ export default buildConfig({
     Customers,
     Orders,
     Registrations,
+    RegistrationForms,
+    FormSubmissions,
     CarpoolRides,
     GiftVouchers,
     Users,

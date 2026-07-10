@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import crypto from 'crypto'
 import { syncSpotsAfterChange, syncSpotsAfterDelete } from '../hooks/syncTripSpots'
 
 export const Registrations: CollectionConfig = {
@@ -9,6 +10,14 @@ export const Registrations: CollectionConfig = {
     group: 'Регистрации',
   },
   hooks: {
+    beforeChange: [
+      ({ data, operation }) => {
+        if (operation === 'create' && !data.registrationFormToken) {
+          data.registrationFormToken = crypto.randomBytes(24).toString('hex')
+        }
+        return data
+      },
+    ],
     afterChange: [syncSpotsAfterChange],
     afterDelete: [syncSpotsAfterDelete],
   },
@@ -253,6 +262,21 @@ export const Registrations: CollectionConfig = {
       name: 'certificateIssuedAt',
       type: 'date',
       admin: { readOnly: true, description: 'When completion certificate was generated' },
+    },
+    {
+      name: 'registrationFormToken',
+      type: 'text',
+      admin: { readOnly: true, description: 'Токен за линк към формуляра за записване', position: 'sidebar' },
+    },
+    {
+      name: 'registrationFormSentAt',
+      type: 'date',
+      admin: { readOnly: true, description: 'Кога е изпратен имейлът с формуляра за записване', position: 'sidebar' },
+    },
+    {
+      name: 'registrationFormSubmittedAt',
+      type: 'date',
+      admin: { readOnly: true, description: 'Кога е подаден формулярът за записване', position: 'sidebar' },
     },
   ],
 }

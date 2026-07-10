@@ -18,6 +18,7 @@ import GuidesSection from '@/components/ui/destination-page/GuidesSection'
 import { AccommodationsSection } from '@/components/ui/destination-page/AccommodationsSection'
 import { AdventureCtaSection } from '@/components/ui/destination-page/AdventureCtaSection'
 import { BookingCtaSection } from '@/components/ui/destination-page/BookingCtaSection'
+import { FreeTransferSection } from '@/components/ui/destination-page/FreeTransferSection'
 import { FaqSection } from '@/components/ui/destination-page/FaqSection'
 import { OtherDestinationsSection } from '@/components/ui/destination-page/OtherDestinationsSection'
 import { WhyTravelWithUsSection } from '@/components/ui/destination-page/WhyTravelWithUsSection'
@@ -300,6 +301,8 @@ async function DestinationContent({ params }: Props) {
         earlyBirdSpots={d.earlyBirdSpots as number | null}
         spotsAvailable={d.spotsAvailable as number | null}
       />
+
+      <FreeTransferSection freeTransfer={(destination as any).freeTransfer} />
 
       <BookingCtaSection
         name={destination.name}

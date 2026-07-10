@@ -6114,11 +6114,9 @@
     "types": [],
     "imports": [
       "react",
-      "@/lib/cart-store",
-      "next/navigation",
       "@/lib/currency"
     ],
-    "lines": 175,
+    "lines": 157,
     "group": "ui"
   },
   "src/components/ui/destination-page/BookingDrawer.tsx": {
@@ -6132,7 +6130,7 @@
       "next/navigation",
       "@/lib/currency"
     ],
-    "lines": 235,
+    "lines": 241,
     "group": "ui"
   },
   "src/components/ui/destination-page/ItinerarySectionClient.tsx": {
@@ -6274,7 +6272,7 @@
       "gsap/ScrollTrigger",
       "./BookingDrawer"
     ],
-    "lines": 384,
+    "lines": 390,
     "group": "ui"
   },
   "src/components/ui/destination-page/IsThisForYouSection.tsx": {
