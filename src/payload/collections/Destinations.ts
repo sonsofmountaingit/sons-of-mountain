@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { revalidateCollection, revalidateCollectionDelete } from '../hooks/revalidate'
 import { after } from 'next/server'
 import { syncStripeProduct } from '@/lib/stripe-product-sync'
+import { sendRegistrationFormsFor } from '@/lib/send-registration-forms'
 
 export const Destinations: CollectionConfig = {
   slug: 'destinations',
@@ -485,6 +486,12 @@ export const Destinations: CollectionConfig = {
         { name: 'smallSpanText', type: 'text', label: 'Малък надпис' },
         { name: 'departureDate', type: 'date', label: 'Дата на тръгване', admin: { date: { pickerAppearance: 'dayOnly' } } },
         { name: 'departureTime', type: 'text', label: 'Час на тръгване', admin: { placeholder: '09:30' } },
+        {
+          name: 'peak',
+          type: 'text',
+          label: 'Връх',
+          admin: { description: 'Щом се попълни, автоматично се изпраща формулярът за записване на всички вече записани (спазвайки правилата за дни).' },
+        },
       ],
     },
     {
@@ -518,6 +525,17 @@ export const Destinations: CollectionConfig = {
           after(() => syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'destinations', priceField: 'price' }))
         } catch {
           await syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'destinations', priceField: 'price' })
+        }
+      },
+      async ({ doc, previousDoc, req }) => {
+        const peak = doc.freeTransfer?.peak
+        const previousPeak = previousDoc?.freeTransfer?.peak
+        if (peak && !previousPeak) {
+          try {
+            await sendRegistrationFormsFor({ payload: req.payload, destinationId: doc.id })
+          } catch (err) {
+            console.error(`Failed sending registration forms for destination ${doc.id}:`, err)
+          }
         }
       },
     ],

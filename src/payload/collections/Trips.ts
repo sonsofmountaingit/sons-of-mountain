@@ -3,6 +3,7 @@ import { revalidateCollection, revalidateCollectionDelete } from '../hooks/reval
 import { revalidateTag as _revalidateTag } from 'next/cache'
 import { after } from 'next/server'
 import { syncStripeProduct } from '@/lib/stripe-product-sync'
+import { sendRegistrationFormsFor } from '@/lib/send-registration-forms'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const revalidateTag = _revalidateTag
@@ -478,6 +479,12 @@ export const Trips: CollectionConfig = {
         { name: 'smallSpanText', type: 'text', label: 'Малък надпис' },
         { name: 'departureDate', type: 'date', label: 'Дата на тръгване', admin: { date: { pickerAppearance: 'dayOnly' } } },
         { name: 'departureTime', type: 'text', label: 'Час на тръгване', admin: { placeholder: '09:30' } },
+        {
+          name: 'peak',
+          type: 'text',
+          label: 'Връх',
+          admin: { description: 'Щом се попълни, автоматично се изпраща формулярът за записване на всички вече записани (спазвайки правилата за дни).' },
+        },
       ],
     },
     {
@@ -517,6 +524,17 @@ export const Trips: CollectionConfig = {
           after(() => syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'trips', priceField: 'price' }))
         } catch {
           await syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'trips', priceField: 'price' })
+        }
+      },
+      async ({ doc, previousDoc, req }) => {
+        const peak = doc.freeTransfer?.peak
+        const previousPeak = previousDoc?.freeTransfer?.peak
+        if (peak && !previousPeak) {
+          try {
+            await sendRegistrationFormsFor({ payload: req.payload, tripId: doc.id })
+          } catch (err) {
+            console.error(`Failed sending registration forms for trip ${doc.id}:`, err)
+          }
         }
       },
     ],

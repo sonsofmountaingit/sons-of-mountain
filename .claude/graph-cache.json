@@ -745,6 +745,12 @@
       "size": 4
     },
     {
+      "id": "src/app/api/cron/send-registration-forms/route.ts",
+      "label": "send-registration-forms/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/cron/send-campaigns/route.ts",
       "label": "send-campaigns/route.ts",
       "group": "api",
@@ -783,6 +789,18 @@
     {
       "id": "src/app/api/customer-media/route.ts",
       "label": "customer-media/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/registration-form/[token]/submit/route.ts",
+      "label": "submit/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/registration-form/[token]/route.ts",
+      "label": "[token]/route.ts",
       "group": "api",
       "size": 4
     },
@@ -1381,6 +1399,12 @@
       "size": 4
     },
     {
+      "id": "src/app/(frontend)/formular/[token]/page.tsx",
+      "label": "[token]/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
       "id": "src/app/(frontend)/login/LoginClient.tsx",
       "label": "login/LoginClient.tsx",
       "group": "frontend",
@@ -1801,6 +1825,12 @@
       "size": 6
     },
     {
+      "id": "src/payload/collections/FormSubmissions.ts",
+      "label": "collections/FormSubmissions.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
       "id": "src/payload/collections/AbandonedCarts.ts",
       "label": "collections/AbandonedCarts.ts",
       "group": "collections",
@@ -1881,6 +1911,12 @@
     {
       "id": "src/payload/collections/Users.ts",
       "label": "collections/Users.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/RegistrationForms.ts",
+      "label": "collections/RegistrationForms.ts",
       "group": "collections",
       "size": 6
     },
@@ -2575,6 +2611,12 @@
       "size": 10
     },
     {
+      "id": "src/components/ui/destination-page/FreeTransferSection.tsx",
+      "label": "destination-page/FreeTransferSection.tsx",
+      "group": "ui",
+      "size": 8
+    },
+    {
       "id": "src/components/ui/destination-page/HeroSection.tsx",
       "label": "destination-page/HeroSection.tsx",
       "group": "ui",
@@ -2881,6 +2923,12 @@
       "size": 6
     },
     {
+      "id": "src/components/forms/RegistrationForm.tsx",
+      "label": "forms/RegistrationForm.tsx",
+      "group": "components",
+      "size": 6
+    },
+    {
       "id": "src/components/forms/SubscribeForm.tsx",
       "label": "forms/SubscribeForm.tsx",
       "group": "components",
@@ -3160,7 +3208,7 @@
       "id": "src/lib/escape-html.ts",
       "label": "lib/escape-html.ts",
       "group": "lib",
-      "size": 16
+      "size": 18
     },
     {
       "id": "src/lib/resend.ts",
@@ -3208,7 +3256,7 @@
       "id": "src/lib/rate-limit.ts",
       "label": "lib/rate-limit.ts",
       "group": "lib",
-      "size": 8
+      "size": 10
     },
     {
       "id": "src/lib/pricing/dynamic.ts",
@@ -4055,6 +4103,14 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/cron/send-registration-forms/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/cron/send-registration-forms/route.ts",
+      "target": "src/lib/escape-html.ts"
+    },
+    {
       "source": "src/app/api/cron/send-campaigns/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -4100,6 +4156,18 @@
     },
     {
       "source": "src/app/api/customer-media/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/registration-form/[token]/submit/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/registration-form/[token]/submit/route.ts",
+      "target": "src/lib/rate-limit.ts"
+    },
+    {
+      "source": "src/app/api/registration-form/[token]/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
@@ -4417,6 +4485,10 @@
     {
       "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
       "target": "src/components/ui/destination-page/BookingCtaSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/FreeTransferSection.tsx"
     },
     {
       "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
@@ -5200,6 +5272,10 @@
     },
     {
       "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/FreeTransferSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
       "target": "src/components/ui/destination-page/FaqSection.tsx"
     },
     {
@@ -5293,6 +5369,14 @@
     {
       "source": "src/app/(frontend)/[slug]/page.tsx",
       "target": "src/components/blocks/PuckRender.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/formular/[token]/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/formular/[token]/page.tsx",
+      "target": "src/components/forms/RegistrationForm.tsx"
     },
     {
       "source": "src/app/(frontend)/login/LoginClient.tsx",
@@ -5493,6 +5577,14 @@
     {
       "source": "src/payload/payload.config.ts",
       "target": "src/payload/collections/Registrations.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/RegistrationForms.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/FormSubmissions.ts"
     },
     {
       "source": "src/payload/payload.config.ts",
@@ -6403,6 +6495,10 @@
       "target": "src/lib/media-url.ts"
     },
     {
+      "source": "src/components/ui/destination-page/FreeTransferSection.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
       "source": "src/components/ui/destination-page/HeroSection.tsx",
       "target": "src/components/ui/destination-page/BookingDrawer.tsx"
     },
@@ -7043,6 +7139,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-10T14:02:50.031Z",
-  "fileCount": 556
+  "builtAt": "2026-07-10T15:08:57.631Z",
+  "fileCount": 564
 }
