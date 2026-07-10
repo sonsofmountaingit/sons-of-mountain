@@ -759,6 +759,40 @@
     "lines": 67,
     "group": "puck"
   },
+  "src/app/(puck)/puck/individual-programs/page.tsx": {
+    "exports": [
+      "dynamic",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/headers",
+      "next/navigation",
+      "react",
+      "@puckeditor/core",
+      "./PuckIndividualProgramsEditorClient",
+      "@/lib/media-url"
+    ],
+    "lines": 104,
+    "group": "puck"
+  },
+  "src/app/(puck)/puck/individual-programs/PuckIndividualProgramsEditorClient.tsx": {
+    "exports": [
+      "PuckIndividualProgramsEditorClient"
+    ],
+    "types": [],
+    "imports": [
+      "@puckeditor/core",
+      "@/puck/config",
+      "next/navigation",
+      "react",
+      "sonner"
+    ],
+    "lines": 110,
+    "group": "puck"
+  },
   "src/app/llms-full.txt/route.ts": {
     "exports": [
       "dynamic",
@@ -1697,6 +1731,20 @@
     "lines": 32,
     "group": "api"
   },
+  "src/app/api/puck/individual-programs/route.ts": {
+    "exports": [
+      "PATCH"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "next/cache",
+      "@/lib/payload-auth"
+    ],
+    "lines": 69,
+    "group": "api"
+  },
   "src/app/api/carpool-rides/route.ts": {
     "exports": [
       "GET",
@@ -1736,6 +1784,20 @@
       "next/cache"
     ],
     "lines": 24,
+    "group": "api"
+  },
+  "src/app/api/individual-programs-page-data/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "@/lib/media-url"
+    ],
+    "lines": 23,
     "group": "api"
   },
   "src/app/api/destinations-list/route.ts": {
@@ -2029,6 +2091,23 @@
       "stream"
     ],
     "lines": 39,
+    "group": "api"
+  },
+  "src/app/api/individual-program-inquiry/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "resend",
+      "zod",
+      "payload",
+      "@payload-config",
+      "@/lib/escape-html",
+      "@/lib/rate-limit"
+    ],
+    "lines": 88,
     "group": "api"
   },
   "src/app/api/customer-ratings/route.ts": {
@@ -3529,6 +3608,27 @@
     "lines": 116,
     "group": "frontend"
   },
+  "src/app/(frontend)/individual-programs/page.tsx": {
+    "exports": [
+      "dynamic",
+      "generateMetadata",
+      "default:async"
+    ],
+    "types": [],
+    "imports": [
+      "next",
+      "next/cache",
+      "payload",
+      "@payload-config",
+      "@/lib/media-url",
+      "@/lib/metadata",
+      "@/components/ui/IndividualProgramsPage",
+      "@/components/blocks/PuckRender",
+      "@puckeditor/core"
+    ],
+    "lines": 63,
+    "group": "frontend"
+  },
   "src/app/(frontend)/[slug]/page.tsx": {
     "exports": [
       "dynamic",
@@ -4035,6 +4135,19 @@
     "lines": 122,
     "group": "globals"
   },
+  "src/payload/globals/IndividualProgramsPage.ts": {
+    "exports": [
+      "IndividualProgramsPage"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "next/cache",
+      "next/server"
+    ],
+    "lines": 144,
+    "group": "globals"
+  },
   "src/payload/globals/HomePage.ts": {
     "exports": [
       "HomePage"
@@ -4240,6 +4353,7 @@
       "./collections/CustomerMedia",
       "./collections/CustomerRatings",
       "./collections/Programs",
+      "./collections/ProgramInquiries",
       "./collections/Guides",
       "./collections/GalleryCollections",
       "./collections/Favorites",
@@ -4266,6 +4380,7 @@
       "./collections/Testimonials",
       "./globals/About",
       "./globals/ContactPage",
+      "./globals/IndividualProgramsPage",
       "./globals/PrivacyPolicy",
       "./globals/TermsAndConditions",
       "./globals/BlogPage",
@@ -4274,7 +4389,7 @@
       "./globals/HomePage",
       "./globals/Vouchers"
     ],
-    "lines": 256,
+    "lines": 259,
     "group": "payload"
   },
   "src/payload/seeds/hero.ts": {
@@ -4455,6 +4570,17 @@
       "../hooks/syncTripSpots"
     ],
     "lines": 259,
+    "group": "collections"
+  },
+  "src/payload/collections/ProgramInquiries.ts": {
+    "exports": [
+      "ProgramInquiries"
+    ],
+    "types": [],
+    "imports": [
+      "payload"
+    ],
+    "lines": 38,
     "group": "collections"
   },
   "src/payload/collections/Favorites.ts": {
@@ -5710,6 +5836,58 @@
     "lines": 28,
     "group": "blocks"
   },
+  "src/components/blocks/individual-programs/IndividualProgramsOfferBlock.tsx": {
+    "exports": [
+      "IndividualProgramsOfferBlock"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 46,
+    "group": "blocks"
+  },
+  "src/components/blocks/individual-programs/IndividualProgramsHeroBlock.tsx": {
+    "exports": [
+      "IndividualProgramsHeroBlock"
+    ],
+    "types": [],
+    "imports": [
+      "next/image",
+      "next/link"
+    ],
+    "lines": 64,
+    "group": "blocks"
+  },
+  "src/components/blocks/individual-programs/IndividualProgramsQuestionnaireBlock.tsx": {
+    "exports": [
+      "IndividualProgramsQuestionnaireBlock"
+    ],
+    "types": [],
+    "imports": [
+      "@/components/forms/IndividualProgramInquiryForm"
+    ],
+    "lines": 63,
+    "group": "blocks"
+  },
+  "src/components/blocks/individual-programs/IndividualProgramsWhyBlock.tsx": {
+    "exports": [
+      "IndividualProgramsWhyBlock"
+    ],
+    "types": [],
+    "imports": [
+      "next/image"
+    ],
+    "lines": 50,
+    "group": "blocks"
+  },
+  "src/components/blocks/individual-programs/IndividualProgramsHowBlock.tsx": {
+    "exports": [
+      "IndividualProgramsHowBlock"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 42,
+    "group": "blocks"
+  },
   "src/components/blocks/ContactFormBlockRenderer.tsx": {
     "exports": [
       "ContactFormBlockRenderer"
@@ -5836,7 +6014,7 @@
       "next/image",
       "motion/react"
     ],
-    "lines": 314,
+    "lines": 329,
     "group": "ui"
   },
   "src/components/ui/Navbar.tsx": {
@@ -5909,6 +6087,26 @@
     "lines": 72,
     "group": "ui"
   },
+  "src/components/ui/IndividualProgramsPage.tsx": {
+    "exports": [
+      "IndividualProgramsPage"
+    ],
+    "types": [],
+    "imports": [
+      "next/cache",
+      "payload",
+      "@payload-config",
+      "@/lib/media-url",
+      "@/components/blocks/individual-programs/IndividualProgramsHeroBlock",
+      "@/components/blocks/individual-programs/IndividualProgramsOfferBlock",
+      "@/components/blocks/individual-programs/IndividualProgramsHowBlock",
+      "@/components/blocks/individual-programs/IndividualProgramsWhyBlock",
+      "@/components/blocks/individual-programs/IndividualProgramsQuestionnaireBlock",
+      "./IndividualProgramsEditButton"
+    ],
+    "lines": 76,
+    "group": "ui"
+  },
   "src/components/ui/destination-page/FloatingBookingBar.tsx": {
     "exports": [
       "FloatingBookingBar"
@@ -5934,7 +6132,7 @@
       "next/navigation",
       "@/lib/currency"
     ],
-    "lines": 234,
+    "lines": 235,
     "group": "ui"
   },
   "src/components/ui/destination-page/ItinerarySectionClient.tsx": {
@@ -6699,6 +6897,17 @@
     "lines": 51,
     "group": "ui"
   },
+  "src/components/ui/IndividualProgramsEditButton.tsx": {
+    "exports": [
+      "IndividualProgramsEditButton"
+    ],
+    "types": [],
+    "imports": [
+      "react"
+    ],
+    "lines": 46,
+    "group": "ui"
+  },
   "src/components/ui/About.tsx": {
     "exports": [
       "About"
@@ -6727,6 +6936,20 @@
       "./BookingFormModal"
     ],
     "lines": 32,
+    "group": "components"
+  },
+  "src/components/forms/IndividualProgramInquiryForm.tsx": {
+    "exports": [
+      "IndividualProgramInquiryForm"
+    ],
+    "types": [
+      "InquiryQuestion"
+    ],
+    "imports": [
+      "react",
+      "react-hook-form"
+    ],
+    "lines": 169,
     "group": "components"
   },
   "src/components/forms/SubscribeForm.tsx": {
@@ -7174,6 +7397,15 @@
     "lines": 36,
     "group": "admin"
   },
+  "src/components/admin/IndividualProgramsPageVisualEditorButton.tsx": {
+    "exports": [
+      "IndividualProgramsPageVisualEditorButton"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 36,
+    "group": "admin"
+  },
   "src/components/admin/ShopVisualEditorButton.tsx": {
     "exports": [
       "ShopVisualEditorButton"
@@ -7565,6 +7797,11 @@
       "@/components/blocks/about/AboutAdventureBlock",
       "@/components/blocks/about/AboutWhoWeAreBlock",
       "@/components/blocks/about/AboutPartnersBlock",
+      "@/components/blocks/individual-programs/IndividualProgramsHeroBlock",
+      "@/components/blocks/individual-programs/IndividualProgramsOfferBlock",
+      "@/components/blocks/individual-programs/IndividualProgramsHowBlock",
+      "@/components/blocks/individual-programs/IndividualProgramsWhyBlock",
+      "@/components/blocks/individual-programs/IndividualProgramsQuestionnaireBlock",
       "@/components/blocks/contact/ContactHeroBlock",
       "@/components/blocks/contact/ContactFAQBlock",
       "@/components/blocks/contact/ContactGuidesBlockRenderer",
@@ -7579,7 +7816,7 @@
       "@/components/blocks/vouchers/VouchersRedeemBlock",
       "@/components/blocks/vouchers/VouchersMineBlock"
     ],
-    "lines": 1975,
+    "lines": 2152,
     "group": "other"
   },
   "src/puck/puckAI.ts": {

@@ -289,6 +289,18 @@
       "size": 4
     },
     {
+      "id": "src/app/(puck)/puck/individual-programs/page.tsx",
+      "label": "individual-programs/page.tsx",
+      "group": "puck",
+      "size": 4
+    },
+    {
+      "id": "src/app/(puck)/puck/individual-programs/PuckIndividualProgramsEditorClient.tsx",
+      "label": "individual-programs/PuckIndividualProgramsEditorClient.tsx",
+      "group": "puck",
+      "size": 6
+    },
+    {
       "id": "src/app/llms-full.txt/route.ts",
       "label": "llms-full.txt/route.ts",
       "group": "app",
@@ -697,6 +709,12 @@
       "size": 4
     },
     {
+      "id": "src/app/api/puck/individual-programs/route.ts",
+      "label": "individual-programs/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/carpool-rides/route.ts",
       "label": "carpool-rides/route.ts",
       "group": "api",
@@ -711,6 +729,12 @@
     {
       "id": "src/app/api/vouchers-data/route.ts",
       "label": "vouchers-data/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/individual-programs-page-data/route.ts",
+      "label": "individual-programs-page-data/route.ts",
       "group": "api",
       "size": 4
     },
@@ -831,6 +855,12 @@
     {
       "id": "src/app/api/media/file/[filename]/route.ts",
       "label": "[filename]/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/individual-program-inquiry/route.ts",
+      "label": "individual-program-inquiry/route.ts",
       "group": "api",
       "size": 4
     },
@@ -1339,6 +1369,12 @@
       "size": 4
     },
     {
+      "id": "src/app/(frontend)/individual-programs/page.tsx",
+      "label": "individual-programs/page.tsx",
+      "group": "frontend",
+      "size": 4
+    },
+    {
       "id": "src/app/(frontend)/[slug]/page.tsx",
       "label": "[slug]/page.tsx",
       "group": "frontend",
@@ -1567,6 +1603,12 @@
       "size": 6
     },
     {
+      "id": "src/payload/globals/IndividualProgramsPage.ts",
+      "label": "globals/IndividualProgramsPage.ts",
+      "group": "globals",
+      "size": 6
+    },
+    {
       "id": "src/payload/globals/HomePage.ts",
       "label": "globals/HomePage.ts",
       "group": "globals",
@@ -1743,6 +1785,12 @@
     {
       "id": "src/payload/collections/Registrations.ts",
       "label": "collections/Registrations.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/ProgramInquiries.ts",
+      "label": "collections/ProgramInquiries.ts",
       "group": "collections",
       "size": 6
     },
@@ -2224,7 +2272,7 @@
       "id": "src/components/blocks/PuckRender.tsx",
       "label": "blocks/PuckRender.tsx",
       "group": "blocks",
-      "size": 18
+      "size": 20
     },
     {
       "id": "src/components/blocks/DestinationCarouselRenderer.tsx",
@@ -2335,6 +2383,36 @@
       "size": 12
     },
     {
+      "id": "src/components/blocks/individual-programs/IndividualProgramsOfferBlock.tsx",
+      "label": "individual-programs/IndividualProgramsOfferBlock.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/individual-programs/IndividualProgramsHeroBlock.tsx",
+      "label": "individual-programs/IndividualProgramsHeroBlock.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/individual-programs/IndividualProgramsQuestionnaireBlock.tsx",
+      "label": "individual-programs/IndividualProgramsQuestionnaireBlock.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/individual-programs/IndividualProgramsWhyBlock.tsx",
+      "label": "individual-programs/IndividualProgramsWhyBlock.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
+      "id": "src/components/blocks/individual-programs/IndividualProgramsHowBlock.tsx",
+      "label": "individual-programs/IndividualProgramsHowBlock.tsx",
+      "group": "blocks",
+      "size": 8
+    },
+    {
       "id": "src/components/blocks/ContactFormBlockRenderer.tsx",
       "label": "blocks/ContactFormBlockRenderer.tsx",
       "group": "blocks",
@@ -2423,6 +2501,12 @@
       "label": "ui/ShakingCredit.tsx",
       "group": "ui",
       "size": 10
+    },
+    {
+      "id": "src/components/ui/IndividualProgramsPage.tsx",
+      "label": "ui/IndividualProgramsPage.tsx",
+      "group": "ui",
+      "size": 6
     },
     {
       "id": "src/components/ui/destination-page/FloatingBookingBar.tsx",
@@ -2773,6 +2857,12 @@
       "size": 6
     },
     {
+      "id": "src/components/ui/IndividualProgramsEditButton.tsx",
+      "label": "ui/IndividualProgramsEditButton.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
       "id": "src/components/ui/About.tsx",
       "label": "ui/About.tsx",
       "group": "ui",
@@ -2783,6 +2873,12 @@
       "label": "forms/BookingFormWrapper.tsx",
       "group": "components",
       "size": 4
+    },
+    {
+      "id": "src/components/forms/IndividualProgramInquiryForm.tsx",
+      "label": "forms/IndividualProgramInquiryForm.tsx",
+      "group": "components",
+      "size": 6
     },
     {
       "id": "src/components/forms/SubscribeForm.tsx",
@@ -3031,6 +3127,12 @@
       "size": 4
     },
     {
+      "id": "src/components/admin/IndividualProgramsPageVisualEditorButton.tsx",
+      "label": "admin/IndividualProgramsPageVisualEditorButton.tsx",
+      "group": "admin",
+      "size": 4
+    },
+    {
       "id": "src/components/admin/ShopVisualEditorButton.tsx",
       "label": "admin/ShopVisualEditorButton.tsx",
       "group": "admin",
@@ -3058,7 +3160,7 @@
       "id": "src/lib/escape-html.ts",
       "label": "lib/escape-html.ts",
       "group": "lib",
-      "size": 14
+      "size": 16
     },
     {
       "id": "src/lib/resend.ts",
@@ -3106,7 +3208,7 @@
       "id": "src/lib/rate-limit.ts",
       "label": "lib/rate-limit.ts",
       "group": "lib",
-      "size": 6
+      "size": 8
     },
     {
       "id": "src/lib/pricing/dynamic.ts",
@@ -3499,6 +3601,22 @@
     {
       "source": "src/app/(puck)/puck/pages/[id]/page.tsx",
       "target": "src/puck/converter.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/individual-programs/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/individual-programs/page.tsx",
+      "target": "src/app/(puck)/puck/individual-programs/PuckIndividualProgramsEditorClient.tsx"
+    },
+    {
+      "source": "src/app/(puck)/puck/individual-programs/page.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(puck)/puck/individual-programs/PuckIndividualProgramsEditorClient.tsx",
+      "target": "src/puck/config.tsx"
     },
     {
       "source": "src/app/llms-full.txt/route.ts",
@@ -3905,6 +4023,14 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/puck/individual-programs/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/puck/individual-programs/route.ts",
+      "target": "src/lib/payload-auth.ts"
+    },
+    {
       "source": "src/app/api/carpool-rides/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -3915,6 +4041,14 @@
     {
       "source": "src/app/api/vouchers-data/route.ts",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/individual-programs-page-data/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/individual-programs-page-data/route.ts",
+      "target": "src/lib/media-url.ts"
     },
     {
       "source": "src/app/api/destinations-list/route.ts",
@@ -4099,6 +4233,18 @@
     {
       "source": "src/app/api/stripe/billing-portal/route.ts",
       "target": "src/lib/stripe.ts"
+    },
+    {
+      "source": "src/app/api/individual-program-inquiry/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/individual-program-inquiry/route.ts",
+      "target": "src/lib/escape-html.ts"
+    },
+    {
+      "source": "src/app/api/individual-program-inquiry/route.ts",
+      "target": "src/lib/rate-limit.ts"
     },
     {
       "source": "src/app/api/customer-ratings/route.ts",
@@ -5109,6 +5255,26 @@
       "target": "src/lib/metadata.ts"
     },
     {
+      "source": "src/app/(frontend)/individual-programs/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/individual-programs/page.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/individual-programs/page.tsx",
+      "target": "src/lib/metadata.ts"
+    },
+    {
+      "source": "src/app/(frontend)/individual-programs/page.tsx",
+      "target": "src/components/ui/IndividualProgramsPage.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/individual-programs/page.tsx",
+      "target": "src/components/blocks/PuckRender.tsx"
+    },
+    {
       "source": "src/app/(frontend)/[slug]/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -5370,6 +5536,10 @@
     },
     {
       "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/ProgramInquiries.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
       "target": "src/payload/collections/Guides.ts"
     },
     {
@@ -5471,6 +5641,10 @@
     {
       "source": "src/payload/payload.config.ts",
       "target": "src/payload/globals/ContactPage.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/IndividualProgramsPage.ts"
     },
     {
       "source": "src/payload/payload.config.ts",
@@ -6077,6 +6251,10 @@
       "target": "src/puck/BlockWrapper.tsx"
     },
     {
+      "source": "src/components/blocks/individual-programs/IndividualProgramsQuestionnaireBlock.tsx",
+      "target": "src/components/forms/IndividualProgramInquiryForm.tsx"
+    },
+    {
       "source": "src/components/blocks/ContactFormBlockRenderer.tsx",
       "target": "src/puck/BlockWrapper.tsx"
     },
@@ -6151,6 +6329,38 @@
     {
       "source": "src/components/ui/FeaturedTravels.tsx",
       "target": "src/components/ui/FeaturedTravelsEditButton.tsx"
+    },
+    {
+      "source": "src/components/ui/IndividualProgramsPage.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/components/ui/IndividualProgramsPage.tsx",
+      "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/components/ui/IndividualProgramsPage.tsx",
+      "target": "src/components/blocks/individual-programs/IndividualProgramsHeroBlock.tsx"
+    },
+    {
+      "source": "src/components/ui/IndividualProgramsPage.tsx",
+      "target": "src/components/blocks/individual-programs/IndividualProgramsOfferBlock.tsx"
+    },
+    {
+      "source": "src/components/ui/IndividualProgramsPage.tsx",
+      "target": "src/components/blocks/individual-programs/IndividualProgramsHowBlock.tsx"
+    },
+    {
+      "source": "src/components/ui/IndividualProgramsPage.tsx",
+      "target": "src/components/blocks/individual-programs/IndividualProgramsWhyBlock.tsx"
+    },
+    {
+      "source": "src/components/ui/IndividualProgramsPage.tsx",
+      "target": "src/components/blocks/individual-programs/IndividualProgramsQuestionnaireBlock.tsx"
+    },
+    {
+      "source": "src/components/ui/IndividualProgramsPage.tsx",
+      "target": "src/components/ui/IndividualProgramsEditButton.tsx"
     },
     {
       "source": "src/components/ui/destination-page/FloatingBookingBar.tsx",
@@ -6750,6 +6960,26 @@
     },
     {
       "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/individual-programs/IndividualProgramsHeroBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/individual-programs/IndividualProgramsOfferBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/individual-programs/IndividualProgramsHowBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/individual-programs/IndividualProgramsWhyBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
+      "target": "src/components/blocks/individual-programs/IndividualProgramsQuestionnaireBlock.tsx"
+    },
+    {
+      "source": "src/puck/config.tsx",
       "target": "src/components/blocks/contact/ContactHeroBlock.tsx"
     },
     {
@@ -6817,6 +7047,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-09T19:45:16.541Z",
-  "fileCount": 539
+  "builtAt": "2026-07-10T13:33:57.875Z",
+  "fileCount": 556
 }

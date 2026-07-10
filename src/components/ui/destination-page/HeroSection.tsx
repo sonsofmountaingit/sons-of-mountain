@@ -376,6 +376,7 @@ export function HeroSection({
         itemType={itemType}
         earlyBirdPrice={earlyBirdPrice}
         earlyBirdUntil={earlyBirdUntil}
+        earlyBirdSpots={earlyBirdSpots}
       />
     </>
   )
