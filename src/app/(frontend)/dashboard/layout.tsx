@@ -9,7 +9,7 @@ async function DashboardShell({ children }: { children: React.ReactNode }) {
   if (!session) redirect('/login?redirect=/dashboard')
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-black text-white flex items-start">
+    <div className="min-h-[calc(100vh-5rem)] mt-20 bg-black text-white flex items-start">
       <DashboardNav name={session.user.name ?? ''} email={session.user.email} />
       <div className="flex-1 min-w-0">{children}</div>
     </div>
@@ -18,7 +18,7 @@ async function DashboardShell({ children }: { children: React.ReactNode }) {
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <Suspense fallback={<div className="min-h-[calc(100vh-4rem)] bg-black" />}>
+    <Suspense fallback={<div className="min-h-[calc(100vh-5rem)] mt-20 bg-black" />}>
       <DashboardShell>{children}</DashboardShell>
     </Suspense>
   )
