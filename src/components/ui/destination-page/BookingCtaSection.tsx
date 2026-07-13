@@ -2,10 +2,11 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { formatPrice } from '@/lib/currency'
+import { WaitlistFormModal, type WaitlistItemType } from '@/components/forms/WaitlistFormModal'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -29,6 +30,8 @@ interface Props {
   bgImage?: string | null
   bgImageAlt?: string
   bookingHref?: string
+  itemType?: WaitlistItemType
+  itemId?: string
 }
 
 function formatDate(d: string) {
@@ -39,11 +42,12 @@ function isSameDay(a: string, b: string) {
   return new Date(a).toDateString() === new Date(b).toDateString()
 }
 
-export function BookingCtaSection({ name, trips = [], included = [], notIncluded = [], bgImage, bgImageAlt, bookingHref }: Props) {
+export function BookingCtaSection({ name, trips = [], included = [], notIncluded = [], bgImage, bgImageAlt, bookingHref, itemType, itemId }: Props) {
   const sectionRef = useRef<HTMLElement>(null)
   const headRef = useRef<HTMLDivElement>(null)
   const cardsRef = useRef<HTMLDivElement>(null)
   const stepsRef = useRef<HTMLDivElement>(null)
+  const [waitlistOpen, setWaitlistOpen] = useState(false)
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -138,6 +142,13 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
                       <path d="M2 7H12M12 7L7 2M12 7L7 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </Link>
+                ) : itemType && itemId ? (
+                  <button
+                    onClick={() => setWaitlistOpen(true)}
+                    className="flex items-center justify-center h-10 px-4 rounded-full bg-white text-[#111] flex-shrink-0 hover:bg-white/90 transition-colors text-xs font-black tracking-wide uppercase"
+                  >
+                    Списък с чакащи
+                  </button>
                 ) : (
                   <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/20 text-white/40 flex-shrink-0">
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -226,6 +237,16 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
           <a href="/privacy" className="underline hover:text-[#555] transition-colors">Политика за поверителност</a>.
         </p>
       </div>
+
+      {itemType && itemId && (
+        <WaitlistFormModal
+          open={waitlistOpen}
+          onClose={() => setWaitlistOpen(false)}
+          itemType={itemType}
+          itemId={itemId}
+          itemTitle={name}
+        />
+      )}
     </section>
   )
 }

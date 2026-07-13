@@ -1,11 +1,12 @@
 'use client'
 
 import Image from 'next/image'
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { mediaUrl } from '@/lib/media-url'
 import { formatPrice } from '@/lib/currency'
+import { WaitlistFormModal, type WaitlistItemType } from '@/components/forms/WaitlistFormModal'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -24,9 +25,14 @@ interface Props {
   earlyBirdUntil?: string | null
   earlyBirdSpots?: number | null
   spotsAvailable?: number | null
+  itemType?: WaitlistItemType
+  itemId?: string
+  itemTitle?: string
 }
 
-export function AdventureCtaSection({ durationDays, maxParticipants, price, currency, priceIncludes, communityPhotos, earlyBirdPrice, earlyBirdUntil, earlyBirdSpots, spotsAvailable }: Props) {
+export function AdventureCtaSection({ durationDays, maxParticipants, price, currency, priceIncludes, communityPhotos, earlyBirdPrice, earlyBirdUntil, earlyBirdSpots, spotsAvailable, itemType, itemId, itemTitle }: Props) {
+  const [waitlistOpen, setWaitlistOpen] = useState(false)
+  const isSoldOut = spotsAvailable != null && spotsAvailable === 0
   const isEarlyBird = !!(earlyBirdPrice && earlyBirdUntil && new Date() < new Date(earlyBirdUntil))
   const displayPrice = isEarlyBird ? earlyBirdPrice! : price
   const earlyBirdSpotsLeft = isEarlyBird && earlyBirdSpots != null && spotsAvailable != null
@@ -108,15 +114,27 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
             <p className="text-sm text-black/50 leading-relaxed mb-6 sm:mb-8 max-w-sm mx-auto">{priceIncludes}</p>
           )}
           <div ref={ctaRef}>
-          <a
-            href="#booking"
-            className="inline-flex items-center gap-3 bg-black text-white font-black text-sm uppercase tracking-widest px-6 sm:px-8 py-3.5 sm:py-4 hover:bg-black/80 transition-colors"
-          >
-            Резервирай сега
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </a>
+          {isSoldOut && itemType && itemId ? (
+            <button
+              onClick={() => setWaitlistOpen(true)}
+              className="inline-flex items-center gap-3 bg-black text-white font-black text-sm uppercase tracking-widest px-6 sm:px-8 py-3.5 sm:py-4 hover:bg-black/80 transition-colors"
+            >
+              Списък с чакащи
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          ) : (
+            <a
+              href="#booking"
+              className="inline-flex items-center gap-3 bg-black text-white font-black text-sm uppercase tracking-widest px-6 sm:px-8 py-3.5 sm:py-4 hover:bg-black/80 transition-colors"
+            >
+              Резервирай сега
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </a>
+          )}
           </div>
         </div>
 
@@ -149,6 +167,16 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
         )}
 
       </div>
+
+      {itemType && itemId && (
+        <WaitlistFormModal
+          open={waitlistOpen}
+          onClose={() => setWaitlistOpen(false)}
+          itemType={itemType}
+          itemId={itemId}
+          itemTitle={itemTitle}
+        />
+      )}
     </section>
   )
 }

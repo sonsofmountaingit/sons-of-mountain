@@ -248,6 +248,9 @@ async function ProgramContent({ params }: Props) {
         earlyBirdUntil={p.earlyBirdUntil as string | null}
         earlyBirdSpots={p.earlyBirdSpots as number | null}
         spotsAvailable={program.spotsAvailable as number | null}
+        itemType="program"
+        itemId={String(program.id)}
+        itemTitle={program.title ?? ''}
       />
 
       <BookingCtaSection
@@ -258,6 +261,8 @@ async function ProgramContent({ params }: Props) {
         bgImage={mediaUrl(heroImage?.url)}
         bgImageAlt={heroImage?.alt}
         bookingHref={`/programs/${program.slug ?? String(program.id)}#booking`}
+        itemType="program"
+        itemId={String(program.id)}
       />
 
       <FaqSection

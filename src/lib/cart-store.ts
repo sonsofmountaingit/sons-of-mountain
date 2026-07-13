@@ -3,7 +3,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-export type CartItemType = 'trip' | 'product' | 'program' | 'gift-voucher' | 'bundle'
+export type CartItemType = 'trip' | 'product' | 'program' | 'destination' | 'gift-voucher' | 'bundle'
 
 export interface CartItemPriceBreakdown {
   earlyBirdCount: number

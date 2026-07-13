@@ -4,6 +4,7 @@ import { revalidateTag as _revalidateTag } from 'next/cache'
 import { after } from 'next/server'
 import { syncStripeProduct } from '@/lib/stripe-product-sync'
 import { sendRegistrationFormsFor } from '@/lib/send-registration-forms'
+import { paymentPlanFields } from './shared/paymentPlanFields'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const revalidateTag = _revalidateTag
@@ -65,6 +66,7 @@ export const Trips: CollectionConfig = {
       type: 'number',
       admin: { position: 'sidebar' },
     },
+    ...paymentPlanFields,
     {
       name: 'earlyBirdPrice',
       type: 'number',

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { CartItem } from '@/lib/cart-store'
+import { resolvePaymentPlan } from '@/lib/pricing/payment-plan'
 
 type CheckoutType = 'registration' | 'order' | 'voucher' | 'cart' | 'deposit' | 'bundle'
 
@@ -58,6 +59,8 @@ export async function POST(req: NextRequest) {
 
       // Server-side amount validation: look up the record and verify the price
       const collection = COLLECTION_MAP[type] ?? 'registrations'
+      let resolvedPaymentModeLegacy = 'full'
+      let firstInstallmentAmount: number | undefined
       try {
         const record = await payload.findByID({ collection, id, overrideAccess: true })
         const storedAmount =
@@ -67,13 +70,20 @@ export async function POST(req: NextRequest) {
         if (storedAmount != null && Math.abs(amount - storedAmount) > 0.01) {
           return NextResponse.json({ error: 'Amount mismatch with server record' }, { status: 400 })
         }
+        resolvedPaymentModeLegacy = (record as any).paymentMode ?? 'full'
+        const recordInstallments = (record as any).installments as Array<{ amount: number }> | undefined
+        firstInstallmentAmount = recordInstallments?.[0]?.amount
       } catch {
         // Record not found — let Stripe handle the error downstream
       }
 
       const paymentMethods: any[] = ['card']
 
-      const chargeAmount = paymentMode === 'deposit' ? (body.depositAmount ?? amount) : amount
+      const chargeAmount = resolvedPaymentModeLegacy === 'installments' && firstInstallmentAmount != null
+        ? firstInstallmentAmount
+        : resolvedPaymentModeLegacy === 'deposit'
+          ? (firstInstallmentAmount ?? body.depositAmount ?? amount)
+          : amount
 
       const session = await stripe.checkout.sessions.create({
         mode: 'payment',
@@ -92,7 +102,8 @@ export async function POST(req: NextRequest) {
           ? `${base}${successPath}?session_id={CHECKOUT_SESSION_ID}`
           : `${base}/shop/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: cancelPath ? `${base}${cancelPath}` : `${base}/shop/cancel`,
-        metadata: { recordId: id, type, tripId: tripId ?? '', paymentMode: paymentMode ?? 'full' },
+        payment_intent_data: { setup_future_usage: 'off_session' },
+        metadata: { recordId: id, type, tripId: tripId ?? '', paymentMode: resolvedPaymentModeLegacy },
         customer_email: customerEmail,
       })
 
@@ -107,10 +118,10 @@ export async function POST(req: NextRequest) {
     for (const item of items as CartItem[]) {
       try {
         const collectionMap: Record<string, string> = {
-          trip: 'trips', product: 'products', program: 'programs', bundle: 'bundles',
+          trip: 'trips', product: 'products', program: 'programs', destination: 'destinations', bundle: 'bundles',
         }
         const col = collectionMap[item.type]
-        const docId = item.tripId ?? item.productId ?? item.programId ?? item.bundleId
+        const docId = item.tripId ?? item.productId ?? item.programId ?? item.destinationId ?? item.bundleId
         if (col && docId) {
           const doc = await payload.findByID({ collection: col as any, id: docId, overrideAccess: true })
           const expectedPrice =
@@ -135,15 +146,38 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // Resolve the authoritative payment plan server-side from the booked item's config —
+    // never trust the client for payment mode/amounts, same principle as the price validation above.
+    let resolvedPaymentMode: string = paymentMode ?? 'full'
+    let resolvedInstallments: Array<{ label: string; amount: number; dueDate: string }> = []
+    const bookableItem = (items as CartItem[]).find((i) => i.type === 'trip' || i.type === 'program' || i.type === 'destination')
+    if (bookableItem) {
+      const collectionMap: Record<string, string> = { trip: 'trips', program: 'programs', destination: 'destinations' }
+      const col = collectionMap[bookableItem.type]
+      const docId = bookableItem.tripId ?? bookableItem.programId ?? bookableItem.destinationId
+      if (col && docId) {
+        const doc = await payload.findByID({ collection: col as any, id: docId }).catch(() => null)
+        if (doc) {
+          const plan = resolvePaymentPlan(doc as any, new Date())
+          resolvedPaymentMode = plan.mode === 'installments3' ? 'installments' : plan.mode
+          resolvedInstallments = plan.installments.map((inst) => ({
+            label: inst.label,
+            amount: inst.amount,
+            dueDate: inst.dueDate.toISOString(),
+          }))
+        }
+      }
+    }
+
     // Build line items — use stored Stripe Price IDs where available
     const lineItems: any[] = await Promise.all((items as CartItem[]).map(async (item) => {
       let stripePriceId: string | null = null
       try {
         const collectionMap: Record<string, string> = {
-          trip: 'trips', product: 'products', program: 'programs', bundle: 'bundles',
+          trip: 'trips', product: 'products', program: 'programs', destination: 'destinations', bundle: 'bundles',
         }
         const col = collectionMap[item.type]
-        const docId = item.tripId ?? item.productId ?? item.programId ?? item.bundleId
+        const docId = item.tripId ?? item.productId ?? item.programId ?? item.destinationId ?? item.bundleId
         if (col && docId) {
           const doc = await payload.findByID({ collection: col as any, id: docId }).catch(() => null)
           stripePriceId = (doc as any)?.stripePriceId ?? null
@@ -156,7 +190,7 @@ export async function POST(req: NextRequest) {
           currency,
           product_data: {
             name: item.title,
-            metadata: { itemType: item.type, itemId: item.tripId ?? item.productId ?? item.programId ?? item.bundleId ?? '' },
+            metadata: { itemType: item.type, itemId: item.tripId ?? item.productId ?? item.programId ?? item.destinationId ?? item.bundleId ?? '' },
           },
           unit_amount: Math.round(item.unitPrice * 100),
         },
@@ -178,7 +212,11 @@ export async function POST(req: NextRequest) {
         discountCode: discountCodeId ?? null,
         giftVoucher: giftVoucherId ?? null,
         loyaltyPointsRedeemed: loyaltyPointsRedeemed ?? 0,
-        paymentMode: paymentMode ?? 'full',
+        paymentMode: resolvedPaymentMode,
+        installments: resolvedPaymentMode === 'installments' || resolvedPaymentMode === 'deposit' ? resolvedInstallments : undefined,
+        depositPaid: undefined,
+        remainingBalance: resolvedPaymentMode === 'deposit' ? resolvedInstallments[1]?.amount : undefined,
+        remainingDueDate: resolvedPaymentMode === 'deposit' ? resolvedInstallments[1]?.dueDate : undefined,
         shippingAddress: shippingAddress ?? undefined,
         corporatePeopleCount: corporatePeopleCount ?? 1,
         items: (items as CartItem[]).map((item) => ({
@@ -186,6 +224,7 @@ export async function POST(req: NextRequest) {
           trip: item.tripId ?? null,
           product: item.productId ?? null,
           program: item.programId ?? null,
+          destination: item.destinationId ?? null,
           bundle: item.bundleId ?? null,
           variantId: item.variantId ?? null,
           quantity: item.quantity,
@@ -248,22 +287,35 @@ export async function POST(req: NextRequest) {
       stripeCustomerId = (custResult?.docs[0] as any)?.stripeCustomerId ?? undefined
     }
 
+    // For deposit/installment plans, charge only the first installment now — the rest is
+    // collected later off-session by the balance-charge cron using the saved payment method.
+    const chargeNowLineItems = resolvedInstallments.length > 0
+      ? [{
+          price_data: {
+            currency,
+            product_data: { name: `${bookableItem?.title ?? 'Sons of Mountains'} — ${resolvedInstallments[0].label}` },
+            unit_amount: Math.round(resolvedInstallments[0].amount * 100),
+          },
+          quantity: 1,
+        }]
+      : lineItems
+
     const sessionParams: any = {
       mode: 'payment',
       payment_method_types: paymentMethods,
-      line_items: lineItems,
+      line_items: chargeNowLineItems,
       success_url: `${base}/shop/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${base}/shop/cancel`,
       customer_email: stripeCustomerId ? undefined : customerEmail,
       customer: stripeCustomerId,
       payment_intent_data: {
-        setup_future_usage: stripeCustomerId ? 'off_session' : undefined,
+        setup_future_usage: stripeCustomerId || resolvedInstallments.length > 1 ? 'off_session' : undefined,
         metadata: { orderId: orderRecord.id },
       },
       metadata: {
         orderId: orderRecord.id,
         type: 'cart',
-        paymentMode: paymentMode ?? 'full',
+        paymentMode: resolvedPaymentMode,
         discountCodeId: discountCodeId ?? '',
         giftVoucherId: giftVoucherId ?? '',
         loyaltyPointsRedeemed: String(loyaltyPointsRedeemed ?? 0),

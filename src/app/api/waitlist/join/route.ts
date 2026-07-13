@@ -6,7 +6,7 @@ import { headers } from 'next/headers'
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, name, itemType, itemId } = await req.json()
+    const { email, name, phone, participantCount, message, source, itemType, itemId } = await req.json()
     if (!email || !itemType || !itemId) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
@@ -53,7 +53,19 @@ export async function POST(req: NextRequest) {
 
     await payload.create({
       collection: 'waitlist',
-      data: { email, name, betterAuthUserId, itemType, [itemField]: itemId, position, status: 'waiting' },
+      data: {
+        email,
+        name,
+        phone,
+        participantCount: participantCount ?? 1,
+        message,
+        source: source ?? 'sold-out',
+        betterAuthUserId,
+        itemType,
+        [itemField]: itemId,
+        position,
+        status: 'waiting',
+      },
     })
 
     return NextResponse.json({ ok: true, position })

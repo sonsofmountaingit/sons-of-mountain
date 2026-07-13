@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { formatPrice } from '@/lib/currency'
+import { WaitlistFormModal, type WaitlistItemType } from '@/components/forms/WaitlistFormModal'
 
 interface Props {
   month?: string | null
@@ -13,7 +14,7 @@ interface Props {
   currency: string
   tripId: string
   tripTitle: string
-  itemType?: 'trip' | 'program'
+  itemType?: WaitlistItemType
   spotsAvailable?: number | null
   depositAmount?: number | null
   earlyBirdPrice?: number | null
@@ -51,7 +52,9 @@ export function FloatingBookingBar({
     ? Math.min(spotsAvailable, earlyBirdSpots)
     : null
   const [visible, setVisible] = useState(false)
+  const [waitlistOpen, setWaitlistOpen] = useState(false)
   const barRef = useRef<HTMLDivElement>(null)
+  const isSoldOut = spotsAvailable != null && spotsAvailable === 0
 
   useEffect(() => {
     let ticking = false
@@ -72,6 +75,7 @@ export function FloatingBookingBar({
   }, [footerSelector])
 
   function handleBook() {
+    if (isSoldOut) { setWaitlistOpen(true); return }
     if (onBook) { onBook(); return }
     window.dispatchEvent(new Event('open-booking-drawer'))
   }
@@ -148,9 +152,17 @@ export function FloatingBookingBar({
           onClick={handleBook}
           className="bg-orange-700 hover:bg-orange-800 text-white font-black uppercase tracking-widest text-xs sm:text-sm px-4 sm:px-5 py-2 rounded-full transition-colors cursor-pointer"
         >
-          Запиши се
+          {isSoldOut ? 'Списък с чакащи' : 'Запиши се'}
         </button>
       </div>
+
+      <WaitlistFormModal
+        open={waitlistOpen}
+        onClose={() => setWaitlistOpen(false)}
+        itemType={itemType ?? 'trip'}
+        itemId={tripId}
+        itemTitle={tripTitle}
+      />
     </div>
   )
 }

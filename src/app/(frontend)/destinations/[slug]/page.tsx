@@ -300,6 +300,9 @@ async function DestinationContent({ params }: Props) {
         earlyBirdUntil={d.earlyBirdUntil as string | null}
         earlyBirdSpots={d.earlyBirdSpots as number | null}
         spotsAvailable={d.spotsAvailable as number | null}
+        itemType="destination"
+        itemId={String(destination.id)}
+        itemTitle={destination.name}
       />
 
       <FreeTransferSection freeTransfer={(destination as any).freeTransfer} />
@@ -311,6 +314,8 @@ async function DestinationContent({ params }: Props) {
         notIncluded={notIncluded ?? []}
         bgImage={mediaUrl(heroImage?.url)}
         bgImageAlt={heroImage?.alt}
+        itemType="destination"
+        itemId={String(destination.id)}
       />
 
       <FaqSection

@@ -235,7 +235,7 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
 
   async function handleWaitlist(e: React.FormEvent) {
     e.preventDefault()
-    await fetch('/api/waitlist', {
+    await fetch('/api/waitlist/join', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ email: waitlistEmail, itemType: item.kind, itemId: item.id }),

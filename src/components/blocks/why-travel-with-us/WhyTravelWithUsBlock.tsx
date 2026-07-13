@@ -39,13 +39,16 @@ function TripVideoCard({
   const [playing, setPlaying] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
 
+  useEffect(() => {
+    if (playing) videoRef.current?.play()
+  }, [playing])
+
   const isLeft = index % 2 === 0
   const tilt = isMobile ? 0 : isLeft ? -6 : 6
 
   const handlePlay = useCallback((e: React.MouseEvent) => {
     e.stopPropagation()
     setPlaying(true)
-    videoRef.current?.play()
   }, [])
 
   const handlePause = useCallback((e: React.MouseEvent) => {

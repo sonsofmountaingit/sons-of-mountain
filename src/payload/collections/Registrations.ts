@@ -243,6 +243,40 @@ export const Registrations: CollectionConfig = {
       admin: { condition: (data) => data.paymentMode === 'deposit' },
     },
     {
+      name: 'installments',
+      type: 'array',
+      admin: {
+        description: 'Installment schedule (deposit/second/final payments)',
+        condition: (data) => data.paymentMode === 'installments',
+      },
+      fields: [
+        { name: 'label', type: 'text', required: true },
+        { name: 'amount', type: 'number', required: true },
+        { name: 'dueDate', type: 'date', required: true },
+        {
+          name: 'status',
+          type: 'select',
+          options: [
+            { label: 'Pending', value: 'pending' },
+            { label: 'Charged', value: 'charged' },
+            { label: 'Failed', value: 'failed' },
+          ],
+          defaultValue: 'pending',
+        },
+        { name: 'paymentIntentId', type: 'text', admin: { readOnly: true } },
+        { name: 'chargeAttemptedAt', type: 'date', admin: { readOnly: true } },
+        { name: 'firstFailedAt', type: 'date', admin: { readOnly: true } },
+        { name: 'overdueNoticeSent', type: 'checkbox', defaultValue: false, admin: { readOnly: true } },
+        { name: 'remindersSent', type: 'array', admin: { readOnly: true }, fields: [{ name: 'daysBefore', type: 'number' }] },
+      ],
+    },
+    {
+      name: 'manualCancelRequested',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: { position: 'sidebar', description: 'Check to immediately cancel this registration and free its spot, bypassing the grace period' },
+    },
+    {
       name: 'checkedIn',
       type: 'checkbox',
       defaultValue: false,

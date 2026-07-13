@@ -18,6 +18,30 @@ export const Waitlist: CollectionConfig = {
       type: 'text',
     },
     {
+      name: 'phone',
+      type: 'text',
+    },
+    {
+      name: 'participantCount',
+      type: 'number',
+      defaultValue: 1,
+    },
+    {
+      name: 'message',
+      type: 'textarea',
+      admin: { description: 'Бележки от клиента — гъвкавост в датите, какво търси и т.н.' },
+    },
+    {
+      name: 'source',
+      type: 'select',
+      options: [
+        { label: 'Изчерпани места', value: 'sold-out' },
+        { label: 'Ръчна заявка', value: 'manual-inquiry' },
+      ],
+      defaultValue: 'sold-out',
+      admin: { position: 'sidebar' },
+    },
+    {
       name: 'betterAuthUserId',
       type: 'text',
       admin: { readOnly: true },

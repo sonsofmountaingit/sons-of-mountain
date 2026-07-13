@@ -23,8 +23,6 @@ interface NavbarClientProps {
 const LANGUAGES = [
   { code: 'BG', label: 'Български' },
   { code: 'EN', label: 'English' },
-  { code: 'DE', label: 'Deutsch' },
-  { code: 'RU', label: 'Русский' },
 ]
 
 const PANEL_VARIANTS = {

@@ -282,6 +282,9 @@ async function TripContent({ params }: Props) {
         earlyBirdUntil={t.earlyBirdUntil as string | null}
         earlyBirdSpots={t.earlyBirdSpots as number | null}
         spotsAvailable={trip.spotsAvailable as number | null}
+        itemType="trip"
+        itemId={String(trip.id)}
+        itemTitle={title}
       />
 
       <FreeTransferSection freeTransfer={(trip as any).freeTransfer} />
@@ -293,6 +296,8 @@ async function TripContent({ params }: Props) {
         notIncluded={notIncluded ?? []}
         bgImage={mediaUrl(heroImage?.url)}
         bgImageAlt={heroImage?.alt}
+        itemType="trip"
+        itemId={String(trip.id)}
       />
 
       <FaqSection

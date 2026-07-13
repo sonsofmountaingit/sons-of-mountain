@@ -33,7 +33,7 @@ async function creditLoyaltyPoints(payload: BasePayload, customerId: string | nu
   } catch {}
 }
 
-async function notifyWaitlist(payload: BasePayload, itemType: string, itemId: string) {
+export async function notifyWaitlist(payload: BasePayload, itemType: string, itemId: string) {
   try {
     const next = await payload.find({
       collection: 'waitlist',
@@ -179,6 +179,15 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
           await payload.update({ collection: 'programs', id: pgId, data: { spotsAvailable: newSpots, status: newSpots === 0 ? 'Sold Out' : 'Active' } })
         }
       }
+      if (item.itemType === 'destination' && item.destination) {
+        const dId = typeof item.destination === 'string' ? item.destination : item.destination.id
+        const destination = await payload.findByID({ collection: 'destinations', id: dId }).catch(() => null)
+        if (destination) {
+          const newSpots = Math.max(0, (destination as any).spotsAvailable - (item.participantCount ?? item.quantity ?? 1))
+          await payload.update({ collection: 'destinations', id: dId, data: { spotsAvailable: newSpots, bookingStatus: newSpots === 0 ? 'soldOut' : 'active' } })
+          if (newSpots > 0) await notifyWaitlist(payload, 'destination', dId)
+        }
+      }
       if (item.itemType === 'bundle' && item.bundle) {
         const bId = typeof item.bundle === 'string' ? item.bundle : item.bundle.id
         const bundle = await payload.findByID({ collection: 'bundles', id: bId }).catch(() => null)
@@ -269,16 +278,25 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
       }
     } catch {}
 
-    // Schedule balance charge if deposit mode
-    if (paymentMode === 'deposit' && session.payment_intent && session.customer) {
+    // Schedule remaining installments if deposit or installments mode
+    if ((paymentMode === 'deposit' || paymentMode === 'installments') && session.payment_intent && session.customer) {
       try {
         const pi = await stripe.paymentIntents.retrieve(session.payment_intent as string)
         const pmId = typeof pi.payment_method === 'string' ? pi.payment_method : pi.payment_method?.id
         if (pmId) {
+          const updateData: Record<string, unknown> = { balancePaymentIntentId: `scheduled:${pmId}`, balanceChargeStatus: 'pending' }
+          if (paymentMode === 'installments') {
+            const freshOrder = await payload.findByID({ collection: 'orders', id: orderId }).catch(() => null)
+            const installments = ((freshOrder as any)?.installments ?? []) as any[]
+            if (installments[0]) {
+              installments[0] = { ...installments[0], status: 'charged', paymentIntentId: session.payment_intent as string, chargeAttemptedAt: new Date().toISOString() }
+              updateData.installments = installments
+            }
+          }
           await payload.update({
             collection: 'orders',
             id: orderId,
-            data: { balancePaymentIntentId: `scheduled:${pmId}`, balanceChargeStatus: 'pending' } as any,
+            data: updateData as any,
           })
         }
       } catch {}
@@ -306,6 +324,9 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
       updateData.paymentMode = 'deposit'
       updateData.depositPaid = (session.amount_total ?? 0) / 100
     }
+    if (paymentModeValue === 'installments') {
+      updateData.paymentMode = 'installments'
+    }
     await payload.update({ collection: 'registrations', id, data: updateData as any })
     await generateInvoice(payload, stripe, session, 'registrations', id)
 
@@ -321,13 +342,22 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
       }
     }
 
-    // Schedule balance charge if deposit
-    if (paymentModeValue === 'deposit' && session.payment_intent && session.customer) {
+    // Schedule remaining installments if deposit or installments mode
+    if ((paymentModeValue === 'deposit' || paymentModeValue === 'installments') && session.payment_intent && session.customer) {
       try {
         const pi = await stripe.paymentIntents.retrieve(session.payment_intent as string)
         const pmId = typeof pi.payment_method === 'string' ? pi.payment_method : pi.payment_method?.id
         if (pmId) {
-          await payload.update({ collection: 'registrations', id, data: { balancePaymentIntentId: `scheduled:${pmId}`, balanceChargeStatus: 'pending' } as any })
+          const regUpdateData: Record<string, unknown> = { balancePaymentIntentId: `scheduled:${pmId}`, balanceChargeStatus: 'pending' }
+          if (paymentModeValue === 'installments') {
+            const freshReg = await payload.findByID({ collection: 'registrations', id }).catch(() => null)
+            const installments = ((freshReg as any)?.installments ?? []) as any[]
+            if (installments[0]) {
+              installments[0] = { ...installments[0], status: 'charged', paymentIntentId: session.payment_intent as string, chargeAttemptedAt: new Date().toISOString() }
+              regUpdateData.installments = installments
+            }
+          }
+          await payload.update({ collection: 'registrations', id, data: regUpdateData as any })
         }
       } catch {}
     }

@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { revalidateTag as _revalidateTag } from 'next/cache'
 import { after } from 'next/server'
 import { syncStripeProduct } from '@/lib/stripe-product-sync'
+import { paymentPlanFields } from './shared/paymentPlanFields'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const revalidateTag = _revalidateTag
@@ -80,6 +81,7 @@ export const Programs: CollectionConfig = {
       type: 'number',
       admin: { position: 'sidebar', description: 'Deposit amount to reserve a spot' },
     },
+    ...paymentPlanFields,
     {
       name: 'earlyBirdPrice',
       type: 'number',

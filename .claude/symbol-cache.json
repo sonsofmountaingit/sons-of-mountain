@@ -6423,7 +6423,7 @@
       "next/image",
       "@payloadcms/richtext-lexical/react"
     ],
-    "lines": 91,
+    "lines": 100,
     "group": "ui"
   },
   "src/components/ui/destination-page/EquipmentSection.tsx": {

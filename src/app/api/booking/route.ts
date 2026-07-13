@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { Resend } from 'resend'
 import { auth } from '@/lib/auth'
+import { resolvePaymentPlan } from '@/lib/pricing/payment-plan'
 
 export async function POST(req: NextRequest) {
   try {
@@ -27,12 +28,25 @@ export async function POST(req: NextRequest) {
 
     let totalAmount = 0
     let currency = 'EUR'
+    let paymentMode = 'full'
+    let installments: Array<{ label: string; amount: number; dueDate: string }> = []
 
-    if (tripId) {
-      const trip = await payload.findByID({ collection: 'trips', id: tripId })
-      if (!trip) return NextResponse.json({ error: 'Trip not found' }, { status: 404 })
-      totalAmount = (trip.price ?? 0) * (participantCount ?? 1)
-      currency = trip.currency ?? 'EUR'
+    const bookableCollection = tripId ? 'trips' : destinationId ? 'destinations' : programId ? 'programs' : null
+    const bookableId = tripId ?? destinationId ?? programId
+
+    if (bookableCollection && bookableId) {
+      const doc = await payload.findByID({ collection: bookableCollection, id: bookableId })
+      if (!doc) return NextResponse.json({ error: 'Item not found' }, { status: 404 })
+      totalAmount = ((doc as any).price ?? 0) * (participantCount ?? 1)
+      currency = (doc as any).currency ?? 'EUR'
+
+      const plan = resolvePaymentPlan(doc as any, new Date())
+      paymentMode = plan.mode === 'installments3' ? 'installments' : plan.mode
+      installments = plan.installments.map((inst) => ({
+        label: inst.label,
+        amount: inst.amount * (participantCount ?? 1),
+        dueDate: inst.dueDate.toISOString(),
+      }))
     }
 
     let customerId: string | undefined
@@ -66,6 +80,10 @@ export async function POST(req: NextRequest) {
         agreedToTerms: true,
         totalAmount,
         currency,
+        paymentMode,
+        installments: paymentMode === 'installments' || paymentMode === 'deposit' ? installments : undefined,
+        remainingBalance: paymentMode === 'deposit' ? installments[1]?.amount : undefined,
+        remainingDueDate: paymentMode === 'deposit' ? installments[1]?.dueDate : undefined,
         ...(carpool ? { carpool } : {}),
         ...(carpool === 'organizer' && carpoolVehicleType ? { carpoolVehicleType } : {}),
         ...(carpool === 'organizer' && carpoolSeats ? { carpoolSeats } : {}),
