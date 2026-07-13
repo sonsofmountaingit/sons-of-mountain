@@ -22,7 +22,7 @@ type Bookable = {
   installmentPlan?: {
     secondPaymentPercent?: number | null
     secondPaymentDeadlineDays?: number | null
-    secondPaymentDeadlineBeforeTripDays?: number | null
+    secondPaymentBeforeTripDays?: number | null
     finalPaymentBeforeTripDays?: number | null
   } | null
 }
@@ -72,7 +72,7 @@ export function resolvePaymentPlan(record: Bookable, bookingDate: Date = new Dat
   const plan = record.installmentPlan ?? {}
   const secondPaymentPercent = plan.secondPaymentPercent ?? 50
   const secondPaymentDeadlineDays = plan.secondPaymentDeadlineDays ?? 30
-  const secondPaymentDeadlineBeforeTripDays = plan.secondPaymentDeadlineBeforeTripDays ?? 60
+  const secondPaymentBeforeTripDays = plan.secondPaymentBeforeTripDays ?? 60
   const finalPaymentBeforeTripDays = plan.finalPaymentBeforeTripDays ?? 45
 
   const depositAmount = record.depositAmount ?? Math.min(100, record.price * 0.1)
@@ -81,7 +81,7 @@ export function resolvePaymentPlan(record: Bookable, bookingDate: Date = new Dat
 
   const byDaysAfterBooking = new Date(bookingDate.getTime() + secondPaymentDeadlineDays * 86400000)
   const byDaysBeforeTrip = startDate
-    ? new Date(startDate.getTime() - secondPaymentDeadlineBeforeTripDays * 86400000)
+    ? new Date(startDate.getTime() - secondPaymentBeforeTripDays * 86400000)
     : byDaysAfterBooking
   const secondPaymentDueDate = byDaysAfterBooking < byDaysBeforeTrip ? byDaysAfterBooking : byDaysBeforeTrip
 

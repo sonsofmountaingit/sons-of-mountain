@@ -65,7 +65,7 @@ export const paymentPlanFields: Field[] = [
         defaultValue: 30,
       },
       {
-        name: 'secondPaymentDeadlineBeforeTripDays',
+        name: 'secondPaymentBeforeTripDays',
         type: 'number',
         label: '2ро плащане — или дни преди началото (по-рано от двете)',
         defaultValue: 60,
