@@ -137,7 +137,12 @@ export async function POST(req: NextRequest) {
         const col = collectionMap[item.type]
         const docId = item.tripId ?? item.productId ?? item.programId ?? item.destinationId ?? item.bundleId
         if (col && docId) {
-          const doc = await payload.findByID({ collection: col as any, id: docId, overrideAccess: true })
+          const doc = await payload.findByID({ collection: col as any, id: docId, overrideAccess: true }).catch(() => null)
+          if (!doc) {
+            return NextResponse.json({
+              error: `"${item.title}" вече не е достъпен. Моля, премахнете го от количката и опитайте отново.`,
+            }, { status: 400 })
+          }
           const expectedPrice =
             (doc as any)?.price ??
             (doc as any)?.bundlePrice ??

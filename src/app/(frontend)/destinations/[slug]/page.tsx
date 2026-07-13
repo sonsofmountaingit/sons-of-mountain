@@ -190,6 +190,7 @@ async function DestinationContent({ params }: Props) {
         currency="EUR"
         tripId={String(destination.id)}
         tripTitle={destination.name}
+        itemType="destination"
         spotsAvailable={(d.spotsAvailable as number | null)}
         depositAmount={(d.depositAmount as number | null)}
         earlyBirdPrice={(d.earlyBirdPrice as number | null)}

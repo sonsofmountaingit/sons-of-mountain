@@ -18,7 +18,7 @@ interface Props {
   endDate?: string | null
   durationDays?: number | null
   month?: string | null
-  itemType?: 'trip' | 'program'
+  itemType?: 'trip' | 'program' | 'destination'
   earlyBirdPrice?: number | null
   earlyBirdUntil?: string | null
   earlyBirdSpots?: number | null
@@ -79,6 +79,7 @@ export function BookingDrawer({
       priceBreakdown,
       tripId: itemType === 'trip' ? tripId : undefined,
       programId: itemType === 'program' ? tripId : undefined,
+      destinationId: itemType === 'destination' ? tripId : undefined,
       spotsAvailable: spotsAvailable ?? undefined,
       depositAmount: depositAmount ?? undefined,
     })

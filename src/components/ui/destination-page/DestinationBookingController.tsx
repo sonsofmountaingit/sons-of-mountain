@@ -14,7 +14,7 @@ interface Props {
   currency: string
   tripId: string
   tripTitle: string
-  itemType?: 'trip' | 'program'
+  itemType?: 'trip' | 'program' | 'destination'
   spotsAvailable?: number | null
   depositAmount?: number | null
   earlyBirdPrice?: number | null
