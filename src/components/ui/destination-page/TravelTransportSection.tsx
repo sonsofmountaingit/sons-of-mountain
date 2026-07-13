@@ -13,13 +13,22 @@ interface Props {
   transportImageAlt?: string
 }
 
+function hasRichText(value?: Record<string, unknown> | null) {
+  const root = value?.root as { children?: unknown[] } | undefined
+  if (!root?.children?.length) return false
+  return root.children.some((node) => {
+    const n = node as { children?: unknown[]; type?: string }
+    return n.type !== 'paragraph' || (n.children?.length ?? 0) > 0
+  })
+}
+
 export function TravelTransportSection({
   variant = 'both',
   travelTitle, travelDescription, travelImage, travelImageAlt,
   transportTitle, transportDescription, transportImage, transportImageAlt,
 }: Props) {
-  const hasTravel = variant !== 'transport' && (travelTitle || travelDescription || travelImage)
-  const hasTransport = variant !== 'travel' && (transportTitle || transportDescription || transportImage)
+  const hasTravel = variant !== 'transport' && Boolean(travelTitle || hasRichText(travelDescription) || travelImage)
+  const hasTransport = variant !== 'travel' && Boolean(transportTitle || hasRichText(transportDescription) || transportImage)
   if (!hasTravel && !hasTransport) return null
 
   return (
@@ -32,7 +41,7 @@ export function TravelTransportSection({
               {travelTitle && (
                 <h2 className="text-3xl md:text-4xl font-bold leading-tight mb-5">{travelTitle}</h2>
               )}
-              {travelDescription && (
+              {hasRichText(travelDescription) && (
                 <div className="prose text-black/70 max-w-none">
                   <RichText data={travelDescription as unknown as Parameters<typeof RichText>[0]["data"]} />
                 </div>
@@ -76,7 +85,7 @@ export function TravelTransportSection({
               {transportTitle && (
                 <h2 className="text-3xl md:text-4xl font-bold leading-tight mb-5">{transportTitle}</h2>
               )}
-              {transportDescription && (
+              {hasRichText(transportDescription) && (
                 <div className="prose text-black/70 max-w-none">
                   <RichText data={transportDescription as unknown as Parameters<typeof RichText>[0]["data"]} />
                 </div>
