@@ -583,6 +583,12 @@
       "size": 4
     },
     {
+      "id": "src/app/api/orders/by-session/route.ts",
+      "label": "by-session/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/shop-data/route.ts",
       "label": "shop-data/route.ts",
       "group": "api",
@@ -591,6 +597,12 @@
     {
       "id": "src/app/api/webhooks/resend/route.ts",
       "label": "resend/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/webhooks/stripe/route.ts",
+      "label": "stripe/route.ts",
       "group": "api",
       "size": 4
     },
@@ -2974,7 +2986,7 @@
       "id": "src/components/auth/AuthModal.tsx",
       "label": "auth/AuthModal.tsx",
       "group": "components",
-      "size": 6
+      "size": 8
     },
     {
       "id": "src/components/auth/AuthForm.tsx",
@@ -3220,7 +3232,7 @@
       "id": "src/lib/stripe-webhooks.ts",
       "label": "lib/stripe-webhooks.ts",
       "group": "lib",
-      "size": 8
+      "size": 10
     },
     {
       "id": "src/lib/escape-html.ts",
@@ -3840,6 +3852,10 @@
     },
     {
       "source": "src/app/api/checkout/route.ts",
+      "target": "src/lib/auth.ts"
+    },
+    {
+      "source": "src/app/api/checkout/route.ts",
       "target": "src/lib/stripe.ts"
     },
     {
@@ -3955,12 +3971,28 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/orders/by-session/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
       "source": "src/app/api/shop-data/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
       "source": "src/app/api/webhooks/resend/route.ts",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/webhooks/stripe/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/webhooks/stripe/route.ts",
+      "target": "src/lib/stripe.ts"
+    },
+    {
+      "source": "src/app/api/webhooks/stripe/route.ts",
+      "target": "src/lib/stripe-webhooks.ts"
     },
     {
       "source": "src/app/api/puck/home/route.ts",
@@ -4687,6 +4719,14 @@
       "target": "src/components/shop/StarRating.tsx"
     },
     {
+      "source": "src/app/(frontend)/shop/success/page.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/success/page.tsx",
+      "target": "src/lib/currency.ts"
+    },
+    {
       "source": "src/app/(frontend)/shop/gift-vouchers/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -4713,6 +4753,14 @@
     {
       "source": "src/app/(frontend)/shop/checkout/page.tsx",
       "target": "src/lib/currency.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/checkout/page.tsx",
+      "target": "src/lib/auth-client.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/checkout/page.tsx",
+      "target": "src/components/auth/AuthModal.tsx"
     },
     {
       "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
@@ -4917,6 +4965,10 @@
     {
       "source": "src/app/(frontend)/dashboard/vouchers/page.tsx",
       "target": "src/app/(frontend)/dashboard/vouchers/VouchersClient.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/dashboard/orders/OrdersClient.tsx",
+      "target": "src/lib/currency.ts"
     },
     {
       "source": "src/app/(frontend)/dashboard/orders/page.tsx",
@@ -7243,6 +7295,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-13T15:22:06.561Z",
-  "fileCount": 570
+  "builtAt": "2026-07-13T16:11:26.344Z",
+  "fileCount": 572
 }

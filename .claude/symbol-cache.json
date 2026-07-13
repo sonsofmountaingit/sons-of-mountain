@@ -1141,9 +1141,10 @@
       "payload",
       "@payload-config",
       "@/lib/cart-store",
-      "@/lib/pricing/payment-plan"
+      "@/lib/pricing/payment-plan",
+      "@/lib/auth"
     ],
-    "lines": 335,
+    "lines": 351,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {
@@ -1440,6 +1441,19 @@
     "lines": 14,
     "group": "api"
   },
+  "src/app/api/orders/by-session/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 29,
+    "group": "api"
+  },
   "src/app/api/shop-data/route.ts": {
     "exports": [
       "GET"
@@ -1465,6 +1479,21 @@
       "@payload-config"
     ],
     "lines": 47,
+    "group": "api"
+  },
+  "src/app/api/webhooks/stripe/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "stripe",
+      "@/lib/stripe"
+    ],
+    "lines": 71,
     "group": "api"
   },
   "src/app/api/puck/home/route.ts": {
@@ -2560,9 +2589,12 @@
     "imports": [
       "next",
       "next/link",
-      "react"
+      "react",
+      "payload",
+      "@payload-config",
+      "@/lib/currency"
     ],
-    "lines": 40,
+    "lines": 163,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/gift-vouchers/_components/GiftVoucherPurchaseForm.tsx": {
@@ -2626,9 +2658,11 @@
       "zod",
       "next/link",
       "sonner",
-      "@/lib/currency"
+      "@/lib/currency",
+      "@/lib/auth-client",
+      "@/components/auth/AuthModal"
     ],
-    "lines": 354,
+    "lines": 378,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/[tripId]/success/page.tsx": {
@@ -3007,9 +3041,10 @@
     "types": [],
     "imports": [
       "react",
-      "gsap"
+      "gsap",
+      "@/lib/currency"
     ],
-    "lines": 52,
+    "lines": 118,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/orders/page.tsx": {
@@ -7613,7 +7648,7 @@
       "next/cache",
       "@/lib/escape-html"
     ],
-    "lines": 758,
+    "lines": 894,
     "group": "lib"
   },
   "src/lib/escape-html.ts": {
