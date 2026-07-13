@@ -333,10 +333,10 @@ export const Programs: CollectionConfig = {
     {
       name: 'fitnessRatings',
       type: 'array',
-      admin: { description: 'Arc gauges — add, remove, or reorder freely. Value 0–100.' },
+      admin: { description: 'Arc gauges — add, remove, or reorder freely. Value 1–5.' },
       fields: [
         { name: 'label', type: 'text', required: true },
-        { name: 'value', type: 'number', min: 0, max: 100, defaultValue: 50, required: true },
+        { name: 'value', type: 'number', min: 1, max: 5, defaultValue: 3, required: true },
       ],
     },
     {

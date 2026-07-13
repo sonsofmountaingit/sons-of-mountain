@@ -10,7 +10,7 @@ function pickDifficulty(ratings: { label?: string; value?: number }[] | undefine
   const match = ratings.find((r) => r.label?.toLowerCase().includes('трудност'))
   const raw = match?.value ?? ratings[0]?.value ?? null
   if (raw == null) return null
-  return Math.max(1, Math.min(5, Math.ceil(raw / 20)))
+  return Math.max(1, Math.min(5, Math.round(raw)))
 }
 
 import Script from 'next/script'

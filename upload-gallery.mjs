@@ -1,13 +1,24 @@
 import fs from 'fs'
 import path from 'path'
-import os from 'os'
 import sharp from 'sharp'
 
 const BASE = 'https://sonsofmountain.com'
 const EMAIL = process.env.PAYLOAD_EMAIL
 const PASSWORD = process.env.PAYLOAD_PASSWORD
-const SOURCE_DIR = path.join(os.homedir(), 'Downloads', 'Олимп 2025')
+const SOURCE_DIR = process.env.SOURCE_DIR
+const SLUG = process.env.SLUG
+const ALT_PREFIX = process.env.ALT_PREFIX
+const PROGRESS_FILE = process.env.PROGRESS_FILE
 const MAX_DIMENSION = 2560
+
+function loadProgress() {
+  if (!fs.existsSync(PROGRESS_FILE)) return {}
+  return JSON.parse(fs.readFileSync(PROGRESS_FILE, 'utf-8'))
+}
+
+function saveProgress(progress) {
+  fs.writeFileSync(PROGRESS_FILE, JSON.stringify(progress, null, 2))
+}
 
 async function login() {
   const res = await fetch(`${BASE}/api/users/login`, {
@@ -44,33 +55,43 @@ async function uploadMedia(token, buffer, filename, alt) {
   return data.doc
 }
 
+async function uploadWithRetry(token, buffer, filename, alt, retries = 3) {
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      return await uploadMedia(token, buffer, filename, alt)
+    } catch (err) {
+      if (attempt === retries) throw err
+      await new Promise((r) => setTimeout(r, 2000 * attempt))
+    }
+  }
+}
+
 async function main() {
   const token = await login()
-  console.log('logged in')
 
   const files = fs.readdirSync(SOURCE_DIR).filter((f) => /\.(jpe?g|png)$/i.test(f)).sort()
-  console.log(`found ${files.length} images`)
 
-  const mediaEntries = []
-  let coverId
+  const progress = loadProgress()
 
-  for (const [i, filename] of files.entries()) {
+  for (const filename of files) {
+    if (progress[filename]) continue
     const filePath = path.join(SOURCE_DIR, filename)
-    console.log(`[${i + 1}/${files.length}] ${filename}`)
     const buffer = await optimize(filePath)
     const outName = filename.replace(/\.(jpe?g|png)$/i, '.jpg').replace(/\s+/g, '-')
-    const media = await uploadMedia(token, buffer, outName, `Олимп, Гърция, август 2024 — ${outName}`)
-    mediaEntries.push({ image: media.id })
-    if (i === 0) coverId = media.id
-    console.log(`  -> media id ${media.id}`)
+    const media = await uploadWithRetry(token, buffer, outName, `${ALT_PREFIX} — ${outName}`)
+    progress[filename] = media.id
+    saveProgress(progress)
   }
 
-  const getRes = await fetch(`${BASE}/api/gallery-collections?where[slug][equals]=olimp&limit=1`, {
+  const mediaEntries = files.map((f) => ({ image: progress[f] }))
+  const coverId = progress[files[0]]
+
+  const getRes = await fetch(`${BASE}/api/gallery-collections?where[slug][equals]=${SLUG}&limit=1`, {
     headers: { Authorization: `JWT ${token}` },
   })
   const getData = await getRes.json()
   const existing = getData.docs?.[0]
-  if (!existing) throw new Error('gallery collection with slug "olimp" not found')
+  if (!existing) throw new Error(`gallery collection with slug "${SLUG}" not found`)
 
   const patchRes = await fetch(`${BASE}/api/gallery-collections/${existing.id}`, {
     method: 'PATCH',
@@ -82,7 +103,8 @@ async function main() {
     }),
   })
   if (!patchRes.ok) throw new Error(`patch failed: ${patchRes.status} ${await patchRes.text()}`)
-  console.log('gallery collection updated:', existing.id)
+
+  console.log('done:', existing.id, existing.slug ?? SLUG)
 }
 
 main().catch((err) => {

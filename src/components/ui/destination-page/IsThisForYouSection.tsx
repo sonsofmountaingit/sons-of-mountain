@@ -33,8 +33,8 @@ interface Props {
 }
 
 function toScale(v: number | null | undefined): number {
-  const raw = v ?? 50
-  return Math.max(1, Math.min(5, Math.ceil(raw / 20)))
+  const raw = v ?? 3
+  return Math.max(1, Math.min(5, Math.round(raw)))
 }
 
 function ArcStat({ label, value, index }: { label: string; value: number; index: number }) {

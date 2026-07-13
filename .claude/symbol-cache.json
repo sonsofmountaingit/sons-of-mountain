@@ -76,6 +76,20 @@
     "lines": 216,
     "group": "other"
   },
+  "src/seed/upload-olymp-2025.ts": {
+    "exports": [],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "path",
+      "fs",
+      "os",
+      "sharp"
+    ],
+    "lines": 101,
+    "group": "other"
+  },
   "src/app/llms.txt/route.ts": {
     "exports": [
       "dynamic",
@@ -4872,7 +4886,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 121,
+    "lines": 125,
     "group": "collections"
   },
   "src/payload/collections/GiftVouchers.ts": {

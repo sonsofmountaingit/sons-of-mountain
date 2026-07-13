@@ -37,6 +37,12 @@
       "size": 4
     },
     {
+      "id": "src/seed/upload-olymp-2025.ts",
+      "label": "seed/upload-olymp-2025.ts",
+      "group": "other",
+      "size": 4
+    },
+    {
       "id": "src/app/llms.txt/route.ts",
       "label": "llms.txt/route.ts",
       "group": "app",
@@ -3416,6 +3422,10 @@
     },
     {
       "source": "src/seed/gallery.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/seed/upload-olymp-2025.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
@@ -7167,6 +7177,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-10T15:31:29.371Z",
-  "fileCount": 566
+  "builtAt": "2026-07-10T15:46:16.304Z",
+  "fileCount": 567
 }

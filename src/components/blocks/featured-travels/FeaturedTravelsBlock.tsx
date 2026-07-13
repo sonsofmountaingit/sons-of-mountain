@@ -44,7 +44,7 @@ const KIND_COLOR: Record<string, string> = {
 }
 
 function DifficultyRating({ value }: { value: number | null }) {
-  const filled = value != null ? Math.round((value / 100) * 5) : 0
+  const filled = value != null ? Math.max(0, Math.min(5, Math.round(value))) : 0
   return (
     <div className="flex items-center gap-1">
       <span className="text-[9px] uppercase tracking-widest text-white/50 mr-0.5">Трудност</span>
