@@ -4,7 +4,18 @@ export const Orders: CollectionConfig = {
   slug: 'orders',
   admin: {
     useAsTitle: 'email',
-    defaultColumns: ['email', 'status', 'paymentMode', 'totalAmount', 'createdAt'],
+    defaultColumns: [
+      'email',
+      'firstName',
+      'lastName',
+      'itemSummary',
+      'status',
+      'paymentMode',
+      'totalAmount',
+      'nextPaymentAmount',
+      'nextPaymentDue',
+      'createdAt',
+    ],
     group: 'Shop',
   },
   fields: [
@@ -20,9 +31,68 @@ export const Orders: CollectionConfig = {
       admin: { readOnly: true },
     },
     {
+      name: 'customerContext',
+      type: 'text',
+      virtual: true,
+      admin: { readOnly: true, description: 'Loyalty points + total past orders for this customer', position: 'sidebar' },
+      hooks: {
+        afterRead: [
+          async ({ data, req }) => {
+            const customerId = (data as any)?.customer
+            const cid = typeof customerId === 'object' ? customerId?.id : customerId
+            if (!cid) return ''
+            const customer = await req.payload.findByID({ collection: 'customers', id: cid }).catch(() => null)
+            const count = await req.payload.count({ collection: 'orders', where: { customer: { equals: cid } } }).catch(() => null)
+            const points = (customer as any)?.loyaltyPoints ?? 0
+            const totalOrders = count?.totalDocs ?? '?'
+            return `${points} points · ${totalOrders} order(s) total`
+          },
+        ],
+      },
+    },
+    {
       name: 'productType',
       type: 'text',
       admin: { description: 'Legacy: type of product (use items array for new orders)' },
+    },
+    {
+      name: 'riskFlags',
+      type: 'text',
+      virtual: true,
+      admin: { readOnly: true, description: 'Automated risk/status flags for this order', position: 'sidebar' },
+      hooks: {
+        afterRead: [
+          async ({ data, req }) => {
+            const d = data as any
+            const flags: string[] = []
+            const now = new Date()
+
+            const overdue = (d?.paymentMode === 'installments' ? d?.installments ?? [] : [])
+              .filter((i: any) => i.status === 'pending' && i.dueDate && new Date(i.dueDate) < now)
+            if (overdue.length) flags.push(`⚠ ${overdue.length} overdue installment(s)`)
+            if (d?.paymentMode === 'deposit' && d?.remainingDueDate && new Date(d.remainingDueDate) < now && !d?.balanceChargeStatus) {
+              flags.push('⚠ balance overdue')
+            }
+            const failed = (d?.installments ?? []).filter((i: any) => i.status === 'failed')
+            if (failed.length) flags.push(`✕ ${failed.length} failed charge(s)`)
+
+            const customerId = typeof d?.customer === 'object' ? d?.customer?.id : d?.customer
+            if (customerId) {
+              const count = await req.payload.count({ collection: 'orders', where: { customer: { equals: customerId } } }).catch(() => null)
+              if ((count?.totalDocs ?? 0) <= 1) flags.push('★ first-time customer')
+            }
+
+            for (const it of d?.items ?? []) {
+              const ref = it.trip ?? it.destination ?? it.program
+              if (typeof ref === 'object' && ref?.spotsAvailable != null && (it.participantCount ?? 1) > ref.spotsAvailable) {
+                flags.push(`⚠ participantCount exceeds spotsAvailable for item`)
+              }
+            }
+
+            return flags.join(' · ') || 'OK'
+          },
+        ],
+      },
     },
     {
       name: 'status',
@@ -98,6 +168,62 @@ export const Orders: CollectionConfig = {
       ],
     },
     {
+      name: 'paymentTimeline',
+      type: 'textarea',
+      virtual: true,
+      admin: { readOnly: true, description: 'Chronological payment history for this order' },
+      hooks: {
+        afterRead: [
+          ({ data }) => {
+            const d = data as any
+            const events: Array<{ at: string; label: string }> = []
+            if (d?.createdAt) events.push({ at: d.createdAt, label: 'Order created' })
+            if (d?.stripeSessionId) events.push({ at: d.createdAt, label: `Checkout session created (${d.stripeSessionId})` })
+            if (d?.paidAt) events.push({ at: d.paidAt, label: 'Marked paid' })
+            if (d?.receiptSentAt) events.push({ at: d.receiptSentAt, label: 'Receipt sent' })
+            for (const inst of d?.installments ?? []) {
+              if (inst.chargeAttemptedAt) events.push({ at: inst.chargeAttemptedAt, label: `${inst.label}: charge attempted (${inst.status})` })
+              if (inst.firstFailedAt) events.push({ at: inst.firstFailedAt, label: `${inst.label}: first failure` })
+              if (inst.overdueNoticeSent) events.push({ at: inst.chargeAttemptedAt ?? inst.dueDate, label: `${inst.label}: overdue notice sent` })
+            }
+            if (d?.paymentMode === 'deposit' && d?.balanceChargeStatus) {
+              events.push({ at: d.remainingDueDate, label: `Balance charge: ${d.balanceChargeStatus}` })
+            }
+            if (d?.refundAmount) events.push({ at: d.updatedAt, label: `Refunded €${d.refundAmount}` })
+            events.sort((a, b) => new Date(a.at ?? 0).getTime() - new Date(b.at ?? 0).getTime())
+            return events.map((e) => `${e.at ? new Date(e.at).toLocaleString('bg-BG') : '—'}: ${e.label}`).join('\n')
+          },
+        ],
+      },
+    },
+    {
+      name: 'relatedRecords',
+      type: 'textarea',
+      virtual: true,
+      admin: { readOnly: true, description: 'Other records linked to this customer/order' },
+      hooks: {
+        afterRead: [
+          async ({ data, req }) => {
+            const d = data as any
+            const lines: string[] = []
+            const customerId = typeof d?.customer === 'object' ? d?.customer?.id : d?.customer
+            if (customerId) {
+              const otherOrders = await req.payload.find({ collection: 'orders', where: { customer: { equals: customerId } }, limit: 5, sort: '-createdAt' }).catch(() => null)
+              const others = (otherOrders?.docs ?? []).filter((o: any) => o.id !== d?.id)
+              if (others.length) lines.push(`Other orders (${others.length}): ${others.map((o: any) => `#${o.id} (${o.status}, €${o.totalAmount})`).join(', ')}`)
+              const regs = await req.payload.find({ collection: 'registrations', where: { customer: { equals: customerId } }, limit: 5, sort: '-createdAt' }).catch(() => null)
+              if (regs?.docs?.length) lines.push(`Registrations (${regs.docs.length}): ${regs.docs.map((r: any) => `#${r.id} (${r.status})`).join(', ')}`)
+            }
+            if (d?.carpoolRide) lines.push(`Carpool ride: #${typeof d.carpoolRide === 'object' ? d.carpoolRide.id : d.carpoolRide}`)
+            if (d?.discountCode) lines.push(`Discount code: #${typeof d.discountCode === 'object' ? d.discountCode.id : d.discountCode}`)
+            if (d?.giftVoucher) lines.push(`Gift voucher: #${typeof d.giftVoucher === 'object' ? d.giftVoucher.id : d.giftVoucher}`)
+            if (d?.bundle) lines.push(`Bundle: #${typeof d.bundle === 'object' ? d.bundle.id : d.bundle}`)
+            return lines.join('\n') || 'None'
+          },
+        ],
+      },
+    },
+    {
       name: 'manualCancelRequested',
       type: 'checkbox',
       defaultValue: false,
@@ -122,6 +248,73 @@ export const Orders: CollectionConfig = {
       name: 'phone',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'itemSummary',
+      type: 'text',
+      virtual: true,
+      admin: { readOnly: true, description: 'What was ordered (derived from items)' },
+      hooks: {
+        afterRead: [
+          async ({ data, req }) => {
+            const items = (data as any)?.items ?? []
+            if (!items.length) return (data as any)?.productType ?? ''
+            const collectionMap: Record<string, string> = { trip: 'trips', program: 'programs', destination: 'destinations', bundle: 'bundles', product: 'products' }
+            const parts = await Promise.all(items.map(async (it: any) => {
+              let ref = it.trip ?? it.product ?? it.program ?? it.destination ?? it.bundle
+              const col = collectionMap[it.itemType]
+              if (ref && typeof ref !== 'object' && col) {
+                ref = await req.payload.findByID({ collection: col as any, id: ref }).catch(() => null)
+              }
+              const title = typeof ref === 'object' ? ref?.title ?? ref?.name : ref
+              if (!title) return it.itemType
+              const startDate = ref?.startDate ? new Date(ref.startDate).toLocaleDateString('bg-BG') : null
+              const spots = ref?.spotsAvailable != null && ref?.spotsTotal != null ? `${ref.spotsAvailable}/${ref.spotsTotal} spots` : null
+              const details = [startDate, spots].filter(Boolean).join(', ')
+              return `${title} x${it.quantity ?? 1}${details ? ` (${details})` : ''}`
+            }))
+            return parts.filter(Boolean).join('; ')
+          },
+        ],
+      },
+    },
+    {
+      name: 'nextPaymentAmount',
+      type: 'number',
+      virtual: true,
+      admin: { readOnly: true, description: 'Amount of the next pending payment' },
+      hooks: {
+        afterRead: [
+          ({ data }) => {
+            const d = data as any
+            if (d?.paymentMode === 'deposit') return d?.remainingBalance ?? null
+            if (d?.paymentMode === 'installments') {
+              const next = (d?.installments ?? []).find((i: any) => i.status === 'pending')
+              return next?.amount ?? null
+            }
+            return null
+          },
+        ],
+      },
+    },
+    {
+      name: 'nextPaymentDue',
+      type: 'date',
+      virtual: true,
+      admin: { readOnly: true, description: 'Due date of the next pending payment' },
+      hooks: {
+        afterRead: [
+          ({ data }) => {
+            const d = data as any
+            if (d?.paymentMode === 'deposit') return d?.remainingDueDate ?? null
+            if (d?.paymentMode === 'installments') {
+              const next = (d?.installments ?? []).find((i: any) => i.status === 'pending')
+              return next?.dueDate ?? null
+            }
+            return null
+          },
+        ],
+      },
     },
     {
       name: 'items',
@@ -254,6 +447,31 @@ export const Orders: CollectionConfig = {
       name: 'stripeSessionId',
       type: 'text',
       admin: { readOnly: true },
+    },
+    {
+      name: 'stripeLinks',
+      type: 'text',
+      virtual: true,
+      admin: { readOnly: true, description: 'Direct links to Stripe Dashboard', position: 'sidebar' },
+      hooks: {
+        afterRead: [
+          async ({ data, req }) => {
+            const d = data as any
+            const isTest = (process.env.STRIPE_SECRET_KEY ?? '').startsWith('sk_test_')
+            const base = `https://dashboard.stripe.com/${isTest ? 'test/' : ''}`
+            const links: string[] = []
+            if (d?.stripeSessionId) links.push(`Session: ${base}checkout/sessions/${d.stripeSessionId}`)
+            if (d?.stripePaymentIntentId) links.push(`PaymentIntent: ${base}payments/${d.stripePaymentIntentId}`)
+            const customerId = typeof d?.customer === 'object' ? d?.customer?.id : d?.customer
+            if (customerId) {
+              const customer = await req.payload.findByID({ collection: 'customers', id: customerId }).catch(() => null)
+              const custId = (customer as any)?.stripeCustomerId
+              if (custId) links.push(`Customer: ${base}customers/${custId}`)
+            }
+            return links.join('\n') || ''
+          },
+        ],
+      },
     },
     {
       name: 'stripePaymentIntentId',

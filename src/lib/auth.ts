@@ -17,8 +17,15 @@ const db = new Kysely({
   }),
 })
 
+const primaryOrigin = process.env.BETTER_AUTH_URL ?? process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
+const primaryHost = new URL(primaryOrigin).host
+const wwwVariant = primaryHost.startsWith('www.')
+  ? `${new URL(primaryOrigin).protocol}//${primaryHost.slice(4)}`
+  : `${new URL(primaryOrigin).protocol}//www.${primaryHost}`
+
 export const auth = betterAuth({
-  baseURL: process.env.BETTER_AUTH_URL ?? process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000',
+  baseURL: primaryOrigin,
+  trustedOrigins: [primaryOrigin, wwwVariant, 'http://localhost:3000'],
   secret: process.env.BETTER_AUTH_SECRET ?? 'fallback-secret-change-in-production',
   database: kyselyAdapter(db, { type: 'postgres' }),
   emailAndPassword: {
