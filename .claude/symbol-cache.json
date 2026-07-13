@@ -859,20 +859,7 @@
       "@/lib/auth",
       "next/headers"
     ],
-    "lines": 65,
-    "group": "api"
-  },
-  "src/app/api/waitlist/route.ts": {
-    "exports": [
-      "POST"
-    ],
-    "types": [],
-    "imports": [
-      "next/server",
-      "payload",
-      "@payload-config"
-    ],
-    "lines": 46,
+    "lines": 77,
     "group": "api"
   },
   "src/app/api/draft/route.ts": {
@@ -1004,9 +991,10 @@
       "payload",
       "@payload-config",
       "resend",
-      "@/lib/auth"
+      "@/lib/auth",
+      "@/lib/pricing/payment-plan"
     ],
-    "lines": 153,
+    "lines": 171,
     "group": "api"
   },
   "src/app/api/gallery/favorites/count/route.ts": {
@@ -1152,9 +1140,10 @@
       "next/server",
       "payload",
       "@payload-config",
-      "@/lib/cart-store"
+      "@/lib/cart-store",
+      "@/lib/pricing/payment-plan"
     ],
-    "lines": 283,
+    "lines": 335,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {
@@ -1902,9 +1891,10 @@
     "imports": [
       "next/server",
       "@/lib/cron/balance-charge",
-      "@/lib/cron/balance-reminders"
+      "@/lib/cron/balance-reminders",
+      "@/lib/cron/grace-period"
     ],
-    "lines": 16,
+    "lines": 20,
     "group": "api"
   },
   "src/app/api/wishlist/toggle/route.ts": {
@@ -2398,7 +2388,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/DestinationBookingController"
     ],
-    "lines": 350,
+    "lines": 355,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -3250,7 +3240,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 297,
+    "lines": 302,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/page.tsx": {
@@ -3649,7 +3639,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 332,
+    "lines": 337,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {
@@ -4588,9 +4578,10 @@
       "next/cache",
       "next/server",
       "@/lib/stripe-product-sync",
-      "@/lib/send-registration-forms"
+      "@/lib/send-registration-forms",
+      "./shared/paymentPlanFields"
     ],
-    "lines": 544,
+    "lines": 546,
     "group": "collections"
   },
   "src/payload/collections/EmailTemplates.ts": {
@@ -4658,7 +4649,7 @@
       "crypto",
       "../hooks/syncTripSpots"
     ],
-    "lines": 283,
+    "lines": 317,
     "group": "collections"
   },
   "src/payload/collections/ProgramInquiries.ts": {
@@ -4714,9 +4705,10 @@
       "payload",
       "next/cache",
       "next/server",
-      "@/lib/stripe-product-sync"
+      "@/lib/stripe-product-sync",
+      "./shared/paymentPlanFields"
     ],
-    "lines": 526,
+    "lines": 528,
     "group": "collections"
   },
   "src/payload/collections/Pages.ts": {
@@ -4743,6 +4735,17 @@
       "../blocks/VideoBlock"
     ],
     "lines": 162,
+    "group": "collections"
+  },
+  "src/payload/collections/shared/paymentPlanFields.ts": {
+    "exports": [
+      "paymentPlanFields"
+    ],
+    "types": [],
+    "imports": [
+      "payload"
+    ],
+    "lines": 105,
     "group": "collections"
   },
   "src/payload/collections/Campaigns.ts": {
@@ -4779,7 +4782,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 322,
+    "lines": 358,
     "group": "collections"
   },
   "src/payload/collections/Stories.ts": {
@@ -5007,9 +5010,10 @@
       "../hooks/revalidate",
       "next/server",
       "@/lib/stripe-product-sync",
-      "@/lib/send-registration-forms"
+      "@/lib/send-registration-forms",
+      "./shared/paymentPlanFields"
     ],
-    "lines": 545,
+    "lines": 547,
     "group": "collections"
   },
   "src/payload/collections/Waitlist.ts": {
@@ -5020,7 +5024,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 86,
+    "lines": 110,
     "group": "collections"
   },
   "src/components/blocks/FAQBlockRenderer.tsx": {
@@ -5482,7 +5486,7 @@
       "@/components/ui/WhyTravelWithUs",
       "@/lib/currency"
     ],
-    "lines": 459,
+    "lines": 462,
     "group": "blocks"
   },
   "src/components/blocks/why-travel-with-us/icons/GlobeIcon.tsx": {
@@ -6226,9 +6230,10 @@
     "types": [],
     "imports": [
       "react",
-      "@/lib/currency"
+      "@/lib/currency",
+      "@/components/forms/WaitlistFormModal"
     ],
-    "lines": 157,
+    "lines": 169,
     "group": "ui"
   },
   "src/components/ui/destination-page/BookingDrawer.tsx": {
@@ -6482,9 +6487,10 @@
       "react",
       "gsap",
       "gsap/ScrollTrigger",
-      "@/lib/currency"
+      "@/lib/currency",
+      "@/components/forms/WaitlistFormModal"
     ],
-    "lines": 232,
+    "lines": 253,
     "group": "ui"
   },
   "src/components/ui/destination-page/AdventureCtaSection.tsx": {
@@ -6498,9 +6504,10 @@
       "gsap",
       "gsap/ScrollTrigger",
       "@/lib/media-url",
-      "@/lib/currency"
+      "@/lib/currency",
+      "@/components/forms/WaitlistFormModal"
     ],
-    "lines": 155,
+    "lines": 183,
     "group": "ui"
   },
   "src/components/ui/destination-page/ReadinessChecklistSection.tsx": {
@@ -6558,7 +6565,7 @@
       "@/components/shop/CartSheet",
       "@/lib/cart-store"
     ],
-    "lines": 529,
+    "lines": 527,
     "group": "ui"
   },
   "src/components/ui/DestinationCarousel.tsx": {
@@ -7139,6 +7146,23 @@
     "lines": 423,
     "group": "components"
   },
+  "src/components/forms/WaitlistFormModal.tsx": {
+    "exports": [
+      "WaitlistFormModal"
+    ],
+    "types": [
+      "WaitlistItemType"
+    ],
+    "imports": [
+      "react",
+      "react-hook-form",
+      "@hookform/resolvers/zod",
+      "zod",
+      "motion/react"
+    ],
+    "lines": 170,
+    "group": "components"
+  },
   "src/components/auth/AuthModal.tsx": {
     "exports": [
       "AuthModal"
@@ -7571,6 +7595,7 @@
   },
   "src/lib/stripe-webhooks.ts": {
     "exports": [
+      "notifyWaitlist",
       "handleCheckoutCompleted",
       "handleSubscriptionUpsert",
       "handleSubscriptionDeleted",
@@ -7588,7 +7613,7 @@
       "next/cache",
       "@/lib/escape-html"
     ],
-    "lines": 728,
+    "lines": 758,
     "group": "lib"
   },
   "src/lib/escape-html.ts": {
@@ -7710,6 +7735,19 @@
     "lines": 14,
     "group": "lib"
   },
+  "src/lib/pricing/payment-plan.ts": {
+    "exports": [
+      "resolvePaymentPlan"
+    ],
+    "types": [
+      "PaymentPlanMode",
+      "PlannedInstallment",
+      "PaymentPlan"
+    ],
+    "imports": [],
+    "lines": 101,
+    "group": "lib"
+  },
   "src/lib/pricing/dynamic.ts": {
     "exports": [
       "getDynamicPrice",
@@ -7775,7 +7813,7 @@
       "payload",
       "@payload-config"
     ],
-    "lines": 66,
+    "lines": 125,
     "group": "lib"
   },
   "src/lib/cron/balance-reminders.ts": {
@@ -7788,7 +7826,7 @@
       "@payload-config",
       "@/lib/escape-html"
     ],
-    "lines": 74,
+    "lines": 167,
     "group": "lib"
   },
   "src/lib/cron/abandoned-cart.ts": {
@@ -7803,6 +7841,20 @@
       "@/lib/escape-html"
     ],
     "lines": 68,
+    "group": "lib"
+  },
+  "src/lib/cron/grace-period.ts": {
+    "exports": [
+      "runGracePeriodCheck"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "@/lib/escape-html",
+      "@/lib/stripe-webhooks"
+    ],
+    "lines": 130,
     "group": "lib"
   },
   "src/puck/customFields.tsx": {

@@ -10,6 +10,8 @@ import { z } from 'zod'
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { formatPrice } from '@/lib/currency'
+import { useSession } from '@/lib/auth-client'
+import { AuthModal } from '@/components/auth/AuthModal'
 
 const infoSchema = z.object({
   firstName: z.string().min(1, 'Required'),
@@ -44,6 +46,7 @@ const inputCls = 'w-full rounded border border-white/20 bg-white/5 px-3 py-2 tex
 const labelCls = 'block text-sm font-medium mb-1 text-white/80'
 
 export default function CheckoutPage() {
+  const { data: sessionData, isPending: sessionLoading } = useSession()
   const [step, setStep] = useState(0)
   const [loading, setLoading] = useState(false)
   const [participationType, setParticipationType] = useState<ParticipationType>('solo')
@@ -80,10 +83,18 @@ export default function CheckoutPage() {
       .finally(() => setRidesLoading(false))
   }, [participationType, tripId, programId, hasRideable])
 
-  const { register, handleSubmit, getValues, formState: { errors } } = useForm<InfoForm>({
+  const { register, handleSubmit, getValues, setValue, formState: { errors } } = useForm<InfoForm>({
     resolver: zodResolver(infoSchema),
     defaultValues: { paymentMode: 'full' },
   })
+
+  useEffect(() => {
+    if (!sessionData?.user) return
+    const [firstName, ...rest] = (sessionData.user.name ?? '').split(' ')
+    if (firstName) setValue('firstName', firstName)
+    if (rest.length) setValue('lastName', rest.join(' '))
+    if (sessionData.user.email) setValue('email', sessionData.user.email)
+  }, [sessionData, setValue])
 
   function validateCarpoolFields(): boolean {
     if (!hasRideable) return true
@@ -136,6 +147,19 @@ export default function CheckoutPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  if (sessionLoading) {
+    return <main className="min-h-screen" />
+  }
+
+  if (!sessionData?.user) {
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
+        <p className="text-white/50 mb-4">Влезте в профила си или се регистрирайте, за да завършите резервацията.</p>
+        <AuthModal onSuccess={() => {}} onClose={() => {}} />
+      </main>
+    )
   }
 
   if (!items.length) {

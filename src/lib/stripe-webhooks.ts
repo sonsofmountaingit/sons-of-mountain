@@ -54,6 +54,138 @@ export async function notifyWaitlist(payload: BasePayload, itemType: string, ite
   } catch {}
 }
 
+function buildOrderConfirmationHtml(p: {
+  firstName: string
+  orderNumber: string
+  items: { title: string; quantity: number; unitPrice: number }[]
+  total: number
+  currency: string
+  paymentMode: string
+  depositPaid?: number | null
+  remainingBalance?: number | null
+  remainingDueDate?: string | null
+  nextInstallment?: { label: string; amount: number; dueDate: string } | null
+}) {
+  const name = escapeHtml(p.firstName) || 'adventurer'
+  const rows = p.items
+    .map(
+      (item) => `<tr><td style="color:#ccc;font-size:14px;padding:8px 0">${escapeHtml(item.title)} &times; ${item.quantity}</td><td style="color:#fff;font-size:14px;padding:8px 0;text-align:right">&#x20AC;${(item.unitPrice * item.quantity).toFixed(2)}</td></tr>`,
+    )
+    .join('')
+
+  let nextPaymentBlock = ''
+  if (p.paymentMode === 'deposit' && p.remainingBalance != null) {
+    const dueStr = p.remainingDueDate ? new Date(p.remainingDueDate).toLocaleDateString('bg-BG') : null
+    nextPaymentBlock = `<div style="background:#111;border:1px solid #2a2a2a;border-radius:4px;padding:20px;margin-bottom:24px">
+      <p style="color:#888;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin:0 0 8px 0">Следващо плащане</p>
+      <div style="display:flex;justify-content:space-between">
+        <span style="color:#ccc;font-size:14px">Остатък</span>
+        <span style="color:#fff;font-size:14px;font-weight:600">&#x20AC;${p.remainingBalance.toFixed(2)}</span>
+      </div>
+      ${dueStr ? `<p style="color:#777;font-size:12px;margin:10px 0 0 0">Ще бъде изтеглен автоматично на ${dueStr} — ще получите напомняне по имейл.</p>` : ''}
+      ${p.depositPaid != null ? `<p style="color:#777;font-size:12px;margin:4px 0 0 0">Платен депозит: &#x20AC;${p.depositPaid.toFixed(2)}</p>` : ''}
+    </div>`
+  } else if (p.paymentMode === 'installments' && p.nextInstallment) {
+    const dueStr = new Date(p.nextInstallment.dueDate).toLocaleDateString('bg-BG')
+    nextPaymentBlock = `<div style="background:#111;border:1px solid #2a2a2a;border-radius:4px;padding:20px;margin-bottom:24px">
+      <p style="color:#888;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin:0 0 8px 0">Следваща вноска</p>
+      <div style="display:flex;justify-content:space-between">
+        <span style="color:#ccc;font-size:14px">${escapeHtml(p.nextInstallment.label)}</span>
+        <span style="color:#fff;font-size:14px;font-weight:600">&#x20AC;${p.nextInstallment.amount.toFixed(2)}</span>
+      </div>
+      <p style="color:#777;font-size:12px;margin:10px 0 0 0">Ще бъде изтеглена автоматично на ${dueStr} — ще получите напомняне по имейл.</p>
+    </div>`
+  }
+
+  return `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#0a0a0a;font-family:'Helvetica Neue',Arial,sans-serif">
+<div style="max-width:560px;margin:0 auto;padding:48px 24px">
+  <div style="text-align:center;margin-bottom:48px">
+    <p style="color:#555;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin:0 0 12px 0">Sons of Mountains</p>
+    <h1 style="color:#fff;font-size:26px;font-weight:300;letter-spacing:1px;margin:0">Готово, резервацията е потвърдена!</h1>
+  </div>
+  <p style="color:#ccc;font-size:15px;line-height:1.6;margin:0 0 24px 0">Здравей, ${name}! Плащането ти беше успешно и резервацията е потвърдена.</p>
+  <div style="background:#111;border:1px solid #2a2a2a;border-radius:4px;padding:24px;margin-bottom:24px">
+    <p style="color:#888;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin:0 0 4px 0">Номер на поръчка</p>
+    <p style="color:#fff;font-size:16px;font-family:monospace;margin:0 0 16px 0">${escapeHtml(p.orderNumber)}</p>
+    <table style="width:100%;border-collapse:collapse;border-top:1px solid #222">
+      ${rows}
+    </table>
+    <div style="display:flex;justify-content:space-between;padding-top:12px;margin-top:8px;border-top:1px solid #222">
+      <span style="color:#fff;font-size:15px;font-weight:600">Общо</span>
+      <span style="color:#fff;font-size:15px;font-weight:600;float:right">&#x20AC;${p.total.toFixed(2)} ${escapeHtml(p.currency)}</span>
+    </div>
+  </div>
+  ${nextPaymentBlock}
+  <div style="text-align:center;margin-top:32px">
+    <p style="color:#333;font-size:11px;margin:0">Sons of Mountains &middot; Adventure awaits</p>
+  </div>
+</div></body></html>`
+}
+
+async function sendOrderConfirmationEmail(payload: BasePayload, orderId: string) {
+  const order = await payload.findByID({ collection: 'orders', id: orderId, depth: 2 }).catch(() => null)
+  if (!order) return
+  const o = order as any
+  if (!o.email) return
+
+  const items = ((o.items ?? []) as any[]).map((item) => ({
+    title: item.trip?.title ?? item.product?.title ?? item.program?.title ?? item.destination?.name ?? item.bundle?.title ?? 'Продукт',
+    quantity: item.quantity ?? item.participantCount ?? 1,
+    unitPrice: item.unitPrice ?? 0,
+  }))
+  const installments = (o.installments ?? []) as any[]
+  const nextInstallment = installments.find((row) => row.status === 'pending') ?? null
+
+  const { resend } = await import('@/lib/resend')
+  await resend.emails.send({
+    from: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
+    to: o.email,
+    subject: 'Резервацията е потвърдена — Sons of Mountains',
+    html: buildOrderConfirmationHtml({
+      firstName: o.firstName ?? '',
+      orderNumber: String(orderId).slice(-8).toUpperCase(),
+      items,
+      total: o.totalAmount ?? 0,
+      currency: o.currency ?? 'EUR',
+      paymentMode: o.paymentMode ?? 'full',
+      depositPaid: o.depositPaid,
+      remainingBalance: o.remainingBalance,
+      remainingDueDate: o.remainingDueDate,
+      nextInstallment,
+    }),
+  }).catch(() => {})
+}
+
+async function sendRegistrationConfirmationEmail(payload: BasePayload, registrationId: string) {
+  const reg = await payload.findByID({ collection: 'registrations', id: registrationId, depth: 2 }).catch(() => null)
+  if (!reg) return
+  const r = reg as any
+  if (!r.email) return
+
+  const title = r.trip?.title ?? r.program?.title ?? r.destination?.name ?? 'Пътуване'
+  const installments = (r.installments ?? []) as any[]
+  const nextInstallment = installments.find((row) => row.status === 'pending') ?? null
+
+  const { resend } = await import('@/lib/resend')
+  await resend.emails.send({
+    from: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
+    to: r.email,
+    subject: 'Резервацията е потвърдена — Sons of Mountains',
+    html: buildOrderConfirmationHtml({
+      firstName: r.firstName ?? '',
+      orderNumber: String(registrationId).slice(-8).toUpperCase(),
+      items: [{ title, quantity: r.participantCount ?? 1, unitPrice: (r.totalAmount ?? r.amount ?? 0) / (r.participantCount ?? 1) }],
+      total: r.totalAmount ?? r.amount ?? 0,
+      currency: 'EUR',
+      paymentMode: r.paymentMode ?? 'full',
+      depositPaid: r.depositPaid,
+      remainingBalance: r.remainingBalance,
+      remainingDueDate: r.remainingDueDate,
+      nextInstallment,
+    }),
+  }).catch(() => {})
+}
+
 async function generateInvoice(
   payload: BasePayload,
   stripe: Stripe,
@@ -262,6 +394,9 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
     // Generate invoice PDF
     await generateInvoice(payload, stripe, session, 'orders', orderId)
 
+    // Send booking confirmation email
+    await sendOrderConfirmationEmail(payload, orderId).catch(() => {})
+
     // Update receipt info
     try {
       if (session.payment_intent) {
@@ -329,6 +464,7 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
     }
     await payload.update({ collection: 'registrations', id, data: updateData as any })
     await generateInvoice(payload, stripe, session, 'registrations', id)
+    await sendRegistrationConfirmationEmail(payload, id).catch(() => {})
 
     if (tripId) {
       const reg = await payload.findByID({ collection: 'registrations', id }).catch(() => null)

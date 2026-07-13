@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { CartItem } from '@/lib/cart-store'
 import { resolvePaymentPlan } from '@/lib/pricing/payment-plan'
+import { auth } from '@/lib/auth'
 
 type CheckoutType = 'registration' | 'order' | 'voucher' | 'cart' | 'deposit' | 'bundle'
 
@@ -48,6 +49,15 @@ export async function POST(req: NextRequest) {
 
     const base = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
     const payload = await getPayload({ config })
+
+    const authSession = await auth.api.getSession({ headers: req.headers }).catch(() => null)
+    if (!authSession) return NextResponse.json({ error: 'Трябва да влезете в профила си, за да завършите резервацията.' }, { status: 401 })
+    const betterAuthUserId = authSession.user.id
+
+    const customerResult = await payload
+      .find({ collection: 'customers', where: { betterAuthId: { equals: betterAuthUserId } }, limit: 1 })
+      .catch(() => null)
+    const linkedCustomerId = customerResult?.docs[0]?.id ?? null
 
     const shopSettings = await payload.findGlobal({ slug: 'shop' }).catch(() => null)
     const bnplMin = (shopSettings as any)?.bnplMinOrderAmount ?? 100
@@ -107,7 +117,11 @@ export async function POST(req: NextRequest) {
         customer_email: customerEmail,
       })
 
-      await payload.update({ collection, id, data: { stripeSessionId: session.id } }).catch(() => null)
+      await payload.update({
+        collection,
+        id,
+        data: { stripeSessionId: session.id, betterAuthUserId, customer: linkedCustomerId ?? undefined } as any,
+      }).catch(() => null)
       return NextResponse.json({ url: session.url })
     }
 
@@ -207,6 +221,8 @@ export async function POST(req: NextRequest) {
         firstName: body.firstName ?? '',
         lastName: body.lastName ?? '',
         phone: body.phone ?? '',
+        betterAuthUserId,
+        customer: linkedCustomerId ?? undefined,
         currency: currency.toUpperCase(),
         totalAmount: orderTotal ?? 0,
         discountCode: discountCodeId ?? null,

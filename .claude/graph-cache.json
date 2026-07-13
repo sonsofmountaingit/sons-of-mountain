@@ -331,12 +331,6 @@
       "size": 4
     },
     {
-      "id": "src/app/api/waitlist/route.ts",
-      "label": "waitlist/route.ts",
-      "group": "api",
-      "size": 4
-    },
-    {
       "id": "src/app/api/draft/route.ts",
       "label": "draft/route.ts",
       "group": "api",
@@ -1861,6 +1855,12 @@
       "size": 6
     },
     {
+      "id": "src/payload/collections/shared/paymentPlanFields.ts",
+      "label": "shared/paymentPlanFields.ts",
+      "group": "collections",
+      "size": 10
+    },
+    {
       "id": "src/payload/collections/Campaigns.ts",
       "label": "collections/Campaigns.ts",
       "group": "collections",
@@ -2965,6 +2965,12 @@
       "size": 6
     },
     {
+      "id": "src/components/forms/WaitlistFormModal.tsx",
+      "label": "forms/WaitlistFormModal.tsx",
+      "group": "components",
+      "size": 10
+    },
+    {
       "id": "src/components/auth/AuthModal.tsx",
       "label": "auth/AuthModal.tsx",
       "group": "components",
@@ -3214,19 +3220,19 @@
       "id": "src/lib/stripe-webhooks.ts",
       "label": "lib/stripe-webhooks.ts",
       "group": "lib",
-      "size": 6
+      "size": 8
     },
     {
       "id": "src/lib/escape-html.ts",
       "label": "lib/escape-html.ts",
       "group": "lib",
-      "size": 18
+      "size": 20
     },
     {
       "id": "src/lib/resend.ts",
       "label": "lib/resend.ts",
       "group": "lib",
-      "size": 14
+      "size": 16
     },
     {
       "id": "src/lib/payload-auth.ts",
@@ -3277,6 +3283,12 @@
       "size": 10
     },
     {
+      "id": "src/lib/pricing/payment-plan.ts",
+      "label": "pricing/payment-plan.ts",
+      "group": "lib",
+      "size": 8
+    },
+    {
       "id": "src/lib/pricing/dynamic.ts",
       "label": "pricing/dynamic.ts",
       "group": "lib",
@@ -3315,6 +3327,12 @@
     {
       "id": "src/lib/cron/abandoned-cart.ts",
       "label": "cron/abandoned-cart.ts",
+      "group": "lib",
+      "size": 6
+    },
+    {
+      "id": "src/lib/cron/grace-period.ts",
+      "label": "cron/grace-period.ts",
       "group": "lib",
       "size": 6
     },
@@ -3709,10 +3727,6 @@
       "target": "src/lib/auth.ts"
     },
     {
-      "source": "src/app/api/waitlist/route.ts",
-      "target": "src/payload/payload.config.ts"
-    },
-    {
       "source": "src/app/api/draft/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -3765,6 +3779,10 @@
       "target": "src/lib/auth.ts"
     },
     {
+      "source": "src/app/api/booking/route.ts",
+      "target": "src/lib/pricing/payment-plan.ts"
+    },
+    {
       "source": "src/app/api/gallery/favorites/count/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -3815,6 +3833,10 @@
     {
       "source": "src/app/api/checkout/route.ts",
       "target": "src/lib/cart-store.ts"
+    },
+    {
+      "source": "src/app/api/checkout/route.ts",
+      "target": "src/lib/pricing/payment-plan.ts"
     },
     {
       "source": "src/app/api/checkout/route.ts",
@@ -4159,6 +4181,10 @@
     {
       "source": "src/app/api/cron/stripe/route.ts",
       "target": "src/lib/cron/balance-reminders.ts"
+    },
+    {
+      "source": "src/app/api/cron/stripe/route.ts",
+      "target": "src/lib/cron/grace-period.ts"
     },
     {
       "source": "src/app/api/wishlist/toggle/route.ts",
@@ -5837,6 +5863,10 @@
       "target": "src/lib/send-registration-forms.ts"
     },
     {
+      "source": "src/payload/collections/Trips.ts",
+      "target": "src/payload/collections/shared/paymentPlanFields.ts"
+    },
+    {
       "source": "src/payload/collections/Customers.ts",
       "target": "src/lib/auth.ts"
     },
@@ -5847,6 +5877,10 @@
     {
       "source": "src/payload/collections/Programs.ts",
       "target": "src/lib/stripe-product-sync.ts"
+    },
+    {
+      "source": "src/payload/collections/Programs.ts",
+      "target": "src/payload/collections/shared/paymentPlanFields.ts"
     },
     {
       "source": "src/payload/collections/Pages.ts",
@@ -5935,6 +5969,10 @@
     {
       "source": "src/payload/collections/Destinations.ts",
       "target": "src/lib/send-registration-forms.ts"
+    },
+    {
+      "source": "src/payload/collections/Destinations.ts",
+      "target": "src/payload/collections/shared/paymentPlanFields.ts"
     },
     {
       "source": "src/components/blocks/FAQBlockRenderer.tsx",
@@ -6493,6 +6531,10 @@
       "target": "src/lib/currency.ts"
     },
     {
+      "source": "src/components/ui/destination-page/FloatingBookingBar.tsx",
+      "target": "src/components/forms/WaitlistFormModal.tsx"
+    },
+    {
       "source": "src/components/ui/destination-page/BookingDrawer.tsx",
       "target": "src/lib/cart-store.ts"
     },
@@ -6549,12 +6591,20 @@
       "target": "src/lib/currency.ts"
     },
     {
+      "source": "src/components/ui/destination-page/BookingCtaSection.tsx",
+      "target": "src/components/forms/WaitlistFormModal.tsx"
+    },
+    {
       "source": "src/components/ui/destination-page/AdventureCtaSection.tsx",
       "target": "src/lib/media-url.ts"
     },
     {
       "source": "src/components/ui/destination-page/AdventureCtaSection.tsx",
       "target": "src/lib/currency.ts"
+    },
+    {
+      "source": "src/components/ui/destination-page/AdventureCtaSection.tsx",
+      "target": "src/components/forms/WaitlistFormModal.tsx"
     },
     {
       "source": "src/components/ui/PrivacyPolicy.tsx",
@@ -6893,6 +6943,22 @@
       "target": "src/lib/escape-html.ts"
     },
     {
+      "source": "src/lib/cron/grace-period.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/lib/cron/grace-period.ts",
+      "target": "src/lib/escape-html.ts"
+    },
+    {
+      "source": "src/lib/cron/grace-period.ts",
+      "target": "src/lib/stripe-webhooks.ts"
+    },
+    {
+      "source": "src/lib/cron/grace-period.ts",
+      "target": "src/lib/resend.ts"
+    },
+    {
       "source": "src/puck/config.tsx",
       "target": "src/components/blocks/HeroBlockRenderer.tsx"
     },
@@ -7177,6 +7243,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-13T14:34:33.963Z",
-  "fileCount": 567
+  "builtAt": "2026-07-13T15:22:06.561Z",
+  "fileCount": 570
 }
