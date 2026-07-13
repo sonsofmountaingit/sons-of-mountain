@@ -4999,6 +4999,10 @@
       "target": "src/lib/auth-client.ts"
     },
     {
+      "source": "src/app/(frontend)/dashboard/registrations/RegistrationsClient.tsx",
+      "target": "src/lib/currency.ts"
+    },
+    {
       "source": "src/app/(frontend)/dashboard/registrations/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -7295,6 +7299,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-13T16:11:26.344Z",
+  "builtAt": "2026-07-13T16:29:53.190Z",
   "fileCount": 572
 }

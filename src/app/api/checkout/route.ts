@@ -316,6 +316,19 @@ export async function POST(req: NextRequest) {
         }]
       : lineItems
 
+    if (!stripeCustomerId && resolvedInstallments.length > 1 && customerEmail) {
+      const created = await stripe.customers.create({
+        email: customerEmail,
+        name: `${body.firstName ?? ''} ${body.lastName ?? ''}`.trim() || undefined,
+      })
+      stripeCustomerId = created.id
+      await payload.update({
+        collection: 'customers',
+        where: { email: { equals: customerEmail } },
+        data: { stripeCustomerId } as any,
+      }).catch(() => null)
+    }
+
     const sessionParams: any = {
       mode: 'payment',
       payment_method_types: paymentMethods,

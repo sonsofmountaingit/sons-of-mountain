@@ -3120,9 +3120,10 @@
     "types": [],
     "imports": [
       "react",
-      "gsap"
+      "gsap",
+      "@/lib/currency"
     ],
-    "lines": 69,
+    "lines": 135,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/registrations/page.tsx": {
