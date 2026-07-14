@@ -54,6 +54,9 @@ export async function POST(req: NextRequest) {
 
     const payload = await getPayload({ config })
 
+    const validTripId = tripId && !Number.isNaN(Number(tripId)) ? tripId : undefined
+    const validProgramId = programId && !Number.isNaN(Number(programId)) ? programId : undefined
+
     const ride = await payload.create({
       collection: 'carpool-rides',
       data: {
@@ -65,8 +68,8 @@ export async function POST(req: NextRequest) {
         organizerName: organizerName ?? null,
         organizerEmail: organizerEmail ?? null,
         organizerPhone: organizerPhone ?? null,
-        trip: tripId ?? null,
-        program: programId ?? null,
+        ...(validTripId ? { trip: validTripId } : {}),
+        ...(validProgramId ? { program: validProgramId } : {}),
         status: 'open',
         source: 'registration',
       } as any,

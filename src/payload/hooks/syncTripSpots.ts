@@ -41,10 +41,15 @@ async function syncSpots(tripId: string | null, programId: string | null, payloa
   }
 }
 
+function toValidId(v: string | null): string | null {
+  if (!v) return null
+  return Number.isNaN(Number(v)) ? null : v
+}
+
 export const syncSpotsAfterChange: CollectionAfterChangeHook = async ({ doc, req }) => {
   const d = doc as RegistrationDoc
-  const tripId = d.trip ? (typeof d.trip === 'object' ? d.trip.id : d.trip) : null
-  const programId = d.program ? (typeof d.program === 'object' ? d.program.id : d.program) : null
+  const tripId = toValidId(d.trip ? (typeof d.trip === 'object' ? d.trip.id : d.trip) : null)
+  const programId = toValidId(d.program ? (typeof d.program === 'object' ? d.program.id : d.program) : null)
   try {
     await syncSpots(tripId, programId, req.payload)
   } catch {
@@ -55,8 +60,8 @@ export const syncSpotsAfterChange: CollectionAfterChangeHook = async ({ doc, req
 
 export const syncSpotsAfterDelete: CollectionAfterDeleteHook = async ({ doc, req }) => {
   const d = doc as RegistrationDoc
-  const tripId = d.trip ? (typeof d.trip === 'object' ? d.trip.id : d.trip) : null
-  const programId = d.program ? (typeof d.program === 'object' ? d.program.id : d.program) : null
+  const tripId = toValidId(d.trip ? (typeof d.trip === 'object' ? d.trip.id : d.trip) : null)
+  const programId = toValidId(d.program ? (typeof d.program === 'object' ? d.program.id : d.program) : null)
   try {
     await syncSpots(tripId, programId, req.payload)
   } catch {

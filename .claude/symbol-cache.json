@@ -1144,7 +1144,7 @@
       "@/lib/pricing/payment-plan",
       "@/lib/auth"
     ],
-    "lines": 364,
+    "lines": 369,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {
@@ -2417,7 +2417,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/DestinationBookingController"
     ],
-    "lines": 355,
+    "lines": 356,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -6283,7 +6283,7 @@
       "next/navigation",
       "@/lib/currency"
     ],
-    "lines": 241,
+    "lines": 242,
     "group": "ui"
   },
   "src/components/ui/destination-page/ItinerarySectionClient.tsx": {

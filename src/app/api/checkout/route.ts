@@ -136,7 +136,7 @@ export async function POST(req: NextRequest) {
         }
         const col = collectionMap[item.type]
         const docId = item.tripId ?? item.productId ?? item.programId ?? item.destinationId ?? item.bundleId
-        if (col && docId) {
+        if (col && docId && !Number.isNaN(Number(docId))) {
           const doc = await payload.findByID({ collection: col as any, id: docId, overrideAccess: true }).catch(() => null)
           if (!doc) {
             return NextResponse.json({
@@ -174,7 +174,7 @@ export async function POST(req: NextRequest) {
       const collectionMap: Record<string, string> = { trip: 'trips', program: 'programs', destination: 'destinations' }
       const col = collectionMap[bookableItem.type]
       const docId = bookableItem.tripId ?? bookableItem.programId ?? bookableItem.destinationId
-      if (col && docId) {
+      if (col && docId && !Number.isNaN(Number(docId))) {
         const doc = await payload.findByID({ collection: col as any, id: docId }).catch(() => null)
         if (doc) {
           const plan = resolvePaymentPlan(doc as any, new Date())
@@ -197,7 +197,7 @@ export async function POST(req: NextRequest) {
         }
         const col = collectionMap[item.type]
         const docId = item.tripId ?? item.productId ?? item.programId ?? item.destinationId ?? item.bundleId
-        if (col && docId) {
+        if (col && docId && !Number.isNaN(Number(docId))) {
           const doc = await payload.findByID({ collection: col as any, id: docId }).catch(() => null)
           stripePriceId = (doc as any)?.stripePriceId ?? null
         }
@@ -240,13 +240,16 @@ export async function POST(req: NextRequest) {
         remainingDueDate: resolvedPaymentMode === 'deposit' ? resolvedInstallments[1]?.dueDate : undefined,
         shippingAddress: shippingAddress ?? undefined,
         corporatePeopleCount: corporatePeopleCount ?? 1,
-        items: (items as CartItem[]).map((item) => ({
+        items: (items as CartItem[]).map((item) => {
+          const toId = (v: string | undefined | null) =>
+            v != null && !Number.isNaN(Number(v)) ? Number(v) : null
+          return {
           itemType: item.type,
-          trip: item.tripId != null ? Number(item.tripId) : null,
-          product: item.productId != null ? Number(item.productId) : null,
-          program: item.programId != null ? Number(item.programId) : null,
-          destination: item.destinationId != null ? Number(item.destinationId) : null,
-          bundle: item.bundleId != null ? Number(item.bundleId) : null,
+          trip: toId(item.tripId),
+          product: toId(item.productId),
+          program: toId(item.programId),
+          destination: toId(item.destinationId),
+          bundle: toId(item.bundleId),
           variantId: item.variantId ?? null,
           quantity: item.quantity,
           unitPrice: item.unitPrice,
@@ -254,7 +257,7 @@ export async function POST(req: NextRequest) {
           earlyBirdPrice: item.priceBreakdown?.earlyBirdPrice ?? null,
           regularCount: item.priceBreakdown?.regularCount ?? null,
           regularPrice: item.priceBreakdown?.regularPrice ?? null,
-        })),
+        }}),
         participationType: participationType ?? 'solo',
       },
     })
