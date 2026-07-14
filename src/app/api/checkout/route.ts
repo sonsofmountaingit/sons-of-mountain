@@ -17,10 +17,13 @@ const COLLECTION_MAP: Record<string, 'registrations' | 'orders' | 'gift-vouchers
 }
 
 export async function POST(req: NextRequest) {
+  console.log('[checkout] START', new Date().toISOString())
   try {
     const { stripe: stripeClient } = await import('@/lib/stripe')
+    console.log('[checkout] stripe client loaded')
     const stripe = stripeClient!
     const body = await req.json()
+    console.log('[checkout] body parsed', JSON.stringify(body).slice(0, 500))
     const {
       type = 'cart' as CheckoutType,
       recordId,
@@ -49,17 +52,21 @@ export async function POST(req: NextRequest) {
 
     const base = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
     const payload = await getPayload({ config })
+    console.log('[checkout] payload ready')
 
     const authSession = await auth.api.getSession({ headers: req.headers }).catch(() => null)
+    console.log('[checkout] session resolved', !!authSession)
     if (!authSession) return NextResponse.json({ error: 'Трябва да влезете в профила си, за да завършите резервацията.' }, { status: 401 })
     const betterAuthUserId = authSession.user.id
 
     const customerResult = await payload
       .find({ collection: 'customers', where: { betterAuthId: { equals: betterAuthUserId } }, limit: 1, depth: 0 })
       .catch(() => null)
+    console.log('[checkout] customer lookup done')
     const linkedCustomerId = customerResult?.docs[0]?.id ?? null
 
     const shopSettings = await payload.findGlobal({ slug: 'shop', depth: 0 }).catch(() => null)
+    console.log('[checkout] shop settings loaded')
     const bnplMin = (shopSettings as any)?.bnplMinOrderAmount ?? 100
 
     // Legacy single-item checkout (registrations, vouchers, orders)
@@ -127,6 +134,7 @@ export async function POST(req: NextRequest) {
 
     // Multi-item cart checkout
     if (!items?.length) return NextResponse.json({ error: 'Cart is empty' }, { status: 400 })
+    console.log('[checkout] starting price validation loop, items:', items.length)
 
     // Server-side price validation for each cart item
     for (const item of items as CartItem[]) {
@@ -165,6 +173,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    console.log('[checkout] price validation done')
     // Resolve the authoritative payment plan server-side from the booked item's config —
     // never trust the client for payment mode/amounts, same principle as the price validation above.
     let resolvedPaymentMode: string = paymentMode ?? 'full'
@@ -188,6 +197,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    console.log('[checkout] payment plan resolved', resolvedPaymentMode)
     // Build line items — use stored Stripe Price IDs where available
     const lineItems: any[] = await Promise.all((items as CartItem[]).map(async (item) => {
       let stripePriceId: string | null = null
@@ -217,6 +227,7 @@ export async function POST(req: NextRequest) {
       }
     }))
 
+    console.log('[checkout] line items built', lineItems.length)
     // Create pending order record
     const orderRecord = await payload.create({
       collection: 'orders',
@@ -261,6 +272,7 @@ export async function POST(req: NextRequest) {
         participationType: participationType ?? 'solo',
       },
     })
+    console.log('[checkout] order created', orderRecord.id)
 
     // Handle carpool: create ride (organizer) or add passenger (join)
     let resolvedCarpoolRideId: string | null = null
@@ -318,6 +330,7 @@ export async function POST(req: NextRequest) {
       await payload.update({ collection: 'orders', id: orderRecord.id, data: { carpoolRide: resolvedCarpoolRideId } as any }).catch(() => null)
     }
 
+    console.log('[checkout] carpool handling done')
     const paymentMethods: any[] = ['card']
 
     // Resolve Stripe customer ID for saved payment methods
@@ -326,6 +339,7 @@ export async function POST(req: NextRequest) {
       const custResult = await payload.find({ collection: 'customers', where: { email: { equals: customerEmail } }, limit: 1, depth: 0 }).catch(() => null)
       stripeCustomerId = (custResult?.docs[0] as any)?.stripeCustomerId ?? undefined
     }
+    console.log('[checkout] stripe customer resolved', stripeCustomerId)
 
     // For deposit/installment plans, charge only the first installment now — the rest is
     // collected later off-session by the balance-charge cron using the saved payment method.
@@ -375,13 +389,16 @@ export async function POST(req: NextRequest) {
       },
     }
 
+    console.log('[checkout] calling stripe.checkout.sessions.create')
     const session = await stripe.checkout.sessions.create(sessionParams)
+    console.log('[checkout] stripe session created', session.id, session.url)
 
     await payload.update({ collection: 'orders', id: orderRecord.id, data: { stripeSessionId: session.id } })
+    console.log('[checkout] order updated with session id, returning url')
 
     return NextResponse.json({ url: session.url })
   } catch (err) {
-    console.error('Checkout error:', err)
+    console.error('[checkout] CAUGHT ERROR:', err)
     return NextResponse.json({ error: 'Internal error' }, { status: 500 })
   }
 }

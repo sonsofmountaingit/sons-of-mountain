@@ -245,6 +245,13 @@ export default buildConfig({
     },
     // Exclude Better Auth tables from Payload's Drizzle schema management
     tablesFilter: ['!user', '!session', '!account', '!verification'],
+    // Disable Payload's automatic per-operation DB transactions. We were seeing connections
+    // get stuck in "idle in transaction" state indefinitely (confirmed via pg_stat_activity
+    // during a live hung checkout request) — a transaction opened for a read, then never
+    // committed/rolled back, permanently holding a pool connection and stalling the request
+    // with no error logged. None of our hooks rely on cross-statement atomicity in a way that
+    // requires this, so turning it off removes the failure mode entirely.
+    transactionOptions: false,
   }),
   upload: {
     limits: {

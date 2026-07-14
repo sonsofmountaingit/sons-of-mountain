@@ -1,4 +1,16 @@
 {
+  "src/migrations/20260714_seo_meta_keywords_and_site_meta.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 54,
+    "group": "other"
+  },
   "src/migrations/20260624_add_page_columns.ts": {
     "exports": [
       "up",
@@ -56,9 +68,23 @@
       "./20260528_add_missing_tables",
       "./20260624_add_page_columns",
       "./20260629_tags_free_text",
-      "./20260710_free_transfer_peak"
+      "./20260710_free_transfer_peak",
+      "./20260714_seo_meta_keywords_and_site_meta",
+      "./20260714b_seo_meta_keywords_all_collections"
     ],
-    "lines": 28,
+    "lines": 40,
+    "group": "other"
+  },
+  "src/migrations/20260714b_seo_meta_keywords_all_collections.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 50,
     "group": "other"
   },
   "src/seed/gallery.ts": {
@@ -4520,7 +4546,7 @@
       "./globals/HomePage",
       "./globals/Vouchers"
     ],
-    "lines": 264,
+    "lines": 272,
     "group": "payload"
   },
   "src/payload/seeds/hero.ts": {

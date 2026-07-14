@@ -1,6 +1,12 @@
 {
   "nodes": [
     {
+      "id": "src/migrations/20260714_seo_meta_keywords_and_site_meta.ts",
+      "label": "migrations/20260714_seo_meta_keywords_and_site_meta.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260624_add_page_columns.ts",
       "label": "migrations/20260624_add_page_columns.ts",
       "group": "other",
@@ -29,6 +35,12 @@
       "label": "migrations/index.ts",
       "group": "other",
       "size": 4
+    },
+    {
+      "id": "src/migrations/20260714b_seo_meta_keywords_all_collections.ts",
+      "label": "migrations/20260714b_seo_meta_keywords_all_collections.ts",
+      "group": "other",
+      "size": 6
     },
     {
       "id": "src/seed/gallery.ts",
@@ -3455,6 +3467,14 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260710_free_transfer_peak.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260714_seo_meta_keywords_and_site_meta.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260714b_seo_meta_keywords_all_collections.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -7329,6 +7349,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-14T18:05:42.768Z",
-  "fileCount": 573
+  "builtAt": "2026-07-14T18:31:36.359Z",
+  "fileCount": 575
 }
