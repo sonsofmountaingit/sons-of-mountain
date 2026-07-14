@@ -1723,6 +1723,12 @@
       "size": 6
     },
     {
+      "id": "src/payload/globals/SiteMeta.ts",
+      "label": "globals/SiteMeta.ts",
+      "group": "globals",
+      "size": 6
+    },
+    {
       "id": "src/payload/globals/StoriesPage.ts",
       "label": "globals/StoriesPage.ts",
       "group": "globals",
@@ -4495,6 +4501,10 @@
       "target": "src/components/blocks/calendar/CalendarHeroBlock.tsx"
     },
     {
+      "source": "src/app/(frontend)/calendar/page.tsx",
+      "target": "src/lib/metadata.ts"
+    },
+    {
       "source": "src/app/(frontend)/destinations/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -4861,6 +4871,10 @@
     {
       "source": "src/app/(frontend)/about/page.tsx",
       "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/about/page.tsx",
+      "target": "src/lib/metadata.ts"
     },
     {
       "source": "src/app/(frontend)/about/page.tsx",
@@ -5295,8 +5309,16 @@
       "target": "src/components/ui/TermsAndConditions.tsx"
     },
     {
+      "source": "src/app/(frontend)/legal/terms/page.tsx",
+      "target": "src/lib/metadata.ts"
+    },
+    {
       "source": "src/app/(frontend)/legal/cookies/page.tsx",
       "target": "src/components/ui/PrivacyPolicy.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/legal/cookies/page.tsx",
+      "target": "src/lib/metadata.ts"
     },
     {
       "source": "src/app/(frontend)/photos/page.tsx",
@@ -5801,6 +5823,10 @@
     {
       "source": "src/payload/payload.config.ts",
       "target": "src/payload/globals/SiteSettings.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/SiteMeta.ts"
     },
     {
       "source": "src/payload/payload.config.ts",
@@ -6959,6 +6985,10 @@
       "target": "src/lib/escape-html.ts"
     },
     {
+      "source": "src/lib/metadata.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
       "source": "src/lib/auth.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -7299,6 +7329,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-14T15:27:45.115Z",
-  "fileCount": 572
+  "builtAt": "2026-07-14T18:05:42.768Z",
+  "fileCount": 573
 }

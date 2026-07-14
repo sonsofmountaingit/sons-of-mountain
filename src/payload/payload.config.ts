@@ -227,6 +227,14 @@ export default buildConfig({
     }),
   ],
   editor: lexicalEditor(),
+  // Payload's library default is 2, which recursively populates every relationship field
+  // 2 levels deep on every find/findByID call site (there are 200+ across the app) that
+  // doesn't pass an explicit depth. Under real traffic this generates expensive nested
+  // json_agg lateral-join SQL per request and was the primary driver of the process's
+  // memory climbing to the Node heap ceiling and OOM-crashing under load. Lowering the
+  // default to 1 cuts most of that cost site-wide; call sites that genuinely need deeper
+  // population should pass depth explicitly rather than relying on the global default.
+  defaultDepth: 1,
   secret: process.env.PAYLOAD_SECRET ?? 'fallback-secret',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

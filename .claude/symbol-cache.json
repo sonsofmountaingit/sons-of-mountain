@@ -2229,7 +2229,7 @@
   "src/app/(frontend)/contact/page.tsx": {
     "exports": [
       "dynamic",
-      "metadata",
+      "generateMetadata",
       "default:async"
     ],
     "types": [],
@@ -2246,12 +2246,12 @@
       "@puckeditor/core",
       "@/lib/metadata"
     ],
-    "lines": 104,
+    "lines": 105,
     "group": "frontend"
   },
   "src/app/(frontend)/nolimit/catamarans/page.tsx": {
     "exports": [
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -2259,7 +2259,7 @@
       "next",
       "@/lib/metadata"
     ],
-    "lines": 33,
+    "lines": 34,
     "group": "frontend"
   },
   "src/app/(frontend)/nolimit/sign-up/page.tsx": {
@@ -2277,7 +2277,7 @@
   },
   "src/app/(frontend)/nolimit/gallery/page.tsx": {
     "exports": [
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -2285,7 +2285,7 @@
       "next",
       "@/lib/metadata"
     ],
-    "lines": 20,
+    "lines": 21,
     "group": "frontend"
   },
   "src/app/(frontend)/nolimit/layout.tsx": {
@@ -2303,7 +2303,7 @@
   },
   "src/app/(frontend)/nolimit/itinerary/page.tsx": {
     "exports": [
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -2311,12 +2311,12 @@
       "next",
       "@/lib/metadata"
     ],
-    "lines": 41,
+    "lines": 42,
     "group": "frontend"
   },
   "src/app/(frontend)/nolimit/page.tsx": {
     "exports": [
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -2325,12 +2325,12 @@
       "next/link",
       "@/lib/metadata"
     ],
-    "lines": 59,
+    "lines": 60,
     "group": "frontend"
   },
   "src/app/(frontend)/nolimit/nextgen/page.tsx": {
     "exports": [
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -2338,13 +2338,13 @@
       "next",
       "@/lib/metadata"
     ],
-    "lines": 22,
+    "lines": 23,
     "group": "frontend"
   },
   "src/app/(frontend)/calendar/page.tsx": {
     "exports": [
       "dynamic",
-      "metadata",
+      "generateMetadata",
       "default:async"
     ],
     "types": [],
@@ -2358,15 +2358,16 @@
       "next/script",
       "react",
       "next/cache",
-      "@/components/blocks/calendar/CalendarHeroBlock"
+      "@/components/blocks/calendar/CalendarHeroBlock",
+      "@/lib/metadata"
     ],
-    "lines": 270,
+    "lines": 262,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/page.tsx": {
     "exports": [
       "dynamic",
-      "metadata",
+      "generateMetadata",
       "default:async"
     ],
     "types": [],
@@ -2417,7 +2418,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/DestinationBookingController"
     ],
-    "lines": 356,
+    "lines": 358,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -2484,7 +2485,7 @@
   "src/app/(frontend)/gallery/page.tsx": {
     "exports": [
       "dynamic",
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -2538,7 +2539,7 @@
       "@/lib/media-url",
       "@/lib/metadata"
     ],
-    "lines": 135,
+    "lines": 137,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/cancel/page.tsx": {
@@ -2577,7 +2578,7 @@
       "@/components/shop/WaitlistButton",
       "@/components/shop/StarRating"
     ],
-    "lines": 184,
+    "lines": 186,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/success/page.tsx": {
@@ -2615,7 +2616,7 @@
   "src/app/(frontend)/shop/gift-vouchers/page.tsx": {
     "exports": [
       "dynamic",
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -2741,7 +2742,7 @@
   "src/app/(frontend)/shop/page.tsx": {
     "exports": [
       "dynamic",
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -2764,7 +2765,7 @@
   "src/app/(frontend)/shop/bundles/page.tsx": {
     "exports": [
       "dynamic",
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -2802,7 +2803,7 @@
       "react",
       "@/lib/currency"
     ],
-    "lines": 217,
+    "lines": 219,
     "group": "frontend"
   },
   "src/app/(frontend)/about/page.tsx": {
@@ -2818,15 +2819,16 @@
       "payload",
       "@payload-config",
       "@/lib/media-url",
+      "@/lib/metadata",
       "@/components/ui/About"
     ],
-    "lines": 74,
+    "lines": 60,
     "group": "frontend"
   },
   "src/app/(frontend)/blog/page.tsx": {
     "exports": [
       "dynamic",
-      "metadata",
+      "generateMetadata",
       "default:async"
     ],
     "types": [],
@@ -2844,7 +2846,7 @@
       "@puckeditor/core",
       "@/lib/metadata"
     ],
-    "lines": 109,
+    "lines": 110,
     "group": "frontend"
   },
   "src/app/(frontend)/blog/[slug]/page.tsx": {
@@ -2865,12 +2867,12 @@
       "react",
       "@/lib/metadata"
     ],
-    "lines": 95,
+    "lines": 97,
     "group": "frontend"
   },
   "src/app/(frontend)/gift/page.tsx": {
     "exports": [
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -2879,7 +2881,7 @@
       "@/lib/metadata",
       "@/components/forms/GiftVoucherForm"
     ],
-    "lines": 23,
+    "lines": 24,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/NoRegistrationGate.tsx": {
@@ -3225,7 +3227,7 @@
   "src/app/(frontend)/programs/page.tsx": {
     "exports": [
       "dynamic",
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -3241,7 +3243,7 @@
       "@/lib/metadata",
       "@/lib/currency"
     ],
-    "lines": 225,
+    "lines": 226,
     "group": "frontend"
   },
   "src/app/(frontend)/programs/[slug]/page.tsx": {
@@ -3276,13 +3278,13 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 302,
+    "lines": 303,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/page.tsx": {
     "exports": [
       "dynamic",
-      "metadata",
+      "generateMetadata",
       "default:async"
     ],
     "types": [],
@@ -3298,7 +3300,7 @@
       "@puckeditor/core",
       "@/lib/metadata"
     ],
-    "lines": 100,
+    "lines": 101,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/[slug]/page.tsx": {
@@ -3320,7 +3322,7 @@
       "@/lib/metadata",
       "react"
     ],
-    "lines": 106,
+    "lines": 108,
     "group": "frontend"
   },
   "src/app/(frontend)/forgot-password/ForgotClient.tsx": {
@@ -3480,7 +3482,7 @@
   "src/app/(frontend)/photographers/page.tsx": {
     "exports": [
       "dynamic",
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -3562,7 +3564,7 @@
   },
   "src/app/(frontend)/empire/page.tsx": {
     "exports": [
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -3572,39 +3574,41 @@
       "next/link",
       "@/lib/metadata"
     ],
-    "lines": 77,
+    "lines": 78,
     "group": "frontend"
   },
   "src/app/(frontend)/legal/terms/page.tsx": {
     "exports": [
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
     "imports": [
       "next",
-      "@/components/ui/TermsAndConditions"
+      "@/components/ui/TermsAndConditions",
+      "@/lib/metadata"
     ],
-    "lines": 14,
+    "lines": 15,
     "group": "frontend"
   },
   "src/app/(frontend)/legal/cookies/page.tsx": {
     "exports": [
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
     "imports": [
       "next",
-      "@/components/ui/PrivacyPolicy"
+      "@/components/ui/PrivacyPolicy",
+      "@/lib/metadata"
     ],
-    "lines": 14,
+    "lines": 15,
     "group": "frontend"
   },
   "src/app/(frontend)/photos/page.tsx": {
     "exports": [
       "dynamic",
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -3623,7 +3627,7 @@
   "src/app/(frontend)/trips/page.tsx": {
     "exports": [
       "dynamic",
-      "metadata",
+      "generateMetadata",
       "default:function"
     ],
     "types": [],
@@ -3638,7 +3642,7 @@
       "@/lib/media-url",
       "@/lib/metadata"
     ],
-    "lines": 225,
+    "lines": 226,
     "group": "frontend"
   },
   "src/app/(frontend)/trips/[slug]/page.tsx": {
@@ -3675,7 +3679,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 337,
+    "lines": 339,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {
@@ -3701,7 +3705,7 @@
       "@puckeditor/core",
       "@/lib/metadata"
     ],
-    "lines": 116,
+    "lines": 115,
     "group": "frontend"
   },
   "src/app/(frontend)/individual-programs/page.tsx": {
@@ -3722,7 +3726,7 @@
       "@/components/blocks/PuckRender",
       "@puckeditor/core"
     ],
-    "lines": 63,
+    "lines": 62,
     "group": "frontend"
   },
   "src/app/(frontend)/[slug]/page.tsx": {
@@ -3745,7 +3749,7 @@
       "@/components/blocks/PuckRender",
       "@puckeditor/core"
     ],
-    "lines": 87,
+    "lines": 89,
     "group": "frontend"
   },
   "src/app/(frontend)/formular/[token]/page.tsx": {
@@ -4416,6 +4420,19 @@
     "lines": 47,
     "group": "globals"
   },
+  "src/payload/globals/SiteMeta.ts": {
+    "exports": [
+      "SiteMeta"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "next/cache",
+      "next/server"
+    ],
+    "lines": 33,
+    "group": "globals"
+  },
   "src/payload/globals/StoriesPage.ts": {
     "exports": [
       "StoriesPage"
@@ -4483,6 +4500,7 @@
       "./globals/Footer",
       "./globals/WhyTravelWithUs",
       "./globals/SiteSettings",
+      "./globals/SiteMeta",
       "./globals/Hero",
       "./globals/DestinationCarousel",
       "./globals/Gallery",
@@ -4502,7 +4520,7 @@
       "./globals/HomePage",
       "./globals/Vouchers"
     ],
-    "lines": 263,
+    "lines": 264,
     "group": "payload"
   },
   "src/payload/seeds/hero.ts": {
@@ -4617,7 +4635,7 @@
       "@/lib/send-registration-forms",
       "./shared/paymentPlanFields"
     ],
-    "lines": 546,
+    "lines": 547,
     "group": "collections"
   },
   "src/payload/collections/EmailTemplates.ts": {
@@ -4744,7 +4762,7 @@
       "@/lib/stripe-product-sync",
       "./shared/paymentPlanFields"
     ],
-    "lines": 528,
+    "lines": 529,
     "group": "collections"
   },
   "src/payload/collections/Pages.ts": {
@@ -4770,7 +4788,7 @@
       "../blocks/TextBlock",
       "../blocks/VideoBlock"
     ],
-    "lines": 162,
+    "lines": 163,
     "group": "collections"
   },
   "src/payload/collections/shared/paymentPlanFields.ts": {
@@ -4807,7 +4825,7 @@
       "@payloadcms/richtext-lexical",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 189,
+    "lines": 190,
     "group": "collections"
   },
   "src/payload/collections/Orders.ts": {
@@ -4830,7 +4848,7 @@
       "payload",
       "../hooks/revalidate"
     ],
-    "lines": 65,
+    "lines": 66,
     "group": "collections"
   },
   "src/payload/collections/Subscriptions.ts": {
@@ -4890,7 +4908,7 @@
       "next/cache",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 147,
+    "lines": 158,
     "group": "collections"
   },
   "src/payload/collections/Testimonials.ts": {
@@ -4971,7 +4989,7 @@
       "next/cache",
       "next/server"
     ],
-    "lines": 148,
+    "lines": 150,
     "group": "collections"
   },
   "src/payload/collections/Media.ts": {
@@ -5020,7 +5038,7 @@
       "payload",
       "../hooks/revalidate"
     ],
-    "lines": 75,
+    "lines": 76,
     "group": "collections"
   },
   "src/payload/collections/CustomerMedia.ts": {
@@ -5049,7 +5067,7 @@
       "@/lib/send-registration-forms",
       "./shared/paymentPlanFields"
     ],
-    "lines": 547,
+    "lines": 548,
     "group": "collections"
   },
   "src/payload/collections/Waitlist.ts": {
@@ -7697,7 +7715,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 57,
+    "lines": 63,
     "group": "lib"
   },
   "src/lib/weather.ts": {
@@ -7744,13 +7762,19 @@
   },
   "src/lib/metadata.ts": {
     "exports": [
+      "getStaticPageMeta",
+      "getDefaultKeywords",
+      "buildStaticMetadata",
       "buildMetadata"
     ],
     "types": [],
     "imports": [
-      "next"
+      "next",
+      "next/cache",
+      "payload",
+      "@payload-config"
     ],
-    "lines": 40,
+    "lines": 104,
     "group": "lib"
   },
   "src/lib/media-url.ts": {
