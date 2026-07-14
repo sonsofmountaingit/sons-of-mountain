@@ -1144,7 +1144,7 @@
       "@/lib/pricing/payment-plan",
       "@/lib/auth"
     ],
-    "lines": 369,
+    "lines": 372,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {
@@ -1802,7 +1802,7 @@
       "@payload-config",
       "payload"
     ],
-    "lines": 81,
+    "lines": 84,
     "group": "api"
   },
   "src/app/api/site-settings-public/route.ts": {
@@ -4584,7 +4584,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 66,
+    "lines": 71,
     "group": "payload"
   },
   "src/payload/hooks/revalidate.ts": {

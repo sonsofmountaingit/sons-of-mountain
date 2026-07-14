@@ -266,13 +266,29 @@ export async function POST(req: NextRequest) {
     let resolvedCarpoolRideId: string | null = null
     if (participationType === 'organizer' && carpool) {
       try {
-        const rideRes = await fetch(`${base}/api/carpool-rides`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ...carpool, organizerName: `${body.firstName ?? ''} ${body.lastName ?? ''}`.trim(), organizerEmail: customerEmail, organizerPhone: body.phone }),
+        const organizerName = `${body.firstName ?? ''} ${body.lastName ?? ''}`.trim()
+        const rawTripId = carpool.tripId
+        const rawProgramId = carpool.programId
+        const validTripId = rawTripId && !Number.isNaN(Number(rawTripId)) ? rawTripId : undefined
+        const validProgramId = rawProgramId && !Number.isNaN(Number(rawProgramId)) ? rawProgramId : undefined
+        const ride = await payload.create({
+          collection: 'carpool-rides',
+          data: {
+            vehicleType: carpool.vehicleType,
+            seatsAvailable: carpool.seatsAvailable,
+            departureFrom: carpool.departureFrom,
+            departureTime: carpool.departureTime ?? null,
+            notes: carpool.notes ?? null,
+            organizerName: organizerName ?? null,
+            organizerEmail: customerEmail ?? null,
+            organizerPhone: body.phone ?? null,
+            ...(validTripId ? { trip: validTripId } : {}),
+            ...(validProgramId ? { program: validProgramId } : {}),
+            status: 'open',
+            source: 'registration',
+          } as any,
         })
-        const rideData = await rideRes.json()
-        if (rideData.id) resolvedCarpoolRideId = rideData.id
+        resolvedCarpoolRideId = ride.id as string
       } catch (e) {
         console.error('Failed to create carpool ride:', e)
       }
