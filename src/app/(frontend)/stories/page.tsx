@@ -7,15 +7,16 @@ import { Suspense } from 'react'
 import { StoriesHeroBlock } from '@/components/blocks/stories/StoriesHeroBlock'
 import { PuckRender } from '@/components/blocks/PuckRender'
 import type { Data } from '@puckeditor/core'
-import { buildMetadata } from '@/lib/metadata'
+import { buildStaticMetadata } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = buildMetadata({
-  title: 'Истории от пътешественици — Sons of Mountains',
-  description: 'Лични разкази и истории от нашите пътешественици. Вдъхнови се за следващото си приключение.',
-  slug: 'stories',
-})
+export async function generateMetadata(): Promise<Metadata> {
+  return buildStaticMetadata('/stories', {
+    title: 'Истории от пътешественици — Sons of Mountains',
+    description: 'Лични разкази и истории от нашите пътешественици. Вдъхнови се за следващото си приключение.',
+  })
+}
 
 const getStoriesPage = unstable_cache(
   async () => {

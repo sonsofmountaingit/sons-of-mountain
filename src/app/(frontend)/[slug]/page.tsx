@@ -45,11 +45,13 @@ export async function generateMetadata({ params }: Args): Promise<Metadata> {
   const { slug } = await params
   const page = await getPageCached(slug)
   if (!page) return {}
-  const meta = (page as { meta?: { title?: string; description?: string } }).meta
+  const meta = (page as { meta?: { title?: string; description?: string; image?: { url?: string | null }; keywords?: string } }).meta
   return buildMetadata({
     title: meta?.title ?? ((page as { title?: string }).title ?? slug),
     description: meta?.description ?? undefined,
     slug,
+    image: meta?.image?.url ?? undefined,
+    keywords: meta?.keywords ?? undefined,
   })
 }
 

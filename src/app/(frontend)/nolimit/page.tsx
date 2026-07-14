@@ -1,12 +1,13 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { buildMetadata } from '@/lib/metadata'
+import { buildStaticMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = buildMetadata({
-  title: 'NoLimit Yacht Festival — Sons of Mountains',
-  description: 'NoLimit е яхтен фестивал в Червено море — 7 дни на яхта, музика, острови и незабравими приключения. Sons of Mountains × NoLimit 2026.',
-  slug: 'nolimit',
-})
+export async function generateMetadata(): Promise<Metadata> {
+  return buildStaticMetadata('/nolimit', {
+    title: 'NoLimit Yacht Festival — Sons of Mountains',
+    description: 'NoLimit е яхтен фестивал в Червено море — 7 дни на яхта, музика, острови и незабравими приключения. Sons of Mountains × NoLimit 2026.',
+  })
+}
 
 const SECTIONS = [
   { title: 'Острови и плажове', desc: 'Нетронати плажове, кристални води и незабравими залези.' },

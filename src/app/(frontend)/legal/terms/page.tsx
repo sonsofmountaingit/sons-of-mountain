@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
 import { TermsAndConditions } from '@/components/ui/TermsAndConditions'
+import { buildStaticMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = {
-  title: 'Общи условия — Sons of Mountains',
-  description: 'Общи условия за използване на Sons of Mountains.',
-  alternates: { canonical: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/legal/terms` },
-  robots: { index: true, follow: true },
+export async function generateMetadata(): Promise<Metadata> {
+  return buildStaticMetadata('/legal/terms', {
+    title: 'Общи условия — Sons of Mountains',
+    description: 'Общи условия за използване на Sons of Mountains.',
+  })
 }
 
 export default function TermsPage() {

@@ -5,17 +5,17 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { mediaUrl } from "@/lib/media-url"
 import { Suspense } from 'react'
-import { buildMetadata } from '@/lib/metadata'
+import { buildStaticMetadata } from '@/lib/metadata'
 import { formatPrice } from '@/lib/currency'
 
 export const dynamic = 'force-dynamic'
 
-
-export const metadata: Metadata = buildMetadata({
-  title: 'Пакети — Sons of Mountains',
-  description: 'Пътнически пакети и бъндъли от Sons of Mountains. Спести с комбинирани оферти за оборудване и аксесоари.',
-  slug: 'shop/bundles',
-})
+export async function generateMetadata(): Promise<Metadata> {
+  return buildStaticMetadata('/shop/bundles', {
+    title: 'Пакети — Sons of Mountains',
+    description: 'Пътнически пакети и бъндъли от Sons of Mountains. Спести с комбинирани оферти за оборудване и аксесоари.',
+  })
+}
 
 async function getBundles() {
   try {

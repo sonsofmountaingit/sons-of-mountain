@@ -3,6 +3,7 @@ import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { mediaUrl } from '@/lib/media-url'
+import { buildStaticMetadata } from '@/lib/metadata'
 import { About } from '@/components/ui/About'
 
 export const dynamic = 'force-dynamic'
@@ -22,29 +23,14 @@ const getAboutMeta = unstable_cache(
 
 export async function generateMetadata(): Promise<Metadata> {
   const d = (await getAboutMeta()) as any
-  const title = 'За нас — Sons of Mountains'
-  const description =
-    d?.heroSubtext ??
-    'Организираме пътешествия до трудно достъпни места — там, където комфортът среща приключението.'
   const ogImageUrl = mediaUrl(typeof d?.heroImage === 'object' ? d?.heroImage?.url : null)
-
-  return {
-    title,
-    description,
-    openGraph: {
-      title,
-      description,
-      type: 'website',
-      ...(ogImageUrl && { images: [{ url: ogImageUrl, width: 1200, height: 630, alt: title }] }),
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      ...(ogImageUrl && { images: [ogImageUrl] }),
-    },
-    robots: { index: true, follow: true },
-  }
+  return buildStaticMetadata('/about', {
+    title: 'За нас — Sons of Mountains',
+    description:
+      d?.heroSubtext ??
+      'Организираме пътешествия до трудно достъпни места — там, където комфортът среща приключението.',
+    image: ogImageUrl ?? undefined,
+  })
 }
 
 export default function AboutPage() {

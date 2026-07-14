@@ -7,17 +7,17 @@ import Image from 'next/image'
 import { Suspense } from 'react'
 import { ProductCard } from '@/components/shop/ProductCard'
 import { mediaUrl } from "@/lib/media-url"
-import { buildMetadata } from '@/lib/metadata'
+import { buildStaticMetadata } from '@/lib/metadata'
 import { formatPrice } from '@/lib/currency'
 
 export const dynamic = 'force-dynamic'
 
-
-export const metadata: Metadata = buildMetadata({
-  title: 'Магазин — Sons of Mountains',
-  description: 'Пътнически пакети, аксесоари и ваучери от Sons of Mountains. Открий всичко необходимо за твоето следващо приключение.',
-  slug: 'shop',
-})
+export async function generateMetadata(): Promise<Metadata> {
+  return buildStaticMetadata('/shop', {
+    title: 'Магазин — Sons of Mountains',
+    description: 'Пътнически пакети, аксесоари и ваучери от Sons of Mountains. Открий всичко необходимо за твоето следващо приключение.',
+  })
+}
 
 const getCatalog = unstable_cache(
   async () => {

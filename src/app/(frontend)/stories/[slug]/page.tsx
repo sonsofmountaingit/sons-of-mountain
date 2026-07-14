@@ -32,11 +32,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!story) return { title: 'Истории — Sons of Mountains' }
   const heroImage = story.heroImage as { url?: string | null } | null
   const author = story.author as { name: string } | null
+  const meta = (story as any).meta as { title?: string; description?: string; image?: { url?: string | null }; keywords?: string } | null
   return buildMetadata({
-    title: story.title,
-    description: author ? `История от ${author.name}` : undefined,
+    title: meta?.title ?? story.title,
+    description: meta?.description ?? (author ? `История от ${author.name}` : undefined),
     slug: `stories/${slug}`,
-    image: heroImage?.url ?? undefined,
+    image: meta?.image?.url ?? heroImage?.url ?? undefined,
+    keywords: meta?.keywords ?? undefined,
   })
 }
 

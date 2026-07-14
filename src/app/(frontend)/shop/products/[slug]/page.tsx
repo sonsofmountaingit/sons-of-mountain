@@ -29,11 +29,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const product = docs[0] as any
     if (!product) return { title: 'Продукт — Sons of Mountains' }
     const image = product.images?.[0]?.image as { url?: string | null } | null
+    const meta = product.meta as { title?: string; description?: string; image?: { url?: string | null }; keywords?: string } | null
     return buildMetadata({
-      title: `${product.title} — Sons of Mountains`,
-      description: product.description ?? undefined,
+      title: meta?.title ?? `${product.title} — Sons of Mountains`,
+      description: meta?.description ?? product.description ?? undefined,
       slug: `shop/products/${slug}`,
-      image: image?.url ?? undefined,
+      image: meta?.image?.url ?? image?.url ?? undefined,
+      keywords: meta?.keywords ?? undefined,
     })
   } catch {
     return { title: 'Продукт — Sons of Mountains' }

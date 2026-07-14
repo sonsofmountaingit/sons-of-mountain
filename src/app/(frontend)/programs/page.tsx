@@ -6,16 +6,17 @@ import { Suspense } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { mediaUrl } from '@/lib/media-url'
-import { buildMetadata } from '@/lib/metadata'
+import { buildStaticMetadata } from '@/lib/metadata'
 import { formatPrice } from '@/lib/currency'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = buildMetadata({
-  title: 'Индивидуални програми — Sons of Mountains',
-  description: 'Персонализирани пътнически програми, създадени специално за теб. Избери дестинация и ние ще изградим идеалното пътешествие.',
-  slug: 'programs',
-})
+export async function generateMetadata(): Promise<Metadata> {
+  return buildStaticMetadata('/programs', {
+    title: 'Индивидуални програми — Sons of Mountains',
+    description: 'Персонализирани пътнически програми, създадени специално за теб. Избери дестинация и ние ще изградим идеалното пътешествие.',
+  })
+}
 
 const PROGRAM_TYPE_LABELS: Record<string, string> = {
   Yoga: 'Йога',

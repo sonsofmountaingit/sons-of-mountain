@@ -80,11 +80,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const data = await getPageData(slug)
   if (!data) return { title: 'Дестинация — Sons of Mountains' }
   const heroImage = (data.destination as any).heroImage as { url?: string | null } | null
+  const meta = (data.destination as any).meta as { title?: string; description?: string; image?: { url?: string | null }; keywords?: string } | null
   return buildMetadata({
-    title: `${data.destination.name} — Sons of Mountains`,
-    description: (data.destination as any).introText ?? undefined,
+    title: meta?.title ?? `${data.destination.name} — Sons of Mountains`,
+    description: meta?.description ?? (data.destination as any).introText ?? undefined,
     slug: `destinations/${slug}`,
-    image: heroImage?.url ?? undefined,
+    image: meta?.image?.url ?? heroImage?.url ?? undefined,
+    keywords: meta?.keywords ?? undefined,
   })
 }
 

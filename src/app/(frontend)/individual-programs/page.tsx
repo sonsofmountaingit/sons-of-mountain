@@ -3,7 +3,7 @@ import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { mediaUrl } from '@/lib/media-url'
-import { buildMetadata } from '@/lib/metadata'
+import { buildStaticMetadata } from '@/lib/metadata'
 import { IndividualProgramsPage as IndividualProgramsView } from '@/components/ui/IndividualProgramsPage'
 import { PuckRender } from '@/components/blocks/PuckRender'
 import type { Data } from '@puckeditor/core'
@@ -26,10 +26,9 @@ const getIndividualProgramsMeta = unstable_cache(
 export async function generateMetadata(): Promise<Metadata> {
   const d = (await getIndividualProgramsMeta()) as any
   const heroImage = typeof d?.heroImage === 'object' ? d?.heroImage : null
-  return buildMetadata({
+  return buildStaticMetadata('/individual-programs', {
     title: 'Индивидуални програми — Sons of Mountains',
     description: d?.heroSubtext ?? 'Пътуване, скроено изцяло по твоите желания — дестинация, дати, темпо и хора по твой избор.',
-    slug: 'individual-programs',
     image: mediaUrl(heroImage?.url) ?? undefined,
   })
 }

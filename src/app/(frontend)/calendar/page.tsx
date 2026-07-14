@@ -17,6 +17,7 @@ import Script from 'next/script'
 import { Suspense } from 'react'
 import { unstable_cache } from 'next/cache'
 import { CalendarHeroBlock } from '@/components/blocks/calendar/CalendarHeroBlock'
+import { buildStaticMetadata } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
@@ -31,16 +32,11 @@ const getCalendarPage = unstable_cache(
   { tags: ['calendar-page'], revalidate: false },
 )
 
-
-export const metadata: Metadata = {
-  title: 'Календар с пътувания 2026 | Sons of Mountains',
-  description: 'Всички предстоящи пътувания и програми по месец. Открий своето следващо приключение.',
-  openGraph: {
+export async function generateMetadata(): Promise<Metadata> {
+  return buildStaticMetadata('/calendar', {
     title: 'Календар с пътувания 2026 | Sons of Mountains',
     description: 'Всички предстоящи пътувания и програми по месец. Открий своето следващо приключение.',
-    type: 'website',
-  },
-  alternates: { canonical: '/calendar' },
+  })
 }
 
 const MONTHS_BG = ['Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември']
@@ -221,7 +217,7 @@ const fetchCalendarData = unstable_cache(
 )
 
 async function CalendarContent() {
-  const { groups, firstImage, events, itemCoords } = await fetchCalendarData()
+  const { groups, events, itemCoords } = await fetchCalendarData()
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -237,10 +233,6 @@ async function CalendarContent() {
         url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sons-of-mountains.com'}${item.href}`,
       },
     })),
-  }
-
-  if (firstImage && metadata.openGraph) {
-    (metadata.openGraph as Record<string, unknown>).images = [firstImage]
   }
 
   return (

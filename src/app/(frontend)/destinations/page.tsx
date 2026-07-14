@@ -4,16 +4,16 @@ import { DestinationCard } from '@/components/ui/DestinationCard'
 import type { Metadata } from 'next'
 import { unstable_cache } from 'next/cache'
 import { Suspense } from 'react'
-import { buildMetadata } from '@/lib/metadata'
+import { buildStaticMetadata } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
-
-export const metadata: Metadata = buildMetadata({
-  title: 'Дестинации — Sons of Mountains',
-  description: 'Открий всички наши дестинации — от Балканите до Хималаите, от Средиземно море до Индонезия. Приключения за всеки вкус.',
-  slug: 'destinations',
-})
+export async function generateMetadata(): Promise<Metadata> {
+  return buildStaticMetadata('/destinations', {
+    title: 'Дестинации — Sons of Mountains',
+    description: 'Открий всички наши дестинации — от Балканите до Хималаите, от Средиземно море до Индонезия. Приключения за всеки вкус.',
+  })
+}
 
 const getDestinations = unstable_cache(
   async () => {

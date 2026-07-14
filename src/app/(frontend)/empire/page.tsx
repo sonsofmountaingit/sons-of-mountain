@@ -1,13 +1,14 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { buildMetadata } from '@/lib/metadata'
+import { buildStaticMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = buildMetadata({
-  title: 'Empire of Corals — Sons of Mountains × EXE Group',
-  description: 'Empire of Corals — мегасъбитие на Sons of Mountains и EXE Group. 6 мега яхти, 6 артисти, 1 чартърен полет. Хургада, Египет, 14–21 ноември 2026.',
-  slug: 'empire',
-})
+export async function generateMetadata(): Promise<Metadata> {
+  return buildStaticMetadata('/empire', {
+    title: 'Empire of Corals — Sons of Mountains × EXE Group',
+    description: 'Empire of Corals — мегасъбитие на Sons of Mountains и EXE Group. 6 мега яхти, 6 артисти, 1 чартърен полет. Хургада, Египет, 14–21 ноември 2026.',
+  })
+}
 
 export default function EmpirePage() {
   const jsonLd = {

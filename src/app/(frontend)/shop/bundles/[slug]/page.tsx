@@ -25,12 +25,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     })
     const bundle = docs[0] as any
     if (!bundle) return { title: 'Пакет — Sons of Mountains' }
-    const image = bundle.heroImage as { url?: string | null } | null
+    const image = bundle.image as { url?: string | null } | null
+    const meta = bundle.meta as { title?: string; description?: string; image?: { url?: string | null }; keywords?: string } | null
     return buildMetadata({
-      title: `${bundle.title} — Sons of Mountains`,
-      description: bundle.description ?? undefined,
+      title: meta?.title ?? `${bundle.title} — Sons of Mountains`,
+      description: meta?.description ?? bundle.description ?? undefined,
       slug: `shop/bundles/${slug}`,
-      image: image?.url ?? undefined,
+      image: meta?.image?.url ?? image?.url ?? undefined,
+      keywords: meta?.keywords ?? undefined,
     })
   } catch {
     return { title: 'Пакет — Sons of Mountains' }

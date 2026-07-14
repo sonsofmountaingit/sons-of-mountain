@@ -8,10 +8,16 @@ import { GalleryKeyboardHints } from '@/components/ui/GalleryKeyboardHints'
 import { mediaUrl } from '@/lib/media-url'
 import { Suspense } from 'react'
 import { unstable_cache } from 'next/cache'
-import { buildMetadata } from '@/lib/metadata'
+import { buildStaticMetadata } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
+export async function generateMetadata(): Promise<Metadata> {
+  return buildStaticMetadata('/gallery', {
+    title: 'Галерия — Sons of Mountains',
+    description: 'Фотографски колекции от нашите дестинации. Открий красотата на света през обектива на нашите фотографи.',
+  })
+}
 
 const getGalleryData = unstable_cache(
   async () => {
@@ -55,12 +61,6 @@ const getGalleryData = unstable_cache(
   ['gallery-page'],
   { tags: ['gallery'], revalidate: false },
 )
-
-export const metadata: Metadata = buildMetadata({
-  title: 'Галерия — Sons of Mountains',
-  description: 'Фотографски колекции от нашите дестинации. Открий красотата на света през обектива на нашите фотографи.',
-  slug: 'gallery',
-})
 
 async function GalleryContent() {
   const { gallery, collections } = await getGalleryData()

@@ -64,11 +64,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!data) return { title: 'Пътуване — Sons of Mountains' }
   const t = data.trip as Record<string, unknown>
   const heroImage = t.heroImage as { url?: string | null } | null
+  const meta = t.meta as { title?: string; description?: string; image?: { url?: string | null }; keywords?: string } | null
   return buildMetadata({
-    title: `${data.trip.title} — Sons of Mountains`,
-    description: (t.shortDescription as string) ?? undefined,
+    title: meta?.title ?? `${data.trip.title} — Sons of Mountains`,
+    description: meta?.description ?? (t.shortDescription as string) ?? undefined,
     slug: `trips/${slug}`,
-    image: heroImage?.url ?? undefined,
+    image: meta?.image?.url ?? heroImage?.url ?? undefined,
+    keywords: meta?.keywords ?? undefined,
   })
 }
 

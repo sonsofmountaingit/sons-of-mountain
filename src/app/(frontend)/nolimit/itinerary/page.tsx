@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
-import { buildMetadata } from '@/lib/metadata'
+import { buildStaticMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = buildMetadata({
-  title: 'Маршрут — NoLimit Yacht Festival',
-  description: '7-дневен маршрут на NoLimit Yacht Festival в Червено море. Острови, корали, нощни партита и незабравими залези.',
-  slug: 'nolimit/itinerary',
-})
+export async function generateMetadata(): Promise<Metadata> {
+  return buildStaticMetadata('/nolimit/itinerary', {
+    title: 'Маршрут — NoLimit Yacht Festival',
+    description: '7-дневен маршрут на NoLimit Yacht Festival в Червено море. Острови, корали, нощни партита и незабравими залези.',
+  })
+}
 
 const DAYS = [
   { day: 1, title: 'Заминаване — Хургада', desc: 'Настаняване на яхтите, коктейлна вечер.' },

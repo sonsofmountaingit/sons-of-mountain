@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
-import { buildMetadata } from '@/lib/metadata'
+import { buildStaticMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = buildMetadata({
-  title: 'NextGen — NoLimit Yacht Festival',
-  description: 'Специална програма за пътешественици под 30 години. NoLimit NextGen — по-достъпни цени, същото незабравимо изживяване.',
-  slug: 'nolimit/nextgen',
-})
+export async function generateMetadata(): Promise<Metadata> {
+  return buildStaticMetadata('/nolimit/nextgen', {
+    title: 'NextGen — NoLimit Yacht Festival',
+    description: 'Специална програма за пътешественици под 30 години. NoLimit NextGen — по-достъпни цени, същото незабравимо изживяване.',
+  })
+}
 
 export default function NolimitNextgenPage() {
   return (

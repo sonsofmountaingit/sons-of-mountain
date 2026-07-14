@@ -6,15 +6,16 @@ import { Suspense } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { mediaUrl } from '@/lib/media-url'
-import { buildMetadata } from '@/lib/metadata'
+import { buildStaticMetadata } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = buildMetadata({
-  title: 'Пътувания — Sons of Mountains',
-  description: 'Всички организирани групови пътувания. Планини, острови, джунгли — открий следващото си приключение с Sons of Mountains.',
-  slug: 'trips',
-})
+export async function generateMetadata(): Promise<Metadata> {
+  return buildStaticMetadata('/trips', {
+    title: 'Пътувания — Sons of Mountains',
+    description: 'Всички организирани групови пътувания. Планини, острови, джунгли — открий следващото си приключение с Sons of Mountains.',
+  })
+}
 
 const getTrips = unstable_cache(
   async () => {

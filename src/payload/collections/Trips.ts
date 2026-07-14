@@ -496,6 +496,7 @@ export const Trips: CollectionConfig = {
         { name: 'title', type: 'text' },
         { name: 'description', type: 'textarea' },
         { name: 'image', type: 'upload', relationTo: 'media' },
+        { name: 'keywords', type: 'text', admin: { description: 'Comma-separated keywords' } },
       ],
     },
     {

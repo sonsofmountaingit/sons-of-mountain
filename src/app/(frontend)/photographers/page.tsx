@@ -4,17 +4,17 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { mediaUrl } from '@/lib/media-url'
-import { buildMetadata } from '@/lib/metadata'
+import { buildStaticMetadata } from '@/lib/metadata'
 import { Suspense } from 'react'
 
 export const dynamic = 'force-dynamic'
 
-
-export const metadata: Metadata = buildMetadata({
-  title: 'Фотографи — Sons of Mountains',
-  description: 'Нашите партньорски фотографи. Открий техните колекции и разгледай свят през тяхното oko.',
-  slug: 'photographers',
-})
+export async function generateMetadata(): Promise<Metadata> {
+  return buildStaticMetadata('/photographers', {
+    title: 'Фотографи — Sons of Mountains',
+    description: 'Нашите партньорски фотографи. Открий техните колекции и разгледай свят през тяхното oko.',
+  })
+}
 
 async function getPhotographers() {
   try {

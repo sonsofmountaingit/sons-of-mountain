@@ -55,11 +55,11 @@ export async function POST(req: NextRequest) {
     const betterAuthUserId = authSession.user.id
 
     const customerResult = await payload
-      .find({ collection: 'customers', where: { betterAuthId: { equals: betterAuthUserId } }, limit: 1 })
+      .find({ collection: 'customers', where: { betterAuthId: { equals: betterAuthUserId } }, limit: 1, depth: 0 })
       .catch(() => null)
     const linkedCustomerId = customerResult?.docs[0]?.id ?? null
 
-    const shopSettings = await payload.findGlobal({ slug: 'shop' }).catch(() => null)
+    const shopSettings = await payload.findGlobal({ slug: 'shop', depth: 0 }).catch(() => null)
     const bnplMin = (shopSettings as any)?.bnplMinOrderAmount ?? 100
 
     // Legacy single-item checkout (registrations, vouchers, orders)
@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
       let resolvedPaymentModeLegacy = 'full'
       let firstInstallmentAmount: number | undefined
       try {
-        const record = await payload.findByID({ collection, id, overrideAccess: true })
+        const record = await payload.findByID({ collection, id, overrideAccess: true, depth: 0 })
         const storedAmount =
           (record as any).totalAmount ??
           (record as any).amount ??
@@ -137,7 +137,7 @@ export async function POST(req: NextRequest) {
         const col = collectionMap[item.type]
         const docId = item.tripId ?? item.productId ?? item.programId ?? item.destinationId ?? item.bundleId
         if (col && docId && !Number.isNaN(Number(docId))) {
-          const doc = await payload.findByID({ collection: col as any, id: docId, overrideAccess: true }).catch(() => null)
+          const doc = await payload.findByID({ collection: col as any, id: docId, overrideAccess: true, depth: 0 }).catch(() => null)
           if (!doc) {
             return NextResponse.json({
               error: `"${item.title}" вече не е достъпен. Моля, премахнете го от количката и опитайте отново.`,
@@ -175,7 +175,7 @@ export async function POST(req: NextRequest) {
       const col = collectionMap[bookableItem.type]
       const docId = bookableItem.tripId ?? bookableItem.programId ?? bookableItem.destinationId
       if (col && docId && !Number.isNaN(Number(docId))) {
-        const doc = await payload.findByID({ collection: col as any, id: docId }).catch(() => null)
+        const doc = await payload.findByID({ collection: col as any, id: docId, depth: 0 }).catch(() => null)
         if (doc) {
           const plan = resolvePaymentPlan(doc as any, new Date())
           resolvedPaymentMode = plan.mode === 'installments3' ? 'installments' : plan.mode
@@ -198,7 +198,7 @@ export async function POST(req: NextRequest) {
         const col = collectionMap[item.type]
         const docId = item.tripId ?? item.productId ?? item.programId ?? item.destinationId ?? item.bundleId
         if (col && docId && !Number.isNaN(Number(docId))) {
-          const doc = await payload.findByID({ collection: col as any, id: docId }).catch(() => null)
+          const doc = await payload.findByID({ collection: col as any, id: docId, depth: 0 }).catch(() => null)
           stripePriceId = (doc as any)?.stripePriceId ?? null
         }
       } catch {}
@@ -295,7 +295,7 @@ export async function POST(req: NextRequest) {
     } else if (participationType === 'join' && carpoolRideId) {
       resolvedCarpoolRideId = carpoolRideId
       try {
-        const existing = await payload.findByID({ collection: 'carpool-rides', id: carpoolRideId, overrideAccess: true }) as any
+        const existing = await payload.findByID({ collection: 'carpool-rides', id: carpoolRideId, overrideAccess: true, depth: 0 }) as any
         const passengers = existing.passengers ?? []
         await payload.update({
           collection: 'carpool-rides',
@@ -323,7 +323,7 @@ export async function POST(req: NextRequest) {
     // Resolve Stripe customer ID for saved payment methods
     let stripeCustomerId: string | undefined
     if (customerEmail) {
-      const custResult = await payload.find({ collection: 'customers', where: { email: { equals: customerEmail } }, limit: 1 }).catch(() => null)
+      const custResult = await payload.find({ collection: 'customers', where: { email: { equals: customerEmail } }, limit: 1, depth: 0 }).catch(() => null)
       stripeCustomerId = (custResult?.docs[0] as any)?.stripeCustomerId ?? undefined
     }
 

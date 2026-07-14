@@ -1144,7 +1144,7 @@
       "@/lib/pricing/payment-plan",
       "@/lib/auth"
     ],
-    "lines": 372,
+    "lines": 388,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {

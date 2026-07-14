@@ -162,6 +162,7 @@ export const Products: CollectionConfig = {
         { name: 'title', type: 'text' },
         { name: 'description', type: 'textarea' },
         { name: 'image', type: 'relationship', relationTo: 'media' },
+        { name: 'keywords', type: 'text', admin: { description: 'Comma-separated keywords' } },
       ],
     },
     {

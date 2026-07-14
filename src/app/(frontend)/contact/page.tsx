@@ -8,7 +8,7 @@ import { ContactFAQBlock } from '@/components/blocks/contact/ContactFAQBlock'
 import { ContactGuidesBlock } from '@/components/blocks/contact/ContactGuidesBlock'
 import { PuckRender } from '@/components/blocks/PuckRender'
 import type { Data } from '@puckeditor/core'
-import { buildMetadata } from '@/lib/metadata'
+import { buildStaticMetadata } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
@@ -23,11 +23,12 @@ const getContactPage = unstable_cache(
   { tags: ['contact-page'], revalidate: false },
 )
 
-export const metadata: Metadata = buildMetadata({
-  title: 'Контакти — Sons of Mountains',
-  description: 'Свържи се с нас за въпроси, резервации или партньорства. Отговаряме в рамките на 24 часа.',
-  slug: 'contact',
-})
+export async function generateMetadata(): Promise<Metadata> {
+  return buildStaticMetadata('/contact', {
+    title: 'Контакти — Sons of Mountains',
+    description: 'Свържи се с нас за въпроси, резервации или партньорства. Отговаряме в рамките на 24 часа.',
+  })
+}
 
 export default async function ContactPage() {
   const d = (await getContactPage()) as any

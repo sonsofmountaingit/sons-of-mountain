@@ -11,15 +11,14 @@ import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import { PuckRender } from '@/components/blocks/PuckRender'
 import { unstable_cache } from 'next/cache'
 import type { Data } from '@puckeditor/core'
-import { buildMetadata } from '@/lib/metadata'
+import { buildStaticMetadata } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata(): Promise<Metadata> {
-  return buildMetadata({
+  return buildStaticMetadata('/', {
     title: 'Sons of Mountains — Преходи, пътешествия и експедиции в България и по света',
     description: 'Организираме пътешествия до трудно достъпни места — там, където комфортът среща приключението. Групови пътувания, индивидуални програми и фотографски експедиции.',
-    slug: '',
   })
 }
 

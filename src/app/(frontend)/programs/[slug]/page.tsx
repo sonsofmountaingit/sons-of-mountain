@@ -62,13 +62,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const data = await getProgramData(slug)
   if (!data) return { title: 'Програма — Sons of Mountains' }
   const { program } = data
-  const meta = (program as Record<string, unknown>).meta as { title?: string; description?: string } | null
+  const meta = (program as Record<string, unknown>).meta as { title?: string; description?: string; image?: { url?: string | null }; keywords?: string } | null
   const heroImage = (program as Record<string, unknown>).heroImage as { url?: string | null } | null
   return buildMetadata({
     title: meta?.title ?? `${program.title} — Sons of Mountains`,
     description: meta?.description ?? (program as any).shortDescription ?? undefined,
     slug: `programs/${slug}`,
-    image: heroImage?.url ?? undefined,
+    image: meta?.image?.url ?? heroImage?.url ?? undefined,
+    keywords: meta?.keywords ?? undefined,
   })
 }
 

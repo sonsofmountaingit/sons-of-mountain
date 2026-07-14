@@ -28,6 +28,8 @@ services:
     networks:
       - internal
     restart: unless-stopped
+    mem_limit: 3g
+    mem_reservation: 1g
 
   postgres:
     image: postgres:16-alpine

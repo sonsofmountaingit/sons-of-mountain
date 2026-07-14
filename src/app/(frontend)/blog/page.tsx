@@ -9,15 +9,16 @@ import { Suspense } from 'react'
 import { BlogHeroBlock } from '@/components/blocks/blog/BlogHeroBlock'
 import { PuckRender } from '@/components/blocks/PuckRender'
 import type { Data } from '@puckeditor/core'
-import { buildMetadata } from '@/lib/metadata'
+import { buildStaticMetadata } from '@/lib/metadata'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = buildMetadata({
-  title: 'Блог — Sons of Mountains',
-  description: 'Статии, съвети и истории за пътуване от екипа на Sons of Mountains. Вдъхнови се за следващото си приключение.',
-  slug: 'blog',
-})
+export async function generateMetadata(): Promise<Metadata> {
+  return buildStaticMetadata('/blog', {
+    title: 'Блог — Sons of Mountains',
+    description: 'Статии, съвети и истории за пътуване от екипа на Sons of Mountains. Вдъхнови се за следващото си приключение.',
+  })
+}
 
 const getBlogPage = unstable_cache(
   async () => {

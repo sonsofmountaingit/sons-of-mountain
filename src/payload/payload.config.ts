@@ -48,6 +48,7 @@ import { Navigation } from './globals/Navigation'
 import { Footer } from './globals/Footer'
 import { WhyTravelWithUs } from './globals/WhyTravelWithUs'
 import { SiteSettings } from './globals/SiteSettings'
+import { SiteMeta } from './globals/SiteMeta'
 import { Hero } from './globals/Hero'
 import { DestinationCarousel } from './globals/DestinationCarousel'
 import { Gallery } from './globals/Gallery'
@@ -156,7 +157,7 @@ export default buildConfig({
     Payouts,
     Testimonials,
   ],
-  globals: [Navigation, Footer, SiteSettings, Hero, DestinationCarousel, Gallery, Shop, WhyTravelWithUs, FeaturedTravels, CalendarCta, TestimonialsSection, About, ContactPage, IndividualProgramsPage, BlogPage, StoriesPage, CalendarPage, HomePage, PrivacyPolicy, TermsAndConditions, Vouchers],
+  globals: [Navigation, Footer, SiteSettings, SiteMeta, Hero, DestinationCarousel, Gallery, Shop, WhyTravelWithUs, FeaturedTravels, CalendarCta, TestimonialsSection, About, ContactPage, IndividualProgramsPage, BlogPage, StoriesPage, CalendarPage, HomePage, PrivacyPolicy, TermsAndConditions, Vouchers],
   plugins: [
     stripePlugin({
       stripeSecretKey: process.env.STRIPE_SECRET_KEY ?? '',

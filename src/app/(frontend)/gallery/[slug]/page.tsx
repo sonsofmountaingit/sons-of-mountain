@@ -84,11 +84,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const collection = docs[0] as any
     if (!collection) return { title: 'Галерия — Sons of Mountains' }
     const firstImage = collection.images?.[0]?.image as { url?: string | null } | null
+    const meta = collection.meta as { title?: string; description?: string; image?: { url?: string | null }; keywords?: string } | null
     return buildMetadata({
-      title: `${collection.title} — Галерия Sons of Mountains`,
-      description: collection.description ?? undefined,
+      title: meta?.title ?? `${collection.title} — Галерия Sons of Mountains`,
+      description: meta?.description ?? collection.description ?? undefined,
       slug: `gallery/${slug}`,
-      image: firstImage?.url ?? undefined,
+      image: meta?.image?.url ?? firstImage?.url ?? undefined,
+      keywords: meta?.keywords ?? undefined,
     })
   } catch {
     return { title: 'Галерия — Sons of Mountains' }

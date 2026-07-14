@@ -28,11 +28,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getBlogPost(slug)
   if (!post) return { title: 'Блог — Sons of Mountains' }
   const heroImage = post.heroImage as { url?: string | null } | null
+  const meta = (post as any).meta as { title?: string; description?: string; image?: { url?: string | null }; keywords?: string } | null
   return buildMetadata({
-    title: post.title,
-    description: (post as any).excerpt ?? undefined,
+    title: meta?.title ?? post.title,
+    description: meta?.description ?? (post as any).excerpt ?? undefined,
     slug: `blog/${slug}`,
-    image: heroImage?.url ?? undefined,
+    image: meta?.image?.url ?? heroImage?.url ?? undefined,
+    keywords: meta?.keywords ?? undefined,
   })
 }
 

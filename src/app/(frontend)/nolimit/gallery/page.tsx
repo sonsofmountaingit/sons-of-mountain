@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
-import { buildMetadata } from '@/lib/metadata'
+import { buildStaticMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = buildMetadata({
-  title: 'Галерия — NoLimit Yacht Festival',
-  description: 'Снимки от NoLimit Yacht Festival — яхти, острови, хора и незабравими мигове в Червено море.',
-  slug: 'nolimit/gallery',
-})
+export async function generateMetadata(): Promise<Metadata> {
+  return buildStaticMetadata('/nolimit/gallery', {
+    title: 'Галерия — NoLimit Yacht Festival',
+    description: 'Снимки от NoLimit Yacht Festival — яхти, острови, хора и незабравими мигове в Червено море.',
+  })
+}
 
 export default function NolimitGalleryPage() {
   return (
