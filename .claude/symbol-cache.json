@@ -2741,7 +2741,7 @@
       "@/lib/currency",
       "@/lib/auth-client"
     ],
-    "lines": 460,
+    "lines": 492,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/[tripId]/success/page.tsx": {
@@ -5327,7 +5327,7 @@
       "@/lib/media-url",
       "gsap"
     ],
-    "lines": 490,
+    "lines": 493,
     "group": "blocks"
   },
   "src/components/blocks/contact/ContactGuidesBlock.tsx": {
