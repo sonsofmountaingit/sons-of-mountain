@@ -91,7 +91,7 @@ const getCarouselData = unstable_cache(
           .map((row) => {
             const d = row.item!.value
             return {
-              id: String(d.id),
+              id: `${row.item!.relationTo}-${d.id}`,
               name: d.name ?? d.title ?? '',
               slug: d.slug ?? '',
               kind: row.item!.relationTo,
@@ -111,7 +111,7 @@ const getCarouselData = unstable_cache(
         destinations = docs.map((d) => {
           const doc = d as unknown as DestinationDoc & { heroImage?: { url?: string | null } | null }
           return {
-            id: String(doc.id),
+            id: `destinations-${doc.id}`,
             name: doc.name ?? '',
             slug: doc.slug ?? '',
             kind: 'destinations' as const,

@@ -447,6 +447,38 @@ export default function CheckoutPage() {
         {/* Order summary */}
         <div className="rounded-lg border border-white/10 bg-white/5 p-6 h-fit space-y-3 text-sm text-white">
           <h3 className="font-semibold text-base">Обобщение</h3>
+          <div className="space-y-2 border-b border-white/10 pb-3">
+            {items.map((item) => {
+              const pb = item.priceBreakdown
+              const hasEarlyBird = !!pb && pb.earlyBirdCount > 0
+              return (
+                <div key={`${item.id}-${item.variantId}`} className="space-y-1">
+                  <div className="flex justify-between text-white/80">
+                    <span className="truncate pr-2">{item.title}{item.variantLabel ? ` · ${item.variantLabel}` : ''}</span>
+                    <span>{formatPrice(pb?.totalPrice ?? item.unitPrice * item.quantity)}</span>
+                  </div>
+                  {hasEarlyBird ? (
+                    <div className="pl-3 space-y-0.5 text-xs text-white/50">
+                      <div className="flex justify-between">
+                        <span>Early bird × {pb.earlyBirdCount}</span>
+                        <span>{formatPrice(pb.earlyBirdPrice * pb.earlyBirdCount)}</span>
+                      </div>
+                      {pb.regularCount > 0 && (
+                        <div className="flex justify-between">
+                          <span>Редовна цена × {pb.regularCount}</span>
+                          <span>{formatPrice(pb.regularPrice * pb.regularCount)}</span>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="pl-3 text-xs text-white/50 flex justify-between">
+                      <span>{item.quantity} × {formatPrice(item.unitPrice)}</span>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
           <div className="flex justify-between text-white/70"><span>Междинна сума</span><span>{formatPrice(subtotal())}</span></div>
           {discountAmount() > 0 && <div className="flex justify-between text-green-400"><span>Отстъпка ({appliedDiscount?.code})</span><span>−{formatPrice(discountAmount())}</span></div>}
           {voucherAmount() > 0 && <div className="flex justify-between text-green-400"><span>Ваучер</span><span>−{formatPrice(voucherAmount())}</span></div>}

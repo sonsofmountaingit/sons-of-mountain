@@ -114,7 +114,10 @@ export function DestinationCarouselBlock({
   const cardsPanelRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const tl = gsap.timeline({ onComplete: () => { gsap.set([textPanelRef.current, cardsPanelRef.current], { clearProps: 'all' }) } })
+    const tl = gsap.timeline({ onComplete: () => {
+      const targets = [textPanelRef.current, cardsPanelRef.current].filter(Boolean)
+      if (targets.length) gsap.set(targets, { clearProps: 'all' })
+    } })
     if (textPanelRef.current) {
       tl.from(textPanelRef.current, { opacity: 0, x: -60, duration: 0.9, ease: 'power3.out' }, 0)
     }

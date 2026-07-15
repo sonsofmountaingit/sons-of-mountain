@@ -62,7 +62,7 @@ const getData = unstable_cache(async () => {
 
       if (kind === 'destinations') {
         return {
-          id: String(doc.id),
+          id: `destination-${doc.id}`,
           kind: 'destination' as const,
           region: (doc.type === 'abroad' ? 'abroad' : 'bulgaria') as 'bulgaria' | 'abroad',
           title: str(doc.name),
@@ -82,7 +82,7 @@ const getData = unstable_cache(async () => {
         const startDate = typeof doc.startDate === 'string' ? doc.startDate : null
         const endDate = typeof doc.endDate === 'string' ? doc.endDate : null
         return {
-          id: String(doc.id),
+          id: `trip-${doc.id}`,
           kind: 'trip' as const,
           region: (doc.navSection === 'abroad' ? 'abroad' : 'bulgaria') as 'bulgaria' | 'abroad',
           title: str(doc.title),
@@ -102,7 +102,7 @@ const getData = unstable_cache(async () => {
         const startDate = typeof doc.startDate === 'string' ? doc.startDate : null
         const endDate = typeof doc.endDate === 'string' ? doc.endDate : null
         return {
-          id: String(doc.id),
+          id: `program-${doc.id}`,
           kind: 'program' as const,
           region: (doc.navSection === 'abroad' ? 'abroad' : 'bulgaria') as 'bulgaria' | 'abroad',
           title: str(doc.title),

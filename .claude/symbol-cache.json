@@ -1223,7 +1223,7 @@
       "@/lib/pricing/payment-plan",
       "@/lib/auth"
     ],
-    "lines": 393,
+    "lines": 396,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {
@@ -1881,7 +1881,7 @@
       "@payload-config",
       "payload"
     ],
-    "lines": 84,
+    "lines": 86,
     "group": "api"
   },
   "src/app/api/site-settings-public/route.ts": {
@@ -2741,7 +2741,7 @@
       "@/lib/currency",
       "@/lib/auth-client"
     ],
-    "lines": 458,
+    "lines": 460,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/[tripId]/success/page.tsx": {
