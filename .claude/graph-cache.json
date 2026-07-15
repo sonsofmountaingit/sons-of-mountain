@@ -3022,7 +3022,7 @@
       "id": "src/components/auth/AuthModal.tsx",
       "label": "auth/AuthModal.tsx",
       "group": "components",
-      "size": 8
+      "size": 6
     },
     {
       "id": "src/components/auth/AuthForm.tsx",
@@ -4817,10 +4817,6 @@
     {
       "source": "src/app/(frontend)/shop/checkout/page.tsx",
       "target": "src/lib/auth-client.ts"
-    },
-    {
-      "source": "src/app/(frontend)/shop/checkout/page.tsx",
-      "target": "src/components/auth/AuthModal.tsx"
     },
     {
       "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
@@ -7395,6 +7391,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-15T05:31:01.969Z",
+  "builtAt": "2026-07-15T05:43:45.259Z",
   "fileCount": 578
 }

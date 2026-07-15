@@ -1209,7 +1209,7 @@
       "@/lib/pricing/payment-plan",
       "@/lib/auth"
     ],
-    "lines": 383,
+    "lines": 384,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {
@@ -2725,10 +2725,9 @@
       "next/link",
       "sonner",
       "@/lib/currency",
-      "@/lib/auth-client",
-      "@/components/auth/AuthModal"
+      "@/lib/auth-client"
     ],
-    "lines": 378,
+    "lines": 368,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/[tripId]/success/page.tsx": {

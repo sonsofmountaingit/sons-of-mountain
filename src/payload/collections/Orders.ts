@@ -37,7 +37,8 @@ export const Orders: CollectionConfig = {
       admin: { readOnly: true, description: 'Loyalty points + total past orders for this customer', position: 'sidebar' },
       hooks: {
         afterRead: [
-          async ({ data, req }) => {
+          async ({ data, req, findMany }) => {
+            if (findMany) return ''
             const customerId = (data as any)?.customer
             const cid = typeof customerId === 'object' ? customerId?.id : customerId
             if (!cid) return ''
@@ -62,7 +63,7 @@ export const Orders: CollectionConfig = {
       admin: { readOnly: true, description: 'Automated risk/status flags for this order', position: 'sidebar' },
       hooks: {
         afterRead: [
-          async ({ data, req }) => {
+          async ({ data, req, findMany }) => {
             const d = data as any
             const flags: string[] = []
             const now = new Date()
@@ -77,7 +78,7 @@ export const Orders: CollectionConfig = {
             if (failed.length) flags.push(`✕ ${failed.length} failed charge(s)`)
 
             const customerId = typeof d?.customer === 'object' ? d?.customer?.id : d?.customer
-            if (customerId) {
+            if (customerId && !findMany) {
               const count = await req.payload.count({ collection: 'orders', where: { customer: { equals: customerId } } }).catch(() => null)
               if ((count?.totalDocs ?? 0) <= 1) flags.push('★ first-time customer')
             }
@@ -203,7 +204,8 @@ export const Orders: CollectionConfig = {
       admin: { readOnly: true, description: 'Other records linked to this customer/order' },
       hooks: {
         afterRead: [
-          async ({ data, req }) => {
+          async ({ data, req, findMany }) => {
+            if (findMany) return ''
             const d = data as any
             const lines: string[] = []
             const customerId = typeof d?.customer === 'object' ? d?.customer?.id : d?.customer
@@ -256,9 +258,19 @@ export const Orders: CollectionConfig = {
       admin: { readOnly: true, description: 'What was ordered (derived from items)' },
       hooks: {
         afterRead: [
-          async ({ data, req }) => {
+          async ({ data, req, findMany }) => {
             const items = (data as any)?.items ?? []
             if (!items.length) return (data as any)?.productType ?? ''
+            if (findMany) {
+              return items
+                .map((it: any) => {
+                  const ref = it.trip ?? it.product ?? it.program ?? it.destination ?? it.bundle
+                  const title = typeof ref === 'object' ? ref?.title ?? ref?.name : null
+                  return title ? `${title} x${it.quantity ?? 1}` : it.itemType
+                })
+                .filter(Boolean)
+                .join('; ')
+            }
             const collectionMap: Record<string, string> = { trip: 'trips', program: 'programs', destination: 'destinations', bundle: 'bundles', product: 'products' }
             const parts = await Promise.all(items.map(async (it: any) => {
               let ref = it.trip ?? it.product ?? it.program ?? it.destination ?? it.bundle
@@ -455,7 +467,8 @@ export const Orders: CollectionConfig = {
       admin: { readOnly: true, description: 'Direct links to Stripe Dashboard', position: 'sidebar' },
       hooks: {
         afterRead: [
-          async ({ data, req }) => {
+          async ({ data, req, findMany }) => {
+            if (findMany) return ''
             const d = data as any
             const isTest = (process.env.STRIPE_SECRET_KEY ?? '').startsWith('sk_test_')
             const base = `https://dashboard.stripe.com/${isTest ? 'test/' : ''}`

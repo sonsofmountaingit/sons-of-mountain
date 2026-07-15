@@ -242,9 +242,9 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI ?? '',
-      max: 20,
+      max: 8,
       idleTimeoutMillis: 30_000,
-      connectionTimeoutMillis: 10_000,
+      connectionTimeoutMillis: 5_000,
     },
     // Exclude Better Auth tables from Payload's Drizzle schema management
     tablesFilter: ['!user', '!session', '!account', '!verification'],
