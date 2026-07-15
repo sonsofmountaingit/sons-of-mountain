@@ -1405,14 +1405,14 @@
       "size": 4
     },
     {
-      "id": "src/app/(frontend)/legal/terms/page.tsx",
-      "label": "terms/page.tsx",
+      "id": "src/app/(frontend)/legal/privacy-policy/page.tsx",
+      "label": "privacy-policy/page.tsx",
       "group": "frontend",
       "size": 4
     },
     {
-      "id": "src/app/(frontend)/legal/cookies/page.tsx",
-      "label": "cookies/page.tsx",
+      "id": "src/app/(frontend)/legal/terms/page.tsx",
+      "label": "terms/page.tsx",
       "group": "frontend",
       "size": 4
     },
@@ -5365,19 +5365,19 @@
       "target": "src/lib/metadata.ts"
     },
     {
+      "source": "src/app/(frontend)/legal/privacy-policy/page.tsx",
+      "target": "src/components/ui/PrivacyPolicy.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/legal/privacy-policy/page.tsx",
+      "target": "src/lib/metadata.ts"
+    },
+    {
       "source": "src/app/(frontend)/legal/terms/page.tsx",
       "target": "src/components/ui/TermsAndConditions.tsx"
     },
     {
       "source": "src/app/(frontend)/legal/terms/page.tsx",
-      "target": "src/lib/metadata.ts"
-    },
-    {
-      "source": "src/app/(frontend)/legal/cookies/page.tsx",
-      "target": "src/components/ui/PrivacyPolicy.tsx"
-    },
-    {
-      "source": "src/app/(frontend)/legal/cookies/page.tsx",
       "target": "src/lib/metadata.ts"
     },
     {
@@ -7405,6 +7405,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-15T15:39:01.909Z",
+  "builtAt": "2026-07-15T16:06:46.685Z",
   "fileCount": 579
 }

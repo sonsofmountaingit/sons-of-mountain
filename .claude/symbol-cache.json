@@ -3655,6 +3655,20 @@
     "lines": 78,
     "group": "frontend"
   },
+  "src/app/(frontend)/legal/privacy-policy/page.tsx": {
+    "exports": [
+      "generateMetadata",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "next",
+      "@/components/ui/PrivacyPolicy",
+      "@/lib/metadata"
+    ],
+    "lines": 15,
+    "group": "frontend"
+  },
   "src/app/(frontend)/legal/terms/page.tsx": {
     "exports": [
       "generateMetadata",
@@ -3664,20 +3678,6 @@
     "imports": [
       "next",
       "@/components/ui/TermsAndConditions",
-      "@/lib/metadata"
-    ],
-    "lines": 15,
-    "group": "frontend"
-  },
-  "src/app/(frontend)/legal/cookies/page.tsx": {
-    "exports": [
-      "generateMetadata",
-      "default:function"
-    ],
-    "types": [],
-    "imports": [
-      "next",
-      "@/components/ui/PrivacyPolicy",
       "@/lib/metadata"
     ],
     "lines": 15,
@@ -6682,7 +6682,7 @@
       "@payloadcms/richtext-lexical/react",
       "./PrivacyPolicyEditButton"
     ],
-    "lines": 50,
+    "lines": 63,
     "group": "ui"
   },
   "src/components/ui/NavbarClient.tsx": {
@@ -7076,7 +7076,7 @@
       "@payloadcms/richtext-lexical/react",
       "./TermsAndConditionsEditButton"
     ],
-    "lines": 50,
+    "lines": 63,
     "group": "ui"
   },
   "src/components/ui/CalendarMap.tsx": {

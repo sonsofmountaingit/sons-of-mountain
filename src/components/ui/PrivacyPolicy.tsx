@@ -32,7 +32,7 @@ export async function PrivacyPolicy() {
     <>
       <main
         style={{
-          padding: '4rem 1.5rem',
+          padding: 'calc(var(--nav-height, 80px) + 3rem) 1.5rem 4rem',
           maxWidth: 860,
           margin: '0 auto',
           width: '100%',
