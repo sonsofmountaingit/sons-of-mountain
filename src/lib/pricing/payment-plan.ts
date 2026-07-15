@@ -38,12 +38,12 @@ function resolveMode(record: Bookable): PaymentPlanMode {
   return 'installments3'
 }
 
-export function resolvePaymentPlan(record: Bookable, bookingDate: Date = new Date()): PaymentPlan {
+export function resolvePaymentPlan(record: Bookable, bookingDate: Date = new Date(), payInFull = false): PaymentPlan {
   const lateBookingThresholdDays = record.lateBookingThresholdDays ?? 30
   const startDate = record.startDate ? new Date(record.startDate) : null
   const daysUntilStart = startDate ? daysBetween(startDate, bookingDate) : Infinity
 
-  let mode = resolveMode(record)
+  let mode = payInFull ? 'full' : resolveMode(record)
 
   // Late booking override: force full payment if within threshold of departure
   if (mode !== 'full' && startDate && daysUntilStart <= lateBookingThresholdDays) {

@@ -4904,7 +4904,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 576,
+    "lines": 589,
     "group": "collections"
   },
   "src/payload/collections/Stories.ts": {

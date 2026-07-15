@@ -43,10 +43,17 @@ interface CarouselGlobal {
   }>
 }
 
+const COLLECTION_TO_PATH: Record<'destinations' | 'trips' | 'programs', string> = {
+  destinations: 'destinations',
+  trips: 'trips',
+  programs: 'programs',
+}
+
 interface DestinationDoc {
   id: string
   name: string
   slug: string
+  kind: 'destinations' | 'trips' | 'programs'
   heroImage?: { url?: string | null } | null
   month?: string
   availableSpots?: number | null
@@ -87,6 +94,7 @@ const getCarouselData = unstable_cache(
               id: String(d.id),
               name: d.name ?? d.title ?? '',
               slug: d.slug ?? '',
+              kind: row.item!.relationTo,
               heroImage: d.heroImage
                 ? { url: d.heroImage.url ? mediaUrl(d.heroImage.url) : null }
                 : null,
@@ -106,6 +114,7 @@ const getCarouselData = unstable_cache(
             id: String(doc.id),
             name: doc.name ?? '',
             slug: doc.slug ?? '',
+            kind: 'destinations' as const,
             heroImage: doc.heroImage
               ? { url: doc.heroImage.url ? mediaUrl(doc.heroImage.url) : null }
               : null,
@@ -133,6 +142,7 @@ export async function DestinationCarousel() {
     id: d.id,
     name: d.name,
     slug: d.slug,
+    href: `/${COLLECTION_TO_PATH[d.kind]}/${d.slug}`,
     heroImage: d.heroImage,
     month: d.month,
     spotsLabel: d.availableSpots != null ? `Само ${d.availableSpots} места` : undefined,

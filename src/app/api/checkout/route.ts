@@ -177,7 +177,16 @@ export async function POST(req: NextRequest) {
       if (col && docId && !Number.isNaN(Number(docId))) {
         const doc = await payload.findByID({ collection: col as any, id: docId, depth: 0 }).catch(() => null)
         if (doc) {
-          const plan = resolvePaymentPlan(doc as any, new Date())
+          // Client may opt into full payment when the resolved plan would otherwise be
+          // deposit/installments — this only ever narrows toward full, never fabricates a
+          // cheaper plan than the record's own config, so it's safe to trust from the client.
+          const payInFull = paymentMode === 'full'
+          // Resolve against the actual charged amount (early-bird mix, quantity), already
+          // validated above against the record's regular/early-bird prices — not the record's
+          // flat regular price — so deposit/installment splits sum to what's really being charged.
+          const chargedAmount = bookableItem.priceBreakdown?.totalPrice ?? bookableItem.unitPrice * bookableItem.quantity
+          const record = { ...(doc as any), price: chargedAmount }
+          const plan = resolvePaymentPlan(record, new Date(), payInFull)
           resolvedPaymentMode = plan.mode === 'installments3' ? 'installments' : plan.mode
           resolvedInstallments = plan.installments.map((inst) => ({
             label: inst.label,

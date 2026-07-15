@@ -11,6 +11,7 @@ interface Destination {
   id: string
   name: string
   slug: string
+  href?: string
   heroImage?: { url?: string | null } | null
   month?: string
   spotsLabel?: string
@@ -321,7 +322,7 @@ export function DestinationCarouselBlock({
               </p>
 
               <Link
-                href={activeDest ? `/destinations/${activeDest.slug}` : '/destinations'}
+                href={activeDest ? (activeDest.href ?? `/destinations/${activeDest.slug}`) : '/destinations'}
                 className="self-start inline-flex items-center gap-3 px-8 py-4 bg-white/15 backdrop-blur-md border border-white/25 text-white font-semibold text-sm rounded-lg hover:bg-white/25 transition-colors dc-hero-btn"
               >
                 {activeDest?.overrideButtonText ?? destinationButtonText}

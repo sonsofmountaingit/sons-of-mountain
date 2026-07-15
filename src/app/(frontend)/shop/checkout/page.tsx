@@ -17,11 +17,28 @@ const infoSchema = z.object({
   lastName: z.string().min(1, 'Required'),
   email: z.string().email('Invalid email'),
   phone: z.string().min(6, 'Required'),
-  paymentMode: z.enum(['full', 'deposit', 'installments']),
+  paymentMode: z.enum(['full', 'deposit', 'installments']).optional(),
 })
 
 type InfoForm = z.infer<typeof infoSchema>
 type ParticipationType = 'organizer' | 'join' | 'solo'
+
+interface PlanInstallment {
+  label: string
+  amount: number
+  dueDate: string
+}
+
+interface PaymentPlanPreview {
+  mode: 'full' | 'deposit' | 'installments'
+  installments: PlanInstallment[]
+}
+
+const planCopy: Record<PaymentPlanPreview['mode'], string> = {
+  full: 'За еднодневни преходи без преспиване се заплаща 100% от сумата.',
+  deposit: 'За двудневни и тридневни преходи: 30% депозит и остатъкът не по-късно от 30 дни преди програмата. При запазване 30 дни преди отпътуването или по-малко, цялата сума се заплаща при записване.',
+  installments: 'За експедиции и многодневни програми: 1во плащане — депозит; 2ро плащане — остатък до 50% от сумата до един месец след записването или не по-късно от 60 дни преди началото; 3то плащане — оставащите 50% до 45 дни преди пътуването.',
+}
 
 interface CarpoolRide {
   id: string
@@ -68,6 +85,40 @@ export default function CheckoutPage() {
   const tripItem = items.find((i) => i.type === 'trip' || i.type === 'program')
   const tripId = tripItem?.tripId ?? null
   const programId = tripItem?.programId ?? null
+
+  const bookableItem = items.find((i) => i.type === 'trip' || i.type === 'program' || i.type === 'destination')
+  const bookableItemType = bookableItem?.type ?? null
+  const bookableItemId = bookableItem?.tripId ?? bookableItem?.programId ?? bookableItem?.destinationId ?? null
+  // Use the actual charged amount (accounts for early-bird pricing mix, quantity) rather than
+  // the record's flat regular price, so deposit/installment splits sum to what's really due.
+  const bookableItemAmount = bookableItem
+    ? (bookableItem.priceBreakdown?.totalPrice ?? bookableItem.unitPrice * bookableItem.quantity)
+    : null
+
+  const [naturalPlan, setNaturalPlan] = useState<PaymentPlanPreview | null>(null)
+  const [fullPlan, setFullPlan] = useState<PaymentPlanPreview | null>(null)
+  const [planLoading, setPlanLoading] = useState(false)
+  const [payInFull, setPayInFull] = useState(false)
+
+  useEffect(() => {
+    if (!bookableItemType || !bookableItemId || bookableItemAmount == null) { setNaturalPlan(null); setFullPlan(null); return }
+    setPlanLoading(true)
+    const naturalParams = new URLSearchParams({ itemType: bookableItemType, itemId: bookableItemId, payInFull: 'false', amount: String(bookableItemAmount) })
+    const fullParams = new URLSearchParams({ itemType: bookableItemType, itemId: bookableItemId, payInFull: 'true', amount: String(bookableItemAmount) })
+    Promise.all([
+      fetch(`/api/payment-plan?${naturalParams}`).then((r) => r.json()).catch(() => null),
+      fetch(`/api/payment-plan?${fullParams}`).then((r) => r.json()).catch(() => null),
+    ])
+      .then(([natural, full]) => {
+        setNaturalPlan(natural?.mode ? natural : null)
+        setFullPlan(full?.mode ? full : null)
+        setPayInFull(false)
+      })
+      .finally(() => setPlanLoading(false))
+  }, [bookableItemType, bookableItemId, bookableItemAmount])
+
+  const plan = payInFull ? fullPlan : naturalPlan
+  const canChooseFull = naturalPlan && naturalPlan.mode !== 'full'
 
   useEffect(() => {
     if (participationType !== 'join' || !hasRideable) return
@@ -131,7 +182,7 @@ export default function CheckoutPage() {
           firstName: info.firstName,
           lastName: info.lastName,
           phone: info.phone,
-          paymentMode: info.paymentMode,
+          paymentMode: payInFull ? 'full' : (plan?.mode ?? info.paymentMode),
           loyaltyPointsRedeemed: loyaltyPointsToRedeem,
           corporatePeopleCount,
           enableBnpl: true,
@@ -294,21 +345,60 @@ export default function CheckoutPage() {
                 {errors.phone && <p className="text-xs text-red-400 mt-1">{errors.phone.message}</p>}
               </div>
 
-              {hasRideable && (
+              {bookableItem && (
                 <div>
-                  <label className={labelCls}>Начин на плащане</label>
-                  <div className="space-y-2 mt-1">
-                    {['full', 'deposit', 'installments'].map((mode) => (
-                      <label key={mode} className="flex items-center gap-2 cursor-pointer">
-                        <input {...register('paymentMode')} type="radio" value={mode} />
-                        <span className="text-sm text-white/80">
-                          {mode === 'full' && 'Пълно плащане'}
-                          {mode === 'deposit' && 'Плати депозит сега'}
-                          {mode === 'installments' && 'На вноски (Klarna / Afterpay)'}
-                        </span>
-                      </label>
-                    ))}
-                  </div>
+                  <label className={labelCls}>Система за плащане</label>
+                  {planLoading || !naturalPlan ? (
+                    <p className="text-sm text-white/40 mt-1">Зареждане на план за плащане...</p>
+                  ) : (
+                    <div className="mt-1 space-y-3">
+                      {canChooseFull ? (
+                        <div className="space-y-2">
+                          <label className={`flex items-start gap-3 rounded-lg border p-3 cursor-pointer transition-colors ${!payInFull ? 'border-white bg-white/10' : 'border-white/10 hover:border-white/30'}`}>
+                            <input type="radio" checked={!payInFull} onChange={() => setPayInFull(false)} className="accent-white mt-1" />
+                            <span>
+                              <span className="block text-sm font-medium text-white">
+                                {naturalPlan.mode === 'deposit' ? 'Депозит + остатък' : 'На 3 вноски'}
+                              </span>
+                              <span className="block text-xs text-white/50 leading-relaxed mt-0.5">{planCopy[naturalPlan.mode]}</span>
+                            </span>
+                          </label>
+                          <label className={`flex items-start gap-3 rounded-lg border p-3 cursor-pointer transition-colors ${payInFull ? 'border-white bg-white/10' : 'border-white/10 hover:border-white/30'}`}>
+                            <input type="radio" checked={payInFull} onChange={() => setPayInFull(true)} className="accent-white mt-1" />
+                            <span>
+                              <span className="block text-sm font-medium text-white">Пълно плащане</span>
+                              <span className="block text-xs text-white/50 leading-relaxed mt-0.5">Плащате цялата сума наведнъж при записване.</span>
+                            </span>
+                          </label>
+                        </div>
+                      ) : (
+                        <p className="text-xs text-white/50 leading-relaxed">{planCopy[naturalPlan.mode]}</p>
+                      )}
+
+                      {plan && (
+                        <div className="rounded-lg border border-white/10 bg-white/5 p-4 space-y-2">
+                          {plan.installments.map((inst, i) => (
+                            <div key={i} className="flex items-center justify-between text-sm">
+                              <span className="text-white/70">{inst.label}</span>
+                              <span className="text-white font-medium">
+                                {formatPrice(inst.amount)}
+                                <span className="text-white/40 ml-2 text-xs">
+                                  {new Date(inst.dueDate).toLocaleDateString('bg-BG', { day: 'numeric', month: 'long', year: 'numeric' })}
+                                </span>
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {plan?.mode !== 'full' && (
+                        <p className="text-xs text-white/40 leading-relaxed">
+                          При неплащане на дължима вноска в срок изпращаме имейл и предоставяме гратисен период от 5 календарни дни.
+                          Ако плащането не бъде извършено в този срок, резервацията се счита за анулирана и мястото може да бъде предложено на друг участник.
+                        </p>
+                      )}
+                    </div>
+                  )}
                 </div>
               )}
 
