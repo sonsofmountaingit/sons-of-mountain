@@ -226,6 +226,7 @@ async function DestinationContent({ params }: Props) {
         endDate={d.endDate as string | null}
         tripId={String(destination.id)}
         tripTitle={destination.name}
+        itemType="destination"
         price={(d.price as number | null) ?? 0}
         currency="EUR"
         depositAmount={(d.depositAmount as number | null)}

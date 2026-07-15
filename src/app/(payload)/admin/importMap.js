@@ -35,10 +35,14 @@ import { CalendarCtaVisualEditorButton as CalendarCtaVisualEditorButton_88a6d61a
 import { TestimonialsVisualEditorButton as TestimonialsVisualEditorButton_81bf3cd4e881256ecd534cd1725c0801 } from '@/components/admin/TestimonialsVisualEditorButton'
 import { AboutVisualEditorButton as AboutVisualEditorButton_b4d3f89837ae7b094a52f32c2c5ef0e9 } from '@/components/admin/AboutVisualEditorButton'
 import { ContactPageVisualEditorButton as ContactPageVisualEditorButton_85959b6af4825e994631260bc583c498 } from '@/components/admin/ContactPageVisualEditorButton'
+import { IndividualProgramsPageVisualEditorButton as IndividualProgramsPageVisualEditorButton_bf8e3ef219ce868290f1612ef311385d } from '@/components/admin/IndividualProgramsPageVisualEditorButton'
 import { BlogPageVisualEditorButton as BlogPageVisualEditorButton_304e7778f5426776f8891497f0b4a995 } from '@/components/admin/BlogPageVisualEditorButton'
 import { StoriesPageVisualEditorButton as StoriesPageVisualEditorButton_62b04ac334caea54e3664e175b87bed8 } from '@/components/admin/StoriesPageVisualEditorButton'
 import { CalendarPageVisualEditorButton as CalendarPageVisualEditorButton_38dd789a488785ba7a99b092096c7a7e } from '@/components/admin/CalendarPageVisualEditorButton'
 import { HomePageVisualEditorButton as HomePageVisualEditorButton_2f86f7e8bd1d09a50e072cb0afa32c06 } from '@/components/admin/HomePageVisualEditorButton'
+import { PrivacyPolicyVisualEditorButton as PrivacyPolicyVisualEditorButton_6afb0b78417fe112bbcd9be135faed1f } from '@/components/admin/PrivacyPolicyVisualEditorButton'
+import { TermsAndConditionsVisualEditorButton as TermsAndConditionsVisualEditorButton_6026cab97ae6d06ae592e4e6ac6e8354 } from '@/components/admin/TermsAndConditionsVisualEditorButton'
+import { VouchersVisualEditorButton as VouchersVisualEditorButton_19f399a4988358fc50a7a688eaa688af } from '@/components/admin/VouchersVisualEditorButton'
 import { AdminLogo as AdminLogo_b80a86fce1072afc84cd6a430a965697 } from '@/components/admin/AdminLogo'
 import { AdminAfterLogin as AdminAfterLogin_420e5b234db0328ac2462abc35f96929 } from '@/components/admin/AdminAfterLogin'
 import { AdminLoginBackground as AdminLoginBackground_baef77fc865ae3a00a6eb857b0b83031 } from '@/components/admin/AdminLoginBackground'
@@ -85,10 +89,14 @@ export const importMap = {
   "@/components/admin/TestimonialsVisualEditorButton#TestimonialsVisualEditorButton": TestimonialsVisualEditorButton_81bf3cd4e881256ecd534cd1725c0801,
   "@/components/admin/AboutVisualEditorButton#AboutVisualEditorButton": AboutVisualEditorButton_b4d3f89837ae7b094a52f32c2c5ef0e9,
   "@/components/admin/ContactPageVisualEditorButton#ContactPageVisualEditorButton": ContactPageVisualEditorButton_85959b6af4825e994631260bc583c498,
+  "@/components/admin/IndividualProgramsPageVisualEditorButton#IndividualProgramsPageVisualEditorButton": IndividualProgramsPageVisualEditorButton_bf8e3ef219ce868290f1612ef311385d,
   "@/components/admin/BlogPageVisualEditorButton#BlogPageVisualEditorButton": BlogPageVisualEditorButton_304e7778f5426776f8891497f0b4a995,
   "@/components/admin/StoriesPageVisualEditorButton#StoriesPageVisualEditorButton": StoriesPageVisualEditorButton_62b04ac334caea54e3664e175b87bed8,
   "@/components/admin/CalendarPageVisualEditorButton#CalendarPageVisualEditorButton": CalendarPageVisualEditorButton_38dd789a488785ba7a99b092096c7a7e,
   "@/components/admin/HomePageVisualEditorButton#HomePageVisualEditorButton": HomePageVisualEditorButton_2f86f7e8bd1d09a50e072cb0afa32c06,
+  "@/components/admin/PrivacyPolicyVisualEditorButton#PrivacyPolicyVisualEditorButton": PrivacyPolicyVisualEditorButton_6afb0b78417fe112bbcd9be135faed1f,
+  "@/components/admin/TermsAndConditionsVisualEditorButton#TermsAndConditionsVisualEditorButton": TermsAndConditionsVisualEditorButton_6026cab97ae6d06ae592e4e6ac6e8354,
+  "@/components/admin/VouchersVisualEditorButton#VouchersVisualEditorButton": VouchersVisualEditorButton_19f399a4988358fc50a7a688eaa688af,
   "@/components/admin/AdminLogo#AdminLogo": AdminLogo_b80a86fce1072afc84cd6a430a965697,
   "@/components/admin/AdminAfterLogin#AdminAfterLogin": AdminAfterLogin_420e5b234db0328ac2462abc35f96929,
   "@/components/admin/AdminLoginBackground#AdminLoginBackground": AdminLoginBackground_baef77fc865ae3a00a6eb857b0b83031,

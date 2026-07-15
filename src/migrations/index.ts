@@ -5,6 +5,7 @@ import * as migration_20260710_free_transfer_peak from './20260710_free_transfer
 import * as migration_20260714_seo_meta_keywords_and_site_meta from './20260714_seo_meta_keywords_and_site_meta'
 import * as migration_20260714b_seo_meta_keywords_all_collections from './20260714b_seo_meta_keywords_all_collections'
 import * as migration_20260714c_seo_meta_keywords_versions_tables from './20260714c_seo_meta_keywords_versions_tables'
+import * as migration_20260714d_guides_bio_jsonb from './20260714d_guides_bio_jsonb'
 
 export const migrations = [
   {
@@ -41,5 +42,10 @@ export const migrations = [
     up: migration_20260714c_seo_meta_keywords_versions_tables.up,
     down: migration_20260714c_seo_meta_keywords_versions_tables.down,
     name: '20260714c_seo_meta_keywords_versions_tables',
+  },
+  {
+    up: migration_20260714d_guides_bio_jsonb.up,
+    down: migration_20260714d_guides_bio_jsonb.down,
+    name: '20260714d_guides_bio_jsonb',
   },
 ]

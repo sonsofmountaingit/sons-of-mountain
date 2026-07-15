@@ -242,16 +242,18 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI ?? '',
+      max: 20,
+      idleTimeoutMillis: 30_000,
+      connectionTimeoutMillis: 10_000,
     },
     // Exclude Better Auth tables from Payload's Drizzle schema management
     tablesFilter: ['!user', '!session', '!account', '!verification'],
-    // Disable Payload's automatic per-operation DB transactions. We were seeing connections
-    // get stuck in "idle in transaction" state indefinitely (confirmed via pg_stat_activity
-    // during a live hung checkout request) — a transaction opened for a read, then never
-    // committed/rolled back, permanently holding a pool connection and stalling the request
-    // with no error logged. None of our hooks rely on cross-statement atomicity in a way that
-    // requires this, so turning it off removes the failure mode entirely.
-    transactionOptions: false,
+    // Keep Payload's per-operation transactions ON (the default). They were previously disabled
+    // to work around connections stuck "idle in transaction", but that was a symptom of an
+    // unbounded pool with no acquisition timeout — a create's nested relationship reads could
+    // wait forever for a connection the same operation was holding, wedging the request with no
+    // error. Bounding the pool with connectionTimeoutMillis makes acquisition fail fast instead
+    // of hanging, so transactions can stay on for correct atomicity.
   }),
   upload: {
     limits: {

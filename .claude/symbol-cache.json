@@ -23,6 +23,18 @@
     "lines": 106,
     "group": "other"
   },
+  "src/migrations/20260714c_seo_meta_keywords_versions_tables.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 20,
+    "group": "other"
+  },
   "src/migrations/20260710_free_transfer_peak.ts": {
     "exports": [
       "up",
@@ -70,9 +82,10 @@
       "./20260629_tags_free_text",
       "./20260710_free_transfer_peak",
       "./20260714_seo_meta_keywords_and_site_meta",
-      "./20260714b_seo_meta_keywords_all_collections"
+      "./20260714b_seo_meta_keywords_all_collections",
+      "./20260714c_seo_meta_keywords_versions_tables"
     ],
-    "lines": 40,
+    "lines": 46,
     "group": "other"
   },
   "src/migrations/20260714b_seo_meta_keywords_all_collections.ts": {
@@ -1170,7 +1183,7 @@
       "@/lib/pricing/payment-plan",
       "@/lib/auth"
     ],
-    "lines": 388,
+    "lines": 405,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {
@@ -4546,7 +4559,7 @@
       "./globals/HomePage",
       "./globals/Vouchers"
     ],
-    "lines": 272,
+    "lines": 279,
     "group": "payload"
   },
   "src/payload/seeds/hero.ts": {

@@ -35,7 +35,7 @@ interface Props {
   depositAmount?: number | null
   durationDays?: number | null
   month?: string | null
-  itemType?: 'trip' | 'program'
+  itemType?: 'trip' | 'program' | 'destination'
   archived?: boolean
   earlyBirdPrice?: number | null
   earlyBirdUntil?: string | null

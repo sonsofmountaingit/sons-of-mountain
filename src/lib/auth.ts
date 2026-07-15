@@ -1,6 +1,4 @@
 import { betterAuth } from 'better-auth'
-import { kyselyAdapter } from '@better-auth/kysely-adapter'
-import { Kysely, PostgresDialect } from 'kysely'
 import pg from 'pg'
 
 const from = process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com'
@@ -11,10 +9,16 @@ async function sendEmail(to: string, subject: string, html: string) {
   await resend.emails.send({ from, to, subject, html })
 }
 
-const db = new Kysely({
-  dialect: new PostgresDialect({
-    pool: new pg.Pool({ connectionString: process.env.DATABASE_URI }),
-  }),
+// Better Auth's own Postgres pool, separate from Payload's. Pass the pg.Pool directly (the
+// documented adapter form) rather than hand-wrapping Kysely — the hand-wrapped adapter left a
+// connection in a state that stalled the very next Payload query in the same request (checkout
+// hung right after getSession, before Payload issued any SQL). Bound it small with fast-fail
+// acquisition so it can never monopolise the server's connection slots.
+const db = new pg.Pool({
+  connectionString: process.env.DATABASE_URI,
+  max: 5,
+  idleTimeoutMillis: 10_000,
+  connectionTimeoutMillis: 10_000,
 })
 
 const primaryOrigin = process.env.BETTER_AUTH_URL ?? process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
@@ -27,7 +31,19 @@ export const auth = betterAuth({
   baseURL: primaryOrigin,
   trustedOrigins: [primaryOrigin, wwwVariant, 'http://localhost:3000'],
   secret: process.env.BETTER_AUTH_SECRET ?? 'fallback-secret-change-in-production',
-  database: kyselyAdapter(db, { type: 'postgres' }),
+  database: db,
+  // getSession is called inside server routes (e.g. the checkout API) alongside Payload DB
+  // operations. By default every getSession hits the DB — and refreshes the session with a
+  // WRITE when updateAge is reached — which, competing with Payload's pool inside one request,
+  // stalled checkout indefinitely. Cookie caching serves the session from a signed cookie so
+  // getSession is a pure read; disabling refresh removes the mid-request write entirely.
+  session: {
+    cookieCache: {
+      enabled: true,
+      maxAge: 5 * 60, // 5 minutes
+    },
+    disableSessionRefresh: true,
+  },
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: false,
