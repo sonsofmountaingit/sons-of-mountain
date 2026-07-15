@@ -14,7 +14,7 @@ interface FooterFormProps {
 }
 
 export function FooterForm({
-  privacyUrl = '/legal/cookies',
+  privacyUrl = '/legal/privacy-policy',
   submitLabel = 'Абонирай се',
   firstNamePlaceholder = 'Име',
   lastNamePlaceholder = 'Фамилия',

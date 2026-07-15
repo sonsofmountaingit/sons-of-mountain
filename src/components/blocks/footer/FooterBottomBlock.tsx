@@ -26,7 +26,7 @@ export function FooterBottomBlock({
   termsLabel = 'Общи условия',
   termsUrl = '/legal/terms',
   privacyLabel = 'Политика за поверителност',
-  privacyUrl = '/legal/cookies',
+  privacyUrl = '/legal/privacy-policy',
   creditPrefix = 'Дизайн и разработка от',
   creditName = 'Netinsky',
   creditUrl = 'https://netinsky.com',

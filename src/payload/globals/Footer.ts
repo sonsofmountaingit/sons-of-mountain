@@ -94,7 +94,7 @@ export const Footer: GlobalConfig = {
     {
       name: 'privacyUrl',
       type: 'text',
-      defaultValue: '/legal/cookies',
+      defaultValue: '/legal/privacy-policy',
     },
     {
       name: 'privacyLabel',

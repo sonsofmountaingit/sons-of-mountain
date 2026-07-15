@@ -23,7 +23,7 @@ export function FooterSubscribeBlock({
   emailPlaceholder = 'E-mail адрес',
   consentText = 'С натискането на бутона "Абонирай се" се съгласяваш с',
   consentLinkText = 'Политиката ни за поверителност',
-  privacyUrl = '/legal/cookies',
+  privacyUrl = '/legal/privacy-policy',
 }: Props) {
   return (
     <div style={{ backgroundColor: '#1c1c1c', borderRadius: '1rem', padding: '1.5rem' }}>

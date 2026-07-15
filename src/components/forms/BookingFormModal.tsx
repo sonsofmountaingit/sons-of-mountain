@@ -391,7 +391,7 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
                         Съгласявам се с{' '}
                         <a href="/legal/terms" target="_blank" className="underline hover:text-white">общите условия</a>
                         {' '}и{' '}
-                        <a href="/legal/cookies" target="_blank" className="underline hover:text-white">политиката за поверителност</a>
+                        <a href="/legal/privacy-policy" target="_blank" className="underline hover:text-white">политиката за поверителност</a>
                       </span>
                     </label>
                     {form3.formState.errors.agreedToTerms && (

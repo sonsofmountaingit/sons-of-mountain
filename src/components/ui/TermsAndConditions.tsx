@@ -30,7 +30,17 @@ export async function TermsAndConditions() {
 
   return (
     <>
-      <main style={{ padding: '4rem 1.5rem', maxWidth: 860, margin: '0 auto' }}>
+      <main
+        style={{
+          padding: '4rem 1.5rem',
+          maxWidth: 860,
+          margin: '0 auto',
+          width: '100%',
+          boxSizing: 'border-box',
+          overflowWrap: 'break-word',
+          wordBreak: 'break-word',
+        }}
+      >
         <h1 style={{ fontSize: '2.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>{title}</h1>
         {formatted && (
           <p style={{ fontSize: '0.875rem', opacity: 0.5, marginBottom: '2.5rem' }}>
@@ -38,7 +48,10 @@ export async function TermsAndConditions() {
           </p>
         )}
         {content ? (
-          <div className="prose prose-invert max-w-none">
+          <div
+            className="prose prose-invert max-w-none"
+            style={{ overflowWrap: 'break-word', wordBreak: 'break-word' }}
+          >
             <RichText data={content} />
           </div>
         ) : null}

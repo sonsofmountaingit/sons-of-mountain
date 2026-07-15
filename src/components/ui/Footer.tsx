@@ -191,7 +191,7 @@ export async function Footer() {
   const creditUrl = (data as any)?.creditUrl ?? 'https://netinsky.com'
   const termsUrl = (data as any)?.termsUrl ?? '/legal/terms'
   const termsLabel = (data as any)?.termsLabel ?? 'Общи условия'
-  const privacyUrl = (data as any)?.privacyUrl ?? '/legal/cookies'
+  const privacyUrl = (data as any)?.privacyUrl ?? '/legal/privacy-policy'
   const privacyLabel = (data as any)?.privacyLabel ?? 'Политика за поверителност'
   const logoUrl = typeof (data as any)?.logo === 'object' ? (data as any)?.logo?.url : null
   const logoColoredUrl = typeof (data as any)?.logoColored === 'object' ? (data as any)?.logoColored?.url : null

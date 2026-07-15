@@ -32,7 +32,7 @@ async function EditorContent() {
           emailPlaceholder: f?.emailPlaceholder ?? 'E-mail адрес',
           consentText: f?.consentText ?? 'С натискането на бутона "Абонирай се" се съгласяваш с',
           consentLinkText: f?.consentLinkText ?? 'Политиката ни за поверителност',
-          privacyUrl: f?.privacyUrl ?? '/legal/cookies',
+          privacyUrl: f?.privacyUrl ?? '/legal/privacy-policy',
         },
       },
       {
@@ -72,7 +72,7 @@ async function EditorContent() {
           termsLabel: f?.termsLabel ?? 'Общи условия',
           termsUrl: f?.termsUrl ?? '/legal/terms',
           privacyLabel: f?.privacyLabel ?? 'Политика за поверителност',
-          privacyUrl: f?.privacyUrl ?? '/legal/cookies',
+          privacyUrl: f?.privacyUrl ?? '/legal/privacy-policy',
           creditPrefix: f?.creditPrefix ?? 'Дизайн и разработка от',
           creditName: f?.creditName ?? 'Netinsky',
           creditUrl: f?.creditUrl ?? 'https://netinsky.com',
