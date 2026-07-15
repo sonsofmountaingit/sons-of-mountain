@@ -1196,6 +1196,20 @@
     "lines": 34,
     "group": "api"
   },
+  "src/app/api/payment-plan/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "@/lib/pricing/payment-plan"
+    ],
+    "lines": 50,
+    "group": "api"
+  },
   "src/app/api/checkout/route.ts": {
     "exports": [
       "POST"
@@ -1209,7 +1223,7 @@
       "@/lib/pricing/payment-plan",
       "@/lib/auth"
     ],
-    "lines": 384,
+    "lines": 393,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {
@@ -2727,7 +2741,7 @@
       "@/lib/currency",
       "@/lib/auth-client"
     ],
-    "lines": 368,
+    "lines": 458,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/[tripId]/success/page.tsx": {
@@ -5313,7 +5327,7 @@
       "@/lib/media-url",
       "gsap"
     ],
-    "lines": 489,
+    "lines": 490,
     "group": "blocks"
   },
   "src/components/blocks/contact/ContactGuidesBlock.tsx": {
@@ -6703,7 +6717,7 @@
       "@/components/blocks/destination-carousel/DestinationCarouselBlock",
       "./DestinationCarouselEditButton"
     ],
-    "lines": 168,
+    "lines": 178,
     "group": "ui"
   },
   "src/components/ui/TripCard.tsx": {
@@ -7733,9 +7747,10 @@
       "stripe",
       "payload",
       "next/cache",
+      "next/server",
       "@/lib/escape-html"
     ],
-    "lines": 894,
+    "lines": 910,
     "group": "lib"
   },
   "src/lib/escape-html.ts": {

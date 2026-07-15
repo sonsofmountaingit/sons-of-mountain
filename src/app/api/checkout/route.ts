@@ -276,8 +276,10 @@ export async function POST(req: NextRequest) {
         const organizerName = `${body.firstName ?? ''} ${body.lastName ?? ''}`.trim()
         const rawTripId = carpool.tripId
         const rawProgramId = carpool.programId
+        const rawDestinationId = carpool.destinationId
         const validTripId = rawTripId && !Number.isNaN(Number(rawTripId)) ? rawTripId : undefined
         const validProgramId = rawProgramId && !Number.isNaN(Number(rawProgramId)) ? rawProgramId : undefined
+        const validDestinationId = rawDestinationId && !Number.isNaN(Number(rawDestinationId)) ? rawDestinationId : undefined
         const ride = await payload.create({
           collection: 'carpool-rides',
           data: {
@@ -291,6 +293,7 @@ export async function POST(req: NextRequest) {
             organizerPhone: body.phone ?? null,
             ...(validTripId ? { trip: validTripId } : {}),
             ...(validProgramId ? { program: validProgramId } : {}),
+            ...(validDestinationId ? { destination: validDestinationId } : {}),
             status: 'open',
             source: 'registration',
           } as any,

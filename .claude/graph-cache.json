@@ -481,6 +481,12 @@
       "size": 4
     },
     {
+      "id": "src/app/api/payment-plan/route.ts",
+      "label": "payment-plan/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/checkout/route.ts",
       "label": "checkout/route.ts",
       "group": "api",
@@ -3334,7 +3340,7 @@
       "id": "src/lib/pricing/payment-plan.ts",
       "label": "pricing/payment-plan.ts",
       "group": "lib",
-      "size": 8
+      "size": 10
     },
     {
       "id": "src/lib/pricing/dynamic.ts",
@@ -3893,6 +3899,14 @@
     {
       "source": "src/app/api/unsubscribe/route.ts",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/payment-plan/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/payment-plan/route.ts",
+      "target": "src/lib/pricing/payment-plan.ts"
     },
     {
       "source": "src/app/api/checkout/route.ts",
@@ -7391,6 +7405,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-15T06:15:37.636Z",
-  "fileCount": 578
+  "builtAt": "2026-07-15T06:44:05.071Z",
+  "fileCount": 579
 }

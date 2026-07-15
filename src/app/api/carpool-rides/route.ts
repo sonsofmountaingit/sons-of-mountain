@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { vehicleType, seatsAvailable, departureFrom, departureTime, notes, organizerName, organizerEmail, organizerPhone, tripId, programId } = body
+    const { vehicleType, seatsAvailable, departureFrom, departureTime, notes, organizerName, organizerEmail, organizerPhone, tripId, programId, destinationId } = body
 
     if (!vehicleType || !seatsAvailable || !departureFrom) {
       return NextResponse.json({ error: 'Missing required carpool fields' }, { status: 400 })
@@ -56,6 +56,7 @@ export async function POST(req: NextRequest) {
 
     const validTripId = tripId && !Number.isNaN(Number(tripId)) ? tripId : undefined
     const validProgramId = programId && !Number.isNaN(Number(programId)) ? programId : undefined
+    const validDestinationId = destinationId && !Number.isNaN(Number(destinationId)) ? destinationId : undefined
 
     const ride = await payload.create({
       collection: 'carpool-rides',
@@ -70,6 +71,7 @@ export async function POST(req: NextRequest) {
         organizerPhone: organizerPhone ?? null,
         ...(validTripId ? { trip: validTripId } : {}),
         ...(validProgramId ? { program: validProgramId } : {}),
+        ...(validDestinationId ? { destination: validDestinationId } : {}),
         status: 'open',
         source: 'registration',
       } as any,

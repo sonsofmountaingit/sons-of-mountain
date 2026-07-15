@@ -81,10 +81,11 @@ export default function CheckoutPage() {
 
   const { items, subtotal, discountAmount, voucherAmount, total, loyaltyPointsToRedeem, appliedDiscount, corporatePeopleCount } = useCartStore()
 
-  const hasRideable = items.some((i) => i.type === 'trip' || i.type === 'program')
-  const tripItem = items.find((i) => i.type === 'trip' || i.type === 'program')
+  const hasRideable = items.some((i) => i.type === 'trip' || i.type === 'program' || i.type === 'destination')
+  const tripItem = items.find((i) => i.type === 'trip' || i.type === 'program' || i.type === 'destination')
   const tripId = tripItem?.tripId ?? null
   const programId = tripItem?.programId ?? null
+  const destinationIdForRide = tripItem?.destinationId ?? null
 
   const bookableItem = items.find((i) => i.type === 'trip' || i.type === 'program' || i.type === 'destination')
   const bookableItemType = bookableItem?.type ?? null
@@ -126,12 +127,13 @@ export default function CheckoutPage() {
     const params = new URLSearchParams()
     if (tripId) params.set('tripId', tripId)
     else if (programId) params.set('programId', programId)
+    else if (destinationIdForRide) params.set('destinationId', destinationIdForRide)
     fetch(`/api/carpool-rides?${params}`)
       .then((r) => r.json())
       .then((d) => setRides(d.rides ?? []))
       .catch(() => setRides([]))
       .finally(() => setRidesLoading(false))
-  }, [participationType, tripId, programId, hasRideable])
+  }, [participationType, tripId, programId, destinationIdForRide, hasRideable])
 
   const { register, handleSubmit, getValues, setValue, formState: { errors } } = useForm<InfoForm>({
     resolver: zodResolver(infoSchema),
@@ -165,7 +167,7 @@ export default function CheckoutPage() {
 
       const carpoolPayload =
         hasRideable && participationType === 'organizer'
-          ? { participationType: 'organizer', carpool: { vehicleType, seatsAvailable, departureFrom, departureTime: departureTime || null, notes: rideNotes || null, organizerName: `${info.firstName} ${info.lastName}`, organizerEmail: info.email, organizerPhone: info.phone, tripId, programId } }
+          ? { participationType: 'organizer', carpool: { vehicleType, seatsAvailable, departureFrom, departureTime: departureTime || null, notes: rideNotes || null, organizerName: `${info.firstName} ${info.lastName}`, organizerEmail: info.email, organizerPhone: info.phone, tripId, programId, destinationId: destinationIdForRide } }
           : hasRideable && participationType === 'join'
           ? { participationType: 'join', carpoolRideId: selectedRideId }
           : { participationType: 'solo' }
