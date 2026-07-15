@@ -11,7 +11,6 @@ import Link from 'next/link'
 import { toast } from 'sonner'
 import { formatPrice } from '@/lib/currency'
 import { useSession } from '@/lib/auth-client'
-import { AuthModal } from '@/components/auth/AuthModal'
 
 const infoSchema = z.object({
   firstName: z.string().min(1, 'Required'),
@@ -151,15 +150,6 @@ export default function CheckoutPage() {
 
   if (sessionLoading) {
     return <main className="min-h-screen" />
-  }
-
-  if (!sessionData?.user) {
-    return (
-      <main className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
-        <p className="text-white/50 mb-4">Влезте в профила си или се регистрирайте, за да завършите резервацията.</p>
-        <AuthModal onSuccess={() => {}} onClose={() => {}} />
-      </main>
-    )
   }
 
   if (!items.length) {

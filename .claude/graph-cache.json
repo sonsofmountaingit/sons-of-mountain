@@ -25,6 +25,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260714d_guides_bio_jsonb.ts",
+      "label": "migrations/20260714d_guides_bio_jsonb.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260528_add_missing_tables.ts",
       "label": "migrations/20260528_add_missing_tables.ts",
       "group": "other",
@@ -339,6 +345,12 @@
     {
       "id": "src/app/sitemap.ts",
       "label": "app/sitemap.ts",
+      "group": "app",
+      "size": 4
+    },
+    {
+      "id": "src/app/_cotest/route.ts",
+      "label": "_cotest/route.ts",
       "group": "app",
       "size": 4
     },
@@ -3106,7 +3118,7 @@
       "id": "src/components/admin/VouchersVisualEditorButton.tsx",
       "label": "admin/VouchersVisualEditorButton.tsx",
       "group": "admin",
-      "size": 4
+      "size": 6
     },
     {
       "id": "src/components/admin/DestinationCarouselVisualEditorButton.tsx",
@@ -3184,7 +3196,7 @@
       "id": "src/components/admin/TermsAndConditionsVisualEditorButton.tsx",
       "label": "admin/TermsAndConditionsVisualEditorButton.tsx",
       "group": "admin",
-      "size": 4
+      "size": 6
     },
     {
       "id": "src/components/admin/StripeManagementView.tsx",
@@ -3226,13 +3238,13 @@
       "id": "src/components/admin/PrivacyPolicyVisualEditorButton.tsx",
       "label": "admin/PrivacyPolicyVisualEditorButton.tsx",
       "group": "admin",
-      "size": 4
+      "size": 6
     },
     {
       "id": "src/components/admin/IndividualProgramsPageVisualEditorButton.tsx",
       "label": "admin/IndividualProgramsPageVisualEditorButton.tsx",
       "group": "admin",
-      "size": 4
+      "size": 6
     },
     {
       "id": "src/components/admin/ShopVisualEditorButton.tsx",
@@ -3485,6 +3497,10 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260714c_seo_meta_keywords_versions_tables.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260714d_guides_bio_jsonb.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -3764,6 +3780,10 @@
     },
     {
       "source": "src/app/sitemap.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/_cotest/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
@@ -5620,6 +5640,10 @@
     },
     {
       "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/IndividualProgramsPageVisualEditorButton.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
       "target": "src/components/admin/BlogPageVisualEditorButton.tsx"
     },
     {
@@ -5633,6 +5657,18 @@
     {
       "source": "src/app/(payload)/admin/importMap.js",
       "target": "src/components/admin/HomePageVisualEditorButton.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/PrivacyPolicyVisualEditorButton.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/TermsAndConditionsVisualEditorButton.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/VouchersVisualEditorButton.tsx"
     },
     {
       "source": "src/app/(payload)/admin/importMap.js",
@@ -7359,6 +7395,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-14T18:54:36.914Z",
-  "fileCount": 576
+  "builtAt": "2026-07-15T05:31:01.969Z",
+  "fileCount": 578
 }

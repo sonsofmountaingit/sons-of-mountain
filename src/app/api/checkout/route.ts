@@ -51,12 +51,13 @@ export async function POST(req: NextRequest) {
     const payload = await getPayload({ config })
 
     const authSession = await auth.api.getSession({ headers: req.headers }).catch(() => null)
-    if (!authSession) return NextResponse.json({ error: 'Трябва да влезете в профила си, за да завършите резервацията.' }, { status: 401 })
-    const betterAuthUserId = authSession.user.id
+    const betterAuthUserId = authSession?.user.id ?? null
 
-    const customerResult = await payload
-      .find({ collection: 'customers', where: { betterAuthId: { equals: betterAuthUserId } }, limit: 1, depth: 0 })
-      .catch(() => null)
+    const customerResult = betterAuthUserId
+      ? await payload
+          .find({ collection: 'customers', where: { betterAuthId: { equals: betterAuthUserId } }, limit: 1, depth: 0 })
+          .catch(() => null)
+      : null
     const linkedCustomerId = customerResult?.docs[0]?.id ?? null
 
     const shopSettings = await payload.findGlobal({ slug: 'shop', depth: 0 }).catch(() => null)
@@ -120,7 +121,7 @@ export async function POST(req: NextRequest) {
       await payload.update({
         collection,
         id,
-        data: { stripeSessionId: session.id, betterAuthUserId, customer: linkedCustomerId ?? undefined } as any,
+        data: { stripeSessionId: session.id, betterAuthUserId: betterAuthUserId ?? undefined, customer: linkedCustomerId ?? undefined } as any,
       }).catch(() => null)
       return NextResponse.json({ url: session.url })
     }
@@ -223,7 +224,7 @@ export async function POST(req: NextRequest) {
         firstName: body.firstName ?? '',
         lastName: body.lastName ?? '',
         phone: body.phone ?? '',
-        betterAuthUserId,
+        betterAuthUserId: betterAuthUserId ?? undefined,
         customer: linkedCustomerId ?? undefined,
         currency: currency.toUpperCase(),
         totalAmount: orderTotal ?? 0,

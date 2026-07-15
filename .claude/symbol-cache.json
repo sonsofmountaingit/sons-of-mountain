@@ -47,6 +47,18 @@
     "lines": 18,
     "group": "other"
   },
+  "src/migrations/20260714d_guides_bio_jsonb.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 17,
+    "group": "other"
+  },
   "src/migrations/20260528_add_missing_tables.ts": {
     "exports": [
       "up",
@@ -83,9 +95,10 @@
       "./20260710_free_transfer_peak",
       "./20260714_seo_meta_keywords_and_site_meta",
       "./20260714b_seo_meta_keywords_all_collections",
-      "./20260714c_seo_meta_keywords_versions_tables"
+      "./20260714c_seo_meta_keywords_versions_tables",
+      "./20260714d_guides_bio_jsonb"
     ],
-    "lines": 46,
+    "lines": 52,
     "group": "other"
   },
   "src/migrations/20260714b_seo_meta_keywords_all_collections.ts": {
@@ -886,6 +899,19 @@
     "lines": 139,
     "group": "app"
   },
+  "src/app/_cotest/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 31,
+    "group": "app"
+  },
   "src/app/api/waitlist/join/route.ts": {
     "exports": [
       "POST"
@@ -1183,7 +1209,7 @@
       "@/lib/pricing/payment-plan",
       "@/lib/auth"
     ],
-    "lines": 405,
+    "lines": 383,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {
@@ -2457,7 +2483,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/DestinationBookingController"
     ],
-    "lines": 358,
+    "lines": 359,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -3907,10 +3933,14 @@
       "@/components/admin/TestimonialsVisualEditorButton",
       "@/components/admin/AboutVisualEditorButton",
       "@/components/admin/ContactPageVisualEditorButton",
+      "@/components/admin/IndividualProgramsPageVisualEditorButton",
       "@/components/admin/BlogPageVisualEditorButton",
       "@/components/admin/StoriesPageVisualEditorButton",
       "@/components/admin/CalendarPageVisualEditorButton",
       "@/components/admin/HomePageVisualEditorButton",
+      "@/components/admin/PrivacyPolicyVisualEditorButton",
+      "@/components/admin/TermsAndConditionsVisualEditorButton",
+      "@/components/admin/VouchersVisualEditorButton",
       "@/components/admin/AdminLogo",
       "@/components/admin/AdminAfterLogin",
       "@/components/admin/AdminLoginBackground",
@@ -3918,7 +3948,7 @@
       "@/components/admin/StripeReconciliationView",
       "@payloadcms/next/rsc"
     ],
-    "lines": 99,
+    "lines": 107,
     "group": "payload-app"
   },
   "src/app/(payload)/layout.tsx": {
@@ -4559,7 +4589,7 @@
       "./globals/HomePage",
       "./globals/Vouchers"
     ],
-    "lines": 279,
+    "lines": 281,
     "group": "payload"
   },
   "src/payload/seeds/hero.ts": {
@@ -7868,11 +7898,9 @@
     "types": [],
     "imports": [
       "better-auth",
-      "@better-auth/kysely-adapter",
-      "kysely",
       "pg"
     ],
-    "lines": 104,
+    "lines": 120,
     "group": "lib"
   },
   "src/lib/animations.ts": {
