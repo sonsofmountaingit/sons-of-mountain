@@ -10,6 +10,7 @@ import * as migration_20260716_customers_native_auth from './20260716_customers_
 import * as migration_20260716b_preferences_rels_customers from './20260716b_preferences_rels_customers'
 import * as migration_20260716c_transport_map_link from './20260716c_transport_map_link'
 import * as migration_20260716d_testimonials_role from './20260716d_testimonials_role'
+import * as migration_20260716e_testimonials_instagram from './20260716e_testimonials_instagram'
 
 export const migrations = [
   {
@@ -71,5 +72,10 @@ export const migrations = [
     up: migration_20260716d_testimonials_role.up,
     down: migration_20260716d_testimonials_role.down,
     name: '20260716d_testimonials_role',
+  },
+  {
+    up: migration_20260716e_testimonials_instagram.up,
+    down: migration_20260716e_testimonials_instagram.down,
+    name: '20260716e_testimonials_instagram',
   },
 ]

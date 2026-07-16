@@ -9,6 +9,7 @@ interface TestimonialDoc {
   authorName: string
   quote: string
   role?: string
+  instagramHandle?: string
   rating: number
   row: 'top' | 'bottom'
   avatar?: { url?: string; alt?: string } | null

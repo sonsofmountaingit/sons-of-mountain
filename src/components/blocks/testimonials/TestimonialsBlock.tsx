@@ -11,6 +11,7 @@ interface Testimonial {
   authorName: string
   quote: string
   role?: string
+  instagramHandle?: string
   rating: number
   row: 'top' | 'bottom'
   avatar?: { url?: string; alt?: string } | null
@@ -66,21 +67,33 @@ function Avatar({ t, size = 52 }: { t: Testimonial; size?: number }) {
   )
 }
 
-function SignatureName({ name }: { name: string }) {
+function SignatureName({ name, instagramHandle }: { name: string; instagramHandle?: string }) {
+  const style = {
+    fontFamily: "'Caveat', cursive",
+    fontWeight: 600,
+    fontSize: '1.4rem',
+    color: '#ffffff',
+    letterSpacing: '0.01em',
+    display: 'block',
+    lineHeight: 1.2,
+  } as const
+
   return (
     <>
       <style>{`@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap');`}</style>
-      <span style={{
-        fontFamily: "'Caveat', cursive",
-        fontWeight: 600,
-        fontSize: '1.4rem',
-        color: '#ffffff',
-        letterSpacing: '0.01em',
-        display: 'block',
-        lineHeight: 1.2,
-      }}>
-        {name}
-      </span>
+      {instagramHandle ? (
+        <a
+          href={`https://instagram.com/${instagramHandle.replace(/^@/, '')}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={e => e.stopPropagation()}
+          style={{ ...style, textDecoration: 'none', cursor: 'pointer' }}
+        >
+          {name}
+        </a>
+      ) : (
+        <span style={style}>{name}</span>
+      )}
     </>
   )
 }
@@ -165,14 +178,33 @@ function Modal({ t, onClose }: { t: Testimonial; onClose: () => void }) {
         </p>
 
         <div style={{ borderTop: '1px solid #ebebeb', paddingTop: '1.5rem' }}>
-          <span style={{
-            fontFamily: "'Caveat', cursive",
-            fontWeight: 600,
-            fontSize: '1.5rem',
-            color: '#1a1a1a',
-            display: 'block',
-            lineHeight: 1.2,
-          }}>{t.authorName}</span>
+          {t.instagramHandle ? (
+            <a
+              href={`https://instagram.com/${t.instagramHandle.replace(/^@/, '')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={e => e.stopPropagation()}
+              style={{
+                fontFamily: "'Caveat', cursive",
+                fontWeight: 600,
+                fontSize: '1.5rem',
+                color: '#1a1a1a',
+                display: 'block',
+                lineHeight: 1.2,
+                textDecoration: 'none',
+                cursor: 'pointer',
+              }}
+            >{t.authorName}</a>
+          ) : (
+            <span style={{
+              fontFamily: "'Caveat', cursive",
+              fontWeight: 600,
+              fontSize: '1.5rem',
+              color: '#1a1a1a',
+              display: 'block',
+              lineHeight: 1.2,
+            }}>{t.authorName}</span>
+          )}
           {t.role && <span style={{ fontSize: '0.8rem', color: '#888', marginTop: '0.25rem', display: 'block' }}>{t.role}</span>}
         </div>
       </div>
@@ -280,7 +312,7 @@ function Card({ t, onReadMore }: { t: Testimonial; onReadMore: (t: Testimonial) 
       </button>
 
       <div style={{ marginTop: 'auto', paddingTop: '1.25rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-        <SignatureName name={t.authorName} />
+        <SignatureName name={t.authorName} instagramHandle={t.instagramHandle} />
         {t.role && <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', marginTop: '0.2rem', display: 'block' }}>{t.role}</span>}
       </div>
     </div>

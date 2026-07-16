@@ -30,6 +30,11 @@ export const Testimonials: CollectionConfig = {
       label: 'Роля / длъжност',
     },
     {
+      name: 'instagramHandle',
+      type: 'text',
+      label: 'Instagram (без @, напр. john.doe)',
+    },
+    {
       name: 'rating',
       type: 'number',
       required: true,
