@@ -13,10 +13,11 @@ const safeAfter = (fn: () => void) => {
   }
 }
 
-export const revalidateCollection = (tag: string, path: string): CollectionAfterChangeHook => {
+export const revalidateCollection = (tag: string, path: string, extraTags: string[] = []): CollectionAfterChangeHook => {
   return ({ doc }) => {
     safeAfter(() => {
       revalidateTag(tag, 'max')
+      extraTags.forEach((t) => revalidateTag(t, 'max'))
       revalidatePath(path, 'page')
       if (doc?.slug) {
         revalidatePath(`${path}/${doc.slug}`, 'page')
@@ -26,10 +27,11 @@ export const revalidateCollection = (tag: string, path: string): CollectionAfter
   }
 }
 
-export const revalidateCollectionDelete = (tag: string, path: string): CollectionAfterDeleteHook => {
+export const revalidateCollectionDelete = (tag: string, path: string, extraTags: string[] = []): CollectionAfterDeleteHook => {
   return () => {
     safeAfter(() => {
       revalidateTag(tag, 'max')
+      extraTags.forEach((t) => revalidateTag(t, 'max'))
       revalidatePath(path, 'page')
     })
   }

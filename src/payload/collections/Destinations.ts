@@ -522,7 +522,7 @@ export const Destinations: CollectionConfig = {
       },
     ],
     afterChange: [
-      revalidateCollection('destinations', '/destinations'),
+      revalidateCollection('destinations', '/destinations', ['featured-travels']),
       async ({ doc, previousDoc, req }) => {
         try {
           after(() => syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'destinations', priceField: 'price' }))
@@ -542,6 +542,6 @@ export const Destinations: CollectionConfig = {
         }
       },
     ],
-    afterDelete: [revalidateCollectionDelete('destinations', '/destinations')],
+    afterDelete: [revalidateCollectionDelete('destinations', '/destinations', ['featured-travels'])],
   },
 }

@@ -16,13 +16,15 @@ interface FeaturedTravelsGlobal {
 function str(v: unknown): string { return typeof v === 'string' ? v : '' }
 function numOrNull(v: unknown): number | null { return typeof v === 'number' ? v : null }
 function difficultyFromRatings(ratings: unknown): number | null {
-  if (!Array.isArray(ratings)) return null
+  if (!Array.isArray(ratings) || !ratings.length) return null
   const match = ratings.find((r: unknown) => {
     if (!r || typeof r !== 'object') return false
     const label = (r as { label?: unknown }).label
     return typeof label === 'string' && label.toLowerCase().includes('трудност')
   }) as { value?: unknown } | undefined
-  return match != null ? numOrNull(match.value) : null
+  const raw = match != null ? numOrNull(match.value) : numOrNull((ratings[0] as { value?: unknown })?.value)
+  if (raw == null) return null
+  return Math.max(1, Math.min(5, Math.round(raw)))
 }
 function imageUrl(v: unknown): string | null {
   if (v && typeof v === 'object' && 'url' in v && typeof (v as { url?: unknown }).url === 'string') {

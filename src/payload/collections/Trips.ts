@@ -520,7 +520,7 @@ export const Trips: CollectionConfig = {
       },
     ],
     afterChange: [
-      revalidateCollection('trips', '/trips'),
+      revalidateCollection('trips', '/trips', ['featured-travels']),
       revalidateFooterTrips,
       async ({ doc, previousDoc, req }) => {
         try {
@@ -541,6 +541,6 @@ export const Trips: CollectionConfig = {
         }
       },
     ],
-    afterDelete: [revalidateCollectionDelete('trips', '/trips'), revalidateFooterTripsDelete],
+    afterDelete: [revalidateCollectionDelete('trips', '/trips', ['featured-travels']), revalidateFooterTripsDelete],
   },
 }
