@@ -290,7 +290,7 @@ async function DestinationContent({ params }: Props) {
         variant="transport"
         transportTitle={d.transportTitle as string | null}
         transportDescription={d.transportDescription as Record<string, unknown> | null}
-        transportMapLink={d.transportMapLink}
+        transportMapLink={d.transportMapLink as string | null}
         transportImage={mediaUrl(transportImage?.url)}
         transportImageAlt={transportImage?.alt}
       />

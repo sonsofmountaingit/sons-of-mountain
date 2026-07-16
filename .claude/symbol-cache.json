@@ -5468,7 +5468,7 @@
       "gsap",
       "gsap/ScrollTrigger"
     ],
-    "lines": 502,
+    "lines": 530,
     "group": "blocks"
   },
   "src/components/blocks/EmbedBlockRenderer.tsx": {
