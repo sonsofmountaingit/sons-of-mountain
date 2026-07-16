@@ -65,18 +65,24 @@ export function buildMetadata({
   description,
   slug,
   image,
+  autoOgImage,
   keywords,
 }: {
   title: string
   description?: string
   slug?: string
+  /** Explicit OG image (manual upload or static fallback) — used as-is, no branding overlay. */
   image?: string
+  /** Hero image to auto-brand with the white logo via /og. Only used when `image` is not set. */
+  autoOgImage?: string
   keywords?: string
 }): Metadata {
   const url = slug ? `${BASE_URL}/${slug}` : BASE_URL
-  const ogParams = new URLSearchParams({ title })
-  if (image) ogParams.set('image', image)
-  const ogImage = `${BASE_URL}/og?${ogParams.toString()}`
+  const ogImage = image
+    ? image
+    : autoOgImage
+      ? `${BASE_URL}/og?${new URLSearchParams({ title, image: autoOgImage }).toString()}`
+      : `${BASE_URL}/og?${new URLSearchParams({ title }).toString()}`
   const keywordsList = keywords
     ? keywords.split(',').map((k) => k.trim()).filter(Boolean)
     : undefined

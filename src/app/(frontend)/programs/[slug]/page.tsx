@@ -68,7 +68,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: meta?.title ?? `${program.title} — Sons of Mountains`,
     description: meta?.description ?? (program as any).shortDescription ?? undefined,
     slug: `programs/${slug}`,
-    image: meta?.image?.url ?? heroImage?.url ?? undefined,
+    image: meta?.image?.url ?? undefined,
+    autoOgImage: heroImage?.url ?? undefined,
     keywords: meta?.keywords ?? undefined,
   })
 }

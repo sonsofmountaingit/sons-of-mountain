@@ -23,6 +23,18 @@
     "lines": 44,
     "group": "other"
   },
+  "src/migrations/20260716b_preferences_rels_customers.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 32,
+    "group": "other"
+  },
   "src/migrations/20260624_add_page_columns.ts": {
     "exports": [
       "up",
@@ -109,9 +121,10 @@
       "./20260714b_seo_meta_keywords_all_collections",
       "./20260714c_seo_meta_keywords_versions_tables",
       "./20260714d_guides_bio_jsonb",
-      "./20260716_customers_native_auth"
+      "./20260716_customers_native_auth",
+      "./20260716b_preferences_rels_customers"
     ],
-    "lines": 58,
+    "lines": 64,
     "group": "other"
   },
   "src/migrations/20260714b_seo_meta_keywords_all_collections.ts": {
@@ -3845,6 +3858,19 @@
     "lines": 25,
     "group": "frontend"
   },
+  "src/app/og/route.tsx": {
+    "exports": [
+      "runtime",
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/og",
+      "next/server"
+    ],
+    "lines": 73,
+    "group": "app"
+  },
   "src/app/(payload)/admin/[[...segments]]/page.tsx": {
     "exports": [
       "generateMetadata",
@@ -4484,7 +4510,7 @@
       "next/cache",
       "next/server"
     ],
-    "lines": 33,
+    "lines": 43,
     "group": "globals"
   },
   "src/payload/globals/StoriesPage.ts": {
@@ -7844,7 +7870,7 @@
       "payload",
       "@payload-config"
     ],
-    "lines": 104,
+    "lines": 106,
     "group": "lib"
   },
   "src/lib/media-url.ts": {

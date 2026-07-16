@@ -13,6 +13,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260716b_preferences_rels_customers.ts",
+      "label": "migrations/20260716b_preferences_rels_customers.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260624_add_page_columns.ts",
       "label": "migrations/20260624_add_page_columns.ts",
       "group": "other",
@@ -1468,6 +1474,12 @@
       "id": "src/app/(frontend)/login/page.tsx",
       "label": "login/page.tsx",
       "group": "frontend",
+      "size": 4
+    },
+    {
+      "id": "src/app/og/route.tsx",
+      "label": "og/route.tsx",
+      "group": "app",
       "size": 4
     },
     {
@@ -3511,6 +3523,10 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260716_customers_native_auth.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260716b_preferences_rels_customers.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -7253,6 +7269,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-16T11:33:38.442Z",
-  "fileCount": 579
+  "builtAt": "2026-07-16T11:58:33.669Z",
+  "fileCount": 581
 }

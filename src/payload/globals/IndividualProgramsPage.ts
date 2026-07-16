@@ -27,7 +27,12 @@ export const IndividualProgramsPage: GlobalConfig = {
     { name: 'heroSubtext', type: 'text', defaultValue: 'Пътуване, скроено изцяло по твоите желания — дестинация, дати, темпо и хора по твой избор.' },
     { name: 'heroCtaLabel', type: 'text', defaultValue: 'Изпрати запитване' },
     { name: 'heroCtaUrl', type: 'text', defaultValue: '#questionnaire' },
-    { name: 'heroImage', type: 'upload', relationTo: 'media' },
+    {
+      name: 'heroImage',
+      type: 'upload',
+      relationTo: 'media',
+      admin: { description: 'Използва се и за OG изображението с автоматично добавено бяло лого отгоре.' },
+    },
     // What We Offer
     { name: 'offerHeading', type: 'text', defaultValue: 'Какво предлагаме' },
     { name: 'offerSubtext', type: 'text', defaultValue: 'Индивидуална програма, изградена изцяло около теб — от идеята до последния ден.' },
