@@ -1046,7 +1046,7 @@
       "resend",
       "@/lib/pricing/payment-plan"
     ],
-    "lines": 159,
+    "lines": 163,
     "group": "api"
   },
   "src/app/api/gallery/favorites/count/route.ts": {
@@ -2951,6 +2951,7 @@
   },
   "src/app/(frontend)/dashboard/gallery/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -2960,7 +2961,7 @@
       "react",
       "./GalleryDashboardClient"
     ],
-    "lines": 17,
+    "lines": 19,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/ratings/RatingsClient.tsx": {
@@ -2997,6 +2998,7 @@
   },
   "src/app/(frontend)/dashboard/profile/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -3010,7 +3012,7 @@
       "@payload-config",
       "./ProfileClient"
     ],
-    "lines": 28,
+    "lines": 30,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/profile/ProfileClient.tsx": {
@@ -3150,7 +3152,7 @@
       "react",
       "@/lib/auth-client"
     ],
-    "lines": 87,
+    "lines": 89,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/registrations/RegistrationsClient.tsx": {
@@ -3199,6 +3201,7 @@
   },
   "src/app/(frontend)/dashboard/wishlist/page.tsx": {
     "exports": [
+      "dynamic",
       "metadata",
       "default:function"
     ],
@@ -3211,7 +3214,7 @@
       "@payload-config",
       "./WishlistClient"
     ],
-    "lines": 37,
+    "lines": 39,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/media/page.tsx": {
@@ -4707,7 +4710,7 @@
       "payload",
       "payload"
     ],
-    "lines": 219,
+    "lines": 252,
     "group": "collections"
   },
   "src/payload/collections/CarpoolRides.ts": {
@@ -6658,7 +6661,7 @@
       "@/components/shop/CartSheet",
       "@/lib/cart-store"
     ],
-    "lines": 527,
+    "lines": 529,
     "group": "ui"
   },
   "src/components/ui/DestinationCarousel.tsx": {
@@ -7388,7 +7391,7 @@
       "react",
       "@/lib/currency"
     ],
-    "lines": 87,
+    "lines": 89,
     "group": "components"
   },
   "src/components/shop/EarlyBirdBadge.tsx": {
@@ -7783,6 +7786,7 @@
   },
   "src/lib/cart-store.ts": {
     "exports": [
+      "useCartHydrated",
       "useCartStore"
     ],
     "types": [
@@ -7794,9 +7798,10 @@
     ],
     "imports": [
       "zustand",
-      "zustand/middleware"
+      "zustand/middleware",
+      "react"
     ],
-    "lines": 173,
+    "lines": 181,
     "group": "lib"
   },
   "src/lib/send-registration-forms.ts": {
@@ -7903,7 +7908,7 @@
     "imports": [
       "react"
     ],
-    "lines": 125,
+    "lines": 123,
     "group": "lib"
   },
   "src/lib/cron/balance-charge.ts": {
