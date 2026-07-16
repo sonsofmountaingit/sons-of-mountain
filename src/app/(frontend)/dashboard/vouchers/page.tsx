@@ -4,7 +4,6 @@ import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { auth } from '@/lib/auth'
 import { VouchersClient } from './VouchersClient'
 
 export const dynamic = 'force-dynamic'
@@ -16,13 +15,13 @@ export const metadata: Metadata = {
 }
 
 async function VouchersContent() {
-  const session = await auth.api.getSession({ headers: await headers() })
-  if (!session) redirect('/login?redirect=/dashboard/vouchers')
-
   const payload = await getPayload({ config })
+  const { user } = await payload.auth({ headers: await headers() })
+  if (!user || user.collection !== 'customers') redirect('/login?redirect=/dashboard/vouchers')
+
   const result = await payload.find({
     collection: 'gift-vouchers',
-    where: { betterAuthUserId: { equals: session.user.id } },
+    where: { customer: { equals: user.id } },
     limit: 50,
     sort: '-createdAt',
   })

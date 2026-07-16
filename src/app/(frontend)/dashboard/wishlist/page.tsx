@@ -1,15 +1,17 @@
 import { cookies, headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
-import { auth } from '@/lib/auth'
+import { getPayload } from 'payload'
+import config from '@payload-config'
 import { WishlistClient } from './WishlistClient'
 
 export const metadata = { title: 'Любими' }
 
 async function WishlistContent() {
   const h = await headers()
-  const session = await auth.api.getSession({ headers: h })
-  if (!session?.user) redirect('/login')
+  const payload = await getPayload({ config })
+  const { user } = await payload.auth({ headers: h })
+  if (!user || user.collection !== 'customers') redirect('/login')
 
   const cookieStore = await cookies()
   const cookieHeader = cookieStore.toString()

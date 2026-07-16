@@ -2,13 +2,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
-import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 import type { CartItem } from '@/lib/cart-store'
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await auth.api.getSession({ headers: await headers() })
+    const payload = await getPayload({ config })
+    const { user } = await payload.auth({ headers: await headers() })
     const { amount, currency = 'eur', cartItems } = await req.json()
     if (!amount) return NextResponse.json({ error: 'amount required' }, { status: 400 })
 
@@ -20,14 +20,8 @@ export async function POST(req: NextRequest) {
     }
 
     // Attach Stripe customer if logged in
-    if (session?.user?.email) {
-      const payload = await getPayload({ config })
-      const custResult = await payload.find({
-        collection: 'customers',
-        where: { email: { equals: session.user.email } },
-        limit: 1,
-      })
-      const customer = custResult.docs[0] as any
+    if (user?.collection === 'customers') {
+      const customer = await payload.findByID({ collection: 'customers', id: user.id }).catch(() => null) as any
       if (customer?.stripeCustomerId) {
         piParams.customer = customer.stripeCustomerId
         piParams.setup_future_usage = 'off_session'

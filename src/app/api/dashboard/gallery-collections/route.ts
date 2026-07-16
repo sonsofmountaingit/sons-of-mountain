@@ -1,28 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
-import { auth } from '@/lib/auth'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { revalidateTag } from 'next/cache'
 import { after } from 'next/server'
 
-async function getPayloadUserId(email: string) {
+async function getAuthedPhotographer(reqHeaders: Headers) {
   const payload = await getPayload({ config })
-  const { docs } = await payload.find({
-    collection: 'users',
-    where: { email: { equals: email } },
-    limit: 1,
-  })
-  return { payload, userId: docs[0]?.id ?? null }
+  const { user } = await payload.auth({ headers: reqHeaders })
+  return { payload, userId: user?.collection === 'users' ? user.id : null }
 }
 
 // GET — list this photographer's collections
 export async function GET(req: NextRequest) {
-  const session = await auth.api.getSession({ headers: await headers() })
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
-  const { payload, userId } = await getPayloadUserId(session.user.email)
-  if (!userId) return NextResponse.json({ docs: [] })
+  const { payload, userId } = await getAuthedPhotographer(await headers())
+  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const result = await payload.find({
     collection: 'gallery-collections',
@@ -37,11 +29,8 @@ export async function GET(req: NextRequest) {
 
 // POST — create a new collection
 export async function POST(req: NextRequest) {
-  const session = await auth.api.getSession({ headers: await headers() })
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
-  const { payload, userId } = await getPayloadUserId(session.user.email)
-  if (!userId) return NextResponse.json({ error: 'User not found' }, { status: 404 })
+  const { payload, userId } = await getAuthedPhotographer(await headers())
+  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await req.json()
   const { title, slug, description, coverImageId, destinationId, latitude, longitude, status } = body
@@ -73,11 +62,8 @@ export async function POST(req: NextRequest) {
 
 // PATCH — update collection fields or images
 export async function PATCH(req: NextRequest) {
-  const session = await auth.api.getSession({ headers: await headers() })
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
-  const { payload, userId } = await getPayloadUserId(session.user.email)
-  if (!userId) return NextResponse.json({ error: 'User not found' }, { status: 404 })
+  const { payload, userId } = await getAuthedPhotographer(await headers())
+  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await req.json()
   const { id, title, slug, description, coverImageId, destinationId, latitude, longitude, status, images } = body
@@ -114,11 +100,8 @@ export async function PATCH(req: NextRequest) {
 
 // DELETE — remove a collection
 export async function DELETE(req: NextRequest) {
-  const session = await auth.api.getSession({ headers: await headers() })
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
-  const { payload, userId } = await getPayloadUserId(session.user.email)
-  if (!userId) return NextResponse.json({ error: 'User not found' }, { status: 404 })
+  const { payload, userId } = await getAuthedPhotographer(await headers())
+  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { id } = await req.json()
   if (!id) return NextResponse.json({ error: 'id required' }, { status: 400 })

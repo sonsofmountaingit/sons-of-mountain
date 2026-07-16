@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { auth } from '@/lib/auth'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { RatingsClient } from './RatingsClient'
@@ -17,24 +16,17 @@ export const metadata: Metadata = {
 }
 
 async function RatingsContent() {
-  const session = await auth.api.getSession({ headers: await headers() })
-  if (!session) redirect('/login?redirect=/dashboard/ratings')
-
   const payload = await getPayload({ config })
+  const { user } = await payload.auth({ headers: await headers() })
+  if (!user || user.collection !== 'customers') redirect('/login?redirect=/dashboard/ratings')
 
-  const customerResult = await payload.find({
-    collection: 'customers',
-    where: { betterAuthId: { equals: session.user.id } },
-    limit: 1,
-  })
-  const customer = customerResult.docs[0]
-  if (!customer) redirect('/login?redirect=/dashboard/ratings')
+  const customer = { id: user.id }
 
   const registrations = await payload.find({
     collection: 'registrations',
     where: {
       and: [
-        { betterAuthUserId: { equals: session.user.id } },
+        { customer: { equals: user.id } },
         { status: { in: ['confirmed', 'paid'] } },
       ],
     },

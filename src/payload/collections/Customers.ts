@@ -1,41 +1,46 @@
 import type { CollectionConfig } from 'payload'
+import { APIError } from 'payload'
 
 export const Customers: CollectionConfig = {
   slug: 'customers',
+  auth: {
+    tokenExpiration: 7200,
+    verify: false,
+    cookies: {
+      secure: false,
+      sameSite: 'Lax',
+    },
+  },
   admin: {
     useAsTitle: 'email',
     defaultColumns: ['email', 'name', 'status', 'createdAt'],
     group: 'Клиенти',
   },
+  access: {
+    create: () => true,
+    read: ({ req }) => {
+      if (req.user?.collection === 'users') return true
+      if (req.user?.collection === 'customers') return { id: { equals: req.user.id } }
+      return false
+    },
+    update: ({ req }) => {
+      if (req.user?.collection === 'users') return true
+      if (req.user?.collection === 'customers') return { id: { equals: req.user.id } }
+      return false
+    },
+    delete: ({ req }) => req.user?.collection === 'users',
+    admin: ({ req }) => req.user?.collection === 'users',
+  },
   hooks: {
-    afterChange: [
-      async ({ doc, previousDoc }) => {
-        if (doc.status !== previousDoc?.status && doc.status !== 'active' && doc.betterAuthId) {
-          try {
-            const { auth } = await import('@/lib/auth')
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            await (auth.api.revokeSessions as any)({ body: { userId: doc.betterAuthId } })
-          } catch {
-            // session revoke best-effort
-          }
+    beforeLogin: [
+      async ({ user }) => {
+        if (user.status !== 'active') {
+          throw new APIError('Този акаунт е блокиран или спрян.', 403, undefined, true)
         }
       },
     ],
   },
   fields: [
-    {
-      name: 'betterAuthId',
-      type: 'text',
-      unique: true,
-      admin: { readOnly: true, description: 'Better Auth user ID' },
-    },
-    {
-      name: 'email',
-      type: 'email',
-      required: true,
-      unique: true,
-      admin: { readOnly: true },
-    },
     {
       name: 'name',
       type: 'text',
@@ -58,12 +63,6 @@ export const Customers: CollectionConfig = {
         condition: (data) => data.status !== 'active',
         description: 'Причина за блокиране (видима само за администратори)',
       },
-    },
-    {
-      name: 'emailVerified',
-      type: 'checkbox',
-      defaultValue: false,
-      admin: { readOnly: true },
     },
     {
       name: 'phone',

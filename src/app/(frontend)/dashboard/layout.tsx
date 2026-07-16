@@ -1,16 +1,18 @@
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
-import { auth } from '@/lib/auth'
+import { getPayload } from 'payload'
+import config from '@payload-config'
 import { DashboardNav } from './DashboardNav'
 
 async function DashboardShell({ children }: { children: React.ReactNode }) {
-  const session = await auth.api.getSession({ headers: await headers() })
-  if (!session) redirect('/login?redirect=/dashboard')
+  const payload = await getPayload({ config })
+  const { user } = await payload.auth({ headers: await headers() })
+  if (!user || user.collection !== 'customers') redirect('/login?redirect=/dashboard')
 
   return (
     <div className="min-h-[calc(100vh-5rem)] mt-20 bg-black text-white flex items-start">
-      <DashboardNav name={session.user.name ?? ''} email={session.user.email} />
+      <DashboardNav name={(user.name as string) ?? ''} email={user.email as string} />
       <div className="flex-1 min-w-0">{children}</div>
     </div>
   )

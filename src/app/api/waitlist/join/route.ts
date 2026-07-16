@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 
 export async function POST(req: NextRequest) {
@@ -11,8 +10,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    const session = await auth.api.getSession({ headers: await headers() }).catch(() => null)
-    const betterAuthUserId = (session?.user as any)?.id ?? null
+    const authPayload = await getPayload({ config })
+    const { user } = await authPayload.auth({ headers: await headers() })
+    const customerId = user?.collection === 'customers' ? user.id : null
 
     const payload = await getPayload({ config })
     const itemField = { trip: 'trip', program: 'program', destination: 'destination', product: 'product' }[itemType as string]
@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
         participantCount: participantCount ?? 1,
         message,
         source: source ?? 'sold-out',
-        betterAuthUserId,
+        customer: customerId,
         itemType,
         [itemField]: itemId,
         position,

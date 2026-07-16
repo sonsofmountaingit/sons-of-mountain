@@ -2,33 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
-import { auth } from '@/lib/auth'
-import { headers } from 'next/headers'
-
 export async function GET(req: NextRequest) {
   try {
     const payload = await getPayload({ config })
 
-    // Accept either Better Auth session or Payload JWT
-    const authHeader = req.headers.get('Authorization')
-    let isAdmin = false
-
-    if (authHeader?.startsWith('JWT ')) {
-      // Verify Payload JWT by calling /api/users/me equivalent
-      const meRes = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'}/api/users/me`, {
-        headers: { Authorization: authHeader },
-      }).catch(() => null)
-      if (meRes?.ok) {
-        const meData = await meRes.json().catch(() => null)
-        isAdmin = !!(meData?.user && meData.user.role === 'admin')
-      }
-    } else {
-      const session = await auth.api.getSession({ headers: await headers() })
-      if (session?.user) {
-        const user = await payload.find({ collection: 'users', where: { email: { equals: session.user.email } }, limit: 1 })
-        isAdmin = !!(user.docs[0] && (user.docs[0] as any).role === 'admin')
-      }
-    }
+    const { user } = await payload.auth({ headers: req.headers })
+    const isAdmin = !!(user && user.collection === 'users' && (user as any).role === 'admin')
 
     if (!isAdmin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 

@@ -23,11 +23,6 @@ export const Registrations: CollectionConfig = {
   },
   fields: [
     {
-      name: 'betterAuthUserId',
-      type: 'text',
-      admin: { readOnly: true, description: 'Better Auth user ID (null = гост)' },
-    },
-    {
       name: 'customer',
       type: 'relationship',
       relationTo: 'customers',

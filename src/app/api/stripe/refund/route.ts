@@ -2,17 +2,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
-import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await auth.api.getSession({ headers: await headers() })
-    if (!session?.user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
     const payload = await getPayload({ config })
-    const user = await payload.find({ collection: 'users', where: { email: { equals: session.user.email } }, limit: 1 })
-    if (!user.docs[0] || (user.docs[0] as any).role !== 'admin') {
+    const { user } = await payload.auth({ headers: await headers() })
+    if (!user || user.collection !== 'users' || (user as any).role !== 'admin') {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 

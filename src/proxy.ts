@@ -3,15 +3,13 @@ import { NextRequest, NextResponse } from 'next/server'
 const PROTECTED = ['/dashboard', '/account']
 
 // Read the session cookie directly to avoid importing Payload in edge runtime.
-// Better Auth sets a cookie named "better-auth.session_token" by default.
+// Payload's default cookiePrefix is "payload", producing "payload-token".
+// This is presence-only; it cannot decode the JWT to confirm collection here.
 function hasSessionCookie(req: NextRequest): boolean {
-  return (
-    req.cookies.has('better-auth.session_token') ||
-    req.cookies.has('__Secure-better-auth.session_token')
-  )
+  return req.cookies.has('payload-token')
 }
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl
 
   const isProtected = PROTECTED.some((p) => pathname === p || pathname.startsWith(p + '/'))

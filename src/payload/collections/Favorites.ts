@@ -15,9 +15,10 @@ export const Favorites: CollectionConfig = {
       admin: { position: 'sidebar' },
     },
     {
-      name: 'betterAuthUserId',
-      type: 'text',
-      admin: { position: 'sidebar', description: 'Better Auth user ID (for customer wishlist)' },
+      name: 'customer',
+      type: 'relationship',
+      relationTo: 'customers',
+      admin: { position: 'sidebar', description: 'Клиент (за wishlist от клиенти)' },
     },
     {
       name: 'itemType',

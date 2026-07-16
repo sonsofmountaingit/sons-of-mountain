@@ -1,4 +1,3 @@
-import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
@@ -15,38 +14,25 @@ export const dynamic = 'force-dynamic'
 export const metadata: Metadata = { title: 'My Orders — Sons of Mountains' }
 
 async function OrdersContent() {
-  const session = await auth.api.getSession({ headers: await headers() })
-  if (!session?.user) redirect('/auth/login?redirect=/shop/orders')
-
   const payload = await getPayload({ config })
-  const betterAuthUserId = (session.user as any).id
+  const { user } = await payload.auth({ headers: await headers() })
+  if (!user || user.collection !== 'customers') redirect('/auth/login?redirect=/shop/orders')
 
-  const customer = await payload.find({
-    collection: 'customers',
-    where: { betterAuthId: { equals: betterAuthUserId } },
-    limit: 1,
+  const orders = await payload.find({
+    collection: 'orders',
+    where: { customer: { equals: user.id } },
+    sort: '-createdAt',
+    limit: 20,
+    depth: 1,
   })
-  const cust = customer.docs[0]
 
-  const orders = cust
-    ? await payload.find({
-        collection: 'orders',
-        where: { customer: { equals: cust.id } },
-        sort: '-createdAt',
-        limit: 20,
-        depth: 1,
-      })
-    : { docs: [], totalDocs: 0 }
-
-  const registrations = cust
-    ? await payload.find({
-        collection: 'registrations',
-        where: { customer: { equals: cust.id } },
-        sort: '-createdAt',
-        limit: 20,
-        depth: 1,
-      })
-    : { docs: [], totalDocs: 0 }
+  const registrations = await payload.find({
+    collection: 'registrations',
+    where: { customer: { equals: user.id } },
+    sort: '-createdAt',
+    limit: 20,
+    depth: 1,
+  })
 
   return (
     <main className="mx-auto max-w-4xl px-6 py-12">

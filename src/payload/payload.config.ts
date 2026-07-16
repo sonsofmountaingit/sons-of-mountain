@@ -246,8 +246,6 @@ export default buildConfig({
       idleTimeoutMillis: 30_000,
       connectionTimeoutMillis: 5_000,
     },
-    // Exclude Better Auth tables from Payload's Drizzle schema management
-    tablesFilter: ['!user', '!session', '!account', '!verification'],
     // Keep Payload's per-operation transactions ON (the default). They were previously disabled
     // to work around connections stuck "idle in transaction", but that was a symptom of an
     // unbounded pool with no acquisition timeout — a create's nested relationship reads could

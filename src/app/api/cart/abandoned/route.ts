@@ -5,7 +5,7 @@ import { cookies } from 'next/headers'
 
 export async function POST(req: NextRequest) {
   try {
-    const { cartData, email, betterAuthUserId } = await req.json()
+    const { cartData, email, customerId } = await req.json()
     if (!cartData?.items?.length) return NextResponse.json({ ok: true })
 
     const payload = await getPayload({ config })
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     } else {
       await payload.create({
         collection: 'abandoned-carts',
-        data: { sessionId, betterAuthUserId, email, cartData, status: 'active' },
+        data: { sessionId, customer: customerId, email, cartData, status: 'active' },
       })
     }
 

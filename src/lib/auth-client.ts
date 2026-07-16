@@ -1,11 +1,124 @@
 'use client'
 
-import { createAuthClient } from 'better-auth/react'
+import { useCallback, useEffect, useState } from 'react'
 
-export const authClient = createAuthClient({
-  baseURL: process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000',
-})
+type CustomerUser = {
+  id: string | number
+  email: string
+  name?: string | null
+  collection: 'customers'
+  [key: string]: unknown
+}
 
-export const { useSession, signIn, signOut, signUp, resetPassword } = authClient
-export const forgotPassword = (data: Parameters<typeof authClient.requestPasswordReset>[0]) =>
-  authClient.requestPasswordReset(data)
+type SessionState = {
+  data: { user: CustomerUser } | null
+  isPending: boolean
+}
+
+async function parseError(res: Response): Promise<string> {
+  try {
+    const body = await res.json()
+    return body?.errors?.[0]?.message ?? body?.message ?? 'Грешка'
+  } catch {
+    return 'Грешка'
+  }
+}
+
+let listeners: Array<() => void> = []
+function notify() {
+  listeners.forEach((l) => l())
+}
+
+export function useSession(): SessionState {
+  const [state, setState] = useState<SessionState>({ data: null, isPending: true })
+
+  const refetch = useCallback(async () => {
+    try {
+      const res = await fetch('/api/customers/me', { credentials: 'include' })
+      const body = await res.json()
+      if (body?.user) {
+        setState({ data: { user: body.user }, isPending: false })
+      } else {
+        setState({ data: null, isPending: false })
+      }
+    } catch {
+      setState({ data: null, isPending: false })
+    }
+  }, [])
+
+  useEffect(() => {
+    refetch()
+    listeners.push(refetch)
+    return () => {
+      listeners = listeners.filter((l) => l !== refetch)
+    }
+  }, [refetch])
+
+  return state
+}
+
+export const signIn = {
+  email: async ({ email, password }: { email: string; password: string }) => {
+    const res = await fetch('/api/customers/login', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    })
+    if (!res.ok) {
+      return { error: { message: await parseError(res) } }
+    }
+    const data = await res.json()
+    notify()
+    return { data }
+  },
+}
+
+export const signUp = {
+  email: async ({ email, password, name }: { email: string; password: string; name?: string }) => {
+    const res = await fetch('/api/customers', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password, name }),
+    })
+    if (!res.ok) {
+      return { error: { message: await parseError(res) } }
+    }
+    const loginRes = await signIn.email({ email, password })
+    return loginRes
+  },
+}
+
+export async function signOut() {
+  await fetch('/api/customers/logout', { method: 'POST', credentials: 'include' })
+  notify()
+}
+
+export async function forgotPassword({ email }: { email: string; redirectTo?: string }) {
+  const res = await fetch('/api/customers/forgot-password', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  })
+  if (!res.ok) {
+    return { error: { message: await parseError(res) } }
+  }
+  return { data: await res.json() }
+}
+
+export async function resetPassword({ newPassword, token }: { newPassword: string; token: string }) {
+  const res = await fetch('/api/customers/reset-password', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password: newPassword, token }),
+  })
+  if (!res.ok) {
+    return { error: { message: await parseError(res) } }
+  }
+  const data = await res.json()
+  notify()
+  return { data }
+}

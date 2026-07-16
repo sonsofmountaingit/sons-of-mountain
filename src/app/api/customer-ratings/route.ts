@@ -1,27 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
-import { auth } from '@/lib/auth'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
-async function resolveCustomerId(session: Awaited<ReturnType<typeof auth.api.getSession>>) {
-  const payload = await getPayload({ config })
-  const result = await payload.find({
-    collection: 'customers',
-    where: { betterAuthId: { equals: session!.user.id } },
-    limit: 1,
-  })
-  return result.docs[0]?.id ?? null
-}
-
 export async function GET(req: NextRequest) {
-  const session = await auth.api.getSession({ headers: await headers() })
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
-  const customerId = await resolveCustomerId(session)
-  if (!customerId) return NextResponse.json({ docs: [] })
-
   const payload = await getPayload({ config })
+  const { user } = await payload.auth({ headers: await headers() })
+  if (!user || user.collection !== 'customers') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  const customerId = user.id
+
   const ratings = await payload.find({
     collection: 'customer-ratings',
     where: { customer: { equals: customerId } },
@@ -34,11 +22,10 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const session = await auth.api.getSession({ headers: await headers() })
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
-  const customerId = await resolveCustomerId(session)
-  if (!customerId) return NextResponse.json({ error: 'Customer not found' }, { status: 404 })
+  const payload = await getPayload({ config })
+  const { user } = await payload.auth({ headers: await headers() })
+  if (!user || user.collection !== 'customers') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const customerId = user.id
 
   const body = await req.json() as {
     destinationId?: string
@@ -53,8 +40,6 @@ export async function POST(req: NextRequest) {
   if (!body.destinationId && !body.tripId) {
     return NextResponse.json({ error: 'Provide destinationId or tripId' }, { status: 400 })
   }
-
-  const payload = await getPayload({ config })
 
   const where: Record<string, unknown> = { customer: { equals: customerId } }
   if (body.destinationId) where.destination = { equals: body.destinationId }

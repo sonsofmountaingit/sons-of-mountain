@@ -2,25 +2,21 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
-import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 
-async function getStripeCustomerId(session: any): Promise<string | null> {
+async function getStripeCustomerId(userId: string | number): Promise<string | null> {
   const payload = await getPayload({ config })
-  const custResult = await payload.find({
-    collection: 'customers',
-    where: { email: { equals: session.user.email } },
-    limit: 1,
-  })
-  return (custResult.docs[0] as any)?.stripeCustomerId ?? null
+  const customer = await payload.findByID({ collection: 'customers', id: userId }).catch(() => null) as any
+  return customer?.stripeCustomerId ?? null
 }
 
 export async function GET() {
   try {
-    const session = await auth.api.getSession({ headers: await headers() })
-    if (!session?.user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const payload = await getPayload({ config })
+    const { user } = await payload.auth({ headers: await headers() })
+    if (!user || user.collection !== 'customers') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const stripeCustomerId = await getStripeCustomerId(session)
+    const stripeCustomerId = await getStripeCustomerId(user.id)
     if (!stripeCustomerId) return NextResponse.json({ methods: [] })
 
     const { stripe: _stripeImport } = await import('@/lib/stripe'); const stripe = _stripeImport!
@@ -46,8 +42,9 @@ export async function GET() {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const session = await auth.api.getSession({ headers: await headers() })
-    if (!session?.user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const payload = await getPayload({ config })
+    const { user } = await payload.auth({ headers: await headers() })
+    if (!user || user.collection !== 'customers') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const { searchParams } = new URL(req.url)
     const pmId = searchParams.get('id')

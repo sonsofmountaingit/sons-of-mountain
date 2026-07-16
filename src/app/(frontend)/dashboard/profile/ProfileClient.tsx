@@ -69,14 +69,7 @@ export function ProfileClient({ name: initialName, email }: Props) {
     if (!parsed.success) { setMessage(parsed.error.issues[0].message); return }
     setSaving(true)
 
-    // Update Better Auth name
-    await fetch('/api/auth/update-user', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name }),
-    })
-
-    // Update Payload photographer fields
+    // Update Payload photographer fields (name update is folded into this PATCH)
     const res = await fetch('/api/photographer-profile', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },

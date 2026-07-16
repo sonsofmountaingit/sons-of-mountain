@@ -42,8 +42,9 @@ export const Waitlist: CollectionConfig = {
       admin: { position: 'sidebar' },
     },
     {
-      name: 'betterAuthUserId',
-      type: 'text',
+      name: 'customer',
+      type: 'relationship',
+      relationTo: 'customers',
       admin: { readOnly: true },
     },
     {

@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
-import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 
 interface Participant {
@@ -13,13 +12,12 @@ interface Participant {
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await auth.api.getSession({ headers: await headers() })
-    if (!session?.user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const payload = await getPayload({ config })
+    const { user } = await payload.auth({ headers: await headers() })
+    if (!user || user.collection !== 'users') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const { orderId, participants } = await req.json() as { orderId: string; participants: Participant[] }
     if (!orderId || !participants?.length) return NextResponse.json({ error: 'orderId and participants required' }, { status: 400 })
-
-    const payload = await getPayload({ config })
     const order = await payload.findByID({ collection: 'orders', id: orderId }) as any
     if (!order) return NextResponse.json({ error: 'Order not found' }, { status: 404 })
 

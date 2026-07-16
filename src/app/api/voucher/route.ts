@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { auth } from '@/lib/auth'
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await auth.api.getSession({ headers: req.headers })
+    const payload = await getPayload({ config })
+    const { user } = await payload.auth({ headers: req.headers })
 
     const body = await req.json()
-    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const { recipientEmail, recipientName, amount, currency = 'EUR', message, forDestination, forTrip, forProgram, senderName, senderEmail, isGift } = body
 
@@ -16,20 +15,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid amount' }, { status: 400 })
     }
 
-    const payload = await getPayload({ config })
-
-    let customerDocId: string | undefined
-    let betterAuthUserId: string | undefined
-
-    if (session) {
-      betterAuthUserId = session.user.id
-      const existing = await payload.find({
-        collection: 'customers',
-        where: { betterAuthId: { equals: session.user.id } },
-        limit: 1,
-      })
-      customerDocId = existing.docs[0]?.id as string | undefined
-    }
+    const customerDocId = user?.collection === 'customers' ? (user.id as string) : undefined
 
     const expiresAt = new Date()
     expiresAt.setFullYear(expiresAt.getFullYear() + 1)
@@ -37,7 +23,6 @@ export async function POST(req: NextRequest) {
     const voucher = await payload.create({
       collection: 'gift-vouchers',
       data: {
-        ...(betterAuthUserId ? { betterAuthUserId } : {}),
         ...(customerDocId ? { customer: customerDocId } : {}),
         recipientEmail,
         recipientName,
@@ -64,14 +49,14 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
-    const session = await auth.api.getSession({ headers: req.headers })
-    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const payload = await getPayload({ config })
+    const { user } = await payload.auth({ headers: req.headers })
+    if (!user || user.collection !== 'customers') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const { searchParams } = req.nextUrl
     const code = searchParams.get('code')
     if (!code) return NextResponse.json({ error: 'Missing code' }, { status: 400 })
 
-    const payload = await getPayload({ config })
     const result = await payload.find({
       collection: 'gift-vouchers',
       where: { code: { equals: code } },
@@ -89,19 +74,13 @@ export async function GET(req: NextRequest) {
     }
 
     // Redeem
-    const existing = await payload.find({
-      collection: 'customers',
-      where: { betterAuthId: { equals: session.user.id } },
-      limit: 1,
-    })
-
     await payload.update({
       collection: 'gift-vouchers',
       id: voucher.id,
       data: {
         status: 'redeemed',
         redeemedAt: now.toISOString(),
-        redeemedByCustomerId: session.user.id,
+        redeemedByCustomerId: String(user.id),
       },
     })
 

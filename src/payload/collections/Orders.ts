@@ -20,11 +20,6 @@ export const Orders: CollectionConfig = {
   },
   fields: [
     {
-      name: 'betterAuthUserId',
-      type: 'text',
-      admin: { readOnly: true, description: 'Better Auth user ID (null = guest)' },
-    },
-    {
       name: 'customer',
       type: 'relationship',
       relationTo: 'customers',

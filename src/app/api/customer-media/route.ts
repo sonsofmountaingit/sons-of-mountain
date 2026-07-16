@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
-import { auth } from '@/lib/auth'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -10,20 +9,13 @@ const MAX_IMAGE = 20 * 1024 * 1024
 const MAX_VIDEO = 200 * 1024 * 1024
 
 export async function GET(req: NextRequest) {
-  const session = await auth.api.getSession({ headers: await headers() })
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
   const payload = await getPayload({ config })
-  const customer = await payload.find({
-    collection: 'customers',
-    where: { betterAuthId: { equals: session.user.id } },
-    limit: 1,
-  })
-  if (!customer.docs[0]) return NextResponse.json({ docs: [] })
+  const { user } = await payload.auth({ headers: await headers() })
+  if (!user || user.collection !== 'customers') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const media = await payload.find({
     collection: 'customer-media',
-    where: { customer: { equals: customer.docs[0].id } },
+    where: { customer: { equals: user.id } },
     sort: '-createdAt',
     limit: 100,
     depth: 2,
@@ -33,17 +25,10 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const session = await auth.api.getSession({ headers: await headers() })
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
   const payload = await getPayload({ config })
-  const customerResult = await payload.find({
-    collection: 'customers',
-    where: { betterAuthId: { equals: session.user.id } },
-    limit: 1,
-  })
-  if (!customerResult.docs[0]) return NextResponse.json({ error: 'Customer not found' }, { status: 404 })
-  const customerId = customerResult.docs[0].id
+  const { user } = await payload.auth({ headers: await headers() })
+  if (!user || user.collection !== 'customers') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const customerId = user.id
 
   const formData = await req.formData()
   const file = formData.get('file') as File | null

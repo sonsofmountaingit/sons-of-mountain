@@ -1,36 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { auth } from '@/lib/auth'
 
-async function getCustomer(betterAuthId: string) {
+async function getCustomer(reqHeaders: Headers) {
   const payload = await getPayload({ config })
-  const { docs } = await payload.find({
-    collection: 'customers',
-    where: { betterAuthId: { equals: betterAuthId } },
-    limit: 1,
-  })
-  return { payload, customer: docs[0] ?? null }
+  const { user } = await payload.auth({ headers: reqHeaders })
+  if (!user || user.collection !== 'customers') return { payload, customer: null }
+  const customer = await payload.findByID({ collection: 'customers', id: user.id }).catch(() => null)
+  return { payload, customer }
 }
 
 export async function GET(req: NextRequest) {
-  const session = await auth.api.getSession({ headers: req.headers })
-  if (!session?.user?.id) return NextResponse.json({ wishlist: [] })
-
-  const { customer } = await getCustomer(session.user.id)
+  const { customer } = await getCustomer(req.headers)
   if (!customer) return NextResponse.json({ wishlist: [] })
 
   return NextResponse.json({ wishlist: (customer as { wishlist?: unknown[] }).wishlist ?? [] })
 }
 
 export async function POST(req: NextRequest) {
-  const session = await auth.api.getSession({ headers: req.headers })
-  if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
   const body = await req.json() as { itemType: 'trip' | 'program'; id: string }
   const { itemType, id } = body
 
-  const { payload, customer } = await getCustomer(session.user.id)
+  const { payload, customer } = await getCustomer(req.headers)
   if (!customer) return NextResponse.json({ error: 'Customer not found' }, { status: 404 })
 
   type WishlistItem = { itemType: string; trip?: string; program?: string }
@@ -52,13 +43,10 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  const session = await auth.api.getSession({ headers: req.headers })
-  if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
   const body = await req.json() as { itemType: 'trip' | 'program'; id: string }
   const { itemType, id } = body
 
-  const { payload, customer } = await getCustomer(session.user.id)
+  const { payload, customer } = await getCustomer(req.headers)
   if (!customer) return NextResponse.json({ error: 'Customer not found' }, { status: 404 })
 
   type WishlistItem = { itemType: string; trip?: string; program?: string }

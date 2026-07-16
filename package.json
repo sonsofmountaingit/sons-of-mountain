@@ -35,7 +35,6 @@
     "@puckeditor/core": "^0.21.2",
     "@stripe/react-stripe-js": "^6.4.0",
     "@stripe/stripe-js": "^9.6.0",
-    "better-auth": "^1.6.11",
     "canvas-confetti": "^1.9.4",
     "cross-env": "^10.1.0",
     "dotenv": "^17.4.2",

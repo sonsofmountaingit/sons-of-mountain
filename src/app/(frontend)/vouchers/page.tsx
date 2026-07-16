@@ -4,7 +4,6 @@ import { headers } from 'next/headers'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
-import { auth } from '@/lib/auth'
 import { VouchersPageClient } from './VouchersPageClient'
 import { VouchersEditButton } from '@/components/ui/VouchersEditButton'
 
@@ -45,17 +44,17 @@ const getVoucherOptions = unstable_cache(
 )
 
 async function VouchersContent() {
-  const [session, { destinations, trips, programs, programGroups, vouchersGlobal }] = await Promise.all([
-    auth.api.getSession({ headers: await headers() }),
+  const payload = await getPayload({ config })
+  const [{ user }, { destinations, trips, programs, programGroups, vouchersGlobal }] = await Promise.all([
+    payload.auth({ headers: await headers() }),
     getVoucherOptions(),
   ])
 
   let myVouchers: any[] = []
-  if (session) {
-    const payload = await getPayload({ config })
+  if (user?.collection === 'customers') {
     const result = await payload.find({
       collection: 'gift-vouchers',
-      where: { betterAuthUserId: { equals: session.user.id } },
+      where: { customer: { equals: user.id } },
       limit: 50,
       sort: '-createdAt',
     })

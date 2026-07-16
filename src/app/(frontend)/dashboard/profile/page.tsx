@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { auth } from '@/lib/auth'
+import { getPayload } from 'payload'
+import config from '@payload-config'
 import { ProfileClient } from './ProfileClient'
 
 export const metadata: Metadata = {
@@ -11,9 +12,10 @@ export const metadata: Metadata = {
 }
 
 async function ProfileContent() {
-  const session = await auth.api.getSession({ headers: await headers() })
-  if (!session) redirect('/login?redirect=/dashboard/profile')
-  return <ProfileClient name={session.user.name ?? ''} email={session.user.email} />
+  const payload = await getPayload({ config })
+  const { user } = await payload.auth({ headers: await headers() })
+  if (!user || user.collection !== 'users') redirect('/login?redirect=/dashboard/profile')
+  return <ProfileClient name={(user.name as string) ?? ''} email={user.email as string} />
 }
 
 export default function ProfilePage() {

@@ -1,4 +1,3 @@
-import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
@@ -17,17 +16,11 @@ export const metadata: Metadata = {
 }
 
 async function WishlistContent() {
-  const session = await auth.api.getSession({ headers: await headers() })
-  if (!session?.user) redirect('/auth/login?redirect=/account/wishlist')
-
   const payload = await getPayload({ config })
-  const customer = await payload.find({
-    collection: 'customers',
-    where: { betterAuthId: { equals: (session.user as any).id } },
-    limit: 1,
-    depth: 3,
-  })
-  const cust = customer.docs[0]
+  const { user } = await payload.auth({ headers: await headers() })
+  if (!user || user.collection !== 'customers') redirect('/auth/login?redirect=/account/wishlist')
+
+  const cust = await payload.findByID({ collection: 'customers', id: user.id, depth: 3 }).catch(() => null)
   const wishlist = (cust as any)?.wishlist ?? []
 
   return (

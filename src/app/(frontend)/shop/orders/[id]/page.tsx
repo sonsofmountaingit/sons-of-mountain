@@ -1,4 +1,3 @@
-import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
@@ -17,16 +16,9 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-async function getCachedOrderData(orderId: string, betterAuthUserId: string) {
+async function getCachedOrderData(orderId: string, customerId: string | number) {
   try {
     const payload = await getPayload({ config })
-    const customer = await payload.find({
-      collection: 'customers',
-      where: { betterAuthId: { equals: betterAuthUserId } },
-      limit: 1,
-    })
-    const cust = customer.docs[0]
-    if (!cust) return null
     const orderResult = await payload.find({
       collection: 'orders',
       where: { id: { equals: orderId } },
@@ -34,7 +26,7 @@ async function getCachedOrderData(orderId: string, betterAuthUserId: string) {
       depth: 2,
     })
     const order = orderResult.docs[0]
-    if (!order || order.customer !== cust.id) return null
+    if (!order || String(order.customer) !== String(customerId)) return null
     return order
   } catch {
     return null
@@ -42,11 +34,11 @@ async function getCachedOrderData(orderId: string, betterAuthUserId: string) {
 }
 
 async function OrderDetailContent({ id }: { id: string }) {
-  const session = await auth.api.getSession({ headers: await headers() })
-  if (!session?.user) redirect('/auth/login?redirect=/shop/orders')
+  const payload = await getPayload({ config })
+  const { user } = await payload.auth({ headers: await headers() })
+  if (!user || user.collection !== 'customers') redirect('/auth/login?redirect=/shop/orders')
 
-  const betterAuthUserId = (session.user as any).id
-  const order = await getCachedOrderData(id, betterAuthUserId)
+  const order = await getCachedOrderData(id, user.id)
 
   if (!order) {
     return (

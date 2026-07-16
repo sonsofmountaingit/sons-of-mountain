@@ -25,11 +25,6 @@ export const GiftVouchers: CollectionConfig = {
       admin: { readOnly: true, description: 'Авто-генериран код' },
     },
     {
-      name: 'betterAuthUserId',
-      type: 'text',
-      admin: { readOnly: true, description: 'Better Auth ID на купувача' },
-    },
-    {
       name: 'customer',
       type: 'relationship',
       relationTo: 'customers',

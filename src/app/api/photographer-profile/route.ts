@@ -1,36 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
-import { auth } from '@/lib/auth'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { revalidateTag } from 'next/cache'
 import { after } from 'next/server'
 
-async function getPayloadUser(betterAuthId: string) {
-  const payload = await getPayload({ config })
-  const { docs } = await payload.find({
-    collection: 'users',
-    where: { email: { exists: true } },
-    limit: 200,
-    depth: 1,
-  })
-  // Users collection uses email as auth identifier; match by email via session
-  return { payload, users: docs }
-}
-
 export async function GET(req: NextRequest) {
-  const session = await auth.api.getSession({ headers: await headers() })
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
   const payload = await getPayload({ config })
-  const { docs } = await payload.find({
-    collection: 'users',
-    where: { email: { equals: session.user.email } },
-    depth: 1,
-    limit: 1,
-  })
-  const user = docs[0] ?? null
-  if (!user) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+  const { user } = await payload.auth({ headers: await headers() })
+  if (!user || user.collection !== 'users') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   return NextResponse.json({
     id: user.id,
@@ -43,20 +21,12 @@ export async function GET(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
-  const session = await auth.api.getSession({ headers: await headers() })
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const payload = await getPayload({ config })
+  const { user } = await payload.auth({ headers: await headers() })
+  if (!user || user.collection !== 'users') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await req.json()
   const { name, username, bio, instagramHandle, profileImageId } = body
-
-  const payload = await getPayload({ config })
-  const { docs } = await payload.find({
-    collection: 'users',
-    where: { email: { equals: session.user.email } },
-    limit: 1,
-  })
-  const user = docs[0]
-  if (!user) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
   const updated = await payload.update({
     collection: 'users',

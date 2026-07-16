@@ -16,11 +16,6 @@ export const Subscriptions: CollectionConfig = {
       admin: { position: 'sidebar' },
     },
     {
-      name: 'betterAuthUserId',
-      type: 'text',
-      admin: { readOnly: true },
-    },
-    {
       name: 'stripeSubscriptionId',
       type: 'text',
       required: true,

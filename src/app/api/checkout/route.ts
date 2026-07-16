@@ -3,7 +3,6 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { CartItem } from '@/lib/cart-store'
 import { resolvePaymentPlan } from '@/lib/pricing/payment-plan'
-import { auth } from '@/lib/auth'
 
 type CheckoutType = 'registration' | 'order' | 'voucher' | 'cart' | 'deposit' | 'bundle'
 
@@ -50,15 +49,8 @@ export async function POST(req: NextRequest) {
     const base = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
     const payload = await getPayload({ config })
 
-    const authSession = await auth.api.getSession({ headers: req.headers }).catch(() => null)
-    const betterAuthUserId = authSession?.user.id ?? null
-
-    const customerResult = betterAuthUserId
-      ? await payload
-          .find({ collection: 'customers', where: { betterAuthId: { equals: betterAuthUserId } }, limit: 1, depth: 0 })
-          .catch(() => null)
-      : null
-    const linkedCustomerId = customerResult?.docs[0]?.id ?? null
+    const { user: authUser } = await payload.auth({ headers: req.headers }).catch(() => ({ user: null }))
+    const linkedCustomerId = authUser?.collection === 'customers' ? authUser.id : null
 
     const shopSettings = await payload.findGlobal({ slug: 'shop', depth: 0 }).catch(() => null)
     const bnplMin = (shopSettings as any)?.bnplMinOrderAmount ?? 100
@@ -121,7 +113,7 @@ export async function POST(req: NextRequest) {
       await payload.update({
         collection,
         id,
-        data: { stripeSessionId: session.id, betterAuthUserId: betterAuthUserId ?? undefined, customer: linkedCustomerId ?? undefined } as any,
+        data: { stripeSessionId: session.id, customer: linkedCustomerId ?? undefined } as any,
       }).catch(() => null)
       return NextResponse.json({ url: session.url })
     }
@@ -233,7 +225,6 @@ export async function POST(req: NextRequest) {
         firstName: body.firstName ?? '',
         lastName: body.lastName ?? '',
         phone: body.phone ?? '',
-        betterAuthUserId: betterAuthUserId ?? undefined,
         customer: linkedCustomerId ?? undefined,
         currency: currency.toUpperCase(),
         totalAmount: orderTotal ?? 0,

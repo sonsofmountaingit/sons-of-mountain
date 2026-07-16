@@ -2,24 +2,18 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
-import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await auth.api.getSession({ headers: await headers() })
-    if (!session?.user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const payload = await getPayload({ config })
+    const { user } = await payload.auth({ headers: await headers() })
+    if (!user || user.collection !== 'customers') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const { paymentMethodId } = await req.json()
     if (!paymentMethodId) return NextResponse.json({ error: 'paymentMethodId required' }, { status: 400 })
 
-    const payload = await getPayload({ config })
-    const custResult = await payload.find({
-      collection: 'customers',
-      where: { email: { equals: session.user.email } },
-      limit: 1,
-    })
-    const customer = custResult.docs[0] as any
+    const customer = await payload.findByID({ collection: 'customers', id: user.id }).catch(() => null) as any
     if (!customer?.stripeCustomerId) return NextResponse.json({ error: 'No Stripe customer' }, { status: 400 })
 
     const { stripe: _stripeImport } = await import('@/lib/stripe'); const stripe = _stripeImport!

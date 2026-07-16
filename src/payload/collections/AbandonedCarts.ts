@@ -16,8 +16,9 @@ export const AbandonedCarts: CollectionConfig = {
       admin: { readOnly: true },
     },
     {
-      name: 'betterAuthUserId',
-      type: 'text',
+      name: 'customer',
+      type: 'relationship',
+      relationTo: 'customers',
       admin: { readOnly: true },
     },
     {

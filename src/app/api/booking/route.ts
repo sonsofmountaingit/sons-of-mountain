@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { Resend } from 'resend'
-import { auth } from '@/lib/auth'
 import { resolvePaymentPlan } from '@/lib/pricing/payment-plan'
 
 export async function POST(req: NextRequest) {
@@ -24,7 +23,7 @@ export async function POST(req: NextRequest) {
     }
 
     const payload = await getPayload({ config })
-    const session = await auth.api.getSession({ headers: req.headers })
+    const { user } = await payload.auth({ headers: req.headers })
 
     let totalAmount = 0
     let currency = 'EUR'
@@ -49,22 +48,11 @@ export async function POST(req: NextRequest) {
       }))
     }
 
-    let customerId: string | undefined
-    let customerDocId: string | undefined
-    if (session?.user?.id) {
-      customerId = session.user.id
-      const existing = await payload.find({
-        collection: 'customers',
-        where: { betterAuthId: { equals: customerId } },
-        limit: 1,
-      })
-      customerDocId = existing.docs[0]?.id as string | undefined
-    }
+    const customerDocId = user?.collection === 'customers' ? (user.id as string) : undefined
 
     const registration = await payload.create({
       collection: 'registrations',
       data: {
-        ...(customerId ? { betterAuthUserId: customerId } : {}),
         ...(customerDocId ? { customer: customerDocId } : {}),
         ...(tripId ? { trip: tripId } : {}),
         ...(destinationId ? { destination: destinationId } : {}),

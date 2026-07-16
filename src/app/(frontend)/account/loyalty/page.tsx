@@ -1,4 +1,3 @@
-import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
@@ -28,26 +27,21 @@ const TIER_THRESHOLDS = {
   platinum: 5000,
 }
 
-async function getLoyaltyData(betterAuthUserId: string) {
+async function getLoyaltyData(customerId: string | number) {
   try {
     const payload = await getPayload({ config })
-    const customer = await payload.find({
-      collection: 'customers',
-      where: { betterAuthId: { equals: betterAuthUserId } },
-      limit: 1,
-    })
-    return customer.docs[0] ?? null
+    return await payload.findByID({ collection: 'customers', id: customerId })
   } catch {
     return null
   }
 }
 
 async function LoyaltyContent() {
-  const session = await auth.api.getSession({ headers: await headers() })
-  if (!session?.user) redirect('/auth/login?redirect=/account/loyalty')
+  const payload = await getPayload({ config })
+  const { user } = await payload.auth({ headers: await headers() })
+  if (!user || user.collection !== 'customers') redirect('/auth/login?redirect=/account/loyalty')
 
-  const betterAuthUserId = (session.user as any).id
-  const cust = await getLoyaltyData(betterAuthUserId)
+  const cust = await getLoyaltyData(user.id)
   const loyaltyPoints = cust?.loyaltyPoints ?? 0
   const loyaltyTier = (cust?.loyaltyTier ?? 'bronze') as keyof typeof TIER_CONFIG
 
