@@ -70,7 +70,7 @@ const getData = unstable_cache(async () => {
           title: str(doc.name),
           subtitle: str(doc.introText),
           image: imageUrl(doc.heroImage),
-          location: str(doc.name),
+          location: str(doc.location) || str(doc.name),
           month: typeof doc.month === 'string' ? doc.month : null,
           durationDays: null,
           price: numOrNull(doc.price),

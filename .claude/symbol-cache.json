@@ -4698,7 +4698,7 @@
       "next/cache",
       "next/server"
     ],
-    "lines": 57,
+    "lines": 59,
     "group": "payload"
   },
   "src/payload/collections/Trips.ts": {
@@ -6311,7 +6311,7 @@
       "@/components/blocks/featured-travels/FeaturedTravelsBlock",
       "./FeaturedTravelsEditButton"
     ],
-    "lines": 139,
+    "lines": 141,
     "group": "ui"
   },
   "src/components/ui/GalleryFilterBar.tsx": {
