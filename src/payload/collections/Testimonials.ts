@@ -25,6 +25,11 @@ export const Testimonials: CollectionConfig = {
       label: 'Отзив',
     },
     {
+      name: 'role',
+      type: 'text',
+      label: 'Роля / длъжност',
+    },
+    {
       name: 'rating',
       type: 'number',
       required: true,

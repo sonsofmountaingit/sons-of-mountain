@@ -9,6 +9,7 @@ import * as migration_20260714d_guides_bio_jsonb from './20260714d_guides_bio_js
 import * as migration_20260716_customers_native_auth from './20260716_customers_native_auth'
 import * as migration_20260716b_preferences_rels_customers from './20260716b_preferences_rels_customers'
 import * as migration_20260716c_transport_map_link from './20260716c_transport_map_link'
+import * as migration_20260716d_testimonials_role from './20260716d_testimonials_role'
 
 export const migrations = [
   {
@@ -65,5 +66,10 @@ export const migrations = [
     up: migration_20260716c_transport_map_link.up,
     down: migration_20260716c_transport_map_link.down,
     name: '20260716c_transport_map_link',
+  },
+  {
+    up: migration_20260716d_testimonials_role.up,
+    down: migration_20260716d_testimonials_role.down,
+    name: '20260716d_testimonials_role',
   },
 ]

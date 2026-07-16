@@ -1,4 +1,16 @@
 {
+  "src/migrations/20260716c_transport_map_link.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 25,
+    "group": "other"
+  },
   "src/migrations/20260714_seo_meta_keywords_and_site_meta.ts": {
     "exports": [
       "up",
@@ -122,9 +134,10 @@
       "./20260714c_seo_meta_keywords_versions_tables",
       "./20260714d_guides_bio_jsonb",
       "./20260716_customers_native_auth",
-      "./20260716b_preferences_rels_customers"
+      "./20260716b_preferences_rels_customers",
+      "./20260716c_transport_map_link"
     ],
-    "lines": 64,
+    "lines": 70,
     "group": "other"
   },
   "src/migrations/20260714b_seo_meta_keywords_all_collections.ts": {
@@ -2487,7 +2500,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/DestinationBookingController"
     ],
-    "lines": 360,
+    "lines": 361,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -3344,7 +3357,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 304,
+    "lines": 305,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/page.tsx": {
@@ -3742,7 +3755,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 340,
+    "lines": 341,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {
@@ -4715,7 +4728,7 @@
       "@/lib/send-registration-forms",
       "./shared/paymentPlanFields"
     ],
-    "lines": 547,
+    "lines": 552,
     "group": "collections"
   },
   "src/payload/collections/EmailTemplates.ts": {
@@ -4843,7 +4856,7 @@
       "@/lib/stripe-product-sync",
       "./shared/paymentPlanFields"
     ],
-    "lines": 529,
+    "lines": 534,
     "group": "collections"
   },
   "src/payload/collections/Pages.ts": {
@@ -5148,7 +5161,7 @@
       "@/lib/send-registration-forms",
       "./shared/paymentPlanFields"
     ],
-    "lines": 548,
+    "lines": 553,
     "group": "collections"
   },
   "src/payload/collections/Waitlist.ts": {
@@ -6563,7 +6576,7 @@
       "next/image",
       "@payloadcms/richtext-lexical/react"
     ],
-    "lines": 100,
+    "lines": 111,
     "group": "ui"
   },
   "src/components/ui/destination-page/EquipmentSection.tsx": {

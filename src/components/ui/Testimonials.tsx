@@ -8,6 +8,7 @@ interface TestimonialDoc {
   id: string
   authorName: string
   quote: string
+  role?: string
   rating: number
   row: 'top' | 'bottom'
   avatar?: { url?: string; alt?: string } | null

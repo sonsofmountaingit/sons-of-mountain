@@ -10,6 +10,7 @@ interface Testimonial {
   id: string
   authorName: string
   quote: string
+  role?: string
   rating: number
   row: 'top' | 'bottom'
   avatar?: { url?: string; alt?: string } | null
@@ -65,12 +66,6 @@ function Avatar({ t, size = 52 }: { t: Testimonial; size?: number }) {
   )
 }
 
-const ROLES = [
-  'Mountain Guide', 'Adventure Traveler', 'Photography Enthusiast',
-  'Trekking Expert', 'Nature Explorer', 'Wilderness Guide',
-  'Travel Blogger', 'Outdoor Photographer', 'Summit Climber', 'Trail Runner',
-]
-
 function SignatureName({ name }: { name: string }) {
   return (
     <>
@@ -91,8 +86,6 @@ function SignatureName({ name }: { name: string }) {
 }
 
 function Modal({ t, onClose }: { t: Testimonial; onClose: () => void }) {
-  const role = ROLES[t.authorName.charCodeAt(0) % ROLES.length]
-
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
     document.addEventListener('keydown', onKey)
@@ -180,7 +173,7 @@ function Modal({ t, onClose }: { t: Testimonial; onClose: () => void }) {
             display: 'block',
             lineHeight: 1.2,
           }}>{t.authorName}</span>
-          <span style={{ fontSize: '0.8rem', color: '#888', marginTop: '0.25rem', display: 'block' }}>{role}</span>
+          {t.role && <span style={{ fontSize: '0.8rem', color: '#888', marginTop: '0.25rem', display: 'block' }}>{t.role}</span>}
         </div>
       </div>
     </div>
@@ -188,8 +181,6 @@ function Modal({ t, onClose }: { t: Testimonial; onClose: () => void }) {
 }
 
 function Card({ t, onReadMore }: { t: Testimonial; onReadMore: (t: Testimonial) => void }) {
-  const role = ROLES[t.authorName.charCodeAt(0) % ROLES.length]
-
   return (
     <div className="test-card">
       <style>{`
@@ -290,7 +281,7 @@ function Card({ t, onReadMore }: { t: Testimonial; onReadMore: (t: Testimonial) 
 
       <div style={{ marginTop: 'auto', paddingTop: '1.25rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
         <SignatureName name={t.authorName} />
-        <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', marginTop: '0.2rem', display: 'block' }}>{role}</span>
+        {t.role && <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', marginTop: '0.2rem', display: 'block' }}>{t.role}</span>}
       </div>
     </div>
   )

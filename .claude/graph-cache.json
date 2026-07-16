@@ -1,6 +1,12 @@
 {
   "nodes": [
     {
+      "id": "src/migrations/20260716c_transport_map_link.ts",
+      "label": "migrations/20260716c_transport_map_link.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260714_seo_meta_keywords_and_site_meta.ts",
       "label": "migrations/20260714_seo_meta_keywords_and_site_meta.ts",
       "group": "other",
@@ -3527,6 +3533,10 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260716b_preferences_rels_customers.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260716c_transport_map_link.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -7269,6 +7279,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-16T12:41:23.050Z",
-  "fileCount": 581
+  "builtAt": "2026-07-16T12:52:14.934Z",
+  "fileCount": 582
 }
