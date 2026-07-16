@@ -2487,7 +2487,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/DestinationBookingController"
     ],
-    "lines": 359,
+    "lines": 360,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -3344,7 +3344,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 303,
+    "lines": 304,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/page.tsx": {
@@ -3742,7 +3742,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 339,
+    "lines": 340,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {
@@ -4340,7 +4340,7 @@
       "next/cache",
       "next/server"
     ],
-    "lines": 144,
+    "lines": 149,
     "group": "globals"
   },
   "src/payload/globals/HomePage.ts": {
@@ -7870,7 +7870,7 @@
       "payload",
       "@payload-config"
     ],
-    "lines": 106,
+    "lines": 112,
     "group": "lib"
   },
   "src/lib/media-url.ts": {

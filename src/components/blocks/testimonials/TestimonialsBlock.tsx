@@ -127,6 +127,8 @@ function Modal({ t, onClose }: { t: Testimonial; onClose: () => void }) {
           padding: '2.5rem',
           maxWidth: '500px',
           width: '100%',
+          maxHeight: '85vh',
+          overflowY: 'auto',
           position: 'relative',
           boxShadow: '0 24px 80px rgba(0,0,0,0.12)',
         }}
@@ -134,9 +136,10 @@ function Modal({ t, onClose }: { t: Testimonial; onClose: () => void }) {
         <button
           onClick={onClose}
           style={{
-            position: 'absolute',
+            position: 'sticky',
             top: '1.25rem',
-            right: '1.25rem',
+            marginLeft: 'auto',
+            marginBottom: '-2rem',
             background: '#f4f4f4',
             border: 'none',
             borderRadius: '50%',
@@ -282,7 +285,7 @@ function Card({ t, onReadMore }: { t: Testimonial; onReadMore: (t: Testimonial) 
       </p>
 
       <button className="test-read-more" onClick={() => onReadMore(t)}>
-        Read more →
+        Повече →
       </button>
 
       <div style={{ marginTop: 'auto', paddingTop: '1.25rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
