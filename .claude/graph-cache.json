@@ -7,6 +7,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260716_customers_native_auth.ts",
+      "label": "migrations/20260716_customers_native_auth.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260624_add_page_columns.ts",
       "label": "migrations/20260624_add_page_columns.ts",
       "group": "other",
@@ -3501,6 +3507,10 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260714d_guides_bio_jsonb.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260716_customers_native_auth.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -7243,6 +7253,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-16T10:23:48.641Z",
-  "fileCount": 578
+  "builtAt": "2026-07-16T11:33:38.442Z",
+  "fileCount": 579
 }

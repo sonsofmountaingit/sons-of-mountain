@@ -7,6 +7,7 @@ import * as migration_20260714b_seo_meta_keywords_all_collections from './202607
 import * as migration_20260714c_seo_meta_keywords_versions_tables from './20260714c_seo_meta_keywords_versions_tables'
 import * as migration_20260714d_guides_bio_jsonb from './20260714d_guides_bio_jsonb'
 import * as migration_20260716_customers_native_auth from './20260716_customers_native_auth'
+import * as migration_20260716b_preferences_rels_customers from './20260716b_preferences_rels_customers'
 
 export const migrations = [
   {
@@ -53,5 +54,10 @@ export const migrations = [
     up: migration_20260716_customers_native_auth.up,
     down: migration_20260716_customers_native_auth.down,
     name: '20260716_customers_native_auth',
+  },
+  {
+    up: migration_20260716b_preferences_rels_customers.up,
+    down: migration_20260716b_preferences_rels_customers.down,
+    name: '20260716b_preferences_rels_customers',
   },
 ]

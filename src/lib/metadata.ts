@@ -74,7 +74,9 @@ export function buildMetadata({
   keywords?: string
 }): Metadata {
   const url = slug ? `${BASE_URL}/${slug}` : BASE_URL
-  const ogImage = image ?? `${BASE_URL}/og?title=${encodeURIComponent(title)}`
+  const ogParams = new URLSearchParams({ title })
+  if (image) ogParams.set('image', image)
+  const ogImage = `${BASE_URL}/og?${ogParams.toString()}`
   const keywordsList = keywords
     ? keywords.split(',').map((k) => k.trim()).filter(Boolean)
     : undefined

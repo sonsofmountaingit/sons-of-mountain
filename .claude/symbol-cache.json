@@ -11,6 +11,18 @@
     "lines": 54,
     "group": "other"
   },
+  "src/migrations/20260716_customers_native_auth.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 44,
+    "group": "other"
+  },
   "src/migrations/20260624_add_page_columns.ts": {
     "exports": [
       "up",
@@ -96,9 +108,10 @@
       "./20260714_seo_meta_keywords_and_site_meta",
       "./20260714b_seo_meta_keywords_all_collections",
       "./20260714c_seo_meta_keywords_versions_tables",
-      "./20260714d_guides_bio_jsonb"
+      "./20260714d_guides_bio_jsonb",
+      "./20260716_customers_native_auth"
     ],
-    "lines": 52,
+    "lines": 58,
     "group": "other"
   },
   "src/migrations/20260714b_seo_meta_keywords_all_collections.ts": {

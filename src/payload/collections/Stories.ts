@@ -52,8 +52,8 @@ export const Stories: CollectionConfig = {
       type: 'group',
       fields: [
         { name: 'title', type: 'text' },
-        { name: 'description', type: 'textarea' },
-        { name: 'image', type: 'upload', relationTo: 'media' },
+        { name: 'description', type: 'textarea', label: 'Мета описание на страницата', admin: { description: 'Мета описание на страниците. OG изображението се брандира автоматично (снимка + бяло лого).' } },
+        { name: 'image', type: 'upload', relationTo: 'media', admin: { description: 'Ако е зададена, се използва за OG изображението с автоматично добавено бяло лого отгоре.' } },
         { name: 'keywords', type: 'text', admin: { description: 'Comma-separated keywords' } },
       ],
     },
