@@ -270,6 +270,7 @@ async function TripContent({ params }: Props) {
         variant="transport"
         transportTitle={t.transportTitle as string | null}
         transportDescription={t.transportDescription as Record<string, unknown> | null}
+        transportMapLink={t.transportMapLink}
         transportImage={mediaUrl(transportImage?.url)}
         transportImageAlt={transportImage?.alt}
       />

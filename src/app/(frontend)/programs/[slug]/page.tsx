@@ -224,6 +224,7 @@ async function ProgramContent({ params }: Props) {
         travelImageAlt={travelImage?.alt}
         transportTitle={p.transportTitle as string | null}
         transportDescription={p.transportDescription as Record<string, unknown> | null}
+        transportMapLink={p.transportMapLink}
         transportImage={mediaUrl(transportImage?.url)}
         transportImageAlt={transportImage?.alt}
       />

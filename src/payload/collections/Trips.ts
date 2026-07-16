@@ -332,6 +332,11 @@ export const Trips: CollectionConfig = {
       type: 'richText',
     },
     {
+      name: 'transportMapLink',
+      type: 'text',
+      admin: { description: 'Google Maps link (Придвижването block) — shows distance/time on click' },
+    },
+    {
       name: 'transportImage',
       type: 'upload',
       relationTo: 'media',

@@ -9,6 +9,7 @@ interface Props {
   travelImageAlt?: string
   transportTitle?: string | null
   transportDescription?: Record<string, unknown> | null
+  transportMapLink?: string | null
   transportImage?: string | null
   transportImageAlt?: string
 }
@@ -25,10 +26,10 @@ function hasRichText(value?: Record<string, unknown> | null) {
 export function TravelTransportSection({
   variant = 'both',
   travelTitle, travelDescription, travelImage, travelImageAlt,
-  transportTitle, transportDescription, transportImage, transportImageAlt,
+  transportTitle, transportDescription, transportMapLink, transportImage, transportImageAlt,
 }: Props) {
   const hasTravel = variant !== 'transport' && Boolean(travelTitle || hasRichText(travelDescription) || travelImage)
-  const hasTransport = variant !== 'travel' && Boolean(transportTitle || hasRichText(transportDescription) || transportImage)
+  const hasTransport = variant !== 'travel' && Boolean(transportTitle || hasRichText(transportDescription) || transportMapLink || transportImage)
   if (!hasTravel && !hasTransport) return null
 
   return (
@@ -89,6 +90,16 @@ export function TravelTransportSection({
                 <div className="prose text-black/70 max-w-none">
                   <RichText data={transportDescription as unknown as Parameters<typeof RichText>[0]["data"]} />
                 </div>
+              )}
+              {transportMapLink && (
+                <a
+                  href={transportMapLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-5 inline-flex items-center gap-2 rounded-md bg-black px-5 py-3 text-sm font-semibold text-white hover:bg-black/80 transition-colors"
+                >
+                  Вижте на Google Maps
+                </a>
               )}
             </div>
           </div>
