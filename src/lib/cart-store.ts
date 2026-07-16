@@ -81,6 +81,14 @@ interface CartState {
   itemCount: () => number
 }
 
+import { useEffect, useState } from 'react'
+
+export function useCartHydrated() {
+  const [hydrated, setHydrated] = useState(false)
+  useEffect(() => setHydrated(true), [])
+  return hydrated
+}
+
 export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({

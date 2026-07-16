@@ -8,7 +8,7 @@ import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'motion/
 import { ProgramsMegaMenu } from './ProgramsMegaMenu'
 import { useSession, signOut } from '@/lib/auth-client'
 import { CartSheet } from '@/components/shop/CartSheet'
-import { useCartStore } from '@/lib/cart-store'
+import { useCartStore, useCartHydrated } from '@/lib/cart-store'
 
 interface NavbarClientProps {
   navLinksLeft: { label: string; href: string }[]
@@ -50,7 +50,9 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
   const [logoHovered, setLogoHovered] = useState(false)
   const [navHeight, setNavHeight] = useState(80)
   const headerRef = useRef<HTMLElement>(null)
-  const itemCount = useCartStore((s) => s.itemCount())
+  const cartHydrated = useCartHydrated()
+  const rawItemCount = useCartStore((s) => s.itemCount())
+  const itemCount = cartHydrated ? rawItemCount : 0
   const pathname = usePathname()
   const LIGHT_PAGES = ['/calendar']
   const isLightPage = LIGHT_PAGES.some((p) => pathname === p || pathname.startsWith(p + '/'))

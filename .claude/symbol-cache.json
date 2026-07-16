@@ -921,7 +921,6 @@
       "next/server",
       "payload",
       "@payload-config",
-      "@/lib/auth",
       "next/headers"
     ],
     "lines": 77,
@@ -963,10 +962,9 @@
       "next/server",
       "payload",
       "@payload-config",
-      "@/lib/auth",
       "next/headers"
     ],
-    "lines": 57,
+    "lines": 47,
     "group": "api"
   },
   "src/app/api/contact/route.ts": {
@@ -1036,16 +1034,6 @@
     "lines": 73,
     "group": "api"
   },
-  "src/app/api/auth/[...all]/route.ts": {
-    "exports": [],
-    "types": [],
-    "imports": [
-      "@/lib/auth",
-      "better-auth/next-js"
-    ],
-    "lines": 5,
-    "group": "api"
-  },
   "src/app/api/booking/route.ts": {
     "exports": [
       "POST"
@@ -1056,10 +1044,9 @@
       "payload",
       "@payload-config",
       "resend",
-      "@/lib/auth",
       "@/lib/pricing/payment-plan"
     ],
-    "lines": 171,
+    "lines": 159,
     "group": "api"
   },
   "src/app/api/gallery/favorites/count/route.ts": {
@@ -1125,10 +1112,9 @@
     "imports": [
       "next/server",
       "payload",
-      "@payload-config",
-      "@/lib/auth"
+      "@payload-config"
     ],
-    "lines": 27,
+    "lines": 22,
     "group": "api"
   },
   "src/app/api/ratings/submit/route.ts": {
@@ -1140,10 +1126,9 @@
       "next/server",
       "payload",
       "@payload-config",
-      "@/lib/auth",
       "next/headers"
     ],
-    "lines": 85,
+    "lines": 77,
     "group": "api"
   },
   "src/app/api/footer-data/route.ts": {
@@ -1220,10 +1205,9 @@
       "payload",
       "@payload-config",
       "@/lib/cart-store",
-      "@/lib/pricing/payment-plan",
-      "@/lib/auth"
+      "@/lib/pricing/payment-plan"
     ],
-    "lines": 396,
+    "lines": 387,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {
@@ -1273,13 +1257,12 @@
     "imports": [
       "next/server",
       "next/headers",
-      "@/lib/auth",
       "payload",
       "@payload-config",
       "next/cache",
       "next/server"
     ],
-    "lines": 78,
+    "lines": 71,
     "group": "api"
   },
   "src/app/api/dashboard/gallery-collections/route.ts": {
@@ -1293,13 +1276,12 @@
     "imports": [
       "next/server",
       "next/headers",
-      "@/lib/auth",
       "payload",
       "@payload-config",
       "next/cache",
       "next/server"
     ],
-    "lines": 138,
+    "lines": 121,
     "group": "api"
   },
   "src/app/api/subscribe/route.ts": {
@@ -1413,10 +1395,9 @@
     "imports": [
       "next/server",
       "payload",
-      "@payload-config",
-      "@/lib/auth"
+      "@payload-config"
     ],
-    "lines": 114,
+    "lines": 93,
     "group": "api"
   },
   "src/app/api/voucher/mine/route.ts": {
@@ -1427,10 +1408,9 @@
     "imports": [
       "next/server",
       "payload",
-      "@payload-config",
-      "@/lib/auth"
+      "@payload-config"
     ],
-    "lines": 20,
+    "lines": 19,
     "group": "api"
   },
   "src/app/api/cart/validate/route.ts": {
@@ -1471,13 +1451,12 @@
     "imports": [
       "next/server",
       "next/headers",
-      "@/lib/auth",
       "payload",
       "@payload-config",
       "next/cache",
       "next/server"
     ],
-    "lines": 77,
+    "lines": 47,
     "group": "api"
   },
   "src/app/api/megamenu/route.ts": {
@@ -2014,10 +1993,9 @@
       "next/server",
       "payload",
       "@payload-config",
-      "@/lib/auth",
       "next/headers"
     ],
-    "lines": 42,
+    "lines": 39,
     "group": "api"
   },
   "src/app/api/wishlist/route.ts": {
@@ -2030,10 +2008,9 @@
     "imports": [
       "next/server",
       "payload",
-      "@payload-config",
-      "@/lib/auth"
+      "@payload-config"
     ],
-    "lines": 79,
+    "lines": 67,
     "group": "api"
   },
   "src/app/api/customer-media/route.ts": {
@@ -2045,11 +2022,10 @@
     "imports": [
       "next/server",
       "next/headers",
-      "@/lib/auth",
       "payload",
       "@payload-config"
     ],
-    "lines": 103,
+    "lines": 88,
     "group": "api"
   },
   "src/app/api/registration-form/[token]/submit/route.ts": {
@@ -2087,11 +2063,9 @@
     "imports": [
       "next/server",
       "payload",
-      "@payload-config",
-      "@/lib/auth",
-      "next/headers"
+      "@payload-config"
     ],
-    "lines": 112,
+    "lines": 91,
     "group": "api"
   },
   "src/app/api/stripe/payment-links/route.ts": {
@@ -2105,7 +2079,6 @@
       "next/server",
       "payload",
       "@payload-config",
-      "@/lib/auth",
       "next/headers"
     ],
     "lines": 94,
@@ -2120,10 +2093,9 @@
       "next/server",
       "payload",
       "@payload-config",
-      "@/lib/auth",
       "next/headers"
     ],
-    "lines": 71,
+    "lines": 69,
     "group": "api"
   },
   "src/app/api/stripe/subscriptions/pause/route.ts": {
@@ -2135,10 +2107,9 @@
       "next/server",
       "payload",
       "@payload-config",
-      "@/lib/auth",
       "next/headers"
     ],
-    "lines": 40,
+    "lines": 39,
     "group": "api"
   },
   "src/app/api/stripe/payment-intent/route.ts": {
@@ -2150,11 +2121,10 @@
       "next/server",
       "payload",
       "@payload-config",
-      "@/lib/auth",
       "next/headers",
       "@/lib/cart-store"
     ],
-    "lines": 49,
+    "lines": 43,
     "group": "api"
   },
   "src/app/api/stripe/payment-methods/route.ts": {
@@ -2167,10 +2137,9 @@
       "next/server",
       "payload",
       "@payload-config",
-      "@/lib/auth",
       "next/headers"
     ],
-    "lines": 63,
+    "lines": 60,
     "group": "api"
   },
   "src/app/api/stripe/payment-methods/set-default/route.ts": {
@@ -2182,10 +2151,9 @@
       "next/server",
       "payload",
       "@payload-config",
-      "@/lib/auth",
       "next/headers"
     ],
-    "lines": 40,
+    "lines": 34,
     "group": "api"
   },
   "src/app/api/stripe/spend-history/route.ts": {
@@ -2197,10 +2165,9 @@
       "next/server",
       "payload",
       "@payload-config",
-      "@/lib/auth",
       "next/headers"
     ],
-    "lines": 55,
+    "lines": 49,
     "group": "api"
   },
   "src/app/api/stripe/currency/route.ts": {
@@ -2223,10 +2190,9 @@
       "next/server",
       "payload",
       "@payload-config",
-      "@/lib/auth",
       "next/headers"
     ],
-    "lines": 58,
+    "lines": 54,
     "group": "api"
   },
   "src/app/api/stripe/billing-portal/route.ts": {
@@ -2238,10 +2204,9 @@
       "next/server",
       "payload",
       "@payload-config",
-      "@/lib/auth",
       "next/headers"
     ],
-    "lines": 36,
+    "lines": 30,
     "group": "api"
   },
   "src/app/api/media/file/[filename]/route.ts": {
@@ -2285,11 +2250,10 @@
     "imports": [
       "next/server",
       "next/headers",
-      "@/lib/auth",
       "payload",
       "@payload-config"
     ],
-    "lines": 91,
+    "lines": 76,
     "group": "api"
   },
   "src/app/api/featured-travels-data/route.ts": {
@@ -2781,7 +2745,6 @@
     ],
     "types": [],
     "imports": [
-      "@/lib/auth",
       "next/headers",
       "next/navigation",
       "payload",
@@ -2792,7 +2755,7 @@
       "react",
       "@/lib/currency"
     ],
-    "lines": 194,
+    "lines": 186,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/orders/page.tsx": {
@@ -2803,7 +2766,6 @@
     ],
     "types": [],
     "imports": [
-      "@/lib/auth",
       "next/headers",
       "next/navigation",
       "payload",
@@ -2814,7 +2776,7 @@
       "@/components/shop/OrderStatusBadge",
       "@/lib/currency"
     ],
-    "lines": 108,
+    "lines": 94,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/page.tsx": {
@@ -3025,13 +2987,12 @@
       "react",
       "next/headers",
       "next/navigation",
-      "@/lib/auth",
       "payload",
       "@payload-config",
       "./RatingsClient",
       "../NoRegistrationGate"
     ],
-    "lines": 76,
+    "lines": 68,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/profile/page.tsx": {
@@ -3045,10 +3006,11 @@
       "react",
       "next/headers",
       "next/navigation",
-      "@/lib/auth",
+      "payload",
+      "@payload-config",
       "./ProfileClient"
     ],
-    "lines": 26,
+    "lines": 28,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/profile/ProfileClient.tsx": {
@@ -3064,7 +3026,7 @@
       "@/lib/auth-client",
       "@/lib/media-url"
     ],
-    "lines": 207,
+    "lines": 200,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/layout.tsx": {
@@ -3076,10 +3038,11 @@
       "next/headers",
       "next/navigation",
       "react",
-      "@/lib/auth",
+      "payload",
+      "@payload-config",
       "./DashboardNav"
     ],
-    "lines": 26,
+    "lines": 28,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/vouchers/VouchersClient.tsx": {
@@ -3108,10 +3071,9 @@
       "next/navigation",
       "payload",
       "@payload-config",
-      "@/lib/auth",
       "./VouchersClient"
     ],
-    "lines": 40,
+    "lines": 39,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/orders/OrdersClient.tsx": {
@@ -3141,10 +3103,9 @@
       "next/navigation",
       "payload",
       "@payload-config",
-      "@/lib/auth",
       "./OrdersClient"
     ],
-    "lines": 40,
+    "lines": 39,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/DashboardClient.tsx": {
@@ -3173,10 +3134,9 @@
       "next/headers",
       "payload",
       "@payload-config",
-      "@/lib/auth",
       "./DashboardClient"
     ],
-    "lines": 62,
+    "lines": 53,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/DashboardNav.tsx": {
@@ -3220,10 +3180,9 @@
       "next/navigation",
       "payload",
       "@payload-config",
-      "@/lib/auth",
       "./RegistrationsClient"
     ],
-    "lines": 40,
+    "lines": 39,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/wishlist/WishlistClient.tsx": {
@@ -3248,10 +3207,11 @@
       "next/headers",
       "next/navigation",
       "react",
-      "@/lib/auth",
+      "payload",
+      "@payload-config",
       "./WishlistClient"
     ],
-    "lines": 35,
+    "lines": 37,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/media/page.tsx": {
@@ -3266,13 +3226,12 @@
       "react",
       "next/headers",
       "next/navigation",
-      "@/lib/auth",
       "payload",
       "@payload-config",
       "./MediaClient",
       "../NoRegistrationGate"
     ],
-    "lines": 76,
+    "lines": 68,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/media/MediaClient.tsx": {
@@ -3503,11 +3462,10 @@
       "payload",
       "@payload-config",
       "next/cache",
-      "@/lib/auth",
       "./VouchersPageClient",
       "@/components/ui/VouchersEditButton"
     ],
-    "lines": 87,
+    "lines": 86,
     "group": "frontend"
   },
   "src/app/(frontend)/reset-password/ResetClient.tsx": {
@@ -3608,7 +3566,6 @@
     ],
     "types": [],
     "imports": [
-      "@/lib/auth",
       "next/headers",
       "next/navigation",
       "payload",
@@ -3616,7 +3573,7 @@
       "next",
       "react"
     ],
-    "lines": 212,
+    "lines": 206,
     "group": "frontend"
   },
   "src/app/(frontend)/account/wishlist/page.tsx": {
@@ -3627,7 +3584,6 @@
     ],
     "types": [],
     "imports": [
-      "@/lib/auth",
       "next/headers",
       "next/navigation",
       "payload",
@@ -3637,7 +3593,7 @@
       "react",
       "@/lib/currency"
     ],
-    "lines": 72,
+    "lines": 65,
     "group": "frontend"
   },
   "src/app/(frontend)/empire/page.tsx": {
@@ -4602,7 +4558,7 @@
       "./globals/HomePage",
       "./globals/Vouchers"
     ],
-    "lines": 281,
+    "lines": 279,
     "group": "payload"
   },
   "src/payload/seeds/hero.ts": {
@@ -4748,9 +4704,10 @@
     ],
     "types": [],
     "imports": [
+      "payload",
       "payload"
     ],
-    "lines": 220,
+    "lines": 219,
     "group": "collections"
   },
   "src/payload/collections/CarpoolRides.ts": {
@@ -4785,7 +4742,7 @@
       "crypto",
       "../hooks/syncTripSpots"
     ],
-    "lines": 317,
+    "lines": 312,
     "group": "collections"
   },
   "src/payload/collections/ProgramInquiries.ts": {
@@ -4807,7 +4764,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 72,
+    "lines": 73,
     "group": "collections"
   },
   "src/payload/collections/FormSubmissions.ts": {
@@ -4829,7 +4786,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 52,
+    "lines": 53,
     "group": "collections"
   },
   "src/payload/collections/Programs.ts": {
@@ -4918,7 +4875,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 589,
+    "lines": 584,
     "group": "collections"
   },
   "src/payload/collections/Stories.ts": {
@@ -4941,7 +4898,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 98,
+    "lines": 93,
     "group": "collections"
   },
   "src/payload/collections/Payouts.ts": {
@@ -5036,7 +4993,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 162,
+    "lines": 157,
     "group": "collections"
   },
   "src/payload/collections/CustomerRatings.ts": {
@@ -5160,7 +5117,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 110,
+    "lines": 111,
     "group": "collections"
   },
   "src/components/blocks/FAQBlockRenderer.tsx": {
@@ -7708,6 +7665,18 @@
     "lines": 36,
     "group": "admin"
   },
+  "src/proxy.ts": {
+    "exports": [
+      "proxy",
+      "config"
+    ],
+    "types": [],
+    "imports": [
+      "next/server"
+    ],
+    "lines": 31,
+    "group": "other"
+  },
   "src/lib/stripe.ts": {
     "exports": [
       "stripe"
@@ -7905,18 +7874,6 @@
     "lines": 77,
     "group": "lib"
   },
-  "src/lib/auth.ts": {
-    "exports": [
-      "auth"
-    ],
-    "types": [],
-    "imports": [
-      "better-auth",
-      "pg"
-    ],
-    "lines": 120,
-    "group": "lib"
-  },
   "src/lib/animations.ts": {
     "exports": [
       "fadeInUp",
@@ -7935,14 +7892,18 @@
   },
   "src/lib/auth-client.ts": {
     "exports": [
-      "authClient",
-      "forgotPassword"
+      "useSession",
+      "signIn",
+      "signUp",
+      "signOut",
+      "forgotPassword",
+      "resetPassword"
     ],
     "types": [],
     "imports": [
-      "better-auth/react"
+      "react"
     ],
-    "lines": 12,
+    "lines": 125,
     "group": "lib"
   },
   "src/lib/cron/balance-charge.ts": {

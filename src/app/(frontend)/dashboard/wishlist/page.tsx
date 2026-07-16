@@ -5,6 +5,8 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { WishlistClient } from './WishlistClient'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata = { title: 'Любими' }
 
 async function WishlistContent() {

@@ -1,6 +1,6 @@
 'use client'
 
-import { useCartStore } from '@/lib/cart-store'
+import { useCartStore, useCartHydrated } from '@/lib/cart-store'
 import { CartItemRow } from './CartItem'
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
@@ -12,7 +12,9 @@ interface CartSheetProps {
 }
 
 export function CartSheet({ open, onClose }: CartSheetProps) {
-  const { items, subtotal, total, itemCount, clear } = useCartStore()
+  const cartHydrated = useCartHydrated()
+  const { items: rawItems, subtotal, total, itemCount, clear } = useCartStore()
+  const items = cartHydrated ? rawItems : []
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -34,7 +36,7 @@ export function CartSheet({ open, onClose }: CartSheetProps) {
         aria-label="Shopping cart"
       >
         <div className="flex items-center justify-between border-b px-6 py-4">
-          <h2 className="text-lg font-semibold">Cart ({itemCount()})</h2>
+          <h2 className="text-lg font-semibold">Cart ({cartHydrated ? itemCount() : 0})</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-900" aria-label="Close cart">
             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

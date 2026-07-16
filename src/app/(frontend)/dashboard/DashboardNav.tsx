@@ -39,6 +39,7 @@ export function DashboardNav({ name, email }: { name: string; email: string }) {
           <Link
             key={item.href}
             href={item.href}
+            prefetch={false}
             className={[
               'flex flex-col items-center gap-0.5 px-1 py-1 rounded-sm transition-colors',
               isActive(item.href) ? 'text-white' : 'text-white/30 hover:text-white/60',
@@ -62,6 +63,7 @@ export function DashboardNav({ name, email }: { name: string; email: string }) {
             <Link
               key={item.href}
               href={item.href}
+              prefetch={false}
               className={[
                 'text-xs tracking-widest px-3 py-2.5 rounded-sm transition-colors',
                 isActive(item.href)

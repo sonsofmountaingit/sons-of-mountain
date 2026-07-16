@@ -409,12 +409,6 @@
       "size": 4
     },
     {
-      "id": "src/app/api/auth/[...all]/route.ts",
-      "label": "[...all]/route.ts",
-      "group": "api",
-      "size": 4
-    },
-    {
       "id": "src/app/api/booking/route.ts",
       "label": "booking/route.ts",
       "group": "api",
@@ -3259,6 +3253,12 @@
       "size": 6
     },
     {
+      "id": "src/proxy.ts",
+      "label": "src/proxy.ts",
+      "group": "other",
+      "size": 4
+    },
+    {
       "id": "src/lib/stripe.ts",
       "label": "lib/stripe.ts",
       "group": "lib",
@@ -3347,12 +3347,6 @@
       "label": "pricing/dynamic.ts",
       "group": "lib",
       "size": 6
-    },
-    {
-      "id": "src/lib/auth.ts",
-      "label": "lib/auth.ts",
-      "group": "lib",
-      "size": 20
     },
     {
       "id": "src/lib/animations.ts",
@@ -3797,10 +3791,6 @@
       "target": "src/payload/payload.config.ts"
     },
     {
-      "source": "src/app/api/waitlist/join/route.ts",
-      "target": "src/lib/auth.ts"
-    },
-    {
       "source": "src/app/api/draft/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -3811,10 +3801,6 @@
     {
       "source": "src/app/api/referral/generate/route.ts",
       "target": "src/payload/payload.config.ts"
-    },
-    {
-      "source": "src/app/api/referral/generate/route.ts",
-      "target": "src/lib/auth.ts"
     },
     {
       "source": "src/app/api/contact/route.ts",
@@ -3841,16 +3827,8 @@
       "target": "src/payload/payload.config.ts"
     },
     {
-      "source": "src/app/api/auth/[...all]/route.ts",
-      "target": "src/lib/auth.ts"
-    },
-    {
       "source": "src/app/api/booking/route.ts",
       "target": "src/payload/payload.config.ts"
-    },
-    {
-      "source": "src/app/api/booking/route.ts",
-      "target": "src/lib/auth.ts"
     },
     {
       "source": "src/app/api/booking/route.ts",
@@ -3877,16 +3855,8 @@
       "target": "src/payload/payload.config.ts"
     },
     {
-      "source": "src/app/api/admin/block-user/route.ts",
-      "target": "src/lib/auth.ts"
-    },
-    {
       "source": "src/app/api/ratings/submit/route.ts",
       "target": "src/payload/payload.config.ts"
-    },
-    {
-      "source": "src/app/api/ratings/submit/route.ts",
-      "target": "src/lib/auth.ts"
     },
     {
       "source": "src/app/api/footer-data/route.ts",
@@ -3922,10 +3892,6 @@
     },
     {
       "source": "src/app/api/checkout/route.ts",
-      "target": "src/lib/auth.ts"
-    },
-    {
-      "source": "src/app/api/checkout/route.ts",
       "target": "src/lib/stripe.ts"
     },
     {
@@ -3942,15 +3908,7 @@
     },
     {
       "source": "src/app/api/dashboard/gallery-upload/route.ts",
-      "target": "src/lib/auth.ts"
-    },
-    {
-      "source": "src/app/api/dashboard/gallery-upload/route.ts",
       "target": "src/payload/payload.config.ts"
-    },
-    {
-      "source": "src/app/api/dashboard/gallery-collections/route.ts",
-      "target": "src/lib/auth.ts"
     },
     {
       "source": "src/app/api/dashboard/gallery-collections/route.ts",
@@ -3993,16 +3951,8 @@
       "target": "src/payload/payload.config.ts"
     },
     {
-      "source": "src/app/api/voucher/route.ts",
-      "target": "src/lib/auth.ts"
-    },
-    {
       "source": "src/app/api/voucher/mine/route.ts",
       "target": "src/payload/payload.config.ts"
-    },
-    {
-      "source": "src/app/api/voucher/mine/route.ts",
-      "target": "src/lib/auth.ts"
     },
     {
       "source": "src/app/api/cart/validate/route.ts",
@@ -4019,10 +3969,6 @@
     {
       "source": "src/app/api/cart/abandoned/route.ts",
       "target": "src/payload/payload.config.ts"
-    },
-    {
-      "source": "src/app/api/photographer-profile/route.ts",
-      "target": "src/lib/auth.ts"
     },
     {
       "source": "src/app/api/photographer-profile/route.ts",
@@ -4293,20 +4239,8 @@
       "target": "src/payload/payload.config.ts"
     },
     {
-      "source": "src/app/api/wishlist/toggle/route.ts",
-      "target": "src/lib/auth.ts"
-    },
-    {
       "source": "src/app/api/wishlist/route.ts",
       "target": "src/payload/payload.config.ts"
-    },
-    {
-      "source": "src/app/api/wishlist/route.ts",
-      "target": "src/lib/auth.ts"
-    },
-    {
-      "source": "src/app/api/customer-media/route.ts",
-      "target": "src/lib/auth.ts"
     },
     {
       "source": "src/app/api/customer-media/route.ts",
@@ -4330,10 +4264,6 @@
     },
     {
       "source": "src/app/api/stripe/reconciliation/route.ts",
-      "target": "src/lib/auth.ts"
-    },
-    {
-      "source": "src/app/api/stripe/reconciliation/route.ts",
       "target": "src/lib/stripe.ts"
     },
     {
@@ -4342,19 +4272,11 @@
     },
     {
       "source": "src/app/api/stripe/payment-links/route.ts",
-      "target": "src/lib/auth.ts"
-    },
-    {
-      "source": "src/app/api/stripe/payment-links/route.ts",
       "target": "src/lib/stripe.ts"
     },
     {
       "source": "src/app/api/stripe/group-payment-links/route.ts",
       "target": "src/payload/payload.config.ts"
-    },
-    {
-      "source": "src/app/api/stripe/group-payment-links/route.ts",
-      "target": "src/lib/auth.ts"
     },
     {
       "source": "src/app/api/stripe/group-payment-links/route.ts",
@@ -4370,19 +4292,11 @@
     },
     {
       "source": "src/app/api/stripe/subscriptions/pause/route.ts",
-      "target": "src/lib/auth.ts"
-    },
-    {
-      "source": "src/app/api/stripe/subscriptions/pause/route.ts",
       "target": "src/lib/stripe.ts"
     },
     {
       "source": "src/app/api/stripe/payment-intent/route.ts",
       "target": "src/payload/payload.config.ts"
-    },
-    {
-      "source": "src/app/api/stripe/payment-intent/route.ts",
-      "target": "src/lib/auth.ts"
     },
     {
       "source": "src/app/api/stripe/payment-intent/route.ts",
@@ -4398,10 +4312,6 @@
     },
     {
       "source": "src/app/api/stripe/payment-methods/route.ts",
-      "target": "src/lib/auth.ts"
-    },
-    {
-      "source": "src/app/api/stripe/payment-methods/route.ts",
       "target": "src/lib/stripe.ts"
     },
     {
@@ -4410,19 +4320,11 @@
     },
     {
       "source": "src/app/api/stripe/payment-methods/set-default/route.ts",
-      "target": "src/lib/auth.ts"
-    },
-    {
-      "source": "src/app/api/stripe/payment-methods/set-default/route.ts",
       "target": "src/lib/stripe.ts"
     },
     {
       "source": "src/app/api/stripe/spend-history/route.ts",
       "target": "src/payload/payload.config.ts"
-    },
-    {
-      "source": "src/app/api/stripe/spend-history/route.ts",
-      "target": "src/lib/auth.ts"
     },
     {
       "source": "src/app/api/stripe/spend-history/route.ts",
@@ -4438,19 +4340,11 @@
     },
     {
       "source": "src/app/api/stripe/refund/route.ts",
-      "target": "src/lib/auth.ts"
-    },
-    {
-      "source": "src/app/api/stripe/refund/route.ts",
       "target": "src/lib/stripe.ts"
     },
     {
       "source": "src/app/api/stripe/billing-portal/route.ts",
       "target": "src/payload/payload.config.ts"
-    },
-    {
-      "source": "src/app/api/stripe/billing-portal/route.ts",
-      "target": "src/lib/auth.ts"
     },
     {
       "source": "src/app/api/stripe/billing-portal/route.ts",
@@ -4467,10 +4361,6 @@
     {
       "source": "src/app/api/individual-program-inquiry/route.ts",
       "target": "src/lib/rate-limit.ts"
-    },
-    {
-      "source": "src/app/api/customer-ratings/route.ts",
-      "target": "src/lib/auth.ts"
     },
     {
       "source": "src/app/api/customer-ratings/route.ts",
@@ -4838,10 +4728,6 @@
     },
     {
       "source": "src/app/(frontend)/shop/orders/[id]/page.tsx",
-      "target": "src/lib/auth.ts"
-    },
-    {
-      "source": "src/app/(frontend)/shop/orders/[id]/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
     {
@@ -4851,10 +4737,6 @@
     {
       "source": "src/app/(frontend)/shop/orders/[id]/page.tsx",
       "target": "src/lib/currency.ts"
-    },
-    {
-      "source": "src/app/(frontend)/shop/orders/page.tsx",
-      "target": "src/lib/auth.ts"
     },
     {
       "source": "src/app/(frontend)/shop/orders/page.tsx",
@@ -4990,10 +4872,6 @@
     },
     {
       "source": "src/app/(frontend)/dashboard/ratings/page.tsx",
-      "target": "src/lib/auth.ts"
-    },
-    {
-      "source": "src/app/(frontend)/dashboard/ratings/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
     {
@@ -5006,7 +4884,7 @@
     },
     {
       "source": "src/app/(frontend)/dashboard/profile/page.tsx",
-      "target": "src/lib/auth.ts"
+      "target": "src/payload/payload.config.ts"
     },
     {
       "source": "src/app/(frontend)/dashboard/profile/page.tsx",
@@ -5022,7 +4900,7 @@
     },
     {
       "source": "src/app/(frontend)/dashboard/layout.tsx",
-      "target": "src/lib/auth.ts"
+      "target": "src/payload/payload.config.ts"
     },
     {
       "source": "src/app/(frontend)/dashboard/layout.tsx",
@@ -5031,10 +4909,6 @@
     {
       "source": "src/app/(frontend)/dashboard/vouchers/page.tsx",
       "target": "src/payload/payload.config.ts"
-    },
-    {
-      "source": "src/app/(frontend)/dashboard/vouchers/page.tsx",
-      "target": "src/lib/auth.ts"
     },
     {
       "source": "src/app/(frontend)/dashboard/vouchers/page.tsx",
@@ -5050,19 +4924,11 @@
     },
     {
       "source": "src/app/(frontend)/dashboard/orders/page.tsx",
-      "target": "src/lib/auth.ts"
-    },
-    {
-      "source": "src/app/(frontend)/dashboard/orders/page.tsx",
       "target": "src/app/(frontend)/dashboard/orders/OrdersClient.tsx"
     },
     {
       "source": "src/app/(frontend)/dashboard/page.tsx",
       "target": "src/payload/payload.config.ts"
-    },
-    {
-      "source": "src/app/(frontend)/dashboard/page.tsx",
-      "target": "src/lib/auth.ts"
     },
     {
       "source": "src/app/(frontend)/dashboard/page.tsx",
@@ -5082,23 +4948,15 @@
     },
     {
       "source": "src/app/(frontend)/dashboard/registrations/page.tsx",
-      "target": "src/lib/auth.ts"
-    },
-    {
-      "source": "src/app/(frontend)/dashboard/registrations/page.tsx",
       "target": "src/app/(frontend)/dashboard/registrations/RegistrationsClient.tsx"
     },
     {
       "source": "src/app/(frontend)/dashboard/wishlist/page.tsx",
-      "target": "src/lib/auth.ts"
+      "target": "src/payload/payload.config.ts"
     },
     {
       "source": "src/app/(frontend)/dashboard/wishlist/page.tsx",
       "target": "src/app/(frontend)/dashboard/wishlist/WishlistClient.tsx"
-    },
-    {
-      "source": "src/app/(frontend)/dashboard/media/page.tsx",
-      "target": "src/lib/auth.ts"
     },
     {
       "source": "src/app/(frontend)/dashboard/media/page.tsx",
@@ -5282,10 +5140,6 @@
     },
     {
       "source": "src/app/(frontend)/vouchers/page.tsx",
-      "target": "src/lib/auth.ts"
-    },
-    {
-      "source": "src/app/(frontend)/vouchers/page.tsx",
       "target": "src/app/(frontend)/vouchers/VouchersPageClient.tsx"
     },
     {
@@ -5342,15 +5196,7 @@
     },
     {
       "source": "src/app/(frontend)/account/loyalty/page.tsx",
-      "target": "src/lib/auth.ts"
-    },
-    {
-      "source": "src/app/(frontend)/account/loyalty/page.tsx",
       "target": "src/payload/payload.config.ts"
-    },
-    {
-      "source": "src/app/(frontend)/account/wishlist/page.tsx",
-      "target": "src/lib/auth.ts"
     },
     {
       "source": "src/app/(frontend)/account/wishlist/page.tsx",
@@ -6023,10 +5869,6 @@
     {
       "source": "src/payload/collections/Trips.ts",
       "target": "src/payload/collections/shared/paymentPlanFields.ts"
-    },
-    {
-      "source": "src/payload/collections/Customers.ts",
-      "target": "src/lib/auth.ts"
     },
     {
       "source": "src/payload/collections/Registrations.ts",
@@ -7065,10 +6907,6 @@
       "target": "src/payload/payload.config.ts"
     },
     {
-      "source": "src/lib/auth.ts",
-      "target": "src/payload/payload.config.ts"
-    },
-    {
       "source": "src/lib/cron/balance-charge.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -7405,6 +7243,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-15T16:30:05.174Z",
-  "fileCount": 579
+  "builtAt": "2026-07-16T07:17:53.019Z",
+  "fileCount": 578
 }

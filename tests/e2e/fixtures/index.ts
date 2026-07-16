@@ -109,3 +109,25 @@ export async function createCustomer(email: string, loyaltyPoints = 0) {
 export async function deleteCustomer(id: string) {
   await remove('customers', id)
 }
+
+const BASE = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000'
+
+export async function createCustomerWithPassword(email: string, password = 'Test1234!') {
+  const res = await fetch(`${BASE}/api/customers`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password, name: 'E2E Login Customer', status: 'active' }),
+  })
+  const data = await res.json()
+  return data.doc ?? data
+}
+
+export async function loginCustomer(email: string, password = 'Test1234!') {
+  const res = await fetch(`${BASE}/api/customers/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password }),
+  })
+  const data = await res.json()
+  return { token: data.token as string, customer: data.user }
+}

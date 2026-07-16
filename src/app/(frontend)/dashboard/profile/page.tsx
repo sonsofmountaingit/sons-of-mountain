@@ -6,6 +6,8 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { ProfileClient } from './ProfileClient'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Профил — Sons of Mountains',
   robots: { index: false },

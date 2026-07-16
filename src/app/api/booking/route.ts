@@ -7,7 +7,7 @@ import { resolvePaymentPlan } from '@/lib/pricing/payment-plan'
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const resend = new Resend(process.env.RESEND_API_KEY ?? 'placeholder')
+    const resend = new Resend(process.env.RESEND_API_KEY || 'placeholder')
     const {
       tripId, destinationId, programId,
       firstName, lastName, email, phone,
@@ -137,22 +137,26 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
-      to: email,
-      subject: 'Заявката ти е получена — Sons of Mountains',
-      html: `
-        <p>Здравей, ${firstName}!</p>
-        <p>Получихме заявката ти за пътуване. Ще се свържем с теб в рамките на 24 часа.</p>
-        <p>Номер на заявката: <strong>${registration.id}</strong></p>
-        <br/>
-        <p>С уважение,<br/>Sons of Mountains</p>
-      `,
-    })
+    try {
+      await resend.emails.send({
+        from: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
+        to: email,
+        subject: 'Заявката ти е получена — Sons of Mountains',
+        html: `
+          <p>Здравей, ${firstName}!</p>
+          <p>Получихме заявката ти за пътуване. Ще се свържем с теб в рамките на 24 часа.</p>
+          <p>Номер на заявката: <strong>${registration.id}</strong></p>
+          <br/>
+          <p>С уважение,<br/>Sons of Mountains</p>
+        `,
+      })
+    } catch (emailErr) {
+      console.error('Booking confirmation email failed:', emailErr)
+    }
 
     return NextResponse.json({ ok: true, registrationId: registration.id, ...(carpoolRideId ? { carpoolRideId } : {}) })
   } catch (err) {
     console.error('Booking error:', err)
-    return NextResponse.json({ error: 'Internal error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal error', debug: err instanceof Error ? err.message : String(err) }, { status: 500 })
   }
 }

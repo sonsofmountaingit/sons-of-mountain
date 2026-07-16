@@ -1,5 +1,37 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, CollectionAfterChangeHook } from 'payload'
 import { APIError } from 'payload'
+
+const linkGuestRecordsToCustomer: CollectionAfterChangeHook = async ({ doc, operation, req }) => {
+  if (operation !== 'create') return doc
+  const email = doc.email as string | undefined
+  if (!email) return doc
+
+  const collections = [
+    { slug: 'orders', emailField: 'email' },
+    { slug: 'registrations', emailField: 'email' },
+    { slug: 'gift-vouchers', emailField: 'senderEmail' },
+  ] as const
+
+  for (const { slug, emailField } of collections) {
+    try {
+      await req.payload.update({
+        collection: slug,
+        where: {
+          and: [
+            { [emailField]: { equals: email } },
+            { customer: { exists: false } },
+          ],
+        },
+        data: { customer: doc.id },
+        req,
+      })
+    } catch {
+      // best-effort linkage; do not block customer creation
+    }
+  }
+
+  return doc
+}
 
 export const Customers: CollectionConfig = {
   slug: 'customers',
@@ -39,6 +71,7 @@ export const Customers: CollectionConfig = {
         }
       },
     ],
+    afterChange: [linkGuestRecordsToCustomer],
   },
   fields: [
     {

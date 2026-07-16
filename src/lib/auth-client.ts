@@ -18,23 +18,21 @@ type SessionState = {
 async function parseError(res: Response): Promise<string> {
   try {
     const body = await res.json()
-    return body?.errors?.[0]?.message ?? body?.message ?? 'Грешка'
+    const first = body?.errors?.[0]
+    return first?.data?.errors?.[0]?.message ?? first?.message ?? body?.message ?? 'Грешка'
   } catch {
     return 'Грешка'
   }
 }
 
-let listeners: Array<() => void> = []
-function notify() {
-  listeners.forEach((l) => l())
-}
+let listeners: Array<() => Promise<void>> = []
 
 export function useSession(): SessionState {
   const [state, setState] = useState<SessionState>({ data: null, isPending: true })
 
   const refetch = useCallback(async () => {
     try {
-      const res = await fetch('/api/customers/me', { credentials: 'include' })
+      const res = await fetch('/api/customers/me', { credentials: 'include', cache: 'no-store' })
       const body = await res.json()
       if (body?.user) {
         setState({ data: { user: body.user }, isPending: false })
@@ -69,7 +67,7 @@ export const signIn = {
       return { error: { message: await parseError(res) } }
     }
     const data = await res.json()
-    notify()
+    await Promise.all(listeners.map((l) => l()))
     return { data }
   },
 }
@@ -92,7 +90,7 @@ export const signUp = {
 
 export async function signOut() {
   await fetch('/api/customers/logout', { method: 'POST', credentials: 'include' })
-  notify()
+  await Promise.all(listeners.map((l) => l()))
 }
 
 export async function forgotPassword({ email }: { email: string; redirectTo?: string }) {
@@ -119,6 +117,6 @@ export async function resetPassword({ newPassword, token }: { newPassword: strin
     return { error: { message: await parseError(res) } }
   }
   const data = await res.json()
-  notify()
+  await Promise.all(listeners.map((l) => l()))
   return { data }
 }
