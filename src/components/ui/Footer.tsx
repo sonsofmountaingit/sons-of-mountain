@@ -1,16 +1,12 @@
-import Link from 'next/link'
 import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { FooterForm } from './FooterForm'
-import { ShakingCredit } from './ShakingCredit'
+import { FooterClient } from './FooterClient'
 import { FooterEditButton } from './FooterEditButton'
-import { FooterLogo } from './FooterLogo'
-import { FooterSocialCounter } from './FooterSocialCounter'
-import { FooterShakingLink } from './FooterShakingLink'
-import { FooterReveal } from './FooterReveal'
+import { translations } from '@/lib/translations'
 
-const BG_MONTHS = ['януари','февруари','март','април','май','юни','юли','август','септември','октомври','ноември','декември']
+const BG_MONTHS = translations.BG.months
+const EN_MONTHS = translations.EN.months
 
 const getFooterData = unstable_cache(
   async () => {
@@ -190,9 +186,7 @@ export async function Footer() {
   const creditName = (data as any)?.creditName ?? 'Netinsky'
   const creditUrl = (data as any)?.creditUrl ?? 'https://netinsky.com'
   const termsUrl = (data as any)?.termsUrl ?? '/legal/terms'
-  const termsLabel = (data as any)?.termsLabel ?? 'Общи условия'
   const privacyUrl = (data as any)?.privacyUrl ?? '/legal/privacy-policy'
-  const privacyLabel = (data as any)?.privacyLabel ?? 'Политика за поверителност'
   const logoUrl = typeof (data as any)?.logo === 'object' ? (data as any)?.logo?.url : null
   const logoColoredUrl = typeof (data as any)?.logoColored === 'object' ? (data as any)?.logoColored?.url : null
   const submitLabel = (data as any)?.submitLabel ?? 'Абонирай се'
@@ -201,8 +195,6 @@ export async function Footer() {
   const emailPlaceholder = (data as any)?.emailPlaceholder ?? 'E-mail адрес'
   const consentText = (data as any)?.consentText ?? 'С натискането на бутона "Абонирай се" се съгласяваш с'
   const consentLinkText = (data as any)?.consentLinkText ?? 'Политиката ни за поверителност'
-
-  const uniqueTravelLinks = travelLinks
 
   return (
     <>
@@ -234,128 +226,36 @@ export async function Footer() {
         }
       `}</style>
       <footer style={{ backgroundColor: '#111111', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '4rem', paddingBottom: '2.5rem' }}>
-        <FooterReveal>
-        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 2rem' }}>
-
-          {/* Top columns row */}
-          <div className="footer-cols" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1.6fr', gap: '3rem', paddingBottom: '3rem', borderBottom: '1px solid rgba(255,255,255,0.08)', alignItems: 'start' }}>
-
-            {/* Column 1: Travel links */}
-            <div data-reveal>
-              <p style={{ fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', margin: '0 0 1.25rem 0' }}>
-                {travelSectionHeading}
-              </p>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                {uniqueTravelLinks.map((link, i) => (
-                  <li key={i} data-reveal>
-                    <FooterShakingLink href={link.href} style={{ textDecoration: 'none', display: 'flex', alignItems: 'baseline', gap: '0.5rem' }}>
-                      <span style={{ fontSize: '0.9rem', fontWeight: 500, color: '#ffffff' }}>{link.name}</span>
-                      {link.month && <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.35)' }}>{link.month}</span>}
-                    </FooterShakingLink>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Column 2: Navigation */}
-            <div data-reveal>
-              <p style={{ fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', margin: '0 0 1.25rem 0' }}>
-                {navSectionHeading}
-              </p>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                {navLinks.map((link, i) => (
-                  <li key={i} data-reveal>
-                    <FooterShakingLink href={link.href} style={{ fontSize: '0.9rem', fontWeight: 500, color: '#ffffff', textDecoration: 'none' }}>
-                      {link.label}
-                    </FooterShakingLink>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Column 3: Follow / Social */}
-            <div data-reveal>
-              <p style={{ fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', margin: '0 0 1.25rem 0' }}>
-                {followHeading}
-              </p>
-              <p style={{ fontSize: '0.825rem', color: 'rgba(255,255,255,0.45)', margin: '0 0 1.25rem 0', lineHeight: 1.6 }}>
-                {followSubtext}
-              </p>
-              <FooterSocialCounter
-                facebookUrl={facebookUrl}
-                facebookFollowers={facebookFollowers}
-                instagramUrl={instagramUrl}
-                instagramFollowers={instagramFollowers}
-              />
-            </div>
-
-            {/* Column 4: Subscribe + description */}
-            <div className="footer-desc-col" data-reveal>
-              <p style={{ fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', margin: '0 0 1.25rem 0' }}>
-                {subscribeHeading}
-              </p>
-              <p style={{ fontSize: '0.825rem', color: 'rgba(255,255,255,0.45)', margin: '0 0 1.25rem 0', lineHeight: 1.7 }}>
-                {subscribeSubtext}
-              </p>
-              <FooterForm
-                privacyUrl={privacyUrl}
-                submitLabel={submitLabel}
-                firstNamePlaceholder={firstNamePlaceholder}
-                lastNamePlaceholder={lastNamePlaceholder}
-                emailPlaceholder={emailPlaceholder}
-                consentText={consentText}
-                consentLinkText={consentLinkText}
-              />
-            </div>
-          </div>
-
-          {/* Big brand text */}
-          <div data-reveal style={{ overflow: 'hidden', paddingTop: '2.5rem', userSelect: 'none', width: '100vw', position: 'relative', left: '50%', transform: 'translateX(-50%)' }}>
-            <p style={{
-              fontSize: '13vw',
-              fontWeight: 900,
-              letterSpacing: '-0.04em',
-              color: '#ffffff',
-              margin: 0,
-              lineHeight: 0.85,
-              textTransform: 'uppercase',
-              whiteSpace: 'normal',
-              textAlign: 'center',
-              WebkitMaskImage: 'linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.08) 40%, rgba(255,255,255,0.0) 75%)',
-              maskImage: 'linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.08) 40%, rgba(255,255,255,0.0) 75%)',
-            }}>
-              SONS OF<br />MOUNTAIN
-            </p>
-          </div>
-
-          {/* Bottom bar */}
-          <div data-reveal className="footer-bottom" style={{ paddingTop: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1.5rem', flexWrap: 'wrap' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-              <FooterLogo logoUrl={logoUrl} logoColoredUrl={logoColoredUrl} />
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
-                <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', margin: 0 }}>{copyright}</p>
-                <p style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.3)', margin: 0 }}>{licenseText}</p>
-                <p style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.3)', margin: 0 }}>{insuranceText}</p>
-              </div>
-            </div>
-
-            <div className="footer-bottom-right" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.4rem' }}>
-              <div style={{ display: 'flex', gap: '1.25rem' }}>
-                <Link href={termsUrl} style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', textDecoration: 'none' }}>
-                  {termsLabel}
-                </Link>
-                <Link href={privacyUrl} style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', textDecoration: 'none' }}>
-                  {privacyLabel}
-                </Link>
-              </div>
-              <p style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.3)', margin: 0 }}>
-                {creditPrefix}{' '}
-                <ShakingCredit name={creditName} href={creditUrl} />
-              </p>
-            </div>
-          </div>
-        </div>
-        </FooterReveal>
+        <FooterClient
+          travelLinks={travelLinks}
+          navLinks={navLinks}
+          travelSectionHeading={travelSectionHeading}
+          navSectionHeading={navSectionHeading}
+          followHeading={followHeading}
+          followSubtext={followSubtext}
+          subscribeHeading={subscribeHeading}
+          subscribeSubtext={subscribeSubtext}
+          facebookUrl={facebookUrl}
+          instagramUrl={instagramUrl}
+          facebookFollowers={facebookFollowers}
+          instagramFollowers={instagramFollowers}
+          logoUrl={logoUrl}
+          logoColoredUrl={logoColoredUrl}
+          copyright={copyright}
+          licenseText={licenseText}
+          insuranceText={insuranceText}
+          creditPrefix={creditPrefix}
+          creditName={creditName}
+          creditUrl={creditUrl}
+          termsUrl={termsUrl}
+          privacyUrl={privacyUrl}
+          submitLabel={submitLabel}
+          firstNamePlaceholder={firstNamePlaceholder}
+          lastNamePlaceholder={lastNamePlaceholder}
+          emailPlaceholder={emailPlaceholder}
+          consentText={consentText}
+          consentLinkText={consentLinkText}
+        />
       </footer>
       <FooterEditButton />
     </>

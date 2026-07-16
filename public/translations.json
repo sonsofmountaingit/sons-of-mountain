@@ -1,0 +1,80 @@
+{
+  "BG": {
+    "nav": {
+      "programs": "Програми",
+      "calendar": "КАЛЕНДАР",
+      "gallery": "ГАЛЕРИЯ",
+      "blog": "БЛОГ",
+      "about": "ЗА НАС",
+      "contact": "КОНТАКТИ",
+      "login": "ВХОД"
+    },
+    "footer": {
+      "newsletter_heading": "Абонирай се",
+      "newsletter_subtext": "Научавай първи за предстоящи пътешествия, отстъпки и събития.",
+      "terms": "Условия",
+      "privacy": "Политика за поверителност"
+    },
+    "trips": {
+      "title": "Преходи",
+      "all_trips": "Всички преходи",
+      "book_now": "Запази сега",
+      "details": "Детайли",
+      "description": "Описание",
+      "price_from": "Цена от",
+      "per_person": "на човек"
+    },
+    "contact": {
+      "title": "Контакти",
+      "name": "Име",
+      "email": "Имейл",
+      "message": "Съобщение",
+      "send": "Изпращане"
+    },
+    "auth": {
+      "login": "Вход",
+      "signup": "Регистрация",
+      "email": "Имейл",
+      "password": "Парола"
+    }
+  },
+  "EN": {
+    "nav": {
+      "programs": "Programs",
+      "calendar": "CALENDAR",
+      "gallery": "GALLERY",
+      "blog": "BLOG",
+      "about": "ABOUT US",
+      "contact": "CONTACT",
+      "login": "LOGIN"
+    },
+    "footer": {
+      "newsletter_heading": "Subscribe",
+      "newsletter_subtext": "Be the first to learn about upcoming trips, discounts, and events.",
+      "terms": "Terms",
+      "privacy": "Privacy Policy"
+    },
+    "trips": {
+      "title": "Trips",
+      "all_trips": "All Trips",
+      "book_now": "Book Now",
+      "details": "Details",
+      "description": "Description",
+      "price_from": "Price from",
+      "per_person": "per person"
+    },
+    "contact": {
+      "title": "Contact",
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "send": "Send"
+    },
+    "auth": {
+      "login": "Login",
+      "signup": "Sign Up",
+      "email": "Email",
+      "password": "Password"
+    }
+  }
+}

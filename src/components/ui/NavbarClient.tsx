@@ -9,6 +9,8 @@ import { ProgramsMegaMenu } from './ProgramsMegaMenu'
 import { useSession, signOut } from '@/lib/auth-client'
 import { CartSheet } from '@/components/shop/CartSheet'
 import { useCartStore, useCartHydrated } from '@/lib/cart-store'
+import { useLanguage } from '@/lib/language-context'
+import type { Language } from '@/lib/translations'
 
 interface NavbarClientProps {
   navLinksLeft: { label: string; href: string }[]
@@ -20,7 +22,7 @@ interface NavbarClientProps {
   logoLightUrl: string
 }
 
-const LANGUAGES = [
+const LANGUAGES: { code: Language; label: string }[] = [
   { code: 'BG', label: 'Български' },
   { code: 'EN', label: 'English' },
 ]
@@ -33,6 +35,7 @@ const PANEL_VARIANTS = {
 
 export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebookUrl, tiktokUrl, logoDarkUrl, logoLightUrl }: NavbarClientProps) {
   const router = useRouter()
+  const { language, setLanguage, t } = useLanguage()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [megaOpen, setMegaOpen] = useState(false)
   const [mobileProgramsOpen, setMobileProgramsOpen] = useState(false)
@@ -40,7 +43,6 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
   const [searchOpen, setSearchOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
-  const [activeLang, setActiveLang] = useState('BG')
   const [query, setQuery] = useState('')
   const searchInputRef = useRef<HTMLInputElement>(null)
   const { scrollY } = useScroll()
@@ -71,7 +73,6 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
     return () => { document.body.style.overflow = '' }
   }, [mobileOpen])
 
-  // track nav height for megamenu positioning
   useEffect(() => {
     function measure() {
       if (headerRef.current) setNavHeight(headerRef.current.getBoundingClientRect().height + (scrolled ? 0 : 8))
@@ -81,7 +82,6 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
     return () => window.removeEventListener('resize', measure)
   }, [scrolled])
 
-  // close panels on outside click
   useEffect(() => {
     function handle(e: MouseEvent) {
       const t = e.target as HTMLElement
@@ -94,13 +94,11 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
     return () => document.removeEventListener('mousedown', handle)
   }, [])
 
-  // focus input when search opens
   useEffect(() => {
     if (searchOpen) setTimeout(() => searchInputRef.current?.focus(), 50)
     else setQuery('')
   }, [searchOpen])
 
-  // ESC: first press clears query, second press closes search
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
       if (e.key !== 'Escape') return
@@ -115,7 +113,6 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
     return () => document.removeEventListener('keydown', handleKey)
   }, [searchOpen, query])
 
-  // close megamenu when search or lang opens
   useEffect(() => {
     if (searchOpen || langOpen) setMegaOpen(false)
     if (searchOpen || langOpen) setProfileOpen(false)
@@ -142,7 +139,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
               onClick={() => { setMegaOpen((v) => !v); setSearchOpen(false); setLangOpen(false) }}
               className={['flex items-center gap-1.5 text-sm font-medium tracking-widest transition-colors duration-200', megaOpen ? (isLightPage && !scrolled ? 'text-zinc-900' : 'text-white') : (isLightPage && !scrolled ? 'text-zinc-600 hover:text-zinc-900' : 'text-white/80 hover:text-white')].join(' ')}
             >
-              Програми
+              {t.nav.programs}
               <svg width="10" height="6" viewBox="0 0 10 6" fill="none" className={['transition-transform duration-200', megaOpen ? 'rotate-180' : ''].join(' ')}>
                 <path d="M1 1l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
               </svg>
@@ -154,7 +151,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
             ))}
           </div>
 
-          {/* Logo placeholder to keep flex spacing */}
+          {/* Logo placeholder */}
           <div className={['flex-shrink-0 mx-4 transition-all duration-300', scrolled ? 'w-10' : 'w-20'].join(' ')} />
 
           {/* Right */}
@@ -174,7 +171,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                   <span className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-[10px]">
                     {(session.user.name?.[0] ?? session.user.email[0]).toUpperCase()}
                   </span>
-                  {session.user.name?.split(' ')[0] ?? 'Акаунт'}
+                  {session.user.name?.split(' ')[0] ?? t.profile.profile}
                 </button>
                 <AnimatePresence>
                   {profileOpen && (
@@ -186,10 +183,10 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                       className="absolute right-0 top-[calc(100%+14px)] w-[200px] bg-[#0d0d0d]/95 backdrop-blur-xl border border-white/10 rounded-sm overflow-hidden shadow-2xl"
                     >
                       {[
-                        { label: 'Профил', href: '/dashboard/profile' },
-                        { label: 'Регистрации', href: '/dashboard/registrations' },
-                        { label: 'Поръчки', href: '/dashboard/orders' },
-                        { label: 'Ваучери', href: '/dashboard/vouchers' },
+                        { label: t.profile.profile, href: '/dashboard/profile' },
+                        { label: t.profile.registrations, href: '/dashboard/registrations' },
+                        { label: t.profile.orders, href: '/dashboard/orders' },
+                        { label: t.profile.vouchers, href: '/dashboard/vouchers' },
                       ].map((item) => (
                         <Link
                           key={item.href}
@@ -205,7 +202,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                           onClick={async () => { setProfileOpen(false); await signOut(); router.push('/login'); router.refresh() }}
                           className="block w-full text-left px-4 py-2.5 text-sm text-red-400/70 hover:text-red-400 hover:bg-white/4 transition-colors"
                         >
-                          Изход
+                          {t.profile.logout}
                         </button>
                       </div>
                       <div className="h-1" />
@@ -215,7 +212,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
               </div>
             ) : (
               <Link href="/login" className={`px-4 py-1.5 text-sm font-medium tracking-widest border transition-colors duration-200 rounded-sm ${isLightPage && !scrolled ? 'border-zinc-300 text-zinc-700 hover:text-zinc-900 hover:border-zinc-500' : 'border-white/40 text-white/80 hover:text-white hover:border-white'}`}>
-                ВХОД
+                {t.nav.login}
               </Link>
             )}
 
@@ -244,7 +241,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                 <button
                   onClick={() => { setSearchOpen((v) => !v); setLangOpen(false) }}
                   className={['transition-colors', searchOpen ? (isLightPage && !scrolled ? 'text-zinc-900' : 'text-white') : (isLightPage && !scrolled ? 'text-zinc-500 hover:text-zinc-900' : 'text-white/70 hover:text-white')].join(' ')}
-                  aria-label="Търсене"
+                  aria-label="Search"
                 >
                   <AnimatePresence mode="wait" initial={false}>
                     {searchOpen ? (
@@ -266,7 +263,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                   onClick={() => { setLangOpen((v) => !v); setSearchOpen(false) }}
                   className={['flex items-center gap-1 text-sm font-medium tracking-widest transition-colors', langOpen ? (isLightPage && !scrolled ? 'text-zinc-900' : 'text-white') : (isLightPage && !scrolled ? 'text-zinc-500 hover:text-zinc-900' : 'text-white/70 hover:text-white')].join(' ')}
                 >
-                  {activeLang}
+                  {language}
                   <svg width="8" height="5" viewBox="0 0 10 6" fill="none" className={['transition-transform duration-200', langOpen ? 'rotate-180' : ''].join(' ')}>
                     <path d="M1 1l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                   </svg>
@@ -281,18 +278,18 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                       exit="exit"
                       className="absolute right-0 top-[calc(100%+14px)] w-[180px] bg-[#0d0d0d]/95 backdrop-blur-xl border border-white/10 rounded-sm overflow-hidden shadow-2xl"
                     >
-                      <p className="px-4 pt-3 pb-2 text-[10px] tracking-widest text-white/30">ЕЗИК</p>
+                      <p className="px-4 pt-3 pb-2 text-[10px] tracking-widest text-white/30">{t.search.language}</p>
                       {LANGUAGES.map((lang) => (
                         <button
                           key={lang.code}
-                          onClick={() => { setActiveLang(lang.code); setLangOpen(false) }}
+                          onClick={() => { setLanguage(lang.code); setLangOpen(false) }}
                           className={[
                             'flex items-center justify-between w-full px-4 py-2.5 text-sm transition-colors',
-                            activeLang === lang.code ? 'text-white bg-white/6' : 'text-white/60 hover:text-white hover:bg-white/4',
+                            language === lang.code ? 'text-white bg-white/6' : 'text-white/60 hover:text-white hover:bg-white/4',
                           ].join(' ')}
                         >
                           <span>{lang.label}</span>
-                          {activeLang === lang.code && (
+                          {language === lang.code && (
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                               <polyline points="20 6 9 17 4 12" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
@@ -343,7 +340,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
         </nav>
       </motion.header>
 
-      {/* Logo — separate fixed element so backdrop-filter on header cannot clip it */}
+      {/* Logo */}
       <Link
         href="/"
         className="fixed left-1/2 -translate-x-1/2 top-2 z-[51] flex items-center justify-center"
@@ -391,7 +388,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                     type="text"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Търси дестинации, истории…"
+                    placeholder={t.search.placeholder}
                     className="flex-1 bg-transparent text-base text-white placeholder-white/30 outline-none tracking-wide"
                   />
                   {query ? (
@@ -406,15 +403,15 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                 </div>
                 {/* Quick links */}
                 <div className="px-5 py-4">
-                  <p className="text-[10px] tracking-widest text-white/25 mb-3">БЪРЗИ ВРЪЗКИ</p>
+                  <p className="text-[10px] tracking-widest text-white/25 mb-3">{t.search.quick_links}</p>
                   <div className="grid grid-cols-2 gap-0.5">
                     {[
-                      { label: 'Преходи в България', href: '/destinations?type=bulgaria' },
-                      { label: 'Преходи в чужбина', href: '/destinations?type=abroad' },
-                      { label: 'Индивидуални програми', href: '/destinations?type=trips' },
-                      { label: 'Календар', href: '/calendar' },
-                      { label: 'Блог', href: '/blog' },
-                      { label: 'Магазин', href: '/shop' },
+                      { label: t.search.trips_bulgaria, href: '/destinations?type=bulgaria' },
+                      { label: t.search.trips_abroad, href: '/destinations?type=abroad' },
+                      { label: t.search.individual_programs, href: '/destinations?type=trips' },
+                      { label: t.nav.calendar, href: '/calendar' },
+                      { label: t.nav.blog, href: '/blog' },
+                      { label: t.search.shop, href: '/shop' },
                     ].map((item, i) => (
                       <motion.div
                         key={item.href}
@@ -468,7 +465,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                   onClick={() => setMobileProgramsOpen((v) => !v)}
                   className="flex items-center justify-between w-full text-2xl font-medium py-3 text-white/80 hover:text-white transition-colors"
                 >
-                  Програми
+                  {t.nav.programs}
                   <svg width="12" height="12" viewBox="0 0 10 6" fill="none" className={['transition-transform duration-200', mobileProgramsOpen ? 'rotate-180' : ''].join(' ')}>
                     <path d="M1 1l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                   </svg>
@@ -477,9 +474,9 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                   {mobileProgramsOpen && (
                     <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden">
                       {[
-                        { label: 'В БЪЛГАРИЯ', href: '/destinations?type=bulgaria' },
-                        { label: 'В ЧУЖБИНА', href: '/destinations?type=abroad' },
-                        { label: 'ИНДИВИДУАЛНА ПРОГРАМА', href: '/destinations?type=trips' },
+                        { label: t.programs_menu.bulgaria, href: '/destinations?type=bulgaria' },
+                        { label: t.programs_menu.abroad, href: '/destinations?type=abroad' },
+                        { label: t.programs_menu.individual, href: '/destinations?type=trips' },
                       ].map((item) => (
                         <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)} className="block pl-4 py-3 text-base font-medium text-white/60 hover:text-white transition-colors border-b border-white/5">
                           {item.label}

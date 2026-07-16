@@ -1,0 +1,68 @@
+import type { Metadata } from 'next'
+import { Space_Grotesk, Dancing_Script } from 'next/font/google'
+import { Suspense } from 'react'
+import { Navigation } from '@/components/ui/Navigation'
+import { Footer } from '@/components/ui/Footer'
+import { LanguageProvider } from '@/lib/language-context'
+import { Toaster } from 'sonner'
+import '../globals.css'
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin', 'latin-ext'],
+  variable: '--font-space-grotesk',
+  display: 'swap',
+  preload: true,
+  adjustFontFallback: true,
+  weight: ['400', '500', '600', '700'],
+})
+
+const dancingScript = Dancing_Script({
+  subsets: ['latin', 'latin-ext'],
+  variable: '--font-dancing-script',
+  display: 'swap',
+  preload: false,
+  adjustFontFallback: true,
+  weight: ['400', '700'],
+})
+
+export const metadata: Metadata = {
+  title: {
+    template: '%s | Sons of Mountains',
+    default: 'Sons of Mountains — Преходи, пътешествия и експедиции в България и по света',
+  },
+  description: 'Пътувай с Sons of Mountains там, където комфортът среща приключението.',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'),
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
+  openGraph: {
+    siteName: 'Sons of Mountains',
+    locale: 'bg_BG',
+    type: 'website',
+  },
+}
+
+export default function FrontendLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="bg" className={`${spaceGrotesk.variable} ${dancingScript.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
+      <body suppressHydrationWarning>
+        <LanguageProvider>
+          <Navigation />
+          <main>{children}</main>
+          <Suspense fallback={null}>
+            <Footer />
+          </Suspense>
+          <Toaster position="bottom-right" richColors closeButton duration={4000} />
+        </LanguageProvider>
+      </body>
+    </html>
+  )
+}
