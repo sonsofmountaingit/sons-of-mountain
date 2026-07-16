@@ -67,6 +67,26 @@ function Avatar({ t, size = 52 }: { t: Testimonial; size?: number }) {
   )
 }
 
+function Stars({ rating, size = 13, color = '#f5b400' }: { rating: number; size?: number; color?: string }) {
+  return (
+    <div style={{ display: 'flex', gap: '0.15rem' }}>
+      {Array.from({ length: 5 }, (_, i) => (
+        <svg
+          key={i}
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill={i < rating ? color : 'none'}
+          stroke={color}
+          strokeWidth="1.5"
+        >
+          <path d="M12 2.5l2.9 6.6 7.1.7-5.4 4.8 1.7 7-6.3-3.8-6.3 3.8 1.7-7-5.4-4.8 7.1-.7z" />
+        </svg>
+      ))}
+    </div>
+  )
+}
+
 function SignatureName({ name, instagramHandle }: { name: string; instagramHandle?: string }) {
   const style = {
     fontFamily: "'Caveat', cursive",
@@ -166,6 +186,10 @@ function Modal({ t, onClose }: { t: Testimonial; onClose: () => void }) {
 
         <div style={{ marginBottom: '1.75rem' }}>
           <Avatar t={t} size={56} />
+        </div>
+
+        <div style={{ marginBottom: '1rem' }}>
+          <Stars rating={t.rating} size={15} />
         </div>
 
         <p style={{
@@ -292,6 +316,10 @@ function Card({ t, onReadMore }: { t: Testimonial; onReadMore: (t: Testimonial) 
           <Avatar t={t} size={44} />
         </div>
       )}
+
+      <div style={{ marginBottom: '0.6rem' }}>
+        <Stars rating={t.rating} />
+      </div>
 
       <p style={{
         fontSize: '0.85rem',

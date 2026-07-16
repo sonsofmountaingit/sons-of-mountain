@@ -37,6 +37,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260716e_testimonials_instagram.ts",
+      "label": "migrations/20260716e_testimonials_instagram.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260710_free_transfer_peak.ts",
       "label": "migrations/20260710_free_transfer_peak.ts",
       "group": "other",
@@ -3547,6 +3553,10 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260716d_testimonials_role.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260716e_testimonials_instagram.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -7289,6 +7299,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-16T13:01:53.500Z",
-  "fileCount": 583
+  "builtAt": "2026-07-16T13:04:15.983Z",
+  "fileCount": 584
 }

@@ -71,6 +71,18 @@
     "lines": 20,
     "group": "other"
   },
+  "src/migrations/20260716e_testimonials_instagram.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 16,
+    "group": "other"
+  },
   "src/migrations/20260710_free_transfer_peak.ts": {
     "exports": [
       "up",
@@ -148,9 +160,10 @@
       "./20260716_customers_native_auth",
       "./20260716b_preferences_rels_customers",
       "./20260716c_transport_map_link",
-      "./20260716d_testimonials_role"
+      "./20260716d_testimonials_role",
+      "./20260716e_testimonials_instagram"
     ],
-    "lines": 76,
+    "lines": 82,
     "group": "other"
   },
   "src/migrations/20260714b_seo_meta_keywords_all_collections.ts": {
@@ -5028,7 +5041,7 @@
       "next/server",
       "next/cache"
     ],
-    "lines": 87,
+    "lines": 92,
     "group": "collections"
   },
   "src/payload/collections/Users.ts": {
@@ -5455,7 +5468,7 @@
       "gsap",
       "gsap/ScrollTrigger"
     ],
-    "lines": 470,
+    "lines": 502,
     "group": "blocks"
   },
   "src/components/blocks/EmbedBlockRenderer.tsx": {
@@ -6870,7 +6883,7 @@
       "@/components/blocks/testimonials/TestimonialsBlock",
       "./TestimonialsEditButton"
     ],
-    "lines": 58,
+    "lines": 59,
     "group": "ui"
   },
   "src/components/ui/DestinationCard.tsx": {
