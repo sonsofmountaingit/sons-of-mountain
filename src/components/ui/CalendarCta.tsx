@@ -52,9 +52,9 @@ export async function CalendarCta() {
   return (
     <>
       <CalendarCtaBlock
-        heading={d?.heading ?? 'Търсиш следващото приключение?'}
-        subheading={d?.subheading ?? 'Разгледай всички предстоящи пътувания.'}
-        buttonText={d?.buttonText ?? 'Виж календара'}
+        heading={d?.heading ?? 'Looking for your next adventure?'}
+        subheading={d?.subheading ?? 'Browse all upcoming trips.'}
+        buttonText={d?.buttonText ?? 'View Calendar'}
         buttonUrl={d?.buttonUrl ?? '/calendar'}
         destinationImages={destinationImages}
       />

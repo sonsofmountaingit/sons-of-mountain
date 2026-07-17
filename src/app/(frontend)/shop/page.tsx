@@ -22,17 +22,18 @@ export async function generateMetadata(): Promise<Metadata> {
 const getCatalog = unstable_cache(
   async () => {
     const payload = await getPayload({ config })
-    const [shop, categories, products, trips, bundles] = await Promise.all([
+    const [shop, categories, products, trips, bundles, programs] = await Promise.all([
       payload.findGlobal({ slug: 'shop', depth: 2, overrideAccess: true }),
       payload.find({ collection: 'categories', sort: 'sortOrder', limit: 20, depth: 1, overrideAccess: true }),
       payload.find({ collection: 'products', where: { status: { equals: 'active' } }, sort: '-createdAt', limit: 24, depth: 1, overrideAccess: true }),
       payload.find({ collection: 'trips', where: { status: { not_equals: 'draft' } }, sort: 'startDate', limit: 12, depth: 1, overrideAccess: true }),
       payload.find({ collection: 'bundles', where: { isActive: { equals: true } }, limit: 4, depth: 2, overrideAccess: true }),
+      payload.find({ collection: 'programs', where: { status: { equals: 'active' } }, sort: 'startDate', limit: 12, depth: 1, overrideAccess: true }),
     ])
-    return { shop, categories: categories.docs, products: products.docs, trips: trips.docs, bundles: bundles.docs }
+    return { shop, categories: categories.docs, products: products.docs, trips: trips.docs, bundles: bundles.docs, programs: programs.docs }
   },
   ['shop-catalog'],
-  { tags: ['shop', 'categories', 'products', 'trips', 'bundles'], revalidate: false }
+  { tags: ['shop', 'categories', 'products', 'trips', 'bundles', 'programs'], revalidate: false }
 )
 
 export default function ShopPage({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
@@ -45,7 +46,7 @@ export default function ShopPage({ searchParams }: { searchParams: Promise<{ cat
 
 async function ShopPageInner({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
   const { category } = await searchParams
-  const { shop, categories, products, trips, bundles } = await getCatalog()
+  const { shop, categories, products, trips, bundles, programs } = await getCatalog()
   const shopData = shop as any
 
   const filteredProducts = category
@@ -117,6 +118,12 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
           </Link>
           <Link href="/shop/bundles" className="px-5 py-2 text-xs tracking-widest uppercase font-medium border border-white/10 text-white/50 hover:border-white/30 hover:text-white transition-colors">
             Bundles
+          </Link>
+          <Link href="/individual-programs" className="px-5 py-2 text-xs tracking-widest uppercase font-medium border border-white/10 text-white/50 hover:border-white/30 hover:text-white transition-colors">
+            Programs
+          </Link>
+          <Link href="/destinations" className="px-5 py-2 text-xs tracking-widest uppercase font-medium border border-white/10 text-white/50 hover:border-white/30 hover:text-white transition-colors">
+            Destinations
           </Link>
         </nav>
 
@@ -200,6 +207,51 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
                     stock={product.stock ?? 0}
                     category={typeof product.category === 'object' ? product.category?.name : null}
                   />
+                )
+              })}
+            </div>
+          </section>
+        )}
+
+        {!category && programs.length > 0 && (
+          <section className="mb-20">
+            <div className="flex items-end justify-between mb-8">
+              <div>
+                <p className="text-xs tracking-widest text-white/30 uppercase mb-2">Guided experiences</p>
+                <h2 className="text-3xl font-bold">Individual Programs</h2>
+              </div>
+              <Link href="/individual-programs" className="text-xs tracking-widest uppercase text-white/30 hover:text-white transition-colors">
+                All programs →
+              </Link>
+            </div>
+            <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-3 border border-[#1a1a1a]">
+              {programs.map((program: any) => {
+                const soldOut = program.status === 'soldOut' || program.spotsAvailable === 0
+                return (
+                  <Link
+                    key={program.id}
+                    href={`/programs/${program.slug ?? String(program.id)}`}
+                    className="group flex flex-col bg-[#111] p-8 hover:bg-[#161616] transition-colors"
+                  >
+                    <div className="flex justify-between items-start gap-4">
+                      <div>
+                        <p className="font-semibold text-white group-hover:text-white/80 transition-colors">{program.title}</p>
+                        {program.type && <p className="text-xs text-white/30 mt-1">{program.type}</p>}
+                      </div>
+                      {soldOut && (
+                        <span className="shrink-0 text-xs font-semibold text-red-400 border border-red-900/40 px-2 py-0.5">Sold out</span>
+                      )}
+                    </div>
+                    <div className="mt-auto pt-8 flex items-center justify-between">
+                      <span className="text-xs text-white/30">
+                        {program.startDate ? new Date(program.startDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : ''}
+                      </span>
+                      <span className="text-xl font-bold text-white">{formatPrice(program.price)}</span>
+                    </div>
+                    {!soldOut && typeof program.spotsAvailable === 'number' && (
+                      <p className="text-xs text-white/20 mt-1">{program.spotsAvailable} spots left</p>
+                    )}
+                  </Link>
                 )
               })}
             </div>

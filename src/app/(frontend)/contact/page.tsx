@@ -96,7 +96,7 @@ export default async function ContactPage() {
             />
           </div>
         </div>
-        <ContactGuidesBlock heading={d?.guidesHeading} />
+        <ContactGuidesBlock heading={d?.guidesHeading ?? 'Follow our guides'} />
         <ContactFAQBlock faqItems={faqItems} />
       </div>
     </>

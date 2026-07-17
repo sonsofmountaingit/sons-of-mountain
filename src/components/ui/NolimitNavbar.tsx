@@ -5,10 +5,10 @@ import { useState, useRef } from 'react'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'motion/react'
 
 const LINKS = [
-  { label: 'Яхтен Фестивал', href: '/nolimit' },
-  { label: 'Програма', href: '/nolimit/itinerary' },
-  { label: 'Катамарани', href: '/nolimit/catamarans' },
-  { label: 'Галерия', href: '/nolimit/gallery' },
+  { label: 'Yacht Festival', href: '/nolimit' },
+  { label: 'Itinerary', href: '/nolimit/itinerary' },
+  { label: 'Catamarans', href: '/nolimit/catamarans' },
+  { label: 'Gallery', href: '/nolimit/gallery' },
   { label: 'NextGen', href: '/nolimit/nextgen' },
   { label: 'Panicframe.com', href: '/' },
 ]
@@ -43,7 +43,7 @@ export function NolimitNavbar() {
             ))}
           </div>
           <Link href="/nolimit/sign-up" className="hidden lg:inline-flex px-5 py-2 bg-white text-black text-xs font-semibold rounded hover:bg-white/90 transition-colors">
-            Запиши се
+            Sign up
           </Link>
           <button className="lg:hidden p-2 text-white" onClick={() => setMobileOpen(true)} aria-label="Open menu">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -63,7 +63,7 @@ export function NolimitNavbar() {
               </button>
             </div>
             <nav className="flex flex-col gap-2 px-6 pt-8">
-              {[...LINKS, { label: 'Запиши се', href: '/nolimit/sign-up' }].map((link, i) => (
+              {[...LINKS, { label: 'Sign up', href: '/nolimit/sign-up' }].map((link, i) => (
                 <motion.div key={link.href} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}>
                   <Link href={link.href} onClick={() => setMobileOpen(false)} className="block text-xl font-medium py-3 text-white/80 hover:text-white transition-colors border-b border-white/10">
                     {link.label}

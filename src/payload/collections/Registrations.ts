@@ -50,7 +50,7 @@ export const Registrations: CollectionConfig = {
         { label: 'Чакащ', value: 'pending' },
         { label: 'Потвърден', value: 'confirmed' },
         { label: 'Платен', value: 'paid' },
-        { label: 'Отказан', value: 'cancelled' },
+        { label: 'Cancelled', value: 'cancelled' },
         { label: 'Върнат', value: 'refunded' },
       ],
       defaultValue: 'pending',

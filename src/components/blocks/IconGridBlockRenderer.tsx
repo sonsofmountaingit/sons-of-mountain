@@ -2,6 +2,8 @@
 
 import Link from 'next/link'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
+import { useLanguage } from '@/lib/language-context'
+import { getDefaultStrings } from '@/lib/get-default-strings'
 
 interface IconGridItem {
   icon: string
@@ -15,6 +17,8 @@ interface IconGridBlockProps {
 }
 
 export function IconGridBlockRenderer({ block }: IconGridBlockProps) {
+  const { language } = useLanguage()
+  const strings = getDefaultStrings(language)
   const { title, items, columns, ...styleProps } = block
   const cols = parseInt(columns || '3')
   const gridClass = cols === 2 ? 'md:grid-cols-2' : cols === 4 ? 'md:grid-cols-2 lg:grid-cols-4' : cols === 5 ? 'md:grid-cols-3 lg:grid-cols-5' : 'md:grid-cols-3'

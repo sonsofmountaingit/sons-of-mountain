@@ -9,6 +9,14 @@ import { ShakingCredit } from './ShakingCredit'
 import { FooterForm } from './FooterForm'
 import { FooterReveal } from './FooterReveal'
 
+const NAV_TRANSLATIONS: Record<string, Record<string, string>> = {
+  'Calendar': { BG: 'КАЛЕНДАР', EN: 'Calendar' },
+  'Gallery': { BG: 'ГАЛЕРИЯ', EN: 'Gallery' },
+  'Blog': { BG: 'БЛОГ', EN: 'Blog' },
+  'About': { BG: 'ЗА НАС', EN: 'About' },
+  'Contact': { BG: 'КОНТАКТИ', EN: 'Contact' },
+}
+
 interface FooterClientProps {
   travelLinks: Array<{ name: string; month: string; href: string }>
   navLinks: Array<{ label: string; href: string }>
@@ -70,7 +78,16 @@ export function FooterClient({
   consentText,
   consentLinkText,
 }: FooterClientProps) {
-  const { t } = useLanguage()
+  const { language, t } = useLanguage()
+
+  const translateLabel = (label: string): string => {
+    return NAV_TRANSLATIONS[label]?.[language] ?? label
+  }
+
+  const translatedNavLinks = navLinks.map(link => ({
+    ...link,
+    label: translateLabel(link.label)
+  }))
 
   return (
     <FooterReveal>
@@ -100,7 +117,7 @@ export function FooterClient({
               {navSectionHeading}
             </p>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {navLinks.map((link, i) => (
+              {translatedNavLinks.map((link, i) => (
                 <li key={i} data-reveal>
                   <FooterShakingLink href={link.href} style={{ fontSize: '0.9rem', fontWeight: 500, color: '#ffffff', textDecoration: 'none' }}>
                     {link.label}

@@ -14,7 +14,7 @@ export function ContactGuidesBlockRenderer({ heading, guides }: { heading?: stri
   return (
     <div className="px-6 pb-12">
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold mb-8">{heading || 'Последвай водачите ни'}</h2>
+        <h2 className="text-3xl font-bold mb-8">{heading || 'Follow our guides'}</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {withInstagram.map((guide) => (
             <a

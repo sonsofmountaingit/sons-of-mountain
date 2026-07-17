@@ -42,7 +42,7 @@ async function EditorContent() {
         type: 'WhyTravelWithUsBlock',
         props: {
           id: 'home-why-travel',
-          heading: (whyTravel as any)?.heading ?? 'ЗАЩО ДА ДОЙДЕШ С НАС?',
+          heading: (whyTravel as any)?.heading ?? 'WHY TRAVEL WITH US?',
           items: (whyTravel as any)?.items ?? [],
         },
       },
@@ -50,7 +50,7 @@ async function EditorContent() {
         type: 'FeaturedTravelsBlock',
         props: {
           id: 'home-featured-travels',
-          heading: (featuredTravels as any)?.heading ?? 'ИЗБЕРИ СВОЯ ПРЕХОД',
+          heading: (featuredTravels as any)?.heading ?? 'CHOOSE YOUR JOURNEY',
         },
       },
       {
@@ -65,9 +65,9 @@ async function EditorContent() {
         type: 'CalendarCtaBlock',
         props: {
           id: 'home-calendar-cta',
-          heading: (calendarCta as any)?.heading ?? 'Кой е твоят следващ връх?',
+          heading: (calendarCta as any)?.heading ?? "What's your next peak?",
           subheading: (calendarCta as any)?.subheading ?? 'Разгледай всички предстоящи програми.',
-          buttonText: (calendarCta as any)?.buttonText ?? 'Виж календара',
+          buttonText: (calendarCta as any)?.buttonText ?? 'View calendar',
           buttonUrl: (calendarCta as any)?.buttonUrl ?? '/calendar',
         },
       },

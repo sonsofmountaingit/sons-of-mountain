@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
+import { useLanguage } from '@/lib/language-context'
+import { getDefaultStrings } from '@/lib/get-default-strings'
 
 interface NewsletterBlockProps {
   block: {
@@ -15,7 +17,17 @@ interface NewsletterBlockProps {
 }
 
 export function NewsletterBlockRenderer({ block }: NewsletterBlockProps) {
-  const { heading, subheading, placeholder, buttonText, formAction, successMessage, ...styleProps } = block
+  const { heading: customHeading, subheading: customSubheading, placeholder: customPlaceholder, buttonText: customButtonText, formAction, successMessage: customSuccessMessage, ...styleProps } = block
+  const { language } = useLanguage()
+  const strings = getDefaultStrings(language)
+  const nf = strings.newsletterForm
+
+  const heading = customHeading ?? nf.heading
+  const subheading = customSubheading ?? nf.subheading
+  const placeholder = customPlaceholder ?? nf.placeholder
+  const buttonText = customButtonText ?? nf.buttonText
+  const successMessage = customSuccessMessage ?? nf.successMessage
+
   const [email, setEmail] = useState('')
   const [sent, setSent] = useState(false)
   const [loading, setLoading] = useState(false)

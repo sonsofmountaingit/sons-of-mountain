@@ -23,7 +23,7 @@ async function EditorContent() {
         type: 'FeaturedTravelsBlock',
         props: {
           id: 'featured-travels-block',
-          heading: g?.heading ?? 'ИЗБЕРИ СВОЕТО ПЪТУВАНЕ',
+          heading: g?.heading ?? 'CHOOSE YOUR JOURNEY',
         },
       },
     ],

@@ -4,6 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { mediaUrl } from '@/lib/media-url'
 import { DestinationCarouselBlock } from '@/components/blocks/destination-carousel/DestinationCarouselBlock'
 import { DestinationCarouselEditButton } from './DestinationCarouselEditButton'
+import { translations } from '@/lib/translations'
 
 type RelatedItem = {
   id?: string
@@ -145,7 +146,7 @@ export async function DestinationCarousel() {
     href: `/${COLLECTION_TO_PATH[d.kind]}/${d.slug}`,
     heroImage: d.heroImage,
     month: d.month,
-    spotsLabel: d.availableSpots != null ? `Само ${d.availableSpots} места` : undefined,
+    spotsLabel: d.availableSpots != null ? `Available: ${d.availableSpots}` : undefined,
     availableSpots: d.availableSpots ?? undefined,
     price: d.price ?? undefined,
     overrideTitle: d.overrideTitle,
@@ -157,18 +158,18 @@ export async function DestinationCarousel() {
     headline: carousel.introSlideHeadline,
     subheading: carousel.introSlideSubheading,
     backgroundImageUrl: carousel.introSlideBackgroundImage?.url ? mediaUrl(carousel.introSlideBackgroundImage.url) ?? undefined : undefined,
-    buttonText: carousel.introSlideButtonText ?? 'Разгледај',
+    buttonText: carousel.introSlideButtonText ?? 'Explore',
   } : undefined
 
   return (
     <>
       <DestinationCarouselBlock
-        sectionTitle={carousel?.sectionTitle ?? 'Дестинации'}
+        sectionTitle={carousel?.sectionTitle ?? 'Destinations'}
         headline={carousel?.headline}
         subheading={carousel?.subheading}
-        destinationButtonText={carousel?.destinationButtonText ?? 'Разгледай'}
+        destinationButtonText={carousel?.destinationButtonText ?? 'Explore'}
         destinations={mapped}
-        emptyMessage="В момента няма данни"
+        emptyMessage="No data available"
         introSlide={introSlide}
       />
       <DestinationCarouselEditButton />

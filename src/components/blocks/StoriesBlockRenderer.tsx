@@ -4,6 +4,8 @@ import { useRef } from 'react'
 import { motion } from 'motion/react'
 import { StoryCard } from '@/components/ui/StoryCard'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
+import { useLanguage } from '@/lib/language-context'
+import { getDefaultStrings } from '@/lib/get-default-strings'
 
 interface Story {
   id: string
@@ -23,6 +25,8 @@ interface StoriesBlockProps {
 }
 
 export function StoriesBlockRenderer({ block }: StoriesBlockProps) {
+  const { language } = useLanguage()
+  const strings = getDefaultStrings(language)
   const stories = block.stories ?? block._stories ?? []
   const scrollRef = useRef<HTMLDivElement>(null)
 

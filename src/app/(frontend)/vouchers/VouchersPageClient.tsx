@@ -93,6 +93,25 @@ interface ProgramGroupItem {
   id: string
   title: string
   kind: 'trip' | 'program'
+  price?: number
+  currency?: string
+  earlyBirdPrice?: number
+  earlyBirdUntil?: string
+}
+
+function isEarlyBirdActive(item: ProgramGroupItem) {
+  if (!item.earlyBirdPrice) return false
+  if (!item.earlyBirdUntil) return true
+  return new Date(item.earlyBirdUntil).getTime() > Date.now()
+}
+
+function formatItemPrice(item: ProgramGroupItem) {
+  if (item.price == null) return ''
+  const currency = item.currency ?? 'EUR'
+  if (isEarlyBirdActive(item)) {
+    return `Early bird: ${item.earlyBirdPrice} ${currency} (${item.price} ${currency})`
+  }
+  return `${item.price} ${currency}`
 }
 
 interface ProgramGroup {
@@ -428,7 +447,7 @@ function BuyTab({
                     <optgroup key={group.id} label={group.label}>
                       {group.items.map((item) => (
                         <option key={`${item.kind}:${item.id}`} value={`${item.kind}:${item.id}`}>
-                          {item.title}
+                          {item.title}{formatItemPrice(item) ? ` — ${formatItemPrice(item)}` : ''}
                         </option>
                       ))}
                     </optgroup>
@@ -437,6 +456,7 @@ function BuyTab({
                 {selectedProgram && (
                   <p className="text-xs text-white/40 mt-2">
                     {c.selectedProgramPrefix} <span className="text-white/70">{selectedProgram.title}</span>
+                    {formatItemPrice(selectedProgram) && <span className="text-white/50"> — {formatItemPrice(selectedProgram)}</span>}
                   </p>
                 )}
               </>

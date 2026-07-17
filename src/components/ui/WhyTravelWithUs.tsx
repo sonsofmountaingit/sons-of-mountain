@@ -114,14 +114,14 @@ const getData = unstable_cache(
 export async function WhyTravelWithUs() {
   const { global: g, tripMap } = await getData()
 
-  const heading = g?.heading ?? 'ЗАЩО ДА ПЪТУВАШ С НАС?'
-  const ctaLabel = g?.ctaLabel ?? 'Научи повече'
+  const heading = g?.heading ?? 'WHY TRAVEL WITH US?'
+  const ctaLabel = g?.ctaLabel ?? 'Learn more'
   const ctaHref = g?.ctaHref ?? '/about'
   const VALID_ICONS = new Set<string>(['camera', 'globe', 'city'])
   const defaultItems = [
-    { icon: 'camera' as const, title: 'Автентичност', body: 'Пътувания, в които се сливаш с мястото, не просто го снимаш.' },
-    { icon: 'globe' as const, title: 'Общност', body: 'Малки групи от хора със сходен дух и жажда за приключения.' },
-    { icon: 'city' as const, title: 'Смисъл', body: 'Моменти, които остават в съзнанието дълго след като се приберeш.' },
+    { icon: 'camera' as const, title: 'Authenticity', body: 'Journeys where you blend with the place, not just photograph it.' },
+    { icon: 'globe' as const, title: 'Community', body: 'Small groups of like-minded people with a passion for adventure.' },
+    { icon: 'city' as const, title: 'Meaning', body: 'Moments that stay with you long after you return home.' },
   ]
   const items = (g?.items ?? defaultItems).map((item) => ({
     icon: (VALID_ICONS.has(item.icon ?? '') ? item.icon : 'camera') as 'camera' | 'globe' | 'city',

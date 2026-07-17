@@ -23,13 +23,13 @@ const getNavigationData = unstable_cache(
     } catch {
       return {
         navLinksLeft: [
-          { label: 'КАЛЕНДАР', href: '/calendar' },
-          { label: 'ГАЛЕРИЯ', href: '/gallery' },
+          { label: 'Calendar', href: '/calendar' },
+          { label: 'Gallery', href: '/gallery' },
         ],
         navLinksRight: [
-          { label: 'БЛОГ', href: '/blog' },
-          { label: 'ЗА НАС', href: '/about' },
-          { label: 'КОНТАКТИ', href: '/contact' },
+          { label: 'Blog', href: '/blog' },
+          { label: 'About', href: '/about' },
+          { label: 'Contact', href: '/contact' },
         ],
         instagramUrl: 'https://instagram.com/sonsofmountains',
         facebookUrl: 'https://facebook.com/sonsofmountains',

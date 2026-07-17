@@ -2,6 +2,8 @@
 
 import Link from 'next/link'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
+import { useLanguage } from '@/lib/language-context'
+import { getDefaultStrings } from '@/lib/get-default-strings'
 
 interface PricingTier {
   name: string
@@ -19,6 +21,8 @@ interface PricingBlockProps {
 }
 
 export function PricingBlockRenderer({ block }: PricingBlockProps) {
+  const { language } = useLanguage()
+  const strings = getDefaultStrings(language)
   const { title, tiers, ...styleProps } = block
   return (
     <BlockWrapper props={styleProps} innerClassName="max-w-[1200px] mx-auto px-6">

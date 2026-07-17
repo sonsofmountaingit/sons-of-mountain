@@ -4,7 +4,7 @@ export function CameraIcon() {
   return (
     <Image
       src="/icons/community.svg"
-      alt="Общност от активни хора"
+      alt="Community of active people"
       width={96}
       height={96}
     />

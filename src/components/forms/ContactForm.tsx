@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import { useLanguage } from '@/lib/language-context'
+import { getDefaultStrings } from '@/lib/get-default-strings'
 
 type Props = {
   namePlaceholder?: string
@@ -22,20 +24,37 @@ type Props = {
 }
 
 export function ContactForm({
-  namePlaceholder = 'Твоето име',
-  emailPlaceholder = 'Имейл адрес',
-  messagePlaceholder = 'Твоето съобщение',
-  submitLabel = 'Изпрати съобщение',
-  submitLoadingLabel = 'Изпращане...',
-  successHeading = 'Съобщението е изпратено!',
-  successSubtext = 'Ще се свържем с теб скоро.',
-  successResetLabel = 'Изпрати ново',
-  errorText = 'Грешка. Опитайте отново.',
-  rateLimitedText = 'Твърде много опити. Опитай отново по-късно.',
-  nameMinError = 'Минимум 2 символа',
-  emailInvalidError = 'Невалиден имейл',
-  messageMinError = 'Минимум 10 символа',
+  namePlaceholder: customNamePlaceholder,
+  emailPlaceholder: customEmailPlaceholder,
+  messagePlaceholder: customMessagePlaceholder,
+  submitLabel: customSubmitLabel,
+  submitLoadingLabel: customSubmitLoadingLabel,
+  successHeading: customSuccessHeading,
+  successSubtext: customSuccessSubtext,
+  successResetLabel: customSuccessResetLabel,
+  errorText: customErrorText,
+  rateLimitedText: customRateLimitedText,
+  nameMinError: customNameMinError,
+  emailInvalidError: customEmailInvalidError,
+  messageMinError: customMessageMinError,
 }: Props) {
+  const { language } = useLanguage()
+  const strings = getDefaultStrings(language)
+  const cf = strings.contactForm
+
+  const namePlaceholder = customNamePlaceholder ?? cf.namePlaceholder
+  const emailPlaceholder = customEmailPlaceholder ?? cf.emailPlaceholder
+  const messagePlaceholder = customMessagePlaceholder ?? cf.messagePlaceholder
+  const submitLabel = customSubmitLabel ?? cf.submitLabel
+  const submitLoadingLabel = customSubmitLoadingLabel ?? cf.submitLoadingLabel
+  const successHeading = customSuccessHeading ?? cf.successHeading
+  const successSubtext = customSuccessSubtext ?? cf.successSubtext
+  const successResetLabel = customSuccessResetLabel ?? cf.successResetLabel
+  const errorText = customErrorText ?? cf.errorText
+  const rateLimitedText = customRateLimitedText ?? cf.rateLimitedText
+  const nameMinError = customNameMinError ?? cf.nameMinError
+  const emailInvalidError = customEmailInvalidError ?? cf.emailInvalidError
+  const messageMinError = customMessageMinError ?? cf.messageMinError
   const schema = z.object({
     name: z.string().min(2, nameMinError).max(100),
     email: z.string().email(emailInvalidError).max(200),

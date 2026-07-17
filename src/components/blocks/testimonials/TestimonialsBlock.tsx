@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useLanguage } from '@/lib/language-context'
+import { getDefaultStrings } from '@/lib/get-default-strings'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -336,7 +338,7 @@ function Card({ t, onReadMore }: { t: Testimonial; onReadMore: (t: Testimonial) 
       </p>
 
       <button className="test-read-more" onClick={() => onReadMore(t)}>
-        Повече →
+        More →
       </button>
 
       <div style={{ marginTop: 'auto', paddingTop: '1.25rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>

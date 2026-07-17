@@ -5,7 +5,7 @@ interface Props {
   faqItems?: FAQItem[]
 }
 
-export function ContactFAQBlock({ heading = 'Често задавани въпроси', faqItems = [] }: Props) {
+export function ContactFAQBlock({ heading = 'Frequently asked questions', faqItems = [] }: Props) {
   return (
     <div className="px-6 pb-12">
       <div className="max-w-3xl mx-auto">

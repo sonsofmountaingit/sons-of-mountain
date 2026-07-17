@@ -14,29 +14,29 @@ export type MonthGroup = {
 }
 
 const CATEGORY_LABELS: Record<string, string> = {
-  all: 'ВСИЧКИ',
-  bulgaria: 'В БЪЛГАРИЯ',
-  abroad: 'В ЧУЖБИНА',
-  individual: 'ИНДИВИДУАЛНА ПРОГРАМА',
+  all: 'ALL',
+  bulgaria: 'IN BULGARIA',
+  abroad: 'ABROAD',
+  individual: 'CUSTOM PROGRAM',
 }
 
 
 const SEASON_LABELS: Record<number, string> = {
-  0: 'ЗИМА', 1: 'ЗИМА', 11: 'ЗИМА',
-  2: 'ПРОЛЕТ', 3: 'ПРОЛЕТ', 4: 'ПРОЛЕТ',
-  5: 'ЛЯТО', 6: 'ЛЯТО', 7: 'ЛЯТО',
-  8: 'ЕСЕН', 9: 'ЕСЕН', 10: 'ЕСЕН',
+  0: 'WINTER', 1: 'WINTER', 11: 'WINTER',
+  2: 'SPRING', 3: 'SPRING', 4: 'SPRING',
+  5: 'SUMMER', 6: 'SUMMER', 7: 'SUMMER',
+  8: 'FALL', 9: 'FALL', 10: 'FALL',
 }
 const SEASON_COLORS: Record<string, string> = {
-  ЗИМА: 'text-blue-500',
-  ПРОЛЕТ: 'text-green-600',
-  ЛЯТО: 'text-amber-500',
-  ЕСЕН: 'text-orange-500',
+  WINTER: 'text-blue-500',
+  SPRING: 'text-green-600',
+  SUMMER: 'text-amber-500',
+  FALL: 'text-orange-500',
 }
 const MONTHS_BG: Record<number, string> = {
-  0: 'ЯНУАРИ', 1: 'ФЕВРУАРИ', 2: 'МАРТ', 3: 'АПРИЛ',
-  4: 'МАЙ', 5: 'ЮНИ', 6: 'ЮЛИ', 7: 'АВГУСТ',
-  8: 'СЕПТЕМВРИ', 9: 'ОКТОМВРИ', 10: 'НОЕМВРИ', 11: 'ДЕКЕМВРИ',
+  0: 'JANUARY', 1: 'FEBRUARY', 2: 'MARCH', 3: 'APRIL',
+  4: 'MAY', 5: 'JUNE', 6: 'JULY', 7: 'AUGUST',
+  8: 'SEPTEMBER', 9: 'OCTOBER', 10: 'NOVEMBER', 11: 'DECEMBER',
 }
 
 type RowData = {
@@ -401,7 +401,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
   function updateUrl(params: Record<string, string>) {
     const sp = new URLSearchParams(searchParams.toString())
     for (const [k, v] of Object.entries(params)) {
-      if (v === 'all' || v === 'Всички' || v === '') sp.delete(k)
+      if (v === 'all' || v === 'ALL' || v === '') sp.delete(k)
       else sp.set(k, v)
     }
     router.replace(`${pathname}?${sp.toString()}`, { scroll: false })
@@ -522,9 +522,9 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
       {/* Filter bar */}
       <div ref={filterBarRef} className="mb-10 print:hidden relative z-40">
         <div className="flex items-center gap-2">
-          {/* Dropdown: Дестинация */}
+          {/* Dropdown: Destination */}
           <FilterDropdown
-            label="ДЕСТИНАЦИЯ"
+            label="DESTINATION"
             active={category !== 'all'}
             summary={category !== 'all' ? CATEGORY_LABELS[category] : undefined}
           >
@@ -546,11 +546,11 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
             </div>
           </FilterDropdown>
 
-          {/* Dropdown: Тип */}
+          {/* Dropdown: Type */}
           <FilterDropdown
-            label="ТИП"
-            active={tag !== 'Всички'}
-            summary={tag !== 'Всички' ? tag.toUpperCase() : undefined}
+            label="TYPE"
+            active={tag !== 'All'}
+            summary={tag !== 'All' ? tag.toUpperCase() : undefined}
           >
             <div className="flex flex-wrap gap-1.5 p-3" style={{ maxWidth: '320px' }}>
               {tagOptions.map((t) => (
@@ -570,9 +570,9 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
             </div>
           </FilterDropdown>
 
-          {/* Dropdown: Трудност */}
+          {/* Dropdown: Difficulty */}
           <FilterDropdown
-            label="ТРУДНОСТ"
+            label="DIFFICULTY"
             active={difficulty !== 'all'}
             summary={difficulty !== 'all' ? DIFFICULTY_LABELS[Number(difficulty)] : undefined}
           >
@@ -586,7 +586,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
                     : 'border-transparent text-zinc-400 hover:text-zinc-700 hover:border-zinc-200',
                 ].join(' ')}
               >
-                ВСИЧКИ
+                ALL
               </button>
               {Object.entries(DIFFICULTY_LABELS).map(([val, lbl]) => (
                 <button
@@ -605,11 +605,11 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
             </div>
           </FilterDropdown>
 
-          {/* Dropdown: Период */}
+          {/* Dropdown: Period */}
           <FilterDropdown
-            label="ПЕРИОД"
+            label="PERIOD"
             active={year !== 'all' || onlyAvailable}
-            summary={year !== 'all' ? String(year) : onlyAvailable ? 'СВОБОДНИ' : undefined}
+            summary={year !== 'all' ? String(year) : onlyAvailable ? 'AVAILABLE' : undefined}
           >
             <div className="flex flex-col gap-1 p-3">
               {allYears.map((y) => (
@@ -696,7 +696,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
       )}
 
       {!mapView && filteredGroups.length === 0 && (
-        <p className="text-zinc-400 text-center py-24 text-sm">Няма намерени пътувания.</p>
+        <p className="text-zinc-400 text-center py-24 text-sm">No trips found.</p>
       )}
 
       {!mapView && (

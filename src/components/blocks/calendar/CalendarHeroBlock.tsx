@@ -3,7 +3,7 @@ interface Props {
   subheading?: string
 }
 
-export function CalendarHeroBlock({ heading = 'Календар', subheading = 'Предстоящи пътувания и програми по месец' }: Props) {
+export function CalendarHeroBlock({ heading = 'Calendar', subheading = 'Upcoming journeys and programs by month' }: Props) {
   return (
     <div className="pt-28 pb-8 px-6">
       <div className="max-w-7xl mx-auto">

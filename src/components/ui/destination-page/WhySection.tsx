@@ -37,11 +37,11 @@ interface Props {
 }
 
 const DIFFICULTY_LABELS: Record<number, string> = {
-  1: 'Много лесно',
-  2: 'Лесно',
-  3: 'Умерено',
-  4: 'Трудно',
-  5: 'Много трудно',
+  1: 'Very easy',
+  2: 'Easy',
+  3: 'Moderate',
+  4: 'Hard',
+  5: 'Very hard',
 }
 
 function DifficultyLabel(score: number | null | undefined) {
@@ -63,7 +63,7 @@ function VideoCard({
     <button
       onClick={onPlay}
       className={`relative w-40 sm:w-52 aspect-[9/16] rounded-2xl overflow-hidden shadow-xl flex-shrink-0 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black ${rotate}`}
-      aria-label={`Пусни видео${video.label ? `: ${video.label}` : ''}`}
+      aria-label={`Play video${video.label ? `: ${video.label}` : ''}`}
     >
       {video.thumbnailUrl ? (
         <Image
@@ -146,7 +146,7 @@ function VideoModal({
         <button
           onClick={onClose}
           className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
-          aria-label="Затвори"
+          aria-label="Close"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
             <path d="M18 6 6 18M6 6l12 12" />
@@ -172,13 +172,13 @@ function VideoModal({
             <div className="flex flex-wrap gap-x-5 gap-y-1 text-sm">
               {price != null && price > 0 && (
                 <div className="flex flex-col">
-                  <span className="text-white/50 text-[10px] uppercase tracking-widest">Цена</span>
+                  <span className="text-white/50 text-[10px] uppercase tracking-widest">Price</span>
                   <span className="text-white font-semibold">{price.toLocaleString('de-DE')} €</span>
                 </div>
               )}
               {spotsAvailable != null && (
                 <div className="flex flex-col">
-                  <span className="text-white/50 text-[10px] uppercase tracking-widest">Свободни места</span>
+                  <span className="text-white/50 text-[10px] uppercase tracking-widest">Available spots</span>
                   <span className={`font-semibold ${spotsAvailable <= 3 ? 'text-orange-400' : 'text-white'}`}>
                     {spotsAvailable}{spotsTotal ? ` / ${spotsTotal}` : ''}
                   </span>
@@ -186,13 +186,13 @@ function VideoModal({
               )}
               {diffLabel && (
                 <div className="flex flex-col">
-                  <span className="text-white/50 text-[10px] uppercase tracking-widest">Трудност</span>
+                  <span className="text-white/50 text-[10px] uppercase tracking-widest">Difficulty</span>
                   <span className="text-white font-semibold">{diffLabel}</span>
                 </div>
               )}
               {dateStr && (
                 <div className="flex flex-col">
-                  <span className="text-white/50 text-[10px] uppercase tracking-widest">Дати</span>
+                  <span className="text-white/50 text-[10px] uppercase tracking-widest">Dates</span>
                   <span className="text-white font-semibold">{dateStr}</span>
                 </div>
               )}
@@ -205,7 +205,7 @@ function VideoModal({
             onClick={onBook}
             className="w-full py-3 rounded-xl bg-white text-black text-sm font-semibold hover:bg-white/90 active:scale-[0.98] transition-all duration-150"
           >
-            Резервирай място
+            Book a spot
           </button>
         </div>
       </div>
@@ -285,7 +285,7 @@ export function WhySection({
 
           <div ref={textRef} className="text-center flex-shrink-0 max-w-lg w-full">
             <p className="text-[10px] font-semibold tracking-[0.2em] text-black/35 uppercase mb-3 sm:mb-4">
-              ЗАЩО {name.toUpperCase()}?
+              WHY {name.toUpperCase()}?
             </p>
             {heading && (
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight tracking-tight mb-4 sm:mb-5">

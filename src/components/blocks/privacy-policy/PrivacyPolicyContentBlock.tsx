@@ -14,7 +14,7 @@ export function PrivacyPolicyContentBlock({ title, lastUpdated, content }: Props
       <h1 style={{ fontSize: '2.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>{title}</h1>
       {lastUpdated && (
         <p style={{ fontSize: '0.875rem', opacity: 0.5, marginBottom: '2.5rem' }}>
-          Последна актуализация: {lastUpdated}
+          Last updated: {lastUpdated}
         </p>
       )}
       {content ? (

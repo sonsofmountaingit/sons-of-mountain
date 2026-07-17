@@ -55,7 +55,7 @@ export const GiftVouchers: CollectionConfig = {
         { label: 'Активен', value: 'active' },
         { label: 'Използван', value: 'redeemed' },
         { label: 'Изтекъл', value: 'expired' },
-        { label: 'Отказан', value: 'cancelled' },
+        { label: 'Cancelled', value: 'cancelled' },
       ],
       defaultValue: 'active',
       required: true,

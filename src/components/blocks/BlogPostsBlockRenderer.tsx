@@ -4,6 +4,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
 import { mediaUrl } from '@/lib/media-url'
+import { useLanguage } from '@/lib/language-context'
+import { getDefaultStrings } from '@/lib/get-default-strings'
 
 interface BlogPost {
   id: string
@@ -27,6 +29,8 @@ interface BlogPostsBlockProps {
 }
 
 export function BlogPostsBlockRenderer({ block }: BlogPostsBlockProps) {
+  const { language } = useLanguage()
+  const strings = getDefaultStrings(language)
   const { title, posts, layout, ctaText, ctaLink, ...styleProps } = block
   const items = posts ?? []
   const isGrid = layout !== 'list'

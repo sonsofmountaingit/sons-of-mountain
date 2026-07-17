@@ -937,6 +937,24 @@
     "lines": 110,
     "group": "puck"
   },
+  "src/app/\\(frontend\\)/layout.tsx": {
+    "exports": [
+      "metadata",
+      "default:function"
+    ],
+    "types": [],
+    "imports": [
+      "next",
+      "next/font/google",
+      "react",
+      "@/components/ui/Navigation",
+      "@/components/ui/Footer",
+      "@/lib/language-context",
+      "sonner"
+    ],
+    "lines": 69,
+    "group": "app"
+  },
   "src/app/llms-full.txt/route.ts": {
     "exports": [
       "dynamic",
@@ -6737,9 +6755,11 @@
       "./ProgramsMegaMenu",
       "@/lib/auth-client",
       "@/components/shop/CartSheet",
-      "@/lib/cart-store"
+      "@/lib/cart-store",
+      "@/lib/language-context",
+      "@/lib/translations"
     ],
-    "lines": 529,
+    "lines": 526,
     "group": "ui"
   },
   "src/components/ui/DestinationCarousel.tsx": {
@@ -6856,19 +6876,14 @@
     ],
     "types": [],
     "imports": [
-      "next/link",
       "next/cache",
       "payload",
       "@payload-config",
-      "./FooterForm",
-      "./ShakingCredit",
+      "./FooterClient",
       "./FooterEditButton",
-      "./FooterLogo",
-      "./FooterSocialCounter",
-      "./FooterShakingLink",
-      "./FooterReveal"
+      "@/lib/translations"
     ],
-    "lines": 364,
+    "lines": 264,
     "group": "ui"
   },
   "src/components/ui/Testimonials.tsx": {
@@ -7198,6 +7213,24 @@
       "react"
     ],
     "lines": 51,
+    "group": "ui"
+  },
+  "src/components/ui/FooterClient.tsx": {
+    "exports": [
+      "FooterClient"
+    ],
+    "types": [],
+    "imports": [
+      "next/link",
+      "@/lib/language-context",
+      "./FooterLogo",
+      "./FooterSocialCounter",
+      "./FooterShakingLink",
+      "./ShakingCredit",
+      "./FooterForm",
+      "./FooterReveal"
+    ],
+    "lines": 198,
     "group": "ui"
   },
   "src/components/ui/IndividualProgramsEditButton.tsx": {
@@ -7827,6 +7860,17 @@
     "lines": 14,
     "group": "lib"
   },
+  "src/lib/use-translations.ts": {
+    "exports": [
+      "useTranslations"
+    ],
+    "types": [],
+    "imports": [
+      "./language-context"
+    ],
+    "lines": 7,
+    "group": "lib"
+  },
   "src/lib/payload-auth.ts": {
     "exports": [
       "verifyPayloadJWT"
@@ -7882,6 +7926,18 @@
     "lines": 181,
     "group": "lib"
   },
+  "src/lib/translations.ts": {
+    "exports": [
+      "translations"
+    ],
+    "types": [
+      "Language",
+      "Translations"
+    ],
+    "imports": [],
+    "lines": 976,
+    "group": "lib"
+  },
   "src/lib/send-registration-forms.ts": {
     "exports": [
       "sendRegistrationFormsFor"
@@ -7919,6 +7975,20 @@
     "types": [],
     "imports": [],
     "lines": 6,
+    "group": "lib"
+  },
+  "src/lib/language-context.tsx": {
+    "exports": [
+      "LanguageProvider",
+      "useLanguage"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "./translations",
+      "./translations"
+    ],
+    "lines": 50,
     "group": "lib"
   },
   "src/lib/rate-limit.ts": {

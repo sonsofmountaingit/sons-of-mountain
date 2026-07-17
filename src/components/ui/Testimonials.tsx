@@ -47,7 +47,7 @@ export async function Testimonials() {
   return (
     <>
       <TestimonialsBlock
-        heading={section?.heading ?? 'Какво казват нашите клиенти'}
+        heading={section?.heading ?? 'From Our Guests'}
         subheading={section?.subheading}
         topRow={topRow}
         bottomRow={bottomRow}

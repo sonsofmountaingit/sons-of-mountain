@@ -33,7 +33,7 @@ export function IndividualProgramInquiryForm({
   namePlaceholder = 'Твоето име',
   emailPlaceholder = 'Имейл адрес',
   phonePlaceholder = 'Телефон',
-  submitLabel = 'Изпрати запитване',
+  submitLabel = 'Send inquiry',
   submitLoadingLabel = 'Изпращане...',
   successHeading = 'Получихме твоето запитване!',
   successSubtext = 'Благодарим ти! Ще се свържем с теб съвсем скоро.',
@@ -76,7 +76,7 @@ export function IndividualProgramInquiryForm({
           onClick={() => setStatus('idle')}
           style={{ marginTop: 16, fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer' }}
         >
-          Изпрати ново
+          Send new
         </button>
       </div>
     )

@@ -141,7 +141,7 @@ export const CustomerMedia: CollectionConfig = {
       options: [
         { label: 'Чакащ', value: 'pending' },
         { label: 'Одобрен', value: 'approved' },
-        { label: 'Отказан', value: 'rejected' },
+        { label: 'Rejected', value: 'rejected' },
       ],
       defaultValue: 'pending',
       required: true,

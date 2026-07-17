@@ -27,14 +27,14 @@ export type FeaturedTravelItem = {
 }
 
 const REGION_LABEL: Record<string, string> = {
-  bulgaria: 'България',
-  abroad: 'Чужбина',
+  bulgaria: 'Bulgaria',
+  abroad: 'Abroad',
 }
 
 const KIND_LABEL: Record<string, string> = {
-  destination: 'Дестинация',
-  trip: 'Пътуване',
-  program: 'Програма',
+  destination: 'Destination',
+  trip: 'Trip',
+  program: 'Program',
 }
 
 const KIND_COLOR: Record<string, string> = {
@@ -47,7 +47,7 @@ function DifficultyRating({ value }: { value: number | null }) {
   const filled = value != null ? Math.max(0, Math.min(5, Math.round(value))) : 0
   return (
     <div className="flex items-center gap-1">
-      <span className="text-[9px] uppercase tracking-widest text-white/50 mr-0.5">Трудност</span>
+      <span className="text-[9px] uppercase tracking-widest text-white/50 mr-0.5">Difficulty</span>
       {Array.from({ length: 5 }).map((_, i) => (
         <span
           key={i}
@@ -85,8 +85,8 @@ function Card({ item }: { item: FeaturedTravelItem }) {
         </span>
         {item.spotsAvailable !== null && (
           item.spotsAvailable === 0
-            ? <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-red-500/80 text-white backdrop-blur-sm">Няма места</span>
-            : <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/80 text-white backdrop-blur-sm">{item.spotsAvailable} {item.spotsAvailable === 1 ? 'място' : 'места'}</span>
+            ? <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-red-500/80 text-white backdrop-blur-sm">No spots</span>
+            : <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/80 text-white backdrop-blur-sm">{item.spotsAvailable} {item.spotsAvailable === 1 ? 'spot' : 'spots'}</span>
         )}
       </div>
 
@@ -113,7 +113,7 @@ function Card({ item }: { item: FeaturedTravelItem }) {
             )}
             {item.durationDays && (
               <span className="text-[10px] text-white/70 bg-white/10 backdrop-blur-sm px-2 py-0.5 rounded-full">
-                {item.durationDays}д
+                {item.durationDays}days
               </span>
             )}
             {fmtPrice && (

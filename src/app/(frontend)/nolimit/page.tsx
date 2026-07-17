@@ -5,15 +5,15 @@ import { buildStaticMetadata } from '@/lib/metadata'
 export async function generateMetadata(): Promise<Metadata> {
   return buildStaticMetadata('/nolimit', {
     title: 'NoLimit Yacht Festival — Sons of Mountains',
-    description: 'NoLimit е яхтен фестивал в Червено море — 7 дни на яхта, музика, острови и незабравими приключения. Sons of Mountains × NoLimit 2026.',
+    description: 'NoLimit is a yacht festival in the Red Sea — 7 days on a yacht, music, islands and unforgettable adventures. Sons of Mountains × NoLimit 2026.',
   })
 }
 
 const SECTIONS = [
-  { title: 'Острови и плажове', desc: 'Нетронати плажове, кристални води и незабравими залези.' },
-  { title: 'Диви партита', desc: 'Нощи на яхтата под звездите — музика без граници.' },
-  { title: 'Храна', desc: 'Най-свежите морски дарове и местна кухня на борда.' },
-  { title: 'Общност', desc: 'Хора, с които ще останеш приятел завинаги.' },
+  { title: 'Islands and beaches', desc: 'Untouched beaches, crystal waters and unforgettable sunsets.' },
+  { title: 'Wild parties', desc: 'Nights on the yacht under the stars — music without limits.' },
+  { title: 'Food', desc: 'The freshest seafood and local cuisine on board.' },
+  { title: 'Community', desc: 'People you\'ll stay friends with forever.' },
 ]
 
 export default function NolimitPage() {
@@ -22,9 +22,9 @@ export default function NolimitPage() {
     '@type': 'Festival',
     name: 'NoLimit Yacht Festival',
     url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/nolimit`,
-    description: 'Яхтен фестивал в Червено море — музика, острови и приключения.',
+    description: 'Yacht festival in the Red Sea — music, islands and adventures.',
     organizer: { '@type': 'Organization', name: 'Sons of Mountains' },
-    location: { '@type': 'Place', name: 'Червено море, Египет' },
+    location: { '@type': 'Place', name: 'Red Sea, Egypt' },
   }
 
   return (
@@ -34,11 +34,11 @@ export default function NolimitPage() {
       <div className="relative h-screen flex items-end">
         <div className="absolute inset-0 bg-gradient-to-b from-teal-950/30 to-black/80" />
         <div className="relative z-10 px-8 md:px-16 pb-16">
-          <p className="text-xs font-semibold tracking-widest text-white/40 uppercase mb-4">Яхтен Фестивал</p>
+          <p className="text-xs font-semibold tracking-widest text-white/40 uppercase mb-4">Yacht Festival</p>
           <h1 className="text-5xl md:text-8xl font-bold mb-4">NoLimit</h1>
-          <p className="text-xl text-white/60 mb-8 max-w-2xl">Провокирай границите на преживяването — острови, музика, море.</p>
+          <p className="text-xl text-white/60 mb-8 max-w-2xl">Push the boundaries of experience — islands, music, sea.</p>
           <Link href="/nolimit/sign-up" className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black font-semibold text-sm rounded hover:bg-white/90 transition-colors">
-            Запиши се
+            Sign up
           </Link>
         </div>
       </div>

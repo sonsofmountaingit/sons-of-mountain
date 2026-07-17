@@ -388,7 +388,7 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
                     <label className="flex items-start gap-3 cursor-pointer">
                       <input {...form3.register('agreedToTerms')} type="checkbox" className="mt-0.5 accent-white" />
                       <span className="text-xs text-white/50 leading-relaxed">
-                        Съгласявам се с{' '}
+                        I agree with {' '}
                         <a href="/legal/terms" target="_blank" className="underline hover:text-white">общите условия</a>
                         {' '}и{' '}
                         <a href="/legal/privacy-policy" target="_blank" className="underline hover:text-white">политиката за поверителност</a>
@@ -407,7 +407,7 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
                         disabled={submitting}
                         className="flex-1 py-3 bg-white text-black text-sm font-semibold rounded hover:bg-white/90 transition-colors disabled:opacity-50"
                       >
-                        {submitting ? '...' : 'Изпрати'}
+                        {submitting ? '...' : 'Send'}
                       </button>
                     </div>
                   </div>

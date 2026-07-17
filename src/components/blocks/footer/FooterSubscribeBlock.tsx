@@ -15,14 +15,14 @@ type Props = {
 }
 
 export function FooterSubscribeBlock({
-  subscribeHeading = 'Абонирай се',
-  subscribeSubtext = 'Научавай първи за предстоящи пътешествия, отстъпки и събития.',
-  submitLabel = 'Абонирай се',
-  firstNamePlaceholder = 'Име',
-  lastNamePlaceholder = 'Фамилия',
-  emailPlaceholder = 'E-mail адрес',
-  consentText = 'С натискането на бутона "Абонирай се" се съгласяваш с',
-  consentLinkText = 'Политиката ни за поверителност',
+  subscribeHeading = 'Subscribe',
+  subscribeSubtext = 'Be the first to know about upcoming journeys, discounts and events.',
+  submitLabel = 'Subscribe',
+  firstNamePlaceholder = 'First name',
+  lastNamePlaceholder = 'Last name',
+  emailPlaceholder = 'Email address',
+  consentText = 'С натискането на бутона "Subscribe" се съгласяваш с',
+  consentLinkText = 'our Privacy Policy',
   privacyUrl = '/legal/privacy-policy',
 }: Props) {
   return (

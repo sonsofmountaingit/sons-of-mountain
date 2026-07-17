@@ -34,14 +34,14 @@ export function AccommodationCarousel({ gallery, name }: Props) {
           <button
             onClick={() => setIdx((i) => (i - 1 + gallery.length) % gallery.length)}
             className="absolute left-2 top-1/2 -translate-y-1/2 w-11 h-11 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors text-lg"
-            aria-label="Предишна снимка"
+            aria-label="Previous photo"
           >
             ‹
           </button>
           <button
             onClick={() => setIdx((i) => (i + 1) % gallery.length)}
             className="absolute right-2 top-1/2 -translate-y-1/2 w-11 h-11 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors text-lg"
-            aria-label="Следваща снимка"
+            aria-label="Next photo"
           >
             ›
           </button>
@@ -51,7 +51,7 @@ export function AccommodationCarousel({ gallery, name }: Props) {
                 key={i}
                 onClick={() => setIdx(i)}
                 className={`w-6 h-6 flex items-center justify-center rounded-full transition-colors`}
-                aria-label={`Снимка ${i + 1}`}
+                aria-label={`Photo ${i + 1}`}
               >
                 <span className={`block w-2 h-2 rounded-full ${i === idx ? 'bg-white' : 'bg-white/50'}`} />
               </button>

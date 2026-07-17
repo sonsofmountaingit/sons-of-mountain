@@ -5,6 +5,8 @@ import { useRef } from 'react'
 import { motion } from 'motion/react'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
 import { mediaUrl } from '@/lib/media-url'
+import { useLanguage } from '@/lib/language-context'
+import { getDefaultStrings } from '@/lib/get-default-strings'
 
 interface GalleryImage {
   image: { url?: string | null; alt: string } | null
@@ -20,6 +22,8 @@ interface ImageGalleryProps {
 }
 
 export function ImageGalleryRenderer({ block }: ImageGalleryProps) {
+  const { language } = useLanguage()
+  const strings = getDefaultStrings(language)
   const { title, images, layout, ...styleProps } = block
   const scrollRef = useRef<HTMLDivElement>(null)
 

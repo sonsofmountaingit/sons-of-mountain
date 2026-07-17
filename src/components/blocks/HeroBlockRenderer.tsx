@@ -6,6 +6,8 @@ import { mediaUrl } from '@/lib/media-url'
 import { motion } from 'motion/react'
 import { wordAnimation, staggerContainer } from '@/lib/animations'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
+import { useLanguage } from '@/lib/language-context'
+import { getDefaultStrings } from '@/lib/get-default-strings'
 
 interface HeroBlockProps {
   block: BlockStyleProps & {
@@ -20,6 +22,8 @@ interface HeroBlockProps {
 }
 
 export function HeroBlockRenderer({ block }: HeroBlockProps) {
+  const { language } = useLanguage()
+  const strings = getDefaultStrings(language)
   const headline = typeof block.headline === 'string' ? block.headline.trim() : ''
   const words = headline ? headline.split(' ') : ['Your', 'Headline', 'Here']
   const overlayOpacity = parseFloat(block.overlayOpacity ?? block.bgImageOverlayOpacity ?? '0.5')

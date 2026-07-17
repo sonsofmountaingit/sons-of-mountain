@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
+import { useLanguage } from '@/lib/language-context'
+import { getDefaultStrings } from '@/lib/get-default-strings'
 
 interface AccordionItem {
   title: string
@@ -14,6 +16,8 @@ interface AccordionBlockProps {
 }
 
 export function AccordionBlockRenderer({ block }: AccordionBlockProps) {
+  const { language } = useLanguage()
+  const strings = getDefaultStrings(language)
   const { heading, items, ...styleProps } = block
   const [open, setOpen] = useState<number | null>(null)
 

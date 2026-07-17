@@ -62,7 +62,7 @@ export function DestinationCard({
           <span className="bg-amber-400 text-black text-xs font-bold px-2 py-0.5 rounded">EARLY BIRD</span>
           {earlyBirdSpotsLeft != null && (
             <span className="bg-black/70 text-amber-400 text-xs font-semibold px-2 py-0.5 rounded">
-              {earlyBirdSpotsLeft} {earlyBirdSpotsLeft === 1 ? 'място' : 'места'}
+              {earlyBirdSpotsLeft} {earlyBirdSpotsLeft === 1 ? 'spot' : 'spots'}
             </span>
           )}
         </div>
@@ -74,12 +74,12 @@ export function DestinationCard({
         <h3 className="text-lg font-semibold text-white leading-tight mb-2">{name}</h3>
         {isSoldOut && (
           <span className="inline-block px-2 py-0.5 text-xs font-medium bg-white/20 text-white/60 rounded-full">
-            НЯМА МЕСТА
+            NO SPOTS
           </span>
         )}
         {hasSpots && (
           <span className="inline-block px-2 py-0.5 text-xs font-medium bg-white text-black rounded-full">
-            САМО {spotsAvailable} МЕСТА
+            ONLY {spotsAvailable} SPOTS
           </span>
         )}
       </div>

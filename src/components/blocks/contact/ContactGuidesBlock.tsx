@@ -10,13 +10,15 @@ type Guide = {
   photo?: { url?: string | null } | null
 }
 
+const FEATURED_SLUGS = ['dimitar-nakov', 'ivan-zdravkov']
+
 const getGuides = unstable_cache(
   async () => {
     const payload = await getPayload({ config })
     const { docs } = await payload.find({
       collection: 'guides',
-      where: { instagram: { exists: true } },
-      limit: 50,
+      where: { slug: { in: FEATURED_SLUGS } },
+      limit: FEATURED_SLUGS.length,
       depth: 1,
     })
     return docs as unknown as Guide[]
@@ -25,7 +27,7 @@ const getGuides = unstable_cache(
   { tags: ['guides'], revalidate: 3600 },
 )
 
-export async function ContactGuidesBlock({ heading = 'Последвай водачите ни' }: { heading?: string }) {
+export async function ContactGuidesBlock({ heading = 'Follow our guides' }: { heading?: string }) {
   const guides = await getGuides()
   return <ContactGuidesBlockRenderer heading={heading} guides={guides} />
 }

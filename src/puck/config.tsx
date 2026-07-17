@@ -1869,7 +1869,7 @@ export const puckConfig: Config<PuckBlocks> = {
       },
       defaultProps: {
         questionnaireHeading: 'Разкажи ни за твоето пътуване',
-        questionnaireSubtext: 'Попълни въпросника и ще се свържем с теб в рамките на 24 часа с персонализирано предложение.',
+        questionnaireSubtext: 'Fill out the questionnaire and we will contact you within 24 hours with a personalized offer.',
         questions: [],
         formNamePlaceholder: 'Твоето име',
         formEmailPlaceholder: 'Имейл адрес',

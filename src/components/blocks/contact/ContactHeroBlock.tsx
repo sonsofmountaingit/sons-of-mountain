@@ -3,7 +3,7 @@ interface Props {
   subheading?: string
 }
 
-export function ContactHeroBlock({ heading = 'Контакти', subheading = 'Имаш въпрос? Пиши ни.' }: Props) {
+export function ContactHeroBlock({ heading = 'Contacts', subheading = 'Have a question? Write to us.' }: Props) {
   return (
     <div className="pt-24 pb-8 px-6">
       <div className="max-w-3xl mx-auto">

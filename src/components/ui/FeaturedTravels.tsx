@@ -20,7 +20,7 @@ function difficultyFromRatings(ratings: unknown): number | null {
   const match = ratings.find((r: unknown) => {
     if (!r || typeof r !== 'object') return false
     const label = (r as { label?: unknown }).label
-    return typeof label === 'string' && label.toLowerCase().includes('трудност')
+    return typeof label === 'string' && label.toLowerCase().includes('difficulty')
   }) as { value?: unknown } | undefined
   const raw = match != null ? numOrNull(match.value) : numOrNull((ratings[0] as { value?: unknown })?.value)
   if (raw == null) return null
@@ -33,7 +33,9 @@ function imageUrl(v: unknown): string | null {
   return null
 }
 
-const BG_MONTHS = ['Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември']
+import { translations } from '@/lib/translations'
+
+const BG_MONTHS = translations.BG.months.map((m) => m.charAt(0).toUpperCase() + m.slice(1))
 
 function monthFromDate(date: string | null | undefined): string | null {
   if (!date) return null
@@ -123,9 +125,9 @@ const getData = unstable_cache(async () => {
       return null
     }).filter(Boolean) as FeaturedTravelItem[]
 
-    return { heading: g?.heading ?? 'ИЗБЕРИ СВОЕТО ПЪТУВАНЕ', items }
+    return { heading: g?.heading ?? 'CHOOSE YOUR JOURNEY', items }
   } catch {
-    return { heading: 'ИЗБЕРИ СВОЕТО ПЪТУВАНЕ', items: [] }
+    return { heading: 'CHOOSE YOUR JOURNEY', items: [] }
   }
 }, ['featured-travels-data'], { tags: ['featured-travels'], revalidate: false })
 
@@ -133,7 +135,7 @@ export async function FeaturedTravels() {
   const { heading, items } = await getData()
   return (
     <>
-      <FeaturedTravelsBlock heading={heading} items={items} emptyMessage="В момента няма данни" />
+      <FeaturedTravelsBlock heading={heading} items={items} emptyMessage="No data available" />
       <FeaturedTravelsEditButton />
     </>
   )

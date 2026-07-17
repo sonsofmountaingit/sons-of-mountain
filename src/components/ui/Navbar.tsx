@@ -6,16 +6,16 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'motion/react'
 
 const LEFT_LINKS = [
-  { label: 'ДЕСТИНАЦИИ', href: '/destinations' },
-  { label: 'КАЛЕНДАР', href: '/calendar' },
-  { label: 'ИСТОРИИ', href: '/stories' },
+  { label: 'DESTINATIONS', href: '/destinations' },
+  { label: 'CALENDAR', href: '/calendar' },
+  { label: 'STORIES', href: '/stories' },
 ]
 
 const RIGHT_LINKS = [
-  { label: 'ГАЛЕРИЯ', href: '/gallery' },
-  { label: 'БЛОГ', href: '/blog' },
-  { label: 'ЗА НАС', href: '/about' },
-  { label: 'КОНТАКТИ', href: '/contact' },
+  { label: 'GALLERY', href: '/gallery' },
+  { label: 'BLOG', href: '/blog' },
+  { label: 'ABOUT US', href: '/about' },
+  { label: 'CONTACTS', href: '/contact' },
 ]
 
 export function Navbar() {

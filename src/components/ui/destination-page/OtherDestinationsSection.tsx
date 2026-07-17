@@ -55,7 +55,7 @@ export function OtherDestinationsSection({ continent, destinations }: Props) {
     <section ref={sectionRef} className="py-12 sm:py-16 px-4 sm:px-6 bg-white text-black overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-bold leading-tight tracking-tight mb-8 sm:mb-10">
-          Други преходи{continent ? ` в ${continent}` : ''}
+          Other trips{continent ? ` in ${continent}` : ''}
         </h2>
         {/* Mobile: horizontal scroll strip */}
         <div ref={mobileListRef} className="flex sm:hidden gap-3 overflow-x-auto pb-3 -mx-4 px-4 snap-x snap-mandatory">

@@ -100,7 +100,7 @@ export async function sendRegistrationFormsFor({ payload, destinationId, tripId 
             <p>${safeIntro}</p>
             <div style="text-align: center; margin: 24px 0;">
               <a href="${formUrl}" style="display: inline-block; padding: 14px 28px; background: #1a1a1a; color: #fff; border-radius: 8px; text-decoration: none; font-weight: 600;">
-                Попълни формуляра
+                Fill out the form
               </a>
             </div>
             <p style="font-size: 12px; color: #999; border-top: 1px solid #eee; padding-top: 16px;">

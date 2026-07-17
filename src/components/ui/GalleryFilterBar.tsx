@@ -12,9 +12,9 @@ interface GalleryFilterBarProps {
 }
 
 const FILTERS: { key: FilterMode; label: string }[] = [
-  { key: 'all', label: 'ВСИЧКИ' },
-  { key: 'date', label: 'ПО ДАТА' },
-  { key: 'featured', label: 'ИЗБРАНИ' },
+  { key: 'all', label: 'ALL' },
+  { key: 'date', label: 'BY DATE' },
+  { key: 'featured', label: 'FEATURED' },
 ]
 
 const SHARE_BUTTONS = [
@@ -72,7 +72,7 @@ export function GalleryFilterBar({ filter, onFilter, slug }: GalleryFilterBarPro
         </div>
 
         <div className="flex items-center gap-2 text-xs text-white/40">
-          <span className="hidden sm:inline">СПОДЕЛИ</span>
+          <span className="hidden sm:inline">SHARE</span>
           {SHARE_BUTTONS.map(({ label, icon, color, href }) => (
             <a
               key={label}

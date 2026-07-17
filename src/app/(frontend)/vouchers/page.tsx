@@ -32,8 +32,24 @@ const getVoucherOptions = unstable_cache(
     ].map((group) => ({
       ...group,
       items: [
-        ...trips.docs.filter((t: any) => t.navSection === group.id).map((t: any) => ({ id: t.id, title: t.title, kind: 'trip' as const })),
-        ...programs.docs.filter((p: any) => p.navSection === group.id).map((p: any) => ({ id: p.id, title: p.title, kind: 'program' as const })),
+        ...trips.docs.filter((t: any) => t.navSection === group.id).map((t: any) => ({
+          id: t.id,
+          title: t.title,
+          kind: 'trip' as const,
+          price: t.price,
+          currency: t.currency,
+          earlyBirdPrice: t.earlyBirdPrice,
+          earlyBirdUntil: t.earlyBirdUntil,
+        })),
+        ...programs.docs.filter((p: any) => p.navSection === group.id).map((p: any) => ({
+          id: p.id,
+          title: p.title,
+          kind: 'program' as const,
+          price: p.price,
+          currency: p.currency,
+          earlyBirdPrice: p.earlyBirdPrice,
+          earlyBirdUntil: p.earlyBirdUntil,
+        })),
       ],
     }))
 

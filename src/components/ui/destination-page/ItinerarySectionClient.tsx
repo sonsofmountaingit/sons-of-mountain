@@ -42,7 +42,7 @@ export function ItineraryNav({ days }: NavProps) {
   }
 
   return (
-    <nav className="flex flex-col gap-2 items-center" aria-label="Навигация по дни">
+    <nav className="flex flex-col gap-2 items-center" aria-label="Navigation by day">
       {days.map((d) => (
         <button
           key={d}
@@ -52,7 +52,7 @@ export function ItineraryNav({ days }: NavProps) {
               ? 'bg-black text-white shadow-md scale-110'
               : 'text-black/30 hover:text-black hover:bg-black/6'
           }`}
-          aria-label={`Ден ${d}`}
+          aria-label={`Day ${d}`}
         >
           {d}
         </button>

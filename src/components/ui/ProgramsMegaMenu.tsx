@@ -33,9 +33,9 @@ interface MegamenuData {
 type Tab = 'bulgaria' | 'abroad' | 'individual'
 
 const TABS: { id: Tab; label: string }[] = [
-  { id: 'bulgaria', label: 'В БЪЛГАРИЯ' },
-  { id: 'abroad', label: 'В ЧУЖБИНА' },
-  { id: 'individual', label: 'ИНДИВИДУАЛНА ПРОГРАМА' },
+  { id: 'bulgaria', label: 'IN BULGARIA' },
+  { id: 'abroad', label: 'ABROAD' },
+  { id: 'individual', label: 'CUSTOM PROGRAM' },
 ]
 
 function formatDate(iso: string) {
@@ -152,13 +152,13 @@ export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuP
                       className="flex flex-col gap-8"
                     >
                       {!data && (
-                        <div className="flex items-center justify-center h-32 text-white/30 text-xs tracking-widest">Зарежда…</div>
+                        <div className="flex items-center justify-center h-32 text-white/30 text-xs tracking-widest">Loading…</div>
                       )}
 
                       {/* Destinations row */}
                       {data && showDestinations && (
                         <div>
-                          <p className="text-[10px] tracking-widest text-white/25 mb-3">ДЕСТИНАЦИИ</p>
+                          <p className="text-[10px] tracking-widest text-white/25 mb-3">DESTINATIONS</p>
                           <div className="grid grid-cols-4 gap-3 xl:grid-cols-6">
                             {destinations.map((dest) => (
                               <Link
@@ -187,7 +187,7 @@ export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuP
                       {/* Trips row */}
                       {data && trips.length > 0 && (
                         <div>
-                          <p className="text-[10px] tracking-widest text-white/25 mb-3">ПЪТУВАНИЯ</p>
+                          <p className="text-[10px] tracking-widest text-white/25 mb-3">TRIPS</p>
                           <div style={{ overflowX: 'auto', width: '100%', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.2) transparent', paddingBottom: '6px' }}>
                             <div style={{ display: 'grid', gap: '12px', gridTemplateColumns: `repeat(${Math.min(trips.length, 6)}, 180px)`, width: 'max-content' }}>
                               {trips.map((item, i) => (
@@ -201,7 +201,7 @@ export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuP
                       {/* Programs row */}
                       {data && programs.length > 0 && (
                         <div>
-                          <p className="text-[10px] tracking-widest text-white/25 mb-3">ПРОГРАМИ</p>
+                          <p className="text-[10px] tracking-widest text-white/25 mb-3">PROGRAMS</p>
                           <div style={{ overflowX: 'auto', width: '100%', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.2) transparent', paddingBottom: '6px' }}>
                             <div style={{ display: 'grid', gap: '12px', gridTemplateColumns: `repeat(${Math.min(programs.length, 6)}, 180px)`, width: 'max-content' }}>
                               {programs.map((item, i) => (
@@ -220,7 +220,7 @@ export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuP
                             onClick={onClose}
                             className="inline-flex items-center gap-2 px-4 py-2.5 mb-6 text-xs font-semibold tracking-widest text-white bg-white/8 hover:bg-white/12 border border-white/15 rounded-sm transition-colors duration-200"
                           >
-                            КАКВО Е ИНДИВИДУАЛНА ПРОГРАМА?
+                            WHAT IS A CUSTOM PROGRAM?
                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                               <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
@@ -230,7 +230,7 @@ export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuP
 
                       {data && activeTab === 'individual' && contentItems.length > 0 && (
                         <div>
-                          <p className="text-[10px] tracking-widest text-white/25 mb-3">ПРОГРАМИ И ПЪТУВАНИЯ</p>
+                          <p className="text-[10px] tracking-widest text-white/25 mb-3">PROGRAMS AND TRIPS</p>
                           <div style={{ overflowX: 'auto', width: '100%', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.2) transparent', paddingBottom: '6px' }}>
                             <div style={{ display: 'grid', gap: '12px', gridTemplateColumns: `repeat(${Math.min(contentItems.length, 6)}, 180px)`, width: 'max-content' }}>
                               {contentItems.map((item, i) => (
@@ -242,11 +242,11 @@ export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuP
                       )}
 
                       {data && !showDestinations && trips.length === 0 && programs.length === 0 && activeTab !== 'individual' && (
-                        <p className="text-white/30 text-xs tracking-widest">Няма съдържание в тази секция.</p>
+                        <p className="text-white/30 text-xs tracking-widest">No content in this section.</p>
                       )}
 
                       {data && activeTab === 'individual' && contentItems.length === 0 && (
-                        <p className="text-white/30 text-xs tracking-widest">Няма съдържание в тази секция.</p>
+                        <p className="text-white/30 text-xs tracking-widest">No content in this section.</p>
                       )}
 
                       {/* See all button */}
@@ -257,7 +257,7 @@ export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuP
                             onClick={onClose}
                             className="inline-flex items-center gap-2 px-5 py-2 text-xs font-medium tracking-widest text-white/60 hover:text-white border border-white/15 hover:border-white/40 rounded-sm transition-colors duration-200"
                           >
-                            ВИЖ ВСИЧКИ В КАЛЕНДАРА
+                            SEE ALL IN CALENDAR
                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                               <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
@@ -304,12 +304,12 @@ function ContentCard({ item, index, onClose }: { item: ContentItem; index: numbe
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           {item.spotsAvailable > 0 && (
             <span className="absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/80 text-white backdrop-blur-sm">
-              {item.spotsAvailable} места
+              {item.spotsAvailable} spots
             </span>
           )}
           {item.spotsAvailable === 0 && (
             <span className="absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-red-500/80 text-white backdrop-blur-sm">
-              Няма места
+              No spots
             </span>
           )}
         </div>

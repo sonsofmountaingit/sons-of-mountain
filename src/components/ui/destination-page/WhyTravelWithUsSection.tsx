@@ -38,9 +38,9 @@ export function WhyTravelWithUsSection({
   const subRef = useRef<HTMLParagraphElement>(null)
   const btnRef = useRef<HTMLAnchorElement>(null)
 
-  const resolvedHeading = heading ?? 'Направи крачката и изследвай света, който те чака.'
-  const resolvedSubtext = subtext ?? 'Пътуването те променя. Виждаш нови места, срещаш нови хора и ставаш нова версия на себе си.'
-  const resolvedCtaLabel = ctaLabel ?? 'Научи повече за нас'
+  const resolvedHeading = heading ?? 'Take the step and explore the world that awaits you.'
+  const resolvedSubtext = subtext ?? 'Travel changes you. You see new places, meet new people and become a new version of yourself.'
+  const resolvedCtaLabel = ctaLabel ?? 'Learn more about us'
   const resolvedCtaHref = ctaHref ?? '/about'
 
   // Split heading into segments around the two inline images

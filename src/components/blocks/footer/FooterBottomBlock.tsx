@@ -20,14 +20,14 @@ type Props = {
 }
 
 export function FooterBottomBlock({
-  copyright = '© 2018-2026 Сонс оф Маунтин',
-  licenseText = 'Номер на лиценз: РК-01-8245 / 28.07.2022',
-  insuranceText = 'Номер на застрахователна полица: 03700100005995 / 31.08.2025',
-  termsLabel = 'Общи условия',
+  copyright = '© 2018-2026 Sons of Mountains',
+  licenseText = 'License number: РК-01-8245 / 28.07.2022',
+  insuranceText = 'Insurance policy number: 03700100005995 / 31.08.2025',
+  termsLabel = 'Terms and Conditions',
   termsUrl = '/legal/terms',
-  privacyLabel = 'Политика за поверителност',
+  privacyLabel = 'Privacy Policy',
   privacyUrl = '/legal/privacy-policy',
-  creditPrefix = 'Дизайн и разработка от',
+  creditPrefix = 'Design and development by',
   creditName = 'Netinsky',
   creditUrl = 'https://netinsky.com',
 }: Props) {

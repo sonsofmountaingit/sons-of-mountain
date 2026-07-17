@@ -28,11 +28,11 @@ export type CalendarItem = {
 }
 
 export const DIFFICULTY_LABELS: Record<number, string> = {
-  1: 'Много лесно',
-  2: 'Лесно',
-  3: 'Умерено',
-  4: 'Трудно',
-  5: 'Много трудно',
+  1: 'Very easy',
+  2: 'Easy',
+  3: 'Moderate',
+  4: 'Hard',
+  5: 'Very hard',
 }
 
 export function difficultyToLevel(raw: number | null | undefined): number | null {
@@ -78,7 +78,7 @@ function LoginModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: ()
     const result = await signIn.email({ email, password })
     setLoading(false)
     if (result.error) {
-      setError('Невалиден имейл или парола.')
+      setError('Invalid email or password.')
     } else {
       onSuccess()
     }
@@ -100,10 +100,10 @@ function LoginModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: ()
           ✕
         </button>
         <p className="text-[10px] tracking-[0.3em] text-zinc-400 uppercase mb-1">Sons of Mountains</p>
-        <h2 className="text-lg font-semibold text-zinc-900 mb-6">Влез в профила си</h2>
+        <h2 className="text-lg font-semibold text-zinc-900 mb-6">Sign in</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-[10px] tracking-widest text-zinc-400 uppercase mb-1.5">Имейл</label>
+            <label className="block text-[10px] tracking-widest text-zinc-400 uppercase mb-1.5">Email</label>
             <input
               type="email"
               required
@@ -114,7 +114,7 @@ function LoginModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: ()
             />
           </div>
           <div>
-            <label className="block text-[10px] tracking-widest text-zinc-400 uppercase mb-1.5">Парола</label>
+            <label className="block text-[10px] tracking-widest text-zinc-400 uppercase mb-1.5">Password</label>
             <input
               type="password"
               required
@@ -131,13 +131,13 @@ function LoginModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: ()
             className="w-full py-2.5 rounded-lg text-sm font-semibold text-white transition-opacity disabled:opacity-50"
             style={{ backgroundColor: '#F45B26' }}
           >
-            {loading ? 'Влизане…' : 'Влез'}
+            {loading ? 'Signing in…' : 'Sign in'}
           </button>
         </form>
         <p className="text-xs text-zinc-400 text-center mt-4">
-          Нямаш профил?{' '}
+          Don't have an account?{' '}
           <a href="/register" className="text-zinc-600 hover:text-zinc-900 underline underline-offset-2 transition-colors">
-            Регистрирай се
+            Sign up
           </a>
         </p>
       </div>
@@ -247,7 +247,7 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
     e.preventDefault()
     const url = `${window.location.origin}/calendar#trip-${item.id}`
     navigator.clipboard.writeText(url).then(() => {
-      toast.success('Линкът е копиран')
+      toast.success('Link copied')
     })
   }
 
@@ -255,19 +255,19 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
   const badgeBase = 'text-[10px] tracking-widest px-2 py-0.5 rounded-full font-semibold'
   let spotsBadge: React.ReactNode = null
   if (archived) {
-    spotsBadge = <span className={`${badgeBase} text-zinc-400 bg-zinc-100`}>МИНАЛИ</span>
+    spotsBadge = <span className={`${badgeBase} text-zinc-400 bg-zinc-100`}>PAST</span>
   } else if (soldOut) {
-    spotsBadge = <span className={`${badgeBase} text-white`} style={{ background: '#F45B26' }}>НЯМА МЕСТА</span>
+    spotsBadge = <span className={`${badgeBase} text-white`} style={{ background: '#F45B26' }}>NO SPOTS</span>
   } else if (item.spotsAvailable <= 3) {
     spotsBadge = (
       <span ref={spotsRef} className={`${badgeBase} text-white`} style={{ background: '#F45B26' }}>
-        {spotsCount > 0 ? spotsCount : item.spotsAvailable} МЕСТА
+        {spotsCount > 0 ? spotsCount : item.spotsAvailable} SPOTS
       </span>
     )
   } else if (item.spotsAvailable <= 8) {
-    spotsBadge = <span className={`${badgeBase} text-white`} style={{ background: '#F45B26' }}>{item.spotsAvailable} МЕСТА</span>
+    spotsBadge = <span className={`${badgeBase} text-white`} style={{ background: '#F45B26' }}>{item.spotsAvailable} SPOTS</span>
   } else {
-    spotsBadge = <span className={`${badgeBase}`} style={{ background: '#F45B2625', color: '#F45B26' }}>{item.spotsAvailable} МЕСТА</span>
+    spotsBadge = <span className={`${badgeBase}`} style={{ background: '#F45B2625', color: '#F45B26' }}>{item.spotsAvailable} SPOTS</span>
   }
 
   return (

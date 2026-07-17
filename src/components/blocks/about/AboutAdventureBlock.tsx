@@ -13,8 +13,8 @@ interface Props {
 }
 
 export function AboutAdventureBlock({
-  adventureHeading = 'Хвърли се в приключение!',
-  adventureSubtext = 'Не знаеш как? Спокой, ще ти дадем парашут или като минимум най-добрия маршрут!',
+  adventureHeading = 'Jump into an adventure!',
+  adventureSubtext = 'Not sure how? No worries, we will give you a parachute or at least the best route!',
   adventureActivities = 'Каякинг · Риболов · Палатки · Хайкинг · Кемпер · Готвене на открито',
   adventureQuote = 'Не обичаме да ни слагат в рамки и all inclusive програми — обичаме ние да си избираме пътя, по който да минем.',
   adventureQuoteBody = 'Затова създадохме нашата нестандартна концепция — за да ви заведем там, където сме били лично и сме останали без думи.',

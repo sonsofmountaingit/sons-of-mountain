@@ -44,11 +44,11 @@ interface Props {
 }
 
 const DIFFICULTY_LABELS: Record<number, string> = {
-  1: 'Много лесно',
-  2: 'Лесно',
-  3: 'Умерено',
-  4: 'Трудно',
-  5: 'Много трудно',
+  1: 'Very easy',
+  2: 'Easy',
+  3: 'Moderate',
+  4: 'Hard',
+  5: 'Very hard',
 }
 
 function difficultyLabel(d: number) {
@@ -223,25 +223,25 @@ export function HeroSection({
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M19 12H5M12 5l-7 7 7 7"/>
               </svg>
-              Всички дестинации
+              All destinations
             </a>
 
             {(soldOut || urgentSpots || earlyBirdSpotsLeft != null) && (
               <div ref={urgencyRef} className="flex items-center gap-2">
                 {soldOut ? (
                   <span className="bg-red-600 text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
-                    Разпродадено
+                    Sold Out
                   </span>
                 ) : urgentSpots ? (
                   <span className="flex items-center gap-2 bg-orange-600/90 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
                     <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                    Само {spotsAvailable} места
+                    Only {spotsAvailable} spots
                   </span>
                 ) : null}
                 {earlyBirdSpotsLeft != null && (
                   <span className="flex items-center gap-2 bg-amber-400/95 backdrop-blur-sm text-black text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
                     <span className="w-2 h-2 rounded-full bg-black/40 animate-pulse" />
-                    {earlyBirdSpotsLeft} early bird {earlyBirdSpotsLeft === 1 ? 'място' : 'места'}
+                    {earlyBirdSpotsLeft} early bird {earlyBirdSpotsLeft === 1 ? 'spot' : 'spots'}
                   </span>
                 )}
               </div>
@@ -275,7 +275,7 @@ export function HeroSection({
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0 0 11.5 2 1.5 1.5 0 0 0 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/>
                 </svg>
-                Излита от {departureCity}
+                Depart from {departureCity}
               </span>
             )}
             {difficulty != null && (
@@ -321,7 +321,7 @@ export function HeroSection({
                 onClick={() => setDrawerOpen(true)}
                 className="inline-flex items-center gap-2 bg-white text-black text-sm font-semibold px-5 py-2.5 sm:px-6 sm:py-3 rounded-sm hover:bg-white/90 transition-colors"
               >
-                Резервирай място →
+                Book a spot →
               </button>
             )}
 

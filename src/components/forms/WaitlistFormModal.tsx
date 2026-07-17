@@ -7,9 +7,9 @@ import { z } from 'zod'
 import { motion, AnimatePresence } from 'motion/react'
 
 const waitlistSchema = z.object({
-  name: z.string().min(2, 'Минимум 2 символа'),
-  email: z.string().email('Невалиден имейл'),
-  phone: z.string().min(6, 'Невалиден телефон'),
+  name: z.string().min(2, 'Minimum 2 characters'),
+  email: z.string().email('Invalid email'),
+  phone: z.string().min(6, 'Invalid phone'),
   participantCount: z.number().min(1).max(10),
   message: z.string().optional(),
 })
@@ -87,7 +87,7 @@ export function WaitlistFormModal({ open, onClose, itemType, itemId, itemTitle }
           >
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 flex-shrink-0">
               <div>
-                <p className="text-xs text-white/40 uppercase tracking-widest">Списък с чакащи</p>
+                <p className="text-xs text-white/40 uppercase tracking-widest">Waitlist</p>
                 {itemTitle && <p className="text-sm font-medium">{itemTitle}</p>}
               </div>
               <button onClick={close} className="text-white/40 hover:text-white transition-colors">
@@ -105,37 +105,37 @@ export function WaitlistFormModal({ open, onClose, itemType, itemId, itemTitle }
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                   </div>
-                  <p className="font-semibold mb-2">Записахме те в списъка с чакащи!</p>
+                  <p className="font-semibold mb-2">You've been added to the waitlist!</p>
                   {position != null && (
-                    <p className="text-sm text-white/50 mb-1">Позиция в списъка: <span className="text-white font-semibold">{position}</span></p>
+                    <p className="text-sm text-white/50 mb-1">Your position: <span className="text-white font-semibold">{position}</span></p>
                   )}
-                  <p className="text-sm text-white/50">Ще се свържем с теб по имейл, ако се освободи място.</p>
+                  <p className="text-sm text-white/50">We'll email you as soon as a spot becomes available.</p>
                   <button onClick={close} className="mt-6 px-6 py-2.5 bg-white text-black text-sm font-semibold rounded hover:bg-white/90">
-                    Затвори
+                    Close
                   </button>
                 </div>
               ) : (
                 <>
                   <div className="bg-white/5 border border-white/10 rounded-lg p-4 mb-5">
                     <p className="text-sm text-white/70 leading-relaxed">
-                      В момента няма свободни места. Запишете се в списъка с чакащи и ще ви известим по имейл веднага щом се освободи място — <strong className="text-white">това не е резервация и не изисква плащане</strong>.
+                      There are currently no available spots. Join the waitlist and we'll email you as soon as a spot opens up — <strong className="text-white">this is not a reservation and requires no payment</strong>.
                     </p>
                   </div>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                     <div>
-                      <input {...form.register('name')} placeholder="Име" className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30" />
+                      <input {...form.register('name')} placeholder="Name" className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30" />
                       {form.formState.errors.name && <p className="text-xs text-red-400 mt-1">{form.formState.errors.name.message}</p>}
                     </div>
                     <div>
-                      <input {...form.register('email')} type="email" placeholder="Имейл" className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30" />
+                      <input {...form.register('email')} type="email" placeholder="Email" className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30" />
                       {form.formState.errors.email && <p className="text-xs text-red-400 mt-1">{form.formState.errors.email.message}</p>}
                     </div>
                     <div>
-                      <input {...form.register('phone')} type="tel" placeholder="Телефон" className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30" />
+                      <input {...form.register('phone')} type="tel" placeholder="Phone" className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30" />
                       {form.formState.errors.phone && <p className="text-xs text-red-400 mt-1">{form.formState.errors.phone.message}</p>}
                     </div>
                     <div>
-                      <label className="text-xs text-white/50 mb-1.5 block">Брой участници</label>
+                      <label className="text-xs text-white/50 mb-1.5 block">Number of participants</label>
                       <input
                         {...form.register('participantCount', { valueAsNumber: true })}
                         type="number" min={1} max={10}
@@ -145,7 +145,7 @@ export function WaitlistFormModal({ open, onClose, itemType, itemId, itemTitle }
                     <div>
                       <textarea
                         {...form.register('message')}
-                        placeholder="Бележка (по желание) — напр. гъвкавост в датите"
+                        placeholder="Note (optional) — e.g., flexible on dates"
                         rows={2}
                         className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30 resize-none"
                       />
@@ -155,7 +155,7 @@ export function WaitlistFormModal({ open, onClose, itemType, itemId, itemTitle }
                       disabled={submitting}
                       className="w-full py-3 bg-white text-black text-sm font-semibold rounded hover:bg-white/90 transition-colors disabled:opacity-50"
                     >
-                      {submitting ? '...' : 'Запиши се в списъка с чакащи'}
+                      {submitting ? '...' : 'Join the waitlist'}
                     </button>
                   </form>
                 </>

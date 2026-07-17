@@ -4,6 +4,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
 import { mediaUrl } from '@/lib/media-url'
+import { useLanguage } from '@/lib/language-context'
+import { getDefaultStrings } from '@/lib/get-default-strings'
 
 interface FeatureCard {
   imageUrl?: string | null
@@ -18,6 +20,8 @@ interface FeatureCardsBlockProps {
 }
 
 export function FeatureCardsBlockRenderer({ block }: FeatureCardsBlockProps) {
+  const { language } = useLanguage()
+  const strings = getDefaultStrings(language)
   const { title, cards, columns, ...styleProps } = block
   const cols = parseInt(columns || '3')
   const gridClass = cols === 2 ? 'md:grid-cols-2' : cols === 4 ? 'md:grid-cols-2 lg:grid-cols-4' : 'md:grid-cols-3'

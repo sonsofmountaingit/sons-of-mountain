@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
+import { useLanguage } from '@/lib/language-context'
+import { getDefaultStrings } from '@/lib/get-default-strings'
 
 interface BannerBlockProps {
   block: {
@@ -14,6 +16,8 @@ interface BannerBlockProps {
 }
 
 export function BannerBlockRenderer({ block }: BannerBlockProps) {
+  const { language } = useLanguage()
+  const strings = getDefaultStrings(language)
   const { text, linkText, linkUrl, closeable, ...styleProps } = block
   const [closed, setClosed] = useState(false)
 

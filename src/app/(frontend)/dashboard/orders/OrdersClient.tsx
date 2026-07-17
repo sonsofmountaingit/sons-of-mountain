@@ -41,7 +41,7 @@ function NextPayment({ o }: { o: Order }) {
           <span className="text-xs font-semibold text-white">{formatPrice(o.remainingBalance)}</span>
         </div>
         {o.remainingDueDate && (
-          <p className="text-[11px] text-white/30 mt-1">Дата: {new Date(o.remainingDueDate).toLocaleDateString('bg-BG')}</p>
+          <p className="text-[11px] text-white/30 mt-1">Date: {new Date(o.remainingDueDate).toLocaleDateString('bg-BG')}</p>
         )}
       </div>
     )
@@ -89,7 +89,7 @@ export function OrdersClient({ orders }: { orders: Order[] }) {
     <div className="px-6 lg:px-10 py-10 max-w-3xl pb-24 lg:pb-10">
       <h1 className="text-2xl font-light tracking-widest mb-10 uppercase">Поръчки</h1>
       {orders.length === 0 ? (
-        <p className="text-sm text-white/30">Нямаш поръчки все още.</p>
+        <p className="text-sm text-white/30">You have no orders yet.</p>
       ) : (
         <div ref={listRef} className="flex flex-col gap-3">
           {orders.map((o) => (

@@ -1,6 +1,8 @@
 'use client'
 
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
+import { useLanguage } from '@/lib/language-context'
+import { getDefaultStrings } from '@/lib/get-default-strings'
 
 interface QuoteBlockProps {
   block: BlockStyleProps & {
@@ -12,6 +14,8 @@ interface QuoteBlockProps {
 }
 
 export function QuoteBlockRenderer({ block }: QuoteBlockProps) {
+  const { language } = useLanguage()
+  const strings = getDefaultStrings(language)
   return (
     <BlockWrapper props={block} innerClassName="max-w-3xl mx-auto text-center">
       <blockquote className="text-2xl md:text-3xl font-light leading-relaxed mb-6 opacity-80">

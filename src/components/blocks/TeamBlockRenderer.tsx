@@ -3,6 +3,8 @@
 import Image from 'next/image'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
 import { mediaUrl } from '@/lib/media-url'
+import { useLanguage } from '@/lib/language-context'
+import { getDefaultStrings } from '@/lib/get-default-strings'
 
 interface TeamMember {
   name: string
@@ -21,6 +23,8 @@ interface TeamBlockProps {
 }
 
 export function TeamBlockRenderer({ block }: TeamBlockProps) {
+  const { language } = useLanguage()
+  const strings = getDefaultStrings(language)
   const colClass: Record<string, string> = {
     '2': 'grid-cols-2',
     '3': 'grid-cols-2 md:grid-cols-3',

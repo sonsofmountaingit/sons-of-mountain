@@ -6,6 +6,8 @@ import Image from 'next/image'
 import { motion, AnimatePresence } from 'motion/react'
 import { mediaUrl } from '@/lib/media-url'
 import { gsap } from 'gsap'
+import { useLanguage } from '@/lib/language-context'
+import { getDefaultStrings } from '@/lib/get-default-strings'
 
 interface Destination {
   id: string
@@ -82,7 +84,7 @@ function DestCard({
           )}
           {dest.availableSpots != null && (
             <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${dest.availableSpots <= 3 ? 'bg-red-500/80 text-white' : 'bg-white/15 text-white/90'}`}>
-              {dest.availableSpots} места
+              {dest.availableSpots} spots
             </span>
           )}
         </div>
@@ -93,12 +95,14 @@ function DestCard({
 
 export function DestinationCarouselBlock({
   destinations = [],
-  headline = 'Преходи, пътешествия и експедиции в България и по света!',
-  subheading = 'Пътувай с Sons of Mountains там, където комфортът среща приключението.',
+  headline = 'Trips, travels and expeditions in Bulgaria and around the world!',
+  subheading = 'Travel with Sons of Mountains where comfort meets adventure.',
   emptyMessage,
-  destinationButtonText = 'Разгледай',
+  destinationButtonText = 'Explore',
   introSlide,
 }: DestinationCarouselBlockProps) {
+  const { language } = useLanguage()
+  const strings = getDefaultStrings(language)
   if (!destinations.length && emptyMessage) {
     return <section className="py-16 text-center text-neutral-400">{emptyMessage}</section>
   }
@@ -189,7 +193,7 @@ export function DestinationCarouselBlock({
             href="/destinations"
             className="inline-flex items-center gap-3 px-8 py-4 bg-white/15 backdrop-blur-md border border-white/25 text-white font-semibold text-sm rounded-lg hover:bg-white/25 transition-colors"
           >
-            {introSlide.buttonText || 'Разгледај'}
+            {introSlide.buttonText || 'Explore'}
             <span>→</span>
           </Link>
         </div>
@@ -314,7 +318,7 @@ export function DestinationCarouselBlock({
                   {activeDest.price != null && <span>{activeDest.price} €</span>}
                   {activeDest.availableSpots != null && (
                     <span className={activeDest.availableSpots <= 3 ? 'text-red-400' : ''}>
-                      {activeDest.availableSpots} места
+                      {activeDest.availableSpots} spots
                     </span>
                   )}
                 </p>

@@ -367,6 +367,12 @@
       "size": 6
     },
     {
+      "id": "src/app/\\(frontend\\)/layout.tsx",
+      "label": "\\(frontend\\)/layout.tsx",
+      "group": "app",
+      "size": 4
+    },
+    {
       "id": "src/app/llms-full.txt/route.ts",
       "label": "llms-full.txt/route.ts",
       "group": "app",
@@ -2836,7 +2842,7 @@
       "id": "src/components/ui/Footer.tsx",
       "label": "ui/Footer.tsx",
       "group": "ui",
-      "size": 8
+      "size": 10
     },
     {
       "id": "src/components/ui/Testimonials.tsx",
@@ -2980,7 +2986,7 @@
       "id": "src/components/ui/Navigation.tsx",
       "label": "ui/Navigation.tsx",
       "group": "ui",
-      "size": 6
+      "size": 8
     },
     {
       "id": "src/components/ui/CalendarTripCard.tsx",
@@ -2991,6 +2997,12 @@
     {
       "id": "src/components/ui/TermsAndConditionsEditButton.tsx",
       "label": "ui/TermsAndConditionsEditButton.tsx",
+      "group": "ui",
+      "size": 6
+    },
+    {
+      "id": "src/components/ui/FooterClient.tsx",
+      "label": "ui/FooterClient.tsx",
       "group": "ui",
       "size": 6
     },
@@ -3325,6 +3337,12 @@
       "size": 16
     },
     {
+      "id": "src/lib/use-translations.ts",
+      "label": "lib/use-translations.ts",
+      "group": "lib",
+      "size": 4
+    },
+    {
       "id": "src/lib/payload-auth.ts",
       "label": "lib/payload-auth.ts",
       "group": "lib",
@@ -3349,6 +3367,12 @@
       "size": 20
     },
     {
+      "id": "src/lib/translations.ts",
+      "label": "lib/translations.ts",
+      "group": "lib",
+      "size": 10
+    },
+    {
       "id": "src/lib/send-registration-forms.ts",
       "label": "lib/send-registration-forms.ts",
       "group": "lib",
@@ -3365,6 +3389,12 @@
       "label": "lib/media-url.ts",
       "group": "lib",
       "size": 20
+    },
+    {
+      "id": "src/lib/language-context.tsx",
+      "label": "lib/language-context.tsx",
+      "group": "lib",
+      "size": 12
     },
     {
       "id": "src/lib/rate-limit.ts",
@@ -3829,6 +3859,18 @@
     {
       "source": "src/app/(puck)/puck/individual-programs/PuckIndividualProgramsEditorClient.tsx",
       "target": "src/puck/config.tsx"
+    },
+    {
+      "source": "src/app/\\(frontend\\)/layout.tsx",
+      "target": "src/components/ui/Navigation.tsx"
+    },
+    {
+      "source": "src/app/\\(frontend\\)/layout.tsx",
+      "target": "src/components/ui/Footer.tsx"
+    },
+    {
+      "source": "src/app/\\(frontend\\)/layout.tsx",
+      "target": "src/lib/language-context.tsx"
     },
     {
       "source": "src/app/llms-full.txt/route.ts",
@@ -6687,6 +6729,14 @@
       "target": "src/lib/cart-store.ts"
     },
     {
+      "source": "src/components/ui/NavbarClient.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/ui/NavbarClient.tsx",
+      "target": "src/lib/translations.ts"
+    },
+    {
       "source": "src/components/ui/DestinationCarousel.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -6736,11 +6786,7 @@
     },
     {
       "source": "src/components/ui/Footer.tsx",
-      "target": "src/components/ui/FooterForm.tsx"
-    },
-    {
-      "source": "src/components/ui/Footer.tsx",
-      "target": "src/components/ui/ShakingCredit.tsx"
+      "target": "src/components/ui/FooterClient.tsx"
     },
     {
       "source": "src/components/ui/Footer.tsx",
@@ -6748,19 +6794,7 @@
     },
     {
       "source": "src/components/ui/Footer.tsx",
-      "target": "src/components/ui/FooterLogo.tsx"
-    },
-    {
-      "source": "src/components/ui/Footer.tsx",
-      "target": "src/components/ui/FooterSocialCounter.tsx"
-    },
-    {
-      "source": "src/components/ui/Footer.tsx",
-      "target": "src/components/ui/FooterShakingLink.tsx"
-    },
-    {
-      "source": "src/components/ui/Footer.tsx",
-      "target": "src/components/ui/FooterReveal.tsx"
+      "target": "src/lib/translations.ts"
     },
     {
       "source": "src/components/ui/Testimonials.tsx",
@@ -6849,6 +6883,34 @@
     {
       "source": "src/components/ui/CalendarTripCard.tsx",
       "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/components/ui/FooterClient.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/ui/FooterClient.tsx",
+      "target": "src/components/ui/FooterLogo.tsx"
+    },
+    {
+      "source": "src/components/ui/FooterClient.tsx",
+      "target": "src/components/ui/FooterSocialCounter.tsx"
+    },
+    {
+      "source": "src/components/ui/FooterClient.tsx",
+      "target": "src/components/ui/FooterShakingLink.tsx"
+    },
+    {
+      "source": "src/components/ui/FooterClient.tsx",
+      "target": "src/components/ui/ShakingCredit.tsx"
+    },
+    {
+      "source": "src/components/ui/FooterClient.tsx",
+      "target": "src/components/ui/FooterForm.tsx"
+    },
+    {
+      "source": "src/components/ui/FooterClient.tsx",
+      "target": "src/components/ui/FooterReveal.tsx"
     },
     {
       "source": "src/components/ui/About.tsx",
@@ -6951,6 +7013,10 @@
       "target": "src/lib/resend.ts"
     },
     {
+      "source": "src/lib/use-translations.ts",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
       "source": "src/lib/stripe-product-sync.ts",
       "target": "src/lib/stripe.ts"
     },
@@ -6961,6 +7027,10 @@
     {
       "source": "src/lib/metadata.ts",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/lib/language-context.tsx",
+      "target": "src/lib/translations.ts"
     },
     {
       "source": "src/lib/cron/balance-charge.ts",
@@ -7299,6 +7369,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-16T13:18:25.260Z",
-  "fileCount": 584
+  "builtAt": "2026-07-16T13:42:00.907Z",
+  "fileCount": 589
 }

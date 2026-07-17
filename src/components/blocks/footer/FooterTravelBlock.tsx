@@ -7,7 +7,7 @@ type Props = {
   travelSectionHeading?: string
 }
 
-export function FooterTravelBlock({ travelSectionHeading = 'ПЪТУВАЙ С НАС' }: Props) {
+export function FooterTravelBlock({ travelSectionHeading = 'TRAVEL WITH US' }: Props) {
   const [travelLinks, setTravelLinks] = useState<{ label: string; href: string }[]>([])
 
   useEffect(() => {

@@ -1,6 +1,8 @@
 'use client'
 
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
+import { useLanguage } from '@/lib/language-context'
+import { getDefaultStrings } from '@/lib/get-default-strings'
 
 interface EmbedBlockProps {
   block: {
@@ -12,6 +14,8 @@ interface EmbedBlockProps {
 }
 
 export function EmbedBlockRenderer({ block }: EmbedBlockProps) {
+  const { language } = useLanguage()
+  const strings = getDefaultStrings(language)
   const { embedUrl, height, title, allowFullscreen, ...styleProps } = block
   return (
     <BlockWrapper props={styleProps} innerClassName="max-w-[1440px] mx-auto px-6">

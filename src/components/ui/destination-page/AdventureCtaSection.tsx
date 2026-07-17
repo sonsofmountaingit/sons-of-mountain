@@ -81,7 +81,7 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
               )}
               {maxParticipants && (
                 <span className="border border-black/20 rounded-full px-4 py-1.5 text-sm font-semibold text-black/70">
-                  {maxParticipants} човека
+                  {maxParticipants} people
                 </span>
               )}
             </div>
@@ -89,7 +89,7 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
         </div>
 
         <div className="w-full">
-          <p className="text-xs font-bold tracking-[0.25em] text-black/40 uppercase mb-2">Цена на човек</p>
+          <p className="text-xs font-bold tracking-[0.25em] text-black/40 uppercase mb-2">Price per person</p>
           <div ref={priceRef} className="mb-3">
             {isEarlyBird && (
               <div className="flex flex-col items-center gap-1 mb-1">
@@ -101,7 +101,7 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
                 </div>
                 {earlyBirdSpotsLeft != null && (
                   <span className="text-xs font-semibold text-black/60 uppercase tracking-wider">
-                    {earlyBirdSpotsLeft} early bird {earlyBirdSpotsLeft === 1 ? 'място' : 'места'} останали
+                    {earlyBirdSpotsLeft} early bird {earlyBirdSpotsLeft === 1 ? 'spot' : 'spots'} left
                   </span>
                 )}
               </div>
@@ -119,7 +119,7 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
               onClick={() => setWaitlistOpen(true)}
               className="inline-flex items-center gap-3 bg-black text-white font-black text-sm uppercase tracking-widest px-6 sm:px-8 py-3.5 sm:py-4 hover:bg-black/80 transition-colors"
             >
-              Списък с чакащи
+              Waitlist
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
@@ -129,7 +129,7 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
               href="#booking"
               className="inline-flex items-center gap-3 bg-black text-white font-black text-sm uppercase tracking-widest px-6 sm:px-8 py-3.5 sm:py-4 hover:bg-black/80 transition-colors"
             >
-              Резервирай сега
+              Book now
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>

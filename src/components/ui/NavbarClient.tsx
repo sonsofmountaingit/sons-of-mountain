@@ -27,6 +27,16 @@ const LANGUAGES: { code: Language; label: string }[] = [
   { code: 'EN', label: 'English' },
 ]
 
+const NAV_TRANSLATIONS: Record<string, Record<Language, string>> = {
+  'Calendar': { BG: 'КАЛЕНДАР', EN: 'Calendar' },
+  'Gallery': { BG: 'ГАЛЕРИЯ', EN: 'Gallery' },
+  'Blog': { BG: 'БЛОГ', EN: 'Blog' },
+  'About': { BG: 'ЗА НАС', EN: 'About' },
+  'Contact': { BG: 'КОНТАКТИ', EN: 'Contact' },
+}
+
+const HIDDEN_NAV_LABELS = new Set(['Blog', 'Istorii', 'Истории', 'Блог', 'Stories'])
+
 const PANEL_VARIANTS = {
   hidden: { opacity: 0, y: -8, scale: 0.98 },
   visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.22, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
@@ -62,7 +72,26 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
   const logoSrc = logoHovered
     ? (logoLightUrl || '/colored-logo.svg')
     : (logoDarkUrl || '/white-logo.svg')
-  const allLinks = [...(navLinksLeft ?? []), ...(navLinksRight ?? [])]
+
+  const translateLabel = (label: string): string => {
+    return NAV_TRANSLATIONS[label]?.[language] ?? label
+  }
+
+  const translatedLinksLeft = navLinksLeft
+    .filter(link => !HIDDEN_NAV_LABELS.has(link.label))
+    .map(link => ({
+      ...link,
+      label: translateLabel(link.label)
+    }))
+
+  const translatedLinksRight = navLinksRight
+    .filter(link => !HIDDEN_NAV_LABELS.has(link.label))
+    .map(link => ({
+      ...link,
+      label: translateLabel(link.label)
+    }))
+
+  const allLinks = [...translatedLinksLeft, ...translatedLinksRight]
 
   useMotionValueEvent(scrollY, 'change', (current) => {
     setScrolled(current >= 50)
@@ -99,64 +128,32 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
     else setQuery('')
   }, [searchOpen])
 
-  useEffect(() => {
-    function handleKey(e: KeyboardEvent) {
-      if (e.key !== 'Escape') return
-      if (!searchOpen) return
-      if (query) {
-        setQuery('')
-      } else {
-        setSearchOpen(false)
-      }
-    }
-    document.addEventListener('keydown', handleKey)
-    return () => document.removeEventListener('keydown', handleKey)
-  }, [searchOpen, query])
-
-  useEffect(() => {
-    if (searchOpen || langOpen) setMegaOpen(false)
-    if (searchOpen || langOpen) setProfileOpen(false)
-  }, [searchOpen, langOpen])
+  async function handleSearch() {
+    if (!query.trim()) return
+    router.push(`/search?q=${encodeURIComponent(query)}`)
+    setSearchOpen(false)
+  }
 
   return (
     <>
       <motion.header
         ref={headerRef}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.3, ease: 'easeInOut' }}
-        className={[
-          'fixed left-0 right-0 z-50 transition-all duration-300 overflow-visible',
-          scrolled ? 'top-0 backdrop-blur-md bg-black/60' : isLightPage ? 'top-0 bg-black' : 'top-2 bg-transparent',
-        ].join(' ')}
-        style={{ contain: 'layout' }}
+        className="fixed top-0 left-0 right-0 z-50 bg-black/40 backdrop-blur-xl border-b border-white/10 transition-all duration-300"
+        style={{ '--backdrop-blur': scrolled ? '10px' : '20px' } as React.CSSProperties}
       >
-        <nav className={['relative w-full px-14 flex items-center justify-between transition-all duration-300 whitespace-nowrap overflow-visible', scrolled ? 'h-[56px]' : 'h-[88px]'].join(' ')}>
-
-          {/* Left */}
-          <div className="hidden lg:flex items-center gap-5 flex-1">
-            <button
-              data-megamenu-trigger
-              onClick={() => { setMegaOpen((v) => !v); setSearchOpen(false); setLangOpen(false) }}
-              className={['flex items-center gap-1.5 text-sm font-medium tracking-widest transition-colors duration-200', megaOpen ? (isLightPage && !scrolled ? 'text-zinc-900' : 'text-white') : (isLightPage && !scrolled ? 'text-zinc-600 hover:text-zinc-900' : 'text-white/80 hover:text-white')].join(' ')}
-            >
-              {t.nav.programs}
-              <svg width="10" height="6" viewBox="0 0 10 6" fill="none" className={['transition-transform duration-200', megaOpen ? 'rotate-180' : ''].join(' ')}>
-                <path d="M1 1l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-            </button>
-            {navLinksLeft.map((link, i) => (
+        <nav className="px-5 md:px-8 py-4 flex items-center justify-between">
+          <div className="hidden lg:flex items-center gap-6 flex-1">
+            {translatedLinksLeft.map((link, i) => (
               <Link key={`left-${i}`} href={link.href} className={`text-sm font-medium tracking-wider transition-colors duration-200 ${textBase}`}>
                 {link.label}
               </Link>
             ))}
           </div>
 
-          {/* Logo placeholder */}
           <div className={['flex-shrink-0 mx-4 transition-all duration-300', scrolled ? 'w-10' : 'w-20'].join(' ')} />
 
-          {/* Right */}
           <div className="hidden lg:flex items-center gap-4 flex-1 justify-end">
-            {navLinksRight.map((link, i) => (
+            {translatedLinksRight.map((link, i) => (
               <Link key={`right-${i}`} href={link.href} className={`text-sm font-medium tracking-wider transition-colors duration-200 ${textBase}`}>
                 {link.label}
               </Link>
@@ -168,11 +165,12 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                   onClick={() => { setProfileOpen((v) => !v); setSearchOpen(false); setLangOpen(false) }}
                   className={`flex items-center gap-2 px-3 py-1.5 text-sm font-medium tracking-widest border transition-colors duration-200 rounded-sm ${isLightPage && !scrolled ? 'border-zinc-300 text-zinc-700 hover:text-zinc-900 hover:border-zinc-500' : 'border-white/30 text-white/80 hover:text-white hover:border-white'}`}
                 >
-                  <span className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-[10px]">
-                    {(session.user.name?.[0] ?? session.user.email[0]).toUpperCase()}
-                  </span>
-                  {session.user.name?.split(' ')[0] ?? t.profile.profile}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  {session.user.name || session.user.email}
                 </button>
+
                 <AnimatePresence>
                   {profileOpen && (
                     <motion.div
@@ -182,30 +180,16 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                       exit="exit"
                       className="absolute right-0 top-[calc(100%+14px)] w-[200px] bg-[#0d0d0d]/95 backdrop-blur-xl border border-white/10 rounded-sm overflow-hidden shadow-2xl"
                     >
-                      {[
-                        { label: t.profile.profile, href: '/dashboard/profile' },
-                        { label: t.profile.registrations, href: '/dashboard/registrations' },
-                        { label: t.profile.orders, href: '/dashboard/orders' },
-                        { label: t.profile.vouchers, href: '/dashboard/vouchers' },
-                      ].map((item) => (
-                        <Link
-                          key={item.href}
-                          href={item.href}
-                          onClick={() => setProfileOpen(false)}
-                          className="block px-4 py-2.5 text-sm text-white/60 hover:text-white hover:bg-white/4 transition-colors"
-                        >
-                          {item.label}
-                        </Link>
-                      ))}
-                      <div className="border-t border-white/8 mt-1">
-                        <button
-                          onClick={async () => { setProfileOpen(false); await signOut(); router.push('/login'); router.refresh() }}
-                          className="block w-full text-left px-4 py-2.5 text-sm text-red-400/70 hover:text-red-400 hover:bg-white/4 transition-colors"
-                        >
-                          {t.profile.logout}
-                        </button>
-                      </div>
-                      <div className="h-1" />
+                      <Link href="/dashboard" className="block px-4 py-2.5 text-sm hover:bg-white/5 text-white/80 hover:text-white transition-colors border-b border-white/5">
+                        {t.profile.my_profile}
+                      </Link>
+                      <button
+                        onClick={() => signOut().then(() => router.push('/'))}
+                        className="w-full text-left px-4 py-2.5 text-sm hover:bg-white/5 text-white/80 hover:text-white transition-colors"
+                      >
+                        {t.profile.logout}
+                      </button>
+                      <div className="h-2" />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -217,8 +201,6 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
             )}
 
             <div className={`flex items-center gap-2.5 pl-3 border-l ${isLightPage && !scrolled ? 'border-zinc-200' : 'border-white/20'}`}>
-
-              {/* Cart */}
               <button
                 onClick={() => setCartOpen(true)}
                 className={`relative transition-colors ${isLightPage && !scrolled ? 'text-zinc-500 hover:text-zinc-900' : 'text-white/70 hover:text-white'}`}
@@ -236,7 +218,6 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                 )}
               </button>
 
-              {/* Search */}
               <div data-panel="search">
                 <button
                   onClick={() => { setSearchOpen((v) => !v); setLangOpen(false) }}
@@ -257,7 +238,6 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                 </button>
               </div>
 
-              {/* Language */}
               <div data-panel="lang" className="relative">
                 <button
                   onClick={() => { setLangOpen((v) => !v); setSearchOpen(false) }}
@@ -302,7 +282,6 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                 </AnimatePresence>
               </div>
 
-              {/* Socials */}
               {instagramUrl && (
                 <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className={`transition-colors ${isLightPage && !scrolled ? 'text-zinc-500 hover:text-zinc-900' : 'text-white/70 hover:text-white'}`} aria-label="Instagram">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -329,7 +308,6 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
             </div>
           </div>
 
-          {/* Mobile hamburger */}
           <button className={`lg:hidden p-2 ${isLightPage && !scrolled ? 'text-zinc-700' : 'text-white'}`} onClick={() => setMobileOpen(true)} aria-label="Open menu">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
               <line x1="3" y1="6" x2="21" y2="6" />
@@ -340,7 +318,6 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
         </nav>
       </motion.header>
 
-      {/* Logo */}
       <Link
         href="/"
         className="fixed left-1/2 -translate-x-1/2 top-2 z-[51] flex items-center justify-center"
@@ -351,13 +328,10 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
         <Image src={logoSrc} alt="Logo" width={140} height={140} priority className={['w-auto transition-[height] duration-300', scrolled ? 'h-10' : 'h-20'].join(' ')} />
       </Link>
 
-      {/* Desktop megamenu */}
       <ProgramsMegaMenu open={megaOpen} onClose={() => setMegaOpen(false)} navHeight={navHeight} />
 
-      {/* Cart sheet */}
       <CartSheet open={cartOpen} onClose={() => setCartOpen(false)} />
 
-      {/* Search overlay */}
       <AnimatePresence>
         {searchOpen && (
           <>
@@ -370,68 +344,110 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
               onClick={() => setSearchOpen(false)}
             />
             <motion.div
-              initial={{ opacity: 0, y: -16, scale: 0.97 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10, scale: 0.97 }}
-              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
               data-panel="search"
-              className="fixed left-1/2 -translate-x-1/2 top-[var(--nav-height,80px)] z-50 w-full max-w-[600px] px-4"
+              className="fixed top-28 left-1/2 -translate-x-1/2 z-50 w-full max-w-[500px] px-5"
             >
-              <div className="bg-[#0d0d0d]/98 backdrop-blur-2xl border border-white/10 rounded-sm shadow-2xl overflow-hidden">
-                {/* Input row */}
-                <div className="flex items-center gap-3 px-5 py-4 border-b border-white/8">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-white/40 flex-shrink-0">
+              <div className="bg-[#0d0d0d] border border-white/20 rounded-lg overflow-hidden shadow-2xl">
+                <div className="flex items-center gap-3 px-5 py-3 border-b border-white/10">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-white/50">
                     <circle cx="11" cy="11" r="7" /><line x1="16.5" y1="16.5" x2="22" y2="22" />
                   </svg>
                   <input
                     ref={searchInputRef}
                     type="text"
+                    placeholder={t.search.placeholder}
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    placeholder={t.search.placeholder}
-                    className="flex-1 bg-transparent text-base text-white placeholder-white/30 outline-none tracking-wide"
+                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                    className="flex-1 bg-transparent text-white outline-none text-sm"
                   />
-                  {query ? (
-                    <button onClick={() => setQuery('')} className="text-white/30 hover:text-white/70 transition-colors">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                        <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-                      </svg>
-                    </button>
-                  ) : (
-                    <kbd className="text-[10px] text-white/20 border border-white/10 rounded px-1.5 py-0.5">ESC</kbd>
-                  )}
                 </div>
-                {/* Quick links */}
-                <div className="px-5 py-4">
-                  <p className="text-[10px] tracking-widest text-white/25 mb-3">{t.search.quick_links}</p>
-                  <div className="grid grid-cols-2 gap-0.5">
-                    {[
-                      { label: t.search.trips_bulgaria, href: '/destinations?type=bulgaria' },
-                      { label: t.search.trips_abroad, href: '/destinations?type=abroad' },
-                      { label: t.search.individual_programs, href: '/destinations?type=trips' },
-                      { label: t.nav.calendar, href: '/calendar' },
-                      { label: t.nav.blog, href: '/blog' },
-                      { label: t.search.shop, href: '/shop' },
-                    ].map((item, i) => (
-                      <motion.div
-                        key={item.href}
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.04, duration: 0.2 }}
-                      >
-                        <Link
-                          href={item.href}
-                          onClick={() => setSearchOpen(false)}
-                          className="flex items-center gap-2.5 px-3 py-2.5 rounded-sm text-sm text-white/60 hover:text-white hover:bg-white/5 transition-colors group"
-                        >
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-white/20 group-hover:text-white/50 transition-colors flex-shrink-0">
-                            <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                          {item.label}
-                        </Link>
-                      </motion.div>
-                    ))}
-                  </div>
+                {query.trim() && (
+                  <button
+                    onClick={handleSearch}
+                    className="w-full px-5 py-3 text-sm text-white/60 hover:text-white hover:bg-white/5 transition-colors text-left"
+                  >
+                    {language === 'BG' ? 'Търси' : 'Search'} "{query}"
+                  </button>
+                )}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {mobileOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
+              onClick={() => setMobileOpen(false)}
+            />
+            <motion.div
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="fixed left-0 top-0 bottom-0 z-40 w-[280px] bg-[#0d0d0d] border-r border-white/10 flex flex-col pt-24 lg:hidden"
+            >
+              <nav className="flex-1 overflow-y-auto px-4 space-y-2">
+                {allLinks.map((link, i) => (
+                  <Link
+                    key={i}
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="block px-4 py-3 rounded text-sm font-medium text-white/80 hover:text-white hover:bg-white/5 transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+
+              <div className="border-t border-white/10 p-4 space-y-2">
+                {session?.user ? (
+                  <>
+                    <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="block px-4 py-2.5 rounded text-sm text-white/80 hover:text-white hover:bg-white/5 transition-colors">
+                      {t.profile.my_profile}
+                    </Link>
+                    <button
+                      onClick={() => {
+                        signOut().then(() => router.push('/'))
+                        setMobileOpen(false)
+                      }}
+                      className="w-full text-left px-4 py-2.5 rounded text-sm text-white/80 hover:text-white hover:bg-white/5 transition-colors"
+                    >
+                      {t.profile.logout}
+                    </button>
+                  </>
+                ) : (
+                  <Link href="/login" onClick={() => setMobileOpen(false)} className="block px-4 py-2.5 rounded text-sm font-medium text-white/80 hover:text-white hover:bg-white/5 transition-colors">
+                    {t.nav.login}
+                  </Link>
+                )}
+
+                <div className="flex items-center gap-2 pt-2">
+                  {[
+                    { code: 'BG', label: 'BG' },
+                    { code: 'EN', label: 'EN' },
+                  ].map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => setLanguage(lang.code as Language)}
+                      className={`flex-1 px-3 py-2 rounded text-[11px] font-bold tracking-widest transition-colors ${
+                        language === lang.code ? 'bg-white text-black' : 'bg-white/10 text-white/60 hover:text-white'
+                      }`}
+                    >
+                      {lang.label}
+                    </button>
+                  ))}
                 </div>
               </div>
             </motion.div>
@@ -439,87 +455,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
         )}
       </AnimatePresence>
 
-      {/* Mobile menu */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: '100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '100%' }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed inset-0 z-[100] bg-black flex flex-col"
-          >
-            <div className="flex items-center justify-between px-6 h-16">
-              <Link href="/" onClick={() => setMobileOpen(false)}>
-                <Image src={logoSrc} alt="Logo" width={140} height={64} className="h-16 w-auto" />
-              </Link>
-              <button className="p-2 text-white" onClick={() => setMobileOpen(false)} aria-label="Close menu">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              </button>
-            </div>
-            <nav className="flex flex-col gap-0 px-6 pt-8 overflow-y-auto">
-              <div className="border-b border-white/10">
-                <button
-                  onClick={() => setMobileProgramsOpen((v) => !v)}
-                  className="flex items-center justify-between w-full text-2xl font-medium py-3 text-white/80 hover:text-white transition-colors"
-                >
-                  {t.nav.programs}
-                  <svg width="12" height="12" viewBox="0 0 10 6" fill="none" className={['transition-transform duration-200', mobileProgramsOpen ? 'rotate-180' : ''].join(' ')}>
-                    <path d="M1 1l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                  </svg>
-                </button>
-                <AnimatePresence>
-                  {mobileProgramsOpen && (
-                    <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden">
-                      {[
-                        { label: t.programs_menu.bulgaria, href: '/destinations?type=bulgaria' },
-                        { label: t.programs_menu.abroad, href: '/destinations?type=abroad' },
-                        { label: t.programs_menu.individual, href: '/destinations?type=trips' },
-                      ].map((item) => (
-                        <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)} className="block pl-4 py-3 text-base font-medium text-white/60 hover:text-white transition-colors border-b border-white/5">
-                          {item.label}
-                        </Link>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-              {allLinks.map((link, i) => (
-                <motion.div key={`mobile-${i}`} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05, duration: 0.3 }}>
-                  <Link href={link.href} onClick={() => setMobileOpen(false)} className="block text-2xl font-medium py-3 text-white/80 hover:text-white transition-colors border-b border-white/10">
-                    {link.label}
-                  </Link>
-                </motion.div>
-              ))}
-            </nav>
-            <div className="flex items-center gap-6 px-6 mt-auto pb-12">
-              {instagramUrl && (
-                <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-                  </svg>
-                </a>
-              )}
-              {facebookUrl && (
-                <a href={facebookUrl} target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                  </svg>
-                </a>
-              )}
-              {tiktokUrl && (
-                <a href={tiktokUrl} target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.16 8.16 0 0 0 4.77 1.52V6.76a4.85 4.85 0 0 1-1-.07z"/>
-                  </svg>
-                </a>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <ProgramsMegaMenu open={megaOpen} onClose={() => setMegaOpen(false)} navHeight={navHeight} />
     </>
   )
 }

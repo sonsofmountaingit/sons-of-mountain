@@ -102,7 +102,7 @@ export function RegistrationForm({ token, formId, fields }: Props) {
         disabled={status === 'loading'}
         style={{ padding: '0.75rem 1.5rem', background: '#1a1a1a', color: '#fff', border: 'none', borderRadius: '0.5rem', fontWeight: 600, cursor: 'pointer' }}
       >
-        {status === 'loading' ? 'Изпращане...' : 'Изпрати'}
+        {status === 'loading' ? 'Sending...' : 'Send'}
       </button>
 
       {status === 'error' && <p style={{ color: '#c0392b' }}>Възникна грешка. Опитай отново.</p>}

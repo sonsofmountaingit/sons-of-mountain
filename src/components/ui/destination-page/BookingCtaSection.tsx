@@ -80,12 +80,12 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
         {/* Header */}
         <div ref={headRef}>
           <p className="text-xs font-semibold tracking-[0.2em] text-[#888] uppercase mb-4">
-            Записване
+            Booking
           </p>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#111] leading-tight mb-8 sm:mb-12 max-w-2xl">
-          Готов ли си за {name}?{' '}
+          Ready for {name}?{' '}
             <span className="text-[#888] font-black">
-            Запази място и отиваме заедно. 
+            Book your spot and let's go together.
             </span>
           </h2>
         </div>
@@ -109,10 +109,10 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
             <div className="absolute inset-0 bg-black/40" />
             <div className="relative z-10">
               <span className="inline-flex items-center bg-white/20 backdrop-blur-sm text-white text-xs font-semibold px-4 py-1.5 rounded-full mb-6 border border-white/30">
-                {activeTrip ? (isSameDay(activeTrip.startDate, activeTrip.endDate) ? formatDate(activeTrip.startDate) : `${formatDate(activeTrip.startDate)} – ${formatDate(activeTrip.endDate)}`) : 'Предстояща дата'}
+                {activeTrip ? (isSameDay(activeTrip.startDate, activeTrip.endDate) ? formatDate(activeTrip.startDate) : `${formatDate(activeTrip.startDate)} – ${formatDate(activeTrip.endDate)}`) : 'Upcoming date'}
               </span>
               <h3 className="text-2xl sm:text-3xl font-black text-white leading-tight drop-shadow-md">
-                Запази място,<br />тръгваме заедно
+                Book your spot,<br />let's go together
               </h3>
             </div>
 
@@ -126,7 +126,7 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
                     />
                   </div>
                   <p className="text-xs font-semibold text-white/70">
-                    {isFull ? 'Изчерпани места' : `${spotsLeft} свободни от ${spotsTotal} места`}
+                    {isFull ? 'Spots exhausted' : `${spotsLeft} available of ${spotsTotal} spots`}
                   </p>
                 </div>
               )}
@@ -136,7 +136,7 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
                   <Link
                     href={resolvedBookingHref}
                     className="flex items-center justify-center w-10 h-10 rounded-full bg-white text-[#111] flex-shrink-0 hover:bg-white/90 transition-colors"
-                    aria-label="Запиши се"
+                    aria-label="Book"
                   >
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                       <path d="M2 7H12M12 7L7 2M12 7L7 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -147,7 +147,7 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
                     onClick={() => setWaitlistOpen(true)}
                     className="flex items-center justify-center h-10 px-4 rounded-full bg-white text-[#111] flex-shrink-0 hover:bg-white/90 transition-colors text-xs font-black tracking-wide uppercase"
                   >
-                    Списък с чакащи
+                    Waitlist
                   </button>
                 ) : (
                   <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/20 text-white/40 flex-shrink-0">
@@ -158,7 +158,7 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
                 )}
                 {activeTrip && (
                   <span className="text-sm font-black text-white tracking-wide uppercase drop-shadow">
-                    {formatPrice(activeTrip.price)} / човек
+                    {formatPrice(activeTrip.price)} / person
                   </span>
                 )}
               </div>
@@ -169,7 +169,7 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
           <div className="rounded-3xl border-2 border-dashed border-[#e0e0e0] bg-white/60 p-7 flex flex-col justify-between min-h-[380px]">
             <div>
               <span className="inline-flex items-center bg-[#111] text-white text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
-                В цената
+                Included in price
               </span>
 
               {included.length > 0 && (
@@ -189,7 +189,7 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
 
               {notIncluded.length > 0 && (
                 <div className="mt-4">
-                  <p className="text-[10px] font-bold tracking-[0.2em] text-[#aaa] uppercase mb-2">Не е включено</p>
+                  <p className="text-[10px] font-bold tracking-[0.2em] text-[#aaa] uppercase mb-2">Not included</p>
                   <ul className="space-y-1.5">
                     {notIncluded.map((it, i) => (
                       <li key={i} className="flex items-start gap-2 text-xs text-[#999] leading-snug">
@@ -211,7 +211,7 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
                 </svg>
               </div>
               <span className="text-xs font-bold text-[#aaa] tracking-widest uppercase">
-                Детайли при запис
+                Details on booking
               </span>
             </div>
           </div>
@@ -220,9 +220,9 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
         {/* Process steps */}
         <div ref={stepsRef} className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6">
           {[
-            { n: '01', text: 'Попълни формата за записване. Ще ти се обадим за да се запознаем и ще очакваме нужните данни за договор и застраховка.' },
-            { n: '02', text: 'Ще получиш договор, застраховка и фактура – плащаш 50% депозит, а остатъка ще очакваме до 45 дни преди заминаване.' },
-            { n: '03', text: 'Месец преди експедицията ще ти напомним с детайлен информационен имейл за дестинацията, полетите и тн.' },
+            { n: '01', text: 'Fill out the booking form. We\'ll call you to get acquainted and collect the necessary contract and insurance documents.' },
+            { n: '02', text: 'You\'ll receive a contract, insurance, and invoice. Pay 50% deposit upfront, with the balance due 45 days before departure.' },
+            { n: '03', text: 'A month before the expedition, we\'ll send you a detailed information email with destination details, flights, and more.' },
           ].map(({ n, text }) => (
             <div key={n} className="flex gap-4 items-start">
               <span className="text-[11px] font-black tracking-widest text-[#bbb] mt-0.5 flex-shrink-0">{n}</span>
@@ -232,9 +232,9 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
         </div>
 
         <p className="text-[10px] text-[#aaa] mt-8">
-          С натискането на бутон "Запиши се" се съгласяваш с нашите{' '}
-          <a href="/terms" className="underline hover:text-[#555] transition-colors">Общи условия</a>{' '}и{' '}
-          <a href="/privacy" className="underline hover:text-[#555] transition-colors">Политика за поверителност</a>.
+          By clicking "Book", you agree to our{' '}
+          <a href="/terms" className="underline hover:text-[#555] transition-colors">Terms & Conditions</a>{' '}and{' '}
+          <a href="/privacy" className="underline hover:text-[#555] transition-colors">Privacy Policy</a>.
         </p>
       </div>
 

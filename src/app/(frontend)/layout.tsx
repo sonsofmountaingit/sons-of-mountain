@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Space_Grotesk, Dancing_Script } from 'next/font/google'
 import { Suspense } from 'react'
+import { LanguageProvider } from '@/lib/language-context'
 import { Navigation } from '@/components/ui/Navigation'
 import { Footer } from '@/components/ui/Footer'
 import { Toaster } from 'sonner'
@@ -27,9 +28,9 @@ const dancingScript = Dancing_Script({
 export const metadata: Metadata = {
   title: {
     template: '%s | Sons of Mountains',
-    default: 'Sons of Mountains — Преходи, пътешествия и експедиции в България и по света',
+    default: 'Sons of Mountains — Hikes, journeys, and expeditions in Bulgaria and around the world',
   },
-  description: 'Пътувай с Sons of Mountains там, където комфортът среща приключението.',
+  description: 'Travel with Sons of Mountains where comfort meets adventure.',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'),
   robots: {
     index: true,
@@ -53,12 +54,14 @@ export default function FrontendLayout({ children }: { children: React.ReactNode
   return (
     <html lang="bg" className={`${spaceGrotesk.variable} ${dancingScript.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body suppressHydrationWarning>
-        <Navigation />
-        <main>{children}</main>
-        <Suspense fallback={null}>
-          <Footer />
-        </Suspense>
-        <Toaster position="bottom-right" richColors closeButton duration={4000} />
+        <LanguageProvider>
+          <Navigation />
+          <main>{children}</main>
+          <Suspense fallback={null}>
+            <Footer />
+          </Suspense>
+          <Toaster position="bottom-right" richColors closeButton duration={4000} />
+        </LanguageProvider>
       </body>
     </html>
   )

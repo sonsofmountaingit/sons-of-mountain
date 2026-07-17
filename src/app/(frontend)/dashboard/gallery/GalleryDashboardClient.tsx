@@ -93,7 +93,7 @@ export function GalleryDashboardClient() {
 
           {!loading && collections.length === 0 && (
             <div className="border border-white/10 rounded-sm p-10 text-center">
-              <p className="text-white/30 text-sm mb-4">Нямаш публикувани галерии</p>
+              <p className="text-white/30 text-sm mb-4">You have no published galleries</p>
               <button onClick={openCreate} className="text-xs tracking-widest text-white/50 hover:text-white transition-colors underline">
                 Създай първата
               </button>

@@ -16,7 +16,7 @@ export type WtuwItem = { icon: 'camera' | 'globe' | 'city'; title: string; body:
 function DifficultyBar({ value }: { value: number }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-      <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Трудност</span>
+      <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Difficulty</span>
       <div style={{ flex: 1, height: 3, borderRadius: 2, background: 'rgba(255,255,255,0.2)', overflow: 'hidden' }}>
         <div style={{ width: `${value}%`, height: '100%', background: 'white', borderRadius: 2 }} />
       </div>
@@ -167,7 +167,7 @@ function TripVideoCard({
               background: 'rgba(255,255,255,0.18)', borderRadius: 4,
               padding: '2px 6px', textTransform: 'uppercase', letterSpacing: '0.05em',
             }}>
-              {card.spotsAvailable} места
+              {card.spotsAvailable} spots
             </span>
           )}
         </div>
@@ -187,7 +187,7 @@ function TripVideoCard({
             cursor: 'pointer',
           }}
         >
-          Резервирай
+          Book
         </button>
       </div>
 
@@ -206,9 +206,9 @@ function TripVideoCard({
 }
 
 export function WhyTravelWithUsBlock({
-  heading = 'ЗАЩО ДА ПЪТУВАШ С НАС?',
+  heading = 'WHY TRAVEL WITH US?',
   items,
-  ctaLabel = 'Научи повече',
+  ctaLabel = 'Learn more',
   ctaHref = '/about',
   videoCards = [],
 }: {

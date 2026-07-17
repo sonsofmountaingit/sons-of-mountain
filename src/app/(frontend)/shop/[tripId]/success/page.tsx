@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = { title: 'Успешно плащане!' }
+export const metadata: Metadata = { title: 'Booking successful!' }
 
 export default function SuccessPage() {
   return (
@@ -12,10 +12,10 @@ export default function SuccessPage() {
             <polyline points="20 6 9 17 4 12"/>
           </svg>
         </div>
-        <h1 className="text-3xl font-bold mb-4">Записването е успешно!</h1>
-        <p className="text-white/50 mb-8">Ще получиш потвърждение по имейл. Не можем да дочакаме да пътуваме заедно!</p>
+        <h1 className="text-3xl font-bold mb-4">Booking successful!</h1>
+        <p className="text-white/50 mb-8">You'll receive a confirmation email. We can't wait to travel together!</p>
         <Link href="/destinations" className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black font-semibold text-sm rounded hover:bg-white/90">
-          Виж повече дестинации
+          View more destinations
         </Link>
       </div>
     </div>

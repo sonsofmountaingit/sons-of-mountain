@@ -4,7 +4,7 @@ export function CityIcon() {
   return (
     <Image
       src="/icons/nature-immersion.svg"
-      alt="Потапяне в природата"
+      alt="Immersion in nature"
       width={96}
       height={96}
     />

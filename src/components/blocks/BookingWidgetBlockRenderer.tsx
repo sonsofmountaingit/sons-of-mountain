@@ -1,6 +1,8 @@
 'use client'
 
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
+import { useLanguage } from '@/lib/language-context'
+import { getDefaultStrings } from '@/lib/get-default-strings'
 
 interface BookingWidgetBlockProps {
   block: {
@@ -12,6 +14,8 @@ interface BookingWidgetBlockProps {
 }
 
 export function BookingWidgetBlockRenderer({ block }: BookingWidgetBlockProps) {
+  const { language } = useLanguage()
+  const strings = getDefaultStrings(language)
   const { heading, subheading, embedUrl, height, ...styleProps } = block
   return (
     <BlockWrapper props={styleProps} innerClassName="max-w-4xl mx-auto px-6">
@@ -19,7 +23,7 @@ export function BookingWidgetBlockRenderer({ block }: BookingWidgetBlockProps) {
       {subheading && <p className="opacity-60 mb-8 text-center">{subheading}</p>}
       <div className="relative w-full rounded-2xl overflow-hidden bg-white/5 border border-white/10" style={{ height: height || '600px' }}>
         {embedUrl ? (
-          <iframe src={embedUrl} width="100%" height="100%" style={{ border: 0 }} title={heading || 'Booking'} />
+          <iframe src={embedUrl} width="100%" height="100%" style={{ border: 0 }} title={heading || strings.checkout.placeOrder} />
         ) : (
           <div className="w-full h-full flex items-center justify-center opacity-30 text-sm">
             Paste a booking widget URL (Calendly, FareHarbor, etc.) in the panel →

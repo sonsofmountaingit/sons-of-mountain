@@ -3,6 +3,8 @@
 import { useRef, useEffect, useState } from 'react'
 import { useInView } from 'motion/react'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
+import { useLanguage } from '@/lib/language-context'
+import { getDefaultStrings } from '@/lib/get-default-strings'
 
 interface CounterStat {
   number: string
@@ -44,6 +46,8 @@ function AnimatedNumber({ target, suffix }: { target: string; suffix?: string | 
 }
 
 export function CounterBlockRenderer({ block }: CounterBlockProps) {
+  const { language } = useLanguage()
+  const strings = getDefaultStrings(language)
   const { title, stats, ...styleProps } = block
   return (
     <BlockWrapper props={styleProps} innerClassName="max-w-[1200px] mx-auto px-6">

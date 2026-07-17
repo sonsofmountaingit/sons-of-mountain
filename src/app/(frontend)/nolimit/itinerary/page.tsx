@@ -3,27 +3,27 @@ import { buildStaticMetadata } from '@/lib/metadata'
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildStaticMetadata('/nolimit/itinerary', {
-    title: 'Маршрут — NoLimit Yacht Festival',
-    description: '7-дневен маршрут на NoLimit Yacht Festival в Червено море. Острови, корали, нощни партита и незабравими залези.',
+    title: 'Itinerary — NoLimit Yacht Festival',
+    description: '7-day NoLimit Yacht Festival itinerary in the Red Sea. Islands, coral reefs, night parties, and unforgettable sunsets.',
   })
 }
 
 const DAYS = [
-  { day: 1, title: 'Заминаване — Хургада', desc: 'Настаняване на яхтите, коктейлна вечер.' },
-  { day: 2, title: 'Острови — Карамбиш', desc: 'Гмуркане, плаж, залез на борда.' },
-  { day: 3, title: 'Остров Утайя', desc: 'Снорклинг, обяд на плажа, нощно парти.' },
-  { day: 4, title: 'Свободен ден', desc: 'Риболов, SUP, релакс.' },
-  { day: 5, title: 'Остров Ел Фанадир', desc: 'Скубадайвинг, барбекю.' },
-  { day: 6, title: 'Финална нощ', desc: 'Главно парти с всички артисти.' },
-  { day: 7, title: 'Завръщане', desc: 'Закуска, чекаут, трансфер.' },
+  { day: 1, title: 'Departure — Hurghada', desc: 'Yacht check-in, welcome cocktail.' },
+  { day: 2, title: 'Islands — Karambishi', desc: 'Diving, beach, sunset on board.' },
+  { day: 3, title: 'Utaya Island', desc: 'Snorkeling, beach lunch, night party.' },
+  { day: 4, title: 'Free day', desc: 'Fishing, SUP, relax.' },
+  { day: 5, title: 'El Fanadir Island', desc: 'Scuba diving, barbecue.' },
+  { day: 6, title: 'Final night', desc: 'Main party with all artists.' },
+  { day: 7, title: 'Return', desc: 'Breakfast, check-out, transfer.' },
 ]
 
 export default function NolimitItineraryPage() {
   return (
     <div className="pt-24 pb-20 px-6 min-h-screen">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-5xl font-bold mb-4">Програма</h1>
-        <p className="text-white/50 mb-12">7 дни в Червено море</p>
+        <h1 className="text-5xl font-bold mb-4">Itinerary</h1>
+        <p className="text-white/50 mb-12">7 days in the Red Sea</p>
         <div className="space-y-6">
           {DAYS.map((day) => (
             <div key={day.day} className="flex gap-6 border-b border-white/10 pb-6">

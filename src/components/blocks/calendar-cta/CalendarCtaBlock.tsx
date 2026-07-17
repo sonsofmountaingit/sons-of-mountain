@@ -5,6 +5,8 @@ import Image from 'next/image'
 import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useLanguage } from '@/lib/language-context'
+import { getDefaultStrings } from '@/lib/get-default-strings'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -29,12 +31,18 @@ const BASE_W = 320
 const BASE_H = 500
 
 export function CalendarCtaBlock({
-  heading = 'Търсиш следващото приключение?',
-  subheading = 'Разгледай всички предстоящи пътувания.',
-  buttonText = 'Виж календара',
+  heading: customHeading,
+  subheading: customSubheading,
+  buttonText: customButtonText,
   buttonUrl = '/calendar',
   destinationImages = [],
 }: Props) {
+  const { language } = useLanguage()
+  const strings = getDefaultStrings(language)
+
+  const heading = customHeading ?? 'Looking for your next adventure?'
+  const subheading = customSubheading ?? 'Browse all upcoming trips.'
+  const buttonText = customButtonText ?? strings.calendar.title
   const images: (string | null)[] = Array.from({ length: 5 }, (_, i) => destinationImages[i] ?? null)
 
   const sectionRef = useRef<HTMLElement>(null)

@@ -148,16 +148,16 @@ export async function Footer() {
     trips = activeTrips.map((t: any) => ({ ...t, __kind: 'trip' as const }))
   }
 
-  const subscribeHeading = (data as any)?.subscribeHeading ?? 'Абонирай се'
-  const subscribeSubtext = (data as any)?.subscribeSubtext ?? 'Научавай първи за предстоящи пътешествия, отстъпки и събития.'
-  const followHeading = (data as any)?.followHeading ?? 'Последвай ни!'
-  const followSubtext = (data as any)?.followSubtext ?? 'Стани част от нашата общност и следи приключенията ни отблизо.'
+  const subscribeHeading = (data as any)?.subscribeHeading ?? 'Subscribe'
+  const subscribeSubtext = (data as any)?.subscribeSubtext ?? 'Be the first to learn about upcoming journeys, special offers, and events.'
+  const followHeading = (data as any)?.followHeading ?? 'Follow us!'
+  const followSubtext = (data as any)?.followSubtext ?? 'Be part of our community and follow our adventures.'
   const facebookUrl = (data as any)?.facebookUrl ?? 'https://facebook.com/sonsofmountains'
   const instagramUrl = (data as any)?.instagramUrl ?? 'https://instagram.com/sonsofmountains'
   const facebookFollowers = (data as any)?.facebookFollowers ?? '20.2K'
   const instagramFollowers = (data as any)?.instagramFollowers ?? '23.8K'
-  const travelSectionHeading = (data as any)?.travelSectionHeading ?? 'ПЪТУВАЙ С НАС'
-  const navSectionHeading = (data as any)?.navSectionHeading ?? 'НАВИГАЦИЯ'
+  const travelSectionHeading = (data as any)?.travelSectionHeading ?? 'TRAVEL WITH US'
+  const navSectionHeading = (data as any)?.navSectionHeading ?? 'NAVIGATION'
   const navLinkSource = (data as any)?.navLinkSource ?? 'auto'
   const manualNavLinks: { label: string; href: string }[] = (data as any)?.navLinks ?? []
   const autoNavLinks: { label: string; href: string }[] = [
@@ -179,22 +179,22 @@ export async function Footer() {
       href,
     }
   })
-  const copyright = (data as any)?.copyright ?? '© 2018-2026 Сонс оф Моунтаин'
-  const licenseText = (data as any)?.licenseText ?? 'Номер на лиценз: РК-01-8245 / 28.07.2022'
-  const insuranceText = (data as any)?.insuranceText ?? 'Номер на застрахователна полица: 03700100005995 / 31.08.2025'
-  const creditPrefix = (data as any)?.creditPrefix ?? 'Дизайн и разработка от'
+  const copyright = (data as any)?.copyright ?? '© 2018-2026 Sons of Mountains'
+  const licenseText = (data as any)?.licenseText ?? 'License Number: РК-01-8245 / 28.07.2022'
+  const insuranceText = (data as any)?.insuranceText ?? 'Insurance Number: 03700100005995 / 31.08.2025'
+  const creditPrefix = (data as any)?.creditPrefix ?? 'Design and development by'
   const creditName = (data as any)?.creditName ?? 'Netinsky'
   const creditUrl = (data as any)?.creditUrl ?? 'https://netinsky.com'
   const termsUrl = (data as any)?.termsUrl ?? '/legal/terms'
   const privacyUrl = (data as any)?.privacyUrl ?? '/legal/privacy-policy'
   const logoUrl = typeof (data as any)?.logo === 'object' ? (data as any)?.logo?.url : null
   const logoColoredUrl = typeof (data as any)?.logoColored === 'object' ? (data as any)?.logoColored?.url : null
-  const submitLabel = (data as any)?.submitLabel ?? 'Абонирай се'
-  const firstNamePlaceholder = (data as any)?.firstNamePlaceholder ?? 'Име'
-  const lastNamePlaceholder = (data as any)?.lastNamePlaceholder ?? 'Фамилия'
-  const emailPlaceholder = (data as any)?.emailPlaceholder ?? 'E-mail адрес'
-  const consentText = (data as any)?.consentText ?? 'С натискането на бутона "Абонирай се" се съгласяваш с'
-  const consentLinkText = (data as any)?.consentLinkText ?? 'Политиката ни за поверителност'
+  const submitLabel = (data as any)?.submitLabel ?? 'Subscribe'
+  const firstNamePlaceholder = (data as any)?.firstNamePlaceholder ?? 'First name'
+  const lastNamePlaceholder = (data as any)?.lastNamePlaceholder ?? 'Last name'
+  const emailPlaceholder = (data as any)?.emailPlaceholder ?? 'Email address'
+  const consentText = (data as any)?.consentText ?? 'By clicking subscribe, you agree to our'
+  const consentLinkText = (data as any)?.consentLinkText ?? 'Privacy Policy'
 
   return (
     <>

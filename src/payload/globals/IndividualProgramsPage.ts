@@ -91,7 +91,7 @@ export const IndividualProgramsPage: GlobalConfig = {
     },
     // Questionnaire section intro (form fields themselves live in ProgramInquiries collection admin config)
     { name: 'questionnaireHeading', type: 'text', defaultValue: 'Разкажи ни за твоето пътуване' },
-    { name: 'questionnaireSubtext', type: 'text', defaultValue: 'Попълни въпросника и ще се свържем с теб в рамките на 24 часа с персонализирано предложение.' },
+    { name: 'questionnaireSubtext', type: 'text', defaultValue: 'Fill out the questionnaire and we will contact you within 24 hours with a personalized offer.' },
     {
       name: 'questions',
       type: 'array',

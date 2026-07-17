@@ -51,8 +51,8 @@ export default function GuidesSection({ guides }: Props) {
 
   if (!guides?.length) return null
 
-  const eyebrow = guides.length === 1 ? 'ВАШИЯТ ВОДАЧ' : 'ВАШИТЕ ВОДАЧИ'
-  const heading = guides.length === 1 ? 'Кой ще е вашият водач' : 'Кои ще са вашите водачи?'
+  const eyebrow = guides.length === 1 ? 'YOUR GUIDE' : 'YOUR GUIDES'
+  const heading = guides.length === 1 ? 'Who will be your guide' : 'Who will be your guides?'
 
   return (
     <section ref={sectionRef} className="py-14 sm:py-20 px-4 sm:px-6 bg-white text-black">
@@ -86,7 +86,7 @@ export default function GuidesSection({ guides }: Props) {
                       <h3 className="text-lg font-black tracking-tight leading-none">{guide.name}</h3>
                       {guide.yearsExperience ? (
                         <span className="text-[9px] font-bold text-black/30 uppercase tracking-[0.2em] bg-black/5 rounded-full px-2 py-0.5">
-                          {guide.yearsExperience}+ г.
+                          {guide.yearsExperience} years
                         </span>
                       ) : null}
                       {guide.instagram ? (

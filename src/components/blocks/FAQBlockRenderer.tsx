@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
+import { useLanguage } from '@/lib/language-context'
+import { getDefaultStrings } from '@/lib/get-default-strings'
 
 interface FAQItem {
   question: string
@@ -18,6 +20,8 @@ interface FAQBlockProps {
 }
 
 export function FAQBlockRenderer({ block }: FAQBlockProps) {
+  const { language } = useLanguage()
+  const strings = getDefaultStrings(language)
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   return (

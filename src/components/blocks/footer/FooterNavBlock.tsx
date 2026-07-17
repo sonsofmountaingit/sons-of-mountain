@@ -7,7 +7,7 @@ type Props = {
   navSectionHeading?: string
 }
 
-export function FooterNavBlock({ navSectionHeading = 'НАВИГАЦИЯ' }: Props) {
+export function FooterNavBlock({ navSectionHeading = 'NAVIGATION' }: Props) {
   const [navLinks, setNavLinks] = useState<{ label: string; href: string }[]>([])
 
   useEffect(() => {

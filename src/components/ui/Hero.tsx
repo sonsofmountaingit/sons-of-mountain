@@ -38,9 +38,9 @@ export async function Hero() {
   return (
     <>
       <HeroMainBlock backgroundVideoUrl="/hero-bg.mp4">
-        <HeroHeadlineBlock text={h?.headline ?? 'Преходи, пътешествия и експедиции в България и по света!'} />
-        <HeroSubtextBlock text={h?.subtext ?? 'Пътувай с Sons of Mountains там, където комфортът среща приключението.'} />
-        <HeroCtaBlock label={h?.ctaLabel ?? 'Виж всички дестинации'} url={h?.ctaUrl ?? '/destinations'} />
+        <HeroHeadlineBlock text={h?.headline ?? 'Trips, travels and expeditions in Bulgaria and around the world!'} />
+        <HeroSubtextBlock text={h?.subtext ?? 'Travel with Sons of Mountains where comfort meets adventure.'} />
+        <HeroCtaBlock label={h?.ctaLabel ?? 'View all destinations'} url={h?.ctaUrl ?? '/destinations'} />
       </HeroMainBlock>
       <HeroEditButton />
     </>

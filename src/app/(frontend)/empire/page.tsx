@@ -6,7 +6,7 @@ import { buildStaticMetadata } from '@/lib/metadata'
 export async function generateMetadata(): Promise<Metadata> {
   return buildStaticMetadata('/empire', {
     title: 'Empire of Corals — Sons of Mountains × EXE Group',
-    description: 'Empire of Corals — мегасъбитие на Sons of Mountains и EXE Group. 6 мега яхти, 6 артисти, 1 чартърен полет. Хургада, Египет, 14–21 ноември 2026.',
+    description: 'Empire of Corals — mega event by Sons of Mountains and EXE Group. 6 mega yachts, 6 artists, 1 chartered flight. Hurghada, Egypt, November 14-21, 2026.',
   })
 }
 
@@ -16,10 +16,10 @@ export default function EmpirePage() {
     '@type': 'MusicFestival',
     name: 'Empire of Corals',
     url: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com'}/empire`,
-    description: 'Sons of Mountains × EXE Group мегасъбитие в Хургада, Египет.',
+    description: 'Sons of Mountains × EXE Group mega event in Hurghada, Egypt.',
     startDate: '2026-11-14',
     endDate: '2026-11-21',
-    location: { '@type': 'Place', name: 'Хургада, Египет', address: { '@type': 'PostalAddress', addressCountry: 'EG', addressLocality: 'Хургада' } },
+    location: { '@type': 'Place', name: 'Hurghada, Egypt', address: { '@type': 'PostalAddress', addressCountry: 'EG', addressLocality: 'Хургада' } },
     organizer: [
       { '@type': 'Organization', name: 'Sons of Mountains', url: process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com' },
       { '@type': 'Organization', name: 'EXE Group' },
@@ -38,10 +38,10 @@ export default function EmpirePage() {
           </div>
           <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-4">Empire of Corals</h1>
           <p className="text-xl text-white/60 mb-2">Първият в света мегаяхтен фестивал за електронна музика</p>
-          <p className="text-white/40 mb-8">14-21 Ноември 2026 · Хургада, Египет</p>
+          <p className="text-white/40 mb-8">14-21 Ноември 2026 · Hurghada, Egypt</p>
           <div className="flex flex-wrap gap-4">
             <Link href="/nolimit/sign-up" className="px-8 py-4 bg-white text-black font-semibold text-sm rounded hover:bg-white/90 transition-colors">
-              Запиши се
+              Sign up
             </Link>
           </div>
         </div>

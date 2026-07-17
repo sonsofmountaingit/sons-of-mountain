@@ -4,6 +4,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
 import { mediaUrl } from '@/lib/media-url'
+import { useLanguage } from '@/lib/language-context'
+import { getDefaultStrings } from '@/lib/get-default-strings'
 
 interface SocialPost {
   platform: string
@@ -40,6 +42,8 @@ const PLATFORM_ICONS: Record<string, string> = {
 }
 
 export function SocialFeedBlockRenderer({ block }: SocialFeedBlockProps) {
+  const { language } = useLanguage()
+  const strings = getDefaultStrings(language)
   const { title, posts, columns, ...styleProps } = block
   const items = posts ?? []
   const cols = parseInt(columns || '3')
