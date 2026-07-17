@@ -142,6 +142,13 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
       >
         <nav className="px-4 sm:px-5 md:px-8 py-3 sm:py-4 flex items-center justify-between">
           <div className="hidden lg:flex items-center gap-6 flex-1">
+            <button
+              data-megamenu-trigger
+              onClick={() => { setMegaOpen((v) => !v); setSearchOpen(false); setLangOpen(false) }}
+              className={`text-sm font-medium tracking-wider transition-colors duration-200 ${megaOpen ? 'text-white' : textBase}`}
+            >
+              {t.nav.programs}
+            </button>
             {translatedLinksLeft.map((link, i) => (
               <Link key={`left-${i}`} href={link.href} className={`text-sm font-medium tracking-wider transition-colors duration-200 ${textBase}`}>
                 {link.label}
@@ -405,7 +412,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm lg:hidden"
               onClick={() => setMobileOpen(false)}
             />
             <motion.div
@@ -413,7 +420,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="fixed left-0 top-0 bottom-0 z-40 w-[85vw] max-w-[300px] bg-[#0d0d0d] border-r border-white/10 flex flex-col pt-20 lg:hidden"
+              className="fixed left-0 top-0 bottom-0 z-[61] w-[85vw] max-w-[300px] bg-[#0d0d0d] border-r border-white/10 flex flex-col pt-20 lg:hidden"
               style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
             >
               <button

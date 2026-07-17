@@ -5485,7 +5485,7 @@
       "@/lib/language-context",
       "@/lib/get-default-strings"
     ],
-    "lines": 532,
+    "lines": 542,
     "group": "blocks"
   },
   "src/components/blocks/EmbedBlockRenderer.tsx": {
@@ -5691,7 +5691,7 @@
       "@/components/ui/WhyTravelWithUs",
       "@/lib/currency"
     ],
-    "lines": 462,
+    "lines": 465,
     "group": "blocks"
   },
   "src/components/blocks/why-travel-with-us/icons/GlobeIcon.tsx": {
@@ -5753,7 +5753,7 @@
       "@/lib/language-context",
       "@/lib/get-default-strings"
     ],
-    "lines": 220,
+    "lines": 222,
     "group": "blocks"
   },
   "src/components/blocks/FooterBlockRenderer.tsx": {
@@ -6189,7 +6189,7 @@
       "next/image",
       "next/link"
     ],
-    "lines": 64,
+    "lines": 65,
     "group": "blocks"
   },
   "src/components/blocks/individual-programs/IndividualProgramsQuestionnaireBlock.tsx": {
@@ -6621,7 +6621,7 @@
       "gsap/ScrollTrigger",
       "./BookingDrawer"
     ],
-    "lines": 390,
+    "lines": 393,
     "group": "ui"
   },
   "src/components/ui/destination-page/IsThisForYouSection.tsx": {
@@ -6787,7 +6787,7 @@
       "@/lib/language-context",
       "@/lib/translations"
     ],
-    "lines": 461,
+    "lines": 489,
     "group": "ui"
   },
   "src/components/ui/DestinationCarousel.tsx": {
@@ -6896,7 +6896,7 @@
       "next/navigation",
       "./CalendarTripCard"
     ],
-    "lines": 748,
+    "lines": 750,
     "group": "ui"
   },
   "src/components/ui/Footer.tsx": {
@@ -7314,7 +7314,7 @@
       "react",
       "react-hook-form"
     ],
-    "lines": 169,
+    "lines": 171,
     "group": "components"
   },
   "src/components/forms/RegistrationForm.tsx": {
