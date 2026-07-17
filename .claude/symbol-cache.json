@@ -3514,7 +3514,7 @@
       "sonner",
       "@/lib/currency"
     ],
-    "lines": 675,
+    "lines": 679,
     "group": "frontend"
   },
   "src/app/(frontend)/vouchers/page.tsx": {

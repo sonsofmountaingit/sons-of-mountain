@@ -138,8 +138,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
     <>
       <motion.header
         ref={headerRef}
-        className="fixed top-0 left-0 right-0 z-50 bg-black/40 backdrop-blur-xl border-b border-white/10 transition-all duration-300"
-        style={{ '--backdrop-blur': scrolled ? '10px' : '20px' } as React.CSSProperties}
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
       >
         <nav className="px-5 md:px-8 py-4 flex items-center justify-between">
           <div className="hidden lg:flex items-center gap-6 flex-1">

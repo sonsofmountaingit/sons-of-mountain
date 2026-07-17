@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import { Space_Grotesk, Dancing_Script } from 'next/font/google'
 import { Suspense } from 'react'
+import { cookies } from 'next/headers'
 import { LanguageProvider } from '@/lib/language-context'
+import type { Language } from '@/lib/translations'
 import { Navigation } from '@/components/ui/Navigation'
 import { Footer } from '@/components/ui/Footer'
 import { Toaster } from 'sonner'
@@ -50,11 +52,15 @@ export const metadata: Metadata = {
   },
 }
 
-export default function FrontendLayout({ children }: { children: React.ReactNode }) {
+export default async function FrontendLayout({ children }: { children: React.ReactNode }) {
+  const cookieStore = await cookies()
+  const stored = cookieStore.get('language')?.value as Language | undefined
+  const initialLanguage: Language = stored === 'BG' || stored === 'EN' ? stored : 'BG'
+
   return (
     <html lang="bg" className={`${spaceGrotesk.variable} ${dancingScript.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body suppressHydrationWarning>
-        <LanguageProvider>
+        <LanguageProvider initialLanguage={initialLanguage}>
           <Navigation />
           <main className="pt-[72px] md:pt-[88px]">{children}</main>
           <Suspense fallback={null}>
