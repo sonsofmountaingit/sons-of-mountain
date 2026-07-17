@@ -6785,9 +6785,10 @@
       "@/components/shop/CartSheet",
       "@/lib/cart-store",
       "@/lib/language-context",
+      "@/lib/translations",
       "@/lib/translations"
     ],
-    "lines": 502,
+    "lines": 495,
     "group": "ui"
   },
   "src/components/ui/DestinationCarousel.tsx": {
@@ -7252,6 +7253,7 @@
     "imports": [
       "next/link",
       "@/lib/language-context",
+      "@/lib/translations",
       "./FooterLogo",
       "./FooterSocialCounter",
       "./FooterShakingLink",
@@ -7259,7 +7261,7 @@
       "./FooterForm",
       "./FooterReveal"
     ],
-    "lines": 215,
+    "lines": 208,
     "group": "ui"
   },
   "src/components/ui/IndividualProgramsEditButton.tsx": {
@@ -7970,14 +7972,16 @@
   },
   "src/lib/translations.ts": {
     "exports": [
-      "translations"
+      "translations",
+      "CMS_NAV_LABEL_TRANSLATIONS",
+      "translateCmsNavLabel"
     ],
     "types": [
       "Language",
       "Translations"
     ],
     "imports": [],
-    "lines": 976,
+    "lines": 1000,
     "group": "lib"
   },
   "src/lib/send-registration-forms.ts": {

@@ -3370,7 +3370,7 @@
       "id": "src/lib/translations.ts",
       "label": "lib/translations.ts",
       "group": "lib",
-      "size": 18
+      "size": 20
     },
     {
       "id": "src/lib/send-registration-forms.ts",
@@ -7062,6 +7062,10 @@
     },
     {
       "source": "src/components/ui/FooterClient.tsx",
+      "target": "src/lib/translations.ts"
+    },
+    {
+      "source": "src/components/ui/FooterClient.tsx",
       "target": "src/components/ui/FooterLogo.tsx"
     },
     {
@@ -7553,6 +7557,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-17T13:47:45.485Z",
+  "builtAt": "2026-07-17T13:57:57.051Z",
   "fileCount": 589
 }
