@@ -110,12 +110,12 @@ export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuP
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
             style={{ top: navHeight }}
-            className="fixed left-0 right-0 z-50 bg-[#0a0a0a]/97 backdrop-blur-xl border-b border-white/10"
+            className="fixed left-0 right-0 z-[62] bg-[#0a0a0a]/97 backdrop-blur-xl border-b border-white/10 max-h-[calc(100vh-64px)] overflow-y-auto"
           >
-            <div className="mx-auto max-w-[1440px] px-6 py-8">
-              <div className="flex gap-12">
+            <div className="mx-auto max-w-[1440px] px-4 sm:px-6 py-6 sm:py-8">
+              <div className="flex flex-col md:flex-row gap-6 md:gap-12">
                 {/* Tab column */}
-                <div className="flex flex-col gap-1 min-w-[260px] border-r border-white/10 pr-10">
+                <div className="flex flex-row md:flex-col gap-1 md:min-w-[260px] border-b md:border-b-0 md:border-r border-white/10 pb-2 md:pb-0 md:pr-10 overflow-x-auto">
                   {TABS.map((tab) => (
                     <button
                       key={tab.id}
@@ -159,7 +159,7 @@ export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuP
                       {data && showDestinations && (
                         <div>
                           <p className="text-[10px] tracking-widest text-white/25 mb-3">DESTINATIONS</p>
-                          <div className="grid grid-cols-4 gap-3 xl:grid-cols-6">
+                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 xl:grid-cols-6">
                             {destinations.map((dest) => (
                               <Link
                                 key={dest.slug}

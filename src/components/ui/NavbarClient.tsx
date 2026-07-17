@@ -433,6 +433,12 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                 </svg>
               </button>
               <nav className="flex-1 overflow-y-auto px-4 space-y-1">
+                <button
+                  onClick={() => { setMobileOpen(false); setMegaOpen(true) }}
+                  className="block w-full text-left px-4 py-3 rounded text-base font-medium text-white/80 hover:text-white hover:bg-white/5 transition-colors"
+                >
+                  {t.nav.programs}
+                </button>
                 {allLinks.map((link, i) => (
                   <Link
                     key={i}
