@@ -140,7 +140,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
         ref={headerRef}
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
       >
-        <nav className="px-4 sm:px-5 md:px-8 py-3 sm:py-4 flex items-center justify-between">
+        <nav className="px-4 sm:px-5 md:px-8 h-16 sm:h-24 flex items-center justify-between">
           <div className="hidden lg:flex items-center gap-6 flex-1">
             <button
               data-megamenu-trigger
