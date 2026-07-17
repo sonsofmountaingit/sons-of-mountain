@@ -367,12 +367,6 @@
       "size": 6
     },
     {
-      "id": "src/app/\\(frontend\\)/layout.tsx",
-      "label": "\\(frontend\\)/layout.tsx",
-      "group": "app",
-      "size": 4
-    },
-    {
       "id": "src/app/llms-full.txt/route.ts",
       "label": "llms-full.txt/route.ts",
       "group": "app",
@@ -2842,7 +2836,7 @@
       "id": "src/components/ui/Footer.tsx",
       "label": "ui/Footer.tsx",
       "group": "ui",
-      "size": 10
+      "size": 8
     },
     {
       "id": "src/components/ui/Testimonials.tsx",
@@ -2986,7 +2980,7 @@
       "id": "src/components/ui/Navigation.tsx",
       "label": "ui/Navigation.tsx",
       "group": "ui",
-      "size": 8
+      "size": 6
     },
     {
       "id": "src/components/ui/CalendarTripCard.tsx",
@@ -3325,6 +3319,12 @@
       "size": 10
     },
     {
+      "id": "src/lib/get-default-strings.ts",
+      "label": "lib/get-default-strings.ts",
+      "group": "lib",
+      "size": 20
+    },
+    {
       "id": "src/lib/escape-html.ts",
       "label": "lib/escape-html.ts",
       "group": "lib",
@@ -3370,7 +3370,7 @@
       "id": "src/lib/translations.ts",
       "label": "lib/translations.ts",
       "group": "lib",
-      "size": 10
+      "size": 16
     },
     {
       "id": "src/lib/send-registration-forms.ts",
@@ -3394,7 +3394,7 @@
       "id": "src/lib/language-context.tsx",
       "label": "lib/language-context.tsx",
       "group": "lib",
-      "size": 12
+      "size": 20
     },
     {
       "id": "src/lib/rate-limit.ts",
@@ -3859,18 +3859,6 @@
     {
       "source": "src/app/(puck)/puck/individual-programs/PuckIndividualProgramsEditorClient.tsx",
       "target": "src/puck/config.tsx"
-    },
-    {
-      "source": "src/app/\\(frontend\\)/layout.tsx",
-      "target": "src/components/ui/Navigation.tsx"
-    },
-    {
-      "source": "src/app/\\(frontend\\)/layout.tsx",
-      "target": "src/components/ui/Footer.tsx"
-    },
-    {
-      "source": "src/app/\\(frontend\\)/layout.tsx",
-      "target": "src/lib/language-context.tsx"
     },
     {
       "source": "src/app/llms-full.txt/route.ts",
@@ -5206,6 +5194,10 @@
     },
     {
       "source": "src/app/(frontend)/layout.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/layout.tsx",
       "target": "src/components/ui/Navigation.tsx"
     },
     {
@@ -6077,6 +6069,14 @@
       "target": "src/puck/BlockWrapper.tsx"
     },
     {
+      "source": "src/components/blocks/FAQBlockRenderer.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/blocks/FAQBlockRenderer.tsx",
+      "target": "src/lib/get-default-strings.ts"
+    },
+    {
       "source": "src/components/blocks/ClientBlockRenderer.tsx",
       "target": "src/components/blocks/HeroBlockRenderer.tsx"
     },
@@ -6141,8 +6141,24 @@
       "target": "src/puck/BlockWrapper.tsx"
     },
     {
+      "source": "src/components/blocks/HeroBlockRenderer.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/blocks/HeroBlockRenderer.tsx",
+      "target": "src/lib/get-default-strings.ts"
+    },
+    {
       "source": "src/components/blocks/BookingWidgetBlockRenderer.tsx",
       "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/BookingWidgetBlockRenderer.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/blocks/BookingWidgetBlockRenderer.tsx",
+      "target": "src/lib/get-default-strings.ts"
     },
     {
       "source": "src/components/blocks/footer/FooterBottomBlock.tsx",
@@ -6161,6 +6177,14 @@
       "target": "src/lib/media-url.ts"
     },
     {
+      "source": "src/components/blocks/destination-carousel/DestinationCarouselBlock.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/blocks/destination-carousel/DestinationCarouselBlock.tsx",
+      "target": "src/lib/get-default-strings.ts"
+    },
+    {
       "source": "src/components/blocks/contact/ContactGuidesBlock.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -6177,6 +6201,14 @@
       "target": "src/puck/BlockWrapper.tsx"
     },
     {
+      "source": "src/components/blocks/CounterBlockRenderer.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/blocks/CounterBlockRenderer.tsx",
+      "target": "src/lib/get-default-strings.ts"
+    },
+    {
       "source": "src/components/blocks/TeamBlockRenderer.tsx",
       "target": "src/puck/BlockWrapper.tsx"
     },
@@ -6185,8 +6217,32 @@
       "target": "src/lib/media-url.ts"
     },
     {
+      "source": "src/components/blocks/TeamBlockRenderer.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/blocks/TeamBlockRenderer.tsx",
+      "target": "src/lib/get-default-strings.ts"
+    },
+    {
+      "source": "src/components/blocks/testimonials/TestimonialsBlock.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/blocks/testimonials/TestimonialsBlock.tsx",
+      "target": "src/lib/get-default-strings.ts"
+    },
+    {
       "source": "src/components/blocks/EmbedBlockRenderer.tsx",
       "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/EmbedBlockRenderer.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/blocks/EmbedBlockRenderer.tsx",
+      "target": "src/lib/get-default-strings.ts"
     },
     {
       "source": "src/components/blocks/PuckPageRenderer.tsx",
@@ -6321,8 +6377,24 @@
       "target": "src/puck/BlockWrapper.tsx"
     },
     {
+      "source": "src/components/blocks/AccordionBlockRenderer.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/blocks/AccordionBlockRenderer.tsx",
+      "target": "src/lib/get-default-strings.ts"
+    },
+    {
       "source": "src/components/blocks/MapBlockRenderer.tsx",
       "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/MapBlockRenderer.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/blocks/MapBlockRenderer.tsx",
+      "target": "src/lib/get-default-strings.ts"
     },
     {
       "source": "src/components/blocks/SocialFeedBlockRenderer.tsx",
@@ -6333,8 +6405,24 @@
       "target": "src/lib/media-url.ts"
     },
     {
+      "source": "src/components/blocks/SocialFeedBlockRenderer.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/blocks/SocialFeedBlockRenderer.tsx",
+      "target": "src/lib/get-default-strings.ts"
+    },
+    {
       "source": "src/components/blocks/PricingBlockRenderer.tsx",
       "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/PricingBlockRenderer.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/blocks/PricingBlockRenderer.tsx",
+      "target": "src/lib/get-default-strings.ts"
     },
     {
       "source": "src/components/blocks/StoriesBlockRenderer.tsx",
@@ -6345,12 +6433,28 @@
       "target": "src/puck/BlockWrapper.tsx"
     },
     {
+      "source": "src/components/blocks/StoriesBlockRenderer.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/blocks/StoriesBlockRenderer.tsx",
+      "target": "src/lib/get-default-strings.ts"
+    },
+    {
       "source": "src/components/blocks/FeatureCardsBlockRenderer.tsx",
       "target": "src/puck/BlockWrapper.tsx"
     },
     {
       "source": "src/components/blocks/FeatureCardsBlockRenderer.tsx",
       "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/components/blocks/FeatureCardsBlockRenderer.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/blocks/FeatureCardsBlockRenderer.tsx",
+      "target": "src/lib/get-default-strings.ts"
     },
     {
       "source": "src/components/blocks/gallery/GalleryGridBlock.tsx",
@@ -6369,6 +6473,14 @@
       "target": "src/lib/currency.ts"
     },
     {
+      "source": "src/components/blocks/calendar-cta/CalendarCtaBlock.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/blocks/calendar-cta/CalendarCtaBlock.tsx",
+      "target": "src/lib/get-default-strings.ts"
+    },
+    {
       "source": "src/components/blocks/FooterBlockRenderer.tsx",
       "target": "src/components/ui/FooterForm.tsx"
     },
@@ -6381,12 +6493,36 @@
       "target": "src/puck/BlockWrapper.tsx"
     },
     {
+      "source": "src/components/blocks/BannerBlockRenderer.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/blocks/BannerBlockRenderer.tsx",
+      "target": "src/lib/get-default-strings.ts"
+    },
+    {
       "source": "src/components/blocks/IconGridBlockRenderer.tsx",
       "target": "src/puck/BlockWrapper.tsx"
     },
     {
+      "source": "src/components/blocks/IconGridBlockRenderer.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/blocks/IconGridBlockRenderer.tsx",
+      "target": "src/lib/get-default-strings.ts"
+    },
+    {
       "source": "src/components/blocks/NewsletterBlockRenderer.tsx",
       "target": "src/puck/BlockWrapper.tsx"
+    },
+    {
+      "source": "src/components/blocks/NewsletterBlockRenderer.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/blocks/NewsletterBlockRenderer.tsx",
+      "target": "src/lib/get-default-strings.ts"
     },
     {
       "source": "src/components/blocks/BlockRenderer.tsx",
@@ -6441,12 +6577,28 @@
       "target": "src/puck/BlockWrapper.tsx"
     },
     {
+      "source": "src/components/blocks/QuoteBlockRenderer.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/blocks/QuoteBlockRenderer.tsx",
+      "target": "src/lib/get-default-strings.ts"
+    },
+    {
       "source": "src/components/blocks/BlogPostsBlockRenderer.tsx",
       "target": "src/puck/BlockWrapper.tsx"
     },
     {
       "source": "src/components/blocks/BlogPostsBlockRenderer.tsx",
       "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/components/blocks/BlogPostsBlockRenderer.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/blocks/BlogPostsBlockRenderer.tsx",
+      "target": "src/lib/get-default-strings.ts"
     },
     {
       "source": "src/components/blocks/SeparatorBlockRenderer.tsx",
@@ -6459,6 +6611,14 @@
     {
       "source": "src/components/blocks/ImageGalleryRenderer.tsx",
       "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/components/blocks/ImageGalleryRenderer.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/blocks/ImageGalleryRenderer.tsx",
+      "target": "src/lib/get-default-strings.ts"
     },
     {
       "source": "src/components/blocks/PuckRender.tsx",
@@ -6591,6 +6751,10 @@
     {
       "source": "src/components/ui/FeaturedTravels.tsx",
       "target": "src/components/ui/FeaturedTravelsEditButton.tsx"
+    },
+    {
+      "source": "src/components/ui/FeaturedTravels.tsx",
+      "target": "src/lib/translations.ts"
     },
     {
       "source": "src/components/ui/IndividualProgramsPage.tsx",
@@ -6751,6 +6915,10 @@
     {
       "source": "src/components/ui/DestinationCarousel.tsx",
       "target": "src/components/ui/DestinationCarouselEditButton.tsx"
+    },
+    {
+      "source": "src/components/ui/DestinationCarousel.tsx",
+      "target": "src/lib/translations.ts"
     },
     {
       "source": "src/components/ui/WhyTravelWithUs.tsx",
@@ -6945,6 +7113,14 @@
       "target": "src/components/forms/BookingFormModal.tsx"
     },
     {
+      "source": "src/components/forms/ContactForm.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/forms/ContactForm.tsx",
+      "target": "src/lib/get-default-strings.ts"
+    },
+    {
       "source": "src/components/auth/AuthModal.tsx",
       "target": "src/components/auth/AuthForm.tsx"
     },
@@ -7011,6 +7187,10 @@
     {
       "source": "src/lib/stripe-webhooks.ts",
       "target": "src/lib/resend.ts"
+    },
+    {
+      "source": "src/lib/get-default-strings.ts",
+      "target": "src/lib/translations.ts"
     },
     {
       "source": "src/lib/use-translations.ts",
@@ -7369,6 +7549,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-16T13:42:00.907Z",
+  "builtAt": "2026-07-17T12:47:31.496Z",
   "fileCount": 589
 }

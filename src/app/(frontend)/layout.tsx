@@ -56,7 +56,7 @@ export default function FrontendLayout({ children }: { children: React.ReactNode
       <body suppressHydrationWarning>
         <LanguageProvider>
           <Navigation />
-          <main>{children}</main>
+          <main className="pt-[72px] md:pt-[88px]">{children}</main>
           <Suspense fallback={null}>
             <Footer />
           </Suspense>

@@ -432,7 +432,11 @@ function BuyTab({
             {voucherType === 'destination' && (
               <select {...register('destinationId')} className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-sm text-white outline-none focus:border-white/30 transition-colors">
                 <option value="">{c.selectDestinationLabel}</option>
-                {destinations.map((d: any) => <option key={d.id} value={d.id}>{d.name}</option>)}
+                {destinations.map((d: any) => (
+                  <option key={d.id} value={d.id}>
+                    {d.name}{formatItemPrice(d) ? ` — ${formatItemPrice(d)}` : ''}
+                  </option>
+                ))}
               </select>
             )}
             {voucherType === 'program' && (

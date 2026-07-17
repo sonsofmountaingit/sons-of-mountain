@@ -937,24 +937,6 @@
     "lines": 110,
     "group": "puck"
   },
-  "src/app/\\(frontend\\)/layout.tsx": {
-    "exports": [
-      "metadata",
-      "default:function"
-    ],
-    "types": [],
-    "imports": [
-      "next",
-      "next/font/google",
-      "react",
-      "@/components/ui/Navigation",
-      "@/components/ui/Footer",
-      "@/lib/language-context",
-      "sonner"
-    ],
-    "lines": 69,
-    "group": "app"
-  },
   "src/app/llms-full.txt/route.ts": {
     "exports": [
       "dynamic",
@@ -2882,7 +2864,7 @@
       "@/lib/metadata",
       "@/lib/currency"
     ],
-    "lines": 256,
+    "lines": 308,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/bundles/page.tsx": {
@@ -3486,11 +3468,12 @@
       "next",
       "next/font/google",
       "react",
+      "@/lib/language-context",
       "@/components/ui/Navigation",
       "@/components/ui/Footer",
       "sonner"
     ],
-    "lines": 66,
+    "lines": 69,
     "group": "frontend"
   },
   "src/app/(frontend)/vouchers/[code]/page.tsx": {
@@ -3531,7 +3514,7 @@
       "sonner",
       "@/lib/currency"
     ],
-    "lines": 655,
+    "lines": 675,
     "group": "frontend"
   },
   "src/app/(frontend)/vouchers/page.tsx": {
@@ -3551,7 +3534,7 @@
       "./VouchersPageClient",
       "@/components/ui/VouchersEditButton"
     ],
-    "lines": 86,
+    "lines": 102,
     "group": "frontend"
   },
   "src/app/(frontend)/reset-password/ResetClient.tsx": {
@@ -5228,9 +5211,11 @@
       "react",
       "motion/react",
       "@payloadcms/richtext-lexical/react",
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 65,
+    "lines": 69,
     "group": "blocks"
   },
   "src/components/blocks/ClientBlockRenderer.tsx": {
@@ -5278,9 +5263,11 @@
       "@/lib/media-url",
       "motion/react",
       "@/lib/animations",
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 104,
+    "lines": 108,
     "group": "blocks"
   },
   "src/components/blocks/BookingWidgetBlockRenderer.tsx": {
@@ -5289,9 +5276,11 @@
     ],
     "types": [],
     "imports": [
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 32,
+    "lines": 36,
     "group": "blocks"
   },
   "src/components/blocks/footer/FooterFollowBlock.tsx": {
@@ -5381,9 +5370,11 @@
       "next/image",
       "motion/react",
       "@/lib/media-url",
-      "gsap"
+      "gsap",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 493,
+    "lines": 497,
     "group": "blocks"
   },
   "src/components/blocks/contact/ContactGuidesBlock.tsx": {
@@ -5397,7 +5388,7 @@
       "@payload-config",
       "./ContactGuidesBlockRenderer"
     ],
-    "lines": 32,
+    "lines": 34,
     "group": "blocks"
   },
   "src/components/blocks/contact/ContactHeroBlock.tsx": {
@@ -5458,9 +5449,11 @@
     "imports": [
       "react",
       "motion/react",
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 63,
+    "lines": 67,
     "group": "blocks"
   },
   "src/components/blocks/TeamBlockRenderer.tsx": {
@@ -5471,9 +5464,11 @@
     "imports": [
       "next/image",
       "@/puck/BlockWrapper",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 71,
+    "lines": 75,
     "group": "blocks"
   },
   "src/components/blocks/testimonials/TestimonialsBlock.tsx": {
@@ -5484,9 +5479,11 @@
     "imports": [
       "react",
       "gsap",
-      "gsap/ScrollTrigger"
+      "gsap/ScrollTrigger",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 530,
+    "lines": 532,
     "group": "blocks"
   },
   "src/components/blocks/EmbedBlockRenderer.tsx": {
@@ -5495,9 +5492,11 @@
     ],
     "types": [],
     "imports": [
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 39,
+    "lines": 43,
     "group": "blocks"
   },
   "src/components/blocks/PuckPageRenderer.tsx": {
@@ -5552,9 +5551,11 @@
     "imports": [
       "react",
       "motion/react",
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 50,
+    "lines": 54,
     "group": "blocks"
   },
   "src/components/blocks/MapBlockRenderer.tsx": {
@@ -5563,9 +5564,11 @@
     ],
     "types": [],
     "imports": [
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 44,
+    "lines": 48,
     "group": "blocks"
   },
   "src/components/blocks/SocialFeedBlockRenderer.tsx": {
@@ -5577,9 +5580,11 @@
       "next/image",
       "next/link",
       "@/puck/BlockWrapper",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 82,
+    "lines": 86,
     "group": "blocks"
   },
   "src/components/blocks/privacy-policy/PrivacyPolicyContentBlock.tsx": {
@@ -5600,9 +5605,11 @@
     "types": [],
     "imports": [
       "next/link",
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 71,
+    "lines": 75,
     "group": "blocks"
   },
   "src/components/blocks/StoriesBlockRenderer.tsx": {
@@ -5614,9 +5621,11 @@
       "react",
       "motion/react",
       "@/components/ui/StoryCard",
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 77,
+    "lines": 81,
     "group": "blocks"
   },
   "src/components/blocks/FeatureCardsBlockRenderer.tsx": {
@@ -5628,9 +5637,11 @@
       "next/image",
       "next/link",
       "@/puck/BlockWrapper",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 51,
+    "lines": 55,
     "group": "blocks"
   },
   "src/components/blocks/gallery/GalleryGridBlock.tsx": {
@@ -5736,9 +5747,11 @@
       "next/image",
       "react",
       "gsap",
-      "gsap/ScrollTrigger"
+      "gsap/ScrollTrigger",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 212,
+    "lines": 220,
     "group": "blocks"
   },
   "src/components/blocks/FooterBlockRenderer.tsx": {
@@ -5821,9 +5834,11 @@
     "imports": [
       "react",
       "next/link",
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 38,
+    "lines": 42,
     "group": "blocks"
   },
   "src/components/blocks/IconGridBlockRenderer.tsx": {
@@ -5833,9 +5848,11 @@
     "types": [],
     "imports": [
       "next/link",
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 44,
+    "lines": 48,
     "group": "blocks"
   },
   "src/components/blocks/blog/BlogHeroBlock.tsx": {
@@ -5854,9 +5871,11 @@
     "types": [],
     "imports": [
       "react",
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 69,
+    "lines": 81,
     "group": "blocks"
   },
   "src/components/blocks/BlockRenderer.tsx": {
@@ -5874,9 +5893,11 @@
     ],
     "types": [],
     "imports": [
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 33,
+    "lines": 37,
     "group": "blocks"
   },
   "src/components/blocks/BlogPostsBlockRenderer.tsx": {
@@ -5888,9 +5909,11 @@
       "next/image",
       "next/link",
       "@/puck/BlockWrapper",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 84,
+    "lines": 88,
     "group": "blocks"
   },
   "src/components/blocks/stories/StoriesHeroBlock.tsx": {
@@ -5923,9 +5946,11 @@
       "react",
       "motion/react",
       "@/puck/BlockWrapper",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 81,
+    "lines": 85,
     "group": "blocks"
   },
   "src/components/blocks/PuckRender.tsx": {
@@ -6366,9 +6391,10 @@
       "next/cache",
       "@/lib/media-url",
       "@/components/blocks/featured-travels/FeaturedTravelsBlock",
-      "./FeaturedTravelsEditButton"
+      "./FeaturedTravelsEditButton",
+      "@/lib/translations"
     ],
-    "lines": 141,
+    "lines": 143,
     "group": "ui"
   },
   "src/components/ui/GalleryFilterBar.tsx": {
@@ -6425,7 +6451,7 @@
       "@/lib/currency",
       "@/components/forms/WaitlistFormModal"
     ],
-    "lines": 169,
+    "lines": 176,
     "group": "ui"
   },
   "src/components/ui/destination-page/BookingDrawer.tsx": {
@@ -6759,7 +6785,7 @@
       "@/lib/language-context",
       "@/lib/translations"
     ],
-    "lines": 526,
+    "lines": 462,
     "group": "ui"
   },
   "src/components/ui/DestinationCarousel.tsx": {
@@ -6773,9 +6799,10 @@
       "next/cache",
       "@/lib/media-url",
       "@/components/blocks/destination-carousel/DestinationCarouselBlock",
-      "./DestinationCarouselEditButton"
+      "./DestinationCarouselEditButton",
+      "@/lib/translations"
     ],
-    "lines": 178,
+    "lines": 179,
     "group": "ui"
   },
   "src/components/ui/TripCard.tsx": {
@@ -7230,7 +7257,7 @@
       "./FooterForm",
       "./FooterReveal"
     ],
-    "lines": 198,
+    "lines": 215,
     "group": "ui"
   },
   "src/components/ui/IndividualProgramsEditButton.tsx": {
@@ -7319,9 +7346,11 @@
       "react",
       "react-hook-form",
       "@hookform/resolvers/zod",
-      "zod"
+      "zod",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 135,
+    "lines": 154,
     "group": "components"
   },
   "src/components/forms/GiftVoucherForm.tsx": {
@@ -7836,6 +7865,17 @@
     "lines": 910,
     "group": "lib"
   },
+  "src/lib/get-default-strings.ts": {
+    "exports": [
+      "getDefaultStrings"
+    ],
+    "types": [],
+    "imports": [
+      "./translations"
+    ],
+    "lines": 234,
+    "group": "lib"
+  },
   "src/lib/escape-html.ts": {
     "exports": [
       "escapeHtml"
@@ -7988,7 +8028,7 @@
       "./translations",
       "./translations"
     ],
-    "lines": 50,
+    "lines": 44,
     "group": "lib"
   },
   "src/lib/rate-limit.ts": {
