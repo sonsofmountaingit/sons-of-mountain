@@ -2,20 +2,13 @@
 
 import Link from 'next/link'
 import { useLanguage } from '@/lib/language-context'
+import { translateCmsNavLabel } from '@/lib/translations'
 import { FooterLogo } from './FooterLogo'
 import { FooterSocialCounter } from './FooterSocialCounter'
 import { FooterShakingLink } from './FooterShakingLink'
 import { ShakingCredit } from './ShakingCredit'
 import { FooterForm } from './FooterForm'
 import { FooterReveal } from './FooterReveal'
-
-const NAV_TRANSLATIONS: Record<string, Record<string, string>> = {
-  'Calendar': { BG: 'КАЛЕНДАР', EN: 'Calendar' },
-  'Gallery': { BG: 'ГАЛЕРИЯ', EN: 'Gallery' },
-  'Blog': { BG: 'БЛОГ', EN: 'Blog' },
-  'About': { BG: 'ЗА НАС', EN: 'About' },
-  'Contact': { BG: 'КОНТАКТИ', EN: 'Contact' },
-}
 
 interface FooterClientProps {
   travelLinks: Array<{ name: string; month: string; href: string }>
@@ -81,7 +74,7 @@ export function FooterClient({
   const { language, t } = useLanguage()
 
   const translateLabel = (label: string): string => {
-    return NAV_TRANSLATIONS[label]?.[language] ?? label
+    return translateCmsNavLabel(label, language)
   }
 
   const translatedNavLinks = navLinks.map(link => ({

@@ -11,6 +11,7 @@ import { CartSheet } from '@/components/shop/CartSheet'
 import { useCartStore, useCartHydrated } from '@/lib/cart-store'
 import { useLanguage } from '@/lib/language-context'
 import type { Language } from '@/lib/translations'
+import { translateCmsNavLabel } from '@/lib/translations'
 
 interface NavbarClientProps {
   navLinksLeft: { label: string; href: string }[]
@@ -26,14 +27,6 @@ const LANGUAGES: { code: Language; label: string }[] = [
   { code: 'BG', label: 'Български' },
   { code: 'EN', label: 'English' },
 ]
-
-const NAV_TRANSLATIONS: Record<string, Record<Language, string>> = {
-  'Calendar': { BG: 'КАЛЕНДАР', EN: 'Calendar' },
-  'Gallery': { BG: 'ГАЛЕРИЯ', EN: 'Gallery' },
-  'Blog': { BG: 'БЛОГ', EN: 'Blog' },
-  'About': { BG: 'ЗА НАС', EN: 'About' },
-  'Contact': { BG: 'КОНТАКТИ', EN: 'Contact' },
-}
 
 const HIDDEN_NAV_LABELS = new Set(['Blog', 'Istorii', 'Истории', 'Блог', 'Stories'])
 
@@ -74,7 +67,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
     : (logoDarkUrl || '/white-logo.svg')
 
   const translateLabel = (label: string): string => {
-    return NAV_TRANSLATIONS[label]?.[language] ?? label
+    return translateCmsNavLabel(label, language)
   }
 
   const translatedLinksLeft = navLinksLeft
@@ -98,9 +91,9 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
   })
 
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? 'hidden' : ''
+    document.body.style.overflow = (mobileOpen || megaOpen) ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
-  }, [mobileOpen])
+  }, [mobileOpen, megaOpen])
 
   useEffect(() => {
     function measure() {
@@ -420,7 +413,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="fixed left-0 top-0 bottom-0 z-[61] w-[85vw] max-w-[300px] bg-[#0d0d0d] border-r border-white/10 flex flex-col pt-20 lg:hidden"
+              className="fixed left-0 top-0 bottom-0 z-[61] w-[85vw] max-w-[300px] bg-[#0d0d0d] border-r border-white/10 flex flex-col pt-20 overflow-hidden lg:hidden"
               style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
             >
               <button
@@ -432,7 +425,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                   <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
               </button>
-              <nav className="flex-1 overflow-y-auto px-4 space-y-1">
+              <nav className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-4 space-y-1" style={{ WebkitOverflowScrolling: 'touch' }}>
                 <button
                   onClick={() => { setMobileOpen(false); setMegaOpen(true) }}
                   className="block w-full text-left px-4 py-3 rounded text-base font-medium text-white/80 hover:text-white hover:bg-white/5 transition-colors"

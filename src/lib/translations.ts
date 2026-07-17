@@ -973,3 +973,27 @@ export const translations = {
 
 export type Language = keyof typeof translations
 export type Translations = typeof translations[Language]
+
+export const CMS_NAV_LABEL_TRANSLATIONS: Record<string, Record<Language, string>> = {
+  'Calendar': { BG: 'КАЛЕНДАР', EN: 'Calendar' },
+  'Календар': { BG: 'КАЛЕНДАР', EN: 'Calendar' },
+  'Gallery': { BG: 'ГАЛЕРИЯ', EN: 'Gallery' },
+  'Галерия': { BG: 'ГАЛЕРИЯ', EN: 'Gallery' },
+  'Blog': { BG: 'БЛОГ', EN: 'Blog' },
+  'Блог': { BG: 'БЛОГ', EN: 'Blog' },
+  'About': { BG: 'ЗА НАС', EN: 'About' },
+  'За Нас': { BG: 'ЗА НАС', EN: 'About' },
+  'За нас': { BG: 'ЗА НАС', EN: 'About' },
+  'Contact': { BG: 'КОНТАКТИ', EN: 'Contact' },
+  'Контакти': { BG: 'КОНТАКТИ', EN: 'Contact' },
+  'Vouchers': { BG: 'ВАУЧЕРИ', EN: 'Vouchers' },
+  'Ваучери': { BG: 'ВАУЧЕРИ', EN: 'Vouchers' },
+  'Shop': { BG: 'МАГАЗИН', EN: 'Shop' },
+  'Магазин': { BG: 'МАГАЗИН', EN: 'Shop' },
+  'Stories': { BG: 'ИСТОРИИ', EN: 'Stories' },
+  'Истории': { BG: 'ИСТОРИИ', EN: 'Stories' },
+}
+
+export function translateCmsNavLabel(label: string, language: Language): string {
+  return CMS_NAV_LABEL_TRANSLATIONS[label]?.[language] ?? label
+}
