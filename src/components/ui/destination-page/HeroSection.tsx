@@ -85,14 +85,14 @@ function Countdown({ target }: { target: string }) {
   }, [target])
   if (!parts) return null
   return (
-    <span className="inline-flex items-center gap-1.5 text-sm text-white/70">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <span className="inline-flex items-center gap-1 text-xs sm:text-sm text-white/70">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
       </svg>
-      До тръгване:{' '}
-      {parts.months > 0 && <><strong className="text-white">{parts.months}</strong>м{' '}</>}
-      <strong className="text-white">{parts.days}</strong>д{' '}
-      <strong className="text-white">{parts.hours}</strong>ч
+      <span className="hidden sm:inline">До тръгване:&nbsp;</span>
+      {parts.months > 0 && <><strong className="text-white text-xs">{parts.months}</strong><span className="text-xs">м&nbsp;</span></>}
+      <strong className="text-white text-xs">{parts.days}</strong><span className="text-xs">д&nbsp;</span>
+      <strong className="text-white text-xs">{parts.hours}</strong><span className="text-xs">ч</span>
     </span>
   )
 }
@@ -216,39 +216,42 @@ export function HeroSection({
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/80" />
 
         {/* Bottom content */}
-        <div className="relative z-10 w-full px-4 sm:px-6 md:px-12 pb-6 sm:pb-10 md:pb-14 flex flex-col gap-2 sm:gap-3">
+        <div className="relative z-10 w-full px-4 sm:px-6 md:px-12 pb-6 sm:pb-10 md:pb-16 flex flex-col gap-1.5 sm:gap-3">
 
-          <div ref={breadcrumbRef} className="flex items-center gap-3 opacity-0">
-            <a href="/destinations" className="inline-flex items-center gap-1.5 text-white/60 hover:text-white text-sm transition-colors">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <div ref={breadcrumbRef} className="flex flex-wrap items-center gap-2 sm:gap-3 opacity-0">
+            <a href="/destinations" className="inline-flex items-center gap-1 sm:gap-1.5 text-white/60 hover:text-white text-xs sm:text-sm transition-colors">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M19 12H5M12 5l-7 7 7 7"/>
               </svg>
-              All destinations
+              <span className="hidden sm:inline">All destinations</span>
+              <span className="sm:hidden">Back</span>
             </a>
 
             {(soldOut || urgentSpots || earlyBirdSpotsLeft != null) && (
-              <div ref={urgencyRef} className="flex items-center gap-2">
+              <div ref={urgencyRef} className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                 {soldOut ? (
-                  <span className="bg-red-600 text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
+                  <span className="bg-red-600 text-white text-xs font-bold uppercase tracking-widest px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs">
                     Sold Out
                   </span>
                 ) : urgentSpots ? (
-                  <span className="flex items-center gap-2 bg-orange-600/90 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
+                  <span className="flex items-center gap-1.5 sm:gap-2 bg-orange-600/90 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-widest px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs">
                     <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                    Only {spotsAvailable} spots
+                    <span className="hidden sm:inline">Only {spotsAvailable} spots</span>
+                    <span className="sm:hidden">{spotsAvailable} spots</span>
                   </span>
                 ) : null}
                 {earlyBirdSpotsLeft != null && (
-                  <span className="flex items-center gap-2 bg-amber-400/95 backdrop-blur-sm text-black text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
+                  <span className="flex items-center gap-1.5 sm:gap-2 bg-amber-400/95 backdrop-blur-sm text-black text-xs font-bold uppercase tracking-widest px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs">
                     <span className="w-2 h-2 rounded-full bg-black/40 animate-pulse" />
-                    {earlyBirdSpotsLeft} early bird {earlyBirdSpotsLeft === 1 ? 'spot' : 'spots'}
+                    <span className="hidden sm:inline">{earlyBirdSpotsLeft} early bird {earlyBirdSpotsLeft === 1 ? 'spot' : 'spots'}</span>
+                    <span className="sm:hidden">{earlyBirdSpotsLeft} early bird</span>
                   </span>
                 )}
               </div>
             )}
           </div>
 
-          <h1 ref={titleRef} className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-white uppercase tracking-tight leading-[0.9] opacity-0">
+          <h1 ref={titleRef} className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-black text-white uppercase tracking-tight leading-[0.9] opacity-0">
             {title}
           </h1>
 
@@ -269,9 +272,9 @@ export function HeroSection({
           )}
 
           {/* Meta grid 2×2 */}
-          <div ref={metaRef} className="grid grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-1.5 sm:gap-y-2 w-fit opacity-0">
+          <div ref={metaRef} className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 sm:gap-x-6 gap-y-1.5 sm:gap-y-2 w-fit opacity-0">
             {departureCity && (
-              <span className="inline-flex items-center gap-1.5 text-sm text-white/70">
+              <span className="inline-flex items-center gap-1 text-xs sm:text-sm text-white/70">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0 0 11.5 2 1.5 1.5 0 0 0 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/>
                 </svg>
@@ -279,7 +282,7 @@ export function HeroSection({
               </span>
             )}
             {difficulty != null && (
-              <span className="inline-flex items-center gap-1.5 text-sm text-white/70">
+              <span className="inline-flex items-center gap-1 text-xs sm:text-sm text-white/70">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M3 17l4-8 4 4 4-6 4 5"/>
                 </svg>
@@ -288,23 +291,23 @@ export function HeroSection({
             )}
             {startDate && <Countdown target={startDate} />}
             {location && (
-              <span className="inline-flex items-center gap-1.5 text-sm text-white/70">
+              <span className="inline-flex items-center gap-1 text-xs sm:text-sm text-white/70">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
                   <circle cx="12" cy="9" r="2.5"/>
                 </svg>
-                <span className="text-white/80">{location}</span>
+                <span className="text-white/80 truncate">{location}</span>
               </span>
             )}
             {weather && (
-              <span className="inline-flex items-center gap-1.5 text-sm text-white/70">
+              <span className="inline-flex items-center gap-1 text-xs sm:text-sm text-white/70">
                 <span>{weather.icon}</span>
-                <span className="font-semibold text-white">{weather.temp}°C</span>
-                <span className="text-white/50">{weather.description}</span>
+                <span className="font-semibold text-white text-xs">{weather.temp}°C</span>
+                <span className="text-white/50 text-xs hidden sm:inline">{weather.description}</span>
               </span>
             )}
             {avgRating != null && avgRating > 0 && (
-              <span className="inline-flex items-center gap-1.5 text-sm text-white/80 col-span-2">
+              <span className="inline-flex items-center gap-1 text-xs sm:text-sm text-white/80 col-span-1 sm:col-span-2">
                 <Stars rating={avgRating} />
                 <span className="font-semibold text-white">{avgRating.toFixed(1)}</span>
                 {reviewCount != null && reviewCount > 0 && (
@@ -315,31 +318,31 @@ export function HeroSection({
           </div>
 
           {/* CTA + thumbnails */}
-          <div ref={ctaRef} className="flex flex-wrap items-end justify-between gap-3 mt-1 opacity-0">
+          <div ref={ctaRef} className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 sm:gap-3 mt-2 sm:mt-1 opacity-0">
             {!archived && (
               <button
                 onClick={() => setDrawerOpen(true)}
-                className="inline-flex items-center gap-2 bg-white text-black text-sm font-semibold px-5 py-2.5 sm:px-6 sm:py-3 rounded-sm hover:bg-white/90 transition-colors"
+                className="inline-flex items-center justify-center sm:justify-start gap-2 bg-white text-black text-xs sm:text-sm font-semibold px-4 sm:px-5 py-2 sm:py-2.5 md:px-6 md:py-3 rounded-sm hover:bg-white/90 transition-colors min-h-[44px] sm:min-h-auto"
               >
                 Book a spot →
               </button>
             )}
 
             {thumbs.length > 0 && (
-              <div className="flex gap-1.5 sm:gap-2">
+              <div className="flex gap-1 sm:gap-1.5 overflow-x-auto pb-1">
                 {heroVideo && (
                   <button onClick={() => setActiveImage(null)}
-                    className={`relative w-12 h-20 sm:w-16 sm:h-24 md:w-24 md:h-36 rounded-sm overflow-hidden flex-shrink-0 ring-2 transition-all ${!activeImage ? 'ring-white' : 'ring-transparent hover:ring-white/60'}`}>
-                    <Image src={heroImage} alt={heroImageAlt ?? title} fill className="object-cover" sizes="96px" />
+                    className={`relative w-14 h-20 sm:w-16 sm:h-24 md:w-24 md:h-36 rounded-sm overflow-hidden flex-shrink-0 ring-2 transition-all ${!activeImage ? 'ring-white' : 'ring-transparent hover:ring-white/60'}`}>
+                    <Image src={heroImage} alt={heroImageAlt ?? title} fill className="object-cover" sizes="56px" />
                     <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                      <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                      <svg className="w-4 sm:w-5 h-4 sm:h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     </div>
                   </button>
                 )}
                 {thumbs.map((g, i) => (
                   <button key={i} onClick={() => setActiveImage(g.url)}
-                    className={`relative w-12 h-20 sm:w-16 sm:h-24 md:w-24 md:h-36 rounded-sm overflow-hidden flex-shrink-0 ring-2 transition-all ${activeImage === g.url ? 'ring-white' : 'ring-transparent hover:ring-white/60'}`}>
-                    <Image src={g.url} alt={g.alt ?? ''} fill className="object-cover" sizes="96px" />
+                    className={`relative w-14 h-20 sm:w-16 sm:h-24 md:w-24 md:h-36 rounded-sm overflow-hidden flex-shrink-0 ring-2 transition-all ${activeImage === g.url ? 'ring-white' : 'ring-transparent hover:ring-white/60'}`}>
+                    <Image src={g.url} alt={g.alt ?? ''} fill className="object-cover" sizes="56px" />
                   </button>
                 ))}
               </div>

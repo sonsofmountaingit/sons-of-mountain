@@ -89,9 +89,9 @@ export function ContactForm({
 
   if (status === 'success') {
     return (
-      <div className="border border-white/10 rounded-lg p-8 text-center">
-        <p className="font-semibold mb-2">{successHeading}</p>
-        <p className="text-sm text-white/50">{successSubtext}</p>
+      <div className="border border-white/10 rounded-lg p-4 sm:p-8 text-center">
+        <p className="font-semibold mb-2 text-sm sm:text-base">{successHeading}</p>
+        <p className="text-xs sm:text-sm text-white/50">{successSubtext}</p>
         <button onClick={() => setStatus('idle')} className="mt-4 text-xs text-white/40 hover:text-white underline">
           {successResetLabel}
         </button>
@@ -100,7 +100,7 @@ export function ContactForm({
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 sm:space-y-4">
       <input
         {...register('company')}
         type="text"
@@ -113,7 +113,7 @@ export function ContactForm({
         <input
           {...register('name')}
           placeholder={namePlaceholder}
-          className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-sm focus:outline-none focus:border-white/30 transition-colors"
+          className="w-full bg-white/5 border border-white/10 rounded px-3 sm:px-4 py-3 text-xs sm:text-sm min-h-11 focus:outline-none focus:border-white/30 transition-colors"
         />
         {errors.name && <p className="text-xs text-red-400 mt-1">{errors.name.message}</p>}
       </div>
@@ -122,7 +122,7 @@ export function ContactForm({
           {...register('email')}
           type="email"
           placeholder={emailPlaceholder}
-          className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-sm focus:outline-none focus:border-white/30 transition-colors"
+          className="w-full bg-white/5 border border-white/10 rounded px-3 sm:px-4 py-3 text-xs sm:text-sm min-h-11 focus:outline-none focus:border-white/30 transition-colors"
         />
         {errors.email && <p className="text-xs text-red-400 mt-1">{errors.email.message}</p>}
       </div>
@@ -130,15 +130,15 @@ export function ContactForm({
         <textarea
           {...register('message')}
           placeholder={messagePlaceholder}
-          rows={5}
-          className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-sm focus:outline-none focus:border-white/30 transition-colors resize-none"
+          rows={4}
+          className="w-full bg-white/5 border border-white/10 rounded px-3 sm:px-4 py-3 text-xs sm:text-sm min-h-28 focus:outline-none focus:border-white/30 transition-colors resize-none"
         />
         {errors.message && <p className="text-xs text-red-400 mt-1">{errors.message.message}</p>}
       </div>
       <button
         type="submit"
         disabled={status === 'loading'}
-        className="w-full py-3.5 bg-white text-black text-sm font-semibold rounded hover:bg-white/90 transition-colors disabled:opacity-50"
+        className="w-full py-3 sm:py-3.5 bg-white text-black text-xs sm:text-sm font-semibold rounded min-h-11 hover:bg-white/90 transition-colors disabled:opacity-50"
       >
         {status === 'loading' ? submitLoadingLabel : submitLabel}
       </button>

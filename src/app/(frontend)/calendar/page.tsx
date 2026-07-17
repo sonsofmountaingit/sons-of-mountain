@@ -249,7 +249,7 @@ export default async function CalendarPage() {
   return (
     <div className="min-h-screen bg-white">
       <CalendarHeroBlock heading={d?.heading} subheading={d?.subheading} />
-      <div className="pb-20 px-6">
+      <div className="pb-14 px-4 sm:pb-20 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <Suspense fallback={<div className="text-white/30 text-sm">Зареждане...</div>}>
             <CalendarContent />

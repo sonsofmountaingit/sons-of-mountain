@@ -39,7 +39,7 @@ export function DestinationCard({
   return (
     <Link
       href={href ?? `/destinations/${slug}`}
-      className="group relative flex-shrink-0 w-[280px] aspect-[3/4] rounded-lg overflow-hidden block"
+      className="group relative w-full sm:w-[280px] aspect-[3/4] rounded-lg overflow-hidden block"
     >
       {mediaUrl(heroImage?.url) && (
         <Image

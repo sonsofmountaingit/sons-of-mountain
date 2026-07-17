@@ -264,32 +264,35 @@ export function WhyTravelWithUsBlock({
     return (
       <section
         ref={sectionRef}
-        style={{ padding: '56px 0 48px', background: '#fff', position: 'relative', zIndex: 0, isolation: 'isolate' }}
+        style={{ padding: '48px 0 40px', background: '#fff', position: 'relative', zIndex: 0, isolation: 'isolate' }}
       >
         {/* Heading + body + CTA */}
-        <div ref={headerRef} style={{ padding: '0 24px', textAlign: 'center', marginBottom: 32 }}>
+        <div ref={headerRef} style={{ padding: '0 16px', textAlign: 'center', marginBottom: 28 }}>
           <h2 style={{
-            fontSize: 'clamp(1.5rem, 7vw, 2rem)',
+            fontSize: 'clamp(1.375rem, 6.5vw, 1.75rem)',
             fontWeight: 900,
             color: '#111',
-            lineHeight: 1.15,
-            margin: '0 0 16px',
+            lineHeight: 1.2,
+            margin: '0 0 12px',
             letterSpacing: '-0.02em',
           }}>
             {heading}
           </h2>
-          <p style={{ fontSize: '0.9375rem', color: '#888', lineHeight: 1.7, margin: '0 0 24px' }}>
+          <p style={{ fontSize: '0.875rem', color: '#888', lineHeight: 1.6, margin: '0 0 20px' }}>
             {items?.[0]?.body ?? ''}
           </p>
           <Link
             href={ctaHref}
             style={{
-              display: 'inline-block',
-              padding: '14px 32px',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              minHeight: '44px',
+              padding: '12px 24px',
               background: '#111',
               color: '#fff',
               borderRadius: 8,
-              fontSize: 12,
+              fontSize: 11,
               fontWeight: 800,
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
@@ -302,7 +305,7 @@ export function WhyTravelWithUsBlock({
 
         {/* Two cards side by side */}
         {(leftCard || rightCard) && (
-          <div style={{ display: 'flex', gap: 12, padding: '0 16px', marginBottom: 40 }}>
+          <div style={{ display: 'flex', gap: 10, padding: '0 12px', marginBottom: 32 }}>
             {leftCard && (
               <div ref={leftRef} style={{ flex: 1, minWidth: 0 }}>
                 <TripVideoCard card={leftCard} index={0} onBook={() => setDrawerCard(leftCard)} isMobile />
@@ -317,21 +320,21 @@ export function WhyTravelWithUsBlock({
         )}
 
         {/* Items list */}
-        <div ref={itemsRef} style={{ padding: '0 24px' }}>
+        <div ref={itemsRef} style={{ padding: '0 16px' }}>
           {(items ?? []).map((item, i) => (
             <div
               key={i}
               style={{
-                padding: '20px 0',
+                padding: '16px 0',
                 borderTop: i === 0 ? '1px solid #f0f0f0' : 'none',
                 borderBottom: '1px solid #f0f0f0',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 6,
+                gap: 5,
               }}
             >
-              <h3 style={{ fontSize: '0.9375rem', fontWeight: 800, color: '#111', margin: 0 }}>{item.title}</h3>
-              <p style={{ fontSize: '0.875rem', color: '#666', lineHeight: 1.65, margin: 0 }}>{item.body}</p>
+              <h3 style={{ fontSize: '0.875rem', fontWeight: 800, color: '#111', margin: 0 }}>{item.title}</h3>
+              <p style={{ fontSize: '0.8125rem', color: '#666', lineHeight: 1.6, margin: 0 }}>{item.body}</p>
             </div>
           ))}
         </div>

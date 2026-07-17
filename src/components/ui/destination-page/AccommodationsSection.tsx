@@ -21,7 +21,7 @@ export function AccommodationsSection({ accommodations, eyebrow, headline, subte
   if (!accommodations?.length) return null
 
   return (
-    <section className="py-16 px-4 sm:px-6 bg-gray-50 text-black">
+    <section className="py-12 sm:py-16 px-4 sm:px-6 bg-gray-50 text-black">
       <div className="max-w-5xl mx-auto">
         {eyebrow && (
           <p className="text-xs font-semibold tracking-widest text-black/60 uppercase text-center mb-2" data-animate="fade-up">
@@ -29,17 +29,17 @@ export function AccommodationsSection({ accommodations, eyebrow, headline, subte
           </p>
         )}
         {headline && (
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-3 sm:mb-4">
             {headline}
           </h2>
         )}
         {subtext && (
-          <p className="text-center text-black/60 mb-12 max-w-xl mx-auto">
+          <p className="text-center text-sm sm:text-base text-black/60 mb-8 sm:mb-12 max-w-xl mx-auto">
             {subtext}
           </p>
         )}
 
-        <div className="space-y-6" data-animate="stagger-children">
+        <div className="space-y-4 sm:space-y-6" data-animate="stagger-children">
           {accommodations.map((acc, i) => {
             const validGallery = (acc.gallery ?? [])
               .filter((g) => mediaUrl(g.image?.url))
@@ -48,17 +48,17 @@ export function AccommodationsSection({ accommodations, eyebrow, headline, subte
             return (
               <div key={i} className="bg-white rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
                 <AccommodationCarousel gallery={validGallery} name={acc.name ?? ''} />
-                <div className="p-8 flex flex-col justify-center">
+                <div className="p-5 sm:p-8 flex flex-col justify-center">
                   {acc.locationLabel && (
                     <p className="text-xs font-semibold tracking-widest text-black/60 uppercase mb-2">
                       {acc.locationLabel}
                     </p>
                   )}
                   {acc.name && (
-                    <h3 className="text-xl font-bold mb-3">{acc.name}</h3>
+                    <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3">{acc.name}</h3>
                   )}
                   {acc.description && (
-                    <div className="prose text-black/60 text-sm max-w-none mb-4">
+                    <div className="prose text-black/60 text-xs sm:text-sm max-w-none mb-3 sm:mb-4">
                       <RichText data={acc.description as unknown as Parameters<typeof RichText>[0]["data"]} />
                     </div>
                   )}

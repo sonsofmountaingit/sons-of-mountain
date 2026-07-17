@@ -55,18 +55,18 @@ export default function GuidesSection({ guides }: Props) {
   const heading = guides.length === 1 ? 'Who will be your guide' : 'Who will be your guides?'
 
   return (
-    <section ref={sectionRef} className="py-14 sm:py-20 px-4 sm:px-6 bg-white text-black">
+    <section ref={sectionRef} className="py-12 sm:py-14 lg:py-20 px-4 sm:px-6 bg-white text-black">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-stretch">
 
           {/* Left */}
           <div ref={leftRef} className="flex flex-col">
             {/* Header */}
-            <div className="mb-10">
-              <span className="inline-block text-[9px] font-black tracking-[0.3em] text-black/30 uppercase border border-black/10 rounded-full px-3 py-1 mb-5">
+            <div className="mb-6 sm:mb-10">
+              <span className="inline-block text-[9px] font-black tracking-[0.3em] text-black/30 uppercase border border-black/10 rounded-full px-3 py-1 mb-3 sm:mb-5">
                 {eyebrow}
               </span>
-              <h2 className="text-[2.6rem] sm:text-[3.2rem] font-black leading-[1.05] tracking-tight">
+              <h2 className="text-2xl sm:text-[2.6rem] lg:text-[3.2rem] font-black leading-[1.05] tracking-tight">
                 {heading}
               </h2>
             </div>
@@ -74,9 +74,9 @@ export default function GuidesSection({ guides }: Props) {
             {/* Guide entries */}
             <div className="flex flex-col gap-0 flex-1 justify-center divide-y divide-black/6">
               {guides.map((guide, idx) => (
-                <div key={guide.id} className="py-5 flex gap-5 items-start">
+                <div key={guide.id} className="py-3 sm:py-5 flex gap-3 sm:gap-5 items-start">
                   {/* Index number */}
-                  <span className="text-[11px] font-black text-black/20 tracking-widest pt-0.5 w-5 shrink-0">
+                  <span className="text-[10px] sm:text-[11px] font-black text-black/20 tracking-widest pt-0.5 w-5 shrink-0">
                     {String(idx + 1).padStart(2, '0')}
                   </span>
 

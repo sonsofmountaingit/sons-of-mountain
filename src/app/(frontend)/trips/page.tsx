@@ -60,7 +60,7 @@ function TripCard({ trip }: { trip: Record<string, unknown> }) {
   const tags = trip.tags as { tag: string }[] | null
 
   return (
-    <Link href={href} className="group block bg-white/5 hover:bg-white/10 transition-colors rounded-2xl overflow-hidden">
+    <Link href={href} className="group block bg-white/5 hover:bg-white/10 transition-colors rounded-lg sm:rounded-2xl overflow-hidden">
       <div className="relative aspect-[4/3] overflow-hidden">
         {imageUrl ? (
           <Image
@@ -68,7 +68,7 @@ function TripCard({ trip }: { trip: Record<string, unknown> }) {
             alt={heroImage?.alt ?? trip.title as string}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         ) : (
           <div className="w-full h-full bg-white/10" />
@@ -94,15 +94,15 @@ function TripCard({ trip }: { trip: Record<string, unknown> }) {
           </div>
         )}
       </div>
-      <div className="p-5">
+      <div className="p-3 sm:p-5">
         {dest && (
           <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-1">
             {dest.name as string}
           </p>
         )}
-        <h3 className="text-white font-bold text-lg leading-tight mb-2">{trip.title as string}</h3>
+        <h3 className="text-white font-bold text-base sm:text-lg leading-tight mb-2">{trip.title as string}</h3>
         {startDate && endDate && (
-          <p className="text-white/50 text-sm mb-3">
+          <p className="text-white/50 text-xs sm:text-sm mb-3">
             {formatDate(startDate)} – {formatDate(endDate)}
           </p>
         )}
@@ -176,7 +176,7 @@ async function TripsContent() {
         <p className="text-white/30 text-center py-20">Скоро ще добавим пътувания.</p>
       )}
       {active.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
           {active.map((trip) => (
             <TripCard key={trip.id as string} trip={trip} />
           ))}
@@ -184,8 +184,8 @@ async function TripsContent() {
       )}
       {soldOut.length > 0 && (
         <>
-          <h2 className="text-2xl font-bold text-white/30 mb-6 mt-4">Разпродадени</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 opacity-60">
+          <h2 className="text-xl sm:text-2xl font-bold text-white/30 mb-4 sm:mb-6 mt-4">Разпродадени</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 opacity-60">
             {soldOut.map((trip) => (
               <TripCard key={trip.id as string} trip={trip} />
             ))}
@@ -193,13 +193,13 @@ async function TripsContent() {
         </>
       )}
       {archived.length > 0 && (
-        <details className="mt-16 group">
-          <summary className="cursor-pointer text-white/40 hover:text-white/70 transition-colors text-sm font-semibold uppercase tracking-widest mb-8 list-none flex items-center gap-2">
+        <details className="mt-12 sm:mt-16 group">
+          <summary className="cursor-pointer text-white/40 hover:text-white/70 transition-colors text-xs sm:text-sm font-semibold uppercase tracking-widest mb-6 sm:mb-8 list-none flex items-center gap-2">
             <span className="border border-white/20 rounded px-3 py-1.5 group-open:border-white/40">
               Виж предходни пътувания ({archived.length})
             </span>
           </summary>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 opacity-60">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-6 sm:mt-8 opacity-60">
             {archived.map((trip) => (
               <TripCard key={trip.id as string} trip={trip} />
             ))}
@@ -212,10 +212,10 @@ async function TripsContent() {
 
 export default function TripsPage() {
   return (
-    <div className="pt-24 pb-20 px-6 min-h-screen">
+    <div className="pt-16 sm:pt-24 pb-16 sm:pb-20 px-4 sm:px-6 min-h-screen">
       <div className="max-w-[1440px] mx-auto">
-        <h1 className="text-5xl md:text-6xl font-bold mb-4">Пътувания</h1>
-        <p className="text-white/50 mb-12 text-lg">Групови пътувания с организиран транспорт и настаняване</p>
+        <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-3 sm:mb-4">Пътувания</h1>
+        <p className="text-white/50 mb-8 sm:mb-12 text-base sm:text-lg">Групови пътувания с организиран транспорт и настаняване</p>
         <Suspense fallback={null}>
           <TripsContent />
         </Suspense>

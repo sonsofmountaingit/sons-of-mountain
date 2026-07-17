@@ -22,7 +22,7 @@ export function IndividualProgramsHeroBlock({
     <section
       style={{
         position: 'relative',
-        minHeight: '70vh',
+        minHeight: '50vh',
         display: 'flex',
         alignItems: 'flex-end',
         overflow: 'hidden',
@@ -37,7 +37,7 @@ export function IndividualProgramsHeroBlock({
         )}
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.35) 60%, rgba(0,0,0,0.15) 100%)' }} />
       </div>
-      <div style={{ position: 'relative', zIndex: 1, maxWidth: 1280, margin: '0 auto', padding: '0 2rem 4rem', width: '100%' }}>
+      <div style={{ position: 'relative', zIndex: 1, maxWidth: 1280, margin: '0 auto', padding: '2rem 1rem 2.5rem', width: '100%' }}>
         <h1 style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-0.03em', color: '#fff', margin: '0 0 1.25rem', maxWidth: '18ch' }}>
           {heroHeading}
         </h1>
@@ -50,6 +50,7 @@ export function IndividualProgramsHeroBlock({
             display: 'inline-flex', alignItems: 'center', gap: 10, padding: '14px 28px',
             background: '#e8501a', borderRadius: 50, color: '#fff', fontWeight: 700,
             fontSize: '0.95rem', textDecoration: 'none', letterSpacing: '0.01em',
+            minHeight: '44px',
           }}
         >
           {heroCtaLabel}

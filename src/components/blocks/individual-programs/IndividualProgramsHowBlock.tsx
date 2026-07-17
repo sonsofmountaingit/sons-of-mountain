@@ -16,7 +16,7 @@ export function IndividualProgramsHowBlock({
   howSteps = [],
 }: Props) {
   return (
-    <section style={{ background: '#0d0d0d', padding: '6rem 2rem' }}>
+    <section style={{ background: '#0d0d0d', padding: '3rem 1rem sm:6rem sm:2rem' }}>
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
         <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, color: '#fff', margin: '0 0 1rem', letterSpacing: '-0.02em' }}>
           {howHeading}
@@ -24,7 +24,7 @@ export function IndividualProgramsHowBlock({
         <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.6)', margin: '0 0 3rem', maxWidth: '60ch' }}>
           {howSubtext}
         </p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '2rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '2rem' }}>
           {howSteps.map((s, i) => (
             <div key={i}>
               <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#e8501a', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>

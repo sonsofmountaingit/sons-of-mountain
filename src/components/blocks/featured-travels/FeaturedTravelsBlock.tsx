@@ -79,45 +79,45 @@ function Card({ item }: { item: FeaturedTravelItem }) {
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
 
       {/* top: kind badge + spots */}
-      <div className="absolute top-3 left-3 right-3 flex items-start justify-between">
-        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-sm ${KIND_COLOR[item.kind] ?? 'bg-black/50'}`}>
+      <div className="absolute top-2 left-2 right-2 sm:top-3 sm:left-3 sm:right-3 flex items-start justify-between gap-1">
+        <span className={`px-2 py-0.5 sm:px-2.5 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-sm shrink-0 ${KIND_COLOR[item.kind] ?? 'bg-black/50'}`}>
           {item.region ? (REGION_LABEL[item.region] ?? item.region) : (KIND_LABEL[item.kind] ?? item.kind)}
         </span>
         {item.spotsAvailable !== null && (
           item.spotsAvailable === 0
-            ? <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-red-500/80 text-white backdrop-blur-sm">No spots</span>
-            : <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/80 text-white backdrop-blur-sm">{item.spotsAvailable} {item.spotsAvailable === 1 ? 'spot' : 'spots'}</span>
+            ? <span className="px-1.5 py-0.5 sm:px-2 rounded-full text-[8px] sm:text-[10px] font-semibold bg-red-500/80 text-white backdrop-blur-sm shrink-0">No spots</span>
+            : <span className="px-1.5 py-0.5 sm:px-2 rounded-full text-[8px] sm:text-[10px] font-semibold bg-emerald-500/80 text-white backdrop-blur-sm shrink-0">{item.spotsAvailable} {item.spotsAvailable === 1 ? 'spot' : 'spots'}</span>
         )}
       </div>
 
       {/* bottom info */}
-      <div className="absolute inset-x-0 bottom-0 p-3 md:p-5">
+      <div className="absolute inset-x-0 bottom-0 p-2 sm:p-3 md:p-5">
         {item.location && (
-          <p className="text-[10px] uppercase tracking-[0.18em] text-white/55 mb-1 flex items-center gap-1">
-            <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" className="shrink-0">
+          <p className="text-[8px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.18em] text-white/55 mb-0.5 sm:mb-1 flex items-center gap-0.5 sm:gap-1">
+            <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" className="shrink-0 sm:w-[9px] sm:h-[9px]">
               <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
             </svg>
             {item.location}
           </p>
         )}
 
-        <h3 className="text-white font-bold text-sm md:text-base lg:text-lg leading-tight line-clamp-2">
+        <h3 className="text-white font-bold text-xs sm:text-sm md:text-base lg:text-lg leading-tight line-clamp-2">
           {item.title}
         </h3>
 
-        <div className="flex items-center justify-between mt-2 gap-2">
+        <div className="flex items-center justify-between mt-1 sm:mt-2 gap-1 sm:gap-2">
           <DifficultyRating value={item.fitnessDifficulty} />
-          <div className="flex items-center gap-1.5 flex-wrap justify-end">
+          <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap justify-end">
             {item.month && (
-              <span className="text-[10px] text-white/70 bg-white/10 backdrop-blur-sm px-2 py-0.5 rounded-full">{item.month}</span>
+              <span className="text-[8px] sm:text-[10px] text-white/70 bg-white/10 backdrop-blur-sm px-1.5 sm:px-2 py-0.5 rounded-full">{item.month}</span>
             )}
             {item.durationDays && (
-              <span className="text-[10px] text-white/70 bg-white/10 backdrop-blur-sm px-2 py-0.5 rounded-full">
-                {item.durationDays}days
+              <span className="text-[8px] sm:text-[10px] text-white/70 bg-white/10 backdrop-blur-sm px-1.5 sm:px-2 py-0.5 rounded-full">
+                {item.durationDays}d
               </span>
             )}
             {fmtPrice && (
-              <span className="text-[11px] font-bold text-white bg-black/40 backdrop-blur-sm px-2.5 py-0.5 rounded-full">
+              <span className="text-[9px] sm:text-[11px] font-bold text-white bg-black/40 backdrop-blur-sm px-1.5 sm:px-2.5 py-0.5 rounded-full">
                 {fmtPrice}
               </span>
             )}
@@ -141,7 +141,7 @@ function Row1({ items }: { items: FeaturedTravelItem[] }) {
   const [main, ...rest] = items
   if (!rest.length) {
     return (
-      <div className="h-[56vw] min-h-[220px] md:h-[580px] relative">
+      <div className="h-[56vw] min-h-[200px] md:h-[580px] relative">
         {main && <Card item={main} />}
       </div>
     )
@@ -149,9 +149,9 @@ function Row1({ items }: { items: FeaturedTravelItem[] }) {
   return (
     <>
       {/* mobile: stack vertically */}
-      <div className="flex flex-col gap-1 md:hidden">
+      <div className="flex flex-col gap-0.5 md:gap-1 md:hidden">
         {[main, ...rest.slice(0, 2)].filter(Boolean).map((item) => (
-          <div key={item!.id} className="relative h-[56vw] min-h-[200px]">
+          <div key={item!.id} className="relative h-[50vw] min-h-[180px] md:min-h-[200px]">
             <Card item={item!} />
           </div>
         ))}
@@ -177,9 +177,9 @@ function Row2({ items }: { items: FeaturedTravelItem[] }) {
   return (
     <>
       {/* mobile: stack */}
-      <div className="flex flex-col gap-1 md:hidden">
+      <div className="flex flex-col gap-0.5 md:gap-1 md:hidden">
         {items.map((item) => (
-          <div key={item.id} className="relative h-[56vw] min-h-[200px]">
+          <div key={item.id} className="relative h-[50vw] min-h-[180px] md:min-h-[200px]">
             <Card item={item} />
           </div>
         ))}
@@ -202,9 +202,9 @@ function Row3({ items }: { items: FeaturedTravelItem[] }) {
   return (
     <>
       {/* mobile: stack */}
-      <div className="flex flex-col gap-1 md:hidden">
+      <div className="flex flex-col gap-0.5 md:gap-1 md:hidden">
         {[...rest.slice(0, 2), last].filter(Boolean).map((item) => (
-          <div key={item!.id} className="relative h-[56vw] min-h-[200px]">
+          <div key={item!.id} className="relative h-[50vw] min-h-[180px] md:min-h-[200px]">
             <Card item={item!} />
           </div>
         ))}

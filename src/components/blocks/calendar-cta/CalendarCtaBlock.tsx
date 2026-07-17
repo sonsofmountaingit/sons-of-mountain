@@ -97,9 +97,11 @@ export function CalendarCtaBlock({
             margin-top: 2.5rem;
             overflow-x: auto;
             padding: 0 1.25rem 1.5rem;
+            scroll-snap-type: x mandatory;
             scrollbar-width: none;
             -webkit-overflow-scrolling: touch;
           }
+          .calcta-fans-mobile > div { scroll-snap-align: center; }
           .calcta-fans-mobile::-webkit-scrollbar { display: none; }
         }
       `}</style>

@@ -58,12 +58,12 @@ export function OtherDestinationsSection({ continent, destinations }: Props) {
           Other trips{continent ? ` in ${continent}` : ''}
         </h2>
         {/* Mobile: horizontal scroll strip */}
-        <div ref={mobileListRef} className="flex sm:hidden gap-3 overflow-x-auto pb-3 -mx-4 px-4 snap-x snap-mandatory">
+        <div ref={mobileListRef} className="flex sm:hidden gap-3 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory">
           {destinations.map((dest) => (
             <Link
               key={dest.slug}
               href={`/destinations/${dest.slug}`}
-              className="relative rounded-2xl overflow-hidden flex-shrink-0 w-48 h-64 snap-start block group"
+              className="relative rounded-2xl overflow-hidden flex-shrink-0 w-[calc(100vw-56px)] sm:w-48 h-64 snap-start block group"
             >
               {mediaUrl(dest.heroImage?.url) ? (
                 <Image src={mediaUrl(dest.heroImage!.url)!} alt={dest.heroImage?.alt ?? dest.name} fill loading="lazy" quality={75} className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="192px" />

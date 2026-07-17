@@ -69,7 +69,7 @@ export function CalendarMap({ items, itemCoords }: Props) {
     <div className="relative w-full mb-8">
       {/* Toggle pill */}
       <div
-        className="absolute top-4 right-4 z-10 flex rounded-full p-1 gap-0.5"
+        className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 flex rounded-full p-1 gap-0.5"
         style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.1)' }}
       >
         <button
@@ -78,13 +78,13 @@ export function CalendarMap({ items, itemCoords }: Props) {
             background: mode === 'globe' ? '#fff' : 'transparent',
             color: mode === 'globe' ? '#111' : 'rgba(255,255,255,0.6)',
             borderRadius: '9999px',
-            padding: '6px 16px',
+            padding: '6px 14px',
             fontSize: '11px',
             fontWeight: 600,
             border: 'none',
             cursor: 'pointer',
             minWidth: 60,
-            minHeight: 36,
+            minHeight: 40,
             transition: 'all 0.2s',
             letterSpacing: '0.05em',
           }}
@@ -97,13 +97,13 @@ export function CalendarMap({ items, itemCoords }: Props) {
             background: mode === 'flat' ? '#fff' : 'transparent',
             color: mode === 'flat' ? '#111' : 'rgba(255,255,255,0.6)',
             borderRadius: '9999px',
-            padding: '6px 16px',
+            padding: '6px 14px',
             fontSize: '11px',
             fontWeight: 600,
             border: 'none',
             cursor: 'pointer',
             minWidth: 60,
-            minHeight: 36,
+            minHeight: 40,
             transition: 'all 0.2s',
             letterSpacing: '0.05em',
           }}

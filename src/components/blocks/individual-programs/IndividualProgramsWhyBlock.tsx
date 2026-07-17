@@ -20,8 +20,8 @@ export function IndividualProgramsWhyBlock({
   whyPoints = [],
 }: Props) {
   return (
-    <section style={{ background: '#0a0a0a', padding: '6rem 2rem' }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'center' }}>
+    <section style={{ background: '#0a0a0a', padding: '3rem 1rem sm:6rem sm:2rem' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem sm:3rem', alignItems: 'center' }}>
         <div>
           <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, color: '#fff', margin: '0 0 1rem', letterSpacing: '-0.02em' }}>
             {whyHeading}
@@ -38,7 +38,7 @@ export function IndividualProgramsWhyBlock({
             ))}
           </ul>
         </div>
-        <div style={{ position: 'relative', aspectRatio: '4/5', borderRadius: 20, overflow: 'hidden', background: 'rgba(255,255,255,0.05)' }}>
+        <div style={{ position: 'relative', aspectRatio: '4/5', borderRadius: 20, overflow: 'hidden', background: 'rgba(255,255,255,0.05)', minHeight: '300px' }}>
           {whyImageUrl && (
             <Image src={whyImageUrl} alt={whyHeading} fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
           )}

@@ -75,9 +75,9 @@ export default async function ContactPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="min-h-screen pb-20">
+      <div className="min-h-screen pb-14 sm:pb-20">
         <ContactHeroBlock heading={d?.heading} subheading={d?.subheading} />
-        <div className="px-6 mb-12">
+        <div className="px-4 sm:px-6 mb-10 sm:mb-12">
           <div className="max-w-3xl mx-auto">
             <ContactForm
               namePlaceholder={d?.namePlaceholder}

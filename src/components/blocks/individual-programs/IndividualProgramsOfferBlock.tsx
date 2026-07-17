@@ -16,7 +16,7 @@ export function IndividualProgramsOfferBlock({
   offerItems = [],
 }: Props) {
   return (
-    <section style={{ background: '#0a0a0a', padding: '6rem 2rem' }}>
+    <section style={{ background: '#0a0a0a', padding: '3rem 1rem sm:6rem sm:2rem' }}>
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
         <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, color: '#fff', margin: '0 0 1rem', letterSpacing: '-0.02em' }}>
           {offerHeading}
@@ -24,13 +24,13 @@ export function IndividualProgramsOfferBlock({
         <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.6)', margin: '0 0 3rem', maxWidth: '60ch' }}>
           {offerSubtext}
         </p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '1.5rem' }}>
           {offerItems.map((item, i) => (
             <div
               key={i}
               style={{
                 background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: 16, padding: '2rem',
+                borderRadius: 16, padding: '1.5rem',
               }}
             >
               {item.icon && <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>{item.icon}</div>}

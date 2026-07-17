@@ -3370,7 +3370,7 @@
       "id": "src/lib/translations.ts",
       "label": "lib/translations.ts",
       "group": "lib",
-      "size": 16
+      "size": 18
     },
     {
       "id": "src/lib/send-registration-forms.ts",
@@ -5195,6 +5195,10 @@
     {
       "source": "src/app/(frontend)/layout.tsx",
       "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/layout.tsx",
+      "target": "src/lib/translations.ts"
     },
     {
       "source": "src/app/(frontend)/layout.tsx",
@@ -7549,6 +7553,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-17T13:03:59.654Z",
+  "builtAt": "2026-07-17T13:07:42.099Z",
   "fileCount": 589
 }

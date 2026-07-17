@@ -52,11 +52,11 @@ export default function ReadinessChecklistSection({ categories, fullWidth }: Pro
   if (!categories?.length) return null
 
   return (
-    <div className={`px-5 sm:px-8 lg:px-16 py-10 sm:py-0${fullWidth ? ' lg:col-span-2' : ''}`}>
-      <p className="text-xs font-semibold tracking-widest text-white/40 uppercase mb-3" data-animate="fade-up">
+    <div className={`px-4 sm:px-8 lg:px-16 py-8 sm:py-0${fullWidth ? ' lg:col-span-2' : ''}`}>
+      <p className="text-xs font-semibold tracking-widest text-white/40 uppercase mb-2 sm:mb-3" data-animate="fade-up">
         Готовност
       </p>
-      <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 leading-tight" data-animate="fade-up">
+      <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-4 sm:mb-6 leading-tight" data-animate="fade-up">
         Готови ли сте за<br />приключение?
       </h2>
 

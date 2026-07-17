@@ -48,7 +48,7 @@ export function DayStatsBar({ stats }: { stats: DayStats }) {
   const visible = STAT_ITEMS.filter(({ key }) => stats[key])
   if (!visible.length) return null
   return (
-    <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3 pt-5 border-t border-black/6">
+    <div className="mt-5 flex flex-wrap gap-x-3 sm:gap-x-6 gap-y-2 sm:gap-y-3 pt-5 border-t border-black/6">
       {visible.map(({ key, label, icon }) => (
         <div key={key} className="flex items-center gap-2">
           <Image src={icon} alt="" width={14} height={14} className={`opacity-25 flex-shrink-0${key === 'descent' ? ' scale-x-[-1]' : ''}`} />
@@ -106,11 +106,11 @@ export function ItinerarySection({ itinerary }: Props) {
     <section className="w-full bg-white text-black overflow-hidden">
 
       {/* Mobile */}
-      <div className="md:hidden px-5 py-14">
+      <div className="md:hidden px-4 sm:px-5 py-8 sm:py-14">
         <p className="text-[10px] font-bold tracking-[0.25em] text-black/30 uppercase mb-1">Детайлна</p>
-        <h2 className="text-3xl font-bold mb-8 tracking-tight">Програма</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 tracking-tight">Програма</h2>
         <ItineraryAccordion itinerary={itinerary} />
-        <p className="text-[10px] text-black/25 mt-10 leading-relaxed">
+        <p className="text-[9px] sm:text-[10px] text-black/25 mt-8 sm:mt-10 leading-relaxed">
           * Sons of Mountains запазва правото си да адаптира и промени програмата според промени в условията, климата и други фактори.
         </p>
       </div>

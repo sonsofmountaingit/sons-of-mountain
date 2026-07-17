@@ -69,12 +69,12 @@ export function IndividualProgramInquiryForm({
 
   if (status === 'success') {
     return (
-      <div style={{ border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: '2rem', textAlign: 'center' }}>
-        <p style={{ fontWeight: 600, marginBottom: 8, color: '#fff' }}>{successHeading}</p>
+      <div style={{ border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: '1.5rem', textAlign: 'center' }}>
+        <p style={{ fontWeight: 600, marginBottom: 8, color: '#fff', fontSize: '1rem' }}>{successHeading}</p>
         <p style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.5)' }}>{successSubtext}</p>
         <button
           onClick={() => setStatus('idle')}
-          style={{ marginTop: 16, fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer' }}
+          style={{ marginTop: 16, fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem' }}
         >
           Send new
         </button>
@@ -85,6 +85,7 @@ export function IndividualProgramInquiryForm({
   const inputStyle: React.CSSProperties = {
     width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
     borderRadius: 6, padding: '0.75rem 1rem', fontSize: '0.875rem', color: '#fff', outline: 'none',
+    minHeight: '44px',
   }
 
   return (
@@ -98,7 +99,7 @@ export function IndividualProgramInquiryForm({
         style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
       />
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem' }}>
         <div>
           <input
             {...register('__name', { required: nameMinError, minLength: { value: 2, message: nameMinError } })}
@@ -156,6 +157,7 @@ export function IndividualProgramInquiryForm({
         style={{
           width: '100%', padding: '0.875rem', background: '#e8501a', color: '#fff', fontSize: '0.875rem',
           fontWeight: 700, borderRadius: 6, border: 'none', cursor: 'pointer', opacity: status === 'loading' ? 0.6 : 1,
+          minHeight: '44px',
         }}
       >
         {status === 'loading' ? submitLoadingLabel : submitLabel}

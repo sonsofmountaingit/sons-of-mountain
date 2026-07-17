@@ -99,7 +99,7 @@ export function IsThisForYouSection({ fitnessRatings, summaryHeading, summaryTex
   const fillPct = nextTrip ? Math.round(((nextTrip.spotsTotal - nextTrip.spotsAvailable) / nextTrip.spotsTotal) * 100) : 0
 
   const formatDate = (d: string) =>
-    new Date(d).toLocaleDateString('bg-BG', { day: '2-digit', month: '2-digit', year: 'numeric' })
+    new Date(d).toLocaleDateString('bg-BG', { day: 'numeric', month: 'short' })
 
   const sectionRef = useRef<HTMLElement>(null)
   const textColRef = useRef<HTMLDivElement>(null)
@@ -151,20 +151,20 @@ export function IsThisForYouSection({ fitnessRatings, summaryHeading, summaryTex
   return (
     <section ref={sectionRef} className="py-12 sm:py-16 px-4 sm:px-6 bg-white text-black">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr_auto] gap-6 sm:gap-8 md:gap-12 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr_auto] gap-4 sm:gap-6 md:gap-8 lg:gap-12 items-center">
 
           {/* Col 1 — heading + text + trip bar */}
           <div ref={textColRef}>
-            <p className="text-xs font-semibold tracking-widest text-black/40 uppercase mb-4">
+            <p className="text-xs font-semibold tracking-widest text-black/40 uppercase mb-2 sm:mb-4">
               ЗА ТЕБ ЛИ Е ТОВА ПЪТУВАНЕ?
             </p>
             {summaryHeading && (
-              <h2 className="text-3xl md:text-4xl font-bold leading-tight mb-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight mb-3 sm:mb-4">
                 {summaryHeading}
               </h2>
             )}
             {summaryText && (
-              <div className="prose text-black/60 max-w-none text-sm leading-relaxed mb-6">
+              <div className="prose text-black/60 max-w-none text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6">
                 <RichText data={summaryText as unknown as Parameters<typeof RichText>[0]["data"]} />
               </div>
             )}
@@ -173,10 +173,10 @@ export function IsThisForYouSection({ fitnessRatings, summaryHeading, summaryTex
                 <p className="text-xs font-semibold tracking-widest text-black/40 uppercase mb-2">
                   ПРЕДСТОЯЩИ ПЪТУВАНИЯ
                 </p>
-                <p className="text-sm font-semibold mb-2">
+                <p className="text-xs sm:text-sm font-semibold mb-2">
                   {formatDate(nextTrip.startDate)} – {formatDate(nextTrip.endDate)}
                 </p>
-                <div className="h-1 bg-black/10 rounded-full overflow-hidden w-48">
+                <div className="h-1 bg-black/10 rounded-full overflow-hidden w-full sm:w-48">
                   <div
                     className="h-full bg-black rounded-full"
                     style={{ width: `${fillPct}%` }}

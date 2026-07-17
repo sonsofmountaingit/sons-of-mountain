@@ -91,7 +91,7 @@ function LoginModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: ()
     >
       <div
         ref={modalRef}
-        className="bg-white border border-zinc-200 rounded-2xl p-8 w-full max-w-sm mx-4 relative shadow-xl"
+        className="bg-white border border-zinc-200 rounded-2xl p-6 sm:p-8 w-full max-w-sm mx-4 relative shadow-xl"
       >
         <button
           onClick={onClose}
@@ -289,15 +289,15 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
         {/* Card row + wishlist button */}
         <div className="flex items-stretch gap-0">
           {/* Main card */}
-          <div className="flex-1 border border-zinc-200 rounded-lg hover:border-zinc-400 transition-colors overflow-hidden">
+          <div className="flex-1 min-w-0 border border-zinc-200 rounded-lg hover:border-zinc-400 transition-colors overflow-hidden">
             <Link
               href={item.href}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
-              className="flex items-center gap-3 p-3"
+              className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3"
             >
               {mediaUrl(item.imageUrl) && (
-                <div className="flex-shrink-0 w-14 h-14 rounded-md overflow-hidden bg-zinc-100">
+                <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-md overflow-hidden bg-zinc-100">
                   <Image src={mediaUrl(item.imageUrl)!} alt={item.imageAlt} width={56} height={56} className="object-cover w-full h-full" />
                 </div>
               )}
@@ -327,7 +327,7 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
                 ? 'border-[#F45B26]/50 bg-[#F45B26]/10 text-[#F45B26]'
                 : 'border-zinc-200 bg-transparent text-zinc-300 hover:text-[#F45B26] hover:bg-[#F45B26]/5 hover:border-[#F45B26]/25',
             ].join(' ')}
-            style={{ width: '22px' }}
+            style={{ width: '22px', minHeight: '44px' }}
           >
             <span
               className="text-[8px] tracking-[0.2em] uppercase font-semibold leading-none"
@@ -339,7 +339,7 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
         </div>
 
         {/* Compare + Share row */}
-        <div className="px-1 pt-1 print:hidden flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <div className="px-1 pt-1 print:hidden flex items-center justify-between opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-200">
           <label className="flex items-center gap-1.5 cursor-pointer text-[9px] text-zinc-300 hover:text-zinc-500 transition-colors">
             <input
               type="checkbox"
@@ -376,9 +376,9 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
                   placeholder="имейл"
                   value={waitlistEmail}
                   onChange={(e) => setWaitlistEmail(e.target.value)}
-                  className="flex-1 text-xs bg-white border border-zinc-200 rounded px-2 py-1 text-zinc-800 placeholder-zinc-300 focus:outline-none focus:border-zinc-400"
+                  className="flex-1 min-w-0 text-xs bg-white border border-zinc-200 rounded px-2 py-2 text-zinc-800 placeholder-zinc-300 focus:outline-none focus:border-zinc-400"
                 />
-                <button type="submit" className="text-xs text-zinc-500 hover:text-zinc-900 transition-colors px-2">
+                <button type="submit" className="text-xs text-zinc-500 hover:text-zinc-900 transition-colors px-2 py-2">
                   ОК
                 </button>
               </form>

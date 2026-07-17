@@ -104,11 +104,11 @@ export function BookingDrawer({
         className={`fixed top-0 right-0 h-full w-full max-w-md z-[70] bg-white shadow-2xl flex flex-col transition-transform duration-400 ease-out ${open ? 'translate-x-0' : 'translate-x-full'}`}
       >
         {/* Header */}
-        <div className="px-6 pt-6 pb-5 border-b border-neutral-100">
+        <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-4 sm:pb-5 border-b border-neutral-100">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-black/40 mb-1">Booking</p>
-              <h2 className="text-2xl font-black uppercase tracking-tight leading-tight">{tripTitle}</h2>
+              <p className="text-[9px] sm:text-[10px] font-semibold tracking-[0.2em] uppercase text-black/40 mb-1">Booking</p>
+              <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight leading-tight">{tripTitle}</h2>
             </div>
             <button onClick={onClose} aria-label="Close" className="mt-1 text-black/40 hover:text-black transition-colors flex-shrink-0">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -119,11 +119,11 @@ export function BookingDrawer({
         </div>
 
         {/* Body */}
-        <div className="flex-1 overflow-y-auto px-6 py-6 flex flex-col gap-5">
+        <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 sm:py-6 flex flex-col gap-4 sm:gap-5">
 
           {/* Trip summary */}
-          <div className="bg-neutral-50 rounded-lg p-4 flex flex-col gap-2 text-sm">
-            <p className="font-black text-base text-black uppercase tracking-tight mb-1">{tripTitle}</p>
+          <div className="bg-neutral-50 rounded-lg p-3 sm:p-4 flex flex-col gap-1.5 sm:gap-2 text-xs sm:text-sm">
+            <p className="font-black text-sm sm:text-base text-black uppercase tracking-tight mb-1">{tripTitle}</p>
             {(startDate || month) && (
               <div className="flex items-center gap-2 text-black">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

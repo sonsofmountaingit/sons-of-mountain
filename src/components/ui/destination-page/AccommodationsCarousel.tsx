@@ -33,24 +33,24 @@ export function AccommodationCarousel({ gallery, name }: Props) {
         <>
           <button
             onClick={() => setIdx((i) => (i - 1 + gallery.length) % gallery.length)}
-            className="absolute left-2 top-1/2 -translate-y-1/2 w-11 h-11 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors text-lg"
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-11 sm:h-11 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors text-lg"
             aria-label="Previous photo"
           >
             ‹
           </button>
           <button
             onClick={() => setIdx((i) => (i + 1) % gallery.length)}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-11 h-11 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors text-lg"
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-11 sm:h-11 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors text-lg"
             aria-label="Next photo"
           >
             ›
           </button>
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1">
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
             {gallery.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setIdx(i)}
-                className={`w-6 h-6 flex items-center justify-center rounded-full transition-colors`}
+                className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors`}
                 aria-label={`Photo ${i + 1}`}
               >
                 <span className={`block w-2 h-2 rounded-full ${i === idx ? 'bg-white' : 'bg-white/50'}`} />

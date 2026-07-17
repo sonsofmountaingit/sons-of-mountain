@@ -39,24 +39,24 @@ export function FaqSection({ faq, email, phone }: Props) {
   if (!faq?.length) return null
 
   return (
-    <section ref={sectionRef} className="py-16 sm:py-24 px-4 sm:px-6 bg-white text-black">
+    <section ref={sectionRef} className="py-12 sm:py-16 lg:py-24 px-4 sm:px-6 bg-white text-black">
       <div className="max-w-5xl mx-auto">
-        <div ref={headRef} className="mb-10 sm:mb-16">
-          <p className="text-xs font-semibold tracking-[0.2em] text-black/40 uppercase mb-4">FAQ</p>
+        <div ref={headRef} className="mb-8 sm:mb-10 lg:mb-16">
+          <p className="text-xs font-semibold tracking-[0.2em] text-black/40 uppercase mb-3 sm:mb-4">FAQ</p>
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 sm:gap-6">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight tracking-tight max-w-md">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight tracking-tight max-w-md">
               Често Задавани<br />Въпроси
             </h2>
             {(email || phone) && (
-              <div className="flex flex-col gap-2 sm:text-right">
-                <p className="text-xs text-black/40 uppercase tracking-widest mb-1">Има нещо неясно?</p>
+              <div className="flex flex-col gap-1.5 sm:gap-2 sm:text-right">
+                <p className="text-xs text-black/40 uppercase tracking-widest mb-0.5 sm:mb-1">Има нещо неясно?</p>
                 {email && (
-                  <a href={`mailto:${email}`} className="text-sm text-black/60 hover:text-black transition-colors underline underline-offset-4 decoration-black/20 hover:decoration-black">
+                  <a href={`mailto:${email}`} className="text-xs sm:text-sm text-black/60 hover:text-black transition-colors underline underline-offset-4 decoration-black/20 hover:decoration-black break-all">
                     {email}
                   </a>
                 )}
                 {phone && (
-                  <a href={`tel:${phone}`} className="text-sm text-black/60 hover:text-black transition-colors underline underline-offset-4 decoration-black/20 hover:decoration-black">
+                  <a href={`tel:${phone}`} className="text-xs sm:text-sm text-black/60 hover:text-black transition-colors underline underline-offset-4 decoration-black/20 hover:decoration-black">
                     {phone}
                   </a>
                 )}

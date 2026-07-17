@@ -257,12 +257,17 @@ function Card({ t, onReadMore }: { t: Testimonial; onReadMore: (t: Testimonial) 
           cursor: default;
           overflow: hidden;
         }
-        @media (max-width: 600px) {
-          .test-card { width: min(240px, 72vw); height: 300px; padding: 1.25rem; }
+        @media (max-width: 640px) {
+          .test-card { width: min(calc(100vw - 32px), 280px); height: 280px; padding: 1.125rem; min-height: 200px; }
         }
         .test-card:hover {
           box-shadow: 0 12px 40px rgba(0,0,0,0.5);
           transform: translateY(-4px);
+        }
+        @media (max-width: 640px) {
+          .test-card:hover {
+            transform: translateY(-2px);
+          }
         }
         .test-card .test-read-more {
           visibility: hidden;
@@ -270,7 +275,7 @@ function Card({ t, onReadMore }: { t: Testimonial; onReadMore: (t: Testimonial) 
           border: none;
           padding: 0;
           cursor: pointer;
-          font-size: 0.7rem;
+          font-size: clamp(0.6rem, 2vw, 0.7rem);
           font-weight: 600;
           letter-spacing: 0.08em;
           text-transform: uppercase;
@@ -278,7 +283,12 @@ function Card({ t, onReadMore }: { t: Testimonial; onReadMore: (t: Testimonial) 
           text-align: left;
           transition: color 0.15s;
           flex-shrink: 0;
-          margin-top: 0.5rem;
+          margin-top: 0.375rem;
+        }
+        @media (max-width: 640px) {
+          .test-card:hover .test-read-more {
+            visibility: visible;
+          }
         }
         .test-card:hover .test-read-more {
           visibility: visible;
@@ -292,10 +302,10 @@ function Card({ t, onReadMore }: { t: Testimonial; onReadMore: (t: Testimonial) 
         <div style={{
           position: 'relative',
           width: '100%',
-          height: '110px',
+          height: 'clamp(80px, 20vw, 110px)',
           borderRadius: '0.75rem',
           overflow: 'hidden',
-          marginBottom: '1.25rem',
+          marginBottom: '1rem',
           flexShrink: 0,
         }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -314,8 +324,8 @@ function Card({ t, onReadMore }: { t: Testimonial; onReadMore: (t: Testimonial) 
           </div>
         </div>
       ) : (
-        <div style={{ marginBottom: '1.25rem' }}>
-          <Avatar t={t} size={44} />
+        <div style={{ marginBottom: '1rem' }}>
+          <Avatar t={t} size={40} />
         </div>
       )}
 
@@ -324,13 +334,13 @@ function Card({ t, onReadMore }: { t: Testimonial; onReadMore: (t: Testimonial) 
       </div>
 
       <p style={{
-        fontSize: '0.85rem',
+        fontSize: 'clamp(0.75rem, 2.5vw, 0.85rem)',
         color: 'rgba(255,255,255,0.65)',
-        lineHeight: 1.7,
+        lineHeight: 1.6,
         margin: 0,
         flex: 1,
         display: '-webkit-box',
-        WebkitLineClamp: 5,
+        WebkitLineClamp: 4,
         WebkitBoxOrient: 'vertical',
         overflow: 'hidden',
       }}>
@@ -474,34 +484,34 @@ export function TestimonialsBlock({ heading, subheading, topRow, bottomRow }: Pr
       >
         <style>{`
           @media (max-width: 767px) {
-            .test-heading-section { padding: 3.5rem 0 4rem !important; }
+            .test-heading-section { padding: 2.5rem 0 3rem !important; }
           }
         `}</style>
 
         {(heading || subheading) && (
           <div
             ref={headingRef}
-            style={{ padding: '0 clamp(1.5rem, 5vw, 5rem)', marginBottom: '4rem', position: 'relative' }}
+            style={{ padding: '0 clamp(1rem, 4vw, 5rem)', marginBottom: 'clamp(2.5rem, 5vw, 4rem)', position: 'relative' }}
           >
             {subheading && (
               <p style={{
-                fontSize: '0.65rem',
+                fontSize: 'clamp(0.55rem, 2.5vw, 0.65rem)',
                 fontWeight: 700,
                 letterSpacing: '0.18em',
                 color: 'rgba(255,255,255,0.35)',
                 textTransform: 'uppercase',
-                margin: '0 0 1rem 0',
+                margin: '0 0 0.75rem 0',
               }}>
                 {subheading}
               </p>
             )}
             {heading && (
               <h2 style={{
-                fontSize: 'clamp(2.4rem, 5.5vw, 4.5rem)',
+                fontSize: 'clamp(1.75rem, 5.5vw, 4.5rem)',
                 fontWeight: 300,
                 color: '#ffffff',
                 margin: 0,
-                lineHeight: 1.08,
+                lineHeight: 1.1,
                 letterSpacing: '-0.03em',
                 maxWidth: '700px',
               }}>
@@ -511,7 +521,7 @@ export function TestimonialsBlock({ heading, subheading, topRow, bottomRow }: Pr
           </div>
         )}
 
-        <div ref={rowsRef} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+        <div ref={rowsRef} style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(1rem, 3vw, 1.25rem)' }}>
           {topRow.length > 0 && (
             <div onMouseEnter={() => setHoveredRow('top')} onMouseLeave={() => setHoveredRow(null)}>
               <Row items={topRow} direction="left" paused={hoveredRow === 'top'} onReadMore={openModal} />

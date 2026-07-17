@@ -182,16 +182,16 @@ export function DestinationCarouselBlock({
         <div className="flex-1" />
 
         {/* Text - centered */}
-        <div className="relative z-10 flex flex-col items-center text-center px-12 md:px-20 lg:px-28 pb-8 w-full">
-          <h1 className="font-black text-white uppercase leading-none mb-4 tracking-tight" style={{ fontSize: 'clamp(2rem, 4.5vw, 4rem)' }}>
+        <div className="relative z-10 flex flex-col items-center text-center px-4 sm:px-12 md:px-20 lg:px-28 pb-4 sm:pb-8 w-full">
+          <h1 className="font-black text-white uppercase leading-none mb-3 sm:mb-4 tracking-tight" style={{ fontSize: 'clamp(1.75rem, 4.5vw, 4rem)' }}>
             {introSlide.headline}
           </h1>
-          <p className="text-sm md:text-base text-white/65 mb-8 max-w-sm leading-relaxed">
+          <p className="text-xs sm:text-sm md:text-base text-white/65 mb-6 sm:mb-8 max-w-sm leading-relaxed">
             {introSlide.subheading}
           </p>
           <Link
             href="/destinations"
-            className="inline-flex items-center gap-3 px-8 py-4 bg-white/15 backdrop-blur-md border border-white/25 text-white font-semibold text-sm rounded-lg hover:bg-white/25 transition-colors"
+            className="inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-white/15 backdrop-blur-md border border-white/25 text-white font-semibold text-xs sm:text-sm rounded-lg hover:bg-white/25 transition-colors min-h-[44px] sm:min-h-auto"
           >
             {introSlide.buttonText || 'Explore'}
             <span>→</span>
@@ -202,7 +202,7 @@ export function DestinationCarouselBlock({
         <div ref={cardsPanelRef} className="relative z-10 w-full pb-10 pointer-events-none">
           <div
             ref={trackRef}
-            className="flex gap-4 overflow-x-auto select-none pb-2 pointer-events-auto w-full pl-12 md:pl-20 lg:pl-28 pr-8"
+            className="flex gap-2 sm:gap-4 overflow-x-auto select-none pb-2 pointer-events-auto w-full pl-4 sm:pl-12 md:pl-20 lg:pl-28 pr-4 sm:pr-8"
             style={{
               scrollbarWidth: 'none',
               maskImage: 'linear-gradient(to right, black 80%, transparent 100%)',
@@ -290,15 +290,15 @@ export function DestinationCarouselBlock({
         {/* Mobile styles */}
         <style>{`
           @media (max-width: 767px) {
-            .dc-text-panel { position: absolute; top: 0; bottom: 200px; left: 0; right: 0; padding: 4.5rem 1.5rem 1rem !important; width: 100% !important; align-items: center !important; text-align: center !important; justify-content: center !important; }
-            .dc-hero-title { font-size: clamp(2.4rem, 11vw, 3.5rem) !important; line-height: 0.92 !important; margin-bottom: 0.75rem !important; }
-            .dc-hero-sub { margin-bottom: 1.25rem !important; max-width: 280px !important; }
-            .dc-hero-btn { padding: 0.625rem 1.25rem !important; font-size: 0.75rem !important; gap: 0.5rem !important; align-self: center !important; }
+            .dc-text-panel { position: absolute; top: 0; bottom: 200px; left: 0; right: 0; padding: 3rem 1rem 0.5rem !important; width: 100% !important; align-items: center !important; text-align: center !important; justify-content: center !important; }
+            .dc-hero-title { font-size: clamp(1.75rem, 9vw, 3rem) !important; line-height: 0.95 !important; margin-bottom: 0.5rem !important; }
+            .dc-hero-sub { margin-bottom: 1rem !important; max-width: 85vw !important; font-size: 0.75rem !important; }
+            .dc-hero-btn { padding: 0.5rem 1rem !important; font-size: 0.65rem !important; gap: 0.375rem !important; align-self: center !important; min-height: 44px !important; display: inline-flex !important; align-items: center !important; }
           }
         `}</style>
 
         {/* Text panel */}
-        <div ref={textPanelRef} className="relative z-10 flex flex-col justify-center px-12 md:px-20 lg:px-28 w-full md:w-[52%] py-28 dc-text-panel">
+        <div ref={textPanelRef} className="relative z-10 flex flex-col justify-center px-4 sm:px-12 md:px-20 lg:px-28 w-full md:w-[52%] py-16 sm:py-28 dc-text-panel">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeDest?.id ?? 'text-empty'}
@@ -379,7 +379,7 @@ export function DestinationCarouselBlock({
         <div className="absolute bottom-0 left-0 right-0 z-10 flex md:hidden items-end pb-4 pointer-events-none" style={{ height: '180px' }}>
           <div
             ref={trackRef}
-            className="flex gap-3 overflow-x-auto select-none pointer-events-auto w-full px-4"
+            className="flex gap-2 overflow-x-auto select-none pointer-events-auto w-full px-3"
             style={{ scrollbarWidth: 'none' }}
             onMouseDown={onMouseDown}
             onMouseMove={onMouseMove}
@@ -441,16 +441,16 @@ export function DestinationCarouselBlock({
       <div className="flex-1" style={{ maxHeight: '40vh' }} />
 
       {/* Text panel — centered */}
-      <div ref={textPanelRef} className="relative z-10 flex flex-col items-center text-center px-6 md:px-20 lg:px-28 pb-8 w-full">
-        <h1 className="font-black text-white uppercase leading-none mb-6 tracking-tight" style={{ fontSize: 'clamp(2rem, 4.5vw, 4rem)' }}>
+      <div ref={textPanelRef} className="relative z-10 flex flex-col items-center text-center px-4 sm:px-6 md:px-20 lg:px-28 pb-4 sm:pb-8 w-full">
+        <h1 className="font-black text-white uppercase leading-none mb-4 sm:mb-6 tracking-tight" style={{ fontSize: 'clamp(1.75rem, 4.5vw, 4rem)' }}>
           {headline}
         </h1>
-        <p className="text-sm md:text-base text-white/65 mb-10 max-w-sm leading-relaxed">
+        <p className="text-xs sm:text-sm md:text-base text-white/65 mb-6 sm:mb-10 max-w-sm leading-relaxed">
           {subheading}
         </p>
         <Link
           href="/destinations"
-          className="inline-flex items-center gap-3 px-8 py-4 bg-white/15 backdrop-blur-md border border-white/25 text-white font-semibold text-sm rounded-lg hover:bg-white/25 transition-colors"
+          className="inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-white/15 backdrop-blur-md border border-white/25 text-white font-semibold text-xs sm:text-sm rounded-lg hover:bg-white/25 transition-colors min-h-[44px] sm:min-h-auto"
         >
           {destinationButtonText}
           <span>→</span>
@@ -468,7 +468,7 @@ export function DestinationCarouselBlock({
       <div ref={cardsPanelRef} className="relative z-10 w-full pb-10 pointer-events-none">
         <div
           ref={trackRef}
-          className="flex gap-4 overflow-x-auto select-none pb-2 pointer-events-auto w-full pl-6 md:pl-20 lg:pl-28 pr-8"
+          className="flex gap-2 sm:gap-4 overflow-x-auto select-none pb-2 pointer-events-auto w-full pl-4 sm:pl-6 md:pl-20 lg:pl-28 pr-4 sm:pr-8"
           style={{
             scrollbarWidth: 'none',
             maskImage: 'linear-gradient(to right, black 80%, transparent 100%)',

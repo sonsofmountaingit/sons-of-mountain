@@ -34,7 +34,7 @@ export function IndividualProgramsQuestionnaireBlock({
   formEmailInvalidError,
 }: Props) {
   return (
-    <section id="questionnaire" style={{ background: '#0d0d0d', padding: '6rem 2rem' }}>
+    <section id="questionnaire" style={{ background: '#0d0d0d', padding: '3rem 1rem sm:6rem sm:2rem' }}>
       <div style={{ maxWidth: 720, margin: '0 auto' }}>
         <h2 style={{ fontSize: 'clamp(2rem, 4vw, 2.75rem)', fontWeight: 900, color: '#fff', margin: '0 0 1rem', letterSpacing: '-0.02em', textAlign: 'center' }}>
           {questionnaireHeading}

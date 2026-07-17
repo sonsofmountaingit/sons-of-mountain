@@ -3461,19 +3461,21 @@
   "src/app/(frontend)/layout.tsx": {
     "exports": [
       "metadata",
-      "default:function"
+      "default:async"
     ],
     "types": [],
     "imports": [
       "next",
       "next/font/google",
       "react",
+      "next/headers",
       "@/lib/language-context",
+      "@/lib/translations",
       "@/components/ui/Navigation",
       "@/components/ui/Footer",
       "sonner"
     ],
-    "lines": 69,
+    "lines": 75,
     "group": "frontend"
   },
   "src/app/(frontend)/vouchers/[code]/page.tsx": {
@@ -6785,7 +6787,7 @@
       "@/lib/language-context",
       "@/lib/translations"
     ],
-    "lines": 462,
+    "lines": 461,
     "group": "ui"
   },
   "src/components/ui/DestinationCarousel.tsx": {
@@ -8028,7 +8030,7 @@
       "./translations",
       "./translations"
     ],
-    "lines": 44,
+    "lines": 46,
     "group": "lib"
   },
   "src/lib/rate-limit.ts": {

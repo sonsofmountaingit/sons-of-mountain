@@ -103,15 +103,15 @@ function CompareDrawer({ items, onClose }: { items: CalendarItem[]; onClose: () 
     })
   }, [])
   return (
-    <div ref={drawerRef} className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-zinc-200 p-5 print:hidden">
+    <div ref={drawerRef} className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-zinc-200 p-4 sm:p-5 print:hidden" style={{ maxHeight: '80vh', overflowY: 'auto' }}>
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-4">
           <p className="text-[10px] tracking-[0.3em] text-zinc-400 uppercase">Сравнение ({items.length})</p>
-          <button onClick={onClose} className="text-zinc-400 hover:text-zinc-800 transition-colors text-sm leading-none">✕</button>
+          <button onClick={onClose} className="text-zinc-400 hover:text-zinc-800 transition-colors text-sm leading-none p-2">✕</button>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
           {items.map((item) => (
-            <div key={item.id} className="border border-zinc-200 rounded-xl p-4 space-y-2">
+            <div key={item.id} className="border border-zinc-200 rounded-xl p-3 sm:p-4 space-y-2">
               <p className="font-semibold text-sm text-zinc-800 truncate">{item.title}</p>
               <p className="text-[11px] text-zinc-500">{new Date(item.startDate).toLocaleDateString('bg-BG')} — {new Date(item.endDate).toLocaleDateString('bg-BG')}</p>
               <p className="text-[11px] text-zinc-500">{item.spotsAvailable > 0 ? `${item.spotsAvailable} места` : 'Изчерпано'}</p>
@@ -301,7 +301,7 @@ function FilterDropdown({
       <button
         onClick={() => setOpen((p) => !p)}
         className={[
-          'flex items-center gap-1.5 text-[10px] tracking-widest px-3.5 py-1.5 rounded-full border transition-all duration-200',
+          'flex items-center gap-1.5 text-[10px] tracking-widest px-3.5 py-1.5 rounded-full border transition-all duration-200 whitespace-nowrap flex-shrink-0',
           active
             ? 'border-[#F45B26]/60 text-[#F45B26] bg-[#F45B26]/8'
             : open
@@ -319,7 +319,7 @@ function FilterDropdown({
       </button>
       <div
         ref={panelRef}
-        style={{ display: 'none', position: 'absolute', top: 'calc(100% + 6px)', left: 0, zIndex: 999, minWidth: '160px' }}
+        style={{ display: 'none', position: 'absolute', top: 'calc(100% + 6px)', left: 0, zIndex: 999, minWidth: '160px', maxWidth: 'calc(100vw - 2rem)', maxHeight: '60vh', overflowY: 'auto' }}
         className="bg-white border border-zinc-200 rounded-xl shadow-xl overflow-hidden"
       >
         {children}
@@ -493,7 +493,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
         {[0, 1].map((gi) => (
           <div key={`skel-row-${gi}`}>
             <div className="h-3 bg-zinc-100 rounded-full w-24 mb-5 animate-pulse" />
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-6">
               {[0, 1, 2].map((ci) => (
                 <div key={`skel-col-${gi}-${ci}`} className="space-y-2.5">
                   <div className="h-2.5 bg-zinc-100 rounded-full w-16 mb-4 animate-pulse" />
@@ -520,8 +520,8 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
       `}</style>
 
       {/* Filter bar */}
-      <div ref={filterBarRef} className="mb-10 print:hidden relative z-40">
-        <div className="flex items-center gap-2">
+      <div ref={filterBarRef} className="mb-8 sm:mb-10 print:hidden relative z-40">
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:overflow-visible sm:pb-0 sm:mx-0 sm:px-0 sm:flex-wrap scrollbar-none">
           {/* Dropdown: Destination */}
           <FilterDropdown
             label="DESTINATION"
@@ -666,20 +666,22 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
           </FilterDropdown>
 
           {/* Search + Map */}
-          <div className="flex items-center gap-2 ml-auto">
+          <div className="flex items-center gap-2 flex-shrink-0 sm:ml-auto">
             <input
               type="search"
               placeholder="Търси..."
               value={search}
               onChange={(e) => handleSearch(e.target.value)}
-              className="text-xs bg-white border border-zinc-200 rounded-md px-3 py-1.5 text-zinc-800 placeholder-zinc-300 focus:outline-none focus:border-zinc-400 transition-colors w-40"
+              className="text-xs bg-white border border-zinc-200 rounded-md px-3 py-1.5 text-zinc-800 placeholder-zinc-300 focus:outline-none focus:border-zinc-400 transition-colors w-28 sm:w-40"
+              style={{ minHeight: '36px' }}
             />
             <button
               onClick={() => setMapView((p) => !p)}
               className={[
-                'text-[10px] tracking-widest px-3 py-1.5 rounded-md border transition-all duration-200 whitespace-nowrap',
+                'text-[10px] tracking-widest px-3 py-1.5 rounded-md border transition-all duration-200 whitespace-nowrap flex-shrink-0',
                 mapView ? 'border-zinc-400 text-zinc-900 bg-zinc-100' : 'border-zinc-200 text-zinc-400 hover:border-zinc-400',
               ].join(' ')}
+              style={{ minHeight: '36px' }}
             >
               {mapView ? 'СПИСЪК' : 'КАРТА'}
             </button>
@@ -702,7 +704,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
       {!mapView && (
         <div ref={gridRef}>
           {rows.map(({ rowIdx, groups: rowGroups, showSeasonBanner, season }) => (
-            <div key={rowIdx} className="mb-14">
+            <div key={rowIdx} className="mb-10 sm:mb-14">
               {showSeasonBanner && (
                 <SeasonBanner
                   season={season}
@@ -710,7 +712,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
                   colorClass={SEASON_COLORS[season] ?? 'text-zinc-400'}
                 />
               )}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-8" style={{ rowGap: '2rem' }}>
                 {rowGroups.map((group, colIdx) => {
                   const monthKey = `${group.year}-${group.month}`
                   return (

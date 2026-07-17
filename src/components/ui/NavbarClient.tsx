@@ -140,7 +140,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
         ref={headerRef}
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
       >
-        <nav className="px-5 md:px-8 py-4 flex items-center justify-between">
+        <nav className="px-4 sm:px-5 md:px-8 py-3 sm:py-4 flex items-center justify-between">
           <div className="hidden lg:flex items-center gap-6 flex-1">
             {translatedLinksLeft.map((link, i) => (
               <Link key={`left-${i}`} href={link.href} className={`text-sm font-medium tracking-wider transition-colors duration-200 ${textBase}`}>
@@ -149,7 +149,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
             ))}
           </div>
 
-          <div className={['flex-shrink-0 mx-4 transition-all duration-300', scrolled ? 'w-10' : 'w-20'].join(' ')} />
+          <div className={['flex-shrink-0 mx-4 transition-all duration-300', scrolled ? 'w-10' : 'w-14 sm:w-20'].join(' ')} />
 
           <div className="hidden lg:flex items-center gap-4 flex-1 justify-end">
             {translatedLinksRight.map((link, i) => (
@@ -307,24 +307,42 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
             </div>
           </div>
 
-          <button className={`lg:hidden p-2 ${isLightPage && !scrolled ? 'text-zinc-700' : 'text-white'}`} onClick={() => setMobileOpen(true)} aria-label="Open menu">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <line x1="3" y1="12" x2="21" y2="12" />
-              <line x1="3" y1="18" x2="21" y2="18" />
-            </svg>
-          </button>
+          <div className="flex items-center gap-1 lg:hidden">
+            <button
+              onClick={() => setCartOpen(true)}
+              className={`relative p-2 transition-colors ${isLightPage && !scrolled ? 'text-zinc-700' : 'text-white'}`}
+              aria-label="Cart"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" strokeLinecap="round" strokeLinejoin="round" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <path d="M16 10a4 4 0 01-8 0" />
+              </svg>
+              {itemCount > 0 && (
+                <span className="absolute top-0.5 right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-white text-[9px] font-bold text-black">
+                  {itemCount > 9 ? '9+' : itemCount}
+                </span>
+              )}
+            </button>
+            <button className={`p-2 ${isLightPage && !scrolled ? 'text-zinc-700' : 'text-white'}`} onClick={() => setMobileOpen(true)} aria-label="Open menu">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </button>
+          </div>
         </nav>
       </motion.header>
 
       <Link
         href="/"
-        className="fixed left-1/2 -translate-x-1/2 top-2 z-[51] flex items-center justify-center"
+        className="fixed left-1/2 -translate-x-1/2 top-1.5 sm:top-2 z-[51] flex items-center justify-center"
         style={{ contain: 'layout style' }}
         onMouseEnter={() => setLogoHovered(true)}
         onMouseLeave={() => setLogoHovered(false)}
       >
-        <Image src={logoSrc} alt="Logo" width={140} height={140} priority className={['w-auto transition-[height] duration-300', scrolled ? 'h-10' : 'h-20'].join(' ')} />
+        <Image src={logoSrc} alt="Logo" width={140} height={140} priority className={['w-auto transition-[height] duration-300', scrolled ? 'h-8 sm:h-10' : 'h-14 sm:h-20'].join(' ')} />
       </Link>
 
       <ProgramsMegaMenu open={megaOpen} onClose={() => setMegaOpen(false)} navHeight={navHeight} />
@@ -348,7 +366,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
               data-panel="search"
-              className="fixed top-28 left-1/2 -translate-x-1/2 z-50 w-full max-w-[500px] px-5"
+              className="fixed top-20 sm:top-28 left-1/2 -translate-x-1/2 z-50 w-full max-w-[500px] px-4 sm:px-5"
             >
               <div className="bg-[#0d0d0d] border border-white/20 rounded-lg overflow-hidden shadow-2xl">
                 <div className="flex items-center gap-3 px-5 py-3 border-b border-white/10">
@@ -395,22 +413,32 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="fixed left-0 top-0 bottom-0 z-40 w-[280px] bg-[#0d0d0d] border-r border-white/10 flex flex-col pt-24 lg:hidden"
+              className="fixed left-0 top-0 bottom-0 z-40 w-[85vw] max-w-[300px] bg-[#0d0d0d] border-r border-white/10 flex flex-col pt-20 lg:hidden"
+              style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
             >
-              <nav className="flex-1 overflow-y-auto px-4 space-y-2">
+              <button
+                className="absolute top-3 right-3 p-2 text-white/70 hover:text-white"
+                onClick={() => setMobileOpen(false)}
+                aria-label="Close menu"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+              <nav className="flex-1 overflow-y-auto px-4 space-y-1">
                 {allLinks.map((link, i) => (
                   <Link
                     key={i}
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="block px-4 py-3 rounded text-sm font-medium text-white/80 hover:text-white hover:bg-white/5 transition-colors"
+                    className="block px-4 py-3 rounded text-base font-medium text-white/80 hover:text-white hover:bg-white/5 transition-colors"
                   >
                     {link.label}
                   </Link>
                 ))}
               </nav>
 
-              <div className="border-t border-white/10 p-4 space-y-2">
+              <div className="border-t border-white/10 p-4 space-y-2 flex-shrink-0">
                 {session?.user ? (
                   <>
                     <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="block px-4 py-2.5 rounded text-sm text-white/80 hover:text-white hover:bg-white/5 transition-colors">

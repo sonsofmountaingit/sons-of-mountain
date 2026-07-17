@@ -125,7 +125,7 @@ async function DestinationsContent({ type }: { type?: string }) {
       {destinations.length === 0 && trips.length === 0 && archived.length === 0 && (
         <p className="text-white/30 text-center py-20">Скоро ще добавим дестинации.</p>
       )}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
         {destinations.map((dest: any) => (
           <DestinationCard
             key={dest.id}
@@ -161,7 +161,7 @@ async function DestinationsContent({ type }: { type?: string }) {
               Виж предходни дестинации ({archived.length})
             </span>
           </summary>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8 opacity-60">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 mt-8 opacity-60">
             {archived.map((dest: any) => (
               <DestinationCard
                 key={dest.id}
@@ -187,8 +187,8 @@ export default async function DestinationsPage({
   return (
     <div className="pt-24 pb-20 px-6 min-h-screen">
       <div className="max-w-[1440px] mx-auto">
-        <h1 className="text-5xl md:text-6xl font-bold mb-4">Дестинации</h1>
-        <p className="text-white/50 mb-12 text-lg">Избери своето следващо приключение</p>
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Дестинации</h1>
+        <p className="text-white/50 mb-12 text-sm sm:text-base md:text-lg">Избери своето следващо приключение</p>
         <Suspense>
           <DestinationsContent type={type} />
         </Suspense>
