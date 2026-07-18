@@ -5,16 +5,19 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { motion, AnimatePresence } from 'motion/react'
+import { useTranslations } from '@/lib/use-translations'
 
-const waitlistSchema = z.object({
-  name: z.string().min(2, 'Minimum 2 characters'),
-  email: z.string().email('Invalid email'),
-  phone: z.string().min(6, 'Invalid phone'),
-  participantCount: z.number().min(1).max(10),
-  message: z.string().optional(),
-})
+function makeWaitlistSchema(minCharsMsg: string, invalidEmailMsg: string, invalidPhoneMsg: string) {
+  return z.object({
+    name: z.string().min(2, minCharsMsg),
+    email: z.string().email(invalidEmailMsg),
+    phone: z.string().min(6, invalidPhoneMsg),
+    participantCount: z.number().min(1).max(10),
+    message: z.string().optional(),
+  })
+}
 
-type WaitlistData = z.infer<typeof waitlistSchema>
+type WaitlistData = z.infer<ReturnType<typeof makeWaitlistSchema>>
 
 export type WaitlistItemType = 'trip' | 'program' | 'destination'
 
@@ -30,9 +33,10 @@ export function WaitlistFormModal({ open, onClose, itemType, itemId, itemTitle }
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [position, setPosition] = useState<number | null>(null)
+  const { t } = useTranslations()
 
   const form = useForm<WaitlistData>({
-    resolver: zodResolver(waitlistSchema),
+    resolver: zodResolver(makeWaitlistSchema(t.booking_form.min_chars, t.booking_form.invalid_email, t.booking_form.invalid_phone)),
     defaultValues: { participantCount: 1 },
   })
 
@@ -87,7 +91,7 @@ export function WaitlistFormModal({ open, onClose, itemType, itemId, itemTitle }
           >
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 flex-shrink-0">
               <div>
-                <p className="text-xs text-white/40 uppercase tracking-widest">Waitlist</p>
+                <p className="text-xs text-white/40 uppercase tracking-widest">{t.waitlist_form.title}</p>
                 {itemTitle && <p className="text-sm font-medium">{itemTitle}</p>}
               </div>
               <button onClick={close} className="text-white/40 hover:text-white transition-colors">
@@ -105,37 +109,37 @@ export function WaitlistFormModal({ open, onClose, itemType, itemId, itemTitle }
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                   </div>
-                  <p className="font-semibold mb-2">You've been added to the waitlist!</p>
+                  <p className="font-semibold mb-2">{t.waitlist_form.submitted_title}</p>
                   {position != null && (
-                    <p className="text-sm text-white/50 mb-1">Your position: <span className="text-white font-semibold">{position}</span></p>
+                    <p className="text-sm text-white/50 mb-1">{t.waitlist_form.your_position} <span className="text-white font-semibold">{position}</span></p>
                   )}
-                  <p className="text-sm text-white/50">We'll email you as soon as a spot becomes available.</p>
+                  <p className="text-sm text-white/50">{t.waitlist_form.submitted_subtext}</p>
                   <button onClick={close} className="mt-6 px-6 py-2.5 bg-white text-black text-sm font-semibold rounded hover:bg-white/90">
-                    Close
+                    {t.waitlist_form.close}
                   </button>
                 </div>
               ) : (
                 <>
                   <div className="bg-white/5 border border-white/10 rounded-lg p-4 mb-5">
                     <p className="text-sm text-white/70 leading-relaxed">
-                      There are currently no available spots. Join the waitlist and we'll email you as soon as a spot opens up — <strong className="text-white">this is not a reservation and requires no payment</strong>.
+                      {t.waitlist_form.no_spots_note_prefix} <strong className="text-white">{t.waitlist_form.no_spots_note_bold}</strong>.
                     </p>
                   </div>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                     <div>
-                      <input {...form.register('name')} placeholder="Name" className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30" />
+                      <input {...form.register('name')} placeholder={t.waitlist_form.name_placeholder} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30" />
                       {form.formState.errors.name && <p className="text-xs text-red-400 mt-1">{form.formState.errors.name.message}</p>}
                     </div>
                     <div>
-                      <input {...form.register('email')} type="email" placeholder="Email" className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30" />
+                      <input {...form.register('email')} type="email" placeholder={t.waitlist_form.email_placeholder} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30" />
                       {form.formState.errors.email && <p className="text-xs text-red-400 mt-1">{form.formState.errors.email.message}</p>}
                     </div>
                     <div>
-                      <input {...form.register('phone')} type="tel" placeholder="Phone" className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30" />
+                      <input {...form.register('phone')} type="tel" placeholder={t.waitlist_form.phone_placeholder} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30" />
                       {form.formState.errors.phone && <p className="text-xs text-red-400 mt-1">{form.formState.errors.phone.message}</p>}
                     </div>
                     <div>
-                      <label className="text-xs text-white/50 mb-1.5 block">Number of participants</label>
+                      <label className="text-xs text-white/50 mb-1.5 block">{t.waitlist_form.participants_label}</label>
                       <input
                         {...form.register('participantCount', { valueAsNumber: true })}
                         type="number" min={1} max={10}
@@ -145,7 +149,7 @@ export function WaitlistFormModal({ open, onClose, itemType, itemId, itemTitle }
                     <div>
                       <textarea
                         {...form.register('message')}
-                        placeholder="Note (optional) — e.g., flexible on dates"
+                        placeholder={t.waitlist_form.note_placeholder}
                         rows={2}
                         className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30 resize-none"
                       />
@@ -155,7 +159,7 @@ export function WaitlistFormModal({ open, onClose, itemType, itemId, itemTitle }
                       disabled={submitting}
                       className="w-full py-3 bg-white text-black text-sm font-semibold rounded hover:bg-white/90 transition-colors disabled:opacity-50"
                     >
-                      {submitting ? '...' : 'Join the waitlist'}
+                      {submitting ? '...' : t.waitlist_form.submit}
                     </button>
                   </form>
                 </>

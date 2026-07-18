@@ -6,8 +6,8 @@ type Props = {
 
 export function VouchersHeroBlock({
   eyebrow = 'Sons of Mountains',
-  heading = 'Gift Vouchers',
-  subtext = 'Give the gift of adventure — or treat yourself. Redeemable on any trip, program, or product.',
+  heading = 'Подаръчни ваучери',
+  subtext = 'Подари приключение — или се поглези сам. Валиден за всеки преход, програма или продукт.',
 }: Props) {
   return (
     <div className="mb-16 text-center">

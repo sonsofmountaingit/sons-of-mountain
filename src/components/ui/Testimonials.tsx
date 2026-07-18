@@ -1,8 +1,10 @@
 import { unstable_cache } from 'next/cache'
+import { cookies } from 'next/headers'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { TestimonialsBlock } from '@/components/blocks/testimonials/TestimonialsBlock'
 import { TestimonialsEditButton } from './TestimonialsEditButton'
+import { translations, type Language } from '@/lib/translations'
 
 interface TestimonialDoc {
   id: string
@@ -43,11 +45,15 @@ const getTestimonialsData = unstable_cache(
 
 export async function Testimonials() {
   const { section, topRow, bottomRow } = await getTestimonialsData()
+  const cookieStore = await cookies()
+  const stored = cookieStore.get('language')?.value as Language | undefined
+  const language: Language = stored === 'BG' || stored === 'EN' ? stored : 'BG'
+  const t = translations[language]
 
   return (
     <>
       <TestimonialsBlock
-        heading={section?.heading ?? 'From Our Guests'}
+        heading={section?.heading ?? t.destination_page.from_our_guests}
         subheading={section?.subheading}
         topRow={topRow}
         bottomRow={bottomRow}

@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useState, useRef } from 'react'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'motion/react'
+import { useTranslations } from '@/lib/use-translations'
 
 const LINKS = [
   { label: 'Yacht Festival', href: '/nolimit' },
@@ -19,6 +20,7 @@ export function NolimitNavbar() {
   const [scrolled, setScrolled] = useState(false)
   const lastScrollY = useRef(0)
   const { scrollY } = useScroll()
+  const { t } = useTranslations()
 
   useMotionValueEvent(scrollY, 'change', (current) => {
     const previous = lastScrollY.current
@@ -45,7 +47,7 @@ export function NolimitNavbar() {
           <Link href="/nolimit/sign-up" className="hidden lg:inline-flex px-5 py-2 bg-white text-black text-xs font-semibold rounded hover:bg-white/90 transition-colors">
             Sign up
           </Link>
-          <button className="lg:hidden p-2 text-white" onClick={() => setMobileOpen(true)} aria-label="Open menu">
+          <button className="lg:hidden p-2 text-white" onClick={() => setMobileOpen(true)} aria-label={t.navbar.open_menu}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
               <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
             </svg>
@@ -58,7 +60,7 @@ export function NolimitNavbar() {
           <motion.div initial={{ opacity: 0, x: '100%' }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: '100%' }} transition={{ duration: 0.3 }} className="fixed inset-0 z-[100] bg-black flex flex-col">
             <div className="flex items-center justify-between px-6 h-16">
               <span className="text-sm font-semibold">NoLimit Festival</span>
-              <button onClick={() => setMobileOpen(false)} className="p-2 text-white" aria-label="Close">
+              <button onClick={() => setMobileOpen(false)} className="p-2 text-white" aria-label={t.navbar.close}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>
             </div>

@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { signIn } from '@/lib/auth-client'
 import { mediaUrl } from '@/lib/media-url'
 import { toast } from 'sonner'
+import { useTranslations } from '@/lib/use-translations'
 
 export type CalendarItem = {
   id: string
@@ -56,6 +57,7 @@ function LoginModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: ()
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const { t } = useTranslations()
 
   useEffect(() => {
     if (!modalRef.current) return
@@ -78,7 +80,7 @@ function LoginModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: ()
     const result = await signIn.email({ email, password })
     setLoading(false)
     if (result.error) {
-      setError('Invalid email or password.')
+      setError(t.destination_page.login_invalid)
     } else {
       onSuccess()
     }
@@ -99,11 +101,11 @@ function LoginModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: ()
         >
           ✕
         </button>
-        <p className="text-[10px] tracking-[0.3em] text-zinc-400 uppercase mb-1">Sons of Mountains</p>
-        <h2 className="text-lg font-semibold text-zinc-900 mb-6">Sign in</h2>
+        <p className="text-[10px] tracking-[0.3em] text-zinc-400 uppercase mb-1">{t.destination_page.brand_name}</p>
+        <h2 className="text-lg font-semibold text-zinc-900 mb-6">{t.destination_page.sign_in}</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-[10px] tracking-widest text-zinc-400 uppercase mb-1.5">Email</label>
+            <label className="block text-[10px] tracking-widest text-zinc-400 uppercase mb-1.5">{t.destination_page.email_label}</label>
             <input
               type="email"
               required
@@ -114,7 +116,7 @@ function LoginModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: ()
             />
           </div>
           <div>
-            <label className="block text-[10px] tracking-widest text-zinc-400 uppercase mb-1.5">Password</label>
+            <label className="block text-[10px] tracking-widest text-zinc-400 uppercase mb-1.5">{t.destination_page.password_label}</label>
             <input
               type="password"
               required
@@ -131,13 +133,13 @@ function LoginModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: ()
             className="w-full py-2.5 rounded-lg text-sm font-semibold text-white transition-opacity disabled:opacity-50"
             style={{ backgroundColor: '#F45B26' }}
           >
-            {loading ? 'Signing in…' : 'Sign in'}
+            {loading ? t.destination_page.signing_in : t.destination_page.sign_in}
           </button>
         </form>
         <p className="text-xs text-zinc-400 text-center mt-4">
-          Don't have an account?{' '}
+          {t.destination_page.no_account}{' '}
           <a href="/register" className="text-zinc-600 hover:text-zinc-900 underline underline-offset-2 transition-colors">
-            Sign up
+            {t.destination_page.sign_up}
           </a>
         </p>
       </div>
@@ -158,6 +160,8 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
   const [showLoginModal, setShowLoginModal] = useState(false)
   const soldOut = item.status === 'soldOut' || item.spotsAvailable === 0
   const firstTag = item.tags[0] ?? null
+  const { t, language } = useTranslations()
+  const locale = language === 'EN' ? 'en-US' : 'bg-BG'
 
   // GSAP counter for spots badge on scroll enter
   useEffect(() => {
@@ -247,7 +251,7 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
     e.preventDefault()
     const url = `${window.location.origin}/calendar#trip-${item.id}`
     navigator.clipboard.writeText(url).then(() => {
-      toast.success('Link copied')
+      toast.success(t.destination_page.link_copied)
     })
   }
 
@@ -255,19 +259,19 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
   const badgeBase = 'text-[10px] tracking-widest px-2 py-0.5 rounded-full font-semibold'
   let spotsBadge: React.ReactNode = null
   if (archived) {
-    spotsBadge = <span className={`${badgeBase} text-zinc-400 bg-zinc-100`}>PAST</span>
+    spotsBadge = <span className={`${badgeBase} text-zinc-400 bg-zinc-100`}>{t.destination_page.past}</span>
   } else if (soldOut) {
-    spotsBadge = <span className={`${badgeBase} text-white`} style={{ background: '#F45B26' }}>NO SPOTS</span>
+    spotsBadge = <span className={`${badgeBase} text-white`} style={{ background: '#F45B26' }}>{t.destination_page.no_spots}</span>
   } else if (item.spotsAvailable <= 3) {
     spotsBadge = (
       <span ref={spotsRef} className={`${badgeBase} text-white`} style={{ background: '#F45B26' }}>
-        {spotsCount > 0 ? spotsCount : item.spotsAvailable} SPOTS
+        {spotsCount > 0 ? spotsCount : item.spotsAvailable} {t.destination_page.spots}
       </span>
     )
   } else if (item.spotsAvailable <= 8) {
-    spotsBadge = <span className={`${badgeBase} text-white`} style={{ background: '#F45B26' }}>{item.spotsAvailable} SPOTS</span>
+    spotsBadge = <span className={`${badgeBase} text-white`} style={{ background: '#F45B26' }}>{item.spotsAvailable} {t.destination_page.spots}</span>
   } else {
-    spotsBadge = <span className={`${badgeBase}`} style={{ background: '#F45B2625', color: '#F45B26' }}>{item.spotsAvailable} SPOTS</span>
+    spotsBadge = <span className={`${badgeBase}`} style={{ background: '#F45B2625', color: '#F45B26' }}>{item.spotsAvailable} {t.destination_page.spots}</span>
   }
 
   return (
@@ -309,7 +313,7 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
                   {item.title}
                 </p>
                 <p className="text-xs text-zinc-400 mt-0.5">
-                  {new Date(item.startDate).toLocaleDateString('bg-BG')} — {new Date(item.endDate).toLocaleDateString('bg-BG')}
+                  {new Date(item.startDate).toLocaleDateString(locale)} — {new Date(item.endDate).toLocaleDateString(locale)}
                 </p>
                 <div className="mt-1.5">{spotsBadge}</div>
               </div>
@@ -320,7 +324,7 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
           <button
             ref={wishlistBtnRef}
             onClick={handleWishlistClick}
-            aria-label={isWishlisted ? 'Премахни от любими' : 'Добави в любими'}
+            aria-label={isWishlisted ? t.destination_page.remove_wishlist : t.destination_page.add_wishlist}
             className={[
               'flex items-center justify-center ml-1.5 rounded-lg border transition-all duration-200 flex-shrink-0 print:hidden',
               isWishlisted
@@ -333,7 +337,7 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
               className="text-[8px] tracking-[0.2em] uppercase font-semibold leading-none"
               style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
             >
-              {isWishlisted ? '♥ SAVED' : '♡ WISH'}
+              {isWishlisted ? `♥ ${t.destination_page.saved}` : `♡ ${t.destination_page.wish}`}
             </span>
           </button>
         </div>
@@ -347,14 +351,14 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
               onChange={() => onCompareToggle(item.id)}
               className="accent-white w-3 h-3"
             />
-            Сравни
+            {t.destination_page.compare_action}
           </label>
           <button
             onClick={handleShare}
-            aria-label="Сподели"
+            aria-label={t.destination_page.share_action}
             className="text-[9px] text-zinc-300 hover:text-zinc-600 transition-colors"
           >
-            ↗ Сподели
+            ↗ {t.destination_page.share_action}
           </button>
         </div>
 
@@ -365,7 +369,7 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
                 onClick={() => setWaitlistOpen(true)}
                 className="text-xs text-zinc-400 hover:text-zinc-700 transition-colors mt-1"
               >
-                Уведоми ме при свободно място
+                {t.destination_page.notify_when_free}
               </button>
             )}
             {waitlistOpen && !waitlistSent && (
@@ -373,17 +377,17 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
                 <input
                   type="email"
                   required
-                  placeholder="имейл"
+                  placeholder={t.destination_page.email_placeholder_short}
                   value={waitlistEmail}
                   onChange={(e) => setWaitlistEmail(e.target.value)}
                   className="flex-1 min-w-0 text-xs bg-white border border-zinc-200 rounded px-2 py-2 text-zinc-800 placeholder-zinc-300 focus:outline-none focus:border-zinc-400"
                 />
                 <button type="submit" className="text-xs text-zinc-500 hover:text-zinc-900 transition-colors px-2 py-2">
-                  ОК
+                  {t.destination_page.ok}
                 </button>
               </form>
             )}
-            {waitlistSent && <p className="text-xs text-zinc-400 mt-1">Ще те уведомим.</p>}
+            {waitlistSent && <p className="text-xs text-zinc-400 mt-1">{t.destination_page.will_notify}</p>}
           </div>
         )}
 

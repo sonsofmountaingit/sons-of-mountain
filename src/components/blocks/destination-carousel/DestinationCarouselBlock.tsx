@@ -95,14 +95,17 @@ function DestCard({
 
 export function DestinationCarouselBlock({
   destinations = [],
-  headline = 'Trips, travels and expeditions in Bulgaria and around the world!',
-  subheading = 'Travel with Sons of Mountains where comfort meets adventure.',
+  headline,
+  subheading,
   emptyMessage,
-  destinationButtonText = 'Explore',
+  destinationButtonText,
   introSlide,
 }: DestinationCarouselBlockProps) {
   const { language } = useLanguage()
   const strings = getDefaultStrings(language)
+  const resolvedHeadline = headline ?? strings.hero?.defaultHeadline
+  const resolvedSubheading = subheading ?? strings.hero?.defaultSubtext
+  const resolvedButtonText = destinationButtonText ?? strings.destinations.explore
   if (!destinations.length && emptyMessage) {
     return <section className="py-16 text-center text-neutral-400">{emptyMessage}</section>
   }
@@ -153,9 +156,9 @@ export function DestinationCarouselBlock({
   // Unified layout: intro slide (activeIndex -1) and selected-destination view share the same shell
   {
     const introBgUrl = introSlide?.backgroundImageUrl
-    const heroTitle = activeDest?.overrideTitle ?? activeDest?.name ?? introSlide?.headline ?? headline
-    const heroSub = activeDest?.overrideDescription ?? introSlide?.subheading ?? subheading
-    const heroBtnText = activeDest?.overrideButtonText ?? (activeIndex < 0 ? introSlide?.buttonText : undefined) ?? destinationButtonText
+    const heroTitle = activeDest?.overrideTitle ?? activeDest?.name ?? introSlide?.headline ?? resolvedHeadline
+    const heroSub = activeDest?.overrideDescription ?? introSlide?.subheading ?? resolvedSubheading
+    const heroBtnText = activeDest?.overrideButtonText ?? (activeIndex < 0 ? introSlide?.buttonText : undefined) ?? resolvedButtonText
     const heroHref = activeDest ? (activeDest.href ?? `/destinations/${activeDest.slug}`) : '/destinations'
 
     return (

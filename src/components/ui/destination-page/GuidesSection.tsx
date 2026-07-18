@@ -6,6 +6,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import { mediaUrl } from '@/lib/media-url'
+import { useTranslations } from '@/lib/use-translations'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -32,6 +33,7 @@ const CARD_COLORS = [
 ]
 
 export default function GuidesSection({ guides }: Props) {
+  const { t } = useTranslations()
   const sectionRef = useRef<HTMLElement>(null)
   const leftRef = useRef<HTMLDivElement>(null)
   const rightRef = useRef<HTMLDivElement>(null)
@@ -51,8 +53,8 @@ export default function GuidesSection({ guides }: Props) {
 
   if (!guides?.length) return null
 
-  const eyebrow = guides.length === 1 ? 'YOUR GUIDE' : 'YOUR GUIDES'
-  const heading = guides.length === 1 ? 'Who will be your guide' : 'Who will be your guides?'
+  const eyebrow = guides.length === 1 ? t.destination_page.your_guide_eyebrow : t.destination_page.your_guides_eyebrow
+  const heading = guides.length === 1 ? t.destination_page.who_will_be_guide : t.destination_page.who_will_be_guides
 
   return (
     <section ref={sectionRef} className="py-12 sm:py-14 lg:py-20 px-4 sm:px-6 bg-white text-black">
@@ -86,7 +88,7 @@ export default function GuidesSection({ guides }: Props) {
                       <h3 className="text-lg font-black tracking-tight leading-none">{guide.name}</h3>
                       {guide.yearsExperience ? (
                         <span className="text-[9px] font-bold text-black/30 uppercase tracking-[0.2em] bg-black/5 rounded-full px-2 py-0.5">
-                          {guide.yearsExperience} years
+                          {guide.yearsExperience} {t.destination_page.years_word}
                         </span>
                       ) : null}
                       {guide.instagram ? (

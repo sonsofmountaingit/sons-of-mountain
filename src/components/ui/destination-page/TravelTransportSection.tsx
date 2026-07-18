@@ -1,5 +1,8 @@
+'use client'
+
 import Image from 'next/image'
 import { RichText } from '@payloadcms/richtext-lexical/react'
+import { useTranslations } from '@/lib/use-translations'
 
 interface Props {
   variant?: 'travel' | 'transport' | 'both'
@@ -30,6 +33,7 @@ export function TravelTransportSection({
 }: Props) {
   const hasTravel = variant !== 'transport' && Boolean(travelTitle || hasRichText(travelDescription) || travelImage)
   const hasTransport = variant !== 'travel' && Boolean(transportTitle || hasRichText(transportDescription) || transportMapLink || transportImage)
+  const { t } = useTranslations()
   if (!hasTravel && !hasTransport) return null
 
   return (
@@ -38,7 +42,7 @@ export function TravelTransportSection({
         {hasTravel && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center mb-16 sm:mb-20" data-animate="fade-up">
             <div>
-              <p className="text-xs font-semibold tracking-widest text-black/60 uppercase mb-3 sm:mb-4">ПЪТУВАНЕТО</p>
+              <p className="text-xs font-semibold tracking-widest text-black/60 uppercase mb-3 sm:mb-4">{t.destination_page.the_trip}</p>
               {travelTitle && (
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight mb-4 sm:mb-5">{travelTitle}</h2>
               )}
@@ -52,7 +56,7 @@ export function TravelTransportSection({
               <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
                 <Image
                   src={travelImage}
-                  alt={travelImageAlt ?? (travelTitle ?? 'Пътуването')}
+                  alt={travelImageAlt ?? (travelTitle ?? t.destination_page.the_trip)}
                   fill
                   loading="lazy"
                   quality={80}
@@ -70,7 +74,7 @@ export function TravelTransportSection({
               <div className="relative aspect-[4/3] rounded-lg overflow-hidden order-2 md:order-1">
                 <Image
                   src={transportImage}
-                  alt={transportImageAlt ?? (transportTitle ?? 'Придвижването')}
+                  alt={transportImageAlt ?? (transportTitle ?? t.destination_page.the_transport)}
                   fill
                   loading="lazy"
                   quality={80}
@@ -81,7 +85,7 @@ export function TravelTransportSection({
             )}
             <div className={transportImage ? 'order-1 md:order-2' : 'md:col-span-2'}>
               <p className="text-xs font-semibold tracking-widest text-black/60 uppercase mb-3 sm:mb-4 underline underline-offset-4">
-                ПРИДВИЖВАНЕТО
+                {t.destination_page.the_transport}
               </p>
               {transportTitle && (
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight mb-4 sm:mb-5">{transportTitle}</h2>
@@ -98,7 +102,7 @@ export function TravelTransportSection({
                   rel="noopener noreferrer"
                   className="mt-5 inline-flex items-center gap-2 rounded-md bg-black px-5 py-3 text-sm font-semibold text-white hover:bg-black/80 transition-colors"
                 >
-                  Вижте на Google Maps
+                  {t.destination_page.view_on_maps}
                 </a>
               )}
             </div>

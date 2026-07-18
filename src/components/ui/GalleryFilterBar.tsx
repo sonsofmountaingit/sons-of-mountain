@@ -2,6 +2,7 @@
 
 import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
+import { useTranslations } from '@/lib/use-translations'
 
 type FilterMode = 'all' | 'date' | 'featured'
 
@@ -27,6 +28,7 @@ const SHARE_BUTTONS = [
 export function GalleryFilterBar({ filter, onFilter, slug }: GalleryFilterBarProps) {
   const underlineRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const { t } = useTranslations()
 
   useEffect(() => {
     const container = containerRef.current
@@ -72,7 +74,7 @@ export function GalleryFilterBar({ filter, onFilter, slug }: GalleryFilterBarPro
         </div>
 
         <div className="flex items-center gap-2 text-xs text-white/40">
-          <span className="hidden sm:inline">SHARE</span>
+          <span className="hidden sm:inline">{t.gallery_extra.share_label}</span>
           {SHARE_BUTTONS.map(({ label, icon, color, href }) => (
             <a
               key={label}
@@ -88,7 +90,7 @@ export function GalleryFilterBar({ filter, onFilter, slug }: GalleryFilterBarPro
           ))}
           <button
             onClick={handleCopy}
-            aria-label="Copy link"
+            aria-label={t.a11y.copy_link}
             className="w-7 h-7 rounded-full flex items-center justify-center bg-white/10 text-white/60 hover:text-white transition-colors"
           >
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

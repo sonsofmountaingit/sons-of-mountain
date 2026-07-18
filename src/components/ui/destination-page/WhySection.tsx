@@ -5,6 +5,7 @@ import { RichText } from '@payloadcms/richtext-lexical/react'
 import { useState, useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useTranslations } from '@/lib/use-translations'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -36,18 +37,20 @@ interface Props {
   endDate?: string | null
 }
 
-const DIFFICULTY_LABELS: Record<number, string> = {
-  1: 'Very easy',
-  2: 'Easy',
-  3: 'Moderate',
-  4: 'Hard',
-  5: 'Very hard',
-}
-
-function DifficultyLabel(score: number | null | undefined) {
-  if (score == null) return null
-  const level = Math.max(1, Math.min(5, Math.round(score)))
-  return DIFFICULTY_LABELS[level]
+function useDifficultyLabel() {
+  const { t } = useTranslations()
+  const labels: Record<number, string> = {
+    1: t.destination_page.very_easy,
+    2: t.destination_page.easy,
+    3: t.destination_page.moderate,
+    4: t.destination_page.hard,
+    5: t.destination_page.very_hard,
+  }
+  return (score: number | null | undefined) => {
+    if (score == null) return null
+    const level = Math.max(1, Math.min(5, Math.round(score)))
+    return labels[level]
+  }
 }
 
 function VideoCard({
@@ -59,16 +62,17 @@ function VideoCard({
   rotate: string
   onPlay: () => void
 }) {
+  const { t } = useTranslations()
   return (
     <button
       onClick={onPlay}
       className={`relative w-40 sm:w-52 aspect-[9/16] rounded-2xl overflow-hidden shadow-xl flex-shrink-0 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black ${rotate}`}
-      aria-label={`Play video${video.label ? `: ${video.label}` : ''}`}
+      aria-label={`${t.destination_page.play_video}${video.label ? `: ${video.label}` : ''}`}
     >
       {video.thumbnailUrl ? (
         <Image
           src={video.thumbnailUrl}
-          alt={video.thumbnailAlt ?? video.label ?? 'Video thumbnail'}
+          alt={video.thumbnailAlt ?? video.label ?? t.destination_page.video_thumbnail}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width: 640px) 160px, 208px"
@@ -117,6 +121,9 @@ function VideoModal({
   onBook: () => void
 }) {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const { t, language } = useTranslations()
+  const locale = language === 'EN' ? 'en-US' : 'bg-BG'
+  const getDifficultyLabel = useDifficultyLabel()
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
@@ -132,9 +139,9 @@ function VideoModal({
     videoRef.current?.play().catch(() => {})
   }, [])
 
-  const diffLabel = DifficultyLabel(difficulty)
+  const diffLabel = getDifficultyLabel(difficulty)
   const dateStr = startDate && endDate
-    ? `${new Date(startDate).toLocaleDateString('bg-BG', { day: 'numeric', month: 'short' })} – ${new Date(endDate).toLocaleDateString('bg-BG', { day: 'numeric', month: 'short', year: 'numeric' })}`
+    ? `${new Date(startDate).toLocaleDateString(locale, { day: 'numeric', month: 'short' })} – ${new Date(endDate).toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' })}`
     : null
 
   return (
@@ -146,7 +153,7 @@ function VideoModal({
         <button
           onClick={onClose}
           className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
-          aria-label="Close"
+          aria-label={t.a11y.close}
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
             <path d="M18 6 6 18M6 6l12 12" />
@@ -172,13 +179,13 @@ function VideoModal({
             <div className="flex flex-wrap gap-x-5 gap-y-1 text-sm">
               {price != null && price > 0 && (
                 <div className="flex flex-col">
-                  <span className="text-white/50 text-[10px] uppercase tracking-widest">Price</span>
+                  <span className="text-white/50 text-[10px] uppercase tracking-widest">{t.destination_page.price_label}</span>
                   <span className="text-white font-semibold">{price.toLocaleString('de-DE')} €</span>
                 </div>
               )}
               {spotsAvailable != null && (
                 <div className="flex flex-col">
-                  <span className="text-white/50 text-[10px] uppercase tracking-widest">Available spots</span>
+                  <span className="text-white/50 text-[10px] uppercase tracking-widest">{t.destination_page.available_spots_label}</span>
                   <span className={`font-semibold ${spotsAvailable <= 3 ? 'text-orange-400' : 'text-white'}`}>
                     {spotsAvailable}{spotsTotal ? ` / ${spotsTotal}` : ''}
                   </span>
@@ -186,13 +193,13 @@ function VideoModal({
               )}
               {diffLabel && (
                 <div className="flex flex-col">
-                  <span className="text-white/50 text-[10px] uppercase tracking-widest">Difficulty</span>
+                  <span className="text-white/50 text-[10px] uppercase tracking-widest">{t.destination_page.difficulty_label}</span>
                   <span className="text-white font-semibold">{diffLabel}</span>
                 </div>
               )}
               {dateStr && (
                 <div className="flex flex-col">
-                  <span className="text-white/50 text-[10px] uppercase tracking-widest">Dates</span>
+                  <span className="text-white/50 text-[10px] uppercase tracking-widest">{t.destination_page.dates_label}</span>
                   <span className="text-white font-semibold">{dateStr}</span>
                 </div>
               )}
@@ -205,7 +212,7 @@ function VideoModal({
             onClick={onBook}
             className="w-full py-3 rounded-xl bg-white text-black text-sm font-semibold hover:bg-white/90 active:scale-[0.98] transition-all duration-150"
           >
-            Book a spot
+            {t.destination_page.book_a_spot}
           </button>
         </div>
       </div>
@@ -233,6 +240,7 @@ export function WhySection({
   const textRef = useRef<HTMLDivElement>(null)
   const leftCardRef = useRef<HTMLDivElement>(null)
   const rightCardRef = useRef<HTMLDivElement>(null)
+  const { t } = useTranslations()
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -285,7 +293,7 @@ export function WhySection({
 
           <div ref={textRef} className="text-center flex-shrink-0 max-w-lg w-full">
             <p className="text-[10px] font-semibold tracking-[0.2em] text-black/35 uppercase mb-3 sm:mb-4">
-              WHY {name.toUpperCase()}?
+              {t.destination_page.why_prefix} {name.toUpperCase()}?
             </p>
             {heading && (
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight tracking-tight mb-4 sm:mb-5">

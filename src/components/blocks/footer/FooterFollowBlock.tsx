@@ -1,5 +1,7 @@
 'use client'
 
+import { useTranslations } from '@/lib/use-translations'
+
 type Props = {
   followHeading?: string
   followSubtext?: string
@@ -10,17 +12,20 @@ type Props = {
 }
 
 export function FooterFollowBlock({
-  followHeading = 'Follow us!',
-  followSubtext = 'Become part of our community and follow our adventures closely.',
+  followHeading,
+  followSubtext,
   facebookUrl = 'https://facebook.com/sonsofmountains',
   facebookFollowers = '20.2K',
   instagramUrl = 'https://instagram.com/sonsofmountains',
   instagramFollowers = '23.8K',
 }: Props) {
+  const { t } = useTranslations()
+  const heading = followHeading ?? t.footer.follow_heading
+  const subtext = followSubtext ?? t.footer_follow.subtext
   return (
     <div style={{ backgroundColor: '#1c1c1c', borderRadius: '1rem', padding: '1.5rem' }}>
-      <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#ffffff', margin: '0 0 0.5rem 0' }}>{followHeading}</h3>
-      <p style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.5)', margin: '0 0 1.25rem 0', lineHeight: 1.55 }}>{followSubtext}</p>
+      <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#ffffff', margin: '0 0 0.5rem 0' }}>{heading}</h3>
+      <p style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.5)', margin: '0 0 1.25rem 0', lineHeight: 1.55 }}>{subtext}</p>
       <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
         <a href={facebookUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', color: '#ffffff' }}>
           <svg width="34" height="34" viewBox="0 0 34 34" fill="none"><rect width="34" height="34" rx="8" fill="#1877F2"/><path d="M23 17c0-3.314-2.686-6-6-6s-6 2.686-6 6c0 2.995 2.193 5.477 5.063 5.927V18.89h-1.524V17h1.524v-1.323c0-1.504.896-2.334 2.265-2.334.656 0 1.342.117 1.342.117v1.476h-.756c-.744 0-.976.462-.976.936V17h1.66l-.265 1.89h-1.395v4.037C20.807 22.477 23 19.995 23 17z" fill="white"/></svg>

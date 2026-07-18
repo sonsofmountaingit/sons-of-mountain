@@ -40,9 +40,9 @@ export function CalendarCtaBlock({
   const { language } = useLanguage()
   const strings = getDefaultStrings(language)
 
-  const heading = customHeading ?? 'Looking for your next adventure?'
-  const subheading = customSubheading ?? 'Browse all upcoming trips.'
-  const buttonText = customButtonText ?? strings.calendar.title
+  const heading = customHeading ?? strings.calendarCta.heading
+  const subheading = customSubheading ?? strings.calendarCta.subheading
+  const buttonText = customButtonText ?? strings.calendarCta.button
   const images: (string | null)[] = Array.from({ length: 5 }, (_, i) => destinationImages[i] ?? null)
 
   const sectionRef = useRef<HTMLElement>(null)

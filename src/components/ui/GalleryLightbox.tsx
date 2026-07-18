@@ -3,6 +3,7 @@
 import { useEffect, useRef, useCallback } from 'react'
 import { gsap } from 'gsap'
 import { mediaUrl } from '@/lib/media-url'
+import { useTranslations } from '@/lib/use-translations'
 
 interface LightboxImage {
   image: { url?: string | null; width?: number | null; height?: number | null; alt?: string } | null
@@ -20,6 +21,7 @@ interface GalleryLightboxProps {
 export function GalleryLightbox({ images, currentIndex, onClose, onNavigate, photographerName }: GalleryLightboxProps) {
   const overlayRef = useRef<HTMLDivElement>(null)
   const imgRef = useRef<HTMLImageElement>(null)
+  const { t } = useTranslations()
 
   useEffect(() => {
     gsap.fromTo(overlayRef.current, { opacity: 0 }, { opacity: 1, duration: 0.25 })
@@ -56,7 +58,7 @@ export function GalleryLightbox({ images, currentIndex, onClose, onNavigate, pho
       <button
         onClick={handleClose}
         className="absolute top-5 right-5 text-white/60 hover:text-white transition-colors text-3xl leading-none w-10 h-10 flex items-center justify-center"
-        aria-label="Close"
+        aria-label={t.a11y.close}
       >
         ×
       </button>
@@ -65,7 +67,7 @@ export function GalleryLightbox({ images, currentIndex, onClose, onNavigate, pho
         <button
           onClick={() => onNavigate(currentIndex - 1)}
           className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors p-3"
-          aria-label="Previous"
+          aria-label={t.a11y.previous}
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M15 18l-6-6 6-6" />
@@ -77,7 +79,7 @@ export function GalleryLightbox({ images, currentIndex, onClose, onNavigate, pho
         <button
           onClick={() => onNavigate(currentIndex + 1)}
           className="absolute right-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors p-3"
-          aria-label="Next"
+          aria-label={t.a11y.next}
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M9 18l6-6-6-6" />

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from '@/lib/use-translations'
 
 interface StockAlertButtonProps {
   itemType: 'trip' | 'product' | 'program' | 'destination'
@@ -12,6 +13,7 @@ export function StockAlertButton({ itemType, itemId }: StockAlertButtonProps) {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
+  const { t } = useTranslations()
 
   async function submit(e: React.FormEvent) {
     e.preventDefault()
@@ -30,7 +32,7 @@ export function StockAlertButton({ itemType, itemId }: StockAlertButtonProps) {
   }
 
   if (submitted) {
-    return <p className="text-sm text-green-600">We will notify you when this becomes available.</p>
+    return <p className="text-sm text-green-600">{t.shop.stock_alert_confirmation}</p>
   }
 
   return (
@@ -40,7 +42,7 @@ export function StockAlertButton({ itemType, itemId }: StockAlertButtonProps) {
           <input
             type="email"
             required
-            placeholder="your@email.com"
+            placeholder={t.shop.stock_alert_email_placeholder}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="flex-1 rounded border px-3 py-2 text-sm"
@@ -50,7 +52,7 @@ export function StockAlertButton({ itemType, itemId }: StockAlertButtonProps) {
             disabled={loading}
             className="rounded bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 disabled:opacity-50"
           >
-            Notify me
+            {t.shop.stock_alert_notify_me}
           </button>
         </form>
       ) : (
@@ -58,7 +60,7 @@ export function StockAlertButton({ itemType, itemId }: StockAlertButtonProps) {
           onClick={() => setOpen(true)}
           className="text-sm font-medium text-gray-600 underline hover:text-gray-900"
         >
-          Notify me when available
+          {t.shop.stock_alert_cta}
         </button>
       )}
     </div>

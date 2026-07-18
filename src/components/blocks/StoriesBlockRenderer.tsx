@@ -43,14 +43,14 @@ export function StoriesBlockRenderer({ block }: StoriesBlockProps) {
           <button
             onClick={() => scroll('left')}
             className="w-9 h-9 flex items-center justify-center border border-white/20 rounded-full hover:bg-white/10 transition-colors"
-            aria-label="Scroll left"
+            aria-label={strings.a11y.scrollLeft}
           >
             ←
           </button>
           <button
             onClick={() => scroll('right')}
             className="w-9 h-9 flex items-center justify-center border border-white/20 rounded-full hover:bg-white/10 transition-colors"
-            aria-label="Scroll right"
+            aria-label={strings.a11y.scrollRight}
           >
             →
           </button>

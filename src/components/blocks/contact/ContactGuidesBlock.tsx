@@ -27,7 +27,7 @@ const getGuides = unstable_cache(
   { tags: ['guides'], revalidate: 3600 },
 )
 
-export async function ContactGuidesBlock({ heading = 'Follow our guides' }: { heading?: string }) {
+export async function ContactGuidesBlock({ heading = 'Разгледай нашите гидове' }: { heading?: string }) {
   const guides = await getGuides()
   return <ContactGuidesBlockRenderer heading={heading} guides={guides} />
 }

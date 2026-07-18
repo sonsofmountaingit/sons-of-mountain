@@ -4,6 +4,7 @@ import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { RichText } from '@payloadcms/richtext-lexical/react'
+import { useTranslations } from '@/lib/use-translations'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -19,6 +20,7 @@ interface Props {
 }
 
 export function FaqSection({ faq, email, phone }: Props) {
+  const { t } = useTranslations()
   const sectionRef = useRef<HTMLElement>(null)
   const headRef = useRef<HTMLDivElement>(null)
   const listRef = useRef<HTMLDivElement>(null)
@@ -45,11 +47,11 @@ export function FaqSection({ faq, email, phone }: Props) {
           <p className="text-xs font-semibold tracking-[0.2em] text-black/40 uppercase mb-3 sm:mb-4">FAQ</p>
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 sm:gap-6">
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight tracking-tight max-w-md">
-              Често Задавани<br />Въпроси
+              {t.destination_page.faq_title}<br />{t.destination_page.faq_title_line2}
             </h2>
             {(email || phone) && (
               <div className="flex flex-col gap-1.5 sm:gap-2 sm:text-right">
-                <p className="text-xs text-black/40 uppercase tracking-widest mb-0.5 sm:mb-1">Има нещо неясно?</p>
+                <p className="text-xs text-black/40 uppercase tracking-widest mb-0.5 sm:mb-1">{t.destination_page.faq_unclear_prompt}</p>
                 {email && (
                   <a href={`mailto:${email}`} className="text-xs sm:text-sm text-black/60 hover:text-black transition-colors underline underline-offset-4 decoration-black/20 hover:decoration-black break-all">
                     {email}

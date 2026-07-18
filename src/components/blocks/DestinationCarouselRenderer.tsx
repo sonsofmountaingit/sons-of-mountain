@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import { motion } from 'motion/react'
 import { DestinationCard } from '@/components/ui/DestinationCard'
 import { BlockWrapper, type BlockStyleProps } from '@/puck/BlockWrapper'
+import { useTranslations } from '@/lib/use-translations'
 
 interface Destination {
   id: string
@@ -23,6 +24,7 @@ export function DestinationCarouselRenderer({ block }: DestinationCarouselProps)
   const { title, destinations, ...styleProps } = block
   const items = destinations ?? []
   const scrollRef = useRef<HTMLDivElement>(null)
+  const { t } = useTranslations()
 
   function scroll(dir: 'left' | 'right') {
     if (!scrollRef.current) return
@@ -39,7 +41,7 @@ export function DestinationCarouselRenderer({ block }: DestinationCarouselProps)
           <button
             onClick={() => scroll('left')}
             className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center bg-black/60 border border-white/20 rounded-full hover:bg-black/80 transition-colors"
-            aria-label="Scroll left"
+            aria-label={t.a11y.scroll_left}
           >
             ←
           </button>
@@ -63,7 +65,7 @@ export function DestinationCarouselRenderer({ block }: DestinationCarouselProps)
           <button
             onClick={() => scroll('right')}
             className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center bg-black/60 border border-white/20 rounded-full hover:bg-black/80 transition-colors"
-            aria-label="Scroll right"
+            aria-label={t.a11y.scroll_right}
           >
             →
           </button>

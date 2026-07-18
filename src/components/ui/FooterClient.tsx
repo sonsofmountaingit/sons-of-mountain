@@ -157,7 +157,7 @@ export function FooterClient({
         </div>
 
         {/* Big brand text */}
-        <div data-reveal style={{ overflow: 'hidden', paddingTop: '2.5rem', userSelect: 'none', width: '100vw', position: 'relative', left: '50%', transform: 'translateX(-50%)' }}>
+        <div data-reveal style={{ overflow: 'hidden', paddingTop: '2.5rem', userSelect: 'none', width: '100%', display: 'flex', justifyContent: 'center' }}>
           <p style={{
             fontSize: '13vw',
             fontWeight: 900,

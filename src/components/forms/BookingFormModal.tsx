@@ -5,13 +5,16 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { motion, AnimatePresence } from 'motion/react'
+import { useTranslations } from '@/lib/use-translations'
 
-const step1Schema = z.object({
-  firstName: z.string().min(2, 'Минимум 2 символа'),
-  lastName: z.string().min(2, 'Минимум 2 символа'),
-  email: z.string().email('Невалиден имейл'),
-  phone: z.string().min(6, 'Невалиден телефон'),
-})
+function makeStep1Schema(minCharsMsg: string, invalidEmailMsg: string, invalidPhoneMsg: string) {
+  return z.object({
+    firstName: z.string().min(2, minCharsMsg),
+    lastName: z.string().min(2, minCharsMsg),
+    email: z.string().email(invalidEmailMsg),
+    phone: z.string().min(6, invalidPhoneMsg),
+  })
+}
 
 const step2Schema = z.object({
   participantCount: z.number().min(1).max(10),
@@ -23,13 +26,15 @@ const step2Schema = z.object({
   questions: z.string().optional(),
 })
 
-const step3Schema = z.object({
-  agreedToTerms: z.literal(true, { message: 'Задължително' }),
-})
+function makeStep3Schema(requiredMsg: string) {
+  return z.object({
+    agreedToTerms: z.literal(true, { message: requiredMsg }),
+  })
+}
 
-type Step1Data = z.infer<typeof step1Schema>
+type Step1Data = z.infer<ReturnType<typeof makeStep1Schema>>
 type Step2Data = z.infer<typeof step2Schema>
-type Step3Data = z.infer<typeof step3Schema>
+type Step3Data = z.infer<ReturnType<typeof makeStep3Schema>>
 
 interface CarpoolRide {
   id: string
@@ -66,13 +71,14 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
   const [selectedRideId, setSelectedRideId] = useState<string | null>(null)
 
   const isSoldOut = trip.status === 'soldOut' || trip.spotsAvailable === 0
+  const { t, language } = useTranslations()
 
-  const form1 = useForm<Step1Data>({ resolver: zodResolver(step1Schema) })
+  const form1 = useForm<Step1Data>({ resolver: zodResolver(makeStep1Schema(t.booking_form.min_chars, t.booking_form.invalid_email, t.booking_form.invalid_phone)) })
   const form2 = useForm<Step2Data>({
     resolver: zodResolver(step2Schema),
     defaultValues: { participantCount: 1, carpool: 'solo' },
   })
-  const form3 = useForm<Step3Data>({ resolver: zodResolver(step3Schema) })
+  const form3 = useForm<Step3Data>({ resolver: zodResolver(makeStep3Schema(t.booking_form.required)) })
 
   const carpoolValue = form2.watch('carpool')
 
@@ -136,7 +142,8 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
     form3.reset()
   }
 
-  const dateRange = `${new Date(trip.startDate).toLocaleDateString('bg-BG', { day: 'numeric', month: 'long' })} — ${new Date(trip.endDate).toLocaleDateString('bg-BG', { day: 'numeric', month: 'long', year: 'numeric' })}`
+  const locale = language === 'EN' ? 'en-US' : 'bg-BG'
+  const dateRange = `${new Date(trip.startDate).toLocaleDateString(locale, { day: 'numeric', month: 'long' })} — ${new Date(trip.endDate).toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })}`
   const selectedRide = availableRides.find((r) => r.id === selectedRideId)
 
   return (
@@ -145,9 +152,9 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
         <div className="flex items-start justify-between gap-4 mb-3">
           <p className="text-sm text-white/70">{dateRange}</p>
           {isSoldOut ? (
-            <span className="flex-shrink-0 px-2.5 py-1 text-xs font-medium bg-white/10 text-white/40 rounded-full">НЯМА МЕСТА</span>
+            <span className="flex-shrink-0 px-2.5 py-1 text-xs font-medium bg-white/10 text-white/40 rounded-full">{t.booking_form.no_spots}</span>
           ) : (
-            <span className="flex-shrink-0 px-2.5 py-1 text-xs font-semibold bg-white text-black rounded-full">САМО {trip.spotsAvailable} МЕСТА</span>
+            <span className="flex-shrink-0 px-2.5 py-1 text-xs font-semibold bg-white text-black rounded-full">{t.booking_form.only_spots_prefix} {trip.spotsAvailable} {t.booking_form.only_spots_suffix}</span>
           )}
         </div>
         {trip.tags.length > 0 && (
@@ -159,14 +166,14 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
         )}
         <div className="flex items-center justify-between">
           <p className="text-sm text-white/50">
-            от <span className="text-white font-semibold">{trip.price} {trip.currency}</span>
+            {t.booking_form.from_price} <span className="text-white font-semibold">{trip.price} {trip.currency}</span>
           </p>
           <button
             onClick={() => setOpen(true)}
             disabled={isSoldOut}
             className="px-4 py-2 text-sm font-semibold bg-white text-black rounded hover:bg-white/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            ЗАПИШИ СЕ
+            {t.booking_form.sign_up}
           </button>
         </div>
       </div>
@@ -189,7 +196,7 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
             >
               <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 flex-shrink-0">
                 <div>
-                  <p className="text-xs text-white/40 uppercase tracking-widest">Записване</p>
+                  <p className="text-xs text-white/40 uppercase tracking-widest">{t.booking_form.signup_title}</p>
                   <p className="text-sm font-medium">{trip.title || dateRange}</p>
                 </div>
                 <button onClick={close} className="text-white/40 hover:text-white transition-colors">
@@ -213,40 +220,40 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
                         <polyline points="20 6 9 17 4 12"/>
                       </svg>
                     </div>
-                    <p className="font-semibold mb-2">Заявката е изпратена!</p>
-                    <p className="text-sm text-white/50">Ще се свържем с теб до 24 часа.</p>
+                    <p className="font-semibold mb-2">{t.booking_form.submitted_title}</p>
+                    <p className="text-sm text-white/50">{t.booking_form.submitted_subtext}</p>
                     <button onClick={close} className="mt-6 px-6 py-2.5 bg-white text-black text-sm font-semibold rounded hover:bg-white/90">
-                      Затвори
+                      {t.booking_form.close}
                     </button>
                   </div>
                 ) : step === 1 ? (
                   <form onSubmit={form1.handleSubmit(onStep1)} className="space-y-4">
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <input {...form1.register('firstName')} placeholder="Име" className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30" />
+                        <input {...form1.register('firstName')} placeholder={t.booking_form.first_name} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30" />
                         {form1.formState.errors.firstName && <p className="text-xs text-red-400 mt-1">{form1.formState.errors.firstName.message}</p>}
                       </div>
                       <div>
-                        <input {...form1.register('lastName')} placeholder="Фамилия" className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30" />
+                        <input {...form1.register('lastName')} placeholder={t.booking_form.last_name} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30" />
                         {form1.formState.errors.lastName && <p className="text-xs text-red-400 mt-1">{form1.formState.errors.lastName.message}</p>}
                       </div>
                     </div>
                     <div>
-                      <input {...form1.register('email')} type="email" placeholder="Имейл" className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30" />
+                      <input {...form1.register('email')} type="email" placeholder={t.booking_form.email} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30" />
                       {form1.formState.errors.email && <p className="text-xs text-red-400 mt-1">{form1.formState.errors.email.message}</p>}
                     </div>
                     <div>
-                      <input {...form1.register('phone')} type="tel" placeholder="Телефон" className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30" />
+                      <input {...form1.register('phone')} type="tel" placeholder={t.booking_form.phone} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30" />
                       {form1.formState.errors.phone && <p className="text-xs text-red-400 mt-1">{form1.formState.errors.phone.message}</p>}
                     </div>
                     <button type="submit" className="w-full py-3 bg-white text-black text-sm font-semibold rounded hover:bg-white/90 transition-colors">
-                      Напред →
+                      {t.booking_form.next}
                     </button>
                   </form>
                 ) : step === 2 ? (
                   <form onSubmit={form2.handleSubmit(onStep2)} className="space-y-4">
                     <div>
-                      <label className="text-xs text-white/50 mb-1.5 block">Брой участници</label>
+                      <label className="text-xs text-white/50 mb-1.5 block">{t.booking_form.participant_count}</label>
                       <input
                         {...form2.register('participantCount', { valueAsNumber: true })}
                         type="number" min={1} max={10}
@@ -255,12 +262,12 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
                     </div>
 
                     <div>
-                      <label className="text-xs text-white/50 mb-2 block">Споделено пътуване</label>
+                      <label className="text-xs text-white/50 mb-2 block">{t.booking_form.carpool_label}</label>
                       <div className="space-y-2">
                         {([
-                          ['organizer', 'Аз съм шофьор на споделено пътуване'],
-                          ['passenger', 'Искам да участвам в споделено пътуване'],
-                          ['solo', 'Сам ще дойда'],
+                          ['organizer', t.booking_form.carpool_organizer],
+                          ['passenger', t.booking_form.carpool_passenger],
+                          ['solo', t.booking_form.carpool_solo],
                         ] as const).map(([val, label]) => (
                           <label key={val} className="flex items-center gap-3 cursor-pointer group">
                             <input
@@ -278,19 +285,19 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
                       {carpoolValue === 'organizer' && (
                         <div className="mt-3 space-y-3 border-t border-white/10 pt-3">
                           <div>
-                            <label className="text-xs text-white/50 mb-1.5 block">Тип превозно средство</label>
+                            <label className="text-xs text-white/50 mb-1.5 block">{t.booking_form.vehicle_type_label}</label>
                             <input
                               {...form2.register('carpoolVehicleType')}
-                              placeholder="напр. SUV, седан, бус..."
+                              placeholder={t.booking_form.vehicle_type_placeholder}
                               className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30"
                             />
                           </div>
                           <div>
-                            <label className="text-xs text-white/50 mb-1.5 block">Свободни места</label>
+                            <label className="text-xs text-white/50 mb-1.5 block">{t.booking_form.free_seats_label}</label>
                             <input
                               {...form2.register('carpoolSeats', { valueAsNumber: true })}
                               type="number" min={1} max={8}
-                              placeholder="брой свободни места"
+                              placeholder={t.booking_form.free_seats_placeholder}
                               className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30"
                             />
                             {form2.formState.errors.carpoolSeats && (
@@ -298,10 +305,10 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
                             )}
                           </div>
                           <div>
-                            <label className="text-xs text-white/50 mb-1.5 block">Тръгване от</label>
+                            <label className="text-xs text-white/50 mb-1.5 block">{t.booking_form.departure_from_label}</label>
                             <input
                               {...form2.register('carpoolFrom')}
-                              placeholder="напр. София, кв. Лозенец..."
+                              placeholder={t.booking_form.departure_from_placeholder}
                               className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30"
                             />
                           </div>
@@ -311,11 +318,11 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
                       {/* Passenger — available rides */}
                       {carpoolValue === 'passenger' && (
                         <div className="mt-3 border-t border-white/10 pt-3">
-                          <p className="text-xs text-white/50 mb-2">Налични пътувания</p>
+                          <p className="text-xs text-white/50 mb-2">{t.booking_form.available_rides}</p>
                           {ridesLoading ? (
-                            <p className="text-xs text-white/30">Зареждане...</p>
+                            <p className="text-xs text-white/30">{t.booking_form.loading}</p>
                           ) : availableRides.length === 0 ? (
-                            <p className="text-xs text-white/30">Няма налични споделени пътувания за тази дата. Заявката ти ще бъде записана и ще те свържем с организатор.</p>
+                            <p className="text-xs text-white/30">{t.booking_form.no_rides}</p>
                           ) : (
                             <div className="space-y-2">
                               {availableRides.map((ride) => (
@@ -331,11 +338,11 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
                                 >
                                   <div className="font-medium">{ride.departureFrom}</div>
                                   <div className="text-xs text-white/50 mt-0.5">
-                                    {ride.vehicleType} · {ride.seatsAvailable - ride.passengersCount} свободни места · {ride.organizerName}
+                                    {ride.vehicleType} · {ride.seatsAvailable - ride.passengersCount} {t.booking_form.free_seats_short} · {ride.organizerName}
                                   </div>
                                   {ride.departureTime && (
                                     <div className="text-xs text-white/40 mt-0.5">
-                                      {new Date(ride.departureTime).toLocaleDateString('bg-BG', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })}
+                                      {new Date(ride.departureTime).toLocaleDateString(locale, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })}
                                     </div>
                                   )}
                                 </button>
@@ -347,17 +354,17 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
                     </div>
 
                     <div>
-                      <textarea {...form2.register('dietaryNotes')} placeholder="Хранителни предпочитания / алергии (по желание)" rows={2} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30 resize-none" />
+                      <textarea {...form2.register('dietaryNotes')} placeholder={t.booking_form.dietary_placeholder} rows={2} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30 resize-none" />
                     </div>
                     <div>
-                      <textarea {...form2.register('questions')} placeholder="Въпроси (по желание)" rows={2} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30 resize-none" />
+                      <textarea {...form2.register('questions')} placeholder={t.booking_form.questions_placeholder} rows={2} className="w-full bg-white/5 border border-white/10 rounded px-3 py-2.5 text-sm focus:outline-none focus:border-white/30 resize-none" />
                     </div>
                     <div className="flex gap-3">
                       <button type="button" onClick={() => setStep(1)} className="flex-1 py-3 border border-white/20 text-sm font-medium rounded hover:bg-white/5 transition-colors">
-                        ← Назад
+                        ← {t.booking_form.back}
                       </button>
                       <button type="submit" className="flex-1 py-3 bg-white text-black text-sm font-semibold rounded hover:bg-white/90 transition-colors">
-                        Напред →
+                        {t.booking_form.next}
                       </button>
                     </div>
                   </form>
@@ -367,20 +374,20 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
                       <p>{step1Data?.firstName} {step1Data?.lastName}</p>
                       <p className="text-white/50">{step1Data?.email}</p>
                       <p className="text-white/50">{step1Data?.phone}</p>
-                      <p className="text-white/50">{step2Data?.participantCount} участник(а)</p>
+                      <p className="text-white/50">{step2Data?.participantCount} {t.booking_form.participants_suffix}</p>
                       {step2Data?.carpool === 'organizer' && (
                         <>
-                          <p className="text-white/50">Организатор на споделено пътуване</p>
-                          {step2Data.carpoolVehicleType && <p className="text-white/50">Превозно средство: {step2Data.carpoolVehicleType}</p>}
-                          {step2Data.carpoolSeats && <p className="text-white/50">Свободни места: {step2Data.carpoolSeats}</p>}
-                          {step2Data.carpoolFrom && <p className="text-white/50">Тръгване от: {step2Data.carpoolFrom}</p>}
+                          <p className="text-white/50">{t.booking_form.carpool_organizer_summary}</p>
+                          {step2Data.carpoolVehicleType && <p className="text-white/50">{t.booking_form.vehicle_summary} {step2Data.carpoolVehicleType}</p>}
+                          {step2Data.carpoolSeats && <p className="text-white/50">{t.booking_form.free_seats_summary} {step2Data.carpoolSeats}</p>}
+                          {step2Data.carpoolFrom && <p className="text-white/50">{t.booking_form.departure_summary} {step2Data.carpoolFrom}</p>}
                         </>
                       )}
                       {step2Data?.carpool === 'passenger' && (
                         <>
-                          <p className="text-white/50">Търси споделено пътуване</p>
+                          <p className="text-white/50">{t.booking_form.carpool_passenger_summary}</p>
                           {selectedRide && (
-                            <p className="text-white/50">Избрано: {selectedRide.departureFrom} · {selectedRide.vehicleType}</p>
+                            <p className="text-white/50">{t.booking_form.selected_ride} {selectedRide.departureFrom} · {selectedRide.vehicleType}</p>
                           )}
                         </>
                       )}
@@ -388,10 +395,10 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
                     <label className="flex items-start gap-3 cursor-pointer">
                       <input {...form3.register('agreedToTerms')} type="checkbox" className="mt-0.5 accent-white" />
                       <span className="text-xs text-white/50 leading-relaxed">
-                        I agree with {' '}
-                        <a href="/legal/terms" target="_blank" className="underline hover:text-white">общите условия</a>
-                        {' '}и{' '}
-                        <a href="/legal/privacy-policy" target="_blank" className="underline hover:text-white">политиката за поверителност</a>
+                        {t.booking_form.agree_prefix} {' '}
+                        <a href="/legal/terms" target="_blank" className="underline hover:text-white">{t.booking_form.terms_link}</a>
+                        {' '}{t.booking_form.and}{' '}
+                        <a href="/legal/privacy-policy" target="_blank" className="underline hover:text-white">{t.booking_form.privacy_link}</a>
                       </span>
                     </label>
                     {form3.formState.errors.agreedToTerms && (
@@ -399,7 +406,7 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
                     )}
                     <div className="flex gap-3">
                       <button type="button" onClick={() => setStep(2)} className="flex-1 py-3 border border-white/20 text-sm font-medium rounded hover:bg-white/5 transition-colors">
-                        ← Назад
+                        ← {t.booking_form.back}
                       </button>
                       <button
                         type="button"
@@ -407,7 +414,7 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
                         disabled={submitting}
                         className="flex-1 py-3 bg-white text-black text-sm font-semibold rounded hover:bg-white/90 transition-colors disabled:opacity-50"
                       >
-                        {submitting ? '...' : 'Send'}
+                        {submitting ? '...' : t.booking_form.send}
                       </button>
                     </div>
                   </div>

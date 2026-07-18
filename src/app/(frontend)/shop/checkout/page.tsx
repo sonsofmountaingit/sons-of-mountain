@@ -11,16 +11,20 @@ import Link from 'next/link'
 import { toast } from 'sonner'
 import { formatPrice } from '@/lib/currency'
 import { useSession } from '@/lib/auth-client'
+import { useTranslations } from '@/lib/use-translations'
+import type { Translations } from '@/lib/translations'
 
-const infoSchema = z.object({
-  firstName: z.string().min(1, 'Required'),
-  lastName: z.string().min(1, 'Required'),
-  email: z.string().email('Invalid email'),
-  phone: z.string().min(6, 'Required'),
-  paymentMode: z.enum(['full', 'deposit', 'installments']).optional(),
-})
+function makeInfoSchema(requiredMsg: string, invalidEmailMsg: string) {
+  return z.object({
+    firstName: z.string().min(1, requiredMsg),
+    lastName: z.string().min(1, requiredMsg),
+    email: z.string().email(invalidEmailMsg),
+    phone: z.string().min(6, requiredMsg),
+    paymentMode: z.enum(['full', 'deposit', 'installments']).optional(),
+  })
+}
 
-type InfoForm = z.infer<typeof infoSchema>
+type InfoForm = z.infer<ReturnType<typeof makeInfoSchema>>
 type ParticipationType = 'organizer' | 'join' | 'solo'
 
 interface PlanInstallment {
@@ -34,10 +38,12 @@ interface PaymentPlanPreview {
   installments: PlanInstallment[]
 }
 
-const planCopy: Record<PaymentPlanPreview['mode'], string> = {
-  full: 'За еднодневни преходи без преспиване се заплаща 100% от сумата.',
-  deposit: 'За двудневни и тридневни преходи: 30% депозит и остатъкът не по-късно от 30 дни преди програмата. При запазване 30 дни преди отпътуването или по-малко, цялата сума се заплаща при записване.',
-  installments: 'За експедиции и многодневни програми: 1во плащане — депозит; 2ро плащане — остатък до 50% от сумата до един месец след записването или не по-късно от 60 дни преди началото; 3то плащане — оставащите 50% до 45 дни преди пътуването.',
+function getPlanCopy(t: Translations): Record<PaymentPlanPreview['mode'], string> {
+  return {
+    full: t.checkout_page.plan_full,
+    deposit: t.checkout_page.plan_deposit,
+    installments: t.checkout_page.plan_installments,
+  }
 }
 
 interface CarpoolRide {
@@ -50,19 +56,24 @@ interface CarpoolRide {
   passengersCount: number
 }
 
-const participationTabs: { value: ParticipationType; label: string }[] = [
-  { value: 'organizer', label: 'Аз съм шофьор на споделено пътуване' },
-  { value: 'join', label: 'Искам да участвам в споделено пътуване' },
-  { value: 'solo', label: 'Сам ще дойда' },
-]
-
-const steps = ['Info', 'Review', 'Payment']
+function getParticipationTabs(t: Translations): { value: ParticipationType; label: string }[] {
+  return [
+    { value: 'organizer', label: t.checkout_page.tab_organizer },
+    { value: 'join', label: t.checkout_page.tab_join },
+    { value: 'solo', label: t.checkout_page.tab_solo },
+  ]
+}
 
 const inputCls = 'w-full rounded border border-white/20 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-white/50'
 const labelCls = 'block text-sm font-medium mb-1 text-white/80'
 
 export default function CheckoutPage() {
   const { data: sessionData, isPending: sessionLoading } = useSession()
+  const { t, language } = useTranslations()
+  const locale = language === 'EN' ? 'en-US' : 'bg-BG'
+  const steps = [t.checkout_page.step_info, t.checkout_page.step_review, t.checkout_page.step_payment]
+  const planCopy = getPlanCopy(t)
+  const participationTabs = getParticipationTabs(t)
   const [step, setStep] = useState(0)
   const [loading, setLoading] = useState(false)
   const [participationType, setParticipationType] = useState<ParticipationType>('solo')
@@ -136,7 +147,7 @@ export default function CheckoutPage() {
   }, [participationType, tripId, programId, destinationIdForRide, hasRideable])
 
   const { register, handleSubmit, getValues, setValue, formState: { errors } } = useForm<InfoForm>({
-    resolver: zodResolver(infoSchema),
+    resolver: zodResolver(makeInfoSchema(t.checkout_page.required, t.checkout_page.invalid_email)),
     defaultValues: { paymentMode: 'full' },
   })
 
@@ -151,11 +162,11 @@ export default function CheckoutPage() {
   function validateCarpoolFields(): boolean {
     if (!hasRideable) return true
     if (participationType === 'organizer') {
-      if (!vehicleType.trim()) { toast.error('Въведете тип превозно средство'); return false }
-      if (!departureFrom.trim()) { toast.error('Въведете място на тръгване'); return false }
+      if (!vehicleType.trim()) { toast.error(t.checkout_page.enter_vehicle_type); return false }
+      if (!departureFrom.trim()) { toast.error(t.checkout_page.enter_departure_place); return false }
     }
     if (participationType === 'join' && !selectedRideId) {
-      toast.error('Изберете споделено пътуване'); return false
+      toast.error(t.checkout_page.select_shared_ride); return false
     }
     return true
   }
@@ -193,9 +204,9 @@ export default function CheckoutPage() {
       })
       const data = await res.json()
       if (data.url) window.location.href = data.url
-      else toast.error(data.error ?? 'Checkout failed')
+      else toast.error(data.error ?? t.checkout_page.checkout_failed)
     } catch {
-      toast.error('Checkout failed')
+      toast.error(t.checkout_page.checkout_failed)
     } finally {
       setLoading(false)
     }
@@ -208,8 +219,8 @@ export default function CheckoutPage() {
   if (!items.length) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
-        <p className="text-white/50 mb-4">Количката е празна.</p>
-        <Link href="/shop" className="rounded bg-white px-6 py-3 text-sm font-semibold text-gray-900">Към магазина</Link>
+        <p className="text-white/50 mb-4">{t.checkout_page.cart_empty}</p>
+        <Link href="/shop" className="rounded bg-white px-6 py-3 text-sm font-semibold text-gray-900">{t.checkout_page.to_shop}</Link>
       </main>
     )
   }
@@ -217,7 +228,7 @@ export default function CheckoutPage() {
   return (
     <main className="mx-auto max-w-5xl px-6 pt-28 pb-16">
       {/* Steps */}
-      <nav className="mb-10 flex gap-2" aria-label="Checkout steps">
+      <nav className="mb-10 flex gap-2" aria-label={t.checkout_page.checkout_steps_label}>
         {steps.map((s, i) => (
           <div key={s} className="flex items-center gap-2">
             <div className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold ${i <= step ? 'bg-white text-gray-900' : 'bg-white/10 text-white/40'}`}>{i + 1}</div>
@@ -238,12 +249,12 @@ export default function CheckoutPage() {
               })}
               className="space-y-5"
             >
-              <h2 className="text-xl font-semibold text-white">Информация за контакт</h2>
+              <h2 className="text-xl font-semibold text-white">{t.checkout_page.contact_info}</h2>
 
               {/* Participation tabs — only when cart has trip/program */}
               {hasRideable && (
                 <div>
-                  <p className="text-sm text-white/60 mb-2">Начин на пристигане</p>
+                  <p className="text-sm text-white/60 mb-2">{t.checkout_page.arrival_method}</p>
                   <div className="flex rounded-lg border border-white/20 overflow-hidden">
                     {participationTabs.map((tab) => (
                       <button
@@ -260,27 +271,27 @@ export default function CheckoutPage() {
                   {/* Organizer extra fields */}
                   {participationType === 'organizer' && (
                     <div className="mt-4 rounded-lg border border-white/10 bg-white/5 p-4 space-y-4">
-                      <p className="text-xs text-white/50 uppercase tracking-wide font-medium">Данни за споделеното пътуване</p>
+                      <p className="text-xs text-white/50 uppercase tracking-wide font-medium">{t.checkout_page.shared_ride_data}</p>
                       <div className="grid gap-4 sm:grid-cols-2">
                         <div>
-                          <label className={labelCls}>Тип превозно средство *</label>
-                          <input value={vehicleType} onChange={(e) => setVehicleType(e.target.value)} placeholder="напр. SUV, седан, бус..." className={inputCls} />
+                          <label className={labelCls}>{t.checkout_page.vehicle_type_required}</label>
+                          <input value={vehicleType} onChange={(e) => setVehicleType(e.target.value)} placeholder={t.checkout_page.vehicle_type_placeholder} className={inputCls} />
                         </div>
                         <div>
-                          <label className={labelCls}>Свободни места *</label>
+                          <label className={labelCls}>{t.checkout_page.free_seats_required}</label>
                           <input type="number" min={1} max={8} value={seatsAvailable} onChange={(e) => setSeatsAvailable(Number(e.target.value))} className={inputCls} />
                         </div>
                       </div>
                       <div>
-                        <label className={labelCls}>Тръгване от *</label>
-                        <input value={departureFrom} onChange={(e) => setDepartureFrom(e.target.value)} placeholder="напр. София, кв. Лозенец..." className={inputCls} />
+                        <label className={labelCls}>{t.checkout_page.departure_from_required}</label>
+                        <input value={departureFrom} onChange={(e) => setDepartureFrom(e.target.value)} placeholder={t.checkout_page.departure_from_placeholder} className={inputCls} />
                       </div>
                       <div>
-                        <label className={labelCls}>Час/дата на тръгване</label>
+                        <label className={labelCls}>{t.checkout_page.departure_datetime}</label>
                         <input type="datetime-local" value={departureTime} onChange={(e) => setDepartureTime(e.target.value)} className={inputCls} />
                       </div>
                       <div>
-                        <label className={labelCls}>Бележки</label>
+                        <label className={labelCls}>{t.checkout_page.notes}</label>
                         <textarea value={rideNotes} onChange={(e) => setRideNotes(e.target.value)} rows={2} className={inputCls} />
                       </div>
                     </div>
@@ -289,10 +300,10 @@ export default function CheckoutPage() {
                   {/* Join — list of open rides */}
                   {participationType === 'join' && (
                     <div className="mt-4 rounded-lg border border-white/10 bg-white/5 p-4 space-y-3">
-                      <p className="text-xs text-white/50 uppercase tracking-wide font-medium">Налични споделени пътувания</p>
-                      {ridesLoading && <p className="text-sm text-white/40">Зареждане...</p>}
+                      <p className="text-xs text-white/50 uppercase tracking-wide font-medium">{t.checkout_page.available_shared_rides}</p>
+                      {ridesLoading && <p className="text-sm text-white/40">{t.checkout_page.loading}</p>}
                       {!ridesLoading && rides.length === 0 && (
-                        <p className="text-sm text-white/40">Няма налични споделени пътувания за тази дестинация.</p>
+                        <p className="text-sm text-white/40">{t.checkout_page.no_shared_rides}</p>
                       )}
                       {!ridesLoading && rides.map((ride) => {
                         const seats = ride.seatsAvailable - ride.passengersCount
@@ -308,12 +319,12 @@ export default function CheckoutPage() {
                             <div className="flex items-center justify-between">
                               <span className="text-sm font-medium text-white">{ride.vehicleType} · {ride.departureFrom}</span>
                               <span className={`text-xs font-semibold ${full ? 'text-red-400' : 'text-green-400'}`}>
-                                {full ? 'Запълнено' : `${seats} място${seats === 1 ? '' : 'а'}`}
+                                {full ? t.checkout_page.full : `${seats} ${seats === 1 ? t.checkout_page.spot_singular : t.checkout_page.spot_plural}`}
                               </span>
                             </div>
-                            {ride.organizerName && <p className="text-xs text-white/50 mt-0.5">Организатор: {ride.organizerName}</p>}
+                            {ride.organizerName && <p className="text-xs text-white/50 mt-0.5">{t.checkout_page.organizer_label} {ride.organizerName}</p>}
                             {ride.departureTime && (
-                              <p className="text-xs text-white/50">{new Date(ride.departureTime).toLocaleString('bg-BG')}</p>
+                              <p className="text-xs text-white/50">{new Date(ride.departureTime).toLocaleString(locale)}</p>
                             )}
                           </button>
                         )
@@ -326,32 +337,32 @@ export default function CheckoutPage() {
               {/* Contact fields */}
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label className={labelCls}>Име</label>
+                  <label className={labelCls}>{t.checkout_page.first_name}</label>
                   <input {...register('firstName')} className={inputCls} />
                   {errors.firstName && <p className="text-xs text-red-400 mt-1">{errors.firstName.message}</p>}
                 </div>
                 <div>
-                  <label className={labelCls}>Фамилия</label>
+                  <label className={labelCls}>{t.checkout_page.last_name}</label>
                   <input {...register('lastName')} className={inputCls} />
                   {errors.lastName && <p className="text-xs text-red-400 mt-1">{errors.lastName.message}</p>}
                 </div>
               </div>
               <div>
-                <label className={labelCls}>Имейл</label>
+                <label className={labelCls}>{t.checkout_page.email}</label>
                 <input {...register('email')} type="email" className={inputCls} />
                 {errors.email && <p className="text-xs text-red-400 mt-1">{errors.email.message}</p>}
               </div>
               <div>
-                <label className={labelCls}>Телефон</label>
+                <label className={labelCls}>{t.checkout_page.phone}</label>
                 <input {...register('phone')} type="tel" className={inputCls} />
                 {errors.phone && <p className="text-xs text-red-400 mt-1">{errors.phone.message}</p>}
               </div>
 
               {bookableItem && (
                 <div>
-                  <label className={labelCls}>Система за плащане</label>
+                  <label className={labelCls}>{t.checkout_page.payment_system}</label>
                   {planLoading || !naturalPlan ? (
-                    <p className="text-sm text-white/40 mt-1">Зареждане на план за плащане...</p>
+                    <p className="text-sm text-white/40 mt-1">{t.checkout_page.loading_payment_plan}</p>
                   ) : (
                     <div className="mt-1 space-y-3">
                       {canChooseFull ? (
@@ -360,7 +371,7 @@ export default function CheckoutPage() {
                             <input type="radio" checked={!payInFull} onChange={() => setPayInFull(false)} className="accent-white mt-1" />
                             <span>
                               <span className="block text-sm font-medium text-white">
-                                {naturalPlan.mode === 'deposit' ? 'Депозит + остатък' : 'На 3 вноски'}
+                                {naturalPlan.mode === 'deposit' ? t.checkout_page.deposit_plus_balance : t.checkout_page.three_installments}
                               </span>
                               <span className="block text-xs text-white/50 leading-relaxed mt-0.5">{planCopy[naturalPlan.mode]}</span>
                             </span>
@@ -368,8 +379,8 @@ export default function CheckoutPage() {
                           <label className={`flex items-start gap-3 rounded-lg border p-3 cursor-pointer transition-colors ${payInFull ? 'border-white bg-white/10' : 'border-white/10 hover:border-white/30'}`}>
                             <input type="radio" checked={payInFull} onChange={() => setPayInFull(true)} className="accent-white mt-1" />
                             <span>
-                              <span className="block text-sm font-medium text-white">Пълно плащане</span>
-                              <span className="block text-xs text-white/50 leading-relaxed mt-0.5">Плащате цялата сума наведнъж при записване.</span>
+                              <span className="block text-sm font-medium text-white">{t.checkout_page.full_payment}</span>
+                              <span className="block text-xs text-white/50 leading-relaxed mt-0.5">{t.checkout_page.full_payment_desc}</span>
                             </span>
                           </label>
                         </div>
@@ -385,7 +396,7 @@ export default function CheckoutPage() {
                               <span className="text-white font-medium">
                                 {formatPrice(inst.amount)}
                                 <span className="text-white/40 ml-2 text-xs">
-                                  {new Date(inst.dueDate).toLocaleDateString('bg-BG', { day: 'numeric', month: 'long', year: 'numeric' })}
+                                  {new Date(inst.dueDate).toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })}
                                 </span>
                               </span>
                             </div>
@@ -395,8 +406,7 @@ export default function CheckoutPage() {
 
                       {plan?.mode !== 'full' && (
                         <p className="text-xs text-white/40 leading-relaxed">
-                          При неплащане на дължима вноска в срок изпращаме имейл и предоставяме гратисен период от 5 календарни дни.
-                          Ако плащането не бъде извършено в този срок, резервацията се счита за анулирана и мястото може да бъде предложено на друг участник.
+                          {t.checkout_page.grace_period_notice}
                         </p>
                       )}
                     </div>
@@ -405,7 +415,7 @@ export default function CheckoutPage() {
               )}
 
               <button type="submit" className="w-full rounded bg-white py-3 text-sm font-semibold text-gray-900 hover:bg-white/90">
-                Продължи към преглед
+                {t.checkout_page.continue_to_review}
               </button>
             </form>
           )}
@@ -413,14 +423,14 @@ export default function CheckoutPage() {
           {/* Step 1: Review */}
           {step === 1 && (
             <div className="space-y-6">
-              <h2 className="text-xl font-semibold text-white">Преглед на поръчката</h2>
+              <h2 className="text-xl font-semibold text-white">{t.checkout_page.order_review}</h2>
               <div className="divide-y divide-white/10 border border-white/10 rounded-lg bg-white/5">
                 {items.map((item) => <CartItemRow key={`${item.id}-${item.variantId}`} item={item} />)}
               </div>
               <DiscountCodeInput />
               <div className="flex gap-3">
-                <button onClick={() => setStep(0)} className="rounded border border-white/20 px-6 py-3 text-sm font-medium text-white hover:bg-white/5">Назад</button>
-                <button onClick={() => setStep(2)} className="flex-1 rounded bg-white py-3 text-sm font-semibold text-gray-900 hover:bg-white/90">Продължи към плащане</button>
+                <button onClick={() => setStep(0)} className="rounded border border-white/20 px-6 py-3 text-sm font-medium text-white hover:bg-white/5">{t.checkout_page.back}</button>
+                <button onClick={() => setStep(2)} className="flex-1 rounded bg-white py-3 text-sm font-semibold text-gray-900 hover:bg-white/90">{t.checkout_page.continue_to_payment}</button>
               </div>
             </div>
           )}
@@ -428,16 +438,16 @@ export default function CheckoutPage() {
           {/* Step 2: Payment */}
           {step === 2 && (
             <div className="space-y-6">
-              <h2 className="text-xl font-semibold text-white">Плащане</h2>
-              <p className="text-sm text-white/50">Ще бъдете пренасочени към Stripe за сигурно плащане. Поддържа Klarna, Afterpay и карта.</p>
+              <h2 className="text-xl font-semibold text-white">{t.checkout_page.payment_title}</h2>
+              <p className="text-sm text-white/50">{t.checkout_page.stripe_redirect_notice}</p>
               <div className="flex gap-3">
-                <button onClick={() => setStep(1)} className="rounded border border-white/20 px-6 py-3 text-sm font-medium text-white hover:bg-white/5">Назад</button>
+                <button onClick={() => setStep(1)} className="rounded border border-white/20 px-6 py-3 text-sm font-medium text-white hover:bg-white/5">{t.checkout_page.back}</button>
                 <button
                   onClick={goToPayment}
                   disabled={loading}
                   className="flex-1 rounded bg-white py-3 text-sm font-semibold text-gray-900 hover:bg-white/90 disabled:opacity-50"
                 >
-                  {loading ? 'Пренасочване...' : `Плати ${formatPrice(total())}`}
+                  {loading ? t.checkout_page.redirecting : `${t.checkout_page.pay} ${formatPrice(total())}`}
                 </button>
               </div>
             </div>
@@ -446,7 +456,7 @@ export default function CheckoutPage() {
 
         {/* Order summary */}
         <div className="rounded-lg border border-white/10 bg-white/5 p-6 h-fit space-y-3 text-sm text-white">
-          <h3 className="font-semibold text-base">Обобщение</h3>
+          <h3 className="font-semibold text-base">{t.checkout_page.summary}</h3>
           <div className="space-y-2 border-b border-white/10 pb-3">
             {items.map((item) => {
               const pb = item.priceBreakdown
@@ -460,12 +470,12 @@ export default function CheckoutPage() {
                   {hasEarlyBird ? (
                     <div className="pl-3 space-y-0.5 text-xs text-white/50">
                       <div className="flex justify-between">
-                        <span>Early bird × {pb.earlyBirdCount}</span>
+                        <span>{t.checkout_page.early_bird_x} {pb.earlyBirdCount}</span>
                         <span>{formatPrice(pb.earlyBirdPrice * pb.earlyBirdCount)}</span>
                       </div>
                       {pb.regularCount > 0 && (
                         <div className="flex justify-between">
-                          <span>Редовна цена × {pb.regularCount}</span>
+                          <span>{t.checkout_page.regular_price_x} {pb.regularCount}</span>
                           <span>{formatPrice(pb.regularPrice * pb.regularCount)}</span>
                         </div>
                       )}
@@ -479,11 +489,11 @@ export default function CheckoutPage() {
               )
             })}
           </div>
-          <div className="flex justify-between text-white/70"><span>Междинна сума</span><span>{formatPrice(subtotal())}</span></div>
-          {discountAmount() > 0 && <div className="flex justify-between text-green-400"><span>Отстъпка ({appliedDiscount?.code})</span><span>−{formatPrice(discountAmount())}</span></div>}
-          {voucherAmount() > 0 && <div className="flex justify-between text-green-400"><span>Ваучер</span><span>−{formatPrice(voucherAmount())}</span></div>}
-          {loyaltyPointsToRedeem > 0 && <div className="flex justify-between text-green-400"><span>Точки ({loyaltyPointsToRedeem} бр.)</span><span>−{formatPrice(loyaltyPointsToRedeem / 100)}</span></div>}
-          <div className="border-t border-white/10 pt-3 flex justify-between font-bold text-base"><span>Общо</span><span>{formatPrice(total())}</span></div>
+          <div className="flex justify-between text-white/70"><span>{t.checkout_page.subtotal}</span><span>{formatPrice(subtotal())}</span></div>
+          {discountAmount() > 0 && <div className="flex justify-between text-green-400"><span>{t.checkout_page.discount} ({appliedDiscount?.code})</span><span>−{formatPrice(discountAmount())}</span></div>}
+          {voucherAmount() > 0 && <div className="flex justify-between text-green-400"><span>{t.checkout_page.voucher}</span><span>−{formatPrice(voucherAmount())}</span></div>}
+          {loyaltyPointsToRedeem > 0 && <div className="flex justify-between text-green-400"><span>{t.checkout_page.points} ({loyaltyPointsToRedeem} {t.checkout_page.points_unit})</span><span>−{formatPrice(loyaltyPointsToRedeem / 100)}</span></div>}
+          <div className="border-t border-white/10 pt-3 flex justify-between font-bold text-base"><span>{t.checkout_page.total}</span><span>{formatPrice(total())}</span></div>
         </div>
       </div>
     </main>

@@ -1,4 +1,5 @@
 import { unstable_cache } from 'next/cache'
+import { cookies } from 'next/headers'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { PuckRender } from '@/components/blocks/PuckRender'
@@ -7,6 +8,7 @@ import { HeroHeadlineBlock } from '@/components/blocks/hero/HeroHeadlineBlock'
 import { HeroSubtextBlock } from '@/components/blocks/hero/HeroSubtextBlock'
 import { HeroCtaBlock } from '@/components/blocks/hero/HeroCtaBlock'
 import { HeroEditButton } from './HeroEditButton'
+import { translations, type Language } from '@/lib/translations'
 import type { Data } from '@puckeditor/core'
 
 const getHeroData = unstable_cache(
@@ -26,6 +28,11 @@ export async function Hero() {
   const h = await getHeroData()
   const puckData: Data | null = h?.puckData?.content?.length ? h.puckData as Data : null
 
+  const cookieStore = await cookies()
+  const stored = cookieStore.get('language')?.value as Language | undefined
+  const language: Language = stored === 'BG' || stored === 'EN' ? stored : 'BG'
+  const t = translations[language]
+
   if (puckData) {
     return (
       <>
@@ -38,9 +45,9 @@ export async function Hero() {
   return (
     <>
       <HeroMainBlock backgroundVideoUrl="/hero-bg.mp4">
-        <HeroHeadlineBlock text={h?.headline ?? 'Trips, travels and expeditions in Bulgaria and around the world!'} />
-        <HeroSubtextBlock text={h?.subtext ?? 'Travel with Sons of Mountains where comfort meets adventure.'} />
-        <HeroCtaBlock label={h?.ctaLabel ?? 'View all destinations'} url={h?.ctaUrl ?? '/destinations'} />
+        <HeroHeadlineBlock text={h?.headline ?? t.hero.default_headline} />
+        <HeroSubtextBlock text={h?.subtext ?? t.hero.default_subtext} />
+        <HeroCtaBlock label={h?.ctaLabel ?? t.hero.view_all_destinations} url={h?.ctaUrl ?? '/destinations'} />
       </HeroMainBlock>
       <HeroEditButton />
     </>

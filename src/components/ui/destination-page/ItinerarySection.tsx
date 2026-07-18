@@ -7,6 +7,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import { ItineraryNav, ItineraryAccordion } from './ItinerarySectionClient'
 import { mediaUrl } from '@/lib/media-url'
+import { useTranslations } from '@/lib/use-translations'
+import type { Translations } from '@/lib/translations'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -33,19 +35,22 @@ interface Props {
   itinerary: ItineraryDay[]
 }
 
-const STAT_ITEMS = [
-  { key: 'transferStart' as const, label: 'Отиване с автомобил', icon: '/icons/transfer.svg' },
-  { key: 'ascent' as const, label: 'ИЗКАЧВАНЕ', icon: '/icons/ascent.svg' },
-  { key: 'descent' as const, label: 'СПУСКАНЕ', icon: '/icons/descent.svg' },
-  { key: 'distance' as const, label: 'РАЗСТОЯНИЕ', icon: '/icons/distance.svg' },
-  { key: 'duration' as const, label: 'ВРЕМЕ', icon: '/icons/duration.svg' },
-  { key: 'accommodation' as const, label: 'НАСТАНЯВАНЕ', icon: '/icons/accommodation.svg' },
-  { key: 'meals' as const, label: 'ВКЛЮЧЕНО ИЗХРАНВАНЕ', icon: '/icons/meals.svg' },
-  { key: 'transferEnd' as const, label: 'Връщане с автомобил', icon: '/icons/transfer.svg' },
-]
+function getStatItems(t: Translations) {
+  return [
+    { key: 'transferStart' as const, label: t.destination_page.itinerary_transfer_start, icon: '/icons/transfer.svg' },
+    { key: 'ascent' as const, label: t.destination_page.itinerary_ascent, icon: '/icons/ascent.svg' },
+    { key: 'descent' as const, label: t.destination_page.itinerary_descent, icon: '/icons/descent.svg' },
+    { key: 'distance' as const, label: t.destination_page.itinerary_distance, icon: '/icons/distance.svg' },
+    { key: 'duration' as const, label: t.destination_page.itinerary_duration, icon: '/icons/duration.svg' },
+    { key: 'accommodation' as const, label: t.destination_page.itinerary_accommodation, icon: '/icons/accommodation.svg' },
+    { key: 'meals' as const, label: t.destination_page.itinerary_meals, icon: '/icons/meals.svg' },
+    { key: 'transferEnd' as const, label: t.destination_page.itinerary_transfer_end, icon: '/icons/transfer.svg' },
+  ]
+}
 
 export function DayStatsBar({ stats }: { stats: DayStats }) {
-  const visible = STAT_ITEMS.filter(({ key }) => stats[key])
+  const { t } = useTranslations()
+  const visible = getStatItems(t).filter(({ key }) => stats[key])
   if (!visible.length) return null
   return (
     <div className="mt-5 flex flex-wrap gap-x-3 sm:gap-x-6 gap-y-2 sm:gap-y-3 pt-5 border-t border-black/6">
@@ -74,6 +79,7 @@ export function DayContentBlock({ day }: { day: ItineraryDay }) {
 }
 
 export function ItinerarySection({ itinerary }: Props) {
+  const { t } = useTranslations()
   const imagesColRef = useRef<HTMLDivElement>(null)
   const contentColRef = useRef<HTMLDivElement>(null)
   const navColRef = useRef<HTMLDivElement>(null)
@@ -107,11 +113,11 @@ export function ItinerarySection({ itinerary }: Props) {
 
       {/* Mobile */}
       <div className="md:hidden px-4 sm:px-5 py-8 sm:py-14">
-        <p className="text-[10px] font-bold tracking-[0.25em] text-black/30 uppercase mb-1">Детайлна</p>
-        <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 tracking-tight">Програма</h2>
+        <p className="text-[10px] font-bold tracking-[0.25em] text-black/30 uppercase mb-1">{t.destination_page.itinerary_detailed}</p>
+        <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 tracking-tight">{t.destination_page.itinerary_program}</h2>
         <ItineraryAccordion itinerary={itinerary} />
         <p className="text-[9px] sm:text-[10px] text-black/25 mt-8 sm:mt-10 leading-relaxed">
-          * Sons of Mountains запазва правото си да адаптира и промени програмата според промени в условията, климата и други фактори.
+          {t.destination_page.itinerary_disclaimer}
         </p>
       </div>
 
@@ -134,13 +140,13 @@ export function ItinerarySection({ itinerary }: Props) {
                 />
                 {/* subtle day label overlay */}
                 <div className="absolute bottom-0 left-0 right-0 px-5 py-3 bg-gradient-to-t from-black/50 to-transparent">
-                  <span className="text-[10px] font-bold tracking-[0.2em] text-white/70 uppercase">ДЕН {day.day}</span>
+                  <span className="text-[10px] font-bold tracking-[0.2em] text-white/70 uppercase">{t.destination_page.itinerary_day_short} {day.day}</span>
                 </div>
               </div>
             ) : (
               <div key={day.day} className="relative flex-1 bg-stone-100" style={{ minHeight: '260px' }}>
                 <div className="absolute bottom-0 left-0 right-0 px-5 py-3">
-                  <span className="text-[10px] font-bold tracking-[0.2em] text-black/25 uppercase">ДЕН {day.day}</span>
+                  <span className="text-[10px] font-bold tracking-[0.2em] text-black/25 uppercase">{t.destination_page.itinerary_day_short} {day.day}</span>
                 </div>
               </div>
             )
@@ -151,8 +157,8 @@ export function ItinerarySection({ itinerary }: Props) {
         <div ref={contentColRef} className="flex-1 min-w-0 border-x border-black/8">
           {/* Header */}
           <div className="itinerary-header px-12 pt-16 pb-10 border-b border-black/8">
-            <p className="text-[10px] font-bold tracking-[0.25em] text-black/30 uppercase mb-2">Детайлна</p>
-            <h2 className="text-5xl font-bold tracking-tight leading-none">Програма</h2>
+            <p className="text-[10px] font-bold tracking-[0.25em] text-black/30 uppercase mb-2">{t.destination_page.itinerary_detailed}</p>
+            <h2 className="text-5xl font-bold tracking-tight leading-none">{t.destination_page.itinerary_program}</h2>
           </div>
 
           {/* Day rows */}
@@ -164,7 +170,7 @@ export function ItinerarySection({ itinerary }: Props) {
               className={`itinerary-row px-12 py-10 scroll-mt-0 ${i < itinerary.length - 1 ? 'border-b border-black/8' : ''}`}
             >
               <div className="flex items-center gap-4 mb-4">
-                <span className="text-[10px] font-bold tracking-[0.25em] text-black/25 uppercase">ДЕН {day.day}</span>
+                <span className="text-[10px] font-bold tracking-[0.25em] text-black/25 uppercase">{t.destination_page.itinerary_day_short} {day.day}</span>
                 <span className="h-px flex-1 bg-black/6" />
               </div>
               <h3 className="text-2xl font-bold mb-4 leading-tight">{day.title}</h3>
@@ -179,7 +185,7 @@ export function ItinerarySection({ itinerary }: Props) {
 
           <div className="px-12 py-8 border-t border-black/8">
             <p className="text-[10px] text-black/20 leading-relaxed max-w-lg">
-              * Sons of Mountains запазва правото си да адаптира и промени програмата според промени в условията, климата и други фактори.
+              {t.destination_page.itinerary_disclaimer}
             </p>
           </div>
         </div>

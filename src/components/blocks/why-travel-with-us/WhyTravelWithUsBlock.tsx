@@ -8,15 +8,16 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { BookingDrawer } from '@/components/ui/destination-page/BookingDrawer'
 import type { VideoCard } from '@/components/ui/WhyTravelWithUs'
 import { formatPrice } from '@/lib/currency'
+import { useTranslations } from '@/lib/use-translations'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export type WtuwItem = { icon: 'camera' | 'globe' | 'city'; title: string; body: string }
 
-function DifficultyBar({ value }: { value: number }) {
+function DifficultyBar({ value, label }: { value: number; label: string }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-      <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Difficulty</span>
+      <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{label}</span>
       <div style={{ flex: 1, height: 3, borderRadius: 2, background: 'rgba(255,255,255,0.2)', overflow: 'hidden' }}>
         <div style={{ width: `${value}%`, height: '100%', background: 'white', borderRadius: 2 }} />
       </div>
@@ -30,11 +31,13 @@ function TripVideoCard({
   index,
   onBook,
   isMobile,
+  t,
 }: {
   card: VideoCard
   index: number
   onBook: () => void
   isMobile: boolean
+  t: ReturnType<typeof useTranslations>['t']
 }) {
   const [playing, setPlaying] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -167,13 +170,13 @@ function TripVideoCard({
               background: 'rgba(255,255,255,0.18)', borderRadius: 4,
               padding: '2px 6px', textTransform: 'uppercase', letterSpacing: '0.05em',
             }}>
-              {card.spotsAvailable} spots
+              {card.spotsAvailable} {t.why_travel.spots}
             </span>
           )}
         </div>
         {card.difficulty !== null && (
           <div style={{ marginBottom: 10 }}>
-            <DifficultyBar value={card.difficulty} />
+            <DifficultyBar value={card.difficulty} label={t.why_travel.difficulty} />
           </div>
         )}
         <button
@@ -187,7 +190,7 @@ function TripVideoCard({
             cursor: 'pointer',
           }}
         >
-          Book
+          {t.why_travel.book}
         </button>
       </div>
 
@@ -206,9 +209,9 @@ function TripVideoCard({
 }
 
 export function WhyTravelWithUsBlock({
-  heading = 'WHY TRAVEL WITH US?',
+  heading,
   items,
-  ctaLabel = 'Learn more',
+  ctaLabel,
   ctaHref = '/about',
   videoCards = [],
 }: {
@@ -218,6 +221,9 @@ export function WhyTravelWithUsBlock({
   ctaHref?: string
   videoCards?: VideoCard[]
 }) {
+  const { t } = useTranslations()
+  const resolvedHeading = heading || t.why_travel.heading
+  const resolvedCtaLabel = ctaLabel || t.common.learn_more
   const sectionRef = useRef<HTMLElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
   const itemsRef = useRef<HTMLDivElement>(null)
@@ -276,7 +282,7 @@ export function WhyTravelWithUsBlock({
             margin: '0 0 12px',
             letterSpacing: '-0.02em',
           }}>
-            {heading}
+            {resolvedHeading}
           </h2>
           <p style={{ fontSize: '0.875rem', color: '#888', lineHeight: 1.6, margin: '0 0 20px' }}>
             {items?.[0]?.body ?? ''}
@@ -299,7 +305,7 @@ export function WhyTravelWithUsBlock({
               textDecoration: 'none',
             }}
           >
-            {ctaLabel}
+            {resolvedCtaLabel}
           </Link>
         </div>
 
@@ -308,12 +314,12 @@ export function WhyTravelWithUsBlock({
           <div style={{ display: 'flex', gap: 10, padding: '0 12px', marginBottom: 32 }}>
             {leftCard && (
               <div ref={leftRef} style={{ flex: 1, minWidth: 0 }}>
-                <TripVideoCard card={leftCard} index={0} onBook={() => setDrawerCard(leftCard)} isMobile />
+                <TripVideoCard card={leftCard} index={0} onBook={() => setDrawerCard(leftCard)} isMobile t={t} />
               </div>
             )}
             {rightCard && (
               <div ref={rightRef} style={{ flex: 1, minWidth: 0 }}>
-                <TripVideoCard card={rightCard} index={1} onBook={() => setDrawerCard(rightCard)} isMobile />
+                <TripVideoCard card={rightCard} index={1} onBook={() => setDrawerCard(rightCard)} isMobile t={t} />
               </div>
             )}
           </div>
@@ -377,7 +383,7 @@ export function WhyTravelWithUsBlock({
       }}>
         <div ref={leftRef} style={{ display: 'flex', justifyContent: 'flex-end', overflow: 'visible' }}>
           {leftCard
-            ? <TripVideoCard card={leftCard} index={0} onBook={() => setDrawerCard(leftCard)} isMobile={false} />
+            ? <TripVideoCard card={leftCard} index={0} onBook={() => setDrawerCard(leftCard)} isMobile={false} t={t} />
             : <div style={{ width: 300, aspectRatio: '16/10', borderRadius: 20, background: '#f0f0f0' }} />
           }
         </div>
@@ -391,7 +397,7 @@ export function WhyTravelWithUsBlock({
             margin: '0 0 20px',
             letterSpacing: '-0.02em',
           }}>
-            {heading}
+            {resolvedHeading}
           </h2>
           <p style={{ fontSize: '1rem', color: '#888', lineHeight: 1.7, margin: '0 0 28px' }}>
             {items?.[0]?.body ?? ''}
@@ -411,13 +417,13 @@ export function WhyTravelWithUsBlock({
               textDecoration: 'none',
             }}
           >
-            {ctaLabel}
+            {resolvedCtaLabel}
           </Link>
         </div>
 
         <div ref={rightRef} style={{ display: 'flex', justifyContent: 'flex-start', overflow: 'visible' }}>
           {rightCard
-            ? <TripVideoCard card={rightCard} index={1} onBook={() => setDrawerCard(rightCard)} isMobile={false} />
+            ? <TripVideoCard card={rightCard} index={1} onBook={() => setDrawerCard(rightCard)} isMobile={false} t={t} />
             : <div style={{ width: 300, aspectRatio: '16/10', borderRadius: 20, background: '#f0f0f0' }} />
           }
         </div>

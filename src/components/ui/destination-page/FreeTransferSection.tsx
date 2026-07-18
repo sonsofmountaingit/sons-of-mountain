@@ -1,5 +1,8 @@
+'use client'
+
 import Image from 'next/image'
 import { mediaUrl } from '@/lib/media-url'
+import { useTranslations } from '@/lib/use-translations'
 
 type FreeTransferData = {
   image?: { url?: string | null; alt?: string | null } | null
@@ -11,11 +14,13 @@ type FreeTransferData = {
 } | null | undefined
 
 export function FreeTransferSection({ freeTransfer }: { freeTransfer: FreeTransferData }) {
+  const { language } = useTranslations()
   if (!freeTransfer?.headline || !freeTransfer?.paragraph) return null
 
   const imageUrl = mediaUrl(freeTransfer.image?.url)
+  const locale = language === 'EN' ? 'en-US' : 'bg-BG'
   const formattedDate = freeTransfer.departureDate
-    ? new Date(freeTransfer.departureDate).toLocaleDateString('bg-BG', { day: 'numeric', month: 'long', year: 'numeric' })
+    ? new Date(freeTransfer.departureDate).toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })
     : null
 
   return (

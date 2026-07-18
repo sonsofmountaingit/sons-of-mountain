@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { gsap } from 'gsap'
 import confetti from 'canvas-confetti'
+import { useTranslations } from '@/lib/use-translations'
 
 type ChecklistCategory = {
   category: string
@@ -15,6 +16,7 @@ type Props = {
 }
 
 export default function ReadinessChecklistSection({ categories, fullWidth }: Props) {
+  const { t } = useTranslations()
   const [checked, setChecked] = useState<Set<string>>(new Set())
   const progressBarRef = useRef<HTMLDivElement>(null)
   const messageRef = useRef<HTMLDivElement>(null)
@@ -54,15 +56,15 @@ export default function ReadinessChecklistSection({ categories, fullWidth }: Pro
   return (
     <div className={`px-4 sm:px-8 lg:px-16 py-8 sm:py-0${fullWidth ? ' lg:col-span-2' : ''}`}>
       <p className="text-xs font-semibold tracking-widest text-white/40 uppercase mb-2 sm:mb-3" data-animate="fade-up">
-        Готовност
+        {t.destination_page.readiness_eyebrow}
       </p>
       <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-4 sm:mb-6 leading-tight" data-animate="fade-up">
-        Готови ли сте за<br />приключение?
+        {t.destination_page.readiness_heading_line1}<br />{t.destination_page.readiness_heading_line2}
       </h2>
 
       <div className="mb-8" data-animate="fade-up">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-xs font-semibold text-white/30 uppercase tracking-wide">Напредък</span>
+          <span className="text-xs font-semibold text-white/30 uppercase tracking-wide">{t.destination_page.readiness_progress}</span>
           <span className="text-xs font-bold text-white/70">{Math.round(progress)}%</span>
         </div>
         <div className="h-px bg-white/10 rounded-full overflow-hidden">
@@ -73,7 +75,7 @@ export default function ReadinessChecklistSection({ categories, fullWidth }: Pro
       {progress >= 100 && (
         <div ref={messageRef} className="mb-8 inline-flex items-center gap-2 bg-white text-black text-sm font-semibold px-4 py-2.5 rounded-full">
           <span>✓</span>
-          Напълно подготвени сте за пътешествието!
+          {t.destination_page.readiness_complete_message}
         </div>
       )}
 

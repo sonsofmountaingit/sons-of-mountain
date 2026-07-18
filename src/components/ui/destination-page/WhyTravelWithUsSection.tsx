@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useTranslations } from '@/lib/use-translations'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -37,10 +38,11 @@ export function WhyTravelWithUsSection({
   const headingRef = useRef<HTMLHeadingElement>(null)
   const subRef = useRef<HTMLParagraphElement>(null)
   const btnRef = useRef<HTMLAnchorElement>(null)
+  const { t } = useTranslations()
 
-  const resolvedHeading = heading ?? 'Take the step and explore the world that awaits you.'
-  const resolvedSubtext = subtext ?? 'Travel changes you. You see new places, meet new people and become a new version of yourself.'
-  const resolvedCtaLabel = ctaLabel ?? 'Learn more about us'
+  const resolvedHeading = heading ?? t.why_travel.section_heading
+  const resolvedSubtext = subtext ?? t.why_travel.section_subtext
+  const resolvedCtaLabel = ctaLabel ?? t.why_travel.section_cta
   const resolvedCtaHref = ctaHref ?? '/about'
 
   // Split heading into segments around the two inline images

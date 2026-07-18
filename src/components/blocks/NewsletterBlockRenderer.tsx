@@ -62,7 +62,7 @@ export function NewsletterBlockRenderer({ block }: NewsletterBlockProps) {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder={placeholder || 'Your email address'}
+            placeholder={placeholder || strings.newsletterForm.placeholder}
             required
             className="flex-1 px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-sm placeholder:opacity-40 focus:outline-none focus:border-white/50"
           />

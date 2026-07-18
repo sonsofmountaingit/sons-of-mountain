@@ -5,6 +5,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useLanguage } from '@/lib/language-context'
 import { getDefaultStrings } from '@/lib/get-default-strings'
+import { useTranslations } from '@/lib/use-translations'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -120,7 +121,8 @@ function SignatureName({ name, instagramHandle }: { name: string; instagramHandl
   )
 }
 
-function Modal({ t, onClose }: { t: Testimonial; onClose: () => void }) {
+function Modal({ t: testimonial, onClose }: { t: Testimonial; onClose: () => void }) {
+  const { t } = useTranslations()
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
     document.addEventListener('keydown', onKey)
@@ -179,7 +181,7 @@ function Modal({ t, onClose }: { t: Testimonial; onClose: () => void }) {
             cursor: 'pointer',
             color: '#666',
           }}
-          aria-label="Close"
+          aria-label={t.a11y.close}
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <path d="M18 6L6 18M6 6l12 12" />
@@ -187,11 +189,11 @@ function Modal({ t, onClose }: { t: Testimonial; onClose: () => void }) {
         </button>
 
         <div style={{ marginBottom: '1.75rem' }}>
-          <Avatar t={t} size={56} />
+          <Avatar t={testimonial} size={56} />
         </div>
 
         <div style={{ marginBottom: '1rem' }}>
-          <Stars rating={t.rating} size={15} />
+          <Stars rating={testimonial.rating} size={15} />
         </div>
 
         <p style={{
@@ -200,13 +202,13 @@ function Modal({ t, onClose }: { t: Testimonial; onClose: () => void }) {
           lineHeight: 1.78,
           margin: '0 0 2.5rem 0',
         }}>
-          &ldquo;{t.quote}&rdquo;
+          &ldquo;{testimonial.quote}&rdquo;
         </p>
 
         <div style={{ borderTop: '1px solid #ebebeb', paddingTop: '1.5rem' }}>
-          {t.instagramHandle ? (
+          {testimonial.instagramHandle ? (
             <a
-              href={`https://instagram.com/${t.instagramHandle.replace(/^@/, '')}`}
+              href={`https://instagram.com/${testimonial.instagramHandle.replace(/^@/, '')}`}
               target="_blank"
               rel="noopener noreferrer"
               onClick={e => e.stopPropagation()}
@@ -220,7 +222,7 @@ function Modal({ t, onClose }: { t: Testimonial; onClose: () => void }) {
                 textDecoration: 'none',
                 cursor: 'pointer',
               }}
-            >{t.authorName}</a>
+            >{testimonial.authorName}</a>
           ) : (
             <span style={{
               fontFamily: "'Caveat', cursive",
@@ -229,9 +231,9 @@ function Modal({ t, onClose }: { t: Testimonial; onClose: () => void }) {
               color: '#1a1a1a',
               display: 'block',
               lineHeight: 1.2,
-            }}>{t.authorName}</span>
+            }}>{testimonial.authorName}</span>
           )}
-          {t.role && <span style={{ fontSize: '0.8rem', color: '#888', marginTop: '0.25rem', display: 'block' }}>{t.role}</span>}
+          {testimonial.role && <span style={{ fontSize: '0.8rem', color: '#888', marginTop: '0.25rem', display: 'block' }}>{testimonial.role}</span>}
         </div>
       </div>
     </div>
@@ -239,6 +241,7 @@ function Modal({ t, onClose }: { t: Testimonial; onClose: () => void }) {
 }
 
 function Card({ t, onReadMore }: { t: Testimonial; onReadMore: (t: Testimonial) => void }) {
+  const { t: translations } = useTranslations()
   return (
     <div className="test-card">
       <style>{`
@@ -348,7 +351,7 @@ function Card({ t, onReadMore }: { t: Testimonial; onReadMore: (t: Testimonial) 
       </p>
 
       <button className="test-read-more" onClick={() => onReadMore(t)}>
-        More →
+        {translations.gallery_extra.more}
       </button>
 
       <div style={{ marginTop: 'auto', paddingTop: '1.25rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>

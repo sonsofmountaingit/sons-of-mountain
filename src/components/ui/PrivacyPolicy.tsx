@@ -1,8 +1,10 @@
 import { unstable_cache } from 'next/cache'
+import { cookies } from 'next/headers'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import { PrivacyPolicyEditButton } from './PrivacyPolicyEditButton'
+import { translations, type Language } from '@/lib/translations'
 
 const getPrivacyPolicyData = unstable_cache(
   async () => {
@@ -19,13 +21,18 @@ const getPrivacyPolicyData = unstable_cache(
 
 export async function PrivacyPolicy() {
   const doc = await getPrivacyPolicyData() as any
+  const cookieStore = await cookies()
+  const stored = cookieStore.get('language')?.value as Language | undefined
+  const language: Language = stored === 'BG' || stored === 'EN' ? stored : 'BG'
+  const t = translations[language]
+  const locale = language === 'EN' ? 'en-US' : 'bg-BG'
 
-  const title = doc?.title ?? 'Политика за поверителност'
+  const title = doc?.title ?? t.destination_page.privacy_policy_title
   const lastUpdated = doc?.lastUpdated ?? null
   const content = doc?.content ?? null
 
   const formatted = lastUpdated
-    ? new Date(lastUpdated).toLocaleDateString('bg-BG', { year: 'numeric', month: 'long', day: 'numeric' })
+    ? new Date(lastUpdated).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' })
     : null
 
   return (
@@ -44,7 +51,7 @@ export async function PrivacyPolicy() {
         <h1 style={{ fontSize: '2.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>{title}</h1>
         {formatted && (
           <p style={{ fontSize: '0.875rem', opacity: 0.5, marginBottom: '2.5rem' }}>
-            Последна актуализация: {formatted}
+            {t.destination_page.last_updated} {formatted}
           </p>
         )}
         {content ? (

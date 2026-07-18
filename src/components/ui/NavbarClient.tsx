@@ -203,7 +203,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
               <button
                 onClick={() => setCartOpen(true)}
                 className={`relative transition-colors ${isLightPage && !scrolled ? 'text-zinc-500 hover:text-zinc-900' : 'text-white/70 hover:text-white'}`}
-                aria-label="Cart"
+                aria-label={t.navbar.cart}
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" strokeLinecap="round" strokeLinejoin="round" />
@@ -221,7 +221,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                 <button
                   onClick={() => { setSearchOpen((v) => !v); setLangOpen(false) }}
                   className={['transition-colors', searchOpen ? (isLightPage && !scrolled ? 'text-zinc-900' : 'text-white') : (isLightPage && !scrolled ? 'text-zinc-500 hover:text-zinc-900' : 'text-white/70 hover:text-white')].join(' ')}
-                  aria-label="Search"
+                  aria-label={t.navbar.search}
                 >
                   <AnimatePresence mode="wait" initial={false}>
                     {searchOpen ? (
@@ -282,7 +282,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
               </div>
 
               {instagramUrl && (
-                <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className={`transition-colors ${isLightPage && !scrolled ? 'text-zinc-500 hover:text-zinc-900' : 'text-white/70 hover:text-white'}`} aria-label="Instagram">
+                <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className={`transition-colors ${isLightPage && !scrolled ? 'text-zinc-500 hover:text-zinc-900' : 'text-white/70 hover:text-white'}`} aria-label={t.navbar.instagram}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <rect x="2" y="2" width="20" height="20" rx="5" />
                     <circle cx="12" cy="12" r="4" />
@@ -291,14 +291,14 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                 </a>
               )}
               {facebookUrl && (
-                <a href={facebookUrl} target="_blank" rel="noopener noreferrer" className={`transition-colors ${isLightPage && !scrolled ? 'text-zinc-500 hover:text-zinc-900' : 'text-white/70 hover:text-white'}`} aria-label="Facebook">
+                <a href={facebookUrl} target="_blank" rel="noopener noreferrer" className={`transition-colors ${isLightPage && !scrolled ? 'text-zinc-500 hover:text-zinc-900' : 'text-white/70 hover:text-white'}`} aria-label={t.navbar.facebook}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                   </svg>
                 </a>
               )}
               {tiktokUrl && (
-                <a href={tiktokUrl} target="_blank" rel="noopener noreferrer" className={`transition-colors ${isLightPage && !scrolled ? 'text-zinc-500 hover:text-zinc-900' : 'text-white/70 hover:text-white'}`} aria-label="TikTok">
+                <a href={tiktokUrl} target="_blank" rel="noopener noreferrer" className={`transition-colors ${isLightPage && !scrolled ? 'text-zinc-500 hover:text-zinc-900' : 'text-white/70 hover:text-white'}`} aria-label={t.navbar.tiktok}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.16 8.16 0 0 0 4.77 1.52V6.76a4.85 4.85 0 0 1-1-.07z"/>
                   </svg>
@@ -311,7 +311,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
             <button
               onClick={() => setCartOpen(true)}
               className={`relative p-2 transition-colors ${isLightPage && !scrolled ? 'text-zinc-700' : 'text-white'}`}
-              aria-label="Cart"
+              aria-label={t.navbar.cart}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" strokeLinecap="round" strokeLinejoin="round" />
@@ -324,7 +324,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                 </span>
               )}
             </button>
-            <button className={`p-2 ${isLightPage && !scrolled ? 'text-zinc-700' : 'text-white'}`} onClick={() => setMobileOpen(true)} aria-label="Open menu">
+            <button className={`p-2 ${isLightPage && !scrolled ? 'text-zinc-700' : 'text-white'}`} onClick={() => setMobileOpen(true)} aria-label={t.navbar.open_menu}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <line x1="3" y1="6" x2="21" y2="6" />
                 <line x1="3" y1="12" x2="21" y2="12" />
@@ -341,7 +341,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
         onMouseEnter={() => setLogoHovered(true)}
         onMouseLeave={() => setLogoHovered(false)}
       >
-        <Image src={logoSrc} alt="Logo" width={140} height={140} priority className={['w-auto transition-[height] duration-300 pointer-events-auto', scrolled ? 'h-8 sm:h-10' : 'h-14 sm:h-20'].join(' ')} />
+        <Image src={logoSrc} alt={t.navbar.logo} width={140} height={140} priority className={['w-auto transition-[height] duration-300 pointer-events-auto', scrolled ? 'h-8 sm:h-10' : 'h-14 sm:h-20'].join(' ')} />
       </Link>
 
       <ProgramsMegaMenu open={megaOpen} onClose={() => setMegaOpen(false)} navHeight={navHeight} />
@@ -387,7 +387,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
                     onClick={handleSearch}
                     className="w-full px-5 py-3 text-sm text-white/60 hover:text-white hover:bg-white/5 transition-colors text-left"
                   >
-                    {language === 'BG' ? 'Търси' : 'Search'} "{query}"
+                    {t.navbar.search_action} "{query}"
                   </button>
                 )}
               </div>
@@ -418,7 +418,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
               <button
                 className="absolute top-3 right-3 p-2 text-white/70 hover:text-white"
                 onClick={() => setMobileOpen(false)}
-                aria-label="Close menu"
+                aria-label={t.navbar.close_menu}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />

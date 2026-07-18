@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useCartStore } from '@/lib/cart-store'
 import { useRouter } from 'next/navigation'
 import { formatPrice } from '@/lib/currency'
+import { useTranslations } from '@/lib/use-translations'
 
 interface Props {
   open: boolean
@@ -24,16 +25,15 @@ interface Props {
   earlyBirdSpots?: number | null
 }
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('bg-BG', { day: 'numeric', month: 'long', year: 'numeric' })
-}
-
 export function BookingDrawer({
   open, onClose, tripId, tripTitle, price, currency,
   spotsAvailable, depositAmount, startDate, endDate,
   durationDays, month, itemType = 'trip',
   earlyBirdPrice, earlyBirdUntil, earlyBirdSpots,
 }: Props) {
+  const { t, language } = useTranslations()
+  const locale = language === 'EN' ? 'en-US' : 'bg-BG'
+  const formatDate = (iso: string) => new Date(iso).toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })
   const isEarlyBird = !!(earlyBirdPrice && earlyBirdUntil && new Date(earlyBirdUntil) > new Date())
   const effectivePrice = isEarlyBird ? earlyBirdPrice! : price
   const earlyBirdSpotsLeft = isEarlyBird && earlyBirdSpots != null && spotsAvailable != null
@@ -73,7 +73,7 @@ export function BookingDrawer({
     addItem({
       id: `${itemType}-${tripId}`,
       type: itemType,
-      title: isEarlyBird ? `${tripTitle} (Early Bird)` : tripTitle,
+      title: isEarlyBird ? `${tripTitle} (${t.destination_page.early_bird_label})` : tripTitle,
       unitPrice: priceBreakdown ? priceBreakdown.totalPrice / qty : effectivePrice,
       quantity: qty,
       priceBreakdown,
@@ -100,17 +100,17 @@ export function BookingDrawer({
         ref={drawerRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Booking"
+        aria-label={t.a11y.booking}
         className={`fixed top-0 right-0 h-full w-full max-w-md z-[70] bg-white shadow-2xl flex flex-col transition-transform duration-400 ease-out ${open ? 'translate-x-0' : 'translate-x-full'}`}
       >
         {/* Header */}
         <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-4 sm:pb-5 border-b border-neutral-100">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <p className="text-[9px] sm:text-[10px] font-semibold tracking-[0.2em] uppercase text-black/40 mb-1">Booking</p>
+              <p className="text-[9px] sm:text-[10px] font-semibold tracking-[0.2em] uppercase text-black/40 mb-1">{t.destination_page.booking_label}</p>
               <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight leading-tight">{tripTitle}</h2>
             </div>
-            <button onClick={onClose} aria-label="Close" className="mt-1 text-black/40 hover:text-black transition-colors flex-shrink-0">
+            <button onClick={onClose} aria-label={t.a11y.close} className="mt-1 text-black/40 hover:text-black transition-colors flex-shrink-0">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 6L6 18M6 6l12 12"/>
               </svg>
@@ -141,7 +141,7 @@ export function BookingDrawer({
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
                 </svg>
-                <span>{durationDays} {durationDays === 1 ? 'day' : 'days'}</span>
+                <span>{durationDays} {durationDays === 1 ? t.destination_page.trip_summary_day : t.destination_page.trip_summary_days}</span>
               </div>
             )}
             {spotsAvailable != null && (
@@ -150,7 +150,7 @@ export function BookingDrawer({
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
                 </svg>
                 <span className={spotsAvailable <= 3 ? 'text-orange-600 font-semibold' : ''}>
-                  {spotsAvailable} available spots
+                  {spotsAvailable} {t.destination_page.available_spots}
                 </span>
               </div>
             )}
@@ -162,15 +162,15 @@ export function BookingDrawer({
               <div className="flex items-center gap-2 bg-orange-50 border border-orange-200 rounded-md px-3 py-2">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ea580c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                 <span className="text-xs font-semibold text-orange-700">
-                  Early Bird pricing — until {new Date(earlyBirdUntil!).toLocaleDateString('en-US', { day: 'numeric', month: 'long' })}
+                  {t.destination_page.early_bird_pricing_until} {new Date(earlyBirdUntil!).toLocaleDateString(locale, { day: 'numeric', month: 'long' })}
                   {earlyBirdSpotsLeft != null && (
-                    <> · <span className="text-orange-600">{earlyBirdSpotsLeft} {earlyBirdSpotsLeft === 1 ? 'spot' : 'spots'} left</span></>
+                    <> · <span className="text-orange-600">{earlyBirdSpotsLeft} {earlyBirdSpotsLeft === 1 ? t.destination_page.spot_left : t.destination_page.spots_left}</span></>
                   )}
                 </span>
               </div>
             )}
             <div className="flex items-center justify-between">
-              <span className="text-sm text-black">Price per person</span>
+              <span className="text-sm text-black">{t.destination_page.price_per_person}</span>
               <span className="flex items-baseline gap-2">
                 <span className="text-xl font-black text-black">{formatPrice(effectivePrice)}</span>
                 {isEarlyBird && <span className="text-sm line-through text-black/40">{formatPrice(price)}</span>}
@@ -179,43 +179,43 @@ export function BookingDrawer({
 
             {/* Qty picker */}
             <div className="flex items-center justify-between border-t border-neutral-100 pt-3">
-              <span className="text-sm text-black">Number of people</span>
+              <span className="text-sm text-black">{t.destination_page.number_of_people}</span>
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setQty(q => Math.max(1, q - 1))}
                   disabled={qty <= 1}
                   className="w-8 h-8 rounded-full border border-neutral-200 flex items-center justify-center text-lg leading-none text-black hover:border-neutral-400 disabled:opacity-30 transition-colors"
-                  aria-label="Decrease"
+                  aria-label={t.a11y.decrease}
                 >−</button>
                 <span className="w-5 text-center font-semibold text-sm text-black">{qty}</span>
                 <button
                   onClick={() => setQty(q => Math.min(maxQty, q + 1))}
                   disabled={qty >= maxQty}
                   className="w-8 h-8 rounded-full border border-neutral-200 flex items-center justify-center text-lg leading-none text-black hover:border-neutral-400 disabled:opacity-30 transition-colors"
-                  aria-label="Increase"
+                  aria-label={t.a11y.increase}
                 >+</button>
               </div>
             </div>
 
             <div className="flex items-center justify-between text-sm border-t border-neutral-100 pt-2">
-              <span className="text-black">Total</span>
+              <span className="text-black">{t.destination_page.total}</span>
               <span className="font-black text-black">{formatPrice(totalPrice)}</span>
             </div>
 
             {earlyBirdCount > 0 && regularCount > 0 && (
               <p className="text-xs text-orange-700">
-                {earlyBirdCount} × {formatPrice(earlyBirdPrice!)} early bird + {regularCount} × {formatPrice(price)} regular price
+                {earlyBirdCount} × {formatPrice(earlyBirdPrice!)} {t.destination_page.early_bird_label} + {regularCount} × {formatPrice(price)} {t.destination_page.early_bird_regular}
               </p>
             )}
 
             {depositAmount && (
               <div className="flex items-center justify-between text-sm">
-                <span className="text-black">Booking deposit</span>
+                <span className="text-black">{t.destination_page.booking_deposit}</span>
                 <span className="font-semibold text-green-700">{formatPrice(depositAmount * qty)}</span>
               </div>
             )}
             {depositAmount && (
-              <p className="text-xs text-black/50">Balance due before travel.</p>
+              <p className="text-xs text-black/50">{t.destination_page.balance_due}</p>
             )}
           </div>
         </div>
@@ -226,13 +226,13 @@ export function BookingDrawer({
             onClick={handleBook}
             className="w-full bg-orange-700 hover:bg-orange-800 text-white font-black uppercase tracking-widest text-sm py-4 rounded-sm transition-colors"
           >
-            {depositAmount ? `Book with deposit ${formatPrice(depositAmount)}` : 'Book now'}
+            {depositAmount ? `${t.destination_page.book_deposit_prefix} ${formatPrice(depositAmount)}` : t.destination_page.book_now}
           </button>
           <button
             onClick={onClose}
             className="w-full border border-neutral-200 hover:border-neutral-400 text-black text-sm py-3 rounded-sm transition-colors"
           >
-            Keep browsing
+            {t.destination_page.keep_browsing}
           </button>
         </div>
       </div>

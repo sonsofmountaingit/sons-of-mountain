@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { formatPrice } from '@/lib/currency'
 import { WaitlistFormModal, type WaitlistItemType } from '@/components/forms/WaitlistFormModal'
+import { useTranslations } from '@/lib/use-translations'
 
 interface Props {
   month?: string | null
@@ -22,10 +23,6 @@ interface Props {
   earlyBirdSpots?: number | null
   footerSelector?: string
   onBook?: () => void
-}
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('bg-BG', { day: 'numeric', month: 'short' })
 }
 
 export function FloatingBookingBar({
@@ -55,6 +52,9 @@ export function FloatingBookingBar({
   const [waitlistOpen, setWaitlistOpen] = useState(false)
   const barRef = useRef<HTMLDivElement>(null)
   const isSoldOut = spotsAvailable != null && spotsAvailable === 0
+  const { t, language } = useTranslations()
+  const locale = language === 'EN' ? 'en-US' : 'bg-BG'
+  const formatDate = (iso: string) => new Date(iso).toLocaleDateString(locale, { day: 'numeric', month: 'short' })
 
   useEffect(() => {
     let ticking = false
@@ -117,7 +117,7 @@ export function FloatingBookingBar({
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="shrink-0">
                 <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
               </svg>
-              <span>{durationDays}{durationDays === 1 ? 'd' : 'd'}</span>
+              <span>{durationDays}{t.destination_page.day_label}</span>
             </span>
           </>
         )}
@@ -132,8 +132,8 @@ export function FloatingBookingBar({
                 <path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
               </svg>
               {spotsAvailable != null
-                ? <span><strong className="text-white">{spotsAvailable}</strong> left</span>
-                : <span>{maxParticipants} max</span>
+                ? <span><strong className="text-white">{spotsAvailable}</strong> {t.destination_page.left}</span>
+                : <span>{maxParticipants} {t.destination_page.max}</span>
               }
             </span>
           </>
@@ -149,7 +149,7 @@ export function FloatingBookingBar({
               )}
               <span className={isEarlyBird ? 'line-through text-white/40 font-normal text-[9px] sm:text-xs' : ''}>{formatPrice(price)}</span>
               {earlyBirdSpotsLeft != null && (
-                <span className="hidden sm:inline text-amber-400 font-semibold text-xs">· {earlyBirdSpotsLeft} early bird {earlyBirdSpotsLeft === 1 ? 'spot' : 'spots'}</span>
+                <span className="hidden sm:inline text-amber-400 font-semibold text-xs">· {earlyBirdSpotsLeft} {t.destination_page.early_bird_label} {earlyBirdSpotsLeft === 1 ? t.destination_page.spot_word : t.destination_page.spots_word}</span>
               )}
             </span>
           </>
@@ -159,7 +159,7 @@ export function FloatingBookingBar({
           onClick={handleBook}
           className="shrink-0 bg-orange-700 hover:bg-orange-800 text-white font-black uppercase tracking-widest text-[10px] sm:text-sm px-3 sm:px-5 py-2 sm:py-2 rounded-full transition-colors cursor-pointer min-h-[40px] sm:min-h-[44px] flex items-center justify-center"
         >
-          {isSoldOut ? 'Waitlist' : 'Book'}
+          {isSoldOut ? t.destination_page.waitlist : t.destination_page.book}
         </button>
       </div>
 

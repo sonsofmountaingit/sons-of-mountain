@@ -63,7 +63,16 @@ export function AboutWhoWeAreBlock({
       }}
     >
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
-        <div style={{ marginBottom: '4rem', maxWidth: 560 }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: '2rem',
+            marginBottom: '4rem',
+          }}
+        >
+        <div style={{ maxWidth: 560, flex: '0 1 auto' }}>
           <h2
             data-animate
             style={{
@@ -88,6 +97,25 @@ export function AboutWhoWeAreBlock({
           >
             {whoDescription}
           </p>
+        </div>
+
+        <div
+          data-animate
+          style={{
+            flex: '1 1 auto',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Image
+            src="/aph-uimla-logo.png"
+            alt="Асоциация на планинските водачи и българи"
+            width={120}
+            height={120}
+            style={{ flexShrink: 0, opacity: 0.9 }}
+          />
+        </div>
         </div>
 
         <div

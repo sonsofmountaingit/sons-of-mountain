@@ -4,22 +4,26 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import { useTranslations } from '@/lib/use-translations'
 
-const schema = z.object({
-  amount: z.number().min(50, 'Минимум 50 лв.').max(10000),
-  buyerName: z.string().min(2),
-  buyerEmail: z.string().email(),
-  recipientName: z.string().min(2),
-  message: z.string().optional(),
-  preferredDestinations: z.string().optional(),
-})
+function makeSchema(minAmountMessage: string) {
+  return z.object({
+    amount: z.number().min(50, minAmountMessage).max(10000),
+    buyerName: z.string().min(2),
+    buyerEmail: z.string().email(),
+    recipientName: z.string().min(2),
+    message: z.string().optional(),
+    preferredDestinations: z.string().optional(),
+  })
+}
 
-type FormData = z.infer<typeof schema>
+type FormData = z.infer<ReturnType<typeof makeSchema>>
 
 export function GiftVoucherForm() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const { t } = useTranslations()
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(makeSchema(t.gift_voucher_form.min_amount)),
     defaultValues: { amount: 200 },
   })
 
@@ -41,9 +45,9 @@ export function GiftVoucherForm() {
   if (status === 'success') {
     return (
       <div className="border border-white/10 rounded-lg p-8 text-center">
-        <p className="font-semibold mb-2">Заявката е получена!</p>
-        <p className="text-sm text-white/50 mb-2">Ще ти изпратим ваучера по имейл след потвърждение на плащането.</p>
-        <p className="text-xs text-white/30">За момента приемаме плащания само по банков път.</p>
+        <p className="font-semibold mb-2">{t.gift_voucher_form.submitted_title}</p>
+        <p className="text-sm text-white/50 mb-2">{t.gift_voucher_form.submitted_subtext}</p>
+        <p className="text-xs text-white/30">{t.gift_voucher_form.submitted_note}</p>
       </div>
     )
   }
@@ -51,7 +55,7 @@ export function GiftVoucherForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-w-xl">
       <div>
-        <label className="text-xs text-white/50 mb-1.5 block">Стойност на ваучера (лв.)</label>
+        <label className="text-xs text-white/50 mb-1.5 block">{t.gift_voucher_form.amount_label}</label>
         <input
           {...register('amount', { valueAsNumber: true })}
           type="number"
@@ -63,35 +67,35 @@ export function GiftVoucherForm() {
       </div>
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <input {...register('buyerName')} placeholder="Твоето име" className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
+          <input {...register('buyerName')} placeholder={t.gift_voucher_form.buyer_name_placeholder} className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
           {errors.buyerName && <p className="text-xs text-red-400 mt-1">{errors.buyerName.message}</p>}
         </div>
         <div>
-          <input {...register('buyerEmail')} type="email" placeholder="Твоят имейл" className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
+          <input {...register('buyerEmail')} type="email" placeholder={t.gift_voucher_form.buyer_email_placeholder} className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
           {errors.buyerEmail && <p className="text-xs text-red-400 mt-1">{errors.buyerEmail.message}</p>}
         </div>
       </div>
       <div>
-        <input {...register('recipientName')} placeholder="Имe на получателя" className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
+        <input {...register('recipientName')} placeholder={t.gift_voucher_form.recipient_name_placeholder} className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
         {errors.recipientName && <p className="text-xs text-red-400 mt-1">{errors.recipientName.message}</p>}
       </div>
       <div>
-        <input {...register('preferredDestinations')} placeholder="Предпочитани дестинации (по желание)" className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
+        <input {...register('preferredDestinations')} placeholder={t.gift_voucher_form.destinations_placeholder} className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-sm focus:outline-none focus:border-white/30" />
       </div>
       <div>
-        <textarea {...register('message')} placeholder="Лично съобщение (по желание)" rows={4} className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-sm focus:outline-none focus:border-white/30 resize-none" />
+        <textarea {...register('message')} placeholder={t.gift_voucher_form.message_placeholder} rows={4} className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-sm focus:outline-none focus:border-white/30 resize-none" />
       </div>
       <div className="border border-white/10 rounded-lg p-4 text-xs text-white/40">
-        За момента приемаме плащания само по банков път. След изпращане на заявката ще получиш имейл с банкова информация.
+        {t.gift_voucher_form.bank_note}
       </div>
       <button
         type="submit"
         disabled={status === 'loading'}
         className="w-full py-3.5 bg-white text-black text-sm font-semibold rounded hover:bg-white/90 transition-colors disabled:opacity-50"
       >
-        {status === 'loading' ? 'Изпращане...' : 'Поръчай ваучер'}
+        {status === 'loading' ? t.gift_voucher_form.sending : t.gift_voucher_form.submit}
       </button>
-      {status === 'error' && <p className="text-xs text-red-400 text-center">Грешка. Опитайте отново.</p>}
+      {status === 'error' && <p className="text-xs text-red-400 text-center">{t.gift_voucher_form.error}</p>}
     </form>
   )
 }

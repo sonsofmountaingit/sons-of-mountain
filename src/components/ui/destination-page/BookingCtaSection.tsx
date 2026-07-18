@@ -7,6 +7,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { formatPrice } from '@/lib/currency'
 import { WaitlistFormModal, type WaitlistItemType } from '@/components/forms/WaitlistFormModal'
+import { useTranslations } from '@/lib/use-translations'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -34,10 +35,6 @@ interface Props {
   itemId?: string
 }
 
-function formatDate(d: string) {
-  return new Date(d).toLocaleDateString('bg-BG', { day: '2-digit', month: 'long', year: 'numeric' })
-}
-
 function isSameDay(a: string, b: string) {
   return new Date(a).toDateString() === new Date(b).toDateString()
 }
@@ -48,6 +45,9 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
   const cardsRef = useRef<HTMLDivElement>(null)
   const stepsRef = useRef<HTMLDivElement>(null)
   const [waitlistOpen, setWaitlistOpen] = useState(false)
+  const { t, language } = useTranslations()
+  const locale = language === 'EN' ? 'en-US' : 'bg-BG'
+  const formatDate = (d: string) => new Date(d).toLocaleDateString(locale, { day: '2-digit', month: 'long', year: 'numeric' })
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -80,12 +80,12 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
         {/* Header */}
         <div ref={headRef}>
           <p className="text-xs font-semibold tracking-[0.2em] text-[#888] uppercase mb-2 sm:mb-4">
-            Booking
+            {t.destination_page.booking_label}
           </p>
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-[#111] leading-snug sm:leading-tight mb-6 sm:mb-8 md:mb-12 max-w-2xl">
-          Ready for {name}?{' '}
+          {t.destination_page.ready_for} {name}?{' '}
             <span className="text-[#888] font-black">
-            Book your spot and let's go together.
+            {t.destination_page.book_and_go}
             </span>
           </h2>
         </div>
@@ -109,10 +109,10 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
             <div className="absolute inset-0 bg-black/40" />
             <div className="relative z-10">
               <span className="inline-flex items-center bg-white/20 backdrop-blur-sm text-white text-xs font-semibold px-3 sm:px-4 py-1 sm:py-1.5 rounded-full mb-4 sm:mb-6 border border-white/30 text-[11px] sm:text-xs">
-                {activeTrip ? (isSameDay(activeTrip.startDate, activeTrip.endDate) ? formatDate(activeTrip.startDate) : `${formatDate(activeTrip.startDate)} – ${formatDate(activeTrip.endDate)}`) : 'Upcoming date'}
+                {activeTrip ? (isSameDay(activeTrip.startDate, activeTrip.endDate) ? formatDate(activeTrip.startDate) : `${formatDate(activeTrip.startDate)} – ${formatDate(activeTrip.endDate)}`) : t.destination_page.upcoming_date}
               </span>
               <h3 className="text-lg sm:text-2xl md:text-3xl font-black text-white leading-tight drop-shadow-md">
-                Book your spot,<br />let's go together
+                {t.destination_page.book_your_spot}<br />{t.destination_page.lets_go_together}
               </h3>
             </div>
 
@@ -126,7 +126,7 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
                     />
                   </div>
                   <p className="text-xs font-semibold text-white/70">
-                    {isFull ? 'Spots exhausted' : `${spotsLeft} available of ${spotsTotal} spots`}
+                    {isFull ? t.destination_page.spots_exhausted : `${spotsLeft} ${t.destination_page.available_of} ${spotsTotal} ${t.destination_page.spots_word}`}
                   </p>
                 </div>
               )}
@@ -136,7 +136,7 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
                   <Link
                     href={resolvedBookingHref}
                     className="flex items-center justify-center w-10 h-10 min-h-[40px] rounded-full bg-white text-[#111] flex-shrink-0 hover:bg-white/90 transition-colors"
-                    aria-label="Book"
+                    aria-label={t.destination_page.book}
                   >
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                       <path d="M2 7H12M12 7L7 2M12 7L7 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -147,7 +147,7 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
                     onClick={() => setWaitlistOpen(true)}
                     className="flex items-center justify-center h-10 min-h-[40px] px-3 sm:px-4 rounded-full bg-white text-[#111] flex-shrink-0 hover:bg-white/90 transition-colors text-xs font-black tracking-wide uppercase"
                   >
-                    Waitlist
+                    {t.destination_page.waitlist}
                   </button>
                 ) : (
                   <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/20 text-white/40 flex-shrink-0">
@@ -158,7 +158,7 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
                 )}
                 {activeTrip && (
                   <span className="text-xs sm:text-sm font-black text-white tracking-wide uppercase drop-shadow">
-                    {formatPrice(activeTrip.price)} / person
+                    {formatPrice(activeTrip.price)} {t.destination_page.per_person}
                   </span>
                 )}
               </div>
@@ -169,7 +169,7 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
           <div className="rounded-2xl sm:rounded-3xl border-2 border-dashed border-[#e0e0e0] bg-white/60 p-5 sm:p-7 flex flex-col justify-between min-h-[300px] sm:min-h-[380px]">
             <div>
               <span className="inline-flex items-center bg-[#111] text-white text-xs font-semibold px-3 sm:px-4 py-1 sm:py-1.5 rounded-full mb-4 sm:mb-6 text-[11px] sm:text-xs">
-                Included in price
+                {t.destination_page.included_in_price}
               </span>
 
               {included.length > 0 && (
@@ -189,7 +189,7 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
 
               {notIncluded.length > 0 && (
                 <div className="mt-2 sm:mt-4">
-                  <p className="text-[10px] font-bold tracking-[0.2em] text-[#aaa] uppercase mb-1.5 sm:mb-2">Not included</p>
+                  <p className="text-[10px] font-bold tracking-[0.2em] text-[#aaa] uppercase mb-1.5 sm:mb-2">{t.destination_page.not_included}</p>
                   <ul className="space-y-1 sm:space-y-1.5">
                     {notIncluded.map((it, i) => (
                       <li key={i} className="flex items-start gap-2 text-xs text-[#999] leading-snug">
@@ -211,7 +211,7 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
                 </svg>
               </div>
               <span className="text-xs font-bold text-[#aaa] tracking-widest uppercase">
-                Details on booking
+                {t.destination_page.details_on_booking}
               </span>
             </div>
           </div>
@@ -220,9 +220,9 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
         {/* Process steps */}
         <div ref={stepsRef} className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
           {[
-            { n: '01', text: 'Fill out the booking form. We\'ll call you to get acquainted and collect the necessary contract and insurance documents.' },
-            { n: '02', text: 'You\'ll receive a contract, insurance, and invoice. Pay 50% deposit upfront, with the balance due 45 days before departure.' },
-            { n: '03', text: 'A month before the expedition, we\'ll send you a detailed information email with destination details, flights, and more.' },
+            { n: '01', text: t.destination_page.step1 },
+            { n: '02', text: t.destination_page.step2 },
+            { n: '03', text: t.destination_page.step3 },
           ].map(({ n, text }) => (
             <div key={n} className="flex gap-3 sm:gap-4 items-start">
               <span className="text-[10px] sm:text-[11px] font-black tracking-widest text-[#bbb] mt-0.5 flex-shrink-0">{n}</span>
@@ -232,9 +232,9 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
         </div>
 
         <p className="text-[9px] sm:text-[10px] text-[#aaa] mt-6 sm:mt-8">
-          By clicking "Book", you agree to our{' '}
-          <a href="/terms" className="underline hover:text-[#555] transition-colors">Terms & Conditions</a>{' '}and{' '}
-          <a href="/privacy" className="underline hover:text-[#555] transition-colors">Privacy Policy</a>.
+          {t.destination_page.book_agree_prefix}{' '}
+          <a href="/terms" className="underline hover:text-[#555] transition-colors">{t.destination_page.terms_link}</a>{' '}{t.destination_page.and}{' '}
+          <a href="/privacy" className="underline hover:text-[#555] transition-colors">{t.destination_page.privacy_link}</a>.
         </p>
       </div>
 

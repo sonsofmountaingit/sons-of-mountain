@@ -1,6 +1,9 @@
+'use client'
+
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import { AccommodationCarousel } from './AccommodationsCarousel'
 import { mediaUrl } from '@/lib/media-url'
+import { useTranslations } from '@/lib/use-translations'
 
 interface AccommodationItem {
   locationLabel?: string | null
@@ -18,6 +21,7 @@ interface Props {
 }
 
 export function AccommodationsSection({ accommodations, eyebrow, headline, subtext }: Props) {
+  const { t } = useTranslations()
   if (!accommodations?.length) return null
 
   return (
@@ -69,7 +73,7 @@ export function AccommodationsSection({ accommodations, eyebrow, headline, subte
                       rel="noopener noreferrer"
                       className="text-sm underline underline-offset-2 text-black/60 hover:text-black transition-colors"
                     >
-                      научи повече
+                      {t.destination_page.accommodations_learn_more}
                     </a>
                   )}
                 </div>

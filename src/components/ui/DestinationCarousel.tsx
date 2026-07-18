@@ -1,10 +1,11 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
+import { cookies } from 'next/headers'
 import { mediaUrl } from '@/lib/media-url'
 import { DestinationCarouselBlock } from '@/components/blocks/destination-carousel/DestinationCarouselBlock'
 import { DestinationCarouselEditButton } from './DestinationCarouselEditButton'
-import { translations } from '@/lib/translations'
+import { translations, type Language } from '@/lib/translations'
 
 type RelatedItem = {
   id?: string
@@ -138,6 +139,10 @@ const getCarouselData = unstable_cache(
 
 export async function DestinationCarousel() {
   const { carousel, destinations } = await getCarouselData()
+  const cookieStore = await cookies()
+  const stored = cookieStore.get('language')?.value as Language | undefined
+  const language: Language = stored === 'BG' || stored === 'EN' ? stored : 'BG'
+  const t = translations[language]
 
   const mapped = destinations.map((d) => ({
     id: d.id,
@@ -146,7 +151,7 @@ export async function DestinationCarousel() {
     href: `/${COLLECTION_TO_PATH[d.kind]}/${d.slug}`,
     heroImage: d.heroImage,
     month: d.month,
-    spotsLabel: d.availableSpots != null ? `Available: ${d.availableSpots}` : undefined,
+    spotsLabel: d.availableSpots != null ? `${t.common.available}: ${d.availableSpots}` : undefined,
     availableSpots: d.availableSpots ?? undefined,
     price: d.price ?? undefined,
     overrideTitle: d.overrideTitle,
@@ -158,18 +163,18 @@ export async function DestinationCarousel() {
     headline: carousel.introSlideHeadline,
     subheading: carousel.introSlideSubheading,
     backgroundImageUrl: carousel.introSlideBackgroundImage?.url ? mediaUrl(carousel.introSlideBackgroundImage.url) ?? undefined : undefined,
-    buttonText: carousel.introSlideButtonText ?? 'Explore',
+    buttonText: carousel.introSlideButtonText ?? t.destination_page.explore,
   } : undefined
 
   return (
     <>
       <DestinationCarouselBlock
-        sectionTitle={carousel?.sectionTitle ?? 'Destinations'}
+        sectionTitle={carousel?.sectionTitle ?? t.destination_page.destinations_title}
         headline={carousel?.headline}
         subheading={carousel?.subheading}
-        destinationButtonText={carousel?.destinationButtonText ?? 'Explore'}
+        destinationButtonText={carousel?.destinationButtonText ?? t.destination_page.explore}
         destinations={mapped}
-        emptyMessage="No data available"
+        emptyMessage={t.destination_page.no_data}
         introSlide={introSlide}
       />
       <DestinationCarouselEditButton />

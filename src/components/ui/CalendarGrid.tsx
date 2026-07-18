@@ -3,7 +3,9 @@
 import React, { useRef, useState, useCallback, useEffect, useMemo, lazy, Suspense } from 'react'
 import { createPortal } from 'react-dom'
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
-import { CalendarTripCard, type CalendarItem, DIFFICULTY_LABELS } from './CalendarTripCard'
+import { CalendarTripCard, type CalendarItem } from './CalendarTripCard'
+import { useTranslations } from '@/lib/use-translations'
+import type { Translations } from '@/lib/translations'
 
 const CalendarMap = lazy(() => import('./CalendarMap').then((m) => ({ default: m.CalendarMap })))
 
@@ -14,37 +16,61 @@ export type MonthGroup = {
   items: CalendarItem[]
 }
 
-const CATEGORY_LABELS: Record<string, string> = {
-  all: 'ALL',
-  bulgaria: 'IN BULGARIA',
-  abroad: 'ABROAD',
-  individual: 'CUSTOM PROGRAM',
+function getCategoryLabels(t: Translations): Record<string, string> {
+  return {
+    all: t.destination_page.category_all,
+    bulgaria: t.destination_page.category_bulgaria,
+    abroad: t.destination_page.category_abroad,
+    individual: t.destination_page.category_individual,
+  }
 }
 
+function getDifficultyLabels(t: Translations): Record<number, string> {
+  return {
+    1: t.destination_page.very_easy,
+    2: t.destination_page.easy,
+    3: t.destination_page.moderate,
+    4: t.destination_page.hard,
+    5: t.destination_page.very_hard,
+  }
+}
 
-const SEASON_LABELS: Record<number, string> = {
-  0: 'WINTER', 1: 'WINTER', 11: 'WINTER',
-  2: 'SPRING', 3: 'SPRING', 4: 'SPRING',
-  5: 'SUMMER', 6: 'SUMMER', 7: 'SUMMER',
-  8: 'FALL', 9: 'FALL', 10: 'FALL',
+const SEASON_KEY: Record<number, 'winter' | 'spring' | 'summer' | 'fall'> = {
+  0: 'winter', 1: 'winter', 11: 'winter',
+  2: 'spring', 3: 'spring', 4: 'spring',
+  5: 'summer', 6: 'summer', 7: 'summer',
+  8: 'fall', 9: 'fall', 10: 'fall',
+}
+function getSeasonLabel(t: Translations, month: number): string {
+  const key = SEASON_KEY[month]
+  return {
+    winter: t.destination_page.season_winter,
+    spring: t.destination_page.season_spring,
+    summer: t.destination_page.season_summer,
+    fall: t.destination_page.season_fall,
+  }[key]
 }
 const SEASON_COLORS: Record<string, string> = {
-  WINTER: 'text-blue-500',
-  SPRING: 'text-green-600',
-  SUMMER: 'text-amber-500',
-  FALL: 'text-orange-500',
+  winter: 'text-blue-500',
+  spring: 'text-green-600',
+  summer: 'text-amber-500',
+  fall: 'text-orange-500',
 }
-const MONTHS_BG: Record<number, string> = {
-  0: 'JANUARY', 1: 'FEBRUARY', 2: 'MARCH', 3: 'APRIL',
-  4: 'MAY', 5: 'JUNE', 6: 'JULY', 7: 'AUGUST',
-  8: 'SEPTEMBER', 9: 'OCTOBER', 10: 'NOVEMBER', 11: 'DECEMBER',
+function getMonthLabel(t: Translations, month: number): string {
+  const labels = [
+    t.destination_page.month_january, t.destination_page.month_february, t.destination_page.month_march,
+    t.destination_page.month_april, t.destination_page.month_may, t.destination_page.month_june,
+    t.destination_page.month_july, t.destination_page.month_august, t.destination_page.month_september,
+    t.destination_page.month_october, t.destination_page.month_november, t.destination_page.month_december,
+  ]
+  return labels[month] ?? ''
 }
 
 type RowData = {
   rowIdx: number
   groups: MonthGroup[]
   showSeasonBanner: boolean
-  season: string
+  seasonKey: 'winter' | 'spring' | 'summer' | 'fall'
 }
 
 type Props = {
@@ -70,6 +96,7 @@ function SkeletonCard() {
 
 function RecentlyViewed({ allItems }: { allItems: CalendarItem[] }) {
   const [recentIds, setRecentIds] = useState<string[]>([])
+  const { t } = useTranslations()
   useEffect(() => {
     try {
       const raw = localStorage.getItem('som_recent')
@@ -80,7 +107,7 @@ function RecentlyViewed({ allItems }: { allItems: CalendarItem[] }) {
   if (recentItems.length === 0) return null
   return (
     <div className="mb-10 print:hidden">
-      <p className="text-[9px] tracking-[0.3em] text-zinc-400 mb-3 uppercase">Последно видяно</p>
+      <p className="text-[9px] tracking-[0.3em] text-zinc-400 mb-3 uppercase">{t.destination_page.recently_viewed}</p>
       <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
         {recentItems.map((item) => (
           <a key={item.id} href={item.href}
@@ -95,6 +122,8 @@ function RecentlyViewed({ allItems }: { allItems: CalendarItem[] }) {
 
 function CompareDrawer({ items, onClose }: { items: CalendarItem[]; onClose: () => void }) {
   const drawerRef = useRef<HTMLDivElement>(null)
+  const { t, language } = useTranslations()
+  const locale = language === 'EN' ? 'en-US' : 'bg-BG'
   useEffect(() => {
     if (!drawerRef.current) return
     const el = drawerRef.current
@@ -107,15 +136,15 @@ function CompareDrawer({ items, onClose }: { items: CalendarItem[]; onClose: () 
     <div ref={drawerRef} className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-zinc-200 p-4 sm:p-5 print:hidden" style={{ maxHeight: '80vh', overflowY: 'auto' }}>
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-4">
-          <p className="text-[10px] tracking-[0.3em] text-zinc-400 uppercase">Сравнение ({items.length})</p>
+          <p className="text-[10px] tracking-[0.3em] text-zinc-400 uppercase">{t.destination_page.comparison} ({items.length})</p>
           <button onClick={onClose} className="text-zinc-400 hover:text-zinc-800 transition-colors text-sm leading-none p-2">✕</button>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
           {items.map((item) => (
             <div key={item.id} className="border border-zinc-200 rounded-xl p-3 sm:p-4 space-y-2">
               <p className="font-semibold text-sm text-zinc-800 truncate">{item.title}</p>
-              <p className="text-[11px] text-zinc-500">{new Date(item.startDate).toLocaleDateString('bg-BG')} — {new Date(item.endDate).toLocaleDateString('bg-BG')}</p>
-              <p className="text-[11px] text-zinc-500">{item.spotsAvailable > 0 ? `${item.spotsAvailable} места` : 'Изчерпано'}</p>
+              <p className="text-[11px] text-zinc-500">{new Date(item.startDate).toLocaleDateString(locale)} — {new Date(item.endDate).toLocaleDateString(locale)}</p>
+              <p className="text-[11px] text-zinc-500">{item.spotsAvailable > 0 ? `${item.spotsAvailable} ${t.destination_page.spots_word_lower}` : t.destination_page.sold_out}</p>
               {item.tags.length > 0 && (
                 <div className="flex flex-wrap gap-1">
                   {item.tags.slice(0, 3).map((t) => (
@@ -123,7 +152,7 @@ function CompareDrawer({ items, onClose }: { items: CalendarItem[]; onClose: () 
                   ))}
                 </div>
               )}
-              <a href={item.href} className="text-[10px] text-zinc-500 hover:text-zinc-800 transition-colors underline underline-offset-2">Виж →</a>
+              <a href={item.href} className="text-[10px] text-zinc-500 hover:text-zinc-800 transition-colors underline underline-offset-2">{t.destination_page.view_arrow}</a>
             </div>
           ))}
         </div>
@@ -176,6 +205,7 @@ function MonthColumn({
 }) {
   const colRef = useRef<HTMLDivElement>(null)
   const cardsRef = useRef<HTMLDivElement>(null)
+  const { t } = useTranslations()
 
   useEffect(() => {
     if (!colRef.current) return
@@ -223,7 +253,7 @@ function MonthColumn({
         className="flex items-center gap-2 mb-4 w-full text-left group/header print:static"
       >
         <h2 className="text-[10px] tracking-[0.25em] font-semibold text-zinc-400 group-hover/header:text-zinc-700 transition-colors duration-200">
-          {MONTHS_BG[group.month]}
+          {getMonthLabel(t, group.month)}
         </h2>
         <span
           className="text-[8px] text-zinc-300 group-hover/header:text-zinc-500 transition-colors duration-200 ml-0.5"
@@ -378,6 +408,9 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  const { t } = useTranslations()
+  const CATEGORY_LABELS = useMemo(() => getCategoryLabels(t), [t])
+  const DIFFICULTY_LABELS = useMemo(() => getDifficultyLabels(t), [t])
 
   const [category, setCategory] = useState(searchParams.get('category') ?? 'all')
   const [tag, setTag] = useState(searchParams.get('tag') ?? 'Всички')
@@ -523,10 +556,10 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
     let lastSeason: string | null = null
     for (let i = 0; i < filteredGroups.length; i += 3) {
       const rowGroups = filteredGroups.slice(i, i + 3)
-      const season = SEASON_LABELS[rowGroups[0].month]
-      const showSeasonBanner = season !== lastSeason
-      if (showSeasonBanner) lastSeason = season
-      result.push({ rowIdx: i / 3, groups: rowGroups, showSeasonBanner, season })
+      const seasonKey = SEASON_KEY[rowGroups[0].month]
+      const showSeasonBanner = seasonKey !== lastSeason
+      if (showSeasonBanner) lastSeason = seasonKey
+      result.push({ rowIdx: i / 3, groups: rowGroups, showSeasonBanner, seasonKey })
     }
     return result
   }, [filteredGroups])
@@ -570,7 +603,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
         <div className="flex items-center gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:overflow-visible sm:pb-0 sm:mx-0 sm:px-0 sm:flex-wrap scrollbar-none">
           {/* Dropdown: Destination */}
           <FilterDropdown
-            label="DESTINATION"
+            label={t.destination_page.destination_filter}
             active={category !== 'all'}
             summary={category !== 'all' ? CATEGORY_LABELS[category] : undefined}
           >
@@ -594,7 +627,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
 
           {/* Dropdown: Type */}
           <FilterDropdown
-            label="TYPE"
+            label={t.destination_page.type_filter}
             active={tag !== 'All'}
             summary={tag !== 'All' ? tag.toUpperCase() : undefined}
           >
@@ -618,7 +651,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
 
           {/* Dropdown: Difficulty */}
           <FilterDropdown
-            label="DIFFICULTY"
+            label={t.destination_page.difficulty_filter}
             active={difficulty !== 'all'}
             summary={difficulty !== 'all' ? DIFFICULTY_LABELS[Number(difficulty)] : undefined}
           >
@@ -632,7 +665,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
                     : 'border-transparent text-zinc-400 hover:text-zinc-700 hover:border-zinc-200',
                 ].join(' ')}
               >
-                ALL
+                {t.destination_page.category_all}
               </button>
               {Object.entries(DIFFICULTY_LABELS).map(([val, lbl]) => (
                 <button
@@ -653,9 +686,9 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
 
           {/* Dropdown: Period */}
           <FilterDropdown
-            label="PERIOD"
+            label={t.destination_page.period_filter}
             active={year !== 'all' || onlyAvailable}
-            summary={year !== 'all' ? String(year) : onlyAvailable ? 'AVAILABLE' : undefined}
+            summary={year !== 'all' ? String(year) : onlyAvailable ? t.destination_page.available_filter : undefined}
           >
             <div className="flex flex-col gap-1 p-3">
               {allYears.map((y) => (
@@ -682,7 +715,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
                     : 'border-transparent text-zinc-400 hover:text-zinc-700 hover:border-zinc-200',
                 ].join(' ')}
               >
-                САМО СВОБОДНИ
+                {t.destination_page.only_available}
               </button>
               <button
                 onClick={() => setOnlyUpcoming((p) => !p)}
@@ -693,7 +726,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
                     : 'border-transparent text-zinc-400 hover:text-zinc-700 hover:border-zinc-200',
                 ].join(' ')}
               >
-                САМО ПРЕДСТОЯЩИ
+                {t.destination_page.only_upcoming}
               </button>
               {isLoggedIn && (
                 <button
@@ -705,7 +738,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
                       : 'border-transparent text-zinc-400 hover:text-zinc-700 hover:border-zinc-200',
                   ].join(' ')}
                 >
-                  ♥ ЛЮБИМИ
+                  ♥ {t.destination_page.favorites}
                 </button>
               )}
             </div>
@@ -715,7 +748,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
           <div className="flex items-center gap-2 flex-shrink-0 sm:ml-auto">
             <input
               type="search"
-              placeholder="Търси..."
+              placeholder={t.destination_page.search_placeholder}
               value={search}
               onChange={(e) => handleSearch(e.target.value)}
               className="text-xs bg-white border border-zinc-200 rounded-md px-3 py-1.5 text-zinc-800 placeholder-zinc-300 focus:outline-none focus:border-zinc-400 transition-colors w-28 sm:w-40"
@@ -729,7 +762,7 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
               ].join(' ')}
               style={{ minHeight: '36px' }}
             >
-              {mapView ? 'СПИСЪК' : 'КАРТА'}
+              {mapView ? t.destination_page.calendar_list : t.destination_page.calendar_map}
             </button>
           </div>
         </div>
@@ -744,18 +777,18 @@ export function CalendarGrid({ groups, initialWishlist, loggedIn, allItems, item
       )}
 
       {!mapView && filteredGroups.length === 0 && (
-        <p className="text-zinc-400 text-center py-24 text-sm">No trips found.</p>
+        <p className="text-zinc-400 text-center py-24 text-sm">{t.destination_page.no_trips_found}</p>
       )}
 
       {!mapView && (
         <div ref={gridRef}>
-          {rows.map(({ rowIdx, groups: rowGroups, showSeasonBanner, season }) => (
+          {rows.map(({ rowIdx, groups: rowGroups, showSeasonBanner, seasonKey }) => (
             <div key={rowIdx} className="mb-10 sm:mb-14">
               {showSeasonBanner && (
                 <SeasonBanner
-                  season={season}
+                  season={getSeasonLabel(t, rowGroups[0].month)}
                   year={rowGroups[0].year}
-                  colorClass={SEASON_COLORS[season] ?? 'text-zinc-400'}
+                  colorClass={SEASON_COLORS[seasonKey] ?? 'text-zinc-400'}
                 />
               )}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-8" style={{ rowGap: '2rem' }}>

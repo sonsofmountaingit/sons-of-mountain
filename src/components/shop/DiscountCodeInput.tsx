@@ -3,12 +3,14 @@
 import { useState } from 'react'
 import { useCartStore } from '@/lib/cart-store'
 import { formatPrice } from '@/lib/currency'
+import { useTranslations } from '@/lib/use-translations'
 
 export function DiscountCodeInput() {
   const [code, setCode] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const { subtotal, setDiscount, appliedDiscount, corporatePeopleCount } = useCartStore()
+  const { t } = useTranslations()
 
   async function apply() {
     setError('')
@@ -20,10 +22,10 @@ export function DiscountCodeInput() {
         body: JSON.stringify({ code, cartTotal: subtotal(), peopleCount: corporatePeopleCount }),
       })
       const data = await res.json()
-      if (!res.ok) { setError(data.error ?? 'Invalid code'); return }
+      if (!res.ok) { setError(data.error ?? t.shop.discount_invalid); return }
       setDiscount({ code: data.code, type: data.type, value: data.value, discountAmount: data.discountAmount, applicableTo: 'all' })
     } catch {
-      setError('Failed to validate code')
+      setError(t.shop.discount_failed)
     } finally {
       setLoading(false)
     }
@@ -32,8 +34,8 @@ export function DiscountCodeInput() {
   if (appliedDiscount) {
     return (
       <div className="flex items-center justify-between rounded border border-green-200 bg-green-50 px-3 py-2 text-sm">
-        <span className="text-green-800 font-medium">Code <strong>{appliedDiscount.code}</strong> applied — −{formatPrice(appliedDiscount.discountAmount)}</span>
-        <button onClick={() => setDiscount(null)} className="text-green-600 hover:text-green-900 text-xs underline ml-2">Remove</button>
+        <span className="text-green-800 font-medium">{t.shop.discount_applied_prefix} <strong>{appliedDiscount.code}</strong> {t.shop.discount_applied_suffix} — −{formatPrice(appliedDiscount.discountAmount)}</span>
+        <button onClick={() => setDiscount(null)} className="text-green-600 hover:text-green-900 text-xs underline ml-2">{t.shop.discount_remove}</button>
       </div>
     )
   }
@@ -43,7 +45,7 @@ export function DiscountCodeInput() {
       <div className="flex gap-2">
         <input
           type="text"
-          placeholder="Discount code"
+          placeholder={t.shop.discount_placeholder}
           value={code}
           onChange={(e) => setCode(e.target.value.toUpperCase())}
           className="flex-1 rounded border px-3 py-2 text-sm"
@@ -53,7 +55,7 @@ export function DiscountCodeInput() {
           disabled={loading || !code}
           className="rounded bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 disabled:opacity-50"
         >
-          Apply
+          {t.shop.discount_apply}
         </button>
       </div>
       {error && <p className="text-xs text-red-600">{error}</p>}

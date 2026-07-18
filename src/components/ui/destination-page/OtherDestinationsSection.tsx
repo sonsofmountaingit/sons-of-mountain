@@ -6,6 +6,7 @@ import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { mediaUrl } from '@/lib/media-url'
+import { useTranslations } from '@/lib/use-translations'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -33,6 +34,7 @@ const CARD_CONFIG = [
 ]
 
 export function OtherDestinationsSection({ continent, destinations }: Props) {
+  const { t } = useTranslations()
   const sectionRef = useRef<HTMLElement>(null)
   const mobileListRef = useRef<HTMLDivElement>(null)
   const desktopListRef = useRef<HTMLDivElement>(null)
@@ -55,7 +57,7 @@ export function OtherDestinationsSection({ continent, destinations }: Props) {
     <section ref={sectionRef} className="py-12 sm:py-16 px-4 sm:px-6 bg-white text-black overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-bold leading-tight tracking-tight mb-8 sm:mb-10">
-          Other trips{continent ? ` in ${continent}` : ''}
+          {continent ? `${t.destination_page.other_trips_heading_in} ${continent}` : t.destination_page.other_trips_heading}
         </h2>
         {/* Mobile: horizontal scroll strip */}
         <div ref={mobileListRef} className="flex sm:hidden gap-3 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory">

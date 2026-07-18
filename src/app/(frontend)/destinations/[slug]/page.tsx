@@ -1,11 +1,13 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { notFound } from 'next/navigation'
+import { cookies } from 'next/headers'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { mediaUrl } from '@/lib/media-url'
 import { buildMetadata } from '@/lib/metadata'
 import { fetchWeather } from '@/lib/weather'
+import { translations, type Language } from '@/lib/translations'
 import { TrackRecentlyViewed } from '@/components/ui/TrackRecentlyViewed'
 import { HeroSection } from '@/components/ui/destination-page/HeroSection'
 import { WhySection } from '@/components/ui/destination-page/WhySection'
@@ -78,7 +80,12 @@ async function getPageData(slug: string) {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const data = await getPageData(slug)
-  if (!data) return { title: 'Дестинация — Sons of Mountains' }
+  if (!data) {
+    const cookieStore = await cookies()
+    const language = (cookieStore.get('language')?.value ?? 'BG') as Language
+    const t = translations[language]
+    return { title: `${t.destination_page.destination_singular} — ${t.destination_page.brand_name}` }
+  }
   const heroImage = (data.destination as any).heroImage as { url?: string | null } | null
   const meta = (data.destination as any).meta as { title?: string; description?: string; image?: { url?: string | null }; keywords?: string } | null
   return buildMetadata({

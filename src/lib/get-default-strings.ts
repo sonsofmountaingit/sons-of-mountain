@@ -21,11 +21,48 @@ export function getDefaultStrings(lang: Language = 'BG') {
       messageMinError: t.validation.field_required,
     },
 
+    hero: {
+      defaultHeadline: t.hero.default_headline,
+      defaultSubtext: t.hero.default_subtext,
+      viewAllDestinations: t.hero.view_all_destinations,
+    },
+
+    calendarCta: {
+      heading: t.calendar_cta.heading,
+      subheading: t.calendar_cta.subheading,
+      button: t.calendar_cta.button,
+    },
+
+    a11y: {
+      scrollLeft: t.a11y.scroll_left,
+      scrollRight: t.a11y.scroll_right,
+      close: t.a11y.close,
+      previous: t.a11y.previous,
+      next: t.a11y.next,
+      copyLink: t.a11y.copy_link,
+      keyboardShortcuts: t.a11y.keyboard_shortcuts,
+      previousPhoto: t.a11y.previous_photo,
+      nextPhoto: t.a11y.next_photo,
+      navigationByDay: t.a11y.navigation_by_day,
+      decrease: t.a11y.decrease,
+      increase: t.a11y.increase,
+      booking: t.a11y.booking,
+      remove: t.a11y.remove,
+      share: t.a11y.share,
+    },
+
+    destinations: {
+      title: t.destinations.title,
+      allDestinations: t.destinations.all_destinations,
+      explore: t.destinations.explore,
+      destinationDetails: t.destinations.destination_details,
+    },
+
     // Newsletter form
     newsletterForm: {
       heading: t.footer.newsletter_heading,
       subheading: t.footer.newsletter_subtext,
-      placeholder: t.footer.email_placeholder,
+      placeholder: t.newsletter.email_placeholder,
       buttonText: t.footer.submit_label,
       successMessage: t.common.success,
     },

@@ -1,9 +1,11 @@
 import { unstable_cache } from 'next/cache'
+import { cookies } from 'next/headers'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { CalendarCtaBlock } from '@/components/blocks/calendar-cta/CalendarCtaBlock'
 import { CalendarCtaEditButton } from './CalendarCtaEditButton'
 import { mediaUrl } from '@/lib/media-url'
+import { translations, type Language } from '@/lib/translations'
 
 const getCalendarCtaData = unstable_cache(
   async () => {
@@ -48,13 +50,17 @@ export async function CalendarCta() {
     getDestinationImages(),
   ])
   const d = data as any
+  const cookieStore = await cookies()
+  const stored = cookieStore.get('language')?.value as Language | undefined
+  const language: Language = stored === 'BG' || stored === 'EN' ? stored : 'BG'
+  const t = translations[language]
 
   return (
     <>
       <CalendarCtaBlock
-        heading={d?.heading ?? 'Looking for your next adventure?'}
-        subheading={d?.subheading ?? 'Browse all upcoming trips.'}
-        buttonText={d?.buttonText ?? 'View Calendar'}
+        heading={d?.heading ?? t.calendar_cta.heading}
+        subheading={d?.subheading ?? t.calendar_cta.subheading}
+        buttonText={d?.buttonText ?? t.calendar_cta.button}
         buttonUrl={d?.buttonUrl ?? '/calendar'}
         destinationImages={destinationImages}
       />

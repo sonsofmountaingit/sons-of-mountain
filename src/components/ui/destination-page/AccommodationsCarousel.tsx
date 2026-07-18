@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useState } from 'react'
+import { useTranslations } from '@/lib/use-translations'
 
 interface GalleryItem {
   image: { url: string; alt?: string }
@@ -15,6 +16,7 @@ interface Props {
 
 export function AccommodationCarousel({ gallery, name }: Props) {
   const [idx, setIdx] = useState(0)
+  const { t } = useTranslations()
   if (!gallery.length) return null
   const item = gallery[idx]
 
@@ -34,14 +36,14 @@ export function AccommodationCarousel({ gallery, name }: Props) {
           <button
             onClick={() => setIdx((i) => (i - 1 + gallery.length) % gallery.length)}
             className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-11 sm:h-11 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors text-lg"
-            aria-label="Previous photo"
+            aria-label={t.a11y.previous_photo}
           >
             ‹
           </button>
           <button
             onClick={() => setIdx((i) => (i + 1) % gallery.length)}
             className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-11 sm:h-11 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors text-lg"
-            aria-label="Next photo"
+            aria-label={t.a11y.next_photo}
           >
             ›
           </button>
@@ -51,7 +53,7 @@ export function AccommodationCarousel({ gallery, name }: Props) {
                 key={i}
                 onClick={() => setIdx(i)}
                 className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors`}
-                aria-label={`Photo ${i + 1}`}
+                aria-label={`${t.destination_page.photo_prefix} ${i + 1}`}
               >
                 <span className={`block w-2 h-2 rounded-full ${i === idx ? 'bg-white' : 'bg-white/50'}`} />
               </button>

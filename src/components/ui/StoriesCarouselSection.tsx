@@ -3,6 +3,7 @@
 import { useRef } from 'react'
 import { motion } from 'motion/react'
 import { StoryCard } from './StoryCard'
+import { useTranslations } from '@/lib/use-translations'
 
 interface Story {
   id: string
@@ -15,6 +16,7 @@ interface Story {
 
 export function StoriesCarouselSection({ stories }: { stories: Story[] }) {
   const scrollRef = useRef<HTMLDivElement>(null)
+  const { t } = useTranslations()
 
   function scroll(dir: 'left' | 'right') {
     scrollRef.current?.scrollBy({ left: dir === 'left' ? -300 : 300, behavior: 'smooth' })
@@ -25,8 +27,8 @@ export function StoriesCarouselSection({ stories }: { stories: Story[] }) {
       <div className="flex items-center justify-between px-6 mb-8 max-w-[1440px] mx-auto">
         <h2 className="text-3xl font-bold">PANIC STORIES</h2>
         <div className="flex gap-2">
-          <button onClick={() => scroll('left')} className="w-9 h-9 flex items-center justify-center border border-white/20 rounded-full text-white hover:bg-white/10 transition-colors" aria-label="Scroll left">←</button>
-          <button onClick={() => scroll('right')} className="w-9 h-9 flex items-center justify-center border border-white/20 rounded-full text-white hover:bg-white/10 transition-colors" aria-label="Scroll right">→</button>
+          <button onClick={() => scroll('left')} className="w-9 h-9 flex items-center justify-center border border-white/20 rounded-full text-white hover:bg-white/10 transition-colors" aria-label={t.stories_carousel.scroll_left}>←</button>
+          <button onClick={() => scroll('right')} className="w-9 h-9 flex items-center justify-center border border-white/20 rounded-full text-white hover:bg-white/10 transition-colors" aria-label={t.stories_carousel.scroll_right}>→</button>
         </div>
       </div>
       <motion.div

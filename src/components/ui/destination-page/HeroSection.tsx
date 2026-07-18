@@ -5,6 +5,8 @@ import { useState, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { BookingDrawer } from './BookingDrawer'
+import { useTranslations } from '@/lib/use-translations'
+import type { Translations } from '@/lib/translations'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -43,17 +45,19 @@ interface Props {
   tags?: string[]
 }
 
-const DIFFICULTY_LABELS: Record<number, string> = {
-  1: 'Very easy',
-  2: 'Easy',
-  3: 'Moderate',
-  4: 'Hard',
-  5: 'Very hard',
+function getDifficultyLabels(t: Translations): Record<number, string> {
+  return {
+    1: t.destination_page.very_easy,
+    2: t.destination_page.easy,
+    3: t.destination_page.moderate,
+    4: t.destination_page.hard,
+    5: t.destination_page.very_hard,
+  }
 }
 
-function difficultyLabel(d: number) {
+function difficultyLabel(t: Translations, d: number) {
   const level = Math.max(1, Math.min(5, Math.round(d)))
-  return DIFFICULTY_LABELS[level]
+  return getDifficultyLabels(t)[level]
 }
 
 function Stars({ rating }: { rating: number }) {
@@ -72,6 +76,7 @@ function Stars({ rating }: { rating: number }) {
 
 function Countdown({ target }: { target: string }) {
   const [parts, setParts] = useState<{ months: number; days: number; hours: number } | null>(null)
+  const { t } = useTranslations()
   useEffect(() => {
     function calc() {
       const diffMs = new Date(target).getTime() - Date.now()
@@ -89,10 +94,10 @@ function Countdown({ target }: { target: string }) {
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
       </svg>
-      <span className="hidden sm:inline">До тръгване:&nbsp;</span>
-      {parts.months > 0 && <><strong className="text-white text-xs">{parts.months}</strong><span className="text-xs">м&nbsp;</span></>}
-      <strong className="text-white text-xs">{parts.days}</strong><span className="text-xs">д&nbsp;</span>
-      <strong className="text-white text-xs">{parts.hours}</strong><span className="text-xs">ч</span>
+      <span className="hidden sm:inline">{t.destination_page.until_departure}&nbsp;</span>
+      {parts.months > 0 && <><strong className="text-white text-xs">{parts.months}</strong><span className="text-xs">{t.destination_page.months_short}&nbsp;</span></>}
+      <strong className="text-white text-xs">{parts.days}</strong><span className="text-xs">{t.destination_page.days_short}&nbsp;</span>
+      <strong className="text-white text-xs">{parts.hours}</strong><span className="text-xs">{t.destination_page.hours_short}</span>
     </span>
   )
 }
@@ -109,6 +114,7 @@ export function HeroSection({
   const [activeImage, setActiveImage] = useState<string | null>(null)
   const [scrolled, setScrolled] = useState(false)
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const { t } = useTranslations()
 
   useEffect(() => {
     const handler = () => setDrawerOpen(true)
@@ -223,28 +229,28 @@ export function HeroSection({
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M19 12H5M12 5l-7 7 7 7"/>
               </svg>
-              <span className="hidden sm:inline">All destinations</span>
-              <span className="sm:hidden">Back</span>
+              <span className="hidden sm:inline">{t.destination_page.all_destinations}</span>
+              <span className="sm:hidden">{t.destination_page.back}</span>
             </a>
 
             {(soldOut || urgentSpots || earlyBirdSpotsLeft != null) && (
               <div ref={urgencyRef} className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                 {soldOut ? (
                   <span className="bg-red-600 text-white text-xs font-bold uppercase tracking-widest px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs">
-                    Sold Out
+                    {t.destination_page.sold_out_badge}
                   </span>
                 ) : urgentSpots ? (
                   <span className="flex items-center gap-1.5 sm:gap-2 bg-orange-600/90 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-widest px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs">
                     <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                    <span className="hidden sm:inline">Only {spotsAvailable} spots</span>
-                    <span className="sm:hidden">{spotsAvailable} spots</span>
+                    <span className="hidden sm:inline">{t.destination_page.only_spots} {spotsAvailable} {t.destination_page.spots_word_lower}</span>
+                    <span className="sm:hidden">{spotsAvailable} {t.destination_page.spots_word_lower}</span>
                   </span>
                 ) : null}
                 {earlyBirdSpotsLeft != null && (
                   <span className="flex items-center gap-1.5 sm:gap-2 bg-amber-400/95 backdrop-blur-sm text-black text-xs font-bold uppercase tracking-widest px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs">
                     <span className="w-2 h-2 rounded-full bg-black/40 animate-pulse" />
-                    <span className="hidden sm:inline">{earlyBirdSpotsLeft} early bird {earlyBirdSpotsLeft === 1 ? 'spot' : 'spots'}</span>
-                    <span className="sm:hidden">{earlyBirdSpotsLeft} early bird</span>
+                    <span className="hidden sm:inline">{earlyBirdSpotsLeft} {t.destination_page.early_bird_label} {earlyBirdSpotsLeft === 1 ? t.destination_page.spot_word : t.destination_page.spots_word_lower}</span>
+                    <span className="sm:hidden">{earlyBirdSpotsLeft} {t.destination_page.early_bird_label}</span>
                   </span>
                 )}
               </div>
@@ -278,7 +284,7 @@ export function HeroSection({
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0 0 11.5 2 1.5 1.5 0 0 0 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/>
                 </svg>
-                Depart from {departureCity}
+                {t.destination_page.depart_from} {departureCity}
               </span>
             )}
             {difficulty != null && (
@@ -286,7 +292,7 @@ export function HeroSection({
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M3 17l4-8 4 4 4-6 4 5"/>
                 </svg>
-                {difficultyLabel(difficulty)}
+                {difficultyLabel(t, difficulty)}
               </span>
             )}
             {startDate && <Countdown target={startDate} />}
@@ -311,7 +317,7 @@ export function HeroSection({
                 <Stars rating={avgRating} />
                 <span className="font-semibold text-white">{avgRating.toFixed(1)}</span>
                 {reviewCount != null && reviewCount > 0 && (
-                  <span className="text-white/50">({reviewCount} отзива)</span>
+                  <span className="text-white/50">({reviewCount} {t.destination_page.reviews_count})</span>
                 )}
               </span>
             )}
@@ -324,7 +330,7 @@ export function HeroSection({
                 onClick={() => setDrawerOpen(true)}
                 className="inline-flex items-center justify-center sm:justify-start gap-2 bg-white text-black text-xs sm:text-sm font-semibold px-4 sm:px-5 py-2 sm:py-2.5 md:px-6 md:py-3 rounded-sm hover:bg-white/90 transition-colors min-h-[44px] sm:min-h-auto"
               >
-                Book a spot →
+                {t.destination_page.book_a_spot_arrow}
               </button>
             )}
 

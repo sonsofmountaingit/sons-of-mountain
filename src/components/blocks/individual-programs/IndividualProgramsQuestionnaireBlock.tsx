@@ -18,8 +18,8 @@ interface Props {
 }
 
 export function IndividualProgramsQuestionnaireBlock({
-  questionnaireHeading = 'Tell us about your journey',
-  questionnaireSubtext = 'Fill out the questionnaire and we\'ll contact you within 24 hours with a personalized offer.',
+  questionnaireHeading = 'Разкажи ни за пътуването си',
+  questionnaireSubtext = 'Попълни въпросника и ще се свържем с теб в рамките на 24 часа с персонализирана оферта.',
   questions = [],
   formNamePlaceholder,
   formEmailPlaceholder,

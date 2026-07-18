@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import type { ItineraryDay } from './ItinerarySection'
 import { DayStatsBar } from './ItinerarySection'
 import { RichText } from '@payloadcms/richtext-lexical/react'
+import { useTranslations } from '@/lib/use-translations'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -15,6 +16,7 @@ interface NavProps {
 
 export function ItineraryNav({ days }: NavProps) {
   const [active, setActive] = useState(days[0] ?? 1)
+  const { t } = useTranslations()
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -42,7 +44,7 @@ export function ItineraryNav({ days }: NavProps) {
   }
 
   return (
-    <nav className="flex flex-col gap-2 items-center" aria-label="Navigation by day">
+    <nav className="flex flex-col gap-2 items-center" aria-label={t.a11y.navigation_by_day}>
       {days.map((d) => (
         <button
           key={d}
@@ -52,7 +54,7 @@ export function ItineraryNav({ days }: NavProps) {
               ? 'bg-black text-white shadow-md scale-110'
               : 'text-black/30 hover:text-black hover:bg-black/6'
           }`}
-          aria-label={`Day ${d}`}
+          aria-label={`${t.destination_page.day_nav_label} ${d}`}
         >
           {d}
         </button>

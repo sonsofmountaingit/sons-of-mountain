@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from '@/lib/use-translations'
 
 interface WaitlistButtonProps {
   itemType: 'trip' | 'program' | 'destination' | 'product'
@@ -14,6 +15,7 @@ export function WaitlistButton({ itemType, itemId }: WaitlistButtonProps) {
   const [position, setPosition] = useState<number | null>(null)
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
+  const { t } = useTranslations()
 
   async function submit(e: React.FormEvent) {
     e.preventDefault()
@@ -34,7 +36,7 @@ export function WaitlistButton({ itemType, itemId }: WaitlistButtonProps) {
   }
 
   if (submitted) {
-    return <p className="text-sm text-green-600">You are #{position} on the waitlist. We will contact you when a spot opens.</p>
+    return <p className="text-sm text-green-600">{t.shop.waitlist_confirmation_prefix}{position} {t.shop.waitlist_confirmation_suffix}</p>
   }
 
   return (
@@ -43,7 +45,7 @@ export function WaitlistButton({ itemType, itemId }: WaitlistButtonProps) {
         <form onSubmit={submit} className="space-y-2">
           <input
             type="text"
-            placeholder="Your name"
+            placeholder={t.shop.waitlist_name_placeholder}
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="w-full rounded border px-3 py-2 text-sm"
@@ -51,7 +53,7 @@ export function WaitlistButton({ itemType, itemId }: WaitlistButtonProps) {
           <input
             type="email"
             required
-            placeholder="your@email.com"
+            placeholder={t.shop.waitlist_email_placeholder}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full rounded border px-3 py-2 text-sm"
@@ -61,7 +63,7 @@ export function WaitlistButton({ itemType, itemId }: WaitlistButtonProps) {
             disabled={loading}
             className="w-full rounded bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 disabled:opacity-50"
           >
-            Join waitlist
+            {t.shop.waitlist_join}
           </button>
         </form>
       ) : (
@@ -69,7 +71,7 @@ export function WaitlistButton({ itemType, itemId }: WaitlistButtonProps) {
           onClick={() => setOpen(true)}
           className="w-full rounded border-2 border-gray-900 px-6 py-3 text-sm font-semibold text-gray-900 hover:bg-gray-900 hover:text-white transition-colors"
         >
-          Join waitlist
+          {t.shop.waitlist_join}
         </button>
       )}
     </div>

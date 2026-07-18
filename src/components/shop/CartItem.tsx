@@ -3,9 +3,11 @@
 import Image from 'next/image'
 import { useCartStore, type CartItem } from '@/lib/cart-store'
 import { formatPrice } from '@/lib/currency'
+import { useTranslations } from '@/lib/use-translations'
 
 export function CartItemRow({ item }: { item: CartItem }) {
   const { removeItem, updateQuantity } = useCartStore()
+  const { t } = useTranslations()
 
   return (
     <div className="flex gap-3 py-4">
@@ -39,16 +41,16 @@ export function CartItemRow({ item }: { item: CartItem }) {
         </div>
         {item.priceBreakdown && item.priceBreakdown.earlyBirdCount > 0 && item.priceBreakdown.regularCount > 0 && (
           <p className="text-xs text-green-600">
-            {item.priceBreakdown.earlyBirdCount} × {formatPrice(item.priceBreakdown.earlyBirdPrice)} early bird
+            {item.priceBreakdown.earlyBirdCount} × {formatPrice(item.priceBreakdown.earlyBirdPrice)} {t.shop.early_bird}
             {' + '}
-            {item.priceBreakdown.regularCount} × {formatPrice(item.priceBreakdown.regularPrice)} regular
+            {item.priceBreakdown.regularCount} × {formatPrice(item.priceBreakdown.regularPrice)} {t.shop.regular}
           </p>
         )}
       </div>
       <button
         onClick={() => removeItem(item.id)}
         className="flex-shrink-0 text-gray-400 hover:text-gray-700"
-        aria-label="Remove item"
+        aria-label={t.shop.remove_item}
       >
         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

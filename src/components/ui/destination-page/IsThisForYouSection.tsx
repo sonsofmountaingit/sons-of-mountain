@@ -5,6 +5,7 @@ import { RichText } from '@payloadcms/richtext-lexical/react'
 import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useTranslations } from '@/lib/use-translations'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -95,11 +96,13 @@ function ArcStat({ label, value, index }: { label: string; value: number; index:
 export function IsThisForYouSection({ fitnessRatings, summaryHeading, summaryText, upcomingTrips = [], thumbnailImage, thumbnailImageAlt }: Props) {
   if ((!fitnessRatings || fitnessRatings.length === 0) && !summaryHeading && !summaryText) return null
 
+  const { t, language } = useTranslations()
+  const locale = language === 'EN' ? 'en-US' : 'bg-BG'
   const nextTrip = upcomingTrips[0]
   const fillPct = nextTrip ? Math.round(((nextTrip.spotsTotal - nextTrip.spotsAvailable) / nextTrip.spotsTotal) * 100) : 0
 
   const formatDate = (d: string) =>
-    new Date(d).toLocaleDateString('bg-BG', { day: 'numeric', month: 'short' })
+    new Date(d).toLocaleDateString(locale, { day: 'numeric', month: 'short' })
 
   const sectionRef = useRef<HTMLElement>(null)
   const textColRef = useRef<HTMLDivElement>(null)
@@ -156,7 +159,7 @@ export function IsThisForYouSection({ fitnessRatings, summaryHeading, summaryTex
           {/* Col 1 — heading + text + trip bar */}
           <div ref={textColRef}>
             <p className="text-xs font-semibold tracking-widest text-black/40 uppercase mb-2 sm:mb-4">
-              ЗА ТЕБ ЛИ Е ТОВА ПЪТУВАНЕ?
+              {t.destination_page.is_this_for_you}
             </p>
             {summaryHeading && (
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight mb-3 sm:mb-4">
@@ -171,7 +174,7 @@ export function IsThisForYouSection({ fitnessRatings, summaryHeading, summaryTex
             {nextTrip && (
               <div>
                 <p className="text-xs font-semibold tracking-widest text-black/40 uppercase mb-2">
-                  ПРЕДСТОЯЩИ ПЪТУВАНИЯ
+                  {t.destination_page.upcoming_trips_label}
                 </p>
                 <p className="text-xs sm:text-sm font-semibold mb-2">
                   {formatDate(nextTrip.startDate)} – {formatDate(nextTrip.endDate)}
@@ -191,7 +194,7 @@ export function IsThisForYouSection({ fitnessRatings, summaryHeading, summaryTex
             <div ref={imageRef} className="hidden md:block relative w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-xl">
               <Image
                 src={thumbnailImage}
-                alt={thumbnailImageAlt ?? 'Пътуване'}
+                alt={thumbnailImageAlt ?? t.trips.title}
                 fill
                 loading="lazy"
                 quality={85}

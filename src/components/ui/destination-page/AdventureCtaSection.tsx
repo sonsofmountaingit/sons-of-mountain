@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { mediaUrl } from '@/lib/media-url'
 import { formatPrice } from '@/lib/currency'
 import { WaitlistFormModal, type WaitlistItemType } from '@/components/forms/WaitlistFormModal'
+import { useTranslations } from '@/lib/use-translations'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -31,6 +32,7 @@ interface Props {
 }
 
 export function AdventureCtaSection({ durationDays, maxParticipants, price, currency, priceIncludes, communityPhotos, earlyBirdPrice, earlyBirdUntil, earlyBirdSpots, spotsAvailable, itemType, itemId, itemTitle }: Props) {
+  const { t } = useTranslations()
   const [waitlistOpen, setWaitlistOpen] = useState(false)
   const isSoldOut = spotsAvailable != null && spotsAvailable === 0
   const isEarlyBird = !!(earlyBirdPrice && earlyBirdUntil && new Date() < new Date(earlyBirdUntil))
@@ -67,21 +69,21 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
       <div className="max-w-3xl mx-auto flex flex-col items-center text-center gap-6 sm:gap-8">
 
         <div className="w-full">
-          <p className="text-xs font-bold tracking-[0.3em] text-black/40 uppercase mb-4">Готов ли си?</p>
+          <p className="text-xs font-bold tracking-[0.3em] text-black/40 uppercase mb-4">{t.destination_page.adventure_cta_ready}</p>
           <h2 ref={headingRef} className="text-4xl sm:text-5xl md:text-6xl font-black uppercase leading-[0.9] tracking-tight mb-6 sm:mb-8">
-            Хвърли се в приключение
+            {t.destination_page.adventure_cta_heading}
           </h2>
 
           {(durationDays || maxParticipants) && (
             <div className="flex flex-wrap justify-center gap-2 mb-8">
               {durationDays && (
                 <span className="border border-black/20 rounded-full px-4 py-1.5 text-sm font-semibold text-black/70">
-                  {durationDays} {durationDays === 1 ? 'ден' : 'дни'}
+                  {durationDays} {durationDays === 1 ? t.destination_page.trip_summary_day : t.destination_page.trip_summary_days}
                 </span>
               )}
               {maxParticipants && (
                 <span className="border border-black/20 rounded-full px-4 py-1.5 text-sm font-semibold text-black/70">
-                  {maxParticipants} people
+                  {maxParticipants} {t.destination_page.participants_unit}
                 </span>
               )}
             </div>
@@ -89,7 +91,7 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
         </div>
 
         <div className="w-full">
-          <p className="text-xs font-bold tracking-[0.25em] text-black/40 uppercase mb-2">Price per person</p>
+          <p className="text-xs font-bold tracking-[0.25em] text-black/40 uppercase mb-2">{t.destination_page.price_label} {t.destination_page.per_person}</p>
           <div ref={priceRef} className="mb-3">
             {isEarlyBird && (
               <div className="flex flex-col items-center gap-1 mb-1">
@@ -97,11 +99,11 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
                   <span className="text-2xl sm:text-3xl font-bold text-black/30 line-through leading-none">
                     {formatPrice(price)}
                   </span>
-                  <span className="bg-black text-white text-xs font-black uppercase tracking-widest px-2 py-0.5">Early Bird</span>
+                  <span className="bg-black text-white text-xs font-black uppercase tracking-widest px-2 py-0.5">{t.destination_page.early_bird_label}</span>
                 </div>
                 {earlyBirdSpotsLeft != null && (
                   <span className="text-xs font-semibold text-black/60 uppercase tracking-wider">
-                    {earlyBirdSpotsLeft} early bird {earlyBirdSpotsLeft === 1 ? 'spot' : 'spots'} left
+                    {earlyBirdSpotsLeft} {t.destination_page.early_bird_label} {earlyBirdSpotsLeft === 1 ? t.destination_page.spot_left : t.destination_page.spots_left}
                   </span>
                 )}
               </div>
@@ -119,7 +121,7 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
               onClick={() => setWaitlistOpen(true)}
               className="inline-flex items-center gap-3 bg-black text-white font-black text-sm uppercase tracking-widest px-6 sm:px-8 py-3.5 sm:py-4 hover:bg-black/80 transition-colors"
             >
-              Waitlist
+              {t.destination_page.waitlist}
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
@@ -129,7 +131,7 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
               href="#booking"
               className="inline-flex items-center gap-3 bg-black text-white font-black text-sm uppercase tracking-widest px-6 sm:px-8 py-3.5 sm:py-4 hover:bg-black/80 transition-colors"
             >
-              Book now
+              {t.destination_page.book_now}
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
@@ -149,7 +151,7 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
                 >
                   <Image
                     src={mediaUrl(p.photo!.url)!}
-                    alt={p.photo?.alt ?? `Пътешественик ${i + 1}`}
+                    alt={p.photo?.alt ?? `${t.destination_page.traveler_alt_prefix} ${i + 1}`}
                     fill
                     loading="lazy"
                     quality={60}
@@ -160,8 +162,8 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
               ))}
             </div>
             <div className="text-left">
-              <p className="text-sm font-semibold text-black">Нашата общност</p>
-              <p className="text-xs text-black/40">Над {communityCount} пътешественика</p>
+              <p className="text-sm font-semibold text-black">{t.destination_page.community_title_short}</p>
+              <p className="text-xs text-black/40">{t.destination_page.community_subtitle_prefix} {communityCount} {t.destination_page.community_subtitle_suffix}</p>
             </div>
           </div>
         )}

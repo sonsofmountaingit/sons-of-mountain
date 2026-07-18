@@ -1,9 +1,11 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
+import { cookies } from 'next/headers'
 import { mediaUrl } from '@/lib/media-url'
 import { FeaturedTravelsBlock, type FeaturedTravelItem } from '@/components/blocks/featured-travels/FeaturedTravelsBlock'
 import { FeaturedTravelsEditButton } from './FeaturedTravelsEditButton'
+import { translations, type Language } from '@/lib/translations'
 
 interface FeaturedTravelsGlobal {
   heading?: string
@@ -32,8 +34,6 @@ function imageUrl(v: unknown): string | null {
   }
   return null
 }
-
-import { translations } from '@/lib/translations'
 
 const BG_MONTHS = translations.BG.months.map((m) => m.charAt(0).toUpperCase() + m.slice(1))
 
@@ -125,17 +125,21 @@ const getData = unstable_cache(async () => {
       return null
     }).filter(Boolean) as FeaturedTravelItem[]
 
-    return { heading: g?.heading ?? 'CHOOSE YOUR JOURNEY', items }
+    return { heading: g?.heading, items }
   } catch {
-    return { heading: 'CHOOSE YOUR JOURNEY', items: [] }
+    return { heading: undefined, items: [] }
   }
 }, ['featured-travels-data'], { tags: ['featured-travels'], revalidate: false })
 
 export async function FeaturedTravels() {
   const { heading, items } = await getData()
+  const cookieStore = await cookies()
+  const stored = cookieStore.get('language')?.value as Language | undefined
+  const language: Language = stored === 'BG' || stored === 'EN' ? stored : 'BG'
+  const t = translations[language]
   return (
     <>
-      <FeaturedTravelsBlock heading={heading} items={items} emptyMessage="No data available" />
+      <FeaturedTravelsBlock heading={heading ?? t.destination_page.choose_journey} items={items} emptyMessage={t.destination_page.no_data} />
       <FeaturedTravelsEditButton />
     </>
   )
