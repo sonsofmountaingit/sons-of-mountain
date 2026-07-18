@@ -89,6 +89,7 @@ async function ProgramContent({ params }: Props) {
   const travelImage = p.travelImage as { url?: string | null; alt?: string } | null
   const transportImage = p.transportImage as { url?: string | null; alt?: string } | null
   const fitnessRatings = p.fitnessRatings as { label?: string; value?: number }[] | null
+  const difficulty = fitnessRatings?.find(r => r.label?.toLowerCase().includes('трудност'))?.value ?? fitnessRatings?.[0]?.value ?? null
   const itinerary = program.itinerary as { day: number; title: string; content?: Record<string, unknown> | null; image?: { url?: string | null; alt?: string } | null; stats?: { transferStart?: string | null; ascent?: string | null; descent?: string | null; distance?: string | null; duration?: string | null; accommodation?: string | null; meals?: string | null; transferEnd?: string | null } | null }[] | null
   const accommodations = p.accommodations as { locationLabel?: string | null; name?: string | null; description?: Record<string, unknown> | null; learnMoreUrl?: string | null; gallery?: { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null }[] | null
   const accommodationsSectionEyebrow = p.accommodationsSectionEyebrow as string | null ?? null
@@ -198,6 +199,9 @@ async function ProgramContent({ params }: Props) {
         earlyBirdUntil={p.earlyBirdUntil as string | null}
         earlyBirdSpots={p.earlyBirdSpots as number | null}
         spotsAvailable={program.spotsAvailable as number | null}
+        difficulty={difficulty}
+        startDate={program.startDate as string | null}
+        endDate={program.endDate as string | null}
       />
 
       <WhySection
@@ -206,6 +210,13 @@ async function ProgramContent({ params }: Props) {
         whyImages={whyImages}
         heading={p.fitnessSummaryHeading as string | null}
         content={program.description as Record<string, unknown> | null}
+        tripId={String(program.id)}
+        tripTitle={program.title as string}
+        price={program.price ?? 0}
+        spotsAvailable={program.spotsAvailable as number | null}
+        difficulty={difficulty}
+        startDate={program.startDate as string | null}
+        endDate={program.endDate as string | null}
       />
 
       <IsThisForYouSection

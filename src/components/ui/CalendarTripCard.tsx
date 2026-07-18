@@ -37,7 +37,7 @@ export const DIFFICULTY_LABELS: Record<number, string> = {
 
 export function difficultyToLevel(raw: number | null | undefined): number | null {
   if (raw == null) return null
-  const level = Math.ceil(raw / 20)
+  const level = Math.round(raw)
   return Math.max(1, Math.min(5, level))
 }
 

@@ -17,6 +17,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -25,6 +26,8 @@ body {
   font-family: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 ::selection {
@@ -43,4 +46,19 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #333;
   border-radius: 3px;
+}
+
+/* Footer reveal animation: visible by default so a JS/gsap failure
+   never hides content. Inline styles applied by FooterReveal.tsx are
+   transient and always cleared, with a hard fallback timeout. */
+.footer-reveal [data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-reveal [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

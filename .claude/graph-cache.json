@@ -19,6 +19,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260718_about_hero_image_position.ts",
+      "label": "migrations/20260718_about_hero_image_position.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260716b_preferences_rels_customers.ts",
       "label": "migrations/20260716b_preferences_rels_customers.ts",
       "group": "other",
@@ -3283,6 +3289,12 @@
       "size": 6
     },
     {
+      "id": "src/components/admin/HeroImageFocalPointField.tsx",
+      "label": "admin/HeroImageFocalPointField.tsx",
+      "group": "admin",
+      "size": 6
+    },
+    {
       "id": "src/components/admin/IndividualProgramsPageVisualEditorButton.tsx",
       "label": "admin/IndividualProgramsPageVisualEditorButton.tsx",
       "group": "admin",
@@ -3587,6 +3599,10 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260716e_testimonials_instagram.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260718_about_hero_image_position.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -5586,6 +5602,10 @@
     },
     {
       "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/HeroImageFocalPointField.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
       "target": "src/components/admin/ContactPageVisualEditorButton.tsx"
     },
     {
@@ -7557,6 +7577,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-18T09:58:35.429Z",
-  "fileCount": 589
+  "builtAt": "2026-07-18T10:12:41.341Z",
+  "fileCount": 591
 }

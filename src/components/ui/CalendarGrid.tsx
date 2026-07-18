@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useRef, useState, useCallback, useEffect, useMemo, lazy, Suspense } from 'react'
+import { createPortal } from 'react-dom'
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import { CalendarTripCard, type CalendarItem, DIFFICULTY_LABELS } from './CalendarTripCard'
 
@@ -263,11 +264,22 @@ function FilterDropdown({
   children: React.ReactNode
 }) {
   const [open, setOpen] = useState(false)
+  const [coords, setCoords] = useState<{ top: number; left: number } | null>(null)
+  const [mounted, setMounted] = useState(false)
   const panelRef = useRef<HTMLDivElement>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
+  const btnRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => { setMounted(true) }, [])
 
   useEffect(() => {
-    if (!panelRef.current) return
+    if (!open || !btnRef.current) return
+    const rect = btnRef.current.getBoundingClientRect()
+    setCoords({ top: rect.bottom + 6, left: rect.left })
+  }, [open])
+
+  useEffect(() => {
+    if (!panelRef.current || !coords) return
     const el = panelRef.current
     if (open) {
       el.style.display = 'block'
@@ -284,21 +296,61 @@ function FilterDropdown({
         })
       })
     }
-  }, [open])
+  }, [open, coords])
 
   // Close on outside click
   useEffect(() => {
     if (!open) return
     function handler(e: MouseEvent) {
-      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) setOpen(false)
+      const target = e.target as Node
+      if (wrapRef.current?.contains(target)) return
+      if (panelRef.current?.contains(target)) return
+      setOpen(false)
     }
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
   }, [open])
 
+  // Reposition on scroll/resize while open
+  useEffect(() => {
+    if (!open) return
+    function reposition() {
+      if (!btnRef.current) return
+      const rect = btnRef.current.getBoundingClientRect()
+      setCoords({ top: rect.bottom + 6, left: rect.left })
+    }
+    window.addEventListener('scroll', reposition, true)
+    window.addEventListener('resize', reposition)
+    return () => {
+      window.removeEventListener('scroll', reposition, true)
+      window.removeEventListener('resize', reposition)
+    }
+  }, [open])
+
+  const panel = (
+    <div
+      ref={panelRef}
+      style={{
+        display: 'none',
+        position: 'fixed',
+        top: coords?.top ?? 0,
+        left: coords?.left ?? 0,
+        zIndex: 9999,
+        minWidth: '160px',
+        maxWidth: 'calc(100vw - 2rem)',
+        maxHeight: '60vh',
+        overflowY: 'auto',
+      }}
+      className="bg-white border border-zinc-200 rounded-xl shadow-xl"
+    >
+      {children}
+    </div>
+  )
+
   return (
     <div ref={wrapRef} className="relative">
       <button
+        ref={btnRef}
         onClick={() => setOpen((p) => !p)}
         className={[
           'flex items-center gap-1.5 text-[10px] tracking-widest px-3.5 py-1.5 rounded-full border transition-all duration-200 whitespace-nowrap flex-shrink-0',
@@ -317,13 +369,7 @@ function FilterDropdown({
           ▾
         </span>
       </button>
-      <div
-        ref={panelRef}
-        style={{ display: 'none', position: 'absolute', top: 'calc(100% + 6px)', left: 0, zIndex: 999, minWidth: '160px', maxWidth: 'calc(100vw - 2rem)', maxHeight: '60vh', overflowY: 'auto' }}
-        className="bg-white border border-zinc-200 rounded-xl shadow-xl overflow-hidden"
-      >
-        {children}
-      </div>
+      {mounted && coords ? createPortal(panel, document.body) : null}
     </div>
   )
 }

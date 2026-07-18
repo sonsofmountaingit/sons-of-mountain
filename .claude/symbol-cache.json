@@ -35,6 +35,18 @@
     "lines": 44,
     "group": "other"
   },
+  "src/migrations/20260718_about_hero_image_position.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 18,
+    "group": "other"
+  },
   "src/migrations/20260716b_preferences_rels_customers.ts": {
     "exports": [
       "up",
@@ -161,9 +173,10 @@
       "./20260716b_preferences_rels_customers",
       "./20260716c_transport_map_link",
       "./20260716d_testimonials_role",
-      "./20260716e_testimonials_instagram"
+      "./20260716e_testimonials_instagram",
+      "./20260718_about_hero_image_position"
     ],
-    "lines": 82,
+    "lines": 88,
     "group": "other"
   },
   "src/migrations/20260714b_seo_meta_keywords_all_collections.ts": {
@@ -701,7 +714,7 @@
       "./PuckAboutEditorClient",
       "@/lib/media-url"
     ],
-    "lines": 100,
+    "lines": 102,
     "group": "puck"
   },
   "src/app/(puck)/puck/blog/PuckBlogEditorClient.tsx": {
@@ -1424,7 +1437,7 @@
       "@payload-config",
       "@/lib/media-url"
     ],
-    "lines": 38,
+    "lines": 40,
     "group": "api"
   },
   "src/app/api/gift-voucher/route.ts": {
@@ -1813,7 +1826,7 @@
       "next/cache",
       "@/lib/payload-auth"
     ],
-    "lines": 62,
+    "lines": 64,
     "group": "api"
   },
   "src/app/api/puck/blog/route.ts": {
@@ -3985,6 +3998,7 @@
       "@/components/admin/CalendarCtaVisualEditorButton",
       "@/components/admin/TestimonialsVisualEditorButton",
       "@/components/admin/AboutVisualEditorButton",
+      "@/components/admin/HeroImageFocalPointField",
       "@/components/admin/ContactPageVisualEditorButton",
       "@/components/admin/IndividualProgramsPageVisualEditorButton",
       "@/components/admin/BlogPageVisualEditorButton",
@@ -4001,7 +4015,7 @@
       "@/components/admin/StripeReconciliationView",
       "@payloadcms/next/rsc"
     ],
-    "lines": 107,
+    "lines": 109,
     "group": "payload-app"
   },
   "src/app/(payload)/layout.tsx": {
@@ -4450,7 +4464,7 @@
       "../hooks/revalidate",
       "next/server"
     ],
-    "lines": 167,
+    "lines": 193,
     "group": "globals"
   },
   "src/payload/globals/PrivacyPolicy.ts": {
@@ -5825,7 +5839,7 @@
       "gsap",
       "gsap/ScrollTrigger"
     ],
-    "lines": 190,
+    "lines": 194,
     "group": "blocks"
   },
   "src/components/blocks/BannerBlockRenderer.tsx": {
@@ -6788,7 +6802,7 @@
       "@/lib/translations",
       "@/lib/translations"
     ],
-    "lines": 495,
+    "lines": 494,
     "group": "ui"
   },
   "src/components/ui/DestinationCarousel.tsx": {
@@ -7291,7 +7305,7 @@
       "@/components/blocks/about/AboutPartnersBlock",
       "./AboutEditButton"
     ],
-    "lines": 75,
+    "lines": 77,
     "group": "ui"
   },
   "src/components/forms/BookingFormWrapper.tsx": {
@@ -7792,6 +7806,19 @@
     "types": [],
     "imports": [],
     "lines": 36,
+    "group": "admin"
+  },
+  "src/components/admin/HeroImageFocalPointField.tsx": {
+    "exports": [
+      "HeroImageFocalPointField"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "@payloadcms/ui",
+      "payload"
+    ],
+    "lines": 118,
     "group": "admin"
   },
   "src/components/admin/IndividualProgramsPageVisualEditorButton.tsx": {
@@ -8315,7 +8342,7 @@
       "@/components/blocks/vouchers/VouchersRedeemBlock",
       "@/components/blocks/vouchers/VouchersMineBlock"
     ],
-    "lines": 2152,
+    "lines": 2156,
     "group": "other"
   },
   "src/puck/puckAI.ts": {

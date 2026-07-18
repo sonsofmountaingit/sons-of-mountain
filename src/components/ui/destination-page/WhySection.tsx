@@ -46,7 +46,7 @@ const DIFFICULTY_LABELS: Record<number, string> = {
 
 function DifficultyLabel(score: number | null | undefined) {
   if (score == null) return null
-  const level = Math.max(1, Math.min(5, Math.ceil(score / 20)))
+  const level = Math.max(1, Math.min(5, Math.round(score)))
   return DIFFICULTY_LABELS[level]
 }
 

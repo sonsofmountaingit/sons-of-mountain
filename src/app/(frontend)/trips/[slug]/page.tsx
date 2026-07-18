@@ -92,6 +92,7 @@ async function TripContent({ params }: Props) {
   const transportImage = t.transportImage as { url?: string | null; alt?: string } | null
   const whyVisit = t.whyVisit as { heading?: string; content?: Record<string, unknown> } | null
   const fitnessRatings = t.fitnessRatings as { label?: string; value?: number }[] | null
+  const difficulty = fitnessRatings?.find(r => r.label?.toLowerCase().includes('трудност'))?.value ?? fitnessRatings?.[0]?.value ?? null
   const itinerary = (t.itinerary as { day: number; title: string; content?: Record<string, unknown> | null; image?: { url?: string | null; alt?: string } | null; stats?: { transferStart?: string | null; ascent?: string | null; descent?: string | null; distance?: string | null; duration?: string | null; accommodation?: string | null; meals?: string | null; transferEnd?: string | null } | null }[] | null) ?? []
   const accommodations = t.accommodations as { locationLabel?: string | null; name?: string | null; description?: Record<string, unknown> | null; learnMoreUrl?: string | null; gallery?: { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null }[] | null
   const accommodationsSectionEyebrow = t.accommodationsSectionEyebrow as string | null ?? null
@@ -215,6 +216,7 @@ async function TripContent({ params }: Props) {
         startDate={trip.startDate as string}
         endDate={trip.endDate as string}
         durationDays={durationDays}
+        difficulty={difficulty}
         archived={(trip.status as string) === 'archived'}
         earlyBirdPrice={t.earlyBirdPrice as number | null}
         earlyBirdUntil={t.earlyBirdUntil as string | null}
@@ -237,6 +239,13 @@ async function TripContent({ params }: Props) {
         whyImages={whyImages}
         heading={whyVisit?.heading}
         content={whyVisit?.content}
+        tripId={String(trip.id)}
+        tripTitle={title}
+        price={trip.price ?? 0}
+        spotsAvailable={trip.spotsAvailable as number | null}
+        difficulty={difficulty}
+        startDate={trip.startDate as string | null}
+        endDate={trip.endDate as string | null}
       />
 
       <IsThisForYouSection
