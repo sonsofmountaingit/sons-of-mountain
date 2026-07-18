@@ -40,6 +40,8 @@ async function EditorContent() {
           heroStatNumber: d?.heroStatNumber ?? '4 200+',
           heroStatLabel: d?.heroStatLabel ?? 'пътешественици с нас',
           heroImageUrl,
+          heroImagePositionX: d?.heroImagePositionX ?? 50,
+          heroImagePositionY: d?.heroImagePositionY ?? 50,
         },
       },
       {

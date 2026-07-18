@@ -27,6 +27,8 @@ export async function GET() {
     return NextResponse.json({
       ...d,
       heroImageUrl,
+      heroImagePositionX: d?.heroImagePositionX ?? 50,
+      heroImagePositionY: d?.heroImagePositionY ?? 50,
       whoImage1Url,
       whoImage2Url,
       partners,

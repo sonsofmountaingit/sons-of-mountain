@@ -34,6 +34,7 @@ import { FeaturedTravelsVisualEditorButton as FeaturedTravelsVisualEditorButton_
 import { CalendarCtaVisualEditorButton as CalendarCtaVisualEditorButton_88a6d61a85d3db3c7f3b3d1daf1462fe } from '@/components/admin/CalendarCtaVisualEditorButton'
 import { TestimonialsVisualEditorButton as TestimonialsVisualEditorButton_81bf3cd4e881256ecd534cd1725c0801 } from '@/components/admin/TestimonialsVisualEditorButton'
 import { AboutVisualEditorButton as AboutVisualEditorButton_b4d3f89837ae7b094a52f32c2c5ef0e9 } from '@/components/admin/AboutVisualEditorButton'
+import { HeroImageFocalPointField as HeroImageFocalPointField_8e925f134bbc7de6dcfb1afcd3f516b8 } from '@/components/admin/HeroImageFocalPointField'
 import { ContactPageVisualEditorButton as ContactPageVisualEditorButton_85959b6af4825e994631260bc583c498 } from '@/components/admin/ContactPageVisualEditorButton'
 import { IndividualProgramsPageVisualEditorButton as IndividualProgramsPageVisualEditorButton_bf8e3ef219ce868290f1612ef311385d } from '@/components/admin/IndividualProgramsPageVisualEditorButton'
 import { BlogPageVisualEditorButton as BlogPageVisualEditorButton_304e7778f5426776f8891497f0b4a995 } from '@/components/admin/BlogPageVisualEditorButton'
@@ -88,6 +89,7 @@ export const importMap = {
   "@/components/admin/CalendarCtaVisualEditorButton#CalendarCtaVisualEditorButton": CalendarCtaVisualEditorButton_88a6d61a85d3db3c7f3b3d1daf1462fe,
   "@/components/admin/TestimonialsVisualEditorButton#TestimonialsVisualEditorButton": TestimonialsVisualEditorButton_81bf3cd4e881256ecd534cd1725c0801,
   "@/components/admin/AboutVisualEditorButton#AboutVisualEditorButton": AboutVisualEditorButton_b4d3f89837ae7b094a52f32c2c5ef0e9,
+  "@/components/admin/HeroImageFocalPointField#HeroImageFocalPointField": HeroImageFocalPointField_8e925f134bbc7de6dcfb1afcd3f516b8,
   "@/components/admin/ContactPageVisualEditorButton#ContactPageVisualEditorButton": ContactPageVisualEditorButton_85959b6af4825e994631260bc583c498,
   "@/components/admin/IndividualProgramsPageVisualEditorButton#IndividualProgramsPageVisualEditorButton": IndividualProgramsPageVisualEditorButton_bf8e3ef219ce868290f1612ef311385d,
   "@/components/admin/BlogPageVisualEditorButton#BlogPageVisualEditorButton": BlogPageVisualEditorButton_304e7778f5426776f8891497f0b4a995,

@@ -5376,7 +5376,7 @@
       "@/lib/language-context",
       "@/lib/get-default-strings"
     ],
-    "lines": 497,
+    "lines": 360,
     "group": "blocks"
   },
   "src/components/blocks/contact/ContactGuidesBlock.tsx": {

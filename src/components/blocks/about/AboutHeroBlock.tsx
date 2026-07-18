@@ -14,6 +14,8 @@ interface Props {
   heroStatNumber?: string
   heroStatLabel?: string
   heroImageUrl?: string
+  heroImagePositionX?: number
+  heroImagePositionY?: number
 }
 
 export function AboutHeroBlock({
@@ -24,6 +26,8 @@ export function AboutHeroBlock({
   heroStatNumber = '4 200+',
   heroStatLabel = 'пътешественици с нас',
   heroImageUrl,
+  heroImagePositionX = 50,
+  heroImagePositionY = 50,
 }: Props) {
   const sectionRef = useRef<HTMLElement>(null)
   const imgRef = useRef<HTMLDivElement>(null)
@@ -87,7 +91,7 @@ export function AboutHeroBlock({
             fill
             priority
             sizes="100vw"
-            style={{ objectFit: 'cover', objectPosition: 'center' }}
+            style={{ objectFit: 'cover', objectPosition: `${heroImagePositionX}% ${heroImagePositionY}%` }}
           />
         ) : (
           <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #1a1a1a 0%, #2a1a0a 100%)' }} />

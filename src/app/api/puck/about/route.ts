@@ -31,6 +31,8 @@ export async function PATCH(request: Request) {
     ...(hero.heroCtaUrl !== undefined && { heroCtaUrl: hero.heroCtaUrl }),
     ...(hero.heroStatNumber !== undefined && { heroStatNumber: hero.heroStatNumber }),
     ...(hero.heroStatLabel !== undefined && { heroStatLabel: hero.heroStatLabel }),
+    ...(hero.heroImagePositionX !== undefined && { heroImagePositionX: hero.heroImagePositionX }),
+    ...(hero.heroImagePositionY !== undefined && { heroImagePositionY: hero.heroImagePositionY }),
     ...(adventure.adventureHeading !== undefined && { adventureHeading: adventure.adventureHeading }),
     ...(adventure.adventureSubtext !== undefined && { adventureSubtext: adventure.adventureSubtext }),
     ...(adventure.adventureActivities !== undefined && { adventureActivities: adventure.adventureActivities }),

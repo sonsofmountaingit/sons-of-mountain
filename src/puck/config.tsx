@@ -222,7 +222,7 @@ export type PuckBlocks = {
   FeaturedTravelsBlock: { heading: string }
   CalendarCtaBlock: { heading: string; subheading: string; buttonText: string; buttonUrl: string }
   TestimonialsMarqueeBlock: { heading: string; subheading: string }
-  AboutHeroBlock: { heroHeading: string; heroSubtext: string; heroCtaLabel: string; heroCtaUrl: string; heroStatNumber: string; heroStatLabel: string; heroImageUrl: string }
+  AboutHeroBlock: { heroHeading: string; heroSubtext: string; heroCtaLabel: string; heroCtaUrl: string; heroStatNumber: string; heroStatLabel: string; heroImageUrl: string; heroImagePositionX: number; heroImagePositionY: number }
   AboutAdventureBlock: { adventureHeading: string; adventureSubtext: string; adventureActivities: string; adventureQuote: string; adventureQuoteBody: string }
   AboutWhoWeAreBlock: { whoHeading: string; whoDescription: string; whoImage1Url: string; whoImage1Caption: string; whoImage1Instagram: string; whoImage2Url: string; whoImage2Caption: string; whoImage2Instagram: string }
   AboutPartnersBlock: { partnersHeading: string; partnersSubtext: string; partnersCtaLabel: string; partnersCtaUrl: string; partners: { name: string; url: string; logoUrl: string | null }[] }
@@ -1640,6 +1640,8 @@ export const puckConfig: Config<PuckBlocks> = {
         heroStatNumber: { type: 'text', label: 'Stat Number' },
         heroStatLabel: { type: 'text', label: 'Stat Label' },
         heroImageUrl: { type: 'text', label: 'Hero Image URL (from Payload)' },
+        heroImagePositionX: { type: 'number', label: 'Image Position X (0-100%)', min: 0, max: 100 },
+        heroImagePositionY: { type: 'number', label: 'Image Position Y (0-100%)', min: 0, max: 100 },
       },
       defaultProps: {
         heroHeading: 'Ние сме синовете на планините',
@@ -1649,6 +1651,8 @@ export const puckConfig: Config<PuckBlocks> = {
         heroStatNumber: '4 200+',
         heroStatLabel: 'пътешественици с нас',
         heroImageUrl: '',
+        heroImagePositionX: 50,
+        heroImagePositionY: 50,
       },
       render: (props: any) => <AboutHeroBlock {...props} />,
     },

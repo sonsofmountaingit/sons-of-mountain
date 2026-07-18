@@ -131,7 +131,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
     <>
       <motion.header
         ref={headerRef}
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        className={['fixed top-0 left-0 right-0 z-50 transition-all duration-300', scrolled ? 'bg-black/70 backdrop-blur-md sm:bg-transparent sm:backdrop-blur-none' : ''].join(' ')}
       >
         <nav className="px-4 sm:px-5 md:px-8 h-16 sm:h-24 flex items-center justify-between">
           <div className="hidden lg:flex items-center gap-6 flex-1">
@@ -337,12 +337,11 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
 
       <Link
         href="/"
-        className="fixed left-1/2 -translate-x-1/2 top-1.5 sm:top-2 z-[51] flex items-center justify-center"
-        style={{ contain: 'layout style' }}
+        className="fixed left-0 right-0 top-0 h-16 sm:h-24 z-[51] flex items-center justify-center pointer-events-none"
         onMouseEnter={() => setLogoHovered(true)}
         onMouseLeave={() => setLogoHovered(false)}
       >
-        <Image src={logoSrc} alt="Logo" width={140} height={140} priority className={['w-auto transition-[height] duration-300', scrolled ? 'h-8 sm:h-10' : 'h-14 sm:h-20'].join(' ')} />
+        <Image src={logoSrc} alt="Logo" width={140} height={140} priority className={['w-auto transition-[height] duration-300 pointer-events-auto', scrolled ? 'h-8 sm:h-10' : 'h-14 sm:h-20'].join(' ')} />
       </Link>
 
       <ProgramsMegaMenu open={megaOpen} onClose={() => setMegaOpen(false)} navHeight={navHeight} />

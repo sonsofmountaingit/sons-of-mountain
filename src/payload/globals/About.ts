@@ -61,6 +61,32 @@ export const About: GlobalConfig = {
       type: 'upload',
       relationTo: 'media',
     },
+    {
+      name: 'heroImagePositionX',
+      type: 'number',
+      min: 0,
+      max: 100,
+      defaultValue: 50,
+      admin: {
+        description: 'Hero image horizontal focus point (0-100%)',
+        components: {
+          Field: '@/components/admin/HeroImageFocalPointField#HeroImageFocalPointField',
+        },
+      },
+    },
+    {
+      name: 'heroImagePositionY',
+      type: 'number',
+      min: 0,
+      max: 100,
+      defaultValue: 50,
+      admin: {
+        description: 'Hero image vertical focus point (0-100%)',
+        components: {
+          Field: '@/components/admin/HeroImageFocalPointField#HeroImageFocalPointField',
+        },
+      },
+    },
     // Adventure
     {
       name: 'adventureHeading',

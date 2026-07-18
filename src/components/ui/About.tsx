@@ -43,6 +43,8 @@ export async function About() {
         heroStatNumber={d?.heroStatNumber}
         heroStatLabel={d?.heroStatLabel}
         heroImageUrl={heroImageUrl}
+        heroImagePositionX={d?.heroImagePositionX}
+        heroImagePositionY={d?.heroImagePositionY}
       />
       <AboutAdventureBlock
         adventureHeading={d?.adventureHeading}
