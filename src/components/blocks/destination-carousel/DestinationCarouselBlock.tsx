@@ -150,88 +150,16 @@ export function DestinationCarouselBlock({
     isDragging.current = false
   }
 
-  if (!showDestinationView && introSlide) {
+  // Unified layout: intro slide (activeIndex -1) and selected-destination view share the same shell
+  {
+    const introBgUrl = introSlide?.backgroundImageUrl
+    const heroTitle = activeDest?.overrideTitle ?? activeDest?.name ?? introSlide?.headline ?? headline
+    const heroSub = activeDest?.overrideDescription ?? introSlide?.subheading ?? subheading
+    const heroBtnText = activeDest?.overrideButtonText ?? (activeIndex < 0 ? introSlide?.buttonText : undefined) ?? destinationButtonText
+    const heroHref = activeDest ? (activeDest.href ?? `/destinations/${activeDest.slug}`) : '/destinations'
+
     return (
-      <section className="relative flex flex-col overflow-x-hidden bg-[#0a0a0a]" style={{ minHeight: '100svh' }}>
-        {/* Background */}
-        <AnimatePresence initial={false}>
-          <motion.div
-            key="intro-bg"
-            className="absolute inset-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.9, ease: 'easeInOut' }}
-          >
-            {introSlide.backgroundImageUrl && (
-              <Image
-                src={introSlide.backgroundImageUrl}
-                alt="Intro"
-                fill
-                priority
-                className="object-cover"
-                sizes="100vw"
-              />
-            )}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/10" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Spacer */}
-        <div className="flex-1" />
-
-        {/* Text - centered */}
-        <div className="relative z-10 flex flex-col items-center text-center px-4 sm:px-12 md:px-20 lg:px-28 pb-4 sm:pb-8 w-full">
-          <h1 className="font-black text-white uppercase leading-none mb-3 sm:mb-4 tracking-tight" style={{ fontSize: 'clamp(1.75rem, 4.5vw, 4rem)' }}>
-            {introSlide.headline}
-          </h1>
-          <p className="text-xs sm:text-sm md:text-base text-white/65 mb-6 sm:mb-8 max-w-sm leading-relaxed">
-            {introSlide.subheading}
-          </p>
-          <Link
-            href="/destinations"
-            className="inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-white/15 backdrop-blur-md border border-white/25 text-white font-semibold text-xs sm:text-sm rounded-lg hover:bg-white/25 transition-colors min-h-[44px] sm:min-h-auto"
-          >
-            {introSlide.buttonText || 'Explore'}
-            <span>→</span>
-          </Link>
-        </div>
-
-        {/* Cards - row below text */}
-        <div ref={cardsPanelRef} className="relative z-10 w-full pb-10 pointer-events-none">
-          <div
-            ref={trackRef}
-            className="flex gap-2 sm:gap-4 overflow-x-auto select-none pb-2 pointer-events-auto w-full pl-4 sm:pl-12 md:pl-20 lg:pl-28 pr-4 sm:pr-8"
-            style={{
-              scrollbarWidth: 'none',
-              maskImage: 'linear-gradient(to right, black 80%, transparent 100%)',
-              WebkitMaskImage: 'linear-gradient(to right, black 80%, transparent 100%)',
-            }}
-            onMouseDown={onMouseDown}
-            onMouseMove={onMouseMove}
-            onMouseUp={onMouseUp}
-            onMouseLeave={onMouseUp}
-          >
-            {destinations.map((dest, i) => (
-              <DestCard
-                key={dest.id}
-                dest={dest}
-                isActive={i === activeIndex}
-                onClick={() => handleSelect(i)}
-              />
-            ))}
-            <div className="flex-shrink-0 w-8" />
-          </div>
-        </div>
-      </section>
-    )
-  }
-
-  // After a card is clicked: original side-by-side layout
-  if (showDestinationView) {
-    return (
-      <section className="relative flex overflow-x-hidden bg-[#0a0a0a]" style={{ minHeight: '100svh' }}>
+      <section className="relative flex overflow-x-hidden bg-[#0a0a0a] -mt-[72px] md:mt-0 md:[min-height:100svh]" style={{ minHeight: 'calc(100svh + 72px)' }}>
         {/* Background crossfade */}
         <AnimatePresence initial={false}>
           <motion.div
@@ -242,7 +170,7 @@ export function DestinationCarouselBlock({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.9, ease: 'easeInOut' }}
           >
-            {activeDest && mediaUrl(activeDest.heroImage?.url) && (
+            {activeDest && mediaUrl(activeDest.heroImage?.url) ? (
               <Image
                 src={mediaUrl(activeDest.heroImage!.url)!}
                 alt={activeDest.name}
@@ -251,7 +179,16 @@ export function DestinationCarouselBlock({
                 className="object-cover"
                 sizes="100vw"
               />
-            )}
+            ) : !activeDest && introBgUrl ? (
+              <Image
+                src={introBgUrl}
+                alt="Intro"
+                fill
+                priority
+                className="object-cover"
+                sizes="100vw"
+              />
+            ) : null}
             <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/10" />
             <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40" />
           </motion.div>
@@ -274,7 +211,7 @@ export function DestinationCarouselBlock({
 
         {/* Mobile horizontal dot nav */}
         {destinations.length > 0 && (
-          <div className="flex md:hidden absolute bottom-[calc(180px+2.5rem)] left-0 right-0 z-20 flex-row items-center justify-center gap-2">
+          <div className="flex md:hidden absolute bottom-[calc(180px+56px+0.5rem)] left-0 right-0 z-20 flex-row items-center justify-center gap-2">
             {destinations.map((_, i) => (
               <button
                 key={i}
@@ -290,9 +227,9 @@ export function DestinationCarouselBlock({
         {/* Mobile styles */}
         <style>{`
           @media (max-width: 767px) {
-            .dc-text-panel { position: absolute; top: 0; bottom: 200px; left: 0; right: 0; padding: 3rem 1rem 0.5rem !important; width: 100% !important; align-items: center !important; text-align: center !important; justify-content: center !important; }
+            .dc-text-panel { position: absolute; top: 140px; bottom: auto; left: 0; right: 0; padding: 0 1rem 0.5rem !important; width: 100% !important; align-items: center !important; text-align: center !important; justify-content: flex-start !important; }
             .dc-hero-title { font-size: clamp(1.75rem, 9vw, 3rem) !important; line-height: 0.95 !important; margin-bottom: 0.5rem !important; }
-            .dc-hero-sub { margin-bottom: 1rem !important; max-width: 85vw !important; font-size: 0.75rem !important; }
+            .dc-hero-sub { margin-bottom: 0.75rem !important; max-width: 85vw !important; font-size: 0.75rem !important; }
             .dc-hero-btn { padding: 0.5rem 1rem !important; font-size: 0.65rem !important; gap: 0.375rem !important; align-self: center !important; min-height: 44px !important; display: inline-flex !important; align-items: center !important; }
           }
         `}</style>
@@ -309,7 +246,7 @@ export function DestinationCarouselBlock({
               className="flex flex-col"
             >
               <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white uppercase leading-none mb-4 tracking-tight dc-hero-title">
-                {activeDest?.overrideTitle ?? activeDest?.name ?? headline}
+                {heroTitle}
               </h1>
 
               {activeDest && (activeDest.month || activeDest.price != null || activeDest.availableSpots != null) && (
@@ -324,15 +261,15 @@ export function DestinationCarouselBlock({
                 </p>
               )}
 
-              <p className="text-sm md:text-base text-white/65 mb-10 max-w-sm leading-relaxed dc-hero-sub">
-                {activeDest?.overrideDescription ?? subheading}
+              <p className="text-sm md:text-base text-white/65 mb-6 sm:mb-10 max-w-sm leading-relaxed dc-hero-sub">
+                {heroSub}
               </p>
 
               <Link
-                href={activeDest ? (activeDest.href ?? `/destinations/${activeDest.slug}`) : '/destinations'}
+                href={heroHref}
                 className="self-start inline-flex items-center gap-3 px-8 py-4 bg-white/15 backdrop-blur-md border border-white/25 text-white font-semibold text-sm rounded-lg hover:bg-white/25 transition-colors dc-hero-btn"
               >
-                {activeDest?.overrideButtonText ?? destinationButtonText}
+                {heroBtnText}
                 <span>→</span>
               </Link>
             </motion.div>
@@ -341,7 +278,7 @@ export function DestinationCarouselBlock({
           {/* Counter */}
           {destinations.length > 0 && (
             <div className="absolute bottom-8 left-12 md:left-20 lg:left-28 font-mono text-xs text-white/40 hidden md:flex items-end gap-1">
-              <span className="text-white/90 text-sm font-bold">{String(activeIndex + 1).padStart(2, '0')}</span>
+              <span className="text-white/90 text-sm font-bold">{String(Math.max(activeIndex + 1, 0)).padStart(2, '0')}</span>
               <span>/</span>
               <span>{String(destinations.length).padStart(2, '0')}</span>
             </div>
@@ -376,7 +313,7 @@ export function DestinationCarouselBlock({
         </div>
 
         {/* Bottom: cards — mobile */}
-        <div className="absolute bottom-0 left-0 right-0 z-10 flex md:hidden items-end pb-4 pointer-events-none" style={{ height: '180px' }}>
+        <div className="absolute bottom-14 left-0 right-0 z-10 flex md:hidden items-end pb-4 pointer-events-none" style={{ height: '180px' }}>
           <div
             ref={trackRef}
             className="flex gap-2 overflow-x-auto select-none pointer-events-auto w-full px-3"
@@ -418,79 +355,5 @@ export function DestinationCarouselBlock({
       </section>
     )
   }
-
-  // No card clicked, no introSlide: text centered, cards at bottom
-  return (
-    <section className="relative flex flex-col overflow-x-hidden bg-[#0a0a0a]" style={{ minHeight: '100svh' }}>
-      {/* Background */}
-      <AnimatePresence initial={false}>
-        <motion.div
-          key="bg-empty"
-          className="absolute inset-0"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.9, ease: 'easeInOut' }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/10" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/70" />
-        </motion.div>
-      </AnimatePresence>
-
-      {/* Spacer */}
-      <div className="flex-1" style={{ maxHeight: '40vh' }} />
-
-      {/* Text panel — centered */}
-      <div ref={textPanelRef} className="relative z-10 flex flex-col items-center text-center px-4 sm:px-6 md:px-20 lg:px-28 pb-4 sm:pb-8 w-full">
-        <h1 className="font-black text-white uppercase leading-none mb-4 sm:mb-6 tracking-tight" style={{ fontSize: 'clamp(1.75rem, 4.5vw, 4rem)' }}>
-          {headline}
-        </h1>
-        <p className="text-xs sm:text-sm md:text-base text-white/65 mb-6 sm:mb-10 max-w-sm leading-relaxed">
-          {subheading}
-        </p>
-        <Link
-          href="/destinations"
-          className="inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-white/15 backdrop-blur-md border border-white/25 text-white font-semibold text-xs sm:text-sm rounded-lg hover:bg-white/25 transition-colors min-h-[44px] sm:min-h-auto"
-        >
-          {destinationButtonText}
-          <span>→</span>
-        </Link>
-        {destinations.length > 0 && (
-          <div className="mt-8 font-mono text-xs text-white/40 flex items-end gap-1">
-            <span className="text-white/90 text-sm font-bold">00</span>
-            <span>/</span>
-            <span>{String(destinations.length).padStart(2, '0')}</span>
-          </div>
-        )}
-      </div>
-
-      {/* Cards — new row below text */}
-      <div ref={cardsPanelRef} className="relative z-10 w-full pb-10 pointer-events-none">
-        <div
-          ref={trackRef}
-          className="flex gap-2 sm:gap-4 overflow-x-auto select-none pb-2 pointer-events-auto w-full pl-4 sm:pl-6 md:pl-20 lg:pl-28 pr-4 sm:pr-8"
-          style={{
-            scrollbarWidth: 'none',
-            maskImage: 'linear-gradient(to right, black 80%, transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to right, black 80%, transparent 100%)',
-          }}
-          onMouseDown={onMouseDown}
-          onMouseMove={onMouseMove}
-          onMouseUp={onMouseUp}
-          onMouseLeave={onMouseUp}
-        >
-          {destinations.map((dest, i) => (
-            <DestCard
-              key={dest.id}
-              dest={dest}
-              isActive={i === activeIndex}
-              onClick={() => handleSelect(i)}
-            />
-          ))}
-          <div className="flex-shrink-0 w-8" />
-        </div>
-      </div>
-    </section>
-  )
 }
 
