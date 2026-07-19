@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import crypto from 'crypto'
 import { syncSpotsAfterChange, syncSpotsAfterDelete } from '../hooks/syncTripSpots'
+import { registrationEmailFlows } from '../hooks/emailFlowTriggers'
 
 export const Registrations: CollectionConfig = {
   slug: 'registrations',
@@ -18,7 +19,7 @@ export const Registrations: CollectionConfig = {
         return data
       },
     ],
-    afterChange: [syncSpotsAfterChange],
+    afterChange: [syncSpotsAfterChange, registrationEmailFlows],
     afterDelete: [syncSpotsAfterDelete],
   },
   fields: [

@@ -24,6 +24,8 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@maily-to/core": "^0.3.7",
+    "@maily-to/render": "^0.2.3",
     "@payloadcms/db-postgres": "^3.84.1",
     "@payloadcms/email-resend": "^3.84.1",
     "@payloadcms/live-preview": "^3.84.1",

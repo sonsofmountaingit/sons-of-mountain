@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { Resend } from 'resend'
 import { resolvePaymentPlan } from '@/lib/pricing/payment-plan'
+import { sendFlow } from '@/lib/email-flows'
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const resend = new Resend(process.env.RESEND_API_KEY || 'placeholder')
     const {
       tripId, destinationId, programId,
       firstName, lastName, email, phone,
@@ -138,18 +137,17 @@ export async function POST(req: NextRequest) {
     }
 
     try {
-      await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
-        to: email,
-        subject: 'Заявката ти е получена — Sons of Mountains',
-        html: `
-          <p>Здравей, ${firstName}!</p>
-          <p>Получихме заявката ти за пътуване. Ще се свържем с теб в рамките на 24 часа.</p>
-          <p>Номер на заявката: <strong>${registration.id}</strong></p>
-          <br/>
-          <p>С уважение,<br/>Sons of Mountains</p>
-        `,
-      })
+      const bookable = bookableCollection && bookableId
+        ? await payload.findByID({ collection: bookableCollection, id: bookableId }).catch(() => null)
+        : null
+      const bookableTitle = bookableCollection === 'destinations' ? (bookable as any)?.name : (bookable as any)?.title
+      await sendFlow('registration_pending', { email, firstName, lastName }, {
+        tripTitle: bookableTitle ?? '',
+        tripStartDate: (bookable as any)?.startDate ?? '',
+        tripEndDate: (bookable as any)?.endDate ?? '',
+        tripLocation: (bookable as any)?.location ?? '',
+        participantCount: participantCount ?? 1,
+      }, payload)
     } catch (emailErr) {
       console.error('Booking confirmation email failed:', emailErr)
     }

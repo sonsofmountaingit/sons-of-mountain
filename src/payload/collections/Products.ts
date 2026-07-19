@@ -32,16 +32,13 @@ export const Products: CollectionConfig = {
               },
               limit: 100,
             })
-            const { resend } = await import('@/lib/resend')
-            const from = process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com'
+            const { sendFlow } = await import('@/lib/email-flows')
             const site = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
-            for (const alert of alerts.docs) {
-              await resend.emails.send({
-                from,
-                to: (alert as any).email,
-                subject: 'Back in stock!',
-                html: `<p>Good news, ${(alert as any).name ?? 'adventurer'}! <strong>${doc.title}</strong> is back in stock. <a href="${site}/shop/products/${doc.slug}">Shop now</a></p>`,
-              }).catch(() => {})
+            for (const alert of alerts.docs as any[]) {
+              await sendFlow('stock_alert_notified', { email: alert.email, firstName: alert.name }, {
+                itemTitle: doc.title,
+                bookNowUrl: `${site}/shop/products/${doc.slug}`,
+              }, req.payload).catch(() => {})
               await req.payload.update({ collection: 'stock-alerts', id: alert.id, data: { status: 'notified', notifiedAt: new Date().toISOString() } })
             }
           } catch {}

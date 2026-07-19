@@ -131,7 +131,7 @@ export function NavbarClient({ navLinksLeft, navLinksRight, instagramUrl, facebo
     <>
       <motion.header
         ref={headerRef}
-        className={['fixed top-0 left-0 right-0 z-50 transition-all duration-300', scrolled ? 'bg-black/70 backdrop-blur-md sm:bg-transparent sm:backdrop-blur-none' : ''].join(' ')}
+        className={['fixed top-0 left-0 right-0 z-50 transition-all duration-300', scrolled ? 'bg-black/70 backdrop-blur-md' : ''].join(' ')}
       >
         <nav className="px-4 sm:px-5 md:px-8 h-16 sm:h-24 flex items-center justify-between">
           <div className="hidden lg:flex items-center gap-6 flex-1">

@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { giftVoucherEmailFlows } from '../hooks/emailFlowTriggers'
 
 export const GiftVouchers: CollectionConfig = {
   slug: 'gift-vouchers',
@@ -16,6 +17,7 @@ export const GiftVouchers: CollectionConfig = {
         return data
       },
     ],
+    afterChange: [giftVoucherEmailFlows],
   },
   fields: [
     {

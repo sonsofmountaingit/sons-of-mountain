@@ -1,6 +1,6 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { escapeHtml } from '@/lib/escape-html'
+import { sendFlow } from '@/lib/email-flows'
 
 type BasePayload = ReturnType<typeof getPayload> extends Promise<infer T> ? T : never
 
@@ -36,8 +36,6 @@ export async function runBalanceReminders() {
   const payload = await getPayload({ config })
   const { stripe } = await import('@/lib/stripe')
   if (!stripe) return
-  const { resend } = await import('@/lib/resend')
-  const from = process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com'
   const now = new Date()
 
   for (const collection of ['orders', 'registrations'] as const) {
@@ -80,14 +78,14 @@ export async function runBalanceReminders() {
         paymentUrl = link.url
       } catch {}
 
-      const safeFirstName = escapeHtml(String(doc.firstName ?? ''))
-      const dueDateStr = dueDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
-      await resend.emails.send({
-        from,
-        to: doc.email,
-        subject: `Reminder: €${doc.remainingBalance.toFixed(2)} balance due ${daysUntilDue === 1 ? 'tomorrow' : 'in 7 days'}`,
-        html: `<p>Hi ${safeFirstName},</p><p>Your remaining balance of <strong>€${doc.remainingBalance.toFixed(2)}</strong> is due on <strong>${dueDateStr}</strong>. <a href="${paymentUrl}">Pay now</a></p>`,
-      }).catch(() => {})
+      const trigger = collection === 'orders'
+        ? (send1d ? 'order_balance_due_1d' : 'order_balance_due_7d')
+        : (send1d ? 'registration_balance_due_1d' : 'registration_balance_due_7d')
+      await sendFlow(trigger, { email: doc.email, firstName: doc.firstName }, {
+        remainingBalance: doc.remainingBalance,
+        remainingDueDate: doc.remainingDueDate,
+        invoiceUrl: paymentUrl,
+      }, payload).catch(() => {})
 
       await payload.update({
         collection,
@@ -145,14 +143,15 @@ export async function runBalanceReminders() {
           paymentUrl = link.url
         } catch {}
 
-        const safeFirstName = escapeHtml(String(doc.firstName ?? ''))
         const dueDateStr = dueDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
-        await resend.emails.send({
-          from,
-          to: doc.email,
-          subject: `Reminder: €${row.amount.toFixed(2)} ${row.label} due ${dueOffset === 0 ? 'today' : `in ${dueOffset} days`}`,
-          html: `<p>Hi ${safeFirstName},</p><p>Your ${escapeHtml(row.label)} of <strong>€${row.amount.toFixed(2)}</strong> is due on <strong>${dueDateStr}</strong>. <a href="${paymentUrl}">Pay now</a></p>`,
-        }).catch(() => {})
+        const trigger = collection === 'orders'
+          ? (dueOffset <= 1 ? 'order_balance_due_1d' : 'order_balance_due_7d')
+          : (dueOffset <= 1 ? 'registration_balance_due_1d' : 'registration_balance_due_7d')
+        await sendFlow(trigger, { email: doc.email, firstName: doc.firstName }, {
+          remainingBalance: row.amount,
+          remainingDueDate: dueDateStr,
+          invoiceUrl: paymentUrl,
+        }, payload).catch(() => {})
 
         installments[i] = { ...row, remindersSent: [...remindersSent, dueOffset].map((d) => ({ daysBefore: d })) }
         mutated = true

@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { orderEmailFlows } from '../hooks/emailFlowTriggers'
 
 export const Orders: CollectionConfig = {
   slug: 'orders',
@@ -17,6 +18,9 @@ export const Orders: CollectionConfig = {
       'createdAt',
     ],
     group: 'Shop',
+  },
+  hooks: {
+    afterChange: [orderEmailFlows],
   },
   fields: [
     {

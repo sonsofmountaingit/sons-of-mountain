@@ -23,13 +23,13 @@ async function creditLoyaltyPoints(payload: BasePayload, customerId: string | nu
     const oldTier = (cust as any).loyaltyTier ?? 'bronze'
     await payload.update({ collection: 'customers', id: customerId, data: { loyaltyPoints: newPoints, loyaltyTier: tier } })
     if (tier !== oldTier) {
-      const { resend } = await import('@/lib/resend')
-      await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
-        to: (cust as any).email,
-        subject: `You reached ${tier.charAt(0).toUpperCase() + tier.slice(1)} tier!`,
-        html: `<p>Congratulations! You've earned enough points to reach <strong>${tier}</strong> tier. Keep adventuring!</p>`,
-      }).catch(() => {})
+      const { sendFlow } = await import('@/lib/email-flows')
+      await sendFlow('loyalty_tier_upgrade', { email: (cust as any).email, firstName: (cust as any).firstName }, {
+        loyaltyTier: tier,
+        previousTier: oldTier,
+        loyaltyPoints: newPoints,
+        loyaltyTierLabel: tier.charAt(0).toUpperCase() + tier.slice(1),
+      }, payload).catch(() => {})
     }
   } catch {}
 }
@@ -41,15 +41,16 @@ export async function notifyWaitlist(payload: BasePayload, itemType: string, ite
       where: { and: [{ itemType: { equals: itemType } }, { [itemType]: { equals: itemId } }, { status: { equals: 'waiting' } }] },
       sort: 'position',
       limit: 3,
+      depth: 1,
     })
     for (const entry of next.docs) {
-      const { resend } = await import('@/lib/resend')
-      await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
-        to: (entry as any).email,
-        subject: 'A spot is available!',
-        html: `<p>Great news, ${escapeHtml(String((entry as any).name ?? '')) || 'adventurer'}! A spot just opened up. <a href="${process.env.NEXT_PUBLIC_SERVER_URL}/shop">Book now</a> before it's gone.</p>`,
-      }).catch(() => {})
+      const { sendFlow } = await import('@/lib/email-flows')
+      const { waitlistItemTitle } = await import('@/lib/featured-content')
+      await sendFlow('waitlist_spot_available', { email: (entry as any).email, firstName: (entry as any).name }, {
+        itemTitle: waitlistItemTitle(entry),
+        bookNowUrl: `${process.env.NEXT_PUBLIC_SERVER_URL}/shop`,
+        waitlistPosition: (entry as any).position,
+      }, payload).catch(() => {})
       await payload.update({ collection: 'waitlist', id: entry.id, data: { status: 'notified', notifiedAt: new Date().toISOString() } })
     }
   } catch {}
@@ -518,69 +519,6 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
     await generateInvoice(payload, stripe, session, 'orders', id)
   } else if (type === 'voucher') {
     await payload.update({ collection: 'gift-vouchers', id, data: { paidAt: new Date().toISOString(), status: 'active' } })
-    await sendVoucherEmails(payload, id).catch(() => {})
-  }
-}
-
-async function sendVoucherEmails(payload: BasePayload, voucherId: string) {
-  const voucher = await payload.findByID({ collection: 'gift-vouchers', id: voucherId }).catch(() => null)
-  if (!voucher) return
-
-  const v = voucher as any
-  const base = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
-  const voucherUrl = `${base}/vouchers/${v.code}`
-  const dashboardUrl = `${base}/vouchers?tab=mine`
-  const from = process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com'
-
-  const { resend } = await import('@/lib/resend')
-
-  const isGift = !!v.isGift
-  const recipientEmail = v.recipientEmail
-  const recipientName = v.recipientName ?? 'Adventurer'
-  const senderName = v.senderName ?? 'Someone special'
-  const senderEmail = v.senderEmail
-
-  const expiryText = v.expiresAt
-    ? new Date(v.expiresAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
-    : null
-
-  const giftHtml = buildGiftVoucherHtml({
-    recipientName, senderName, amount: v.amount, currency: v.currency ?? 'EUR',
-    code: v.code, message: v.message, expiryText, voucherUrl,
-  })
-
-  const confirmHtml = buildVoucherConfirmHtml({
-    buyerName: senderName, recipientName, recipientEmail, amount: v.amount,
-    currency: v.currency ?? 'EUR', code: v.code, isGift,
-    message: v.message, expiryText, dashboardUrl,
-  })
-
-  const safeAmount = Number(v.amount).toFixed(0)
-  const safeSenderName = String(senderName).replace(/[^\w\s\-'.]/g, '').slice(0, 80)
-  const safeRecipientName = String(recipientName).replace(/[^\w\s\-'.]/g, '').slice(0, 80)
-
-  // Send voucher to recipient (always)
-  if (recipientEmail) {
-    await resend.emails.send({
-      from,
-      to: recipientEmail,
-      subject: `${safeSenderName} sent you a €${safeAmount} adventure voucher`,
-      html: giftHtml,
-    }).catch(() => {})
-  }
-
-  // Send confirmation to buyer
-  const to = isGift ? senderEmail : recipientEmail
-  if (to && to !== recipientEmail || !isGift) {
-    const buyerTo = isGift ? senderEmail : recipientEmail
-    if (buyerTo) {
-      await resend.emails.send({
-        from,
-        to: buyerTo,
-        subject: isGift ? `Your gift voucher for ${safeRecipientName} is on its way` : `Your €${safeAmount} adventure voucher`,
-        html: confirmHtml,
-      }).catch(() => {})
-    }
   }
 }
 
@@ -592,111 +530,6 @@ function escHtml(s: string | null | undefined): string {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#x27;')
-}
-
-function safeUrl(url: string): string {
-  try {
-    const u = new URL(url)
-    if (u.protocol !== 'https:' && u.protocol !== 'http:') return '#'
-    return url
-  } catch {
-    return '#'
-  }
-}
-
-function buildGiftVoucherHtml(p: {
-  recipientName: string; senderName: string; amount: number; currency: string
-  code: string; message?: string; expiryText: string | null; voucherUrl: string
-}) {
-  const rn = escHtml(p.recipientName)
-  const sn = escHtml(p.senderName)
-  const amt = escHtml(String(p.amount))
-  const cur = escHtml(p.currency)
-  const code = escHtml(p.code)
-  const msg = escHtml(p.message)
-  const exp = escHtml(p.expiryText)
-  const url = safeUrl(p.voucherUrl)
-
-  return `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#0a0a0a;font-family:'Helvetica Neue',Arial,sans-serif">
-<div style="max-width:560px;margin:0 auto;padding:48px 24px">
-  <div style="text-align:center;margin-bottom:48px">
-    <p style="color:#555;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin:0 0 12px 0">Sons of Mountains</p>
-    <h1 style="color:#fff;font-size:28px;font-weight:300;letter-spacing:2px;margin:0">You&#x27;ve received a gift</h1>
-  </div>
-  <div style="background:linear-gradient(135deg,#1a1a1a 0%,#111 100%);border:1px solid #2a2a2a;border-radius:4px;padding:40px;margin-bottom:32px;text-align:center">
-    <p style="color:#888;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin:0 0 8px 0">Adventure Voucher</p>
-    <p style="color:#fff;font-size:48px;font-weight:300;margin:0 0 4px 0">&#x20AC;${amt}</p>
-    <p style="color:#555;font-size:12px;margin:0 0 32px 0">${cur}</p>
-    <div style="background:#000;border:1px solid #333;border-radius:2px;padding:12px 24px;display:inline-block;margin-bottom:24px">
-      <p style="color:#aaa;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin:0 0 4px 0">Your code</p>
-      <p style="color:#fff;font-size:20px;font-family:monospace;letter-spacing:4px;margin:0">${code}</p>
-    </div>
-    ${exp ? `<p style="color:#555;font-size:11px;letter-spacing:1px;margin:0">Valid until ${exp}</p>` : ''}
-  </div>
-  ${msg ? `<div style="border-left:2px solid #333;padding-left:20px;margin-bottom:32px">
-    <p style="color:#888;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin:0 0 8px 0">A message from ${sn}</p>
-    <p style="color:#ccc;font-size:15px;line-height:1.6;font-style:italic;margin:0">&quot;${msg}&quot;</p>
-  </div>` : ''}
-  <div style="text-align:center;margin-bottom:40px">
-    <p style="color:#888;font-size:14px;margin-bottom:20px">Hi ${rn}, ${sn} gifted you an adventure.</p>
-    <a href="${url}" style="display:inline-block;background:#fff;color:#000;font-size:11px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;padding:14px 36px;border-radius:2px;font-weight:600">View &amp; Use Your Voucher</a>
-  </div>
-  <div style="border-top:1px solid #1a1a1a;padding-top:32px;margin-bottom:32px">
-    <p style="color:#555;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin:0 0 16px 0">How to use</p>
-    <ol style="color:#666;font-size:13px;line-height:2;padding-left:20px;margin:0">
-      <li>Browse trips, programs and gear at sonsofmountains.com</li>
-      <li>At checkout, enter code <strong style="color:#aaa;font-family:monospace;letter-spacing:2px">${code}</strong></li>
-      <li>Your voucher value will be applied automatically</li>
-    </ol>
-  </div>
-  <div style="text-align:center">
-    <p style="color:#333;font-size:11px;margin:0">Sons of Mountains &middot; Adventure awaits</p>
-  </div>
-</div></body></html>`
-}
-
-function buildVoucherConfirmHtml(p: {
-  buyerName: string; recipientName: string; recipientEmail: string; amount: number; currency: string
-  code: string; isGift: boolean; message?: string; expiryText: string | null; dashboardUrl: string
-}) {
-  const bn = escHtml(p.buyerName)
-  const rn = escHtml(p.recipientName)
-  const re = escHtml(p.recipientEmail)
-  const amt = escHtml(String(p.amount))
-  const cur = escHtml(p.currency)
-  const code = escHtml(p.code)
-  const msg = escHtml(p.message)
-  const exp = escHtml(p.expiryText)
-  const url = safeUrl(p.dashboardUrl)
-  const title = p.isGift ? 'Gift sent successfully' : 'Voucher purchased'
-
-  return `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#0a0a0a;font-family:'Helvetica Neue',Arial,sans-serif">
-<div style="max-width:560px;margin:0 auto;padding:48px 24px">
-  <div style="text-align:center;margin-bottom:48px">
-    <p style="color:#555;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin:0 0 12px 0">Sons of Mountains</p>
-    <h1 style="color:#fff;font-size:28px;font-weight:300;letter-spacing:2px;margin:0">${escHtml(title)}</h1>
-  </div>
-  <div style="background:#111;border:1px solid #2a2a2a;border-radius:4px;padding:32px;margin-bottom:32px">
-    <p style="color:#888;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin:0 0 20px 0">Purchase summary</p>
-    <table style="width:100%;border-collapse:collapse">
-      <tr><td style="color:#666;font-size:13px;padding:8px 0">Amount</td><td style="color:#fff;font-size:18px;font-weight:300;text-align:right">&#x20AC;${amt} ${cur}</td></tr>
-      <tr><td style="color:#666;font-size:13px;padding:8px 0">Code</td><td style="color:#fff;font-size:14px;font-family:monospace;letter-spacing:3px;text-align:right">${code}</td></tr>
-      ${p.isGift ? `<tr><td style="color:#666;font-size:13px;padding:8px 0;vertical-align:top">Sent to</td><td style="text-align:right"><p style="color:#fff;font-size:13px;margin:0 0 2px 0">${rn}</p><p style="color:#555;font-size:12px;margin:0">${re}</p></td></tr>` : ''}
-      ${exp ? `<tr style="border-top:1px solid #1a1a1a"><td style="color:#666;font-size:13px;padding:12px 0 8px 0">Valid until</td><td style="color:#555;font-size:13px;text-align:right;padding-top:12px">${exp}</td></tr>` : ''}
-    </table>
-  </div>
-  ${p.isGift && msg ? `<div style="border-left:2px solid #333;padding-left:20px;margin-bottom:32px">
-    <p style="color:#888;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin:0 0 8px 0">Your message</p>
-    <p style="color:#ccc;font-size:14px;line-height:1.6;font-style:italic;margin:0">&quot;${msg}&quot;</p>
-  </div>` : ''}
-  <div style="text-align:center;margin-bottom:40px">
-    <p style="color:#777;font-size:14px;margin-bottom:20px">${p.isGift ? `Hi ${bn}, your gift voucher has been sent to ${rn}.` : `Hi ${bn}, your voucher is ready to use.`}</p>
-    <a href="${url}" style="display:inline-block;background:#fff;color:#000;font-size:11px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;padding:14px 36px;border-radius:2px;font-weight:600">View in Dashboard</a>
-  </div>
-  <div style="text-align:center">
-    <p style="color:#333;font-size:11px;margin:0">Sons of Mountains · Adventure awaits</p>
-  </div>
-</div></body></html>`
 }
 
 export async function handleSubscriptionUpsert(sub: Stripe.Subscription, payload: BasePayload) {
@@ -721,25 +554,20 @@ export async function handleSubscriptionUpsert(sub: Stripe.Subscription, payload
       if (status === 'past_due') {
         const sub_doc = existing.docs[0] as any
         const emailsSent = sub_doc.dunningEmailsSent ?? 0
-        const { resend } = await import('@/lib/resend')
-        await resend.emails.send({
-          from: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
-          to: sub.customer as string,
-          subject: 'Action required: Payment failed for your Adventure Pass',
-          html: `<p>Your subscription payment failed. Please update your payment method to continue enjoying your Adventure Pass benefits. <a href="${process.env.NEXT_PUBLIC_SERVER_URL}/dashboard/billing">Update payment method</a></p>`,
-        }).catch(() => {})
+        const trigger = emailsSent === 0 ? 'subscription_payment_failed' : emailsSent === 1 ? 'subscription_dunning_2' : 'subscription_dunning_3'
+        const { sendFlow } = await import('@/lib/email-flows')
+        await sendFlow(trigger, { email: sub_doc.customer?.email ?? (sub.customer as string) }, {
+          dunningCount: emailsSent + 1,
+          billingUpdateUrl: `${process.env.NEXT_PUBLIC_SERVER_URL}/dashboard/billing`,
+        }, payload).catch(() => {})
         await payload.update({ collection: 'subscriptions', id: existing.docs[0].id, data: { dunningEmailsSent: emailsSent + 1 } as any })
       }
 
       // Send recovery email if was past_due → active
       if (status === 'active' && (existing.docs[0] as any).pastDueAt) {
-        const { resend } = await import('@/lib/resend')
-        await resend.emails.send({
-          from: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
-          to: sub.customer as string,
-          subject: 'Your Adventure Pass is active again',
-          html: `<p>Great news! Your payment was recovered and your Adventure Pass is now active. Keep adventuring!</p>`,
-        }).catch(() => {})
+        const sub_doc = existing.docs[0] as any
+        const { sendFlow } = await import('@/lib/email-flows')
+        await sendFlow('subscription_payment_recovered', { email: sub_doc.customer?.email ?? (sub.customer as string) }, {}, payload).catch(() => {})
         await payload.update({ collection: 'subscriptions', id: existing.docs[0].id, data: { pastDueAt: null, dunningEmailsSent: 0 } as any })
       }
     } else {
@@ -895,15 +723,14 @@ export async function handlePaymentIntentFailed(pi: Stripe.PaymentIntent, payloa
       metadata: { balanceForCollection: collection, balanceForId: pi.metadata.balanceForId },
     } as any).catch(() => null)
 
-    const { resend } = await import('@/lib/resend')
+    const { sendFlow } = await import('@/lib/email-flows')
     const email = (doc as any).email
     if (email) {
-      await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
-        to: email,
-        subject: 'Balance payment failed — retry link enclosed',
-        html: `<p>Your balance payment of €${remainingAmount.toFixed(2)} failed. ${retryLink ? `<a href="${retryLink.url}">Click here to pay now</a>` : 'Please visit your dashboard to complete payment.'}</p>`,
-      }).catch(() => {})
+      const trigger = collection === 'orders' ? 'order_balance_failed' : 'registration_balance_failed'
+      await sendFlow(trigger, { email, firstName: (doc as any).firstName }, {
+        remainingBalance: remainingAmount,
+        invoiceUrl: retryLink?.url ?? `${process.env.NEXT_PUBLIC_SERVER_URL}/dashboard`,
+      }, payload).catch(() => {})
     }
   } catch {}
 }

@@ -1,10 +1,22 @@
 import type { CollectionConfig } from 'payload'
+import crypto from 'crypto'
 
 export const Subscribers: CollectionConfig = {
   slug: 'subscribers',
   admin: {
+    group: 'Email Marketing',
     useAsTitle: 'email',
     defaultColumns: ['email', 'firstName', 'status', 'source', 'subscribedAt'],
+  },
+  hooks: {
+    beforeChange: [
+      ({ data, operation }) => {
+        if (operation === 'create' && !data.unsubscribeToken) {
+          data.unsubscribeToken = crypto.randomUUID()
+        }
+        return data
+      },
+    ],
   },
   fields: [
     { name: 'email', type: 'email', required: true, unique: true },
@@ -43,5 +55,8 @@ export const Subscribers: CollectionConfig = {
       relationTo: 'destinations',
       hasMany: true,
     },
+    { name: 'unsubscribeToken', type: 'text', unique: true, admin: { readOnly: true, position: 'sidebar', description: 'Auto-generated UUID. Used in unsubscribe link.' } },
+    { name: 'lastEmailSentAt', type: 'date', admin: { readOnly: true, position: 'sidebar' } },
+    { name: 'emailCount', type: 'number', defaultValue: 0, admin: { readOnly: true, position: 'sidebar' } },
   ],
 }

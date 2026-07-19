@@ -43,6 +43,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260719_booking_steps.ts",
+      "label": "migrations/20260719_booking_steps.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260716e_testimonials_instagram.ts",
       "label": "migrations/20260716e_testimonials_instagram.ts",
       "group": "other",
@@ -3605,6 +3611,10 @@
       "target": "src/migrations/20260718_about_hero_image_position.ts"
     },
     {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260719_booking_steps.ts"
+    },
+    {
       "source": "src/seed/gallery.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -5549,6 +5559,18 @@
       "target": "src/lib/auth-client.ts"
     },
     {
+      "source": "src/app/(frontend)/login/LoginClient.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/login/LoginClient.tsx",
+      "target": "src/lib/get-default-strings.ts"
+    },
+    {
+      "source": "src/app/(frontend)/login/page.tsx",
+      "target": "src/lib/translations.ts"
+    },
+    {
       "source": "src/app/(frontend)/login/page.tsx",
       "target": "src/app/(frontend)/login/LoginClient.tsx"
     },
@@ -6219,6 +6241,14 @@
     {
       "source": "src/components/blocks/featured-travels/FeaturedTravelsBlock.tsx",
       "target": "src/lib/currency.ts"
+    },
+    {
+      "source": "src/components/blocks/featured-travels/FeaturedTravelsBlock.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
+      "source": "src/components/blocks/featured-travels/FeaturedTravelsBlock.tsx",
+      "target": "src/lib/get-default-strings.ts"
     },
     {
       "source": "src/components/blocks/destination-carousel/DestinationCarouselBlock.tsx",
@@ -7797,6 +7827,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-19T09:01:08.275Z",
-  "fileCount": 591
+  "builtAt": "2026-07-19T09:20:18.382Z",
+  "fileCount": 592
 }

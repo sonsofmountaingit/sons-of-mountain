@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'motion/react'
+import { useLanguage } from '@/lib/language-context'
 
 interface DestinationItem {
   name: string
@@ -32,15 +33,9 @@ interface MegamenuData {
 
 type Tab = 'bulgaria' | 'abroad' | 'individual'
 
-const TABS: { id: Tab; label: string }[] = [
-  { id: 'bulgaria', label: 'IN BULGARIA' },
-  { id: 'abroad', label: 'ABROAD' },
-  { id: 'individual', label: 'CUSTOM PROGRAM' },
-]
-
-function formatDate(iso: string) {
+function formatDate(iso: string, locale: string) {
   const d = new Date(iso)
-  return d.toLocaleDateString('bg-BG', { day: 'numeric', month: 'long', year: 'numeric' })
+  return d.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })
 }
 
 interface ProgramsMegaMenuProps {
@@ -50,6 +45,13 @@ interface ProgramsMegaMenuProps {
 }
 
 export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuProps) {
+  const { language, t } = useLanguage()
+  const locale = language === 'BG' ? 'bg-BG' : 'en-US'
+  const TABS: { id: Tab; label: string }[] = [
+    { id: 'bulgaria', label: t.megamenu.in_bulgaria },
+    { id: 'abroad', label: t.megamenu.abroad },
+    { id: 'individual', label: t.megamenu.custom_program },
+  ]
   const [data, setData] = useState<MegamenuData | null>(null)
   const [activeTab, setActiveTab] = useState<Tab>('bulgaria')
   const panelRef = useRef<HTMLDivElement>(null)
@@ -152,13 +154,13 @@ export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuP
                       className="flex flex-col gap-8"
                     >
                       {!data && (
-                        <div className="flex items-center justify-center h-32 text-white/30 text-xs tracking-widest">Loading…</div>
+                        <div className="flex items-center justify-center h-32 text-white/30 text-xs tracking-widest">{t.megamenu.loading}</div>
                       )}
 
                       {/* Destinations row */}
                       {data && showDestinations && (
                         <div>
-                          <p className="text-[10px] tracking-widest text-white/25 mb-3">DESTINATIONS</p>
+                          <p className="text-[10px] tracking-widest text-white/25 mb-3">{t.megamenu.destinations}</p>
                           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 xl:grid-cols-6">
                             {destinations.map((dest) => (
                               <Link
@@ -187,11 +189,11 @@ export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuP
                       {/* Trips row */}
                       {data && trips.length > 0 && (
                         <div>
-                          <p className="text-[10px] tracking-widest text-white/25 mb-3">TRIPS</p>
+                          <p className="text-[10px] tracking-widest text-white/25 mb-3">{t.megamenu.trips}</p>
                           <div style={{ overflowX: 'auto', width: '100%', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.2) transparent', paddingBottom: '6px' }}>
                             <div style={{ display: 'grid', gap: '12px', gridTemplateColumns: `repeat(${Math.min(trips.length, 6)}, 180px)`, width: 'max-content' }}>
                               {trips.map((item, i) => (
-                                <ContentCard key={`trip-${item.slug}`} item={item} index={i} onClose={onClose} />
+                                <ContentCard key={`trip-${item.slug}`} item={item} index={i} onClose={onClose} locale={locale} t={t} />
                               ))}
                             </div>
                           </div>
@@ -201,11 +203,11 @@ export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuP
                       {/* Programs row */}
                       {data && programs.length > 0 && (
                         <div>
-                          <p className="text-[10px] tracking-widest text-white/25 mb-3">PROGRAMS</p>
+                          <p className="text-[10px] tracking-widest text-white/25 mb-3">{t.megamenu.programs}</p>
                           <div style={{ overflowX: 'auto', width: '100%', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.2) transparent', paddingBottom: '6px' }}>
                             <div style={{ display: 'grid', gap: '12px', gridTemplateColumns: `repeat(${Math.min(programs.length, 6)}, 180px)`, width: 'max-content' }}>
                               {programs.map((item, i) => (
-                                <ContentCard key={`program-${item.slug}`} item={item} index={i} onClose={onClose} />
+                                <ContentCard key={`program-${item.slug}`} item={item} index={i} onClose={onClose} locale={locale} t={t} />
                               ))}
                             </div>
                           </div>
@@ -220,7 +222,7 @@ export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuP
                             onClick={onClose}
                             className="inline-flex items-center gap-2 px-4 py-2.5 mb-6 text-xs font-semibold tracking-widest text-white bg-white/8 hover:bg-white/12 border border-white/15 rounded-sm transition-colors duration-200"
                           >
-                            WHAT IS A CUSTOM PROGRAM?
+                            {t.megamenu.what_is_custom_program}
                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                               <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
@@ -230,11 +232,11 @@ export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuP
 
                       {data && activeTab === 'individual' && contentItems.length > 0 && (
                         <div>
-                          <p className="text-[10px] tracking-widest text-white/25 mb-3">PROGRAMS AND TRIPS</p>
+                          <p className="text-[10px] tracking-widest text-white/25 mb-3">{t.megamenu.programs_and_trips}</p>
                           <div style={{ overflowX: 'auto', width: '100%', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.2) transparent', paddingBottom: '6px' }}>
                             <div style={{ display: 'grid', gap: '12px', gridTemplateColumns: `repeat(${Math.min(contentItems.length, 6)}, 180px)`, width: 'max-content' }}>
                               {contentItems.map((item, i) => (
-                                <ContentCard key={`ind-${item.slug}`} item={item} index={i} onClose={onClose} />
+                                <ContentCard key={`ind-${item.slug}`} item={item} index={i} onClose={onClose} locale={locale} t={t} />
                               ))}
                             </div>
                           </div>
@@ -242,11 +244,11 @@ export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuP
                       )}
 
                       {data && !showDestinations && trips.length === 0 && programs.length === 0 && activeTab !== 'individual' && (
-                        <p className="text-white/30 text-xs tracking-widest">No content in this section.</p>
+                        <p className="text-white/30 text-xs tracking-widest">{t.megamenu.no_content}</p>
                       )}
 
                       {data && activeTab === 'individual' && contentItems.length === 0 && (
-                        <p className="text-white/30 text-xs tracking-widest">No content in this section.</p>
+                        <p className="text-white/30 text-xs tracking-widest">{t.megamenu.no_content}</p>
                       )}
 
                       {/* See all button */}
@@ -257,7 +259,7 @@ export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuP
                             onClick={onClose}
                             className="inline-flex items-center gap-2 px-5 py-2 text-xs font-medium tracking-widest text-white/60 hover:text-white border border-white/15 hover:border-white/40 rounded-sm transition-colors duration-200"
                           >
-                            SEE ALL IN CALENDAR
+                            {t.megamenu.see_all_in_calendar}
                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                               <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
@@ -276,7 +278,7 @@ export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuP
   )
 }
 
-function ContentCard({ item, index, onClose }: { item: ContentItem; index: number; onClose: () => void }) {
+function ContentCard({ item, index, onClose, locale, t }: { item: ContentItem; index: number; onClose: () => void; locale: string; t: ReturnType<typeof useLanguage>['t'] }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -304,12 +306,12 @@ function ContentCard({ item, index, onClose }: { item: ContentItem; index: numbe
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           {item.spotsAvailable > 0 && (
             <span className="absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/80 text-white backdrop-blur-sm">
-              {item.spotsAvailable} spots
+              {item.spotsAvailable} {t.megamenu.spots}
             </span>
           )}
           {item.spotsAvailable === 0 && (
             <span className="absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-red-500/80 text-white backdrop-blur-sm">
-              No spots
+              {t.megamenu.no_spots}
             </span>
           )}
         </div>
@@ -318,7 +320,7 @@ function ContentCard({ item, index, onClose }: { item: ContentItem; index: numbe
             {item.title}
           </p>
           {item.startDate && (
-            <p className="text-[10px] text-white/40 mt-0.5">{formatDate(item.startDate)}</p>
+            <p className="text-[10px] text-white/40 mt-0.5">{formatDate(item.startDate, locale)}</p>
           )}
           <p className="text-xs font-medium text-[#c0442a] mt-1">{item.price} {item.currency}</p>
         </div>

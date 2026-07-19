@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { headers } from 'next/headers'
+import { sendFlow } from '@/lib/email-flows'
 
 export async function POST(req: NextRequest) {
   try {
@@ -67,6 +68,14 @@ export async function POST(req: NextRequest) {
         status: 'waiting',
       },
     })
+
+    const collectionMap = { trip: 'trips', program: 'programs', destination: 'destinations', product: 'products' } as const
+    const item = await payload.findByID({ collection: collectionMap[itemType as keyof typeof collectionMap], id: itemId }).catch(() => null)
+    const itemTitle = itemType === 'destination' ? (item as any)?.name : (item as any)?.title
+    await sendFlow('waitlist_joined', { email, firstName: name }, {
+      itemTitle: itemTitle ?? '',
+      waitlistPosition: position,
+    }, payload).catch(() => {})
 
     return NextResponse.json({ ok: true, position })
   } catch (err) {

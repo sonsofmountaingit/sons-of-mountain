@@ -83,6 +83,18 @@
     "lines": 20,
     "group": "other"
   },
+  "src/migrations/20260719_booking_steps.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 40,
+    "group": "other"
+  },
   "src/migrations/20260716e_testimonials_instagram.ts": {
     "exports": [
       "up",
@@ -174,9 +186,10 @@
       "./20260716c_transport_map_link",
       "./20260716d_testimonials_role",
       "./20260716e_testimonials_instagram",
-      "./20260718_about_hero_image_position"
+      "./20260718_about_hero_image_position",
+      "./20260719_booking_steps"
     ],
-    "lines": 88,
+    "lines": 94,
     "group": "other"
   },
   "src/migrations/20260714b_seo_meta_keywords_all_collections.ts": {
@@ -2541,7 +2554,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/DestinationBookingController"
     ],
-    "lines": 368,
+    "lines": 371,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -3400,7 +3413,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 316,
+    "lines": 319,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/page.tsx": {
@@ -3803,7 +3816,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 357,
+    "lines": 360,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {
@@ -3901,22 +3914,26 @@
       "next/navigation",
       "zod",
       "@/components/auth/AuthForm",
-      "@/lib/auth-client"
+      "@/lib/auth-client",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 45,
+    "lines": 49,
     "group": "frontend"
   },
   "src/app/(frontend)/login/page.tsx": {
     "exports": [
       "metadata",
-      "default:function"
+      "default:async"
     ],
     "types": [],
     "imports": [
       "next",
-      "next/dynamic"
+      "next/dynamic",
+      "next/headers",
+      "@/lib/translations"
     ],
-    "lines": 25,
+    "lines": 32,
     "group": "frontend"
   },
   "src/app/og/route.tsx": {
@@ -4777,7 +4794,7 @@
       "@/lib/send-registration-forms",
       "./shared/paymentPlanFields"
     ],
-    "lines": 552,
+    "lines": 567,
     "group": "collections"
   },
   "src/payload/collections/EmailTemplates.ts": {
@@ -4905,7 +4922,7 @@
       "@/lib/stripe-product-sync",
       "./shared/paymentPlanFields"
     ],
-    "lines": 534,
+    "lines": 549,
     "group": "collections"
   },
   "src/payload/collections/Pages.ts": {
@@ -5210,7 +5227,7 @@
       "@/lib/send-registration-forms",
       "./shared/paymentPlanFields"
     ],
-    "lines": 553,
+    "lines": 568,
     "group": "collections"
   },
   "src/payload/collections/Waitlist.ts": {
@@ -5379,9 +5396,11 @@
       "react",
       "gsap",
       "gsap/ScrollTrigger",
-      "@/lib/currency"
+      "@/lib/currency",
+      "@/lib/language-context",
+      "@/lib/get-default-strings"
     ],
-    "lines": 266,
+    "lines": 269,
     "group": "blocks"
   },
   "src/components/blocks/destination-carousel/DestinationCarouselBlock.tsx": {
@@ -5399,7 +5418,7 @@
       "@/lib/language-context",
       "@/lib/get-default-strings"
     ],
-    "lines": 419,
+    "lines": 423,
     "group": "blocks"
   },
   "src/components/blocks/contact/ContactGuidesBlock.tsx": {
@@ -6488,7 +6507,7 @@
       "@/components/forms/WaitlistFormModal",
       "@/lib/use-translations"
     ],
-    "lines": 176,
+    "lines": 189,
     "group": "ui"
   },
   "src/components/ui/destination-page/BookingDrawer.tsx": {
@@ -6764,7 +6783,7 @@
       "@/components/forms/WaitlistFormModal",
       "@/lib/use-translations"
     ],
-    "lines": 253,
+    "lines": 262,
     "group": "ui"
   },
   "src/components/ui/destination-page/AdventureCtaSection.tsx": {
@@ -7934,11 +7953,12 @@
   "src/lib/currency.ts": {
     "exports": [
       "EUR_TO_BGN",
-      "formatPrice"
+      "formatPrice",
+      "formatPriceParts"
     ],
     "types": [],
     "imports": [],
-    "lines": 8,
+    "lines": 14,
     "group": "lib"
   },
   "src/lib/stripe-webhooks.ts": {
@@ -7973,7 +7993,7 @@
     "imports": [
       "./translations"
     ],
-    "lines": 271,
+    "lines": 284,
     "group": "lib"
   },
   "src/lib/escape-html.ts": {
@@ -8077,7 +8097,7 @@
       "Translations"
     ],
     "imports": [],
-    "lines": 1994,
+    "lines": 2020,
     "group": "lib"
   },
   "src/lib/send-registration-forms.ts": {

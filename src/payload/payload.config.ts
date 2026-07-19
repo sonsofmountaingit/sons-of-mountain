@@ -27,6 +27,9 @@ import { Subscribers } from './collections/Subscribers'
 import { Segments } from './collections/Segments'
 import { EmailTemplates } from './collections/EmailTemplates'
 import { Campaigns } from './collections/Campaigns'
+import { EmailFlows } from './collections/EmailFlows'
+import { EmailLogs } from './collections/EmailLogs'
+import { CronJobs } from './collections/CronJobs'
 import { CustomerMedia } from './collections/CustomerMedia'
 import { CustomerRatings } from './collections/CustomerRatings'
 import { Programs } from './collections/Programs'
@@ -67,6 +70,7 @@ import { StoriesPage } from './globals/StoriesPage'
 import { CalendarPage } from './globals/CalendarPage'
 import { HomePage } from './globals/HomePage'
 import { Vouchers } from './globals/Vouchers'
+import { EmailSettings } from './globals/EmailSettings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -139,6 +143,9 @@ export default buildConfig({
     Segments,
     EmailTemplates,
     Campaigns,
+    EmailFlows,
+    EmailLogs,
+    CronJobs,
     CustomerMedia,
     CustomerRatings,
     Programs,
@@ -157,7 +164,7 @@ export default buildConfig({
     Payouts,
     Testimonials,
   ],
-  globals: [Navigation, Footer, SiteSettings, SiteMeta, Hero, DestinationCarousel, Gallery, Shop, WhyTravelWithUs, FeaturedTravels, CalendarCta, TestimonialsSection, About, ContactPage, IndividualProgramsPage, BlogPage, StoriesPage, CalendarPage, HomePage, PrivacyPolicy, TermsAndConditions, Vouchers],
+  globals: [Navigation, Footer, SiteSettings, SiteMeta, Hero, DestinationCarousel, Gallery, Shop, WhyTravelWithUs, FeaturedTravels, CalendarCta, TestimonialsSection, About, ContactPage, IndividualProgramsPage, BlogPage, StoriesPage, CalendarPage, HomePage, PrivacyPolicy, TermsAndConditions, Vouchers, EmailSettings],
   plugins: [
     stripePlugin({
       stripeSecretKey: process.env.STRIPE_SECRET_KEY ?? '',
