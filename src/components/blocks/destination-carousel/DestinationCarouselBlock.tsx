@@ -46,9 +46,9 @@ function DestCard({
   return (
     <button
       onClick={onClick}
-      className={`relative flex-shrink-0 rounded-2xl overflow-hidden cursor-pointer focus:outline-none transition-all duration-500 ${
+      className={`dc-intro-card relative flex-shrink-0 rounded-2xl overflow-hidden cursor-pointer focus:outline-none transition-all duration-500 ${
         isActive
-          ? 'w-[240px] lg:w-[290px] opacity-100 scale-100'
+          ? 'dc-intro-card--active w-[240px] lg:w-[290px] opacity-100 scale-100'
           : 'w-[175px] lg:w-[210px] opacity-60 scale-95 hover:opacity-85 hover:scale-[0.97]'
       }`}
       style={{ aspectRatio: '9/14' }}
@@ -119,6 +119,7 @@ export function DestinationCarouselBlock({
   const showDestinationView = activeIndex >= 0
   const textPanelRef = useRef<HTMLDivElement>(null)
   const cardsPanelRef = useRef<HTMLDivElement>(null)
+  const introCardsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const tl = gsap.timeline({ onComplete: () => {
@@ -162,7 +163,7 @@ export function DestinationCarouselBlock({
     const heroHref = activeDest ? (activeDest.href ?? `/destinations/${activeDest.slug}`) : '/destinations'
 
     return (
-      <section className="relative flex overflow-x-hidden bg-[#0a0a0a] -mt-[72px] md:mt-0 md:[min-height:100svh]" style={{ minHeight: 'calc(100svh + 72px)' }}>
+      <section className={`relative flex overflow-x-hidden bg-[#0a0a0a] -mt-[72px] md:mt-0 md:[min-height:100svh] ${showDestinationView ? '' : 'dc-intro-section'}`} style={{ minHeight: showDestinationView ? 'calc(100svh + 72px)' : undefined }}>
         {/* Background crossfade */}
         <AnimatePresence initial={false}>
           <motion.div
@@ -213,7 +214,7 @@ export function DestinationCarouselBlock({
         )}
 
         {/* Mobile horizontal dot nav */}
-        {destinations.length > 0 && (
+        {destinations.length > 0 && showDestinationView && (
           <div className="flex md:hidden absolute bottom-[calc(180px+56px+0.5rem)] left-0 right-0 z-20 flex-row items-center justify-center gap-2">
             {destinations.map((_, i) => (
               <button
@@ -230,15 +231,23 @@ export function DestinationCarouselBlock({
         {/* Mobile styles */}
         <style>{`
           @media (max-width: 767px) {
-            .dc-text-panel { position: absolute; top: 140px; bottom: auto; left: 0; right: 0; padding: 0 1rem 0.5rem !important; width: 100% !important; align-items: center !important; text-align: center !important; justify-content: flex-start !important; }
-            .dc-hero-title { font-size: clamp(1.75rem, 9vw, 3rem) !important; line-height: 0.95 !important; margin-bottom: 0.5rem !important; }
+            .dc-text-panel { position: absolute; top: 140px; bottom: auto; left: 0; right: 0; padding: 0 1.25rem 0.5rem !important; width: 100% !important; max-width: 100vw !important; box-sizing: border-box !important; align-items: center !important; text-align: center !important; justify-content: flex-start !important; overflow: hidden !important; }
+            .dc-text-panel > div { width: 100% !important; max-width: 100% !important; align-items: center !important; }
+            .dc-hero-title { font-size: clamp(1.5rem, 8vw, 2.75rem) !important; line-height: 1 !important; margin-bottom: 0.5rem !important; width: 100% !important; max-width: 100% !important; overflow-wrap: break-word !important; word-break: break-word !important; hyphens: auto !important; }
             .dc-hero-sub { margin-bottom: 0.75rem !important; max-width: 85vw !important; font-size: 0.75rem !important; }
             .dc-hero-btn { padding: 0.5rem 1rem !important; font-size: 0.65rem !important; gap: 0.375rem !important; align-self: center !important; min-height: 44px !important; display: inline-flex !important; align-items: center !important; }
+            .dc-intro-cards { margin-top: 1.25rem !important; width: 100vw !important; max-width: 100vw !important; }
+            .dc-intro-cards > div { padding: 0 1.25rem !important; }
+            .dc-intro-card { width: 150px !important; aspect-ratio: 9/15 !important; }
+            .dc-intro-card.dc-intro-card--active { width: 178px !important; }
+            .dc-intro-card h3 { font-size: 0.8rem !important; }
+            .dc-intro-section { min-height: 0 !important; height: auto !important; padding-top: 140px !important; padding-bottom: 2.5rem !important; }
+            .dc-intro-section .dc-text-panel { position: relative !important; top: auto !important; padding-top: 0 !important; }
           }
         `}</style>
 
         {/* Text panel */}
-        <div ref={textPanelRef} className="relative z-10 flex flex-col justify-center px-4 sm:px-12 md:px-20 lg:px-28 w-full md:w-[52%] py-16 sm:py-28 dc-text-panel">
+        <div ref={textPanelRef} className={`relative z-10 flex flex-col justify-center px-4 sm:px-12 md:px-20 lg:px-28 py-16 sm:py-28 dc-text-panel ${showDestinationView ? 'w-full md:w-[52%]' : 'w-full'}`}>
           <AnimatePresence mode="wait">
             <motion.div
               key={activeDest?.id ?? 'text-empty'}
@@ -275,6 +284,49 @@ export function DestinationCarouselBlock({
                 {heroBtnText}
                 <span>→</span>
               </Link>
+
+              {!showDestinationView && destinations.length > 0 && (
+                <div
+                  ref={introCardsRef}
+                  className="dc-intro-cards mt-8 sm:mt-10 flex items-center w-full pointer-events-none -mx-5 sm:mx-0"
+                >
+                  <div
+                    ref={trackRef}
+                    className="flex gap-3 sm:gap-4 overflow-x-auto select-none pb-2 pointer-events-auto w-full px-4 sm:px-0"
+                    style={{
+                      scrollbarWidth: 'none',
+                      maskImage: 'linear-gradient(to right, black 0%, black 90%, transparent 100%)',
+                      WebkitMaskImage: 'linear-gradient(to right, black 0%, black 90%, transparent 100%)',
+                    }}
+                    onMouseDown={onMouseDown}
+                    onMouseMove={onMouseMove}
+                    onMouseUp={onMouseUp}
+                    onMouseLeave={onMouseUp}
+                  >
+                    {destinations.map((dest, i) => (
+                      <DestCard
+                        key={dest.id}
+                        dest={dest}
+                        isActive={i === activeIndex}
+                        onClick={() => handleSelect(i)}
+                      />
+                    ))}
+                    <div className="flex-shrink-0 w-8" />
+                  </div>
+                </div>
+              )}
+
+              {!showDestinationView && destinations.length > 0 && (
+                <div className="flex md:hidden mt-4 flex-row items-center justify-center gap-2 pointer-events-auto">
+                  {destinations.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => handleSelect(i)}
+                      className="w-1.5 h-1.5 rounded-full bg-white/35"
+                    />
+                  ))}
+                </div>
+              )}
             </motion.div>
           </AnimatePresence>
 
@@ -289,33 +341,36 @@ export function DestinationCarouselBlock({
         </div>
 
         {/* Right: cards — desktop */}
-        <div ref={cardsPanelRef} className="absolute inset-y-0 right-0 z-10 hidden md:flex items-center w-[55%] py-24 pointer-events-none">
-          <div
-            ref={trackRef}
-            className="flex gap-4 overflow-x-auto select-none pb-2 pointer-events-auto w-full pl-4 pr-0"
-            style={{
-              scrollbarWidth: 'none',
-              maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 100%)',
-              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 100%)',
-            }}
-            onMouseDown={onMouseDown}
-            onMouseMove={onMouseMove}
-            onMouseUp={onMouseUp}
-            onMouseLeave={onMouseUp}
-          >
-            {destinations.map((dest, i) => (
-              <DestCard
-                key={dest.id}
-                dest={dest}
-                isActive={i === activeIndex}
-                onClick={() => handleSelect(i)}
-              />
-            ))}
-            <div className="flex-shrink-0 w-8" />
+        {showDestinationView && (
+          <div ref={cardsPanelRef} className="absolute inset-y-0 right-0 z-10 hidden md:flex items-center w-[55%] py-24 pointer-events-none">
+            <div
+              ref={trackRef}
+              className="flex gap-4 overflow-x-auto select-none pb-2 pointer-events-auto w-full pl-4 pr-0"
+              style={{
+                scrollbarWidth: 'none',
+                maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 100%)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 100%)',
+              }}
+              onMouseDown={onMouseDown}
+              onMouseMove={onMouseMove}
+              onMouseUp={onMouseUp}
+              onMouseLeave={onMouseUp}
+            >
+              {destinations.map((dest, i) => (
+                <DestCard
+                  key={dest.id}
+                  dest={dest}
+                  isActive={i === activeIndex}
+                  onClick={() => handleSelect(i)}
+                />
+              ))}
+              <div className="flex-shrink-0 w-8" />
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Bottom: cards — mobile */}
+        {showDestinationView && (
         <div className="absolute bottom-14 left-0 right-0 z-10 flex md:hidden items-end pb-4 pointer-events-none" style={{ height: '180px' }}>
           <div
             ref={trackRef}
@@ -355,6 +410,7 @@ export function DestinationCarouselBlock({
             <div className="flex-shrink-0 w-4" />
           </div>
         </div>
+        )}
       </section>
     )
   }

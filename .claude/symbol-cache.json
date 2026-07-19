@@ -2515,11 +2515,13 @@
       "payload",
       "@payload-config",
       "next/navigation",
+      "next/headers",
       "next",
       "react",
       "@/lib/media-url",
       "@/lib/metadata",
       "@/lib/weather",
+      "@/lib/translations",
       "@/components/ui/TrackRecentlyViewed",
       "@/components/ui/destination-page/HeroSection",
       "@/components/ui/destination-page/WhySection",
@@ -2539,7 +2541,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/DestinationBookingController"
     ],
-    "lines": 361,
+    "lines": 368,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -2781,9 +2783,11 @@
       "next/link",
       "sonner",
       "@/lib/currency",
-      "@/lib/auth-client"
+      "@/lib/auth-client",
+      "@/lib/use-translations",
+      "@/lib/translations"
     ],
-    "lines": 492,
+    "lines": 502,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/[tripId]/success/page.tsx": {
@@ -3774,10 +3778,12 @@
       "payload",
       "@payload-config",
       "next/navigation",
+      "next/headers",
       "next",
       "react",
       "@/lib/media-url",
       "@/lib/metadata",
+      "@/lib/translations",
       "@/components/ui/TrackRecentlyViewed",
       "@/components/ui/destination-page/HeroSection",
       "@/components/ui/destination-page/WhySection",
@@ -3797,7 +3803,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 350,
+    "lines": 357,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {
@@ -5304,8 +5310,10 @@
       "FooterFollowBlock"
     ],
     "types": [],
-    "imports": [],
-    "lines": 37,
+    "imports": [
+      "@/lib/use-translations"
+    ],
+    "lines": 42,
     "group": "blocks"
   },
   "src/components/blocks/footer/FooterNavBlock.tsx": {
@@ -5352,9 +5360,10 @@
     ],
     "types": [],
     "imports": [
-      "@/components/ui/FooterForm"
+      "@/components/ui/FooterForm",
+      "@/lib/use-translations"
     ],
-    "lines": 44,
+    "lines": 54,
     "group": "blocks"
   },
   "src/components/blocks/featured-travels/FeaturedTravelsBlock.tsx": {
@@ -5390,7 +5399,7 @@
       "@/lib/language-context",
       "@/lib/get-default-strings"
     ],
-    "lines": 360,
+    "lines": 363,
     "group": "blocks"
   },
   "src/components/blocks/contact/ContactGuidesBlock.tsx": {
@@ -5497,9 +5506,10 @@
       "gsap",
       "gsap/ScrollTrigger",
       "@/lib/language-context",
-      "@/lib/get-default-strings"
+      "@/lib/get-default-strings",
+      "@/lib/use-translations"
     ],
-    "lines": 542,
+    "lines": 545,
     "group": "blocks"
   },
   "src/components/blocks/EmbedBlockRenderer.tsx": {
@@ -5703,9 +5713,10 @@
       "gsap/ScrollTrigger",
       "@/components/ui/destination-page/BookingDrawer",
       "@/components/ui/WhyTravelWithUs",
-      "@/lib/currency"
+      "@/lib/currency",
+      "@/lib/use-translations"
     ],
-    "lines": 465,
+    "lines": 471,
     "group": "blocks"
   },
   "src/components/blocks/why-travel-with-us/icons/GlobeIcon.tsx": {
@@ -5809,7 +5820,7 @@
       "gsap",
       "gsap/ScrollTrigger"
     ],
-    "lines": 192,
+    "lines": 220,
     "group": "blocks"
   },
   "src/components/blocks/about/AboutPartnersBlock.tsx": {
@@ -5991,9 +6002,10 @@
       "react",
       "motion/react",
       "@/components/ui/DestinationCard",
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/use-translations"
     ],
-    "lines": 75,
+    "lines": 77,
     "group": "blocks"
   },
   "src/components/blocks/terms-and-conditions/TermsAndConditionsContentBlock.tsx": {
@@ -6244,9 +6256,10 @@
     "types": [],
     "imports": [
       "react",
-      "@/puck/BlockWrapper"
+      "@/puck/BlockWrapper",
+      "@/lib/use-translations"
     ],
-    "lines": 105,
+    "lines": 107,
     "group": "blocks"
   },
   "src/components/blocks/BeforeAfterBlockRenderer.tsx": {
@@ -6328,6 +6341,7 @@
     "types": [],
     "imports": [
       "next/cache",
+      "next/headers",
       "payload",
       "@payload-config",
       "@/components/blocks/PuckRender",
@@ -6336,9 +6350,10 @@
       "@/components/blocks/hero/HeroSubtextBlock",
       "@/components/blocks/hero/HeroCtaBlock",
       "./HeroEditButton",
+      "@/lib/translations",
       "@puckeditor/core"
     ],
-    "lines": 49,
+    "lines": 56,
     "group": "ui"
   },
   "src/components/ui/GalleryKeyboardHints.tsx": {
@@ -6347,9 +6362,10 @@
     ],
     "types": [],
     "imports": [
-      "react"
+      "react",
+      "@/lib/use-translations"
     ],
-    "lines": 52,
+    "lines": 48,
     "group": "ui"
   },
   "src/components/ui/ProgramsMegaMenu.tsx": {
@@ -6387,13 +6403,15 @@
     "types": [],
     "imports": [
       "next/cache",
+      "next/headers",
       "payload",
       "@payload-config",
       "@/components/blocks/calendar-cta/CalendarCtaBlock",
       "./CalendarCtaEditButton",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "@/lib/translations"
     ],
-    "lines": 65,
+    "lines": 71,
     "group": "ui"
   },
   "src/components/ui/FeaturedTravels.tsx": {
@@ -6405,12 +6423,13 @@
       "payload",
       "@payload-config",
       "next/cache",
+      "next/headers",
       "@/lib/media-url",
       "@/components/blocks/featured-travels/FeaturedTravelsBlock",
       "./FeaturedTravelsEditButton",
       "@/lib/translations"
     ],
-    "lines": 143,
+    "lines": 147,
     "group": "ui"
   },
   "src/components/ui/GalleryFilterBar.tsx": {
@@ -6420,9 +6439,10 @@
     "types": [],
     "imports": [
       "react",
-      "gsap"
+      "gsap",
+      "@/lib/use-translations"
     ],
-    "lines": 104,
+    "lines": 106,
     "group": "ui"
   },
   "src/components/ui/ShakingCredit.tsx": {
@@ -6465,7 +6485,8 @@
     "imports": [
       "react",
       "@/lib/currency",
-      "@/components/forms/WaitlistFormModal"
+      "@/components/forms/WaitlistFormModal",
+      "@/lib/use-translations"
     ],
     "lines": 176,
     "group": "ui"
@@ -6479,7 +6500,8 @@
       "react",
       "@/lib/cart-store",
       "next/navigation",
-      "@/lib/currency"
+      "@/lib/currency",
+      "@/lib/use-translations"
     ],
     "lines": 242,
     "group": "ui"
@@ -6496,9 +6518,10 @@
       "gsap/ScrollTrigger",
       "./ItinerarySection",
       "./ItinerarySection",
-      "@payloadcms/richtext-lexical/react"
+      "@payloadcms/richtext-lexical/react",
+      "@/lib/use-translations"
     ],
-    "lines": 114,
+    "lines": 116,
     "group": "ui"
   },
   "src/components/ui/destination-page/WhyTravelWithUsSection.tsx": {
@@ -6511,9 +6534,10 @@
       "next/image",
       "react",
       "gsap",
-      "gsap/ScrollTrigger"
+      "gsap/ScrollTrigger",
+      "@/lib/use-translations"
     ],
-    "lines": 128,
+    "lines": 130,
     "group": "ui"
   },
   "src/components/ui/destination-page/DestinationBookingController.tsx": {
@@ -6540,9 +6564,10 @@
       "gsap",
       "gsap/ScrollTrigger",
       "@payloadcms/richtext-lexical/react",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "@/lib/use-translations"
     ],
-    "lines": 179,
+    "lines": 181,
     "group": "ui"
   },
   "src/components/ui/destination-page/AccommodationsCarousel.tsx": {
@@ -6552,9 +6577,10 @@
     "types": [],
     "imports": [
       "next/image",
-      "react"
+      "react",
+      "@/lib/use-translations"
     ],
-    "lines": 65,
+    "lines": 67,
     "group": "ui"
   },
   "src/components/ui/destination-page/OtherDestinationsSection.tsx": {
@@ -6568,9 +6594,10 @@
       "react",
       "gsap",
       "gsap/ScrollTrigger",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "@/lib/use-translations"
     ],
-    "lines": 120,
+    "lines": 122,
     "group": "ui"
   },
   "src/components/ui/destination-page/AccommodationsSection.tsx": {
@@ -6581,9 +6608,10 @@
     "imports": [
       "@payloadcms/richtext-lexical/react",
       "./AccommodationsCarousel",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "@/lib/use-translations"
     ],
-    "lines": 84,
+    "lines": 88,
     "group": "ui"
   },
   "src/components/ui/destination-page/DestinationPageAnimator.tsx": {
@@ -6606,9 +6634,10 @@
       "react",
       "gsap",
       "gsap/ScrollTrigger",
-      "@payloadcms/richtext-lexical/react"
+      "@payloadcms/richtext-lexical/react",
+      "@/lib/use-translations"
     ],
-    "lines": 95,
+    "lines": 97,
     "group": "ui"
   },
   "src/components/ui/destination-page/FreeTransferSection.tsx": {
@@ -6618,9 +6647,10 @@
     "types": [],
     "imports": [
       "next/image",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "@/lib/use-translations"
     ],
-    "lines": 47,
+    "lines": 52,
     "group": "ui"
   },
   "src/components/ui/destination-page/HeroSection.tsx": {
@@ -6633,9 +6663,11 @@
       "react",
       "gsap",
       "gsap/ScrollTrigger",
-      "./BookingDrawer"
+      "./BookingDrawer",
+      "@/lib/use-translations",
+      "@/lib/translations"
     ],
-    "lines": 393,
+    "lines": 399,
     "group": "ui"
   },
   "src/components/ui/destination-page/IsThisForYouSection.tsx": {
@@ -6648,9 +6680,10 @@
       "@payloadcms/richtext-lexical/react",
       "react",
       "gsap",
-      "gsap/ScrollTrigger"
+      "gsap/ScrollTrigger",
+      "@/lib/use-translations"
     ],
-    "lines": 217,
+    "lines": 220,
     "group": "ui"
   },
   "src/components/ui/destination-page/TravelTransportSection.tsx": {
@@ -6660,9 +6693,10 @@
     "types": [],
     "imports": [
       "next/image",
-      "@payloadcms/richtext-lexical/react"
+      "@payloadcms/richtext-lexical/react",
+      "@/lib/use-translations"
     ],
-    "lines": 111,
+    "lines": 115,
     "group": "ui"
   },
   "src/components/ui/destination-page/EquipmentSection.tsx": {
@@ -6670,8 +6704,10 @@
       "default:function"
     ],
     "types": [],
-    "imports": [],
-    "lines": 31,
+    "imports": [
+      "@/lib/use-translations"
+    ],
+    "lines": 36,
     "group": "ui"
   },
   "src/components/ui/destination-page/ItinerarySection.tsx": {
@@ -6690,9 +6726,11 @@
       "gsap/ScrollTrigger",
       "@payloadcms/richtext-lexical/react",
       "./ItinerarySectionClient",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "@/lib/use-translations",
+      "@/lib/translations"
     ],
-    "lines": 196,
+    "lines": 202,
     "group": "ui"
   },
   "src/components/ui/destination-page/WhySection.tsx": {
@@ -6705,9 +6743,10 @@
       "@payloadcms/richtext-lexical/react",
       "react",
       "gsap",
-      "gsap/ScrollTrigger"
+      "gsap/ScrollTrigger",
+      "@/lib/use-translations"
     ],
-    "lines": 362,
+    "lines": 370,
     "group": "ui"
   },
   "src/components/ui/destination-page/BookingCtaSection.tsx": {
@@ -6722,7 +6761,8 @@
       "gsap",
       "gsap/ScrollTrigger",
       "@/lib/currency",
-      "@/components/forms/WaitlistFormModal"
+      "@/components/forms/WaitlistFormModal",
+      "@/lib/use-translations"
     ],
     "lines": 253,
     "group": "ui"
@@ -6739,9 +6779,10 @@
       "gsap/ScrollTrigger",
       "@/lib/media-url",
       "@/lib/currency",
-      "@/components/forms/WaitlistFormModal"
+      "@/components/forms/WaitlistFormModal",
+      "@/lib/use-translations"
     ],
-    "lines": 183,
+    "lines": 185,
     "group": "ui"
   },
   "src/components/ui/destination-page/ReadinessChecklistSection.tsx": {
@@ -6752,9 +6793,10 @@
     "imports": [
       "react",
       "gsap",
-      "canvas-confetti"
+      "canvas-confetti",
+      "@/lib/use-translations"
     ],
-    "lines": 120,
+    "lines": 122,
     "group": "ui"
   },
   "src/components/ui/AboutEditButton.tsx": {
@@ -6775,12 +6817,14 @@
     "types": [],
     "imports": [
       "next/cache",
+      "next/headers",
       "payload",
       "@payload-config",
       "@payloadcms/richtext-lexical/react",
-      "./PrivacyPolicyEditButton"
+      "./PrivacyPolicyEditButton",
+      "@/lib/translations"
     ],
-    "lines": 63,
+    "lines": 70,
     "group": "ui"
   },
   "src/components/ui/NavbarClient.tsx": {
@@ -6814,12 +6858,13 @@
       "payload",
       "@payload-config",
       "next/cache",
+      "next/headers",
       "@/lib/media-url",
       "@/components/blocks/destination-carousel/DestinationCarouselBlock",
       "./DestinationCarouselEditButton",
       "@/lib/translations"
     ],
-    "lines": 179,
+    "lines": 184,
     "group": "ui"
   },
   "src/components/ui/TripCard.tsx": {
@@ -6842,11 +6887,13 @@
       "payload",
       "@payload-config",
       "next/cache",
+      "next/headers",
       "@/components/blocks/why-travel-with-us/WhyTravelWithUsBlock",
       "./WhyTravelWithUsEditButton",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "@/lib/translations"
     ],
-    "lines": 169,
+    "lines": 175,
     "group": "ui"
   },
   "src/components/ui/ScrollReveal.tsx": {
@@ -6894,9 +6941,10 @@
     "imports": [
       "react",
       "gsap",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "@/lib/use-translations"
     ],
-    "lines": 113,
+    "lines": 115,
     "group": "ui"
   },
   "src/components/ui/CalendarGrid.tsx": {
@@ -6910,9 +6958,11 @@
       "react",
       "react-dom",
       "next/navigation",
-      "./CalendarTripCard"
+      "./CalendarTripCard",
+      "@/lib/use-translations",
+      "@/lib/translations"
     ],
-    "lines": 796,
+    "lines": 829,
     "group": "ui"
   },
   "src/components/ui/Footer.tsx": {
@@ -6922,13 +6972,14 @@
     "types": [],
     "imports": [
       "next/cache",
+      "next/headers",
       "payload",
       "@payload-config",
       "./FooterClient",
       "./FooterEditButton",
       "@/lib/translations"
     ],
-    "lines": 264,
+    "lines": 270,
     "group": "ui"
   },
   "src/components/ui/Testimonials.tsx": {
@@ -6938,12 +6989,14 @@
     "types": [],
     "imports": [
       "next/cache",
+      "next/headers",
       "payload",
       "@payload-config",
       "@/components/blocks/testimonials/TestimonialsBlock",
-      "./TestimonialsEditButton"
+      "./TestimonialsEditButton",
+      "@/lib/translations"
     ],
-    "lines": 59,
+    "lines": 65,
     "group": "ui"
   },
   "src/components/ui/DestinationCard.tsx": {
@@ -6980,9 +7033,10 @@
     "imports": [
       "react",
       "motion/react",
-      "./StoryCard"
+      "./StoryCard",
+      "@/lib/use-translations"
     ],
-    "lines": 54,
+    "lines": 56,
     "group": "ui"
   },
   "src/components/ui/NavigationEditButton.tsx": {
@@ -7106,9 +7160,10 @@
     "imports": [
       "next/link",
       "react",
-      "motion/react"
+      "motion/react",
+      "@/lib/use-translations"
     ],
-    "lines": 80,
+    "lines": 82,
     "group": "ui"
   },
   "src/components/ui/FooterEditButton.tsx": {
@@ -7169,12 +7224,14 @@
     "types": [],
     "imports": [
       "next/cache",
+      "next/headers",
       "payload",
       "@payload-config",
       "@payloadcms/richtext-lexical/react",
-      "./TermsAndConditionsEditButton"
+      "./TermsAndConditionsEditButton",
+      "@/lib/translations"
     ],
-    "lines": 63,
+    "lines": 70,
     "group": "ui"
   },
   "src/components/ui/CalendarMap.tsx": {
@@ -7244,9 +7301,10 @@
       "next/navigation",
       "@/lib/auth-client",
       "@/lib/media-url",
-      "sonner"
+      "sonner",
+      "@/lib/use-translations"
     ],
-    "lines": 395,
+    "lines": 399,
     "group": "ui"
   },
   "src/components/ui/TermsAndConditionsEditButton.tsx": {
@@ -7351,9 +7409,10 @@
     ],
     "types": [],
     "imports": [
-      "react"
+      "react",
+      "@/lib/use-translations"
     ],
-    "lines": 49,
+    "lines": 51,
     "group": "components"
   },
   "src/components/forms/ContactForm.tsx": {
@@ -7381,9 +7440,10 @@
       "react",
       "react-hook-form",
       "@hookform/resolvers/zod",
-      "zod"
+      "zod",
+      "@/lib/use-translations"
     ],
-    "lines": 98,
+    "lines": 102,
     "group": "components"
   },
   "src/components/forms/BookingFormModal.tsx": {
@@ -7396,9 +7456,10 @@
       "react-hook-form",
       "@hookform/resolvers/zod",
       "zod",
-      "motion/react"
+      "motion/react",
+      "@/lib/use-translations"
     ],
-    "lines": 423,
+    "lines": 430,
     "group": "components"
   },
   "src/components/forms/WaitlistFormModal.tsx": {
@@ -7413,9 +7474,10 @@
       "react-hook-form",
       "@hookform/resolvers/zod",
       "zod",
-      "motion/react"
+      "motion/react",
+      "@/lib/use-translations"
     ],
-    "lines": 170,
+    "lines": 174,
     "group": "components"
   },
   "src/components/auth/AuthModal.tsx": {
@@ -7465,9 +7527,10 @@
     ],
     "types": [],
     "imports": [
-      "react"
+      "react",
+      "@/lib/use-translations"
     ],
-    "lines": 67,
+    "lines": 69,
     "group": "components"
   },
   "src/components/shop/OrderStatusBadge.tsx": {
@@ -7487,9 +7550,10 @@
     "imports": [
       "next/image",
       "@/lib/cart-store",
-      "@/lib/currency"
+      "@/lib/currency",
+      "@/lib/use-translations"
     ],
-    "lines": 60,
+    "lines": 62,
     "group": "components"
   },
   "src/components/shop/ProductCard.tsx": {
@@ -7513,9 +7577,10 @@
     ],
     "types": [],
     "imports": [
-      "@/lib/cart-store"
+      "@/lib/cart-store",
+      "@/lib/use-translations"
     ],
-    "lines": 23,
+    "lines": 25,
     "group": "components"
   },
   "src/components/shop/WaitlistButton.tsx": {
@@ -7524,9 +7589,10 @@
     ],
     "types": [],
     "imports": [
-      "react"
+      "react",
+      "@/lib/use-translations"
     ],
-    "lines": 78,
+    "lines": 80,
     "group": "components"
   },
   "src/components/shop/StarRating.tsx": {
@@ -7548,9 +7614,10 @@
       "./CartItem",
       "next/link",
       "react",
-      "@/lib/currency"
+      "@/lib/currency",
+      "@/lib/use-translations"
     ],
-    "lines": 89,
+    "lines": 91,
     "group": "components"
   },
   "src/components/shop/EarlyBirdBadge.tsx": {
@@ -7573,9 +7640,10 @@
     "imports": [
       "react",
       "@/lib/cart-store",
-      "@/lib/currency"
+      "@/lib/currency",
+      "@/lib/use-translations"
     ],
-    "lines": 63,
+    "lines": 65,
     "group": "components"
   },
   "src/components/admin/AboutVisualEditorButton.tsx": {
@@ -7905,7 +7973,7 @@
     "imports": [
       "./translations"
     ],
-    "lines": 234,
+    "lines": 271,
     "group": "lib"
   },
   "src/lib/escape-html.ts": {
@@ -8009,7 +8077,7 @@
       "Translations"
     ],
     "imports": [],
-    "lines": 1000,
+    "lines": 1994,
     "group": "lib"
   },
   "src/lib/send-registration-forms.ts": {

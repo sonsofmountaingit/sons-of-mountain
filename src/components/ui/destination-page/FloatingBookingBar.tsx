@@ -149,7 +149,7 @@ export function FloatingBookingBar({
               )}
               <span className={isEarlyBird ? 'line-through text-white/40 font-normal text-[9px] sm:text-xs' : ''}>{formatPrice(price)}</span>
               {earlyBirdSpotsLeft != null && (
-                <span className="hidden sm:inline text-amber-400 font-semibold text-xs">· {earlyBirdSpotsLeft} {t.destination_page.early_bird_label} {earlyBirdSpotsLeft === 1 ? t.destination_page.spot_word : t.destination_page.spots_word}</span>
+                <span className="hidden sm:inline text-amber-400 font-semibold text-xs">· {t.destination_page.early_bird_label} · {earlyBirdSpotsLeft} {earlyBirdSpotsLeft === 1 ? t.destination_page.spot_word : t.destination_page.spots_word}</span>
               )}
             </span>
           </>
