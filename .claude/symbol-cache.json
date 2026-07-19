@@ -5399,7 +5399,7 @@
       "@/lib/language-context",
       "@/lib/get-default-strings"
     ],
-    "lines": 363,
+    "lines": 419,
     "group": "blocks"
   },
   "src/components/blocks/contact/ContactGuidesBlock.tsx": {

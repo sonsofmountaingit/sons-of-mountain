@@ -277,6 +277,9 @@ async function ProgramContent({ params }: Props) {
         bookingHref={`/programs/${program.slug ?? String(program.id)}#booking`}
         itemType="program"
         itemId={String(program.id)}
+        bookingStep1={p.bookingStep1 as string | null}
+        bookingStep2={p.bookingStep2 as string | null}
+        bookingStep3={p.bookingStep3 as string | null}
       />
 
       <FaqSection

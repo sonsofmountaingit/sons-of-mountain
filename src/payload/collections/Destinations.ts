@@ -388,6 +388,21 @@ export const Destinations: CollectionConfig = {
       fields: [{ name: 'item', type: 'text' }],
     },
     {
+      name: 'bookingStep1',
+      type: 'textarea',
+      admin: { description: 'Booking process — step 01 text. Leave empty to hide the step.' },
+    },
+    {
+      name: 'bookingStep2',
+      type: 'textarea',
+      admin: { description: 'Booking process — step 02 text. Leave empty to hide the step.' },
+    },
+    {
+      name: 'bookingStep3',
+      type: 'textarea',
+      admin: { description: 'Booking process — step 03 text. Leave empty to hide the step.' },
+    },
+    {
       name: 'communityPhotos',
       type: 'array',
       admin: { description: 'Traveler avatar photos for the community grid' },

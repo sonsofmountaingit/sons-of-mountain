@@ -329,6 +329,9 @@ async function DestinationContent({ params }: Props) {
         bgImageAlt={heroImage?.alt}
         itemType="destination"
         itemId={String(destination.id)}
+        bookingStep1={d.bookingStep1 as string | null}
+        bookingStep2={d.bookingStep2 as string | null}
+        bookingStep3={d.bookingStep3 as string | null}
       />
 
       <FaqSection

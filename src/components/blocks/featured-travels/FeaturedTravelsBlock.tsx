@@ -6,6 +6,8 @@ import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { formatPrice } from '@/lib/currency'
+import { useLanguage } from '@/lib/language-context'
+import { getDefaultStrings } from '@/lib/get-default-strings'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -26,28 +28,17 @@ export type FeaturedTravelItem = {
   href: string
 }
 
-const REGION_LABEL: Record<string, string> = {
-  bulgaria: 'Bulgaria',
-  abroad: 'Abroad',
-}
-
-const KIND_LABEL: Record<string, string> = {
-  destination: 'Destination',
-  trip: 'Trip',
-  program: 'Program',
-}
-
 const KIND_COLOR: Record<string, string> = {
   destination: 'bg-sky-500/80',
   trip: 'bg-amber-500/80',
   program: 'bg-violet-500/80',
 }
 
-function DifficultyRating({ value }: { value: number | null }) {
+function DifficultyRating({ value, label }: { value: number | null; label: string }) {
   const filled = value != null ? Math.max(0, Math.min(5, Math.round(value))) : 0
   return (
     <div className="flex items-center gap-1">
-      <span className="text-[9px] uppercase tracking-widest text-white/50 mr-0.5">Difficulty</span>
+      <span className="text-[9px] uppercase tracking-widest text-white/50 mr-0.5">{label}</span>
       {Array.from({ length: 5 }).map((_, i) => (
         <span
           key={i}
@@ -58,8 +49,15 @@ function DifficultyRating({ value }: { value: number | null }) {
   )
 }
 
-function Card({ item }: { item: FeaturedTravelItem }) {
+function Card({ item, strings }: { item: FeaturedTravelItem; strings: ReturnType<typeof getDefaultStrings> }) {
   const fmtPrice = item.price != null ? formatPrice(item.price) : null
+  const regionLabel = item.region === 'bulgaria' ? strings.featuredTravels.regionBulgaria
+    : item.region === 'abroad' ? strings.featuredTravels.regionAbroad
+    : item.region
+  const kindLabel = item.kind === 'destination' ? strings.featuredTravels.kindDestination
+    : item.kind === 'trip' ? strings.featuredTravels.kindTrip
+    : item.kind === 'program' ? strings.featuredTravels.kindProgram
+    : item.kind
 
   return (
     <Link href={item.href} className="group relative overflow-hidden block h-full w-full">
@@ -81,12 +79,12 @@ function Card({ item }: { item: FeaturedTravelItem }) {
       {/* top: kind badge + spots */}
       <div className="absolute top-2 left-2 right-2 sm:top-3 sm:left-3 sm:right-3 flex items-start justify-between gap-1">
         <span className={`px-2 py-0.5 sm:px-2.5 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-sm shrink-0 ${KIND_COLOR[item.kind] ?? 'bg-black/50'}`}>
-          {item.region ? (REGION_LABEL[item.region] ?? item.region) : (KIND_LABEL[item.kind] ?? item.kind)}
+          {regionLabel ?? kindLabel}
         </span>
         {item.spotsAvailable !== null && (
           item.spotsAvailable === 0
-            ? <span className="px-1.5 py-0.5 sm:px-2 rounded-full text-[8px] sm:text-[10px] font-semibold bg-red-500/80 text-white backdrop-blur-sm shrink-0">No spots</span>
-            : <span className="px-1.5 py-0.5 sm:px-2 rounded-full text-[8px] sm:text-[10px] font-semibold bg-emerald-500/80 text-white backdrop-blur-sm shrink-0">{item.spotsAvailable} {item.spotsAvailable === 1 ? 'spot' : 'spots'}</span>
+            ? <span className="px-1.5 py-0.5 sm:px-2 rounded-full text-[8px] sm:text-[10px] font-semibold bg-red-500/80 text-white backdrop-blur-sm shrink-0">{strings.featuredTravels.noSpots}</span>
+            : <span className="px-1.5 py-0.5 sm:px-2 rounded-full text-[8px] sm:text-[10px] font-semibold bg-emerald-500/80 text-white backdrop-blur-sm shrink-0">{item.spotsAvailable} {item.spotsAvailable === 1 ? strings.featuredTravels.spotWord : strings.featuredTravels.spotsWord}</span>
         )}
       </div>
 
@@ -106,7 +104,7 @@ function Card({ item }: { item: FeaturedTravelItem }) {
         </h3>
 
         <div className="flex items-center justify-between mt-1 sm:mt-2 gap-1 sm:gap-2">
-          <DifficultyRating value={item.fitnessDifficulty} />
+          <DifficultyRating value={item.fitnessDifficulty} label={strings.featuredTravels.difficulty} />
           <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap justify-end">
             {item.month && (
               <span className="text-[8px] sm:text-[10px] text-white/70 bg-white/10 backdrop-blur-sm px-1.5 sm:px-2 py-0.5 rounded-full">{item.month}</span>
@@ -137,12 +135,14 @@ function distribute(items: FeaturedTravelItem[]): [FeaturedTravelItem[], Feature
   return [r1, r2, r3]
 }
 
-function Row1({ items }: { items: FeaturedTravelItem[] }) {
+type Strings = ReturnType<typeof getDefaultStrings>
+
+function Row1({ items, strings }: { items: FeaturedTravelItem[]; strings: Strings }) {
   const [main, ...rest] = items
   if (!rest.length) {
     return (
       <div className="h-[56vw] min-h-[200px] md:h-[580px] relative">
-        {main && <Card item={main} />}
+        {main && <Card item={main} strings={strings} />}
       </div>
     )
   }
@@ -152,19 +152,19 @@ function Row1({ items }: { items: FeaturedTravelItem[] }) {
       <div className="flex flex-col gap-0.5 md:gap-1 md:hidden">
         {[main, ...rest.slice(0, 2)].filter(Boolean).map((item) => (
           <div key={item!.id} className="relative h-[50vw] min-h-[180px] md:min-h-[200px]">
-            <Card item={item!} />
+            <Card item={item!} strings={strings} />
           </div>
         ))}
       </div>
       {/* desktop: original layout */}
       <div className="hidden md:flex gap-1 h-[580px]">
         <div className="flex-[2] relative">
-          {main && <Card item={main} />}
+          {main && <Card item={main} strings={strings} />}
         </div>
         <div className="flex-1 flex flex-col gap-1">
           {rest.slice(0, 2).map((item) => (
             <div key={item.id} className="flex-1 relative">
-              <Card item={item} />
+              <Card item={item} strings={strings} />
             </div>
           ))}
         </div>
@@ -173,14 +173,14 @@ function Row1({ items }: { items: FeaturedTravelItem[] }) {
   )
 }
 
-function Row2({ items }: { items: FeaturedTravelItem[] }) {
+function Row2({ items, strings }: { items: FeaturedTravelItem[]; strings: Strings }) {
   return (
     <>
       {/* mobile: stack */}
       <div className="flex flex-col gap-0.5 md:gap-1 md:hidden">
         {items.map((item) => (
           <div key={item.id} className="relative h-[50vw] min-h-[180px] md:min-h-[200px]">
-            <Card item={item} />
+            <Card item={item} strings={strings} />
           </div>
         ))}
       </div>
@@ -188,7 +188,7 @@ function Row2({ items }: { items: FeaturedTravelItem[] }) {
       <div className="hidden md:flex gap-1 h-[380px]">
         {items.map((item) => (
           <div key={item.id} className="flex-1 relative">
-            <Card item={item} />
+            <Card item={item} strings={strings} />
           </div>
         ))}
       </div>
@@ -196,7 +196,7 @@ function Row2({ items }: { items: FeaturedTravelItem[] }) {
   )
 }
 
-function Row3({ items }: { items: FeaturedTravelItem[] }) {
+function Row3({ items, strings }: { items: FeaturedTravelItem[]; strings: Strings }) {
   const last = items[items.length - 1]
   const rest = items.slice(0, -1)
   return (
@@ -205,7 +205,7 @@ function Row3({ items }: { items: FeaturedTravelItem[] }) {
       <div className="flex flex-col gap-0.5 md:gap-1 md:hidden">
         {[...rest.slice(0, 2), last].filter(Boolean).map((item) => (
           <div key={item!.id} className="relative h-[50vw] min-h-[180px] md:min-h-[200px]">
-            <Card item={item!} />
+            <Card item={item!} strings={strings} />
           </div>
         ))}
       </div>
@@ -214,13 +214,13 @@ function Row3({ items }: { items: FeaturedTravelItem[] }) {
         <div className="flex-1 flex flex-col gap-1">
           {rest.slice(0, 2).map((item) => (
             <div key={item.id} className="flex-1 relative">
-              <Card item={item} />
+              <Card item={item} strings={strings} />
             </div>
           ))}
           {rest.length === 0 && <div className="flex-1 bg-zinc-100" />}
         </div>
         <div className="flex-[2] relative">
-          {last && <Card item={last} />}
+          {last && <Card item={last} strings={strings} />}
         </div>
       </div>
     </>
@@ -228,6 +228,9 @@ function Row3({ items }: { items: FeaturedTravelItem[] }) {
 }
 
 export function FeaturedTravelsBlock({ heading, items, emptyMessage }: { heading: string; items: FeaturedTravelItem[]; emptyMessage?: string }) {
+  const { language } = useLanguage()
+  const strings = getDefaultStrings(language)
+
   if (!items.length) return emptyMessage ? (
     <section className="bg-white py-16 text-center text-neutral-400">{emptyMessage}</section>
   ) : null
@@ -256,9 +259,9 @@ export function FeaturedTravelsBlock({ heading, items, emptyMessage }: { heading
   return (
     <section ref={sectionRef} className="bg-white">
       <div className="space-y-1">
-        <Row1 items={r1} />
-        {r2.length > 0 && <Row2 items={r2} />}
-        {r3.length > 0 && <Row3 items={r3} />}
+        <Row1 items={r1} strings={strings} />
+        {r2.length > 0 && <Row2 items={r2} strings={strings} />}
+        {r3.length > 0 && <Row3 items={r3} strings={strings} />}
       </div>
     </section>
   )

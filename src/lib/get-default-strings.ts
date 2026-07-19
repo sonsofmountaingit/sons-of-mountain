@@ -56,6 +56,7 @@ export function getDefaultStrings(lang: Language = 'BG') {
       allDestinations: t.destinations.all_destinations,
       explore: t.destinations.explore,
       destinationDetails: t.destinations.destination_details,
+      spotsWord: t.destination_page.spots_word,
     },
 
     // Newsletter form
@@ -254,6 +255,18 @@ export function getDefaultStrings(lang: Language = 'BG') {
       mustMatch: t.validation.must_match,
       onlyNumbers: t.validation.only_numbers,
       onlyLetters: t.validation.only_letters,
+    },
+
+    featuredTravels: {
+      regionBulgaria: t.featured_travels.region_bulgaria,
+      regionAbroad: t.featured_travels.region_abroad,
+      kindDestination: t.featured_travels.kind_destination,
+      kindTrip: t.featured_travels.kind_trip,
+      kindProgram: t.featured_travels.kind_program,
+      difficulty: t.featured_travels.difficulty,
+      noSpots: t.featured_travels.no_spots,
+      spotWord: t.featured_travels.spot_word,
+      spotsWord: t.featured_travels.spots_word,
     },
 
     // Errors

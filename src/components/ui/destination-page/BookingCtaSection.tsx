@@ -33,13 +33,16 @@ interface Props {
   bookingHref?: string
   itemType?: WaitlistItemType
   itemId?: string
+  bookingStep1?: string | null
+  bookingStep2?: string | null
+  bookingStep3?: string | null
 }
 
 function isSameDay(a: string, b: string) {
   return new Date(a).toDateString() === new Date(b).toDateString()
 }
 
-export function BookingCtaSection({ name, trips = [], included = [], notIncluded = [], bgImage, bgImageAlt, bookingHref, itemType, itemId }: Props) {
+export function BookingCtaSection({ name, trips = [], included = [], notIncluded = [], bgImage, bgImageAlt, bookingHref, itemType, itemId, bookingStep1, bookingStep2, bookingStep3 }: Props) {
   const sectionRef = useRef<HTMLElement>(null)
   const headRef = useRef<HTMLDivElement>(null)
   const cardsRef = useRef<HTMLDivElement>(null)
@@ -218,18 +221,24 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
         </div>
 
         {/* Process steps */}
-        <div ref={stepsRef} className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-          {[
-            { n: '01', text: t.destination_page.step1 },
-            { n: '02', text: t.destination_page.step2 },
-            { n: '03', text: t.destination_page.step3 },
-          ].map(({ n, text }) => (
-            <div key={n} className="flex gap-3 sm:gap-4 items-start">
-              <span className="text-[10px] sm:text-[11px] font-black tracking-widest text-[#bbb] mt-0.5 flex-shrink-0">{n}</span>
-              <p className="text-xs sm:text-sm text-[#666] leading-relaxed">{text}</p>
+        {(() => {
+          const steps = [
+            { n: '01', text: bookingStep1 ?? t.destination_page.step1 },
+            { n: '02', text: bookingStep2 ?? t.destination_page.step2 },
+            { n: '03', text: bookingStep3 ?? t.destination_page.step3 },
+          ].filter((s) => s.text)
+          if (!steps.length) return null
+          return (
+            <div ref={stepsRef} className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+              {steps.map(({ n, text }) => (
+                <div key={n} className="flex gap-3 sm:gap-4 items-start">
+                  <span className="text-[10px] sm:text-[11px] font-black tracking-widest text-[#bbb] mt-0.5 flex-shrink-0">{n}</span>
+                  <p className="text-xs sm:text-sm text-[#666] leading-relaxed">{text}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          )
+        })()}
 
         <p className="text-[9px] sm:text-[10px] text-[#aaa] mt-6 sm:mt-8">
           {t.destination_page.book_agree_prefix}{' '}

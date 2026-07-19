@@ -249,8 +249,8 @@ export function HeroSection({
                 {earlyBirdSpotsLeft != null && (
                   <span className="flex items-center gap-1.5 sm:gap-2 bg-amber-400/95 backdrop-blur-sm text-black text-xs font-bold uppercase tracking-widest px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs">
                     <span className="w-2 h-2 rounded-full bg-black/40 animate-pulse" />
-                    <span className="hidden sm:inline">{earlyBirdSpotsLeft} {t.destination_page.early_bird_label} {earlyBirdSpotsLeft === 1 ? t.destination_page.spot_word : t.destination_page.spots_word_lower}</span>
-                    <span className="sm:hidden">{earlyBirdSpotsLeft} {t.destination_page.early_bird_label}</span>
+                    <span className="hidden sm:inline">{earlyBirdSpotsLeft} {earlyBirdSpotsLeft === 1 ? t.destination_page.early_bird_spot_for : t.destination_page.early_bird_spots_for}</span>
+                    <span className="sm:hidden">{earlyBirdSpotsLeft} {earlyBirdSpotsLeft === 1 ? t.destination_page.early_bird_spot_for : t.destination_page.early_bird_spots_for}</span>
                   </span>
                 )}
               </div>

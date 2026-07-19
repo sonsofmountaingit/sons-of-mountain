@@ -38,10 +38,12 @@ function DestCard({
   dest,
   isActive,
   onClick,
+  spotsWord,
 }: {
   dest: Destination
   isActive: boolean
   onClick: () => void
+  spotsWord: string
 }) {
   return (
     <button
@@ -84,7 +86,7 @@ function DestCard({
           )}
           {dest.availableSpots != null && (
             <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${dest.availableSpots <= 3 ? 'bg-red-500/80 text-white' : 'bg-white/15 text-white/90'}`}>
-              {dest.availableSpots} spots
+              {dest.availableSpots} {spotsWord}
             </span>
           )}
         </div>
@@ -267,7 +269,7 @@ export function DestinationCarouselBlock({
                   {activeDest.price != null && <span>{activeDest.price} €</span>}
                   {activeDest.availableSpots != null && (
                     <span className={activeDest.availableSpots <= 3 ? 'text-red-400' : ''}>
-                      {activeDest.availableSpots} spots
+                      {activeDest.availableSpots} {strings.destinations.spotsWord}
                     </span>
                   )}
                 </p>
@@ -309,6 +311,7 @@ export function DestinationCarouselBlock({
                         dest={dest}
                         isActive={i === activeIndex}
                         onClick={() => handleSelect(i)}
+                        spotsWord={strings.destinations.spotsWord}
                       />
                     ))}
                     <div className="flex-shrink-0 w-8" />
@@ -362,6 +365,7 @@ export function DestinationCarouselBlock({
                   dest={dest}
                   isActive={i === activeIndex}
                   onClick={() => handleSelect(i)}
+                  spotsWord={strings.destinations.spotsWord}
                 />
               ))}
               <div className="flex-shrink-0 w-8" />
