@@ -4,12 +4,12 @@ RUN apk add --no-cache libc6-compat ffmpeg
 FROM base AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci --legacy-peer-deps
+RUN npm ci --legacy-peer-deps --include=optional
 
 FROM base AS deps-prod
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci --legacy-peer-deps --omit=dev
+RUN npm ci --legacy-peer-deps --omit=dev --include=optional
 
 FROM base AS builder
 WORKDIR /app
