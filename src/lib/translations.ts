@@ -1,7 +1,7 @@
 export const translations = {
   BG: {
     nav: {
-      programs: 'Програми',
+      programs: 'ПРОГРАМИ',
       calendar: 'КАЛЕНДАР',
       gallery: 'ГАЛЕРИЯ',
       blog: 'БЛОГ',

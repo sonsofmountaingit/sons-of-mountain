@@ -91,6 +91,12 @@
       "size": 4
     },
     {
+      "id": "src/migrations/20260719b_email_marketing_platform.ts",
+      "label": "migrations/20260719b_email_marketing_platform.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260714b_seo_meta_keywords_all_collections.ts",
       "label": "migrations/20260714b_seo_meta_keywords_all_collections.ts",
       "group": "other",
@@ -445,6 +451,12 @@
       "size": 4
     },
     {
+      "id": "src/app/api/email-flows/[id]/fire/route.ts",
+      "label": "fire/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/ical/[itemId]/route.ts",
       "label": "[itemId]/route.ts",
       "group": "api",
@@ -655,6 +667,12 @@
       "size": 4
     },
     {
+      "id": "src/app/api/campaigns/[id]/test/route.ts",
+      "label": "test/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/orders/by-session/route.ts",
       "label": "by-session/route.ts",
       "group": "api",
@@ -835,8 +853,44 @@
       "size": 4
     },
     {
+      "id": "src/app/api/resend/webhook/route.ts",
+      "label": "webhook/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/cron/review-requests/route.ts",
+      "label": "review-requests/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/cron/voucher-expiry/route.ts",
+      "label": "voucher-expiry/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/cron/balance-overdue/route.ts",
+      "label": "balance-overdue/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/cron/subscription-renewal/route.ts",
+      "label": "subscription-renewal/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
       "id": "src/app/api/cron/send-registration-forms/route.ts",
       "label": "send-registration-forms/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/cron/run-scheduled/route.ts",
+      "label": "run-scheduled/route.ts",
       "group": "api",
       "size": 4
     },
@@ -855,6 +909,24 @@
     {
       "id": "src/app/api/cron/sync-sold-out/route.ts",
       "label": "sync-sold-out/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/cron/waitlist-expire/route.ts",
+      "label": "waitlist-expire/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/cron/delayed-emails/route.ts",
+      "label": "delayed-emails/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/cron/trip-reminders/route.ts",
+      "label": "trip-reminders/route.ts",
       "group": "api",
       "size": 4
     },
@@ -1801,6 +1873,12 @@
       "size": 6
     },
     {
+      "id": "src/payload/globals/EmailSettings.ts",
+      "label": "globals/EmailSettings.ts",
+      "group": "globals",
+      "size": 6
+    },
+    {
       "id": "src/payload/globals/SiteMeta.ts",
       "label": "globals/SiteMeta.ts",
       "group": "globals",
@@ -1817,6 +1895,24 @@
       "label": "payload/payload.config.ts",
       "group": "payload",
       "size": 20
+    },
+    {
+      "id": "src/payload/components/MailyEditor.tsx",
+      "label": "components/MailyEditor.tsx",
+      "group": "payload",
+      "size": 6
+    },
+    {
+      "id": "src/payload/components/CampaignSendTestButton.tsx",
+      "label": "components/CampaignSendTestButton.tsx",
+      "group": "payload",
+      "size": 6
+    },
+    {
+      "id": "src/payload/components/FireFlowButton.tsx",
+      "label": "components/FireFlowButton.tsx",
+      "group": "payload",
+      "size": 6
     },
     {
       "id": "src/payload/seeds/hero.ts",
@@ -1861,6 +1957,12 @@
       "size": 4
     },
     {
+      "id": "src/payload/hooks/emailFlowTriggers.ts",
+      "label": "hooks/emailFlowTriggers.ts",
+      "group": "payload",
+      "size": 10
+    },
+    {
       "id": "src/payload/hooks/syncTripSpots.ts",
       "label": "hooks/syncTripSpots.ts",
       "group": "payload",
@@ -1899,6 +2001,12 @@
     {
       "id": "src/payload/collections/CarpoolRides.ts",
       "label": "collections/CarpoolRides.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/EmailLogs.ts",
+      "label": "collections/EmailLogs.ts",
       "group": "collections",
       "size": 6
     },
@@ -2005,6 +2113,12 @@
       "size": 6
     },
     {
+      "id": "src/payload/collections/EmailFlows.ts",
+      "label": "collections/EmailFlows.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
       "id": "src/payload/collections/Bundles.ts",
       "label": "collections/Bundles.ts",
       "group": "collections",
@@ -2025,6 +2139,12 @@
     {
       "id": "src/payload/collections/RegistrationForms.ts",
       "label": "collections/RegistrationForms.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
+      "id": "src/payload/collections/CronJobs.ts",
+      "label": "collections/CronJobs.ts",
       "group": "collections",
       "size": 6
     },
@@ -3313,10 +3433,34 @@
       "size": 6
     },
     {
+      "id": "src/scripts/seed-cron-jobs.ts",
+      "label": "scripts/seed-cron-jobs.ts",
+      "group": "other",
+      "size": 4
+    },
+    {
+      "id": "src/scripts/seed-email-flows.ts",
+      "label": "scripts/seed-email-flows.ts",
+      "group": "other",
+      "size": 4
+    },
+    {
       "id": "src/proxy.ts",
       "label": "src/proxy.ts",
       "group": "other",
       "size": 4
+    },
+    {
+      "id": "src/lib/email-renderer.ts",
+      "label": "lib/email-renderer.ts",
+      "group": "lib",
+      "size": 12
+    },
+    {
+      "id": "src/lib/subscriber-upsert.ts",
+      "label": "lib/subscriber-upsert.ts",
+      "group": "lib",
+      "size": 6
     },
     {
       "id": "src/lib/stripe.ts",
@@ -3346,13 +3490,31 @@
       "id": "src/lib/escape-html.ts",
       "label": "lib/escape-html.ts",
       "group": "lib",
-      "size": 20
+      "size": 14
+    },
+    {
+      "id": "src/lib/featured-content.ts",
+      "label": "lib/featured-content.ts",
+      "group": "lib",
+      "size": 14
     },
     {
       "id": "src/lib/resend.ts",
       "label": "lib/resend.ts",
       "group": "lib",
-      "size": 16
+      "size": 18
+    },
+    {
+      "id": "src/lib/email-logger.ts",
+      "label": "lib/email-logger.ts",
+      "group": "lib",
+      "size": 8
+    },
+    {
+      "id": "src/lib/email-flows.ts",
+      "label": "lib/email-flows.ts",
+      "group": "lib",
+      "size": 20
     },
     {
       "id": "src/lib/use-translations.ts",
@@ -3395,6 +3557,12 @@
       "label": "lib/send-registration-forms.ts",
       "group": "lib",
       "size": 10
+    },
+    {
+      "id": "src/lib/segments.ts",
+      "label": "lib/segments.ts",
+      "group": "lib",
+      "size": 8
     },
     {
       "id": "src/lib/metadata.ts",
@@ -3451,22 +3619,88 @@
       "size": 6
     },
     {
+      "id": "src/lib/cron/trip-reminders.ts",
+      "label": "cron/trip-reminders.ts",
+      "group": "lib",
+      "size": 8
+    },
+    {
+      "id": "src/lib/cron/delayed-emails.ts",
+      "label": "cron/delayed-emails.ts",
+      "group": "lib",
+      "size": 8
+    },
+    {
       "id": "src/lib/cron/balance-reminders.ts",
       "label": "cron/balance-reminders.ts",
       "group": "lib",
-      "size": 6
+      "size": 8
+    },
+    {
+      "id": "src/lib/cron/review-requests.ts",
+      "label": "cron/review-requests.ts",
+      "group": "lib",
+      "size": 8
+    },
+    {
+      "id": "src/lib/cron/balance-overdue.ts",
+      "label": "cron/balance-overdue.ts",
+      "group": "lib",
+      "size": 8
+    },
+    {
+      "id": "src/lib/cron/subscription-renewal.ts",
+      "label": "cron/subscription-renewal.ts",
+      "group": "lib",
+      "size": 8
     },
     {
       "id": "src/lib/cron/abandoned-cart.ts",
       "label": "cron/abandoned-cart.ts",
       "group": "lib",
-      "size": 6
+      "size": 8
     },
     {
       "id": "src/lib/cron/grace-period.ts",
       "label": "cron/grace-period.ts",
       "group": "lib",
       "size": 6
+    },
+    {
+      "id": "src/lib/cron/send-registration-forms.ts",
+      "label": "cron/send-registration-forms.ts",
+      "group": "lib",
+      "size": 8
+    },
+    {
+      "id": "src/lib/cron/sync-sold-out.ts",
+      "label": "cron/sync-sold-out.ts",
+      "group": "lib",
+      "size": 8
+    },
+    {
+      "id": "src/lib/cron/voucher-expiry.ts",
+      "label": "cron/voucher-expiry.ts",
+      "group": "lib",
+      "size": 8
+    },
+    {
+      "id": "src/lib/cron/waitlist-expire.ts",
+      "label": "cron/waitlist-expire.ts",
+      "group": "lib",
+      "size": 8
+    },
+    {
+      "id": "src/lib/cron/dispatcher.ts",
+      "label": "cron/dispatcher.ts",
+      "group": "lib",
+      "size": 6
+    },
+    {
+      "id": "src/lib/cron/send-campaigns.ts",
+      "label": "cron/send-campaigns.ts",
+      "group": "lib",
+      "size": 8
     },
     {
       "id": "src/puck/customFields.tsx",
@@ -3613,6 +3847,10 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260719_booking_steps.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260719b_email_marketing_platform.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -3903,6 +4141,10 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/waitlist/join/route.ts",
+      "target": "src/lib/email-flows.ts"
+    },
+    {
       "source": "src/app/api/draft/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -3935,6 +4177,14 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/email-flows/[id]/fire/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/email-flows/[id]/fire/route.ts",
+      "target": "src/lib/email-flows.ts"
+    },
+    {
       "source": "src/app/api/ical/[itemId]/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -3945,6 +4195,10 @@
     {
       "source": "src/app/api/booking/route.ts",
       "target": "src/lib/pricing/payment-plan.ts"
+    },
+    {
+      "source": "src/app/api/booking/route.ts",
+      "target": "src/lib/email-flows.ts"
     },
     {
       "source": "src/app/api/gallery/favorites/count/route.ts",
@@ -4097,6 +4351,22 @@
     {
       "source": "src/app/api/calendar-cta-data/route.ts",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/campaigns/[id]/test/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/campaigns/[id]/test/route.ts",
+      "target": "src/lib/email-renderer.ts"
+    },
+    {
+      "source": "src/app/api/campaigns/[id]/test/route.ts",
+      "target": "src/lib/featured-content.ts"
+    },
+    {
+      "source": "src/app/api/campaigns/[id]/test/route.ts",
+      "target": "src/lib/resend.ts"
     },
     {
       "source": "src/app/api/orders/by-session/route.ts",
@@ -4311,20 +4581,40 @@
       "target": "src/payload/payload.config.ts"
     },
     {
-      "source": "src/app/api/cron/send-registration-forms/route.ts",
+      "source": "src/app/api/resend/webhook/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
-      "source": "src/app/api/cron/send-registration-forms/route.ts",
-      "target": "src/lib/send-registration-forms.ts"
+      "source": "src/app/api/cron/review-requests/route.ts",
+      "target": "src/lib/cron/review-requests.ts"
     },
     {
-      "source": "src/app/api/cron/send-campaigns/route.ts",
+      "source": "src/app/api/cron/voucher-expiry/route.ts",
+      "target": "src/lib/cron/voucher-expiry.ts"
+    },
+    {
+      "source": "src/app/api/cron/balance-overdue/route.ts",
+      "target": "src/lib/cron/balance-overdue.ts"
+    },
+    {
+      "source": "src/app/api/cron/subscription-renewal/route.ts",
+      "target": "src/lib/cron/subscription-renewal.ts"
+    },
+    {
+      "source": "src/app/api/cron/send-registration-forms/route.ts",
+      "target": "src/lib/cron/send-registration-forms.ts"
+    },
+    {
+      "source": "src/app/api/cron/run-scheduled/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/cron/run-scheduled/route.ts",
+      "target": "src/lib/cron/dispatcher.ts"
+    },
+    {
       "source": "src/app/api/cron/send-campaigns/route.ts",
-      "target": "src/lib/escape-html.ts"
+      "target": "src/lib/cron/send-campaigns.ts"
     },
     {
       "source": "src/app/api/cron/abandoned-cart/route.ts",
@@ -4332,7 +4622,19 @@
     },
     {
       "source": "src/app/api/cron/sync-sold-out/route.ts",
-      "target": "src/payload/payload.config.ts"
+      "target": "src/lib/cron/sync-sold-out.ts"
+    },
+    {
+      "source": "src/app/api/cron/waitlist-expire/route.ts",
+      "target": "src/lib/cron/waitlist-expire.ts"
+    },
+    {
+      "source": "src/app/api/cron/delayed-emails/route.ts",
+      "target": "src/lib/cron/delayed-emails.ts"
+    },
+    {
+      "source": "src/app/api/cron/trip-reminders/route.ts",
+      "target": "src/lib/cron/trip-reminders.ts"
     },
     {
       "source": "src/app/api/cron/stripe/route.ts",
@@ -5596,6 +5898,18 @@
     },
     {
       "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/payload/components/MailyEditor.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/payload/components/CampaignSendTestButton.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/payload/components/FireFlowButton.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
       "target": "src/components/admin/NavigationVisualEditorButton.tsx"
     },
     {
@@ -5820,6 +6134,18 @@
     },
     {
       "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/EmailFlows.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/EmailLogs.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/CronJobs.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
       "target": "src/payload/collections/CustomerMedia.ts"
     },
     {
@@ -5976,6 +6302,10 @@
     },
     {
       "source": "src/payload/payload.config.ts",
+      "target": "src/payload/globals/EmailSettings.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
       "target": "src/lib/stripe-webhooks.ts"
     },
     {
@@ -6007,6 +6337,14 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/payload/hooks/emailFlowTriggers.ts",
+      "target": "src/lib/email-flows.ts"
+    },
+    {
+      "source": "src/payload/hooks/emailFlowTriggers.ts",
+      "target": "src/lib/subscriber-upsert.ts"
+    },
+    {
       "source": "src/payload/collections/Trips.ts",
       "target": "src/payload/hooks/revalidate.ts"
     },
@@ -6025,6 +6363,10 @@
     {
       "source": "src/payload/collections/Registrations.ts",
       "target": "src/payload/hooks/syncTripSpots.ts"
+    },
+    {
+      "source": "src/payload/collections/Registrations.ts",
+      "target": "src/payload/hooks/emailFlowTriggers.ts"
     },
     {
       "source": "src/payload/collections/Programs.ts",
@@ -6092,15 +6434,27 @@
     },
     {
       "source": "src/payload/collections/Products.ts",
-      "target": "src/lib/resend.ts"
+      "target": "src/lib/email-flows.ts"
+    },
+    {
+      "source": "src/payload/collections/Orders.ts",
+      "target": "src/payload/hooks/emailFlowTriggers.ts"
     },
     {
       "source": "src/payload/collections/Stories.ts",
       "target": "src/payload/hooks/revalidate.ts"
     },
     {
+      "source": "src/payload/collections/Segments.ts",
+      "target": "src/lib/segments.ts"
+    },
+    {
       "source": "src/payload/collections/Bundles.ts",
       "target": "src/lib/stripe-product-sync.ts"
+    },
+    {
+      "source": "src/payload/collections/GiftVouchers.ts",
+      "target": "src/payload/hooks/emailFlowTriggers.ts"
     },
     {
       "source": "src/payload/collections/Guides.ts",
@@ -6823,6 +7177,10 @@
       "target": "src/lib/use-translations.ts"
     },
     {
+      "source": "src/components/ui/ProgramsMegaMenu.tsx",
+      "target": "src/lib/language-context.tsx"
+    },
+    {
       "source": "src/components/ui/CalendarCta.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -7455,6 +7813,14 @@
       "target": "src/lib/use-translations.ts"
     },
     {
+      "source": "src/scripts/seed-cron-jobs.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/scripts/seed-email-flows.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
       "source": "src/lib/stripe-webhooks.ts",
       "target": "src/lib/escape-html.ts"
     },
@@ -7464,11 +7830,35 @@
     },
     {
       "source": "src/lib/stripe-webhooks.ts",
+      "target": "src/lib/email-flows.ts"
+    },
+    {
+      "source": "src/lib/stripe-webhooks.ts",
+      "target": "src/lib/featured-content.ts"
+    },
+    {
+      "source": "src/lib/stripe-webhooks.ts",
       "target": "src/lib/resend.ts"
     },
     {
       "source": "src/lib/get-default-strings.ts",
       "target": "src/lib/translations.ts"
+    },
+    {
+      "source": "src/lib/email-flows.ts",
+      "target": "src/lib/email-renderer.ts"
+    },
+    {
+      "source": "src/lib/email-flows.ts",
+      "target": "src/lib/email-logger.ts"
+    },
+    {
+      "source": "src/lib/email-flows.ts",
+      "target": "src/lib/featured-content.ts"
+    },
+    {
+      "source": "src/lib/email-flows.ts",
+      "target": "src/lib/resend.ts"
     },
     {
       "source": "src/lib/use-translations.ts",
@@ -7499,20 +7889,60 @@
       "target": "src/lib/stripe.ts"
     },
     {
+      "source": "src/lib/cron/trip-reminders.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/lib/cron/trip-reminders.ts",
+      "target": "src/lib/email-flows.ts"
+    },
+    {
+      "source": "src/lib/cron/delayed-emails.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/lib/cron/delayed-emails.ts",
+      "target": "src/lib/email-renderer.ts"
+    },
+    {
+      "source": "src/lib/cron/delayed-emails.ts",
+      "target": "src/lib/resend.ts"
+    },
+    {
       "source": "src/lib/cron/balance-reminders.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
       "source": "src/lib/cron/balance-reminders.ts",
-      "target": "src/lib/escape-html.ts"
+      "target": "src/lib/email-flows.ts"
     },
     {
       "source": "src/lib/cron/balance-reminders.ts",
       "target": "src/lib/stripe.ts"
     },
     {
-      "source": "src/lib/cron/balance-reminders.ts",
-      "target": "src/lib/resend.ts"
+      "source": "src/lib/cron/review-requests.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/lib/cron/review-requests.ts",
+      "target": "src/lib/email-flows.ts"
+    },
+    {
+      "source": "src/lib/cron/balance-overdue.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/lib/cron/balance-overdue.ts",
+      "target": "src/lib/email-flows.ts"
+    },
+    {
+      "source": "src/lib/cron/subscription-renewal.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/lib/cron/subscription-renewal.ts",
+      "target": "src/lib/email-flows.ts"
     },
     {
       "source": "src/lib/cron/abandoned-cart.ts",
@@ -7520,11 +7950,7 @@
     },
     {
       "source": "src/lib/cron/abandoned-cart.ts",
-      "target": "src/lib/resend.ts"
-    },
-    {
-      "source": "src/lib/cron/abandoned-cart.ts",
-      "target": "src/lib/escape-html.ts"
+      "target": "src/lib/email-flows.ts"
     },
     {
       "source": "src/lib/cron/grace-period.ts",
@@ -7540,6 +7966,110 @@
     },
     {
       "source": "src/lib/cron/grace-period.ts",
+      "target": "src/lib/resend.ts"
+    },
+    {
+      "source": "src/lib/cron/send-registration-forms.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/lib/cron/send-registration-forms.ts",
+      "target": "src/lib/send-registration-forms.ts"
+    },
+    {
+      "source": "src/lib/cron/sync-sold-out.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/lib/cron/voucher-expiry.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/lib/cron/voucher-expiry.ts",
+      "target": "src/lib/email-flows.ts"
+    },
+    {
+      "source": "src/lib/cron/waitlist-expire.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/lib/cron/waitlist-expire.ts",
+      "target": "src/lib/email-flows.ts"
+    },
+    {
+      "source": "src/lib/cron/waitlist-expire.ts",
+      "target": "src/lib/featured-content.ts"
+    },
+    {
+      "source": "src/lib/cron/dispatcher.ts",
+      "target": "src/lib/cron/trip-reminders.ts"
+    },
+    {
+      "source": "src/lib/cron/dispatcher.ts",
+      "target": "src/lib/cron/balance-overdue.ts"
+    },
+    {
+      "source": "src/lib/cron/dispatcher.ts",
+      "target": "src/lib/cron/balance-reminders.ts"
+    },
+    {
+      "source": "src/lib/cron/dispatcher.ts",
+      "target": "src/lib/cron/review-requests.ts"
+    },
+    {
+      "source": "src/lib/cron/dispatcher.ts",
+      "target": "src/lib/cron/subscription-renewal.ts"
+    },
+    {
+      "source": "src/lib/cron/dispatcher.ts",
+      "target": "src/lib/cron/voucher-expiry.ts"
+    },
+    {
+      "source": "src/lib/cron/dispatcher.ts",
+      "target": "src/lib/cron/waitlist-expire.ts"
+    },
+    {
+      "source": "src/lib/cron/dispatcher.ts",
+      "target": "src/lib/cron/delayed-emails.ts"
+    },
+    {
+      "source": "src/lib/cron/dispatcher.ts",
+      "target": "src/lib/cron/abandoned-cart.ts"
+    },
+    {
+      "source": "src/lib/cron/dispatcher.ts",
+      "target": "src/lib/cron/send-campaigns.ts"
+    },
+    {
+      "source": "src/lib/cron/dispatcher.ts",
+      "target": "src/lib/cron/send-registration-forms.ts"
+    },
+    {
+      "source": "src/lib/cron/dispatcher.ts",
+      "target": "src/lib/cron/sync-sold-out.ts"
+    },
+    {
+      "source": "src/lib/cron/send-campaigns.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/lib/cron/send-campaigns.ts",
+      "target": "src/lib/segments.ts"
+    },
+    {
+      "source": "src/lib/cron/send-campaigns.ts",
+      "target": "src/lib/email-renderer.ts"
+    },
+    {
+      "source": "src/lib/cron/send-campaigns.ts",
+      "target": "src/lib/email-logger.ts"
+    },
+    {
+      "source": "src/lib/cron/send-campaigns.ts",
+      "target": "src/lib/featured-content.ts"
+    },
+    {
+      "source": "src/lib/cron/send-campaigns.ts",
       "target": "src/lib/resend.ts"
     },
     {
@@ -7827,6 +8357,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-19T09:20:18.382Z",
-  "fileCount": 592
+  "builtAt": "2026-07-19T15:52:43.997Z",
+  "fileCount": 631
 }

@@ -187,9 +187,22 @@
       "./20260716d_testimonials_role",
       "./20260716e_testimonials_instagram",
       "./20260718_about_hero_image_position",
-      "./20260719_booking_steps"
+      "./20260719_booking_steps",
+      "./20260719b_email_marketing_platform"
     ],
-    "lines": 94,
+    "lines": 100,
+    "group": "other"
+  },
+  "src/migrations/20260719b_email_marketing_platform.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 59,
     "group": "other"
   },
   "src/migrations/20260714b_seo_meta_keywords_all_collections.ts": {
@@ -1012,9 +1025,10 @@
       "next/server",
       "payload",
       "@payload-config",
-      "next/headers"
+      "next/headers",
+      "@/lib/email-flows"
     ],
-    "lines": 77,
+    "lines": 86,
     "group": "api"
   },
   "src/app/api/draft/route.ts": {
@@ -1112,6 +1126,20 @@
     "lines": 77,
     "group": "api"
   },
+  "src/app/api/email-flows/[id]/fire/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "@/lib/email-flows"
+    ],
+    "lines": 27,
+    "group": "api"
+  },
   "src/app/api/ical/[itemId]/route.ts": {
     "exports": [
       "GET"
@@ -1134,10 +1162,10 @@
       "next/server",
       "payload",
       "@payload-config",
-      "resend",
-      "@/lib/pricing/payment-plan"
+      "@/lib/pricing/payment-plan",
+      "@/lib/email-flows"
     ],
-    "lines": 163,
+    "lines": 161,
     "group": "api"
   },
   "src/app/api/gallery/favorites/count/route.ts": {
@@ -1261,15 +1289,17 @@
   },
   "src/app/api/unsubscribe/route.ts": {
     "exports": [
+      "GET",
       "POST"
     ],
     "types": [],
     "imports": [
       "next/server",
       "payload",
-      "@payload-config"
+      "@payload-config",
+      "payload"
     ],
-    "lines": 34,
+    "lines": 71,
     "group": "api"
   },
   "src/app/api/payment-plan/route.ts": {
@@ -1588,6 +1618,21 @@
       "@payload-config"
     ],
     "lines": 14,
+    "group": "api"
+  },
+  "src/app/api/campaigns/[id]/test/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "@/lib/email-renderer",
+      "@/lib/featured-content"
+    ],
+    "lines": 66,
     "group": "api"
   },
   "src/app/api/orders/by-session/route.ts": {
@@ -2007,7 +2052,81 @@
     "lines": 30,
     "group": "api"
   },
+  "src/app/api/resend/webhook/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "crypto"
+    ],
+    "lines": 77,
+    "group": "api"
+  },
+  "src/app/api/cron/review-requests/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "@/lib/cron/review-requests"
+    ],
+    "lines": 11,
+    "group": "api"
+  },
+  "src/app/api/cron/voucher-expiry/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "@/lib/cron/voucher-expiry"
+    ],
+    "lines": 11,
+    "group": "api"
+  },
+  "src/app/api/cron/balance-overdue/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "@/lib/cron/balance-overdue"
+    ],
+    "lines": 11,
+    "group": "api"
+  },
+  "src/app/api/cron/subscription-renewal/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "@/lib/cron/subscription-renewal"
+    ],
+    "lines": 11,
+    "group": "api"
+  },
   "src/app/api/cron/send-registration-forms/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "@/lib/cron/send-registration-forms"
+    ],
+    "lines": 13,
+    "group": "api"
+  },
+  "src/app/api/cron/run-scheduled/route.ts": {
     "exports": [
       "GET"
     ],
@@ -2016,9 +2135,9 @@
       "next/server",
       "payload",
       "@payload-config",
-      "@/lib/send-registration-forms"
+      "@/lib/cron/dispatcher"
     ],
-    "lines": 50,
+    "lines": 19,
     "group": "api"
   },
   "src/app/api/cron/send-campaigns/route.ts": {
@@ -2028,12 +2147,9 @@
     "types": [],
     "imports": [
       "next/server",
-      "payload",
-      "@payload-config",
-      "resend",
-      "@/lib/escape-html"
+      "@/lib/cron/send-campaigns"
     ],
-    "lines": 98,
+    "lines": 13,
     "group": "api"
   },
   "src/app/api/cron/abandoned-cart/route.ts": {
@@ -2055,10 +2171,45 @@
     "types": [],
     "imports": [
       "next/server",
-      "payload",
-      "@payload-config"
+      "@/lib/cron/sync-sold-out"
     ],
-    "lines": 46,
+    "lines": 13,
+    "group": "api"
+  },
+  "src/app/api/cron/waitlist-expire/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "@/lib/cron/waitlist-expire"
+    ],
+    "lines": 11,
+    "group": "api"
+  },
+  "src/app/api/cron/delayed-emails/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "@/lib/cron/delayed-emails"
+    ],
+    "lines": 11,
+    "group": "api"
+  },
+  "src/app/api/cron/trip-reminders/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "@/lib/cron/trip-reminders"
+    ],
+    "lines": 11,
     "group": "api"
   },
   "src/app/api/cron/stripe/route.ts": {
@@ -4010,6 +4161,9 @@
       "@payloadcms/richtext-lexical/client",
       "@payloadcms/richtext-lexical/client",
       "@payloadcms/plugin-stripe/client",
+      "@/payload/components/MailyEditor",
+      "@/payload/components/CampaignSendTestButton",
+      "@/payload/components/FireFlowButton",
       "@/components/admin/NavigationVisualEditorButton",
       "@/components/admin/FooterVisualEditorButton",
       "@/components/admin/HeroVisualEditorButton",
@@ -4038,7 +4192,7 @@
       "@/components/admin/StripeReconciliationView",
       "@payloadcms/next/rsc"
     ],
-    "lines": 109,
+    "lines": 115,
     "group": "payload-app"
   },
   "src/app/(payload)/layout.tsx": {
@@ -4579,6 +4733,17 @@
     "lines": 47,
     "group": "globals"
   },
+  "src/payload/globals/EmailSettings.ts": {
+    "exports": [
+      "EmailSettings"
+    ],
+    "types": [],
+    "imports": [
+      "payload"
+    ],
+    "lines": 40,
+    "group": "globals"
+  },
   "src/payload/globals/SiteMeta.ts": {
     "exports": [
       "SiteMeta"
@@ -4639,6 +4804,9 @@
       "./collections/Segments",
       "./collections/EmailTemplates",
       "./collections/Campaigns",
+      "./collections/EmailFlows",
+      "./collections/EmailLogs",
+      "./collections/CronJobs",
       "./collections/CustomerMedia",
       "./collections/CustomerRatings",
       "./collections/Programs",
@@ -4677,9 +4845,48 @@
       "./globals/StoriesPage",
       "./globals/CalendarPage",
       "./globals/HomePage",
-      "./globals/Vouchers"
+      "./globals/Vouchers",
+      "./globals/EmailSettings"
     ],
-    "lines": 279,
+    "lines": 286,
+    "group": "payload"
+  },
+  "src/payload/components/MailyEditor.tsx": {
+    "exports": [
+      "MailyEditor"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/ui",
+      "@maily-to/core",
+      "payload",
+      "@tiptap/react"
+    ],
+    "lines": 87,
+    "group": "payload"
+  },
+  "src/payload/components/CampaignSendTestButton.tsx": {
+    "exports": [
+      "CampaignSendTestButton"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "@payloadcms/ui"
+    ],
+    "lines": 32,
+    "group": "payload"
+  },
+  "src/payload/components/FireFlowButton.tsx": {
+    "exports": [
+      "FireFlowButton"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "@payloadcms/ui"
+    ],
+    "lines": 61,
     "group": "payload"
   },
   "src/payload/seeds/hero.ts": {
@@ -4752,6 +4959,21 @@
     "lines": 124,
     "group": "payload"
   },
+  "src/payload/hooks/emailFlowTriggers.ts": {
+    "exports": [
+      "registrationEmailFlows",
+      "orderEmailFlows",
+      "giftVoucherEmailFlows"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@/lib/email-flows",
+      "@/lib/subscriber-upsert"
+    ],
+    "lines": 117,
+    "group": "payload"
+  },
   "src/payload/hooks/syncTripSpots.ts": {
     "exports": [
       "syncSpotsAfterChange",
@@ -4805,7 +5027,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 16,
+    "lines": 46,
     "group": "collections"
   },
   "src/payload/collections/Subscribers.ts": {
@@ -4814,9 +5036,10 @@
     ],
     "types": [],
     "imports": [
-      "payload"
+      "payload",
+      "crypto"
     ],
-    "lines": 48,
+    "lines": 63,
     "group": "collections"
   },
   "src/payload/collections/Customers.ts": {
@@ -4842,6 +5065,17 @@
     "lines": 163,
     "group": "collections"
   },
+  "src/payload/collections/EmailLogs.ts": {
+    "exports": [
+      "EmailLogs"
+    ],
+    "types": [],
+    "imports": [
+      "payload"
+    ],
+    "lines": 45,
+    "group": "collections"
+  },
   "src/payload/collections/StockAlerts.ts": {
     "exports": [
       "StockAlerts"
@@ -4861,9 +5095,10 @@
     "imports": [
       "payload",
       "crypto",
-      "../hooks/syncTripSpots"
+      "../hooks/syncTripSpots",
+      "../hooks/emailFlowTriggers"
     ],
-    "lines": 312,
+    "lines": 313,
     "group": "collections"
   },
   "src/payload/collections/ProgramInquiries.ts": {
@@ -4970,7 +5205,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 57,
+    "lines": 103,
     "group": "collections"
   },
   "src/payload/collections/Products.ts": {
@@ -4985,7 +5220,7 @@
       "@payloadcms/richtext-lexical",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 190,
+    "lines": 187,
     "group": "collections"
   },
   "src/payload/collections/Orders.ts": {
@@ -4994,9 +5229,10 @@
     ],
     "types": [],
     "imports": [
-      "payload"
+      "payload",
+      "../hooks/emailFlowTriggers"
     ],
-    "lines": 584,
+    "lines": 588,
     "group": "collections"
   },
   "src/payload/collections/Stories.ts": {
@@ -5041,7 +5277,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 28,
+    "lines": 79,
     "group": "collections"
   },
   "src/payload/collections/Categories.ts": {
@@ -5055,6 +5291,17 @@
       "next/cache"
     ],
     "lines": 55,
+    "group": "collections"
+  },
+  "src/payload/collections/EmailFlows.ts": {
+    "exports": [
+      "EmailFlows"
+    ],
+    "types": [],
+    "imports": [
+      "payload"
+    ],
+    "lines": 101,
     "group": "collections"
   },
   "src/payload/collections/Bundles.ts": {
@@ -5106,15 +5353,27 @@
     "lines": 125,
     "group": "collections"
   },
+  "src/payload/collections/CronJobs.ts": {
+    "exports": [
+      "CronJobs"
+    ],
+    "types": [],
+    "imports": [
+      "payload"
+    ],
+    "lines": 49,
+    "group": "collections"
+  },
   "src/payload/collections/GiftVouchers.ts": {
     "exports": [
       "GiftVouchers"
     ],
     "types": [],
     "imports": [
-      "payload"
+      "payload",
+      "../hooks/emailFlowTriggers"
     ],
-    "lines": 157,
+    "lines": 159,
     "group": "collections"
   },
   "src/payload/collections/CustomerRatings.ts": {
@@ -6396,9 +6655,10 @@
       "react",
       "next/link",
       "next/image",
-      "motion/react"
+      "motion/react",
+      "@/lib/language-context"
     ],
-    "lines": 329,
+    "lines": 331,
     "group": "ui"
   },
   "src/components/ui/Navbar.tsx": {
@@ -7927,6 +8187,26 @@
     "lines": 36,
     "group": "admin"
   },
+  "src/scripts/seed-cron-jobs.ts": {
+    "exports": [],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 38,
+    "group": "other"
+  },
+  "src/scripts/seed-email-flows.ts": {
+    "exports": [],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 68,
+    "group": "other"
+  },
   "src/proxy.ts": {
     "exports": [
       "proxy",
@@ -7938,6 +8218,33 @@
     ],
     "lines": 31,
     "group": "other"
+  },
+  "src/lib/email-renderer.ts": {
+    "exports": [
+      "substituteMergeTags",
+      "renderEmail"
+    ],
+    "types": [
+      "EmailTemplateDoc",
+      "EmailSettingsDoc"
+    ],
+    "imports": [
+      "lexical",
+      "@maily-to/render"
+    ],
+    "lines": 96,
+    "group": "lib"
+  },
+  "src/lib/subscriber-upsert.ts": {
+    "exports": [
+      "upsertSubscriber"
+    ],
+    "types": [],
+    "imports": [
+      "payload"
+    ],
+    "lines": 38,
+    "group": "lib"
   },
   "src/lib/stripe.ts": {
     "exports": [
@@ -7982,7 +8289,7 @@
       "next/server",
       "@/lib/escape-html"
     ],
-    "lines": 910,
+    "lines": 737,
     "group": "lib"
   },
   "src/lib/get-default-strings.ts": {
@@ -8005,6 +8312,19 @@
     "lines": 13,
     "group": "lib"
   },
+  "src/lib/featured-content.ts": {
+    "exports": [
+      "buildFeaturedContext",
+      "waitlistItemTitle",
+      "buildAutoContext"
+    ],
+    "types": [],
+    "imports": [
+      "payload"
+    ],
+    "lines": 105,
+    "group": "lib"
+  },
   "src/lib/resend.ts": {
     "exports": [
       "getResend",
@@ -8018,6 +8338,35 @@
       "resend"
     ],
     "lines": 14,
+    "group": "lib"
+  },
+  "src/lib/email-logger.ts": {
+    "exports": [
+      "createEmailLog"
+    ],
+    "types": [
+      "EmailLogStatus"
+    ],
+    "imports": [
+      "payload"
+    ],
+    "lines": 24,
+    "group": "lib"
+  },
+  "src/lib/email-flows.ts": {
+    "exports": [
+      "sendFlow"
+    ],
+    "types": [
+      "SendFlowResult"
+    ],
+    "imports": [
+      "payload",
+      "@/lib/email-renderer",
+      "@/lib/email-logger",
+      "@/lib/featured-content"
+    ],
+    "lines": 155,
     "group": "lib"
   },
   "src/lib/use-translations.ts": {
@@ -8097,7 +8446,7 @@
       "Translations"
     ],
     "imports": [],
-    "lines": 2020,
+    "lines": 2050,
     "group": "lib"
   },
   "src/lib/send-registration-forms.ts": {
@@ -8111,6 +8460,20 @@
       "@/lib/escape-html"
     ],
     "lines": 127,
+    "group": "lib"
+  },
+  "src/lib/segments.ts": {
+    "exports": [
+      "resolveSegment",
+      "resolveAudience"
+    ],
+    "types": [
+      "SegmentSubscriber"
+    ],
+    "imports": [
+      "payload"
+    ],
+    "lines": 289,
     "group": "lib"
   },
   "src/lib/metadata.ts": {
@@ -8233,6 +8596,32 @@
     "lines": 125,
     "group": "lib"
   },
+  "src/lib/cron/trip-reminders.ts": {
+    "exports": [
+      "runTripReminders"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "@/lib/email-flows"
+    ],
+    "lines": 44,
+    "group": "lib"
+  },
+  "src/lib/cron/delayed-emails.ts": {
+    "exports": [
+      "runDelayedEmails"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "@/lib/email-renderer"
+    ],
+    "lines": 60,
+    "group": "lib"
+  },
   "src/lib/cron/balance-reminders.ts": {
     "exports": [
       "runBalanceReminders"
@@ -8241,9 +8630,48 @@
     "imports": [
       "payload",
       "@payload-config",
-      "@/lib/escape-html"
+      "@/lib/email-flows"
     ],
-    "lines": 167,
+    "lines": 166,
+    "group": "lib"
+  },
+  "src/lib/cron/review-requests.ts": {
+    "exports": [
+      "runReviewRequests"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "@/lib/email-flows"
+    ],
+    "lines": 50,
+    "group": "lib"
+  },
+  "src/lib/cron/balance-overdue.ts": {
+    "exports": [
+      "runBalanceOverdue"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "@/lib/email-flows"
+    ],
+    "lines": 31,
+    "group": "lib"
+  },
+  "src/lib/cron/subscription-renewal.ts": {
+    "exports": [
+      "runSubscriptionRenewal"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "@/lib/email-flows"
+    ],
+    "lines": 43,
     "group": "lib"
   },
   "src/lib/cron/abandoned-cart.ts": {
@@ -8254,10 +8682,9 @@
     "imports": [
       "payload",
       "@payload-config",
-      "@/lib/resend",
-      "@/lib/escape-html"
+      "@/lib/email-flows"
     ],
-    "lines": 68,
+    "lines": 77,
     "group": "lib"
   },
   "src/lib/cron/grace-period.ts": {
@@ -8272,6 +8699,87 @@
       "@/lib/stripe-webhooks"
     ],
     "lines": 130,
+    "group": "lib"
+  },
+  "src/lib/cron/send-registration-forms.ts": {
+    "exports": [
+      "runSendRegistrationForms"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "@/lib/send-registration-forms"
+    ],
+    "lines": 44,
+    "group": "lib"
+  },
+  "src/lib/cron/sync-sold-out.ts": {
+    "exports": [
+      "runSyncSoldOut"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 40,
+    "group": "lib"
+  },
+  "src/lib/cron/voucher-expiry.ts": {
+    "exports": [
+      "runVoucherExpiry"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "@/lib/email-flows"
+    ],
+    "lines": 39,
+    "group": "lib"
+  },
+  "src/lib/cron/waitlist-expire.ts": {
+    "exports": [
+      "runWaitlistExpire"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "@/lib/email-flows",
+      "@/lib/featured-content"
+    ],
+    "lines": 26,
+    "group": "lib"
+  },
+  "src/lib/cron/dispatcher.ts": {
+    "exports": [
+      "runDueCronJobs"
+    ],
+    "types": [
+      "CronJobKey"
+    ],
+    "imports": [
+      "payload"
+    ],
+    "lines": 72,
+    "group": "lib"
+  },
+  "src/lib/cron/send-campaigns.ts": {
+    "exports": [
+      "runSendCampaigns"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "@/lib/segments",
+      "@/lib/email-renderer",
+      "@/lib/email-logger",
+      "@/lib/featured-content"
+    ],
+    "lines": 138,
     "group": "lib"
   },
   "src/puck/customFields.tsx": {
