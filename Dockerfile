@@ -5,13 +5,17 @@ FROM base AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --legacy-peer-deps --include=optional && \
-    npm install --no-save --legacy-peer-deps @tailwindcss/oxide-linux-x64-musl lightningcss-linux-x64-musl
+    npm install --no-save --legacy-peer-deps \
+      @tailwindcss/oxide-linux-x64-musl lightningcss-linux-x64-musl \
+      @img/sharp-linuxmusl-x64 @img/sharp-libvips-linuxmusl-x64
 
 FROM base AS deps-prod
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --legacy-peer-deps --omit=dev --include=optional && \
-    npm install --no-save --legacy-peer-deps @tailwindcss/oxide-linux-x64-musl lightningcss-linux-x64-musl
+    npm install --no-save --legacy-peer-deps \
+      @tailwindcss/oxide-linux-x64-musl lightningcss-linux-x64-musl \
+      @img/sharp-linuxmusl-x64 @img/sharp-libvips-linuxmusl-x64
 
 FROM base AS builder
 WORKDIR /app
