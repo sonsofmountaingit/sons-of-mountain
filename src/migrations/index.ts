@@ -15,6 +15,7 @@ import * as migration_20260718_about_hero_image_position from './20260718_about_
 import * as migration_20260719_booking_steps from './20260719_booking_steps'
 import * as migration_20260719b_email_marketing_platform from './20260719b_email_marketing_platform'
 import * as migration_20260720_free_transfer_return_date from './20260720_free_transfer_return_date'
+import * as migration_20260720b_email_marketing_tables from './20260720b_email_marketing_tables'
 
 export const migrations = [
   {
@@ -101,5 +102,10 @@ export const migrations = [
     up: migration_20260720_free_transfer_return_date.up,
     down: migration_20260720_free_transfer_return_date.down,
     name: '20260720_free_transfer_return_date',
+  },
+  {
+    up: migration_20260720b_email_marketing_tables.up,
+    down: migration_20260720b_email_marketing_tables.down,
+    name: '20260720b_email_marketing_tables',
   },
 ]
