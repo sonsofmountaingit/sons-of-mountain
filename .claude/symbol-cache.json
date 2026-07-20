@@ -167,6 +167,18 @@
     "lines": 26,
     "group": "other"
   },
+  "src/migrations/20260720_free_transfer_return_date.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 18,
+    "group": "other"
+  },
   "src/migrations/index.ts": {
     "exports": [
       "migrations"
@@ -188,9 +200,10 @@
       "./20260716e_testimonials_instagram",
       "./20260718_about_hero_image_position",
       "./20260719_booking_steps",
-      "./20260719b_email_marketing_platform"
+      "./20260719b_email_marketing_platform",
+      "./20260720_free_transfer_return_date"
     ],
-    "lines": 100,
+    "lines": 106,
     "group": "other"
   },
   "src/migrations/20260719b_email_marketing_platform.ts": {
@@ -3036,6 +3049,7 @@
       "payload",
       "@payload-config",
       "next/cache",
+      "next/headers",
       "next",
       "next/link",
       "next/image",
@@ -3043,9 +3057,10 @@
       "@/components/shop/ProductCard",
       "@/lib/media-url",
       "@/lib/metadata",
-      "@/lib/currency"
+      "@/lib/currency",
+      "@/lib/translations"
     ],
-    "lines": 308,
+    "lines": 314,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/bundles/page.tsx": {
@@ -5016,7 +5031,7 @@
       "@/lib/send-registration-forms",
       "./shared/paymentPlanFields"
     ],
-    "lines": 567,
+    "lines": 568,
     "group": "collections"
   },
   "src/payload/collections/EmailTemplates.ts": {
@@ -5486,7 +5501,7 @@
       "@/lib/send-registration-forms",
       "./shared/paymentPlanFields"
     ],
-    "lines": 568,
+    "lines": 569,
     "group": "collections"
   },
   "src/payload/collections/Waitlist.ts": {
@@ -6481,7 +6496,7 @@
     ],
     "types": [],
     "imports": [],
-    "lines": 46,
+    "lines": 49,
     "group": "blocks"
   },
   "src/components/blocks/individual-programs/IndividualProgramsHeroBlock.tsx": {
@@ -6929,7 +6944,7 @@
       "@/lib/media-url",
       "@/lib/use-translations"
     ],
-    "lines": 52,
+    "lines": 58,
     "group": "ui"
   },
   "src/components/ui/destination-page/HeroSection.tsx": {
@@ -7845,9 +7860,10 @@
       "next/image",
       "./AddToCartButton",
       "./WishlistButton",
-      "@/lib/currency"
+      "@/lib/currency",
+      "@/lib/translations"
     ],
-    "lines": 72,
+    "lines": 75,
     "group": "components"
   },
   "src/components/shop/AddToCartButton.tsx": {
@@ -8446,7 +8462,7 @@
       "Translations"
     ],
     "imports": [],
-    "lines": 2050,
+    "lines": 2092,
     "group": "lib"
   },
   "src/lib/send-registration-forms.ts": {

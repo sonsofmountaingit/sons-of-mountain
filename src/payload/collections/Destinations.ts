@@ -499,7 +499,7 @@ export const Destinations: CollectionConfig = {
     {
       name: 'freeTransfer',
       type: 'group',
-      label: 'Безплатен трансфер',
+      label: 'Безплатен Преход',
       admin: { description: 'Показва се над секцията за резервация само ако заглавието и текстът са попълнени.' },
       fields: [
         { name: 'image', type: 'upload', relationTo: 'media', label: 'Снимка' },
@@ -508,6 +508,7 @@ export const Destinations: CollectionConfig = {
         { name: 'smallSpanText', type: 'text', label: 'Малък надпис' },
         { name: 'departureDate', type: 'date', label: 'Дата на тръгване', admin: { date: { pickerAppearance: 'dayOnly' } } },
         { name: 'departureTime', type: 'text', label: 'Час на тръгване', admin: { placeholder: '09:30' } },
+        { name: 'returnDate', type: 'date', label: 'Крайна дата на прехода', admin: { date: { pickerAppearance: 'dayOnly' }, description: 'Ако е попълнена, се показва диапазон (от – до), за да е ясно че прехода не е еднодневен.' } },
         {
           name: 'peak',
           type: 'text',

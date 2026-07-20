@@ -501,6 +501,7 @@ export const Trips: CollectionConfig = {
         { name: 'smallSpanText', type: 'text', label: 'Малък надпис' },
         { name: 'departureDate', type: 'date', label: 'Дата на тръгване', admin: { date: { pickerAppearance: 'dayOnly' } } },
         { name: 'departureTime', type: 'text', label: 'Час на тръгване', admin: { placeholder: '09:30' } },
+        { name: 'returnDate', type: 'date', label: 'Крайна дата на прехода', admin: { date: { pickerAppearance: 'dayOnly' }, description: 'Ако е попълнена, се показва диапазон (от – до), за да е ясно че прехода не е еднодневен.' } },
         {
           name: 'peak',
           type: 'text',

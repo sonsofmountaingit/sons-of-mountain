@@ -16,26 +16,29 @@ export function IndividualProgramsOfferBlock({
   offerItems = [],
 }: Props) {
   return (
-    <section style={{ background: '#0a0a0a', padding: '3rem 1rem sm:6rem sm:2rem' }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto' }}>
-        <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, color: '#fff', margin: '0 0 1rem', letterSpacing: '-0.02em' }}>
+    <section className="bg-[#0a0a0a] px-4 py-12 sm:px-8 sm:py-24">
+      <div className="mx-auto max-w-[1280px]">
+        <h2 className="m-0 mb-4 text-[clamp(2rem,4vw,3rem)] font-black tracking-[-0.02em] text-white">
           {offerHeading}
         </h2>
-        <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.6)', margin: '0 0 3rem', maxWidth: '60ch' }}>
+        <p className="m-0 mb-12 max-w-[60ch] text-[1.1rem] text-white/60">
           {offerSubtext}
         </p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '1.5rem' }}>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {offerItems.map((item, i) => (
             <div
               key={i}
-              style={{
-                background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: 16, padding: '1.5rem',
-              }}
+              className="flex items-start gap-4 rounded-2xl border border-white/8 bg-white/[0.04] p-6 transition-colors hover:border-white/16 hover:bg-white/[0.06] lg:flex-col lg:items-start lg:gap-0"
             >
-              {item.icon && <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>{item.icon}</div>}
-              <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#fff', margin: '0 0 0.5rem' }}>{item.title}</h3>
-              <p style={{ fontSize: '0.95rem', color: 'rgba(255,255,255,0.6)', margin: 0, lineHeight: 1.6 }}>{item.description}</p>
+              {item.icon && (
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/8 text-xl lg:mb-4">
+                  {item.icon}
+                </div>
+              )}
+              <div>
+                <h3 className="m-0 mb-2 text-[1.05rem] font-bold text-white">{item.title}</h3>
+                <p className="m-0 text-[0.95rem] leading-relaxed text-white/60">{item.description}</p>
+              </div>
             </div>
           ))}
         </div>

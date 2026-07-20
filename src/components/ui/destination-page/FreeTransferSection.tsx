@@ -11,6 +11,7 @@ type FreeTransferData = {
   smallSpanText?: string | null
   departureDate?: string | null
   departureTime?: string | null
+  returnDate?: string | null
 } | null | undefined
 
 export function FreeTransferSection({ freeTransfer }: { freeTransfer: FreeTransferData }) {
@@ -19,8 +20,12 @@ export function FreeTransferSection({ freeTransfer }: { freeTransfer: FreeTransf
 
   const imageUrl = mediaUrl(freeTransfer.image?.url)
   const locale = language === 'EN' ? 'en-US' : 'bg-BG'
+  const dateFormat = { day: 'numeric', month: 'long', year: 'numeric' } as const
   const formattedDate = freeTransfer.departureDate
-    ? new Date(freeTransfer.departureDate).toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })
+    ? new Date(freeTransfer.departureDate).toLocaleDateString(locale, dateFormat)
+    : null
+  const formattedReturnDate = freeTransfer.returnDate
+    ? new Date(freeTransfer.returnDate).toLocaleDateString(locale, dateFormat)
     : null
 
   return (
@@ -32,15 +37,16 @@ export function FreeTransferSection({ freeTransfer }: { freeTransfer: FreeTransf
       )}
       <div style={{ flex: '1 1 320px', minWidth: 280 }}>
         {freeTransfer.smallSpanText && (
-          <span style={{ fontSize: '0.8rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#7a7a7a' }}>
+          <span style={{ fontSize: '0.8rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#b3b3b3' }}>
             {freeTransfer.smallSpanText}
           </span>
         )}
-        <h2 style={{ fontSize: '2rem', fontWeight: 700, margin: '0.5rem 0 1rem' }}>{freeTransfer.headline}</h2>
-        <p style={{ fontSize: '1rem', lineHeight: 1.6, color: '#333' }}>{freeTransfer.paragraph}</p>
+        <h2 style={{ fontSize: '2rem', fontWeight: 700, margin: '0.5rem 0 1rem', color: '#fff' }}>{freeTransfer.headline}</h2>
+        <p style={{ fontSize: '1rem', lineHeight: 1.6, color: '#d1d1d1' }}>{freeTransfer.paragraph}</p>
         {(formattedDate || freeTransfer.departureTime) && (
-          <p style={{ marginTop: '1rem', fontWeight: 600 }}>
+          <p style={{ marginTop: '1rem', fontWeight: 600, color: '#fff' }}>
             {formattedDate}
+            {formattedReturnDate ? ` – ${formattedReturnDate}` : ''}
             {formattedDate && freeTransfer.departureTime ? ' · ' : ''}
             {freeTransfer.departureTime}
           </p>

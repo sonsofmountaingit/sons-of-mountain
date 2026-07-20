@@ -1,6 +1,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
+import { cookies } from 'next/headers'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -9,6 +10,7 @@ import { ProductCard } from '@/components/shop/ProductCard'
 import { mediaUrl } from "@/lib/media-url"
 import { buildStaticMetadata } from '@/lib/metadata'
 import { formatPrice } from '@/lib/currency'
+import { translations, type Language } from '@/lib/translations'
 
 export const dynamic = 'force-dynamic'
 
@@ -48,6 +50,9 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
   const { category } = await searchParams
   const { shop, categories, products, trips, bundles, programs } = await getCatalog()
   const shopData = shop as any
+  const cookieStore = await cookies()
+  const language = (cookieStore.get('language')?.value ?? 'BG') as Language
+  const t = translations[language]
 
   const filteredProducts = category
     ? products.filter((p: any) => (typeof p.category === 'string' ? p.category : p.category?.id) === category)
@@ -80,7 +85,7 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
         <div className="relative w-full max-w-[1440px] mx-auto px-6 pb-16 pt-32">
           <p className="text-xs tracking-[0.2em] text-white/40 uppercase mb-4">Sons of Mountains</p>
           <h1 className="text-6xl md:text-8xl font-bold tracking-tight leading-none">
-            {shopData?.heroTitle ?? 'Adventure\nShop'}
+            {shopData?.heroTitle ?? t.shop.hero_title}
           </h1>
           {shopData?.heroSubtitle && (
             <p className="mt-6 text-lg text-white/50 max-w-lg">{shopData.heroSubtitle}</p>
@@ -98,7 +103,7 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
                 : 'border-[#1a1a1a] text-white/50 hover:border-white/30 hover:text-white'
             }`}
           >
-            All
+            {t.shop.all_categories}
           </Link>
           {categories.map((cat: any) => (
             <Link
@@ -114,16 +119,16 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
             </Link>
           ))}
           <Link href="/vouchers" className="px-5 py-2 text-xs tracking-widest uppercase font-medium border border-amber-900/50 text-amber-400/80 hover:border-amber-400 hover:text-amber-300 transition-colors">
-            Gift Vouchers
+            {t.shop.gift_vouchers}
           </Link>
           <Link href="/shop/bundles" className="px-5 py-2 text-xs tracking-widest uppercase font-medium border border-white/10 text-white/50 hover:border-white/30 hover:text-white transition-colors">
-            Bundles
+            {t.shop.bundles}
           </Link>
           <Link href="/individual-programs" className="px-5 py-2 text-xs tracking-widest uppercase font-medium border border-white/10 text-white/50 hover:border-white/30 hover:text-white transition-colors">
-            Programs
+            {t.shop.programs_all}
           </Link>
           <Link href="/destinations" className="px-5 py-2 text-xs tracking-widest uppercase font-medium border border-white/10 text-white/50 hover:border-white/30 hover:text-white transition-colors">
-            Destinations
+            {t.shop.destinations_all}
           </Link>
         </nav>
 
@@ -131,11 +136,11 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
           <section className="mb-20">
             <div className="flex items-end justify-between mb-8">
               <div>
-                <p className="text-xs tracking-widest text-white/30 uppercase mb-2">Save more</p>
-                <h2 className="text-3xl font-bold">Bundle Deals</h2>
+                <p className="text-xs tracking-widest text-white/30 uppercase mb-2">{t.shop.bundles_deals_eyebrow}</p>
+                <h2 className="text-3xl font-bold">{t.shop.bundle_deals}</h2>
               </div>
               <Link href="/shop/bundles" className="text-xs tracking-widest uppercase text-white/30 hover:text-white transition-colors">
-                View all →
+                {t.shop.bundles_view_all}
               </Link>
             </div>
             <div className="grid gap-px sm:grid-cols-2 border border-[#1a1a1a]">
@@ -151,10 +156,10 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
                     <span className="text-2xl font-bold text-white">{formatPrice(bundle.bundlePrice)}</span>
                     {bundle.basePrice && <span className="text-sm text-white/30 line-through">{formatPrice(bundle.basePrice)}</span>}
                     {bundle.savingsPercent && (
-                      <span className="text-xs font-semibold text-green-400">Save {bundle.savingsPercent}%</span>
+                      <span className="text-xs font-semibold text-green-400">{t.shop.save_percent_prefix} {bundle.savingsPercent}%</span>
                     )}
                   </div>
-                  <span className="text-xs tracking-widest uppercase text-white/20 group-hover:text-white transition-colors">View bundle →</span>
+                  <span className="text-xs tracking-widest uppercase text-white/20 group-hover:text-white transition-colors">{t.shop.view_bundle}</span>
                 </Link>
               ))}
             </div>
@@ -168,9 +173,9 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
               className="group flex flex-col sm:flex-row items-center justify-between gap-8 border border-[#1a1a1a] px-10 py-10 hover:border-amber-900/50 transition-colors bg-[#0d0d0a]"
             >
               <div>
-                <p className="text-xs tracking-[0.2em] text-amber-400/60 uppercase mb-3">The perfect present</p>
-                <h2 className="text-3xl font-bold text-white">Gift Vouchers</h2>
-                <p className="mt-2 text-sm text-white/40 max-w-sm">Give someone the freedom to choose their own adventure — any trip, program, or product.</p>
+                <p className="text-xs tracking-[0.2em] text-amber-400/60 uppercase mb-3">{t.shop.voucher_eyebrow}</p>
+                <h2 className="text-3xl font-bold text-white">{t.vouchers_hero.heading}</h2>
+                <p className="mt-2 text-sm text-white/40 max-w-sm">{t.vouchers_hero.subtext}</p>
               </div>
               <div className="flex items-center gap-6 shrink-0">
                 <div className="flex gap-2">
@@ -178,7 +183,7 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
                     <span key={a} className="border border-amber-900/40 px-3 py-2 text-xs text-amber-300/70">{formatPrice(a)}</span>
                   ))}
                 </div>
-                <span className="text-xs tracking-widest text-white/30 group-hover:text-white transition-colors">Buy →</span>
+                <span className="text-xs tracking-widest text-white/30 group-hover:text-white transition-colors">{t.shop.buy}</span>
               </div>
             </Link>
           </section>
@@ -188,8 +193,8 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
           <section className="mb-20">
             <div className="flex items-end justify-between mb-8">
               <div>
-                <p className="text-xs tracking-widest text-white/30 uppercase mb-2">Curated selection</p>
-                <h2 className="text-3xl font-bold">Gear &amp; Products</h2>
+                <p className="text-xs tracking-widest text-white/30 uppercase mb-2">{t.shop.gear_products_eyebrow}</p>
+                <h2 className="text-3xl font-bold">{t.shop.gear_products}</h2>
               </div>
             </div>
             <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 border border-[#1a1a1a]">
@@ -206,6 +211,7 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
                     image={img ? (mediaUrl(img) ?? undefined) : undefined}
                     stock={product.stock ?? 0}
                     category={typeof product.category === 'object' ? product.category?.name : null}
+                    language={language}
                   />
                 )
               })}
@@ -217,11 +223,11 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
           <section className="mb-20">
             <div className="flex items-end justify-between mb-8">
               <div>
-                <p className="text-xs tracking-widest text-white/30 uppercase mb-2">Guided experiences</p>
-                <h2 className="text-3xl font-bold">Individual Programs</h2>
+                <p className="text-xs tracking-widest text-white/30 uppercase mb-2">{t.shop.programs_eyebrow}</p>
+                <h2 className="text-3xl font-bold">{t.shop.individual_programs_heading}</h2>
               </div>
               <Link href="/individual-programs" className="text-xs tracking-widest uppercase text-white/30 hover:text-white transition-colors">
-                All programs →
+                {t.shop.programs_all_arrow}
               </Link>
             </div>
             <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-3 border border-[#1a1a1a]">
@@ -239,7 +245,7 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
                         {program.type && <p className="text-xs text-white/30 mt-1">{program.type}</p>}
                       </div>
                       {soldOut && (
-                        <span className="shrink-0 text-xs font-semibold text-red-400 border border-red-900/40 px-2 py-0.5">Sold out</span>
+                        <span className="shrink-0 text-xs font-semibold text-red-400 border border-red-900/40 px-2 py-0.5">{t.shop.out_of_stock}</span>
                       )}
                     </div>
                     <div className="mt-auto pt-8 flex items-center justify-between">
@@ -249,7 +255,7 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
                       <span className="text-xl font-bold text-white">{formatPrice(program.price)}</span>
                     </div>
                     {!soldOut && typeof program.spotsAvailable === 'number' && (
-                      <p className="text-xs text-white/20 mt-1">{program.spotsAvailable} spots left</p>
+                      <p className="text-xs text-white/20 mt-1">{program.spotsAvailable} {t.shop.spots_left}</p>
                     )}
                   </Link>
                 )
@@ -262,11 +268,11 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
           <section>
             <div className="flex items-end justify-between mb-8">
               <div>
-                <p className="text-xs tracking-widest text-white/30 uppercase mb-2">Book your next expedition</p>
-                <h2 className="text-3xl font-bold">Upcoming Adventures</h2>
+                <p className="text-xs tracking-widest text-white/30 uppercase mb-2">{t.shop.trips_eyebrow}</p>
+                <h2 className="text-3xl font-bold">{t.shop.upcoming_adventures}</h2>
               </div>
               <Link href="/destinations" className="text-xs tracking-widest uppercase text-white/30 hover:text-white transition-colors">
-                All destinations →
+                {t.shop.destinations_all} →
               </Link>
             </div>
             <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-3 border border-[#1a1a1a]">
@@ -285,7 +291,7 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
                         {dest && <p className="text-xs text-white/30 mt-1">{dest.name}</p>}
                       </div>
                       {soldOut && (
-                        <span className="shrink-0 text-xs font-semibold text-red-400 border border-red-900/40 px-2 py-0.5">Sold out</span>
+                        <span className="shrink-0 text-xs font-semibold text-red-400 border border-red-900/40 px-2 py-0.5">{t.shop.out_of_stock}</span>
                       )}
                     </div>
                     <div className="mt-auto pt-8 flex items-center justify-between">
@@ -294,7 +300,7 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
                       </span>
                       <span className="text-xl font-bold text-white">{formatPrice(trip.price)}</span>
                     </div>
-                    {!soldOut && <p className="text-xs text-white/20 mt-1">{trip.spotsAvailable} spots left</p>}
+                    {!soldOut && <p className="text-xs text-white/20 mt-1">{trip.spotsAvailable} {t.shop.spots_left}</p>}
                   </Link>
                 )
               })}

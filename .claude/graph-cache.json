@@ -85,6 +85,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260720_free_transfer_return_date.ts",
+      "label": "migrations/20260720_free_transfer_return_date.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/index.ts",
       "label": "migrations/index.ts",
       "group": "other",
@@ -3853,6 +3859,10 @@
       "target": "src/migrations/20260719b_email_marketing_platform.ts"
     },
     {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260720_free_transfer_return_date.ts"
+    },
+    {
       "source": "src/seed/gallery.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -5195,6 +5205,10 @@
     {
       "source": "src/app/(frontend)/shop/page.tsx",
       "target": "src/lib/currency.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/page.tsx",
+      "target": "src/lib/translations.ts"
     },
     {
       "source": "src/app/(frontend)/shop/bundles/page.tsx",
@@ -7769,6 +7783,10 @@
       "target": "src/lib/currency.ts"
     },
     {
+      "source": "src/components/shop/ProductCard.tsx",
+      "target": "src/lib/translations.ts"
+    },
+    {
       "source": "src/components/shop/AddToCartButton.tsx",
       "target": "src/lib/cart-store.ts"
     },
@@ -8357,6 +8375,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-19T15:52:43.997Z",
-  "fileCount": 631
+  "builtAt": "2026-07-20T11:03:25.725Z",
+  "fileCount": 632
 }

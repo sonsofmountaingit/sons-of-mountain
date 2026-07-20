@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { AddToCartButton } from './AddToCartButton'
 import { WishlistButton } from './WishlistButton'
 import { formatPrice } from '@/lib/currency'
+import { translations, type Language } from '@/lib/translations'
 
 interface ProductCardProps {
   id: string
@@ -13,9 +14,11 @@ interface ProductCardProps {
   image?: string | null
   stock: number
   category?: string | null
+  language?: Language
 }
 
-export function ProductCard({ id, slug, title, price, compareAtPrice, image, stock, category }: ProductCardProps) {
+export function ProductCard({ id, slug, title, price, compareAtPrice, image, stock, category, language = 'BG' }: ProductCardProps) {
+  const t = translations[language]
   const soldOut = stock <= 0
   const savings = compareAtPrice && compareAtPrice > price ? compareAtPrice - price : null
 
@@ -38,7 +41,7 @@ export function ProductCard({ id, slug, title, price, compareAtPrice, image, sto
         )}
         {soldOut && (
           <div className="absolute inset-0 bg-[#0a0a0a]/80 flex items-center justify-center">
-            <span className="text-xs tracking-widest uppercase text-white/40">Sold out</span>
+            <span className="text-xs tracking-widest uppercase text-white/40">{t.shop.out_of_stock}</span>
           </div>
         )}
         <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -61,7 +64,7 @@ export function ProductCard({ id, slug, title, price, compareAtPrice, image, sto
               item={{ id: `product-${id}`, type: 'product', productId: id, title, unitPrice: price, quantity: 1, image: image ?? undefined, stock }}
               className="px-3 py-1.5 text-xs border border-[#1a1a1a] text-white/60 hover:border-white/30 hover:text-white transition-colors"
             >
-              Add
+              {t.shop.add}
             </AddToCartButton>
           )}
         </div>
