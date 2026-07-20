@@ -103,6 +103,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260720b_email_marketing_tables.ts",
+      "label": "migrations/20260720b_email_marketing_tables.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260714b_seo_meta_keywords_all_collections.ts",
       "label": "migrations/20260714b_seo_meta_keywords_all_collections.ts",
       "group": "other",
@@ -3861,6 +3867,10 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260720_free_transfer_return_date.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260720b_email_marketing_tables.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -8375,6 +8385,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-20T11:29:13.354Z",
-  "fileCount": 632
+  "builtAt": "2026-07-20T11:50:14.567Z",
+  "fileCount": 633
 }

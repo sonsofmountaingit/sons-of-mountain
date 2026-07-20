@@ -201,9 +201,10 @@
       "./20260718_about_hero_image_position",
       "./20260719_booking_steps",
       "./20260719b_email_marketing_platform",
-      "./20260720_free_transfer_return_date"
+      "./20260720_free_transfer_return_date",
+      "./20260720b_email_marketing_tables"
     ],
-    "lines": 106,
+    "lines": 112,
     "group": "other"
   },
   "src/migrations/20260719b_email_marketing_platform.ts": {
@@ -216,6 +217,18 @@
       "@payloadcms/db-postgres"
     ],
     "lines": 59,
+    "group": "other"
+  },
+  "src/migrations/20260720b_email_marketing_tables.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 204,
     "group": "other"
   },
   "src/migrations/20260714b_seo_meta_keywords_all_collections.ts": {
@@ -8462,7 +8475,7 @@
       "Translations"
     ],
     "imports": [],
-    "lines": 2092,
+    "lines": 2096,
     "group": "lib"
   },
   "src/lib/send-registration-forms.ts": {

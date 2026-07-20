@@ -59,10 +59,10 @@ export function DestinationCard({
       )}
       {isEarlyBird && (
         <div className="absolute top-3 left-3 flex flex-col gap-1">
-          <span className="bg-amber-400 text-black text-xs font-bold px-2 py-0.5 rounded">EARLY BIRD</span>
+          <span className="bg-amber-400 text-black text-xs font-bold px-2 py-0.5 rounded">РАННО ЗАПИСВАНЕ</span>
           {earlyBirdSpotsLeft != null && (
             <span className="bg-black/70 text-amber-400 text-xs font-semibold px-2 py-0.5 rounded">
-              {earlyBirdSpotsLeft} {earlyBirdSpotsLeft === 1 ? 'spot' : 'spots'}
+              {earlyBirdSpotsLeft} {earlyBirdSpotsLeft === 1 ? 'място' : 'места'}
             </span>
           )}
         </div>
@@ -74,12 +74,12 @@ export function DestinationCard({
         <h3 className="text-lg font-semibold text-white leading-tight mb-2">{name}</h3>
         {isSoldOut && (
           <span className="inline-block px-2 py-0.5 text-xs font-medium bg-white/20 text-white/60 rounded-full">
-            NO SPOTS
+            НЯМА МЕСТА
           </span>
         )}
         {hasSpots && (
           <span className="inline-block px-2 py-0.5 text-xs font-medium bg-white text-black rounded-full">
-            ONLY {spotsAvailable} SPOTS
+            САМО {spotsAvailable} МЕСТА
           </span>
         )}
       </div>
