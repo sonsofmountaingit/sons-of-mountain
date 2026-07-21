@@ -16,6 +16,7 @@ import * as migration_20260719_booking_steps from './20260719_booking_steps'
 import * as migration_20260719b_email_marketing_platform from './20260719b_email_marketing_platform'
 import * as migration_20260720_free_transfer_return_date from './20260720_free_transfer_return_date'
 import * as migration_20260720b_email_marketing_tables from './20260720b_email_marketing_tables'
+import * as migration_20260721_email_settings_global from './20260721_email_settings_global'
 
 export const migrations = [
   {
@@ -107,5 +108,10 @@ export const migrations = [
     up: migration_20260720b_email_marketing_tables.up,
     down: migration_20260720b_email_marketing_tables.down,
     name: '20260720b_email_marketing_tables',
+  },
+  {
+    up: migration_20260721_email_settings_global.up,
+    down: migration_20260721_email_settings_global.down,
+    name: '20260721_email_settings_global',
   },
 ]
