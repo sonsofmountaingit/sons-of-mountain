@@ -3684,7 +3684,7 @@
       "@/components/ui/Footer",
       "sonner"
     ],
-    "lines": 75,
+    "lines": 82,
     "group": "frontend"
   },
   "src/app/(frontend)/vouchers/[code]/page.tsx": {

@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
 
     await resend.emails.send({
       from: `Sons of Mountains <${process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com'}>`,
-      to: process.env.RESEND_FROM_EMAIL ?? 'info@sonsofmountain.com',
+      to: process.env.ADMIN_NOTIFICATION_EMAIL ?? 'office@sonsofmountain.com',
       subject: `Нова поръчка на ваучер — ${buyerName}`,
       html: `
         <p><strong>От:</strong> ${buyerName} (${buyerEmail})</p>
