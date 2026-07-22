@@ -3583,6 +3583,12 @@
       "size": 8
     },
     {
+      "id": "src/lib/spots.ts",
+      "label": "lib/spots.ts",
+      "group": "lib",
+      "size": 6
+    },
+    {
       "id": "src/lib/metadata.ts",
       "label": "lib/metadata.ts",
       "group": "lib",
@@ -7307,6 +7313,10 @@
       "target": "src/lib/use-translations.ts"
     },
     {
+      "source": "src/components/ui/destination-page/FloatingBookingBar.tsx",
+      "target": "src/lib/spots.ts"
+    },
+    {
       "source": "src/components/ui/destination-page/BookingDrawer.tsx",
       "target": "src/lib/cart-store.ts"
     },
@@ -8415,6 +8425,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-22T12:07:06.404Z",
-  "fileCount": 634
+  "builtAt": "2026-07-22T12:26:35.729Z",
+  "fileCount": 635
 }

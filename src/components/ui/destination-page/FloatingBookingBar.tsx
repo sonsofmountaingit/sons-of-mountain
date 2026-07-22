@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { formatPriceParts } from '@/lib/currency'
 import { WaitlistFormModal, type WaitlistItemType } from '@/components/forms/WaitlistFormModal'
 import { useTranslations } from '@/lib/use-translations'
-import { getSpotsLabel } from '@/lib/spots'
+import { getSpotsLabel, isSpotsLow } from '@/lib/spots'
 
 interface Props {
   month?: string | null
@@ -56,6 +56,9 @@ export function FloatingBookingBar({
   const barRef = useRef<HTMLDivElement>(null)
   const isSoldOut = spotsAvailable != null && spotsAvailable === 0
   const spotsLabel = getSpotsLabel(spotsAvailable, spotsTotal)
+  const showSpots = spotsAvailable != null
+    ? (spotsTotal != null ? isSpotsLow(spotsAvailable, spotsTotal) : true)
+    : maxParticipants != null
   const { t, language } = useTranslations()
   const locale = language === 'EN' ? 'en-US' : 'bg-BG'
   const formatDate = (iso: string) => new Date(iso).toLocaleDateString(locale, { day: 'numeric', month: 'short' })
@@ -130,7 +133,7 @@ export function FloatingBookingBar({
         )}
 
         {/* Spots */}
-        {(spotsAvailable != null || maxParticipants != null) && (
+        {showSpots && (
           <>
             <div className="w-px h-4 bg-white/15 shrink-0" />
             <span className="flex items-center gap-1 text-[10px] sm:text-xs text-white/80 shrink-0">

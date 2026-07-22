@@ -2744,7 +2744,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/DestinationBookingController"
     ],
-    "lines": 371,
+    "lines": 372,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -3607,7 +3607,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 319,
+    "lines": 320,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/page.tsx": {
@@ -4010,7 +4010,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 360,
+    "lines": 361,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {
@@ -6808,9 +6808,10 @@
       "react",
       "@/lib/currency",
       "@/components/forms/WaitlistFormModal",
-      "@/lib/use-translations"
+      "@/lib/use-translations",
+      "@/lib/spots"
     ],
-    "lines": 189,
+    "lines": 193,
     "group": "ui"
   },
   "src/components/ui/destination-page/BookingDrawer.tsx": {
@@ -6872,7 +6873,7 @@
       "./FloatingBookingBar",
       "./BookingDrawer"
     ],
-    "lines": 63,
+    "lines": 64,
     "group": "ui"
   },
   "src/components/ui/destination-page/GuidesSection.tsx": {
@@ -8524,6 +8525,16 @@
     "lines": 289,
     "group": "lib"
   },
+  "src/lib/spots.ts": {
+    "exports": [
+      "getSpotsLabel",
+      "isSpotsLow"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 16,
+    "group": "lib"
+  },
   "src/lib/metadata.ts": {
     "exports": [
       "getStaticPageMeta",
@@ -8583,7 +8594,7 @@
       "PaymentPlan"
     ],
     "imports": [],
-    "lines": 101,
+    "lines": 106,
     "group": "lib"
   },
   "src/lib/pricing/dynamic.ts": {

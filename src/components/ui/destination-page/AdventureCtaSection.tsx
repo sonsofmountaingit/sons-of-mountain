@@ -103,7 +103,7 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
                 </div>
                 {earlyBirdSpotsLeft != null && (
                   <span className="text-xs font-semibold text-black/60 uppercase tracking-wider">
-                    {earlyBirdSpotsLeft} {t.destination_page.early_bird_label} {earlyBirdSpotsLeft === 1 ? t.destination_page.spot_left : t.destination_page.spots_left}
+                    {earlyBirdSpotsLeft} {earlyBirdSpotsLeft === 1 ? t.destination_page.spot_left : t.destination_page.spots_left} {t.destination_page.early_bird_spot_word_for}
                   </span>
                 )}
               </div>
