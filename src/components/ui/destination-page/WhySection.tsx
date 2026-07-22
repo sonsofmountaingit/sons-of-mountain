@@ -63,6 +63,7 @@ function VideoCard({
   onPlay: () => void
 }) {
   const { t } = useTranslations()
+  const [previewReady, setPreviewReady] = useState(false)
   return (
     <button
       onClick={onPlay}
@@ -74,12 +75,22 @@ function VideoCard({
           src={video.thumbnailUrl}
           alt={video.thumbnailAlt ?? video.label ?? t.destination_page.video_thumbnail}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className={`object-cover transition-opacity duration-500 group-hover:scale-105 ${previewReady ? 'opacity-0' : 'opacity-100'}`}
           sizes="(max-width: 640px) 160px, 208px"
         />
       ) : (
-        <div className="absolute inset-0 bg-gray-200" />
+        <div className={`absolute inset-0 bg-gray-200 transition-opacity duration-500 ${previewReady ? 'opacity-0' : 'opacity-100'}`} />
       )}
+      <video
+        src={video.videoUrl}
+        muted
+        loop
+        playsInline
+        autoPlay
+        preload="auto"
+        onCanPlay={() => setPreviewReady(true)}
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${previewReady ? 'opacity-100' : 'opacity-0'}`}
+      />
       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300" />
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="w-14 h-14 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300">
@@ -121,6 +132,7 @@ function VideoModal({
   onBook: () => void
 }) {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const [modalReady, setModalReady] = useState(false)
   const { t, language } = useTranslations()
   const locale = language === 'EN' ? 'en-US' : 'bg-BG'
   const getDifficultyLabel = useDifficultyLabel()
@@ -161,6 +173,15 @@ function VideoModal({
         </button>
 
         <div className="relative w-full bg-black flex items-center justify-center" style={{ maxHeight: '80vh' }}>
+          {video.thumbnailUrl && (
+            <Image
+              src={video.thumbnailUrl}
+              alt={video.thumbnailAlt ?? video.label ?? t.destination_page.video_thumbnail}
+              fill
+              className={`object-contain transition-opacity duration-300 ${modalReady ? 'opacity-0' : 'opacity-100'}`}
+              sizes="100vw"
+            />
+          )}
           <video
             ref={videoRef}
             src={video.videoUrl}
@@ -168,9 +189,16 @@ function VideoModal({
             playsInline
             muted
             loop
-            className="max-h-[80vh] w-full object-contain"
+            preload="auto"
+            onCanPlay={() => setModalReady(true)}
+            className={`max-h-[80vh] w-full object-contain transition-opacity duration-300 ${modalReady ? 'opacity-100' : 'opacity-0'}`}
             poster={video.thumbnailUrl ?? undefined}
           />
+          {!modalReady && (
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-10 h-10 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+            </div>
+          )}
 
           <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-5 pt-16 pb-4 pointer-events-none z-10">
             {tripTitle && (
