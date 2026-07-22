@@ -6811,7 +6811,7 @@
       "@/lib/use-translations",
       "@/lib/spots"
     ],
-    "lines": 193,
+    "lines": 196,
     "group": "ui"
   },
   "src/components/ui/destination-page/BookingDrawer.tsx": {
@@ -8495,7 +8495,7 @@
       "Translations"
     ],
     "imports": [],
-    "lines": 2128,
+    "lines": 2130,
     "group": "lib"
   },
   "src/lib/send-registration-forms.ts": {
@@ -8594,7 +8594,7 @@
       "PaymentPlan"
     ],
     "imports": [],
-    "lines": 106,
+    "lines": 165,
     "group": "lib"
   },
   "src/lib/pricing/dynamic.ts": {

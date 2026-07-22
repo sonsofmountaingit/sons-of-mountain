@@ -205,7 +205,20 @@ export function GlobeView({ items, itemCoords, participants }: Props) {
       const globe = new Globe(el, {
         rendererConfig: { antialias: true, alpha: true, powerPreference: 'high-performance' },
       })
-      globe.renderer().setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
+      globe.renderer().setPixelRatio(window.devicePixelRatio || 1)
+
+      const globeMat = globe.globeMaterial() as { map?: { anisotropy: number; needsUpdate: boolean } | null }
+      const maxAnisotropy = globe.renderer().capabilities.getMaxAnisotropy()
+      let anisotropyPoll: number | undefined
+      const applyAnisotropy = () => {
+        const tex = globeMat.map
+        if (tex) {
+          tex.anisotropy = maxAnisotropy
+          tex.needsUpdate = true
+          if (anisotropyPoll) window.clearInterval(anisotropyPoll)
+        }
+      }
+      anisotropyPoll = window.setInterval(applyAnisotropy, 200)
 
       globe
         .globeImageUrl('//unpkg.com/three-globe/example/img/earth-day.jpg')
@@ -245,7 +258,7 @@ export function GlobeView({ items, itemCoords, participants }: Props) {
       controls.autoRotate = true
       controls.autoRotateSpeed = 0.5
       controls.enableZoom = true
-      controls.minDistance = 120
+      controls.minDistance = 180
       controls.maxDistance = 480
       controls.zoomSpeed = 0.6
       controls.addEventListener('start', () => { controls.autoRotate = false })
@@ -256,6 +269,7 @@ export function GlobeView({ items, itemCoords, participants }: Props) {
       ro.observe(el)
 
       ;(el as HTMLElement & { _globeCleanup?: () => void })._globeCleanup = () => {
+        if (anisotropyPoll) window.clearInterval(anisotropyPoll)
         ro.disconnect()
         globe._destructor()
       }
