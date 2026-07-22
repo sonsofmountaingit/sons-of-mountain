@@ -201,6 +201,7 @@ async function TripContent({ params }: Props) {
           tripId={String(trip.id)}
           tripTitle={title}
           spotsAvailable={trip.spotsAvailable as number | null}
+          spotsTotal={trip.spotsTotal as number | null}
           depositAmount={t.depositAmount as number | null}
           earlyBirdPrice={t.earlyBirdPrice as number | null}
           earlyBirdUntil={t.earlyBirdUntil as string | null}

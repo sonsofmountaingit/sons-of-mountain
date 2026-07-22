@@ -83,11 +83,16 @@ export function resolvePaymentPlan(record: Bookable, bookingDate: Date = new Dat
   const byDaysBeforeTrip = startDate
     ? new Date(startDate.getTime() - secondPaymentBeforeTripDays * 86400000)
     : byDaysAfterBooking
-  const secondPaymentDueDate = byDaysAfterBooking < byDaysBeforeTrip ? byDaysAfterBooking : byDaysBeforeTrip
 
   const finalPaymentDueDate = startDate
     ? new Date(startDate.getTime() - finalPaymentBeforeTripDays * 86400000)
-    : secondPaymentDueDate
+    : byDaysAfterBooking
+
+  const earliestSecondPaymentDueDate = byDaysAfterBooking < byDaysBeforeTrip ? byDaysAfterBooking : byDaysBeforeTrip
+  // Second payment must never be scheduled after the final payment or before the booking date.
+  const secondPaymentDueDate = new Date(
+    Math.min(Math.max(earliestSecondPaymentDueDate.getTime(), bookingDate.getTime()), finalPaymentDueDate.getTime()),
+  )
 
   return {
     mode,

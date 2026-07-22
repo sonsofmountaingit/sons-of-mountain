@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { formatPriceParts } from '@/lib/currency'
 import { WaitlistFormModal, type WaitlistItemType } from '@/components/forms/WaitlistFormModal'
 import { useTranslations } from '@/lib/use-translations'
+import { getSpotsLabel } from '@/lib/spots'
 
 interface Props {
   month?: string | null
@@ -17,6 +18,7 @@ interface Props {
   tripTitle: string
   itemType?: WaitlistItemType
   spotsAvailable?: number | null
+  spotsTotal?: number | null
   depositAmount?: number | null
   earlyBirdPrice?: number | null
   earlyBirdUntil?: string | null
@@ -37,6 +39,7 @@ export function FloatingBookingBar({
   tripTitle,
   itemType = 'trip',
   spotsAvailable,
+  spotsTotal,
   depositAmount,
   earlyBirdPrice,
   earlyBirdUntil,
@@ -52,6 +55,7 @@ export function FloatingBookingBar({
   const [waitlistOpen, setWaitlistOpen] = useState(false)
   const barRef = useRef<HTMLDivElement>(null)
   const isSoldOut = spotsAvailable != null && spotsAvailable === 0
+  const spotsLabel = getSpotsLabel(spotsAvailable, spotsTotal)
   const { t, language } = useTranslations()
   const locale = language === 'EN' ? 'en-US' : 'bg-BG'
   const formatDate = (iso: string) => new Date(iso).toLocaleDateString(locale, { day: 'numeric', month: 'short' })
@@ -135,7 +139,7 @@ export function FloatingBookingBar({
                 <path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
               </svg>
               {spotsAvailable != null
-                ? <span className="whitespace-nowrap"><strong className="text-white">{spotsAvailable}</strong> <span className="hidden sm:inline">{t.destination_page.left}</span></span>
+                ? <span className="whitespace-nowrap"><strong className="text-white">{spotsLabel ?? spotsAvailable}</strong> <span className="hidden sm:inline">{t.destination_page.left}</span></span>
                 : <span className="whitespace-nowrap">{maxParticipants} {t.destination_page.max}</span>
               }
             </span>

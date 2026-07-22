@@ -16,6 +16,7 @@ interface Props {
   tripTitle: string
   itemType?: 'trip' | 'program' | 'destination'
   spotsAvailable?: number | null
+  spotsTotal?: number | null
   depositAmount?: number | null
   earlyBirdPrice?: number | null
   earlyBirdUntil?: string | null

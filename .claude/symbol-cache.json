@@ -3099,15 +3099,17 @@
     "imports": [
       "payload",
       "@payload-config",
+      "next/headers",
       "next",
       "next/link",
       "next/image",
       "@/lib/media-url",
       "react",
       "@/lib/metadata",
-      "@/lib/currency"
+      "@/lib/currency",
+      "@/lib/translations"
     ],
-    "lines": 125,
+    "lines": 130,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/bundles/[slug]/page.tsx": {
@@ -6035,7 +6037,7 @@
       "@/lib/currency",
       "@/lib/use-translations"
     ],
-    "lines": 471,
+    "lines": 472,
     "group": "blocks"
   },
   "src/components/blocks/why-travel-with-us/icons/GlobeIcon.tsx": {
@@ -7455,9 +7457,11 @@
     "types": [],
     "imports": [
       "react",
-      "./CalendarTripCard"
+      "./CalendarTripCard",
+      "@/lib/use-translations",
+      "@/lib/translations"
     ],
-    "lines": 166,
+    "lines": 176,
     "group": "ui"
   },
   "src/components/ui/GlobeView.tsx": {
@@ -7467,9 +7471,11 @@
     "types": [],
     "imports": [
       "react",
-      "./CalendarTripCard"
+      "./CalendarTripCard",
+      "@/lib/use-translations",
+      "@/lib/translations"
     ],
-    "lines": 266,
+    "lines": 281,
     "group": "ui"
   },
   "src/components/ui/NolimitNavbar.tsx": {
@@ -8488,7 +8494,7 @@
       "Translations"
     ],
     "imports": [],
-    "lines": 2096,
+    "lines": 2128,
     "group": "lib"
   },
   "src/lib/send-registration-forms.ts": {

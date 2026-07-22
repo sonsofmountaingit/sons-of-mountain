@@ -181,6 +181,7 @@ async function ProgramContent({ params }: Props) {
           tripTitle={program.title as string}
           itemType="program"
           spotsAvailable={program.spotsAvailable as number | null}
+          spotsTotal={program.spotsTotal as number | null}
           depositAmount={p.depositAmount as number | null}
           earlyBirdPrice={p.earlyBirdPrice as number | null}
           earlyBirdUntil={p.earlyBirdUntil as string | null}

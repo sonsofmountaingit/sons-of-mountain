@@ -5247,6 +5247,10 @@
       "target": "src/lib/currency.ts"
     },
     {
+      "source": "src/app/(frontend)/shop/bundles/page.tsx",
+      "target": "src/lib/translations.ts"
+    },
+    {
       "source": "src/app/(frontend)/shop/bundles/[slug]/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -7611,8 +7615,24 @@
       "target": "src/components/ui/CalendarTripCard.tsx"
     },
     {
+      "source": "src/components/ui/FlatMapView.tsx",
+      "target": "src/lib/use-translations.ts"
+    },
+    {
+      "source": "src/components/ui/FlatMapView.tsx",
+      "target": "src/lib/translations.ts"
+    },
+    {
       "source": "src/components/ui/GlobeView.tsx",
       "target": "src/components/ui/CalendarTripCard.tsx"
+    },
+    {
+      "source": "src/components/ui/GlobeView.tsx",
+      "target": "src/lib/use-translations.ts"
+    },
+    {
+      "source": "src/components/ui/GlobeView.tsx",
+      "target": "src/lib/translations.ts"
     },
     {
       "source": "src/components/ui/NolimitNavbar.tsx",
@@ -8395,6 +8415,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-21T12:59:20.647Z",
+  "builtAt": "2026-07-22T12:07:06.404Z",
   "fileCount": 634
 }
