@@ -124,11 +124,8 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
           <Link href="/shop/bundles" className="px-5 py-2 text-xs tracking-widest uppercase font-medium border border-white/10 text-white/50 hover:border-white/30 hover:text-white transition-colors">
             {t.shop.bundles}
           </Link>
-          <Link href="/individual-programs" className="px-5 py-2 text-xs tracking-widest uppercase font-medium border border-white/10 text-white/50 hover:border-white/30 hover:text-white transition-colors">
-            {t.shop.programs_all}
-          </Link>
           <Link href="/destinations" className="px-5 py-2 text-xs tracking-widest uppercase font-medium border border-white/10 text-white/50 hover:border-white/30 hover:text-white transition-colors">
-            {t.shop.destinations_all}
+            {t.shop.programs_all}
           </Link>
         </nav>
 
