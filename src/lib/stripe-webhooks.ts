@@ -56,10 +56,113 @@ export async function notifyWaitlist(payload: BasePayload, itemType: string, ite
   } catch {}
 }
 
+type OrderItemDetail = {
+  itemType: string
+  title: string
+  quantity: number
+  unitPrice: number
+  startDate?: string | null
+  endDate?: string | null
+  location?: string | null
+  participantDetails?: { name?: string | null; email?: string | null; dietary?: string | null }[]
+  variantLabel?: string | null
+  voucherCode?: string | null
+  voucherRecipientName?: string | null
+  voucherRecipientEmail?: string | null
+  voucherMessage?: string | null
+}
+
+function formatDateRange(startDate?: string | null, endDate?: string | null): string {
+  if (!startDate) return ''
+  const start = new Date(startDate).toLocaleDateString('bg-BG')
+  const end = endDate ? new Date(endDate).toLocaleDateString('bg-BG') : null
+  return end && end !== start ? `${start} — ${end}` : start
+}
+
+function buildItemMetaLines(item: OrderItemDetail, opts: { includeParticipants: boolean }): string[] {
+  const lines: string[] = []
+  if (item.itemType === 'trip' || item.itemType === 'destination' || item.itemType === 'program') {
+    const dateRange = formatDateRange(item.startDate, item.endDate)
+    if (dateRange) lines.push(dateRange)
+    if (item.location) lines.push(escapeHtml(item.location))
+    if (opts.includeParticipants && item.participantDetails?.length) {
+      for (const participant of item.participantDetails) {
+        if (!participant?.name && !participant?.email) continue
+        const bits = [participant.name, participant.email].filter((v): v is string => Boolean(v)).map(escapeHtml).join(' — ')
+        const dietary = participant.dietary ? ` (${escapeHtml(participant.dietary)})` : ''
+        lines.push(`Участник: ${bits}${dietary}`)
+      }
+    }
+  }
+  if (item.itemType === 'product' && item.variantLabel) {
+    lines.push(`Вариант: ${escapeHtml(item.variantLabel)}`)
+  }
+  if (item.itemType === 'gift-voucher') {
+    if (item.voucherCode) lines.push(`Код: ${escapeHtml(item.voucherCode)}`)
+    if (item.voucherRecipientName || item.voucherRecipientEmail) {
+      const bits = [item.voucherRecipientName, item.voucherRecipientEmail].filter((v): v is string => Boolean(v)).map(escapeHtml).join(' — ')
+      lines.push(`За: ${bits}`)
+    }
+    if (item.voucherMessage) lines.push(`Съобщение: ${escapeHtml(item.voucherMessage)}`)
+  }
+  return lines
+}
+
+function buildAdminOrderNotificationHtml(p: {
+  orderId: string
+  orderNumber: string
+  customerEmail: string
+  firstName: string
+  phone?: string | null
+  items: OrderItemDetail[]
+  total: number
+  currency: string
+  paymentMode: string
+  shippingAddress?: { line1?: string | null; line2?: string | null; city?: string | null; state?: string | null; postalCode?: string | null; country?: string | null } | null
+}) {
+  const rows = p.items
+    .map((item) => {
+      const meta = buildItemMetaLines(item, { includeParticipants: true })
+      const metaHtml = meta.length
+        ? `<div style="color:#666;font-size:12px;line-height:1.5;margin-top:2px">${meta.join('<br/>')}</div>`
+        : ''
+      return `<tr><td style="padding:8px 0;font-size:14px;color:#333;vertical-align:top">${escapeHtml(item.title)} &times; ${item.quantity}${metaHtml}</td><td style="padding:8px 0;font-size:14px;color:#333;text-align:right;vertical-align:top">&#x20AC;${(item.unitPrice * item.quantity).toFixed(2)}</td></tr>`
+    })
+    .join('')
+  const siteUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? ''
+  const adminUrl = siteUrl ? `${siteUrl}/admin/collections/orders/${p.orderId}` : ''
+
+  const hasPhysical = p.items.some((i) => i.itemType === 'product')
+  const addr = p.shippingAddress
+  const addressBlock = hasPhysical && addr && (addr.line1 || addr.city)
+    ? `<tr><td style="padding:4px 0;color:#555;font-size:13px;vertical-align:top">Адрес за доставка</td><td style="padding:4px 0;text-align:right;color:#111;font-size:13px">${[addr.line1, addr.line2, addr.city, addr.state, addr.postalCode, addr.country].filter((v): v is string => Boolean(v)).map(escapeHtml).join(', ')}</td></tr>`
+    : ''
+
+  return `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#f5f5f5;font-family:Arial,sans-serif">
+<div style="max-width:560px;margin:0 auto;padding:32px 24px">
+  <h2 style="margin:0 0 16px 0;font-size:20px;color:#111">Нова платена поръчка</h2>
+  <table style="width:100%;border-collapse:collapse;margin-bottom:16px">
+    <tr><td style="padding:4px 0;color:#555;font-size:13px">Номер на поръчка</td><td style="padding:4px 0;text-align:right;font-family:monospace;color:#111">${escapeHtml(p.orderNumber)}</td></tr>
+    <tr><td style="padding:4px 0;color:#555;font-size:13px">Клиент</td><td style="padding:4px 0;text-align:right;color:#111">${escapeHtml(p.firstName)} &lt;${escapeHtml(p.customerEmail)}&gt;</td></tr>
+    ${p.phone ? `<tr><td style="padding:4px 0;color:#555;font-size:13px">Телефон</td><td style="padding:4px 0;text-align:right;color:#111">${escapeHtml(p.phone)}</td></tr>` : ''}
+    <tr><td style="padding:4px 0;color:#555;font-size:13px">Начин на плащане</td><td style="padding:4px 0;text-align:right;color:#111">${escapeHtml(p.paymentMode)}</td></tr>
+    ${addressBlock}
+  </table>
+  <table style="width:100%;border-collapse:collapse;border-top:1px solid #ddd">
+    ${rows}
+  </table>
+  <div style="display:flex;justify-content:space-between;padding-top:10px;margin-top:8px;border-top:1px solid #ddd">
+    <span style="font-size:15px;font-weight:600;color:#111">Общо</span>
+    <span style="font-size:15px;font-weight:600;color:#111;float:right">&#x20AC;${p.total.toFixed(2)} ${escapeHtml(p.currency)}</span>
+  </div>
+  ${adminUrl ? `<p style="margin:24px 0 0 0"><a href="${adminUrl}" style="color:#0a58ca;font-size:13px">Виж поръчката в администрацията &rarr;</a></p>` : ''}
+</div></body></html>`
+}
+
 function buildOrderConfirmationHtml(p: {
   firstName: string
   orderNumber: string
-  items: { title: string; quantity: number; unitPrice: number }[]
+  items: OrderItemDetail[]
   total: number
   currency: string
   paymentMode: string
@@ -70,9 +173,13 @@ function buildOrderConfirmationHtml(p: {
 }) {
   const name = escapeHtml(p.firstName) || 'adventurer'
   const rows = p.items
-    .map(
-      (item) => `<tr><td style="color:#ccc;font-size:14px;padding:8px 0">${escapeHtml(item.title)} &times; ${item.quantity}</td><td style="color:#fff;font-size:14px;padding:8px 0;text-align:right">&#x20AC;${(item.unitPrice * item.quantity).toFixed(2)}</td></tr>`,
-    )
+    .map((item) => {
+      const meta = buildItemMetaLines(item, { includeParticipants: false })
+      const metaHtml = meta.length
+        ? `<div style="color:#888;font-size:12px;line-height:1.5;margin-top:2px">${meta.join('<br/>')}</div>`
+        : ''
+      return `<tr><td style="color:#ccc;font-size:14px;padding:8px 0;vertical-align:top">${escapeHtml(item.title)} &times; ${item.quantity}${metaHtml}</td><td style="color:#fff;font-size:14px;padding:8px 0;text-align:right;vertical-align:top">&#x20AC;${(item.unitPrice * item.quantity).toFixed(2)}</td></tr>`
+    })
     .join('')
 
   let nextPaymentBlock = ''
@@ -130,32 +237,82 @@ async function sendOrderConfirmationEmail(payload: BasePayload, orderId: string)
   const o = order as any
   if (!o.email) return
 
-  const items = ((o.items ?? []) as any[]).map((item) => ({
-    title: item.trip?.title ?? item.product?.title ?? item.program?.title ?? item.destination?.name ?? item.bundle?.title ?? 'Продукт',
-    quantity: item.quantity ?? item.participantCount ?? 1,
-    unitPrice: item.unitPrice ?? 0,
-  }))
+  const giftVoucher = typeof o.giftVoucher === 'object' && o.giftVoucher ? o.giftVoucher : null
+
+  const items: OrderItemDetail[] = ((o.items ?? []) as any[]).map((item) => {
+    const trip = item.trip
+    const program = item.program
+    const destination = item.destination
+    const product = item.product
+    const bundle = item.bundle
+    const variant = product && item.variantId
+      ? ((product.variants ?? []) as any[]).find((v) => v.id === item.variantId)
+      : null
+
+    return {
+      itemType: item.itemType,
+      title: trip?.title ?? product?.title ?? program?.title ?? destination?.name ?? bundle?.title ?? (item.itemType === 'gift-voucher' ? 'Подаръчен ваучер' : 'Продукт'),
+      quantity: item.quantity ?? item.participantCount ?? 1,
+      unitPrice: item.unitPrice ?? 0,
+      startDate: trip?.startDate ?? program?.startDate ?? destination?.startDate ?? null,
+      endDate: trip?.endDate ?? program?.endDate ?? destination?.endDate ?? null,
+      location: trip?.location ?? destination?.location ?? null,
+      participantDetails: item.participantDetails ?? [],
+      variantLabel: variant ? [variant.label, variant.size, variant.color].filter(Boolean).join(' / ') : null,
+      voucherCode: item.itemType === 'gift-voucher' ? giftVoucher?.code ?? null : null,
+      voucherRecipientName: item.itemType === 'gift-voucher' ? giftVoucher?.recipientName ?? null : null,
+      voucherRecipientEmail: item.itemType === 'gift-voucher' ? giftVoucher?.recipientEmail ?? null : null,
+      voucherMessage: item.itemType === 'gift-voucher' ? giftVoucher?.message ?? null : null,
+    }
+  })
   const installments = (o.installments ?? []) as any[]
   const nextInstallment = installments.find((row) => row.status === 'pending') ?? null
+  const shippingAddress = o.shippingAddress ?? null
 
   const { resend } = await import('@/lib/resend')
+  const from = process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com'
+  const html = buildOrderConfirmationHtml({
+    firstName: o.firstName ?? '',
+    orderNumber: String(orderId).slice(-8).toUpperCase(),
+    items,
+    total: o.totalAmount ?? 0,
+    currency: o.currency ?? 'EUR',
+    paymentMode: o.paymentMode ?? 'full',
+    depositPaid: o.depositPaid,
+    remainingBalance: o.remainingBalance,
+    remainingDueDate: o.remainingDueDate,
+    nextInstallment,
+  })
+
   await resend.emails.send({
-    from: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
+    from,
     to: o.email,
     subject: 'Резервацията е потвърдена — Sons of Mountains',
-    html: buildOrderConfirmationHtml({
-      firstName: o.firstName ?? '',
+    html,
+  }).catch(() => {})
+
+  const settings = await payload.findGlobal({ slug: 'email-settings' }).catch(() => null)
+  const adminEmail = (settings as any)?.adminEmail
+  if (adminEmail) {
+    const adminHtml = buildAdminOrderNotificationHtml({
+      orderId: String(orderId),
       orderNumber: String(orderId).slice(-8).toUpperCase(),
+      customerEmail: o.email,
+      firstName: o.firstName ?? '',
+      phone: o.phone ?? null,
       items,
       total: o.totalAmount ?? 0,
       currency: o.currency ?? 'EUR',
       paymentMode: o.paymentMode ?? 'full',
-      depositPaid: o.depositPaid,
-      remainingBalance: o.remainingBalance,
-      remainingDueDate: o.remainingDueDate,
-      nextInstallment,
-    }),
-  }).catch(() => {})
+      shippingAddress,
+    })
+    await resend.emails.send({
+      from,
+      to: adminEmail,
+      subject: `Нова платена поръчка #${String(orderId).slice(-8).toUpperCase()} — ${o.email}`,
+      html: adminHtml,
+    }).catch(() => {})
+  }
 }
 
 async function sendRegistrationConfirmationEmail(payload: BasePayload, registrationId: string) {
@@ -165,6 +322,10 @@ async function sendRegistrationConfirmationEmail(payload: BasePayload, registrat
   if (!r.email) return
 
   const title = r.trip?.title ?? r.program?.title ?? r.destination?.name ?? 'Пътуване'
+  const itemType = r.trip ? 'trip' : r.program ? 'program' : r.destination ? 'destination' : 'trip'
+  const startDate = r.trip?.startDate ?? r.program?.startDate ?? r.destination?.startDate ?? null
+  const endDate = r.trip?.endDate ?? r.program?.endDate ?? r.destination?.endDate ?? null
+  const location = r.trip?.location ?? r.destination?.location ?? null
   const installments = (r.installments ?? []) as any[]
   const nextInstallment = installments.find((row) => row.status === 'pending') ?? null
 
@@ -176,7 +337,7 @@ async function sendRegistrationConfirmationEmail(payload: BasePayload, registrat
     html: buildOrderConfirmationHtml({
       firstName: r.firstName ?? '',
       orderNumber: String(registrationId).slice(-8).toUpperCase(),
-      items: [{ title, quantity: r.participantCount ?? 1, unitPrice: (r.totalAmount ?? r.amount ?? 0) / (r.participantCount ?? 1) }],
+      items: [{ itemType, title, quantity: r.participantCount ?? 1, unitPrice: (r.totalAmount ?? r.amount ?? 0) / (r.participantCount ?? 1), startDate, endDate, location }],
       total: r.totalAmount ?? r.amount ?? 0,
       currency: 'EUR',
       paymentMode: r.paymentMode ?? 'full',

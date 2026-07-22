@@ -3086,7 +3086,7 @@
       "@/lib/currency",
       "@/lib/translations"
     ],
-    "lines": 314,
+    "lines": 311,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/bundles/page.tsx": {
