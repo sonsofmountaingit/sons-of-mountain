@@ -103,6 +103,7 @@ function TripVideoCard({
           ref={videoRef}
           src={playing ? card.videoUrl : undefined}
           loop
+          muted
           playsInline
           preload="none"
           style={{

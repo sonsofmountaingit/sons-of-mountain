@@ -1,5 +1,6 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { cookies } from 'next/headers'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -7,6 +8,7 @@ import { mediaUrl } from "@/lib/media-url"
 import { Suspense } from 'react'
 import { buildStaticMetadata } from '@/lib/metadata'
 import { formatPrice } from '@/lib/currency'
+import { translations, type Language } from '@/lib/translations'
 
 export const dynamic = 'force-dynamic'
 
@@ -29,22 +31,25 @@ async function getBundles() {
 
 async function BundlesContent() {
   const bundles = await getBundles()
+  const cookieStore = await cookies()
+  const language = (cookieStore.get('language')?.value ?? 'BG') as Language
+  const t = translations[language].shop
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white pt-32 pb-24 px-6">
       <div className="max-w-[1440px] mx-auto">
         <Link href="/shop" className="text-xs tracking-widest uppercase text-white/30 hover:text-white transition-colors mb-12 inline-block">
-          ← Back to Shop
+          {t.back_to_shop}
         </Link>
 
         <div className="mb-16">
-          <p className="text-xs tracking-[0.2em] text-white/30 uppercase mb-4">Save more</p>
-          <h1 className="text-6xl md:text-8xl font-bold tracking-tight leading-none">Bundle Deals</h1>
-          <p className="mt-6 text-lg text-white/40 max-w-lg">Combine experiences and gear for maximum savings</p>
+          <p className="text-xs tracking-[0.2em] text-white/30 uppercase mb-4">{t.bundles_deals_eyebrow}</p>
+          <h1 className="text-6xl md:text-8xl font-bold tracking-tight leading-none">{t.bundles_page_title}</h1>
+          <p className="mt-6 text-lg text-white/40 max-w-lg">{t.bundles_page_subtitle}</p>
         </div>
 
         {bundles.length === 0 ? (
-          <p className="text-white/20 text-center py-32 tracking-widest uppercase text-xs">No bundles available right now. Check back soon.</p>
+          <p className="text-white/20 text-center py-32 tracking-widest uppercase text-xs">{t.no_bundles}</p>
         ) : (
           <div className="grid gap-px md:grid-cols-2 border border-[#1a1a1a]">
             {bundles.map((bundle: any) => (
@@ -82,7 +87,7 @@ async function BundlesContent() {
                         )
                       })}
                       {bundle.items.length > 3 && (
-                        <li className="text-white/20">+ {bundle.items.length - 3} more</li>
+                        <li className="text-white/20">+ {bundle.items.length - 3} {t.more_items_suffix}</li>
                       )}
                     </ul>
                   )}
@@ -94,16 +99,16 @@ async function BundlesContent() {
                         <span className="text-sm text-white/30 line-through">{formatPrice(bundle.basePrice)}</span>
                       )}
                       {bundle.savingsPercent && (
-                        <span className="text-xs font-semibold text-green-400">Save {bundle.savingsPercent}%</span>
+                        <span className="text-xs font-semibold text-green-400">{t.save_percent_prefix} {bundle.savingsPercent}%</span>
                       )}
                     </div>
                     {bundle.corporatePricing?.length > 0 && (
-                      <span className="text-xs text-white/30 tracking-widest uppercase">Corporate available</span>
+                      <span className="text-xs text-white/30 tracking-widest uppercase">{t.corporate_available}</span>
                     )}
                   </div>
 
                   <span className="text-xs tracking-widest uppercase text-white/20 group-hover:text-white transition-colors mt-4">
-                    View bundle →
+                    {t.view_bundle}
                   </span>
                 </div>
               </Link>

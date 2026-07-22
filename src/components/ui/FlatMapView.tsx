@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react'
 import type { CalendarItem } from './CalendarTripCard'
+import { useTranslations } from '@/lib/use-translations'
+import type { Translations } from '@/lib/translations'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
 type Participant = { initials: string; color: string }
@@ -62,11 +64,17 @@ function makePinEl(item: CalendarItem, pdata: ParticipantData, onClick: (it: Cal
   return wrap
 }
 
-function PinModal({ state, onClose }: { state: ModalState; onClose: () => void }) {
+function kindLabel(item: CalendarItem, t: Translations): string {
+  if (item.kind === 'trip') return t.calendar_map.kind_trip
+  if (item.kind === 'program') return item.category === 'individual' ? t.calendar_map.kind_individual : t.calendar_map.kind_program
+  return t.calendar_map.kind_destination
+}
+
+function PinModal({ state, onClose, t, locale }: { state: ModalState; onClose: () => void; t: Translations; locale: string }) {
   if (!state) return null
   const { item, pd } = state
   const color = pinColor(item)
-  const kind = item.kind === 'trip' ? 'ПЪТУВАНЕ' : item.kind === 'program' ? 'ПРОГРАМА' : 'ИНДИВИДУАЛНА ПРОГРАМА'
+  const kind = kindLabel(item, t)
   return (
     <>
       <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 9998, background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(3px)' }} />
@@ -83,19 +91,19 @@ function PinModal({ state, onClose }: { state: ModalState; onClose: () => void }
           <div style={{ display: 'inline-block', fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', padding: '3px 9px', borderRadius: 999, marginBottom: 8, background: `${color}22`, color, border: `1px solid ${color}44` }}>{kind}</div>
           <div style={{ fontWeight: 700, fontSize: 16, lineHeight: 1.3, marginBottom: 5 }}>{item.title}</div>
           <div style={{ fontSize: 12, color: '#9ca3af', marginBottom: 3 }}>{item.destinationName}</div>
-          <div style={{ fontSize: 11, color: '#6b7280', marginBottom: 12 }}>{new Date(item.startDate).toLocaleDateString('bg-BG')} — {new Date(item.endDate).toLocaleDateString('bg-BG')}</div>
+          <div style={{ fontSize: 11, color: '#6b7280', marginBottom: 12 }}>{new Date(item.startDate).toLocaleDateString(locale)} — {new Date(item.endDate).toLocaleDateString(locale)}</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
             <div style={{ fontSize: 13, fontWeight: 600, color: item.spotsAvailable > 0 ? '#86efac' : '#f87171' }}>
-              {item.spotsAvailable > 0 ? `${item.spotsAvailable} / ${item.spotsTotal} места` : 'Изчерпано'}
+              {item.spotsAvailable > 0 ? `${item.spotsAvailable} / ${item.spotsTotal} ${t.calendar_map.spots}` : t.calendar_map.no_spots}
             </div>
-            {pd.count > 0 && <><span style={{ color: '#374151' }}>·</span><div style={{ fontSize: 11, color: '#6b7280' }}>{pd.count} регистрирани</div></>}
+            {pd.count > 0 && <><span style={{ color: '#374151' }}>·</span><div style={{ fontSize: 11, color: '#6b7280' }}>{pd.count} {t.calendar_map.registered}</div></>}
           </div>
           {item.tags.length > 0 && (
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 14 }}>
               {item.tags.slice(0, 4).map((t, i) => <span key={`${t}-${i}`} style={{ fontSize: 9, letterSpacing: '0.08em', padding: '2px 8px', borderRadius: 999, background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.4)', border: '1px solid rgba(255,255,255,0.08)' }}>{t.toUpperCase()}</span>)}
             </div>
           )}
-          <a href={item.href} style={{ display: 'block', textAlign: 'center', background: '#3b82f6', color: '#fff', borderRadius: 10, padding: '10px 16px', fontSize: 13, textDecoration: 'none', fontWeight: 700 }}>Виж програмата →</a>
+          <a href={item.href} style={{ display: 'block', textAlign: 'center', background: '#3b82f6', color: '#fff', borderRadius: 10, padding: '10px 16px', fontSize: 13, textDecoration: 'none', fontWeight: 700 }}>{t.calendar_map.view_program}</a>
         </div>
       </div>
     </>
@@ -105,6 +113,8 @@ function PinModal({ state, onClose }: { state: ModalState; onClose: () => void }
 export function FlatMapView({ items, itemCoords, participants = {} }: Props) {
   const mapRef = useRef<HTMLDivElement>(null)
   const [modal, setModal] = useState<ModalState>(null)
+  const { t, language } = useTranslations()
+  const locale = language === 'EN' ? 'en-US' : 'bg-BG'
 
   function openModal(item: CalendarItem) {
     const pd = participants[item.id] ?? { count: 0, participants: [] }
@@ -158,7 +168,7 @@ export function FlatMapView({ items, itemCoords, participants = {} }: Props) {
       `}</style>
       <div className="relative w-full rounded-xl border border-white/10" style={{ height: 'clamp(360px,65vw,600px)', overflow: 'hidden' }}>
         <div ref={mapRef} className="flat-map-canvas-wrap" style={{ width: '100%', height: '100%' }} />
-        <PinModal state={modal} onClose={() => setModal(null)} />
+        <PinModal state={modal} onClose={() => setModal(null)} t={t} locale={locale} />
       </div>
     </>
   )

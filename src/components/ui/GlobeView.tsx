@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react'
 import type { CalendarItem } from './CalendarTripCard'
+import { useTranslations } from '@/lib/use-translations'
+import type { Translations } from '@/lib/translations'
 
 type Participant = { initials: string; color: string }
 type ParticipantData = Record<string, { count: number; participants: Participant[] }>
@@ -75,12 +77,17 @@ function buildPinEl(
   return wrapper
 }
 
-function PinModal({ state, onClose }: { state: ModalState; onClose: () => void }) {
+function kindLabel(item: CalendarItem, t: Translations): string {
+  if (item.kind === 'trip') return t.calendar_map.kind_trip
+  if (item.kind === 'program') return item.category === 'individual' ? t.calendar_map.kind_individual : t.calendar_map.kind_program
+  return t.calendar_map.kind_destination
+}
+
+function PinModal({ state, onClose, t, locale }: { state: ModalState; onClose: () => void; t: Translations; locale: string }) {
   if (!state) return null
   const { item, pd } = state
   const color = pinColor(item)
-  const kindLabel =
-    item.kind === 'trip' ? 'ПЪТУВАНЕ' : item.kind === 'program' ? 'ПРОГРАМА' : 'ИНДИВИДУАЛНА ПРОГРАМА'
+  const label = kindLabel(item, t)
 
   return (
     <>
@@ -121,22 +128,22 @@ function PinModal({ state, onClose }: { state: ModalState; onClose: () => void }
 
         <div style={{ padding: '14px 18px 24px' }}>
           <div style={{ display: 'inline-block', fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', padding: '3px 9px', borderRadius: 999, marginBottom: 8, background: `${color}22`, color, border: `1px solid ${color}44` }}>
-            {kindLabel}
+            {label}
           </div>
           <div style={{ fontWeight: 700, fontSize: 16, lineHeight: 1.3, marginBottom: 5 }}>{item.title}</div>
           <div style={{ fontSize: 12, color: '#9ca3af', marginBottom: 3 }}>{item.destinationName}</div>
           <div style={{ fontSize: 11, color: '#6b7280', marginBottom: 12 }}>
-            {new Date(item.startDate).toLocaleDateString('bg-BG')} — {new Date(item.endDate).toLocaleDateString('bg-BG')}
+            {new Date(item.startDate).toLocaleDateString(locale)} — {new Date(item.endDate).toLocaleDateString(locale)}
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
             <div style={{ fontSize: 13, fontWeight: 600, color: item.spotsAvailable > 0 ? '#86efac' : '#f87171' }}>
-              {item.spotsAvailable > 0 ? `${item.spotsAvailable} / ${item.spotsTotal} места` : 'Изчерпано'}
+              {item.spotsAvailable > 0 ? `${item.spotsAvailable} / ${item.spotsTotal} ${t.calendar_map.spots}` : t.calendar_map.no_spots}
             </div>
             {pd.count > 0 && (
               <>
                 <span style={{ color: '#374151' }}>·</span>
-                <div style={{ fontSize: 11, color: '#6b7280' }}>{pd.count} регистрирани</div>
+                <div style={{ fontSize: 11, color: '#6b7280' }}>{pd.count} {t.calendar_map.registered}</div>
               </>
             )}
           </div>
@@ -155,7 +162,7 @@ function PinModal({ state, onClose }: { state: ModalState; onClose: () => void }
             href={item.href}
             style={{ display: 'block', textAlign: 'center', background: '#3b82f6', color: '#fff', borderRadius: 10, padding: '10px 16px', fontSize: 13, textDecoration: 'none', fontWeight: 700, letterSpacing: '0.02em' }}
           >
-            Виж програмата →
+            {t.calendar_map.view_program}
           </a>
         </div>
       </div>
@@ -166,6 +173,8 @@ function PinModal({ state, onClose }: { state: ModalState; onClose: () => void }
 export function GlobeView({ items, itemCoords, participants }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [modal, setModal] = useState<ModalState>(null)
+  const { t, language } = useTranslations()
+  const locale = language === 'EN' ? 'en-US' : 'bg-BG'
   // stable ref so useEffect doesn't re-run when participants changes
   const participantsRef = useRef(participants)
   participantsRef.current = participants
@@ -193,7 +202,10 @@ export function GlobeView({ items, itemCoords, participants }: Props) {
     import('globe.gl').then(({ default: Globe }) => {
       if (destroyed || !el) return
 
-      const globe = new Globe(el, { rendererConfig: { antialias: true, alpha: true } })
+      const globe = new Globe(el, {
+        rendererConfig: { antialias: true, alpha: true, powerPreference: 'high-performance' },
+      })
+      globe.renderer().setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
 
       globe
         .globeImageUrl('//unpkg.com/three-globe/example/img/earth-day.jpg')
@@ -233,6 +245,9 @@ export function GlobeView({ items, itemCoords, participants }: Props) {
       controls.autoRotate = true
       controls.autoRotateSpeed = 0.5
       controls.enableZoom = true
+      controls.minDistance = 120
+      controls.maxDistance = 480
+      controls.zoomSpeed = 0.6
       controls.addEventListener('start', () => { controls.autoRotate = false })
 
       const ro = new ResizeObserver(() => {
@@ -259,7 +274,7 @@ export function GlobeView({ items, itemCoords, participants }: Props) {
       className="relative w-full rounded-xl overflow-hidden border border-white/10"
       style={{ height: 'clamp(360px, 65vw, 600px)', background: '#000' }}
     >
-      <PinModal state={modal} onClose={() => setModal(null)} />
+      <PinModal state={modal} onClose={() => setModal(null)} t={t} locale={locale} />
     </div>
   )
 }

@@ -131,6 +131,18 @@
     "lines": 17,
     "group": "other"
   },
+  "src/migrations/20260721_email_settings_global.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 54,
+    "group": "other"
+  },
   "src/migrations/20260528_add_missing_tables.ts": {
     "exports": [
       "up",
@@ -202,9 +214,10 @@
       "./20260719_booking_steps",
       "./20260719b_email_marketing_platform",
       "./20260720_free_transfer_return_date",
-      "./20260720b_email_marketing_tables"
+      "./20260720b_email_marketing_tables",
+      "./20260721_email_settings_global"
     ],
-    "lines": 112,
+    "lines": 118,
     "group": "other"
   },
   "src/migrations/20260719b_email_marketing_platform.ts": {
