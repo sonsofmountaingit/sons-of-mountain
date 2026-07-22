@@ -7069,7 +7069,7 @@
       "gsap/ScrollTrigger",
       "@/lib/use-translations"
     ],
-    "lines": 370,
+    "lines": 398,
     "group": "ui"
   },
   "src/components/ui/destination-page/BookingCtaSection.tsx": {

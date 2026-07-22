@@ -17,6 +17,41 @@ type Props = {
 type PinDatum = CalendarItem & { lat: number; lng: number }
 type ArcDatum = { slat: number; slng: number; elat: number; elng: number }
 type ModalState = { item: CalendarItem; pd: { count: number; participants: Participant[] } } | null
+type CountryFeature = {
+  type: 'Feature'
+  properties: { ISO_A3?: string; ADMIN?: string }
+  geometry: { type: string; coordinates: unknown }
+}
+
+function pointInRing(lng: number, lat: number, ring: number[][]): boolean {
+  let inside = false
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const [xi, yi] = ring[i]
+    const [xj, yj] = ring[j]
+    if (yi === yj) continue
+    if (lat < Math.min(yi, yj) || lat >= Math.max(yi, yj)) continue
+    const x = xi + ((lat - yi) / (yj - yi)) * (xj - xi)
+    if (x > lng) inside = !inside
+  }
+  return inside
+}
+
+function pointInPolygonCoords(lng: number, lat: number, polygonRings: number[][][]): boolean {
+  if (!pointInRing(lng, lat, polygonRings[0])) return false
+  for (let i = 1; i < polygonRings.length; i++) {
+    if (pointInRing(lng, lat, polygonRings[i])) return false
+  }
+  return true
+}
+
+function pointInFeature(lng: number, lat: number, feature: CountryFeature): boolean {
+  const { type, coordinates } = feature.geometry
+  if (type === 'Polygon') return pointInPolygonCoords(lng, lat, coordinates as number[][][])
+  if (type === 'MultiPolygon') {
+    return (coordinates as number[][][][]).some((poly) => pointInPolygonCoords(lng, lat, poly))
+  }
+  return false
+}
 
 function pinColor(item: CalendarItem): string {
   if (item.status === 'soldOut') return '#6b7280'
@@ -34,7 +69,7 @@ function buildPinEl(
 
   const wrapper = document.createElement('div')
   wrapper.style.cssText =
-    'cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;user-select:none;pointer-events:all;'
+    'cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;user-select:none;pointer-events:all;transform:translate(-50%,-100%);'
   wrapper.addEventListener('click', (e) => {
     e.stopPropagation()
     e.preventDefault()
@@ -186,6 +221,7 @@ export function GlobeView({ items, itemCoords, participants }: Props) {
     let destroyed = false
 
     const isMobile = window.innerWidth < 768
+    const pinAltitudeRef = { current: 0.02 }
 
     const pinData: PinDatum[] = items
       .filter((it) => itemCoords[it.id])
@@ -199,7 +235,8 @@ export function GlobeView({ items, itemCoords, participants }: Props) {
       })
     }
 
-    import('globe.gl').then(({ default: Globe }) => {
+    Promise.all([import('globe.gl'), fetch('/data/countries.geojson').then((r) => r.json())]).then(
+      ([{ default: Globe }, countries]) => {
       if (destroyed || !el) return
 
       const globe = new Globe(el, {
@@ -221,13 +258,16 @@ export function GlobeView({ items, itemCoords, participants }: Props) {
       anisotropyPoll = window.setInterval(applyAnisotropy, 200)
 
       globe
-        .globeImageUrl('//unpkg.com/three-globe/example/img/earth-day.jpg')
+        .globeTileEngineUrl((x: number, y: number, level: number) =>
+          `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${level}/${y}/${x}`,
+        )
+        .globeTileEngineMaxLevel(17)
         .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
         .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
         .htmlElementsData(pinData)
         .htmlLat((d: object) => (d as PinDatum).lat)
         .htmlLng((d: object) => (d as PinDatum).lng)
-        .htmlAltitude(0.02)
+        .htmlAltitude(() => pinAltitudeRef.current)
         .htmlElement((d: object) => {
           const item = d as PinDatum
           return buildPinEl(item, participantsRef.current, (clicked) => {
@@ -251,6 +291,34 @@ export function GlobeView({ items, itemCoords, participants }: Props) {
           .arcStroke(() => 0.5)
       }
 
+      const highlightIso3 = new Set<string>()
+      for (const pin of pinData) {
+        const match = (countries.features as CountryFeature[]).find((f) => pointInFeature(pin.lng, pin.lat, f))
+        if (match?.properties.ISO_A3) highlightIso3.add(match.properties.ISO_A3)
+      }
+
+      const MIN_ALT = 0.01
+      const MAX_ALT = 1.6
+      let borderOpacity = 0
+
+      const applyBorderOpacity = () => {
+        globe
+          .polygonCapColor(() => 'rgba(0,0,0,0)')
+          .polygonSideColor(() => 'rgba(0,0,0,0)')
+          .polygonStrokeColor((f: object) =>
+            highlightIso3.has((f as CountryFeature).properties.ISO_A3 ?? '')
+              ? `rgba(96,165,250,${borderOpacity})`
+              : 'rgba(0,0,0,0)',
+          )
+      }
+
+      globe
+        .polygonsData((countries.features as CountryFeature[]).filter((f) => highlightIso3.has(f.properties.ISO_A3 ?? '')))
+        .polygonGeoJsonGeometry((f: object) => (f as CountryFeature).geometry as never)
+        .polygonAltitude(0.005)
+        .polygonsTransitionDuration(0)
+      applyBorderOpacity()
+
       globe.pointOfView({ lat: 42, lng: 25, altitude: isMobile ? 2.8 : 2.2 }, 0)
       globe.width(el.clientWidth).height(el.clientHeight)
 
@@ -258,10 +326,17 @@ export function GlobeView({ items, itemCoords, participants }: Props) {
       controls.autoRotate = true
       controls.autoRotateSpeed = 0.5
       controls.enableZoom = true
-      controls.minDistance = 180
+      controls.minDistance = 101
       controls.maxDistance = 480
       controls.zoomSpeed = 0.6
       controls.addEventListener('start', () => { controls.autoRotate = false })
+
+      globe.onZoom(({ altitude }: { altitude: number }) => {
+        const t = Math.min(1, Math.max(0, (MAX_ALT - altitude) / (MAX_ALT - MIN_ALT)))
+        borderOpacity = t
+        applyBorderOpacity()
+        pinAltitudeRef.current = Math.min(0.02, Math.max(0.01, altitude * 0.05))
+      })
 
       const ro = new ResizeObserver(() => {
         globe.width(el.clientWidth).height(el.clientHeight)
