@@ -36,8 +36,8 @@ export function BookingDrawer({
   const formatDate = (iso: string) => new Date(iso).toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })
   const isEarlyBird = !!(earlyBirdPrice && earlyBirdUntil && new Date(earlyBirdUntil) > new Date())
   const effectivePrice = isEarlyBird ? earlyBirdPrice! : price
-  const earlyBirdSpotsLeft = isEarlyBird && earlyBirdSpots != null && spotsAvailable != null
-    ? Math.min(spotsAvailable, earlyBirdSpots)
+  const earlyBirdSpotsLeft = isEarlyBird && earlyBirdSpots != null && earlyBirdSpots > 0
+    ? earlyBirdSpots
     : null
   const addItem = useCartStore(s => s.addItem)
   const router = useRouter()

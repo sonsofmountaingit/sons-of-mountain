@@ -406,6 +406,7 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
   if (type === 'cart' && orderId) {
     const order = await payload.findByID({ collection: 'orders', id: orderId, depth: 2 }).catch(() => null)
     if (!order) return
+    if ((order as any).status === 'paid') return
 
     await payload.update({
       collection: 'orders',
@@ -447,8 +448,11 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
         const tId = typeof item.trip === 'string' ? item.trip : item.trip.id
         const trip = await payload.findByID({ collection: 'trips', id: tId }).catch(() => null)
         if (trip) {
-          const newSpots = Math.max(0, (trip as any).spotsAvailable - (item.participantCount ?? item.quantity ?? 1))
-          await payload.update({ collection: 'trips', id: tId, data: { spotsAvailable: newSpots, status: newSpots === 0 ? 'soldOut' : 'active' } })
+          const participantCount = item.participantCount ?? item.quantity ?? 1
+          const newSpots = Math.max(0, (trip as any).spotsAvailable - participantCount)
+          const earlyBirdDecrement = item.earlyBirdCount ?? Math.min(participantCount, (trip as any).earlyBirdSpotsRemaining ?? 0)
+          const newEarlyBirdSpots = Math.max(0, ((trip as any).earlyBirdSpotsRemaining ?? 0) - earlyBirdDecrement)
+          await payload.update({ collection: 'trips', id: tId, data: { spotsAvailable: newSpots, earlyBirdSpotsRemaining: newEarlyBirdSpots, status: newSpots === 0 ? 'soldOut' : 'active' } })
           if (newSpots > 0) await notifyWaitlist(payload, 'trip', tId)
         }
       }
@@ -470,16 +474,22 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
         const pgId = typeof item.program === 'string' ? item.program : item.program.id
         const program = await payload.findByID({ collection: 'programs', id: pgId }).catch(() => null)
         if (program) {
-          const newSpots = Math.max(0, (program as any).spotsAvailable - (item.participantCount ?? item.quantity ?? 1))
-          await payload.update({ collection: 'programs', id: pgId, data: { spotsAvailable: newSpots, status: newSpots === 0 ? 'Sold Out' : 'Active' } })
+          const participantCount = item.participantCount ?? item.quantity ?? 1
+          const newSpots = Math.max(0, (program as any).spotsAvailable - participantCount)
+          const earlyBirdDecrement = item.earlyBirdCount ?? Math.min(participantCount, (program as any).earlyBirdSpotsRemaining ?? 0)
+          const newEarlyBirdSpots = Math.max(0, ((program as any).earlyBirdSpotsRemaining ?? 0) - earlyBirdDecrement)
+          await payload.update({ collection: 'programs', id: pgId, data: { spotsAvailable: newSpots, earlyBirdSpotsRemaining: newEarlyBirdSpots, status: newSpots === 0 ? 'Sold Out' : 'Active' } })
         }
       }
       if (item.itemType === 'destination' && item.destination) {
         const dId = typeof item.destination === 'string' ? item.destination : item.destination.id
         const destination = await payload.findByID({ collection: 'destinations', id: dId }).catch(() => null)
         if (destination) {
-          const newSpots = Math.max(0, (destination as any).spotsAvailable - (item.participantCount ?? item.quantity ?? 1))
-          await payload.update({ collection: 'destinations', id: dId, data: { spotsAvailable: newSpots, bookingStatus: newSpots === 0 ? 'soldOut' : 'active' } })
+          const participantCount = item.participantCount ?? item.quantity ?? 1
+          const newSpots = Math.max(0, (destination as any).spotsAvailable - participantCount)
+          const earlyBirdDecrement = item.earlyBirdCount ?? Math.min(participantCount, (destination as any).earlyBirdSpotsRemaining ?? 0)
+          const newEarlyBirdSpots = Math.max(0, ((destination as any).earlyBirdSpotsRemaining ?? 0) - earlyBirdDecrement)
+          await payload.update({ collection: 'destinations', id: dId, data: { spotsAvailable: newSpots, earlyBirdSpotsRemaining: newEarlyBirdSpots, bookingStatus: newSpots === 0 ? 'soldOut' : 'active' } })
           if (newSpots > 0) await notifyWaitlist(payload, 'destination', dId)
         }
       }
@@ -619,6 +629,10 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
   if (!id) return
 
   if (type === 'registration' || type === 'deposit') {
+    const existingReg = await payload.findByID({ collection: 'registrations', id }).catch(() => null)
+    if (!existingReg) return
+    if ((existingReg as any).status === 'paid') return
+
     const paymentModeValue = paymentMode ?? 'full'
     const updateData: Record<string, unknown> = {
       status: 'paid',
@@ -641,8 +655,11 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
       const reg = await payload.findByID({ collection: 'registrations', id }).catch(() => null)
       const trip = await payload.findByID({ collection: 'trips', id: tripId }).catch(() => null)
       if (trip && reg) {
-        const newSpots = Math.max(0, (trip as any).spotsAvailable - ((reg as any).participantCount ?? 1))
-        await payload.update({ collection: 'trips', id: tripId, data: { spotsAvailable: newSpots, status: newSpots === 0 ? 'soldOut' : 'active' } })
+        const participantCount = (reg as any).participantCount ?? 1
+        const newSpots = Math.max(0, (trip as any).spotsAvailable - participantCount)
+        const earlyBirdDecrement = Math.min(participantCount, (trip as any).earlyBirdSpotsRemaining ?? 0)
+        const newEarlyBirdSpots = Math.max(0, ((trip as any).earlyBirdSpotsRemaining ?? 0) - earlyBirdDecrement)
+        await payload.update({ collection: 'trips', id: tripId, data: { spotsAvailable: newSpots, earlyBirdSpotsRemaining: newEarlyBirdSpots, status: newSpots === 0 ? 'soldOut' : 'active' } })
         if (newSpots > 0) await notifyWaitlist(payload, 'trip', tripId)
         try {
           after(() => {

@@ -200,8 +200,8 @@ export function HeroSection({
   const urgentSpots = spotsAvailable != null && spotsAvailable > 0 && spotsAvailable <= 3
   const soldOut = spotsAvailable === 0
   const isEarlyBirdActive = !!(earlyBirdPrice && earlyBirdUntil && new Date(earlyBirdUntil) > new Date())
-  const earlyBirdSpotsLeft = isEarlyBirdActive && earlyBirdSpots != null && spotsAvailable != null
-    ? Math.min(spotsAvailable, earlyBirdSpots)
+  const earlyBirdSpotsLeft = isEarlyBirdActive && earlyBirdSpots != null && earlyBirdSpots > 0
+    ? earlyBirdSpots
     : null
 
   return (

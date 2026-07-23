@@ -46,7 +46,7 @@ export async function GET() {
         durationDays: null,
         price: null,
         currency: 'EUR',
-        spotsAvailable: doc.availableSpots ?? null,
+        spotsAvailable: doc.spotsAvailable ?? null,
         slug: doc.slug,
         href: `/destinations/${doc.slug}`,
       }

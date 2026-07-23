@@ -185,7 +185,7 @@ async function ProgramContent({ params }: Props) {
           depositAmount={p.depositAmount as number | null}
           earlyBirdPrice={p.earlyBirdPrice as number | null}
           earlyBirdUntil={p.earlyBirdUntil as string | null}
-          earlyBirdSpots={p.earlyBirdSpots as number | null}
+          earlyBirdSpots={(p.earlyBirdSpotsRemaining ?? p.earlyBirdSpots) as number | null}
         />
       )}
 
@@ -198,7 +198,7 @@ async function ProgramContent({ params }: Props) {
         tags={(p.tags as { tag: string }[] | null ?? []).map(tag => tag.tag).filter(Boolean)}
         earlyBirdPrice={p.earlyBirdPrice as number | null}
         earlyBirdUntil={p.earlyBirdUntil as string | null}
-        earlyBirdSpots={p.earlyBirdSpots as number | null}
+        earlyBirdSpots={(p.earlyBirdSpotsRemaining ?? p.earlyBirdSpots) as number | null}
         spotsAvailable={program.spotsAvailable as number | null}
         difficulty={difficulty}
         startDate={program.startDate as string | null}
@@ -261,7 +261,7 @@ async function ProgramContent({ params }: Props) {
         communityPhotos={communityPhotos}
         earlyBirdPrice={p.earlyBirdPrice as number | null}
         earlyBirdUntil={p.earlyBirdUntil as string | null}
-        earlyBirdSpots={p.earlyBirdSpots as number | null}
+        earlyBirdSpots={(p.earlyBirdSpotsRemaining ?? p.earlyBirdSpots) as number | null}
         spotsAvailable={program.spotsAvailable as number | null}
         itemType="program"
         itemId={String(program.id)}

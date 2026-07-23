@@ -135,7 +135,7 @@ async function DestinationsContent({ type }: { type?: string }) {
             spotsAvailable={dest.spotsAvailable ?? undefined}
             earlyBirdPrice={dest.earlyBirdPrice ?? null}
             earlyBirdUntil={dest.earlyBirdUntil ?? null}
-            earlyBirdSpots={dest.earlyBirdSpots ?? null}
+            earlyBirdSpots={dest.earlyBirdSpotsRemaining ?? dest.earlyBirdSpots ?? null}
             label={DESTINATION_TYPE_LABELS[dest.type] ?? undefined}
           />
         ))}
@@ -149,7 +149,7 @@ async function DestinationsContent({ type }: { type?: string }) {
             spotsAvailable={trip.spotsAvailable ?? undefined}
             earlyBirdPrice={trip.earlyBirdPrice ?? null}
             earlyBirdUntil={trip.earlyBirdUntil ?? null}
-            earlyBirdSpots={trip.earlyBirdSpots ?? null}
+            earlyBirdSpots={trip.earlyBirdSpotsRemaining ?? trip.earlyBirdSpots ?? null}
             label={TRIP_NAV_SECTION_LABELS[trip.navSection] ?? undefined}
           />
         ))}

@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
           continue
         }
         const dynamicPrice = getDynamicPrice(trip.price, trip.spotsTotal, trip.spotsAvailable)
-        const breakdown = getPriceBreakdown(item.quantity, dynamicPrice, trip.earlyBirdPrice, trip.earlyBirdUntil, trip.earlyBirdSpots, trip.spotsAvailable)
+        const breakdown = getPriceBreakdown(item.quantity, dynamicPrice, trip.earlyBirdPrice, trip.earlyBirdUntil, trip.earlyBirdSpotsRemaining)
         validated.push({ ...item, unitPrice: breakdown.totalPrice / item.quantity, priceBreakdown: breakdown, spotsAvailable: trip.spotsAvailable })
 
       } else if (item.type === 'program' && item.programId) {
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
           validated.push({ ...item, outOfStock: true, warning: `Only ${program.spotsAvailable} spots left` })
           continue
         }
-        const breakdown = getPriceBreakdown(item.quantity, program.price, program.earlyBirdPrice, program.earlyBirdUntil, program.earlyBirdSpots, program.spotsAvailable)
+        const breakdown = getPriceBreakdown(item.quantity, program.price, program.earlyBirdPrice, program.earlyBirdUntil, program.earlyBirdSpotsRemaining)
         validated.push({ ...item, unitPrice: breakdown.totalPrice / item.quantity, priceBreakdown: breakdown, spotsAvailable: program.spotsAvailable })
 
       } else if (item.type === 'product' && item.productId) {

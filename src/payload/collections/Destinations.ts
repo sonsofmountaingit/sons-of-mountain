@@ -114,6 +114,18 @@ export const Destinations: CollectionConfig = {
       admin: { description: 'Number of early bird spots' },
     },
     {
+      name: 'earlyBirdSpotsRemaining',
+      type: 'number',
+      admin: {
+        description: 'Early bird spots left to sell at the discounted price. Auto-decrements on purchase; leave blank to reset to Number of early bird spots.',
+      },
+      hooks: {
+        beforeChange: [
+          ({ value, siblingData }) => (value == null ? siblingData.earlyBirdSpots ?? null : value),
+        ],
+      },
+    },
+    {
       name: 'spotsTotal',
       type: 'number',
       defaultValue: 12,

@@ -37,8 +37,8 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
   const isSoldOut = spotsAvailable != null && spotsAvailable === 0
   const isEarlyBird = !!(earlyBirdPrice && earlyBirdUntil && new Date() < new Date(earlyBirdUntil))
   const displayPrice = isEarlyBird ? earlyBirdPrice! : price
-  const earlyBirdSpotsLeft = isEarlyBird && earlyBirdSpots != null && spotsAvailable != null
-    ? Math.min(spotsAvailable, earlyBirdSpots)
+  const earlyBirdSpotsLeft = isEarlyBird && earlyBirdSpots != null && earlyBirdSpots > 0
+    ? earlyBirdSpots
     : null
   const photos = (communityPhotos ?? []).filter((p) => mediaUrl(p.photo?.url))
   const communityCount = Math.floor(photos.length / 10) * 10 + 10

@@ -18,14 +18,13 @@ export function getEarlyBirdPrice(
   basePrice: number,
   earlyBirdPrice: number | null | undefined,
   earlyBirdUntil: string | null | undefined,
-  earlyBirdSpots: number | null | undefined,
-  spotsAvailable: number,
+  earlyBirdSpotsRemaining: number | null | undefined,
 ): { price: number; isEarlyBird: boolean } {
   if (!earlyBirdPrice || !earlyBirdUntil) return { price: basePrice, isEarlyBird: false }
   const now = new Date()
   const deadline = new Date(earlyBirdUntil)
   if (now > deadline) return { price: basePrice, isEarlyBird: false }
-  if (earlyBirdSpots != null && spotsAvailable > earlyBirdSpots) return { price: basePrice, isEarlyBird: false }
+  if (earlyBirdSpotsRemaining != null && earlyBirdSpotsRemaining <= 0) return { price: basePrice, isEarlyBird: false }
   return { price: earlyBirdPrice, isEarlyBird: true }
 }
 
@@ -38,15 +37,14 @@ export interface PriceBreakdown {
 }
 
 // Splits a quantity purchase across the remaining early-bird allocation and the regular price.
-// spotsAvailable/earlyBirdSpots both count remaining spots, so the number of early-bird
-// spots left equals earlyBirdSpots itself (spots beyond that are already at regular price).
+// earlyBirdSpotsRemaining is the live count of early-bird-priced spots left to sell,
+// decremented on each purchase — independent of overall spotsAvailable.
 export function getPriceBreakdown(
   quantity: number,
   basePrice: number,
   earlyBirdPrice: number | null | undefined,
   earlyBirdUntil: string | null | undefined,
-  earlyBirdSpots: number | null | undefined,
-  spotsAvailable: number,
+  earlyBirdSpotsRemaining: number | null | undefined,
 ): PriceBreakdown {
   const noEarlyBird = (): PriceBreakdown => ({
     earlyBirdCount: 0,
@@ -56,13 +54,13 @@ export function getPriceBreakdown(
     totalPrice: basePrice * quantity,
   })
 
-  if (!earlyBirdPrice || !earlyBirdUntil || earlyBirdSpots == null) return noEarlyBird()
+  if (!earlyBirdPrice || !earlyBirdUntil || earlyBirdSpotsRemaining == null) return noEarlyBird()
 
   const now = new Date()
   const deadline = new Date(earlyBirdUntil)
   if (now > deadline) return noEarlyBird()
 
-  const earlyBirdRemaining = Math.max(0, Math.min(earlyBirdSpots, spotsAvailable))
+  const earlyBirdRemaining = Math.max(0, earlyBirdSpotsRemaining)
   const earlyBirdCount = Math.min(quantity, earlyBirdRemaining)
   const regularCount = quantity - earlyBirdCount
 

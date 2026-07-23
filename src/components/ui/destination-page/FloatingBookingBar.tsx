@@ -48,8 +48,8 @@ export function FloatingBookingBar({
   onBook,
 }: Props) {
   const isEarlyBird = !!(earlyBirdPrice && earlyBirdUntil && new Date(earlyBirdUntil) > new Date())
-  const earlyBirdSpotsLeft = isEarlyBird && earlyBirdSpots != null && spotsAvailable != null
-    ? Math.min(spotsAvailable, earlyBirdSpots)
+  const earlyBirdSpotsLeft = isEarlyBird && earlyBirdSpots != null && earlyBirdSpots > 0
+    ? earlyBirdSpots
     : null
   const [visible, setVisible] = useState(false)
   const [waitlistOpen, setWaitlistOpen] = useState(false)

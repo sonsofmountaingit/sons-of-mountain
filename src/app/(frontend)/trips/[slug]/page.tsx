@@ -205,7 +205,7 @@ async function TripContent({ params }: Props) {
           depositAmount={t.depositAmount as number | null}
           earlyBirdPrice={t.earlyBirdPrice as number | null}
           earlyBirdUntil={t.earlyBirdUntil as string | null}
-          earlyBirdSpots={t.earlyBirdSpots as number | null}
+          earlyBirdSpots={(t.earlyBirdSpotsRemaining ?? t.earlyBirdSpots) as number | null}
         />
       )}
 
@@ -228,7 +228,7 @@ async function TripContent({ params }: Props) {
         archived={(trip.status as string) === 'archived'}
         earlyBirdPrice={t.earlyBirdPrice as number | null}
         earlyBirdUntil={t.earlyBirdUntil as string | null}
-        earlyBirdSpots={t.earlyBirdSpots as number | null}
+        earlyBirdSpots={(t.earlyBirdSpotsRemaining ?? t.earlyBirdSpots) as number | null}
         tags={(t.tags as { tag: string }[] | null ?? []).map(tag => tag.tag).filter(Boolean)}
         heroGallery={(() => {
           const fromHeroGallery = (heroGalleryRaw ?? [])
@@ -301,7 +301,7 @@ async function TripContent({ params }: Props) {
         communityPhotos={communityPhotos}
         earlyBirdPrice={t.earlyBirdPrice as number | null}
         earlyBirdUntil={t.earlyBirdUntil as string | null}
-        earlyBirdSpots={t.earlyBirdSpots as number | null}
+        earlyBirdSpots={(t.earlyBirdSpotsRemaining ?? t.earlyBirdSpots) as number | null}
         spotsAvailable={trip.spotsAvailable as number | null}
         itemType="trip"
         itemId={String(trip.id)}

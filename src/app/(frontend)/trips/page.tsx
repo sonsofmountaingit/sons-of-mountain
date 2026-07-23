@@ -52,10 +52,10 @@ function TripCard({ trip }: { trip: Record<string, unknown> }) {
   const status = trip.status as string
   const earlyBirdPrice = trip.earlyBirdPrice as number | null
   const earlyBirdUntil = trip.earlyBirdUntil as string | null
-  const earlyBirdSpots = trip.earlyBirdSpots as number | null
+  const earlyBirdSpotsRemaining = (trip.earlyBirdSpotsRemaining ?? trip.earlyBirdSpots) as number | null
   const isEarlyBird = earlyBirdPrice && earlyBirdUntil && new Date(earlyBirdUntil) > new Date()
-  const earlyBirdSpotsLeft = isEarlyBird && earlyBirdSpots != null && spotsAvailable != null
-    ? Math.min(spotsAvailable, earlyBirdSpots)
+  const earlyBirdSpotsLeft = isEarlyBird && earlyBirdSpotsRemaining != null && earlyBirdSpotsRemaining > 0
+    ? earlyBirdSpotsRemaining
     : null
   const tags = trip.tags as { tag: string }[] | null
 
