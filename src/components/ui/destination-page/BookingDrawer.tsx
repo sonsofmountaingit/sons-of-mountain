@@ -34,7 +34,12 @@ export function BookingDrawer({
   const { t, language } = useTranslations()
   const locale = language === 'EN' ? 'en-US' : 'bg-BG'
   const formatDate = (iso: string) => new Date(iso).toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })
-  const isEarlyBird = !!(earlyBirdPrice && earlyBirdUntil && new Date(earlyBirdUntil) > new Date())
+  const isEarlyBird = !!(
+    earlyBirdPrice &&
+    earlyBirdUntil &&
+    new Date(earlyBirdUntil) > new Date() &&
+    (earlyBirdSpots == null || earlyBirdSpots > 0)
+  )
   const effectivePrice = isEarlyBird ? earlyBirdPrice! : price
   const earlyBirdSpotsLeft = isEarlyBird && earlyBirdSpots != null && earlyBirdSpots > 0
     ? earlyBirdSpots

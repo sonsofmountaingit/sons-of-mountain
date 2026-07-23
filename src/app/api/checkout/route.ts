@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { CartItem } from '@/lib/cart-store'
 import { resolvePaymentPlan } from '@/lib/pricing/payment-plan'
+import { getDynamicPrice, getPriceBreakdown } from '@/lib/pricing/dynamic'
 
 type CheckoutType = 'registration' | 'order' | 'voucher' | 'cart' | 'deposit' | 'bundle'
 
@@ -121,7 +122,11 @@ export async function POST(req: NextRequest) {
     // Multi-item cart checkout
     if (!items?.length) return NextResponse.json({ error: 'Cart is empty' }, { status: 400 })
 
-    // Server-side price validation for each cart item
+    // Server-side price validation/recomputation for each cart item — never trust the
+    // client's unitPrice/priceBreakdown (it may be stale, e.g. cart added before early-bird
+    // spots ran out). For bookable items (trip/program/destination) we recompute the
+    // authoritative breakdown from the live record and overwrite the item in place.
+    const bookableCollectionMap: Record<string, string> = { trip: 'trips', program: 'programs', destination: 'destinations' }
     for (const item of items as CartItem[]) {
       try {
         const collectionMap: Record<string, string> = {
@@ -136,18 +141,35 @@ export async function POST(req: NextRequest) {
               error: `"${item.title}" вече не е достъпен. Моля, премахнете го от количката и опитайте отново.`,
             }, { status: 400 })
           }
+
+          if (bookableCollectionMap[item.type]) {
+            const spotsAvailable = (doc as any)?.spotsAvailable
+            if (spotsAvailable != null && spotsAvailable < item.quantity) {
+              return NextResponse.json({
+                error: `Only ${spotsAvailable} spots left for "${item.title}".`,
+              }, { status: 400 })
+            }
+            const basePrice = (doc as any)?.spotsTotal != null && spotsAvailable != null
+              ? getDynamicPrice((doc as any).price, (doc as any).spotsTotal, spotsAvailable)
+              : (doc as any)?.price
+            const breakdown = getPriceBreakdown(
+              item.quantity,
+              basePrice,
+              (doc as any)?.earlyBirdPrice,
+              (doc as any)?.earlyBirdUntil,
+              (doc as any)?.earlyBirdSpotsRemaining,
+            )
+            item.unitPrice = breakdown.totalPrice / item.quantity
+            item.priceBreakdown = breakdown
+            continue
+          }
+
           const expectedPrice =
             (doc as any)?.price ??
             (doc as any)?.bundlePrice ??
             (doc as any)?.pricePerPerson
-          const expectedEarlyBirdPrice = (doc as any)?.earlyBirdPrice
           const priceMatchesRegular = expectedPrice != null && Math.abs(item.unitPrice - expectedPrice) <= 0.01
-          const priceMatchesBreakdown =
-            item.priceBreakdown &&
-            Math.abs(item.priceBreakdown.totalPrice / item.quantity - item.unitPrice) <= 0.01 &&
-            (item.priceBreakdown.earlyBirdCount === 0 || item.priceBreakdown.earlyBirdPrice === expectedEarlyBirdPrice) &&
-            item.priceBreakdown.regularPrice === expectedPrice
-          if (expectedPrice != null && !priceMatchesRegular && !priceMatchesBreakdown) {
+          if (expectedPrice != null && !priceMatchesRegular) {
             return NextResponse.json({
               error: `Price mismatch for "${item.title}": expected €${expectedPrice.toFixed(2)}, got €${item.unitPrice.toFixed(2)}`,
             }, { status: 400 })
