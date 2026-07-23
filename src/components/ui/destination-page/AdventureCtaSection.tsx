@@ -35,7 +35,12 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
   const { t } = useTranslations()
   const [waitlistOpen, setWaitlistOpen] = useState(false)
   const isSoldOut = spotsAvailable != null && spotsAvailable === 0
-  const isEarlyBird = !!(earlyBirdPrice && earlyBirdUntil && new Date() < new Date(earlyBirdUntil))
+  const isEarlyBird = !!(
+    earlyBirdPrice &&
+    earlyBirdUntil &&
+    new Date() < new Date(earlyBirdUntil) &&
+    (earlyBirdSpots == null || earlyBirdSpots > 0)
+  )
   const displayPrice = isEarlyBird ? earlyBirdPrice! : price
   const earlyBirdSpotsLeft = isEarlyBird && earlyBirdSpots != null && earlyBirdSpots > 0
     ? earlyBirdSpots

@@ -60,7 +60,7 @@ function ProgramCard({ program }: { program: Record<string, unknown> }) {
   const earlyBirdPrice = program.earlyBirdPrice as number | null
   const earlyBirdUntil = program.earlyBirdUntil as string | null
   const earlyBirdSpotsRemaining = (program.earlyBirdSpotsRemaining ?? program.earlyBirdSpots) as number | null
-  const isEarlyBird = earlyBirdPrice && earlyBirdUntil && new Date(earlyBirdUntil) > new Date()
+  const isEarlyBird = earlyBirdPrice && earlyBirdUntil && new Date(earlyBirdUntil) > new Date() && (earlyBirdSpotsRemaining == null || earlyBirdSpotsRemaining > 0)
   const earlyBirdSpotsLeft = isEarlyBird && earlyBirdSpotsRemaining != null && earlyBirdSpotsRemaining > 0
     ? earlyBirdSpotsRemaining
     : null

@@ -1378,9 +1378,10 @@
       "payload",
       "@payload-config",
       "@/lib/cart-store",
-      "@/lib/pricing/payment-plan"
+      "@/lib/pricing/payment-plan",
+      "@/lib/pricing/dynamic"
     ],
-    "lines": 387,
+    "lines": 409,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {
@@ -1584,6 +1585,20 @@
       "@payload-config"
     ],
     "lines": 19,
+    "group": "api"
+  },
+  "src/app/api/carpool-rides-search/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "payload"
+    ],
+    "lines": 43,
     "group": "api"
   },
   "src/app/api/cart/validate/route.ts": {
@@ -2034,21 +2049,6 @@
       "@/lib/payload-auth"
     ],
     "lines": 69,
-    "group": "api"
-  },
-  "src/app/api/carpool-rides/route.ts": {
-    "exports": [
-      "GET",
-      "POST"
-    ],
-    "types": [],
-    "imports": [
-      "next/server",
-      "payload",
-      "@payload-config",
-      "payload"
-    ],
-    "lines": 86,
     "group": "api"
   },
   "src/app/api/site-settings-public/route.ts": {
@@ -6824,7 +6824,7 @@
       "@/lib/use-translations",
       "@/lib/spots"
     ],
-    "lines": 196,
+    "lines": 201,
     "group": "ui"
   },
   "src/components/ui/destination-page/BookingDrawer.tsx": {
@@ -6839,7 +6839,7 @@
       "@/lib/currency",
       "@/lib/use-translations"
     ],
-    "lines": 242,
+    "lines": 247,
     "group": "ui"
   },
   "src/components/ui/destination-page/ItinerarySectionClient.tsx": {
@@ -7118,7 +7118,7 @@
       "@/components/forms/WaitlistFormModal",
       "@/lib/use-translations"
     ],
-    "lines": 185,
+    "lines": 190,
     "group": "ui"
   },
   "src/components/ui/destination-page/ReadinessChecklistSection.tsx": {

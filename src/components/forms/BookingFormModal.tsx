@@ -89,7 +89,7 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
       return
     }
     setRidesLoading(true)
-    fetch(`/api/carpool-rides?tripId=${trip.id}`)
+    fetch(`/api/carpool-rides-search?tripId=${trip.id}`)
       .then((r) => r.json())
       .then((data) => setAvailableRides(data.rides ?? []))
       .catch(() => setAvailableRides([]))

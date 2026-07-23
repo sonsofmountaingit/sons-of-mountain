@@ -139,7 +139,7 @@ export default function CheckoutPage() {
     if (tripId) params.set('tripId', tripId)
     else if (programId) params.set('programId', programId)
     else if (destinationIdForRide) params.set('destinationId', destinationIdForRide)
-    fetch(`/api/carpool-rides?${params}`)
+    fetch(`/api/carpool-rides-search?${params}`)
       .then((r) => r.json())
       .then((d) => setRides(d.rides ?? []))
       .catch(() => setRides([]))
