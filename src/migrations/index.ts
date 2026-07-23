@@ -17,6 +17,7 @@ import * as migration_20260719b_email_marketing_platform from './20260719b_email
 import * as migration_20260720_free_transfer_return_date from './20260720_free_transfer_return_date'
 import * as migration_20260720b_email_marketing_tables from './20260720b_email_marketing_tables'
 import * as migration_20260721_email_settings_global from './20260721_email_settings_global'
+import * as migration_20260723_early_bird_spots_remaining from './20260723_early_bird_spots_remaining'
 
 export const migrations = [
   {
@@ -113,5 +114,10 @@ export const migrations = [
     up: migration_20260721_email_settings_global.up,
     down: migration_20260721_email_settings_global.down,
     name: '20260721_email_settings_global',
+  },
+  {
+    up: migration_20260723_early_bird_spots_remaining.up,
+    down: migration_20260723_early_bird_spots_remaining.down,
+    name: '20260723_early_bird_spots_remaining',
   },
 ]

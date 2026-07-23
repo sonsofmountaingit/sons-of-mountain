@@ -129,7 +129,7 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
                     />
                   </div>
                   <p className="text-xs font-semibold text-white/70">
-                    {isFull ? t.destination_page.spots_exhausted : `${spotsLeft} ${t.destination_page.available_of} ${spotsTotal} ${t.destination_page.spots_word}`}
+                    {isFull ? t.destination_page.spots_exhausted : `${spotsTotal} ${t.destination_page.spots_word}`}
                   </p>
                 </div>
               )}

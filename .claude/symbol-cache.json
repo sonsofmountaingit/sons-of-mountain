@@ -5059,7 +5059,7 @@
       "@/lib/send-registration-forms",
       "./shared/paymentPlanFields"
     ],
-    "lines": 568,
+    "lines": 580,
     "group": "collections"
   },
   "src/payload/collections/EmailTemplates.ts": {
@@ -5200,7 +5200,7 @@
       "@/lib/stripe-product-sync",
       "./shared/paymentPlanFields"
     ],
-    "lines": 549,
+    "lines": 561,
     "group": "collections"
   },
   "src/payload/collections/Pages.ts": {
@@ -5529,7 +5529,7 @@
       "@/lib/send-registration-forms",
       "./shared/paymentPlanFields"
     ],
-    "lines": 569,
+    "lines": 581,
     "group": "collections"
   },
   "src/payload/collections/Waitlist.ts": {
@@ -8338,7 +8338,7 @@
       "next/server",
       "@/lib/escape-html"
     ],
-    "lines": 898,
+    "lines": 915,
     "group": "lib"
   },
   "src/lib/get-default-strings.ts": {
@@ -8608,7 +8608,7 @@
       "PriceBreakdown"
     ],
     "imports": [],
-    "lines": 77,
+    "lines": 75,
     "group": "lib"
   },
   "src/lib/animations.ts": {
