@@ -131,6 +131,18 @@
     "lines": 17,
     "group": "other"
   },
+  "src/migrations/20260727_travel_stats_table.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 23,
+    "group": "other"
+  },
   "src/migrations/20260721_email_settings_global.ts": {
     "exports": [
       "up",
@@ -1067,6 +1079,19 @@
     ],
     "lines": 31,
     "group": "app"
+  },
+  "src/app/api/travel-stats/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 148,
+    "group": "api"
   },
   "src/app/api/waitlist/join/route.ts": {
     "exports": [
@@ -4220,6 +4245,7 @@
       "@/payload/components/MailyEditor",
       "@/payload/components/CampaignSendTestButton",
       "@/payload/components/FireFlowButton",
+      "@/components/admin/TravelStatsView",
       "@/components/admin/NavigationVisualEditorButton",
       "@/components/admin/FooterVisualEditorButton",
       "@/components/admin/HeroVisualEditorButton",
@@ -4248,7 +4274,7 @@
       "@/components/admin/StripeReconciliationView",
       "@payloadcms/next/rsc"
     ],
-    "lines": 115,
+    "lines": 117,
     "group": "payload-app"
   },
   "src/app/(payload)/layout.tsx": {
@@ -4879,6 +4905,7 @@
       "./collections/AbandonedCarts",
       "./collections/Subscriptions",
       "./collections/Payouts",
+      "./collections/TravelStats",
       "./globals/Navigation",
       "./globals/Footer",
       "./globals/WhyTravelWithUs",
@@ -4904,7 +4931,7 @@
       "./globals/Vouchers",
       "./globals/EmailSettings"
     ],
-    "lines": 286,
+    "lines": 288,
     "group": "payload"
   },
   "src/payload/components/MailyEditor.tsx": {
@@ -5465,6 +5492,17 @@
       "next/server"
     ],
     "lines": 150,
+    "group": "collections"
+  },
+  "src/payload/collections/TravelStats.ts": {
+    "exports": [
+      "TravelStats"
+    ],
+    "types": [],
+    "imports": [
+      "payload"
+    ],
+    "lines": 33,
     "group": "collections"
   },
   "src/payload/collections/Media.ts": {
@@ -8247,6 +8285,18 @@
     "types": [],
     "imports": [],
     "lines": 36,
+    "group": "admin"
+  },
+  "src/components/admin/TravelStatsView.tsx": {
+    "exports": [
+      "TravelStatsView"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "@payloadcms/ui"
+    ],
+    "lines": 160,
     "group": "admin"
   },
   "src/scripts/seed-cron-jobs.ts": {

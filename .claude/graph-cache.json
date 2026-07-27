@@ -67,6 +67,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260727_travel_stats_table.ts",
+      "label": "migrations/20260727_travel_stats_table.ts",
+      "group": "other",
+      "size": 4
+    },
+    {
       "id": "src/migrations/20260721_email_settings_global.ts",
       "label": "migrations/20260721_email_settings_global.ts",
       "group": "other",
@@ -424,6 +430,12 @@
       "id": "src/app/_cotest/route.ts",
       "label": "_cotest/route.ts",
       "group": "app",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/travel-stats/route.ts",
+      "label": "travel-stats/route.ts",
+      "group": "api",
       "size": 4
     },
     {
@@ -2197,6 +2209,12 @@
       "size": 6
     },
     {
+      "id": "src/payload/collections/TravelStats.ts",
+      "label": "collections/TravelStats.ts",
+      "group": "collections",
+      "size": 6
+    },
+    {
       "id": "src/payload/collections/Media.ts",
       "label": "collections/Media.ts",
       "group": "collections",
@@ -3457,6 +3475,12 @@
       "size": 6
     },
     {
+      "id": "src/components/admin/TravelStatsView.tsx",
+      "label": "admin/TravelStatsView.tsx",
+      "group": "admin",
+      "size": 6
+    },
+    {
       "id": "src/scripts/seed-cron-jobs.ts",
       "label": "scripts/seed-cron-jobs.ts",
       "group": "other",
@@ -4180,6 +4204,10 @@
     },
     {
       "source": "src/app/_cotest/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/travel-stats/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
@@ -5968,6 +5996,10 @@
     },
     {
       "source": "src/app/(payload)/admin/importMap.js",
+      "target": "src/components/admin/TravelStatsView.tsx"
+    },
+    {
+      "source": "src/app/(payload)/admin/importMap.js",
       "target": "src/components/admin/NavigationVisualEditorButton.tsx"
     },
     {
@@ -6265,6 +6297,10 @@
     {
       "source": "src/payload/payload.config.ts",
       "target": "src/payload/collections/Payouts.ts"
+    },
+    {
+      "source": "src/payload/payload.config.ts",
+      "target": "src/payload/collections/TravelStats.ts"
     },
     {
       "source": "src/payload/payload.config.ts",
@@ -8439,6 +8475,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-27T18:21:38.961Z",
-  "fileCount": 636
+  "builtAt": "2026-07-27T18:53:24.083Z",
+  "fileCount": 640
 }
