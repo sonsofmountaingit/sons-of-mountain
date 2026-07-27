@@ -448,7 +448,7 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
         const tId = typeof item.trip === 'string' ? item.trip : item.trip.id
         const trip = await payload.findByID({ collection: 'trips', id: tId }).catch(() => null)
         if (trip) {
-          const participantCount = item.participantCount ?? item.quantity ?? 1
+          const participantCount = item.quantity ?? item.participantCount ?? 1
           const newSpots = Math.max(0, (trip as any).spotsAvailable - participantCount)
           const earlyBirdDecrement = item.earlyBirdCount ?? Math.min(participantCount, (trip as any).earlyBirdSpotsRemaining ?? 0)
           const newEarlyBirdSpots = Math.max(0, ((trip as any).earlyBirdSpotsRemaining ?? 0) - earlyBirdDecrement)
@@ -474,7 +474,7 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
         const pgId = typeof item.program === 'string' ? item.program : item.program.id
         const program = await payload.findByID({ collection: 'programs', id: pgId }).catch(() => null)
         if (program) {
-          const participantCount = item.participantCount ?? item.quantity ?? 1
+          const participantCount = item.quantity ?? item.participantCount ?? 1
           const newSpots = Math.max(0, (program as any).spotsAvailable - participantCount)
           const earlyBirdDecrement = item.earlyBirdCount ?? Math.min(participantCount, (program as any).earlyBirdSpotsRemaining ?? 0)
           const newEarlyBirdSpots = Math.max(0, ((program as any).earlyBirdSpotsRemaining ?? 0) - earlyBirdDecrement)
@@ -485,7 +485,7 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
         const dId = typeof item.destination === 'string' ? item.destination : item.destination.id
         const destination = await payload.findByID({ collection: 'destinations', id: dId }).catch(() => null)
         if (destination) {
-          const participantCount = item.participantCount ?? item.quantity ?? 1
+          const participantCount = item.quantity ?? item.participantCount ?? 1
           const newSpots = Math.max(0, (destination as any).spotsAvailable - participantCount)
           const earlyBirdDecrement = item.earlyBirdCount ?? Math.min(participantCount, (destination as any).earlyBirdSpotsRemaining ?? 0)
           const newEarlyBirdSpots = Math.max(0, ((destination as any).earlyBirdSpotsRemaining ?? 0) - earlyBirdDecrement)

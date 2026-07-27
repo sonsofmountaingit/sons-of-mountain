@@ -272,6 +272,7 @@ export async function POST(req: NextRequest) {
           bundle: toId(item.bundleId),
           variantId: item.variantId ?? null,
           quantity: item.quantity,
+          participantCount: item.quantity,
           unitPrice: item.unitPrice,
           earlyBirdCount: item.priceBreakdown?.earlyBirdCount ?? null,
           earlyBirdPrice: item.priceBreakdown?.earlyBirdPrice ?? null,
@@ -293,27 +294,29 @@ export async function POST(req: NextRequest) {
         const validTripId = rawTripId && !Number.isNaN(Number(rawTripId)) ? rawTripId : undefined
         const validProgramId = rawProgramId && !Number.isNaN(Number(rawProgramId)) ? rawProgramId : undefined
         const validDestinationId = rawDestinationId && !Number.isNaN(Number(rawDestinationId)) ? rawDestinationId : undefined
+        const seatsAvailable = Number(carpool.seatsAvailable)
         const ride = await payload.create({
           collection: 'carpool-rides',
+          overrideAccess: true,
           data: {
             vehicleType: carpool.vehicleType,
-            seatsAvailable: carpool.seatsAvailable,
+            seatsAvailable: Number.isFinite(seatsAvailable) && seatsAvailable > 0 ? seatsAvailable : 1,
             departureFrom: carpool.departureFrom,
             departureTime: carpool.departureTime ?? null,
             notes: carpool.notes ?? null,
             organizerName: organizerName ?? null,
             organizerEmail: customerEmail ?? null,
             organizerPhone: body.phone ?? null,
-            ...(validTripId ? { trip: validTripId } : {}),
-            ...(validProgramId ? { program: validProgramId } : {}),
-            ...(validDestinationId ? { destination: validDestinationId } : {}),
+            ...(validTripId ? { trip: Number(validTripId) } : {}),
+            ...(validProgramId ? { program: Number(validProgramId) } : {}),
+            ...(validDestinationId ? { destination: Number(validDestinationId) } : {}),
             status: 'open',
             source: 'registration',
           } as any,
         })
         resolvedCarpoolRideId = ride.id as string
       } catch (e) {
-        console.error('Failed to create carpool ride:', e)
+        console.error('Failed to create carpool ride:', e instanceof Error ? e.stack ?? e.message : e)
       }
     } else if (participationType === 'join' && carpoolRideId) {
       resolvedCarpoolRideId = carpoolRideId
@@ -333,7 +336,7 @@ export async function POST(req: NextRequest) {
           overrideAccess: true,
         })
       } catch (e) {
-        console.error('Failed to add carpool passenger:', e)
+        console.error('Failed to add carpool passenger:', e instanceof Error ? e.stack ?? e.message : e)
       }
     }
 

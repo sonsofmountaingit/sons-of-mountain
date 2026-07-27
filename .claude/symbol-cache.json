@@ -2717,7 +2717,7 @@
       "react",
       "@/lib/metadata"
     ],
-    "lines": 199,
+    "lines": 201,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/[slug]/page.tsx": {
@@ -7345,7 +7345,7 @@
       "next/image",
       "@/lib/media-url"
     ],
-    "lines": 89,
+    "lines": 92,
     "group": "ui"
   },
   "src/components/ui/StoryCard.tsx": {
