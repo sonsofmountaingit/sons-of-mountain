@@ -26,6 +26,7 @@ import { LinkToDoc as LinkToDoc_2e9be70cd13299dd4a11a5bd739a5a3c } from '@payloa
 import { MailyEditor as MailyEditor_d784716e0453ecc29f56cf2c78c8042d } from '@/payload/components/MailyEditor'
 import { CampaignSendTestButton as CampaignSendTestButton_eb2f7cf31105e5c1d915a09801db0c46 } from '@/payload/components/CampaignSendTestButton'
 import { FireFlowButton as FireFlowButton_4a3a78d30a213eb3a4e140253cad644d } from '@/payload/components/FireFlowButton'
+import { TravelStatsView as TravelStatsView_15bc81de632ddf8c8fef76135812ebf2 } from '@/components/admin/TravelStatsView'
 import { NavigationVisualEditorButton as NavigationVisualEditorButton_b9cb51eadd8bf8f36713a101ae714844 } from '@/components/admin/NavigationVisualEditorButton'
 import { FooterVisualEditorButton as FooterVisualEditorButton_8c719505c9cdba2136f714cc4d646569 } from '@/components/admin/FooterVisualEditorButton'
 import { HeroVisualEditorButton as HeroVisualEditorButton_9245e5b8807f79c816821b0933667935 } from '@/components/admin/HeroVisualEditorButton'
@@ -84,6 +85,7 @@ export const importMap = {
   "@/payload/components/MailyEditor#MailyEditor": MailyEditor_d784716e0453ecc29f56cf2c78c8042d,
   "@/payload/components/CampaignSendTestButton#CampaignSendTestButton": CampaignSendTestButton_eb2f7cf31105e5c1d915a09801db0c46,
   "@/payload/components/FireFlowButton#FireFlowButton": FireFlowButton_4a3a78d30a213eb3a4e140253cad644d,
+  "@/components/admin/TravelStatsView#TravelStatsView": TravelStatsView_15bc81de632ddf8c8fef76135812ebf2,
   "@/components/admin/NavigationVisualEditorButton#NavigationVisualEditorButton": NavigationVisualEditorButton_b9cb51eadd8bf8f36713a101ae714844,
   "@/components/admin/FooterVisualEditorButton#FooterVisualEditorButton": FooterVisualEditorButton_8c719505c9cdba2136f714cc4d646569,
   "@/components/admin/HeroVisualEditorButton#HeroVisualEditorButton": HeroVisualEditorButton_9245e5b8807f79c816821b0933667935,

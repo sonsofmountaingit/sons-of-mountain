@@ -1,0 +1,104 @@
+.travel-stats__wrap {
+  padding-top: 8px;
+}
+
+.travel-stats__header h1 {
+  margin: 0 0 8px;
+  font-size: 17px;
+}
+
+.travel-stats__filters {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.travel-stats__filter-pill {
+  cursor: pointer;
+  user-select: none;
+  font-size: 11px;
+}
+
+.travel-stats__state {
+  padding: 8px 0;
+  color: var(--theme-elevation-500);
+  font-size: 12px;
+}
+
+.travel-stats__state--error {
+  color: var(--theme-error-500);
+}
+
+.travel-stats__grid {
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.travel-stats__group + .travel-stats__group {
+  border-top: 1px solid var(--theme-elevation-150);
+}
+
+.travel-stats__row {
+  display: grid;
+  grid-template-columns: 140px 1fr 90px 90px 70px;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  line-height: 1.2;
+  min-height: 28px;
+}
+
+.travel-stats__row--head {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--theme-elevation-500);
+  background: var(--theme-elevation-50);
+  border-bottom: 1px solid var(--theme-elevation-150);
+  min-height: 24px;
+}
+
+.travel-stats__kind {
+  color: var(--theme-elevation-500);
+  font-size: 11px;
+}
+
+.travel-stats__taken-btn {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--theme-text);
+  min-height: unset !important;
+  height: auto !important;
+  padding: 0 !important;
+}
+
+.travel-stats__taken-btn:disabled {
+  color: var(--theme-elevation-400);
+  cursor: default;
+}
+
+.travel-stats__occupants {
+  background: var(--theme-elevation-50);
+  border-top: 1px solid var(--theme-elevation-150);
+}
+
+.travel-stats__occupants-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 120px 50px 90px 90px;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px 3px 28px;
+  font-size: 11px;
+  line-height: 1.2;
+  min-height: 22px;
+}
+
+.travel-stats__occupants-row--head {
+  font-weight: 600;
+  color: var(--theme-elevation-500);
+}
+
+.travel-stats__occupants-row:not(:last-child) {
+  border-bottom: 1px solid var(--theme-elevation-100);
+}

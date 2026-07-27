@@ -46,6 +46,7 @@ import { Bundles } from './collections/Bundles'
 import { AbandonedCarts } from './collections/AbandonedCarts'
 import { Subscriptions } from './collections/Subscriptions'
 import { Payouts } from './collections/Payouts'
+import { TravelStats } from './collections/TravelStats'
 
 import { Navigation } from './globals/Navigation'
 import { Footer } from './globals/Footer'
@@ -163,6 +164,7 @@ export default buildConfig({
     Subscriptions,
     Payouts,
     Testimonials,
+    TravelStats,
   ],
   globals: [Navigation, Footer, SiteSettings, SiteMeta, Hero, DestinationCarousel, Gallery, Shop, WhyTravelWithUs, FeaturedTravels, CalendarCta, TestimonialsSection, About, ContactPage, IndividualProgramsPage, BlogPage, StoriesPage, CalendarPage, HomePage, PrivacyPolicy, TermsAndConditions, Vouchers, EmailSettings],
   plugins: [

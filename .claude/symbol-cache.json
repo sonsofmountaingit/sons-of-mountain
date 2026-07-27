@@ -5288,7 +5288,7 @@
       "payload",
       "../hooks/emailFlowTriggers"
     ],
-    "lines": 588,
+    "lines": 580,
     "group": "collections"
   },
   "src/payload/collections/Stories.ts": {
