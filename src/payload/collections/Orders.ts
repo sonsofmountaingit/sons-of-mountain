@@ -260,29 +260,21 @@ export const Orders: CollectionConfig = {
           async ({ data, req, findMany }) => {
             const items = (data as any)?.items ?? []
             if (!items.length) return (data as any)?.productType ?? ''
-            if (findMany) {
-              return items
-                .map((it: any) => {
-                  const ref = it.trip ?? it.product ?? it.program ?? it.destination ?? it.bundle
-                  const title = typeof ref === 'object' ? ref?.title ?? ref?.name : null
-                  return title ? `${title} x${it.quantity ?? 1}` : it.itemType
-                })
-                .filter(Boolean)
-                .join('; ')
-            }
             const collectionMap: Record<string, string> = { trip: 'trips', program: 'programs', destination: 'destinations', bundle: 'bundles', product: 'products' }
             const parts = await Promise.all(items.map(async (it: any) => {
               let ref = it.trip ?? it.product ?? it.program ?? it.destination ?? it.bundle
               const col = collectionMap[it.itemType]
               if (ref && typeof ref !== 'object' && col) {
-                ref = await req.payload.findByID({ collection: col as any, id: ref }).catch(() => null)
+                ref = await req.payload.findByID({ collection: col as any, id: ref, depth: 0 }).catch(() => null)
               }
               const title = typeof ref === 'object' ? ref?.title ?? ref?.name : ref
-              if (!title) return it.itemType
+              const qty = it.quantity ?? it.participantCount ?? 1
+              if (!title) return `${it.itemType} x${qty}`
+              if (findMany) return `${title} x${qty}`
               const startDate = ref?.startDate ? new Date(ref.startDate).toLocaleDateString('bg-BG') : null
               const spots = ref?.spotsAvailable != null && ref?.spotsTotal != null ? `${ref.spotsAvailable}/${ref.spotsTotal} spots` : null
               const details = [startDate, spots].filter(Boolean).join(', ')
-              return `${title} x${it.quantity ?? 1}${details ? ` (${details})` : ''}`
+              return `${title} x${qty}${details ? ` (${details})` : ''}`
             }))
             return parts.filter(Boolean).join('; ')
           },

@@ -1381,7 +1381,7 @@
       "@/lib/pricing/payment-plan",
       "@/lib/pricing/dynamic"
     ],
-    "lines": 409,
+    "lines": 412,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {
