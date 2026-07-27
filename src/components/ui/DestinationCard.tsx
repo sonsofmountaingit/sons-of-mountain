@@ -30,7 +30,10 @@ export function DestinationCard({
   label,
 }: DestinationCardProps) {
   const isSoldOut = spotsAvailable !== undefined && spotsAvailable === 0
-  const hasSpots = spotsAvailable !== undefined && spotsAvailable > 0
+  const hasSpots =
+    spotsAvailable !== undefined &&
+    spotsAvailable > 0 &&
+    (spotsTotal === undefined || spotsAvailable <= spotsTotal * 0.5)
   const isEarlyBird = !!(earlyBirdPrice && earlyBirdUntil && new Date(earlyBirdUntil) > new Date() && (earlyBirdSpots == null || earlyBirdSpots > 0))
   const earlyBirdSpotsLeft = isEarlyBird && earlyBirdSpots != null && earlyBirdSpots > 0
     ? earlyBirdSpots

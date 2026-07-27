@@ -133,6 +133,7 @@ async function DestinationsContent({ type }: { type?: string }) {
             slug={dest.slug}
             heroImage={dest.heroImage as { url?: string | null; alt: string } | null}
             spotsAvailable={dest.spotsAvailable ?? undefined}
+            spotsTotal={dest.spotsTotal ?? undefined}
             earlyBirdPrice={dest.earlyBirdPrice ?? null}
             earlyBirdUntil={dest.earlyBirdUntil ?? null}
             earlyBirdSpots={dest.earlyBirdSpotsRemaining ?? dest.earlyBirdSpots ?? null}
@@ -147,6 +148,7 @@ async function DestinationsContent({ type }: { type?: string }) {
             href={`/trips/${trip.slug}`}
             heroImage={trip.heroImage as { url?: string | null; alt: string } | null}
             spotsAvailable={trip.spotsAvailable ?? undefined}
+            spotsTotal={trip.spotsTotal ?? undefined}
             earlyBirdPrice={trip.earlyBirdPrice ?? null}
             earlyBirdUntil={trip.earlyBirdUntil ?? null}
             earlyBirdSpots={trip.earlyBirdSpotsRemaining ?? trip.earlyBirdSpots ?? null}
