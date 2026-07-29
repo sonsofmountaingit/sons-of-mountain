@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { useCartStore } from '@/lib/cart-store'
 import { CartItemRow } from '@/components/shop/CartItem'
-import { DiscountCodeInput } from '@/components/shop/DiscountCodeInput'
 import { VoucherCodeInput } from '@/components/shop/VoucherCodeInput'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -430,7 +429,6 @@ export default function CheckoutPage() {
               <div className="divide-y divide-white/10 border border-white/10 rounded-lg bg-white/5">
                 {items.map((item) => <CartItemRow key={`${item.id}-${item.variantId}`} item={item} />)}
               </div>
-              <DiscountCodeInput />
               <VoucherCodeInput />
               <div className="flex gap-3">
                 <button onClick={() => setStep(0)} className="rounded border border-white/20 px-6 py-3 text-sm font-medium text-white hover:bg-white/5">{t.checkout_page.back}</button>

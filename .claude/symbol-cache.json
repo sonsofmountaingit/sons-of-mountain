@@ -1459,7 +1459,7 @@
       "payload",
       "@payload-config"
     ],
-    "lines": 73,
+    "lines": 74,
     "group": "api"
   },
   "src/app/api/stock-alerts/subscribe/route.ts": {
@@ -1610,6 +1610,19 @@
       "@payload-config"
     ],
     "lines": 13,
+    "group": "api"
+  },
+  "src/app/api/voucher/validate/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 39,
     "group": "api"
   },
   "src/app/api/voucher/route.ts": {
@@ -3045,6 +3058,7 @@
       "@/lib/cart-store",
       "@/components/shop/CartItem",
       "@/components/shop/DiscountCodeInput",
+      "@/components/shop/VoucherCodeInput",
       "react-hook-form",
       "@hookform/resolvers/zod",
       "zod",
@@ -3055,7 +3069,7 @@
       "@/lib/use-translations",
       "@/lib/translations"
     ],
-    "lines": 502,
+    "lines": 506,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/[tripId]/success/page.tsx": {
@@ -7977,6 +7991,20 @@
     "lines": 75,
     "group": "components"
   },
+  "src/components/shop/VoucherCodeInput.tsx": {
+    "exports": [
+      "VoucherCodeInput"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "@/lib/cart-store",
+      "@/lib/currency",
+      "@/lib/use-translations"
+    ],
+    "lines": 65,
+    "group": "components"
+  },
   "src/components/shop/AddToCartButton.tsx": {
     "exports": [
       "AddToCartButton"
@@ -8571,7 +8599,7 @@
       "zustand/middleware",
       "react"
     ],
-    "lines": 181,
+    "lines": 183,
     "group": "lib"
   },
   "src/lib/translations.ts": {
