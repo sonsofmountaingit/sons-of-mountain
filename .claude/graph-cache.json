@@ -22,7 +22,7 @@
       "id": "src/migrations/20260727b_travel_stats_rels_columns.ts",
       "label": "migrations/20260727b_travel_stats_rels_columns.ts",
       "group": "other",
-      "size": 4
+      "size": 6
     },
     {
       "id": "src/migrations/20260718_about_hero_image_position.ts",
@@ -76,7 +76,7 @@
       "id": "src/migrations/20260727_travel_stats_table.ts",
       "label": "migrations/20260727_travel_stats_table.ts",
       "group": "other",
-      "size": 4
+      "size": 6
     },
     {
       "id": "src/migrations/20260721_email_settings_global.ts",
@@ -129,6 +129,12 @@
     {
       "id": "src/migrations/20260720b_email_marketing_tables.ts",
       "label": "migrations/20260720b_email_marketing_tables.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
+      "id": "src/migrations/20260729_customers_sessions_table.ts",
+      "label": "migrations/20260729_customers_sessions_table.ts",
       "group": "other",
       "size": 6
     },
@@ -3927,6 +3933,18 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260723_early_bird_spots_remaining.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260727_travel_stats_table.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260727b_travel_stats_rels_columns.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260729_customers_sessions_table.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -8481,6 +8499,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-27T19:05:02.935Z",
-  "fileCount": 641
+  "builtAt": "2026-07-29T06:42:50.642Z",
+  "fileCount": 642
 }

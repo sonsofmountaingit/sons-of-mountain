@@ -43,6 +43,7 @@ export interface CartItem {
 }
 
 export interface AppliedDiscount {
+  id: string
   code: string
   type: 'percent' | 'fixed' | 'corporate' | 'referral'
   value: number
@@ -51,6 +52,7 @@ export interface AppliedDiscount {
 }
 
 export interface AppliedVoucher {
+  id: string
   code: string
   amount: number
   currency: string

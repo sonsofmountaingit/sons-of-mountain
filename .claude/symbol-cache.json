@@ -252,9 +252,12 @@
       "./20260720_free_transfer_return_date",
       "./20260720b_email_marketing_tables",
       "./20260721_email_settings_global",
-      "./20260723_early_bird_spots_remaining"
+      "./20260723_early_bird_spots_remaining",
+      "./20260727_travel_stats_table",
+      "./20260727b_travel_stats_rels_columns",
+      "./20260729_customers_sessions_table"
     ],
-    "lines": 124,
+    "lines": 142,
     "group": "other"
   },
   "src/migrations/20260719b_email_marketing_platform.ts": {
@@ -279,6 +282,18 @@
       "@payloadcms/db-postgres"
     ],
     "lines": 204,
+    "group": "other"
+  },
+  "src/migrations/20260729_customers_sessions_table.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 31,
     "group": "other"
   },
   "src/migrations/20260714b_seo_meta_keywords_all_collections.ts": {

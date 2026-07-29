@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useCartStore } from '@/lib/cart-store'
 import { CartItemRow } from '@/components/shop/CartItem'
 import { DiscountCodeInput } from '@/components/shop/DiscountCodeInput'
+import { VoucherCodeInput } from '@/components/shop/VoucherCodeInput'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -90,7 +91,7 @@ export default function CheckoutPage() {
   const [ridesLoading, setRidesLoading] = useState(false)
   const [selectedRideId, setSelectedRideId] = useState<string | null>(null)
 
-  const { items, subtotal, discountAmount, voucherAmount, total, loyaltyPointsToRedeem, appliedDiscount, corporatePeopleCount } = useCartStore()
+  const { items, subtotal, discountAmount, voucherAmount, total, loyaltyPointsToRedeem, appliedDiscount, appliedVoucher, corporatePeopleCount } = useCartStore()
 
   const hasRideable = items.some((i) => i.type === 'trip' || i.type === 'program' || i.type === 'destination')
   const tripItem = items.find((i) => i.type === 'trip' || i.type === 'program' || i.type === 'destination')
@@ -198,6 +199,8 @@ export default function CheckoutPage() {
           paymentMode: payInFull ? 'full' : (plan?.mode ?? info.paymentMode),
           loyaltyPointsRedeemed: loyaltyPointsToRedeem,
           corporatePeopleCount,
+          discountCodeId: appliedDiscount?.id ?? null,
+          giftVoucherId: appliedVoucher?.id ?? null,
           enableBnpl: true,
           ...carpoolPayload,
         }),
@@ -428,6 +431,7 @@ export default function CheckoutPage() {
                 {items.map((item) => <CartItemRow key={`${item.id}-${item.variantId}`} item={item} />)}
               </div>
               <DiscountCodeInput />
+              <VoucherCodeInput />
               <div className="flex gap-3">
                 <button onClick={() => setStep(0)} className="rounded border border-white/20 px-6 py-3 text-sm font-medium text-white hover:bg-white/5">{t.checkout_page.back}</button>
                 <button onClick={() => setStep(2)} className="flex-1 rounded bg-white py-3 text-sm font-semibold text-gray-900 hover:bg-white/90">{t.checkout_page.continue_to_payment}</button>

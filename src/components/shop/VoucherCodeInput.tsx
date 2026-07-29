@@ -5,25 +5,25 @@ import { useCartStore } from '@/lib/cart-store'
 import { formatPrice } from '@/lib/currency'
 import { useTranslations } from '@/lib/use-translations'
 
-export function DiscountCodeInput() {
+export function VoucherCodeInput() {
   const [code, setCode] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const { subtotal, setDiscount, appliedDiscount, corporatePeopleCount } = useCartStore()
+  const { setVoucher, appliedVoucher } = useCartStore()
   const { t } = useTranslations()
 
   async function apply() {
     setError('')
     setLoading(true)
     try {
-      const res = await fetch('/api/discount/validate', {
+      const res = await fetch('/api/voucher/validate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code, cartTotal: subtotal(), peopleCount: corporatePeopleCount }),
+        body: JSON.stringify({ code }),
       })
       const data = await res.json()
       if (!res.ok) { setError(data.error ?? t.shop.discount_invalid); return }
-      setDiscount({ id: data.id, code: data.code, type: data.type, value: data.value, discountAmount: data.discountAmount, applicableTo: 'all' })
+      setVoucher({ id: data.id, code: data.code, amount: data.amount, currency: data.currency })
     } catch {
       setError(t.shop.discount_failed)
     } finally {
@@ -31,11 +31,11 @@ export function DiscountCodeInput() {
     }
   }
 
-  if (appliedDiscount) {
+  if (appliedVoucher) {
     return (
       <div className="flex items-center justify-between rounded border border-green-200 bg-green-50 px-3 py-2 text-sm">
-        <span className="text-green-800 font-medium">{t.shop.discount_applied_prefix} <strong>{appliedDiscount.code}</strong> {t.shop.discount_applied_suffix} — −{formatPrice(appliedDiscount.discountAmount)}</span>
-        <button onClick={() => setDiscount(null)} className="text-green-600 hover:text-green-900 text-xs underline ml-2">{t.shop.discount_remove}</button>
+        <span className="text-green-800 font-medium">{t.shop.discount_applied_prefix} <strong>{appliedVoucher.code}</strong> {t.shop.discount_applied_suffix} — −{formatPrice(appliedVoucher.amount)}</span>
+        <button onClick={() => setVoucher(null)} className="text-green-600 hover:text-green-900 text-xs underline ml-2">{t.shop.discount_remove}</button>
       </div>
     )
   }
