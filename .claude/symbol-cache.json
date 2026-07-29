@@ -35,6 +35,18 @@
     "lines": 44,
     "group": "other"
   },
+  "src/migrations/20260727b_travel_stats_rels_columns.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 38,
+    "group": "other"
+  },
   "src/migrations/20260718_about_hero_image_position.ts": {
     "exports": [
       "up",

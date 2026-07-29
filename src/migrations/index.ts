@@ -18,6 +18,9 @@ import * as migration_20260720_free_transfer_return_date from './20260720_free_t
 import * as migration_20260720b_email_marketing_tables from './20260720b_email_marketing_tables'
 import * as migration_20260721_email_settings_global from './20260721_email_settings_global'
 import * as migration_20260723_early_bird_spots_remaining from './20260723_early_bird_spots_remaining'
+import * as migration_20260727_travel_stats_table from './20260727_travel_stats_table'
+import * as migration_20260727b_travel_stats_rels_columns from './20260727b_travel_stats_rels_columns'
+import * as migration_20260729_customers_sessions_table from './20260729_customers_sessions_table'
 
 export const migrations = [
   {
@@ -119,5 +122,20 @@ export const migrations = [
     up: migration_20260723_early_bird_spots_remaining.up,
     down: migration_20260723_early_bird_spots_remaining.down,
     name: '20260723_early_bird_spots_remaining',
+  },
+  {
+    up: migration_20260727_travel_stats_table.up,
+    down: migration_20260727_travel_stats_table.down,
+    name: '20260727_travel_stats_table',
+  },
+  {
+    up: migration_20260727b_travel_stats_rels_columns.up,
+    down: migration_20260727b_travel_stats_rels_columns.down,
+    name: '20260727b_travel_stats_rels_columns',
+  },
+  {
+    up: migration_20260729_customers_sessions_table.up,
+    down: migration_20260729_customers_sessions_table.down,
+    name: '20260729_customers_sessions_table',
   },
 ]

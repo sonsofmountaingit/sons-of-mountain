@@ -19,6 +19,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260727b_travel_stats_rels_columns.ts",
+      "label": "migrations/20260727b_travel_stats_rels_columns.ts",
+      "group": "other",
+      "size": 4
+    },
+    {
       "id": "src/migrations/20260718_about_hero_image_position.ts",
       "label": "migrations/20260718_about_hero_image_position.ts",
       "group": "other",
@@ -8475,6 +8481,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-27T18:53:24.083Z",
-  "fileCount": 640
+  "builtAt": "2026-07-27T19:05:02.935Z",
+  "fileCount": 641
 }
