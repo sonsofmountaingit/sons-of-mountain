@@ -203,6 +203,18 @@
     "lines": 16,
     "group": "other"
   },
+  "src/migrations/20260731_registrations_manual_confirm_paid.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 16,
+    "group": "other"
+  },
   "src/migrations/20260629_tags_free_text.ts": {
     "exports": [
       "up",
@@ -255,9 +267,10 @@
       "./20260723_early_bird_spots_remaining",
       "./20260727_travel_stats_table",
       "./20260727b_travel_stats_rels_columns",
-      "./20260729_customers_sessions_table"
+      "./20260729_customers_sessions_table",
+      "./20260731_registrations_manual_confirm_paid"
     ],
-    "lines": 142,
+    "lines": 148,
     "group": "other"
   },
   "src/migrations/20260719b_email_marketing_platform.ts": {
@@ -434,7 +447,7 @@
       "@puckeditor/core",
       "./PuckFooterEditorClient"
     ],
-    "lines": 100,
+    "lines": 101,
     "group": "puck"
   },
   "src/app/(puck)/puck/featured-travels/PuckFeaturedTravelsEditorClient.tsx": {
@@ -1767,6 +1780,21 @@
     "lines": 66,
     "group": "api"
   },
+  "src/app/api/orders/cancel/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "next/headers",
+      "@/lib/cron/grace-period"
+    ],
+    "lines": 66,
+    "group": "api"
+  },
   "src/app/api/orders/by-session/route.ts": {
     "exports": [
       "GET"
@@ -1847,7 +1875,7 @@
       "next/cache",
       "@/lib/payload-auth"
     ],
-    "lines": 64,
+    "lines": 65,
     "group": "api"
   },
   "src/app/api/puck/featured-travels/route.ts": {
@@ -2780,9 +2808,10 @@
       "next",
       "next/cache",
       "react",
-      "@/lib/metadata"
+      "@/lib/metadata",
+      "@/components/analytics/ViewItemListTracker"
     ],
-    "lines": 201,
+    "lines": 220,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/[slug]/page.tsx": {
@@ -2804,6 +2833,7 @@
       "@/lib/weather",
       "@/lib/translations",
       "@/components/ui/TrackRecentlyViewed",
+      "@/components/analytics/ViewItemTracker",
       "@/components/ui/destination-page/HeroSection",
       "@/components/ui/destination-page/WhySection",
       "@/components/ui/destination-page/IsThisForYouSection",
@@ -2822,7 +2852,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/DestinationBookingController"
     ],
-    "lines": 372,
+    "lines": 374,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -2977,12 +3007,13 @@
       "@/lib/media-url",
       "@/lib/metadata",
       "@/components/shop/AddToCartButton",
+      "@/components/analytics/ViewItemTracker",
       "@/components/shop/WishlistButton",
       "@/components/shop/StockAlertButton",
       "@/components/shop/WaitlistButton",
       "@/components/shop/StarRating"
     ],
-    "lines": 186,
+    "lines": 188,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/success/page.tsx": {
@@ -2997,9 +3028,10 @@
       "react",
       "payload",
       "@payload-config",
-      "@/lib/currency"
+      "@/lib/currency",
+      "@/components/analytics/PurchaseTracker"
     ],
-    "lines": 163,
+    "lines": 178,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/gift-vouchers/_components/GiftVoucherPurchaseForm.tsx": {
@@ -3066,9 +3098,10 @@
       "@/lib/currency",
       "@/lib/auth-client",
       "@/lib/use-translations",
-      "@/lib/translations"
+      "@/lib/translations",
+      "@/lib/gtag"
     ],
-    "lines": 504,
+    "lines": 537,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/[tripId]/success/page.tsx": {
@@ -3159,12 +3192,13 @@
       "next/image",
       "react",
       "@/components/shop/ProductCard",
+      "@/components/analytics/ViewItemListTracker",
       "@/lib/media-url",
       "@/lib/metadata",
       "@/lib/currency",
       "@/lib/translations"
     ],
-    "lines": 311,
+    "lines": 317,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/bundles/page.tsx": {
@@ -3207,10 +3241,11 @@
       "@/lib/media-url",
       "@/lib/metadata",
       "@/components/shop/AddToCartButton",
+      "@/components/analytics/ViewItemTracker",
       "react",
       "@/lib/currency"
     ],
-    "lines": 219,
+    "lines": 221,
     "group": "frontend"
   },
   "src/app/(frontend)/about/page.tsx": {
@@ -3644,13 +3679,14 @@
       "next",
       "next/cache",
       "react",
-      "next/link",
       "next/image",
       "@/lib/media-url",
       "@/lib/metadata",
-      "@/lib/currency"
+      "@/lib/currency",
+      "@/components/analytics/SelectItemLink",
+      "@/components/analytics/ViewItemListTracker"
     ],
-    "lines": 226,
+    "lines": 241,
     "group": "frontend"
   },
   "src/app/(frontend)/programs/[slug]/page.tsx": {
@@ -3668,6 +3704,7 @@
       "next",
       "@/lib/media-url",
       "@/lib/metadata",
+      "@/components/analytics/ViewItemTracker",
       "@/components/ui/destination-page/HeroSection",
       "@/components/ui/destination-page/WhySection",
       "@/components/ui/destination-page/IsThisForYouSection",
@@ -3685,7 +3722,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 320,
+    "lines": 322,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/page.tsx": {
@@ -3775,9 +3812,11 @@
       "@/lib/translations",
       "@/components/ui/Navigation",
       "@/components/ui/Footer",
+      "@/components/analytics/GoogleAnalytics",
+      "@/components/analytics/CookieConsentBanner",
       "sonner"
     ],
-    "lines": 82,
+    "lines": 86,
     "group": "frontend"
   },
   "src/app/(frontend)/vouchers/[code]/page.tsx": {
@@ -4044,12 +4083,13 @@
       "next",
       "next/cache",
       "react",
-      "next/link",
       "next/image",
       "@/lib/media-url",
-      "@/lib/metadata"
+      "@/lib/metadata",
+      "@/components/analytics/SelectItemLink",
+      "@/components/analytics/ViewItemListTracker"
     ],
-    "lines": 226,
+    "lines": 241,
     "group": "frontend"
   },
   "src/app/(frontend)/trips/[slug]/page.tsx": {
@@ -4070,6 +4110,7 @@
       "@/lib/metadata",
       "@/lib/translations",
       "@/components/ui/TrackRecentlyViewed",
+      "@/components/analytics/ViewItemTracker",
       "@/components/ui/destination-page/HeroSection",
       "@/components/ui/destination-page/WhySection",
       "@/components/ui/destination-page/IsThisForYouSection",
@@ -4088,7 +4129,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 361,
+    "lines": 363,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {
@@ -4722,7 +4763,7 @@
       "../hooks/revalidate",
       "next/server"
     ],
-    "lines": 273,
+    "lines": 278,
     "group": "globals"
   },
   "src/payload/globals/DestinationCarousel.ts": {
@@ -5082,6 +5123,17 @@
     "lines": 124,
     "group": "payload"
   },
+  "src/payload/hooks/manualConfirm.ts": {
+    "exports": [
+      "manualConfirmPaidBeforeChange"
+    ],
+    "types": [],
+    "imports": [
+      "payload"
+    ],
+    "lines": 11,
+    "group": "payload"
+  },
   "src/payload/hooks/emailFlowTriggers.ts": {
     "exports": [
       "registrationEmailFlows",
@@ -5106,7 +5158,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 71,
+    "lines": 95,
     "group": "payload"
   },
   "src/payload/hooks/revalidate.ts": {
@@ -5219,9 +5271,10 @@
       "payload",
       "crypto",
       "../hooks/syncTripSpots",
-      "../hooks/emailFlowTriggers"
+      "../hooks/emailFlowTriggers",
+      "../hooks/manualConfirm"
     ],
-    "lines": 313,
+    "lines": 329,
     "group": "collections"
   },
   "src/payload/collections/ProgramInquiries.ts": {
@@ -5355,7 +5408,7 @@
       "payload",
       "../hooks/emailFlowTriggers"
     ],
-    "lines": 580,
+    "lines": 588,
     "group": "collections"
   },
   "src/payload/collections/Stories.ts": {
@@ -5723,7 +5776,7 @@
     "imports": [
       "@/lib/use-translations"
     ],
-    "lines": 42,
+    "lines": 49,
     "group": "blocks"
   },
   "src/components/blocks/footer/FooterNavBlock.tsx": {
@@ -6205,7 +6258,7 @@
       "@/components/ui/FooterForm",
       "@/components/ui/ShakingCredit"
     ],
-    "lines": 189,
+    "lines": 196,
     "group": "blocks"
   },
   "src/components/blocks/about/AboutAdventureBlock.tsx": {
@@ -6743,7 +6796,7 @@
     "imports": [
       "react"
     ],
-    "lines": 95,
+    "lines": 102,
     "group": "ui"
   },
   "src/components/ui/Hero.tsx": {
@@ -6915,9 +6968,10 @@
       "@/lib/cart-store",
       "next/navigation",
       "@/lib/currency",
-      "@/lib/use-translations"
+      "@/lib/use-translations",
+      "@/lib/gtag"
     ],
-    "lines": 247,
+    "lines": 253,
     "group": "ui"
   },
   "src/components/ui/destination-page/ItinerarySectionClient.tsx": {
@@ -7260,7 +7314,7 @@
       "@/lib/translations",
       "@/lib/translations"
     ],
-    "lines": 494,
+    "lines": 522,
     "group": "ui"
   },
   "src/components/ui/DestinationCarousel.tsx": {
@@ -7393,7 +7447,7 @@
       "./FooterEditButton",
       "@/lib/translations"
     ],
-    "lines": 270,
+    "lines": 272,
     "group": "ui"
   },
   "src/components/ui/Testimonials.tsx": {
@@ -7419,11 +7473,11 @@
     ],
     "types": [],
     "imports": [
-      "next/link",
       "next/image",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "@/components/analytics/SelectItemLink"
     ],
-    "lines": 92,
+    "lines": 108,
     "group": "ui"
   },
   "src/components/ui/StoryCard.tsx": {
@@ -7752,7 +7806,7 @@
       "./FooterForm",
       "./FooterReveal"
     ],
-    "lines": 208,
+    "lines": 211,
     "group": "ui"
   },
   "src/components/ui/IndividualProgramsEditButton.tsx": {
@@ -7980,14 +8034,14 @@
     ],
     "types": [],
     "imports": [
-      "next/link",
       "next/image",
       "./AddToCartButton",
       "./WishlistButton",
+      "@/components/analytics/SelectItemLink",
       "@/lib/currency",
       "@/lib/translations"
     ],
-    "lines": 75,
+    "lines": 84,
     "group": "components"
   },
   "src/components/shop/VoucherCodeInput.tsx": {
@@ -8011,9 +8065,10 @@
     "types": [],
     "imports": [
       "@/lib/cart-store",
-      "@/lib/use-translations"
+      "@/lib/use-translations",
+      "@/lib/gtag"
     ],
-    "lines": 25,
+    "lines": 34,
     "group": "components"
   },
   "src/components/shop/WaitlistButton.tsx": {
@@ -8204,6 +8259,19 @@
     "lines": 36,
     "group": "admin"
   },
+  "src/components/admin/CancelOrderButton.tsx": {
+    "exports": [
+      "CancelOrderButton"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "@payloadcms/ui",
+      "payload"
+    ],
+    "lines": 78,
+    "group": "admin"
+  },
   "src/components/admin/BlogPageVisualEditorButton.tsx": {
     "exports": [
       "BlogPageVisualEditorButton"
@@ -8353,6 +8421,81 @@
     "lines": 160,
     "group": "admin"
   },
+  "src/components/analytics/SelectItemLink.tsx": {
+    "exports": [
+      "SelectItemLink"
+    ],
+    "types": [],
+    "imports": [
+      "next/link",
+      "react",
+      "@/lib/gtag"
+    ],
+    "lines": 31,
+    "group": "components"
+  },
+  "src/components/analytics/PurchaseTracker.tsx": {
+    "exports": [
+      "PurchaseTracker"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "@/lib/gtag"
+    ],
+    "lines": 27,
+    "group": "components"
+  },
+  "src/components/analytics/CookieConsentBanner.tsx": {
+    "exports": [
+      "CookieConsentBanner"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "@/lib/use-translations",
+      "@/lib/gtag"
+    ],
+    "lines": 47,
+    "group": "components"
+  },
+  "src/components/analytics/ViewItemTracker.tsx": {
+    "exports": [
+      "ViewItemTracker"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "@/lib/gtag"
+    ],
+    "lines": 25,
+    "group": "components"
+  },
+  "src/components/analytics/ViewItemListTracker.tsx": {
+    "exports": [
+      "ViewItemListTracker"
+    ],
+    "types": [],
+    "imports": [
+      "react",
+      "@/lib/gtag"
+    ],
+    "lines": 25,
+    "group": "components"
+  },
+  "src/components/analytics/GoogleAnalytics.tsx": {
+    "exports": [
+      "GoogleAnalytics"
+    ],
+    "types": [],
+    "imports": [
+      "next/script",
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 33,
+    "group": "components"
+  },
   "src/scripts/seed-cron-jobs.ts": {
     "exports": [],
     "types": [],
@@ -8453,9 +8596,10 @@
       "payload",
       "next/cache",
       "next/server",
-      "@/lib/escape-html"
+      "@/lib/escape-html",
+      "@/lib/ga4-measurement-protocol"
     ],
-    "lines": 915,
+    "lines": 1003,
     "group": "lib"
   },
   "src/lib/get-default-strings.ts": {
@@ -8476,6 +8620,18 @@
     "types": [],
     "imports": [],
     "lines": 13,
+    "group": "lib"
+  },
+  "src/lib/ga4-measurement-protocol.ts": {
+    "exports": [
+      "sendGa4Refund",
+      "sendGa4Purchase"
+    ],
+    "types": [],
+    "imports": [
+      "crypto"
+    ],
+    "lines": 76,
     "group": "lib"
   },
   "src/lib/featured-content.ts": {
@@ -8559,6 +8715,22 @@
     "lines": 24,
     "group": "lib"
   },
+  "src/lib/gtag.ts": {
+    "exports": [
+      "gtagEvent",
+      "fireOncePerSession",
+      "CONSENT_STORAGE_KEY",
+      "updateConsent",
+      "getStoredConsent"
+    ],
+    "types": [
+      "GtagItem",
+      "ConsentChoice"
+    ],
+    "imports": [],
+    "lines": 53,
+    "group": "lib"
+  },
   "src/lib/stripe-product-sync.ts": {
     "exports": [
       "syncStripeProduct"
@@ -8596,9 +8768,10 @@
     "imports": [
       "zustand",
       "zustand/middleware",
+      "@/lib/gtag",
       "react"
     ],
-    "lines": 183,
+    "lines": 201,
     "group": "lib"
   },
   "src/lib/translations.ts": {
@@ -8612,7 +8785,7 @@
       "Translations"
     ],
     "imports": [],
-    "lines": 2130,
+    "lines": 2140,
     "group": "lib"
   },
   "src/lib/send-registration-forms.ts": {
@@ -8865,6 +9038,8 @@
   },
   "src/lib/cron/grace-period.ts": {
     "exports": [
+      "BOOKABLE_COLLECTIONS",
+      "freeSpotAndNotifyWaitlist",
       "runGracePeriodCheck"
     ],
     "types": [],
@@ -9115,7 +9290,7 @@
       "@/components/blocks/vouchers/VouchersRedeemBlock",
       "@/components/blocks/vouchers/VouchersMineBlock"
     ],
-    "lines": 2156,
+    "lines": 2158,
     "group": "other"
   },
   "src/puck/puckAI.ts": {

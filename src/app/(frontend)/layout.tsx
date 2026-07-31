@@ -70,8 +70,8 @@ export default async function FrontendLayout({ children }: { children: React.Rea
     <html lang="bg" className={`${spaceGrotesk.variable} ${dancingScript.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body suppressHydrationWarning>
         <GoogleAnalytics />
-        <CookieConsentBanner />
         <LanguageProvider initialLanguage={initialLanguage}>
+          <CookieConsentBanner />
           <Navigation />
           <main className="pt-[72px] md:pt-[88px]">{children}</main>
           <Suspense fallback={null}>

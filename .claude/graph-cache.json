@@ -103,6 +103,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260731_registrations_manual_confirm_paid.ts",
+      "label": "migrations/20260731_registrations_manual_confirm_paid.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260629_tags_free_text.ts",
       "label": "migrations/20260629_tags_free_text.ts",
       "group": "other",
@@ -729,6 +735,12 @@
     {
       "id": "src/app/api/campaigns/[id]/test/route.ts",
       "label": "test/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/orders/cancel/route.ts",
+      "label": "cancel/route.ts",
       "group": "api",
       "size": 4
     },
@@ -2009,6 +2021,12 @@
       "label": "seeds/destinations.ts",
       "group": "payload",
       "size": 4
+    },
+    {
+      "id": "src/payload/hooks/manualConfirm.ts",
+      "label": "hooks/manualConfirm.ts",
+      "group": "payload",
+      "size": 6
     },
     {
       "id": "src/payload/hooks/emailFlowTriggers.ts",
@@ -3415,6 +3433,12 @@
       "size": 6
     },
     {
+      "id": "src/components/admin/CancelOrderButton.tsx",
+      "label": "admin/CancelOrderButton.tsx",
+      "group": "admin",
+      "size": 4
+    },
+    {
       "id": "src/components/admin/BlogPageVisualEditorButton.tsx",
       "label": "admin/BlogPageVisualEditorButton.tsx",
       "group": "admin",
@@ -3505,6 +3529,42 @@
       "size": 6
     },
     {
+      "id": "src/components/analytics/SelectItemLink.tsx",
+      "label": "analytics/SelectItemLink.tsx",
+      "group": "components",
+      "size": 12
+    },
+    {
+      "id": "src/components/analytics/PurchaseTracker.tsx",
+      "label": "analytics/PurchaseTracker.tsx",
+      "group": "components",
+      "size": 6
+    },
+    {
+      "id": "src/components/analytics/CookieConsentBanner.tsx",
+      "label": "analytics/CookieConsentBanner.tsx",
+      "group": "components",
+      "size": 6
+    },
+    {
+      "id": "src/components/analytics/ViewItemTracker.tsx",
+      "label": "analytics/ViewItemTracker.tsx",
+      "group": "components",
+      "size": 14
+    },
+    {
+      "id": "src/components/analytics/ViewItemListTracker.tsx",
+      "label": "analytics/ViewItemListTracker.tsx",
+      "group": "components",
+      "size": 12
+    },
+    {
+      "id": "src/components/analytics/GoogleAnalytics.tsx",
+      "label": "analytics/GoogleAnalytics.tsx",
+      "group": "components",
+      "size": 6
+    },
+    {
       "id": "src/scripts/seed-cron-jobs.ts",
       "label": "scripts/seed-cron-jobs.ts",
       "group": "other",
@@ -3565,6 +3625,12 @@
       "size": 14
     },
     {
+      "id": "src/lib/ga4-measurement-protocol.ts",
+      "label": "lib/ga4-measurement-protocol.ts",
+      "group": "lib",
+      "size": 6
+    },
+    {
       "id": "src/lib/featured-content.ts",
       "label": "lib/featured-content.ts",
       "group": "lib",
@@ -3597,6 +3663,12 @@
     {
       "id": "src/lib/payload-auth.ts",
       "label": "lib/payload-auth.ts",
+      "group": "lib",
+      "size": 20
+    },
+    {
+      "id": "src/lib/gtag.ts",
+      "label": "lib/gtag.ts",
       "group": "lib",
       "size": 20
     },
@@ -3742,7 +3814,7 @@
       "id": "src/lib/cron/grace-period.ts",
       "label": "cron/grace-period.ts",
       "group": "lib",
-      "size": 6
+      "size": 8
     },
     {
       "id": "src/lib/cron/send-registration-forms.ts",
@@ -3957,6 +4029,10 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260729_customers_sessions_table.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260731_registrations_manual_confirm_paid.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -4491,6 +4567,18 @@
       "target": "src/lib/resend.ts"
     },
     {
+      "source": "src/app/api/orders/cancel/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/orders/cancel/route.ts",
+      "target": "src/lib/cron/grace-period.ts"
+    },
+    {
+      "source": "src/app/api/orders/cancel/route.ts",
+      "target": "src/lib/stripe.ts"
+    },
+    {
       "source": "src/app/api/orders/by-session/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -5003,6 +5091,10 @@
       "target": "src/lib/metadata.ts"
     },
     {
+      "source": "src/app/(frontend)/destinations/page.tsx",
+      "target": "src/components/analytics/ViewItemListTracker.tsx"
+    },
+    {
       "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -5025,6 +5117,10 @@
     {
       "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
       "target": "src/components/ui/TrackRecentlyViewed.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/components/analytics/ViewItemTracker.tsx"
     },
     {
       "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
@@ -5204,6 +5300,10 @@
     },
     {
       "source": "src/app/(frontend)/shop/products/[slug]/page.tsx",
+      "target": "src/components/analytics/ViewItemTracker.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/products/[slug]/page.tsx",
       "target": "src/components/shop/WishlistButton.tsx"
     },
     {
@@ -5225,6 +5325,10 @@
     {
       "source": "src/app/(frontend)/shop/success/page.tsx",
       "target": "src/lib/currency.ts"
+    },
+    {
+      "source": "src/app/(frontend)/shop/success/page.tsx",
+      "target": "src/components/analytics/PurchaseTracker.tsx"
     },
     {
       "source": "src/app/(frontend)/shop/gift-vouchers/page.tsx",
@@ -5267,6 +5371,10 @@
       "target": "src/lib/translations.ts"
     },
     {
+      "source": "src/app/(frontend)/shop/checkout/page.tsx",
+      "target": "src/lib/gtag.ts"
+    },
+    {
       "source": "src/app/(frontend)/shop/[tripId]/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -5301,6 +5409,10 @@
     {
       "source": "src/app/(frontend)/shop/page.tsx",
       "target": "src/components/shop/ProductCard.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/page.tsx",
+      "target": "src/components/analytics/ViewItemListTracker.tsx"
     },
     {
       "source": "src/app/(frontend)/shop/page.tsx",
@@ -5353,6 +5465,10 @@
     {
       "source": "src/app/(frontend)/shop/bundles/[slug]/page.tsx",
       "target": "src/components/shop/AddToCartButton.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/bundles/[slug]/page.tsx",
+      "target": "src/components/analytics/ViewItemTracker.tsx"
     },
     {
       "source": "src/app/(frontend)/shop/bundles/[slug]/page.tsx",
@@ -5539,6 +5655,14 @@
       "target": "src/lib/currency.ts"
     },
     {
+      "source": "src/app/(frontend)/programs/page.tsx",
+      "target": "src/components/analytics/SelectItemLink.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/programs/page.tsx",
+      "target": "src/components/analytics/ViewItemListTracker.tsx"
+    },
+    {
       "source": "src/app/(frontend)/programs/[slug]/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -5549,6 +5673,10 @@
     {
       "source": "src/app/(frontend)/programs/[slug]/page.tsx",
       "target": "src/lib/metadata.ts"
+    },
+    {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/components/analytics/ViewItemTracker.tsx"
     },
     {
       "source": "src/app/(frontend)/programs/[slug]/page.tsx",
@@ -5673,6 +5801,14 @@
     {
       "source": "src/app/(frontend)/layout.tsx",
       "target": "src/components/ui/Footer.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/layout.tsx",
+      "target": "src/components/analytics/GoogleAnalytics.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/layout.tsx",
+      "target": "src/components/analytics/CookieConsentBanner.tsx"
     },
     {
       "source": "src/app/(frontend)/vouchers/[code]/page.tsx",
@@ -5807,6 +5943,14 @@
       "target": "src/lib/metadata.ts"
     },
     {
+      "source": "src/app/(frontend)/trips/page.tsx",
+      "target": "src/components/analytics/SelectItemLink.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/trips/page.tsx",
+      "target": "src/components/analytics/ViewItemListTracker.tsx"
+    },
+    {
       "source": "src/app/(frontend)/trips/[slug]/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -5825,6 +5969,10 @@
     {
       "source": "src/app/(frontend)/trips/[slug]/page.tsx",
       "target": "src/components/ui/TrackRecentlyViewed.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/components/analytics/ViewItemTracker.tsx"
     },
     {
       "source": "src/app/(frontend)/trips/[slug]/page.tsx",
@@ -6501,6 +6649,10 @@
     {
       "source": "src/payload/collections/Registrations.ts",
       "target": "src/payload/hooks/emailFlowTriggers.ts"
+    },
+    {
+      "source": "src/payload/collections/Registrations.ts",
+      "target": "src/payload/hooks/manualConfirm.ts"
     },
     {
       "source": "src/payload/collections/Programs.ts",
@@ -7419,6 +7571,10 @@
       "target": "src/lib/use-translations.ts"
     },
     {
+      "source": "src/components/ui/destination-page/BookingDrawer.tsx",
+      "target": "src/lib/gtag.ts"
+    },
+    {
       "source": "src/components/ui/destination-page/ItinerarySectionClient.tsx",
       "target": "src/components/ui/destination-page/ItinerarySection.tsx"
     },
@@ -7695,6 +7851,10 @@
       "target": "src/lib/media-url.ts"
     },
     {
+      "source": "src/components/ui/DestinationCard.tsx",
+      "target": "src/components/analytics/SelectItemLink.tsx"
+    },
+    {
       "source": "src/components/ui/StoryCard.tsx",
       "target": "src/lib/media-url.ts"
     },
@@ -7920,6 +8080,10 @@
     },
     {
       "source": "src/components/shop/ProductCard.tsx",
+      "target": "src/components/analytics/SelectItemLink.tsx"
+    },
+    {
+      "source": "src/components/shop/ProductCard.tsx",
       "target": "src/lib/currency.ts"
     },
     {
@@ -7945,6 +8109,10 @@
     {
       "source": "src/components/shop/AddToCartButton.tsx",
       "target": "src/lib/use-translations.ts"
+    },
+    {
+      "source": "src/components/shop/AddToCartButton.tsx",
+      "target": "src/lib/gtag.ts"
     },
     {
       "source": "src/components/shop/WaitlistButton.tsx",
@@ -7983,6 +8151,34 @@
       "target": "src/lib/use-translations.ts"
     },
     {
+      "source": "src/components/analytics/SelectItemLink.tsx",
+      "target": "src/lib/gtag.ts"
+    },
+    {
+      "source": "src/components/analytics/PurchaseTracker.tsx",
+      "target": "src/lib/gtag.ts"
+    },
+    {
+      "source": "src/components/analytics/CookieConsentBanner.tsx",
+      "target": "src/lib/use-translations.ts"
+    },
+    {
+      "source": "src/components/analytics/CookieConsentBanner.tsx",
+      "target": "src/lib/gtag.ts"
+    },
+    {
+      "source": "src/components/analytics/ViewItemTracker.tsx",
+      "target": "src/lib/gtag.ts"
+    },
+    {
+      "source": "src/components/analytics/ViewItemListTracker.tsx",
+      "target": "src/lib/gtag.ts"
+    },
+    {
+      "source": "src/components/analytics/GoogleAnalytics.tsx",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
       "source": "src/scripts/seed-cron-jobs.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -7993,6 +8189,10 @@
     {
       "source": "src/lib/stripe-webhooks.ts",
       "target": "src/lib/escape-html.ts"
+    },
+    {
+      "source": "src/lib/stripe-webhooks.ts",
+      "target": "src/lib/ga4-measurement-protocol.ts"
     },
     {
       "source": "src/lib/stripe-webhooks.ts",
@@ -8037,6 +8237,10 @@
     {
       "source": "src/lib/stripe-product-sync.ts",
       "target": "src/lib/stripe.ts"
+    },
+    {
+      "source": "src/lib/cart-store.ts",
+      "target": "src/lib/gtag.ts"
     },
     {
       "source": "src/lib/send-registration-forms.ts",
@@ -8527,6 +8731,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-07-29T07:31:25.743Z",
-  "fileCount": 644
+  "builtAt": "2026-07-31T13:14:57.487Z",
+  "fileCount": 656
 }
