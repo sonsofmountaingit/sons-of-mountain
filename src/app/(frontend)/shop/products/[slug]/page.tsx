@@ -8,6 +8,7 @@ import { Suspense } from 'react'
 import { mediaUrl } from "@/lib/media-url"
 import { buildMetadata } from '@/lib/metadata'
 import { AddToCartButton } from '@/components/shop/AddToCartButton'
+import { ViewItemTracker } from '@/components/analytics/ViewItemTracker'
 import { WishlistButton } from '@/components/shop/WishlistButton'
 import { StockAlertButton } from '@/components/shop/StockAlertButton'
 import { WaitlistButton } from '@/components/shop/WaitlistButton'
@@ -82,6 +83,7 @@ async function ProductContent({ params }: { params: Promise<{ slug: string }> })
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-12">
+      <ViewItemTracker id={String(p.id)} name={p.title as string} price={p.price ?? 0} category="product" />
       {productJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />}
       <div className="grid gap-12 lg:grid-cols-2">
         {/* Images */}

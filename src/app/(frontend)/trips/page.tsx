@@ -3,10 +3,11 @@ import config from '@payload-config'
 import type { Metadata } from 'next'
 import { unstable_cache } from 'next/cache'
 import { Suspense } from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
 import { mediaUrl } from '@/lib/media-url'
 import { buildStaticMetadata } from '@/lib/metadata'
+import { SelectItemLink } from '@/components/analytics/SelectItemLink'
+import { ViewItemListTracker } from '@/components/analytics/ViewItemListTracker'
 
 export const dynamic = 'force-dynamic'
 
@@ -60,7 +61,16 @@ function TripCard({ trip }: { trip: Record<string, unknown> }) {
   const tags = trip.tags as { tag: string }[] | null
 
   return (
-    <Link href={href} className="group block bg-white/5 hover:bg-white/10 transition-colors rounded-lg sm:rounded-2xl overflow-hidden">
+    <SelectItemLink
+      href={href}
+      itemId={String(trip.id)}
+      itemName={trip.title as string}
+      price={price ?? 0}
+      listId="trips"
+      listName="Trips"
+      itemCategory="trip"
+      className="group block bg-white/5 hover:bg-white/10 transition-colors rounded-lg sm:rounded-2xl overflow-hidden"
+    >
       <div className="relative aspect-[4/3] overflow-hidden">
         {imageUrl ? (
           <Image
@@ -130,7 +140,7 @@ function TripCard({ trip }: { trip: Record<string, unknown> }) {
           </div>
         )}
       </div>
-    </Link>
+    </SelectItemLink>
   )
 }
 
@@ -172,6 +182,11 @@ async function TripsContent() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <ViewItemListTracker
+        listId="trips"
+        listName="Trips"
+        items={active.map((t: any) => ({ item_id: String(t.id), item_name: t.title, price: t.price ?? 0, item_category: 'trip' }))}
+      />
       {active.length === 0 && soldOut.length === 0 && (
         <p className="text-white/30 text-center py-20">Скоро ще добавим пътувания.</p>
       )}

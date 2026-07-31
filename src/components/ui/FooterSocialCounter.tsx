@@ -75,11 +75,13 @@ export function FooterSocialCounter({
   facebookFollowers,
   instagramUrl,
   instagramFollowers,
+  tiktokUrl,
 }: {
   facebookUrl: string
   facebookFollowers: string
   instagramUrl: string
   instagramFollowers: string
+  tiktokUrl?: string
 }) {
   return (
     <div style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
@@ -89,6 +91,11 @@ export function FooterSocialCounter({
       <a href={instagramUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
         <Counter target={instagramFollowers} label="Instagram" />
       </a>
+      {tiktokUrl && (
+        <a href={tiktokUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', color: '#ffffff' }}>
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="5" fill="#000000"/><path d="M15.59 5.19a3.62 3.62 0 0 1-2.83-3.19V2h-2.59v10.25a2.17 2.17 0 0 1-2.16 1.88 2.17 2.17 0 0 1-2.17-2.17 2.17 2.17 0 0 1 2.17-2.17c.21 0 .4.03.59.08V7.26a4.75 4.75 0 0 0-.59-.04 4.75 4.75 0 0 0-4.75 4.75A4.75 4.75 0 0 0 8.01 16.72a4.75 4.75 0 0 0 4.75-4.75V6.52a6.12 6.12 0 0 0 3.58 1.14V5.19a3.64 3.64 0 0 1-.75-.05" fill="white"/></svg>
+        </a>
+      )}
     </div>
   )
 }

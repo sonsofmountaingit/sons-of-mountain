@@ -21,6 +21,7 @@ interface FooterClientProps {
   subscribeSubtext: string
   facebookUrl: string
   instagramUrl: string
+  tiktokUrl?: string
   facebookFollowers: string
   instagramFollowers: string
   logoUrl: string | null
@@ -52,6 +53,7 @@ export function FooterClient({
   subscribeSubtext,
   facebookUrl,
   instagramUrl,
+  tiktokUrl,
   facebookFollowers,
   instagramFollowers,
   logoUrl,
@@ -133,6 +135,7 @@ export function FooterClient({
               facebookFollowers={facebookFollowers}
               instagramUrl={instagramUrl}
               instagramFollowers={instagramFollowers}
+              tiktokUrl={tiktokUrl}
             />
           </div>
 

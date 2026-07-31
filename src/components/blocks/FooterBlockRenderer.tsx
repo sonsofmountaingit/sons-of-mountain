@@ -13,6 +13,7 @@ type FooterData = {
   followSubtext?: string
   facebookUrl?: string
   instagramUrl?: string
+  tiktokUrl?: string
   facebookFollowers?: string
   instagramFollowers?: string
   travelSectionHeading?: string
@@ -64,6 +65,7 @@ export function FooterBlockRenderer({ overrides }: Props = {}) {
   const followSubtext = d.followSubtext ?? 'Become part of our community and follow our adventures closely.'
   const facebookUrl = d.facebookUrl ?? 'https://facebook.com/sonsofmountains'
   const instagramUrl = d.instagramUrl ?? 'https://instagram.com/sonsofmountains'
+  const tiktokUrl = d.tiktokUrl ?? 'https://tiktok.com/@sonsofmountains'
   const facebookFollowers = d.facebookFollowers ?? '20.2K'
   const instagramFollowers = d.instagramFollowers ?? '23.8K'
   const travelSectionHeading = d.travelSectionHeading ?? 'TRAVEL WITH US'
@@ -122,6 +124,11 @@ export function FooterBlockRenderer({ overrides }: Props = {}) {
                   <svg width="34" height="34" viewBox="0 0 34 34" fill="none"><defs><radialGradient id="ig-puck" cx="30%" cy="107%" r="120%"><stop offset="0%" stopColor="#ffd600"/><stop offset="30%" stopColor="#ff6930"/><stop offset="60%" stopColor="#fe3b93"/><stop offset="100%" stopColor="#9e34d4"/></radialGradient></defs><rect width="34" height="34" rx="8" fill="url(#ig-puck)"/><rect x="9" y="9" width="16" height="16" rx="4.5" stroke="white" strokeWidth="1.5" fill="none"/><circle cx="17" cy="17" r="4" stroke="white" strokeWidth="1.5" fill="none"/><circle cx="22" cy="12" r="1" fill="white"/></svg>
                   <span style={{ fontSize: '1.5rem', fontWeight: 700 }}>{instagramFollowers}</span>
                 </a>
+                {tiktokUrl && (
+                  <a href={tiktokUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', color: '#ffffff' }}>
+                    <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="5" fill="#000000"/><path d="M15.59 5.19a3.62 3.62 0 0 1-2.83-3.19V2h-2.59v10.25a2.17 2.17 0 0 1-2.16 1.88 2.17 2.17 0 0 1-2.17-2.17 2.17 2.17 0 0 1 2.17-2.17c.21 0 .4.03.59.08V7.26a4.75 4.75 0 0 0-.59-.04 4.75 4.75 0 0 0-4.75 4.75A4.75 4.75 0 0 0 8.01 16.72a4.75 4.75 0 0 0 4.75-4.75V6.52a6.12 6.12 0 0 0 3.58 1.14V5.19a3.64 3.64 0 0 1-.75-.05" fill="white"/></svg>
+                  </a>
+                )}
               </div>
             </div>
           </div>

@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { mediaUrl } from "@/lib/media-url"
 import { buildMetadata } from '@/lib/metadata'
 import { AddToCartButton } from '@/components/shop/AddToCartButton'
+import { ViewItemTracker } from '@/components/analytics/ViewItemTracker'
 import { Suspense } from 'react'
 import { formatPrice } from '@/lib/currency'
 
@@ -83,6 +84,7 @@ async function BundleContent({ params }: { params: Promise<{ slug: string }> }) 
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white">
+      <ViewItemTracker id={String(bundle.id)} name={bundle.title as string} price={(bundle as any).bundlePrice ?? 0} category="bundle" />
       {productJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />}
       {/* Hero */}
       <section className="relative min-h-[55vh] flex items-end overflow-hidden -mt-24">

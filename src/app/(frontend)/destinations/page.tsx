@@ -5,6 +5,7 @@ import type { Metadata } from 'next'
 import { unstable_cache } from 'next/cache'
 import { Suspense } from 'react'
 import { buildStaticMetadata } from '@/lib/metadata'
+import { ViewItemListTracker } from '@/components/analytics/ViewItemListTracker'
 
 export const dynamic = 'force-dynamic'
 
@@ -125,10 +126,19 @@ async function DestinationsContent({ type }: { type?: string }) {
       {destinations.length === 0 && trips.length === 0 && archived.length === 0 && (
         <p className="text-white/30 text-center py-20">Скоро ще добавим дестинации.</p>
       )}
+      <ViewItemListTracker
+        listId="destinations"
+        listName="Destinations"
+        items={[
+          ...destinations.map((d: any) => ({ item_id: String(d.id), item_name: d.name, price: d.price ?? 0, item_category: 'destination' })),
+          ...trips.map((t: any) => ({ item_id: String(t.id), item_name: t.title, price: t.price ?? 0, item_category: 'trip' })),
+        ]}
+      />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
         {destinations.map((dest: any) => (
           <DestinationCard
             key={dest.id}
+            id={String(dest.id)}
             name={dest.name}
             slug={dest.slug}
             heroImage={dest.heroImage as { url?: string | null; alt: string } | null}
@@ -138,11 +148,16 @@ async function DestinationsContent({ type }: { type?: string }) {
             earlyBirdUntil={dest.earlyBirdUntil ?? null}
             earlyBirdSpots={dest.earlyBirdSpotsRemaining ?? dest.earlyBirdSpots ?? null}
             label={DESTINATION_TYPE_LABELS[dest.type] ?? undefined}
+            price={dest.price ?? null}
+            itemCategory="destination"
+            listId="destinations"
+            listName="Destinations"
           />
         ))}
         {trips.map((trip: any) => (
           <DestinationCard
             key={trip.id}
+            id={String(trip.id)}
             name={trip.title}
             slug={trip.slug}
             href={`/trips/${trip.slug}`}
@@ -153,6 +168,10 @@ async function DestinationsContent({ type }: { type?: string }) {
             earlyBirdUntil={trip.earlyBirdUntil ?? null}
             earlyBirdSpots={trip.earlyBirdSpotsRemaining ?? trip.earlyBirdSpots ?? null}
             label={TRIP_NAV_SECTION_LABELS[trip.navSection] ?? undefined}
+            price={trip.price ?? null}
+            itemCategory="trip"
+            listId="destinations"
+            listName="Destinations"
           />
         ))}
       </div>

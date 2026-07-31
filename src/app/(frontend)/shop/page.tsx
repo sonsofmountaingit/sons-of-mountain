@@ -7,6 +7,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Suspense } from 'react'
 import { ProductCard } from '@/components/shop/ProductCard'
+import { ViewItemListTracker } from '@/components/analytics/ViewItemListTracker'
 import { mediaUrl } from "@/lib/media-url"
 import { buildStaticMetadata } from '@/lib/metadata'
 import { formatPrice } from '@/lib/currency'
@@ -194,6 +195,11 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
                 <h2 className="text-3xl font-bold">{t.shop.gear_products}</h2>
               </div>
             </div>
+            <ViewItemListTracker
+              listId="shop-products"
+              listName="Shop Products"
+              items={filteredProducts.map((p: any) => ({ item_id: String(p.id), item_name: p.title, price: p.price ?? 0, item_category: 'product' }))}
+            />
             <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 border border-[#1a1a1a]">
               {filteredProducts.map((product: any) => {
                 const img = product.images?.[0]?.image

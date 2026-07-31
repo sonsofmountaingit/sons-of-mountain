@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import crypto from 'crypto'
 import { syncSpotsAfterChange, syncSpotsAfterDelete } from '../hooks/syncTripSpots'
 import { registrationEmailFlows } from '../hooks/emailFlowTriggers'
+import { manualConfirmPaidBeforeChange } from '../hooks/manualConfirm'
 
 export const Registrations: CollectionConfig = {
   slug: 'registrations',
@@ -18,6 +19,7 @@ export const Registrations: CollectionConfig = {
         }
         return data
       },
+      manualConfirmPaidBeforeChange,
     ],
     afterChange: [syncSpotsAfterChange, registrationEmailFlows],
     afterDelete: [syncSpotsAfterDelete],
@@ -265,6 +267,20 @@ export const Registrations: CollectionConfig = {
         { name: 'overdueNoticeSent', type: 'checkbox', defaultValue: false, admin: { readOnly: true } },
         { name: 'remindersSent', type: 'array', admin: { readOnly: true }, fields: [{ name: 'daysBefore', type: 'number' }] },
       ],
+    },
+    {
+      name: 'cancelOrderButton',
+      type: 'ui',
+      admin: {
+        position: 'sidebar',
+        components: { Field: '@/components/admin/CancelOrderButton#CancelOrderButton' },
+      },
+    },
+    {
+      name: 'manualConfirmPaid',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: { position: 'sidebar', description: 'Check to mark this registration as confirmed + paid without an online payment (cash, comp, phone booking)' },
     },
     {
       name: 'manualCancelRequested',

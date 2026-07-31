@@ -5,6 +5,7 @@ import { useCartStore } from '@/lib/cart-store'
 import { useRouter } from 'next/navigation'
 import { formatPrice } from '@/lib/currency'
 import { useTranslations } from '@/lib/use-translations'
+import { gtagEvent } from '@/lib/gtag'
 
 interface Props {
   open: boolean
@@ -87,6 +88,11 @@ export function BookingDrawer({
       destinationId: itemType === 'destination' ? tripId : undefined,
       spotsAvailable: spotsAvailable ?? undefined,
       depositAmount: depositAmount ?? undefined,
+    })
+    gtagEvent('add_to_cart', {
+      currency,
+      value: totalPrice,
+      items: [{ item_id: `${itemType}-${tripId}`, item_name: tripTitle, price: effectivePrice, item_category: itemType, quantity: qty }],
     })
     router.push('/shop/checkout')
   }

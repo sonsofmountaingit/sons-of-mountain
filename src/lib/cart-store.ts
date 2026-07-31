@@ -2,6 +2,7 @@
 
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { gtagEvent } from '@/lib/gtag'
 
 export type CartItemType = 'trip' | 'product' | 'program' | 'destination' | 'gift-voucher' | 'bundle'
 
@@ -120,13 +121,30 @@ export const useCartStore = create<CartState>()(
       },
 
       removeItem: (id) => {
+        const removed = get().items.find((i) => i.id === id)
         set((state) => ({ items: state.items.filter((i) => i.id !== id) }))
+        if (removed) {
+          gtagEvent('remove_from_cart', {
+            currency: get().preferredCurrency,
+            value: removed.unitPrice * removed.quantity,
+            items: [{ item_id: removed.id, item_name: removed.title, price: removed.unitPrice, item_category: removed.type, quantity: removed.quantity }],
+          })
+        }
       },
 
       updateQuantity: (id, quantity) => {
         if (quantity <= 0) {
           get().removeItem(id)
           return
+        }
+        const existing = get().items.find((i) => i.id === id)
+        if (existing && quantity < existing.quantity) {
+          const removedQty = existing.quantity - quantity
+          gtagEvent('remove_from_cart', {
+            currency: get().preferredCurrency,
+            value: existing.unitPrice * removedQty,
+            items: [{ item_id: existing.id, item_name: existing.title, price: existing.unitPrice, item_category: existing.type, quantity: removedQty }],
+          })
         }
         set((state) => ({
           items: state.items.map((i) => (i.id === id ? { ...i, quantity } : i)),

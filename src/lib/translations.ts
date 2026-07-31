@@ -1048,6 +1048,11 @@ export const translations = {
     months: ['януари', 'февруари', 'март', 'април', 'май', 'юни', 'юли', 'август', 'септември', 'октомври', 'ноември', 'декември'],
     weekdays: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Нд'],
     fullWeekdays: ['Понеделник', 'Вторник', 'Сряда', 'Четвъртък', 'Петък', 'Събота', 'Неделя'],
+    cookie_consent: {
+      message: 'Използваме бисквитки за анализ на трафика и подобряване на съдържанието.',
+      accept: 'Приемам',
+      decline: 'Отказвам',
+    },
   },
   EN: {
     nav: {
@@ -2098,6 +2103,11 @@ export const translations = {
     months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     weekdays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     fullWeekdays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    cookie_consent: {
+      message: 'We use cookies to analyze traffic and improve our content.',
+      accept: 'Accept',
+      decline: 'Decline',
+    },
   },
 } as const
 

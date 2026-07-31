@@ -72,6 +72,11 @@ export const Footer: GlobalConfig = {
       defaultValue: 'https://facebook.com/sonsofmountains',
     },
     {
+      name: 'tiktokUrl',
+      type: 'text',
+      defaultValue: 'https://tiktok.com/@sonsofmountains',
+    },
+    {
       name: 'travelSectionHeading',
       type: 'text',
       defaultValue: 'ПЪТУВАЙ С НАС',

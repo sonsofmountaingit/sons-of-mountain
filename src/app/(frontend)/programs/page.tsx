@@ -3,11 +3,12 @@ import config from '@payload-config'
 import type { Metadata } from 'next'
 import { unstable_cache } from 'next/cache'
 import { Suspense } from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
 import { mediaUrl } from '@/lib/media-url'
 import { buildStaticMetadata } from '@/lib/metadata'
 import { formatPrice } from '@/lib/currency'
+import { SelectItemLink } from '@/components/analytics/SelectItemLink'
+import { ViewItemListTracker } from '@/components/analytics/ViewItemListTracker'
 
 export const dynamic = 'force-dynamic'
 
@@ -66,7 +67,16 @@ function ProgramCard({ program }: { program: Record<string, unknown> }) {
     : null
 
   return (
-    <Link href={href} className="group block bg-white/5 hover:bg-white/10 transition-colors rounded-2xl overflow-hidden">
+    <SelectItemLink
+      href={href}
+      itemId={String(program.id)}
+      itemName={program.title as string}
+      price={price ?? 0}
+      listId="programs"
+      listName="Programs"
+      itemCategory="program"
+      className="group block bg-white/5 hover:bg-white/10 transition-colors rounded-2xl overflow-hidden"
+    >
       <div className="relative aspect-[4/3] overflow-hidden">
         {imageUrl ? (
           <Image
@@ -131,7 +141,7 @@ function ProgramCard({ program }: { program: Record<string, unknown> }) {
           </div>
         )}
       </div>
-    </Link>
+    </SelectItemLink>
   )
 }
 
@@ -158,6 +168,11 @@ async function ProgramsContent() {
 
   return (
     <>
+      <ViewItemListTracker
+        listId="programs"
+        listName="Programs"
+        items={active.map((p: any) => ({ item_id: String(p.id), item_name: p.title, price: p.price ?? 0, item_category: 'program' }))}
+      />
       {active.length === 0 && archived.length === 0 && (
         <p className="text-white/30 text-center py-20">Скоро ще добавим програми.</p>
       )}

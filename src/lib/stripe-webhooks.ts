@@ -3,6 +3,18 @@ import type { BasePayload } from 'payload'
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { after } from 'next/server'
 import { escapeHtml } from '@/lib/escape-html'
+import { sendGa4Refund, sendGa4Purchase } from '@/lib/ga4-measurement-protocol'
+
+function ga4ItemTitle(item: any): string {
+  return (
+    item.trip?.title ??
+    item.product?.title ??
+    item.program?.title ??
+    item.destination?.name ??
+    item.bundle?.title ??
+    'Product'
+  )
+}
 
 async function getStripe() {
   const { stripe } = await import('@/lib/stripe')
@@ -419,6 +431,25 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
       } as any,
     })
 
+    {
+      const orderNumber = String(orderId).slice(-8).toUpperCase()
+      const ga4Items = ((order as any).items ?? []).map((item: any) => ({
+        item_id: String(item.trip?.id ?? item.product?.id ?? item.program?.id ?? item.destination?.id ?? item.bundle?.id ?? orderId),
+        item_name: ga4ItemTitle(item),
+        price: item.unitPrice ?? 0,
+        quantity: item.quantity ?? item.participantCount ?? 1,
+        item_category: item.itemType,
+      }))
+      const orderValue = (order as any).totalAmount ?? (order as any).amount ?? (order as any).price ?? 0
+      await sendGa4Purchase({
+        orderId: String(orderId),
+        transactionId: orderNumber,
+        value: orderValue,
+        currency: ((order as any).currency as string) ?? 'EUR',
+        items: ga4Items,
+      })
+    }
+
     // Save payment method for future use
     if (session.payment_intent && session.customer) {
       try {
@@ -651,6 +682,28 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
     await generateInvoice(payload, stripe, session, 'registrations', id)
     await sendRegistrationConfirmationEmail(payload, id).catch(() => {})
 
+    {
+      const paidReg = await payload.findByID({ collection: 'registrations', id, depth: 2 }).catch(() => null) as any
+      if (paidReg) {
+        const regNumber = String(id).slice(-8).toUpperCase()
+        const regItemType = paidReg.trip ? 'trip' : paidReg.program ? 'program' : paidReg.destination ? 'destination' : 'registration'
+        const regEntity = paidReg.trip ?? paidReg.program ?? paidReg.destination ?? null
+        await sendGa4Purchase({
+          orderId: String(id),
+          transactionId: regNumber,
+          value: (session.amount_total ?? 0) / 100,
+          currency: (session.currency ?? 'eur').toUpperCase(),
+          items: [{
+            item_id: String(regEntity?.id ?? id),
+            item_name: regEntity?.title ?? regEntity?.name ?? 'Registration',
+            price: (paidReg.totalAmount as number) ?? (session.amount_total ?? 0) / 100,
+            quantity: (paidReg.participantCount as number) ?? 1,
+            item_category: regItemType,
+          }],
+        })
+      }
+    }
+
     if (tripId) {
       const reg = await payload.findByID({ collection: 'registrations', id }).catch(() => null)
       const trip = await payload.findByID({ collection: 'trips', id: tripId }).catch(() => null)
@@ -791,12 +844,29 @@ export async function handleChargeRefunded(charge: Stripe.Charge, payload: BaseP
       collection: 'orders',
       where: { stripePaymentIntentId: { equals: charge.payment_intent as string } },
       limit: 1,
+      depth: 2,
     })
     if (orders.docs.length > 0) {
+      const order = orders.docs[0] as any
       await payload.update({
         collection: 'orders',
-        id: orders.docs[0].id,
+        id: order.id,
         data: { status: 'refunded', stripeRefundId: refundId, refundAmount } as any,
+      })
+      const orderNumber = String(order.id).slice(-8).toUpperCase()
+      const items = ((order.items ?? []) as any[]).map((item) => ({
+        item_id: String(item.trip?.id ?? item.product?.id ?? item.program?.id ?? item.destination?.id ?? item.bundle?.id ?? order.id),
+        item_name: ga4ItemTitle(item),
+        price: item.unitPrice ?? 0,
+        quantity: item.quantity ?? item.participantCount ?? 1,
+        item_category: item.itemType,
+      }))
+      await sendGa4Refund({
+        orderId: String(order.id),
+        transactionId: orderNumber,
+        value: refundAmount,
+        currency: (order.currency as string) ?? 'EUR',
+        items,
       })
       return
     }
@@ -806,12 +876,30 @@ export async function handleChargeRefunded(charge: Stripe.Charge, payload: BaseP
       collection: 'registrations',
       where: { stripePaymentIntentId: { equals: charge.payment_intent as string } },
       limit: 1,
+      depth: 2,
     })
     if (regs.docs.length > 0) {
+      const reg = regs.docs[0] as any
       await payload.update({
         collection: 'registrations',
-        id: regs.docs[0].id,
+        id: reg.id,
         data: { status: 'refunded', stripeRefundId: refundId, refundAmount } as any,
+      })
+      const regNumber = String(reg.id).slice(-8).toUpperCase()
+      const itemType = reg.trip ? 'trip' : reg.program ? 'program' : reg.destination ? 'destination' : 'registration'
+      const entity = reg.trip ?? reg.program ?? reg.destination ?? null
+      await sendGa4Refund({
+        orderId: String(reg.id),
+        transactionId: regNumber,
+        value: refundAmount,
+        currency: (reg.currency as string) ?? 'EUR',
+        items: [{
+          item_id: String(entity?.id ?? reg.id),
+          item_name: entity?.title ?? entity?.name ?? 'Registration',
+          price: (reg.totalAmount as number) ?? refundAmount,
+          quantity: (reg.participantCount as number) ?? 1,
+          item_category: itemType,
+        }],
       })
     }
   } catch {}

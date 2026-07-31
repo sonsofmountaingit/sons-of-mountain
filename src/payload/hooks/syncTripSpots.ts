@@ -3,11 +3,17 @@ import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'paylo
 type RegistrationDoc = {
   trip?: string | { id: string } | null
   program?: string | { id: string } | null
+  destination?: string | { id: string } | null
   participantCount?: number
   status?: string
 }
 
-async function syncSpots(tripId: string | null, programId: string | null, payload: Parameters<CollectionAfterChangeHook>[0]['req']['payload']) {
+async function syncSpots(
+  tripId: string | null,
+  programId: string | null,
+  destinationId: string | null,
+  payload: Parameters<CollectionAfterChangeHook>[0]['req']['payload'],
+) {
   if (tripId) {
     const { docs } = await payload.find({
       collection: 'registrations',
@@ -39,6 +45,22 @@ async function syncSpots(tripId: string | null, programId: string | null, payloa
       data: { spotsAvailable: Math.max(0, ((program as { spotsTotal?: number }).spotsTotal ?? 0) - used) },
     })
   }
+
+  if (destinationId) {
+    const { docs } = await payload.find({
+      collection: 'registrations',
+      where: { and: [{ destination: { equals: destinationId } }, { status: { in: ['pending', 'confirmed', 'paid'] } }] },
+      limit: 0,
+      pagination: false,
+    })
+    const used = docs.reduce((s, r) => s + ((r as RegistrationDoc).participantCount ?? 1), 0)
+    const destination = await payload.findByID({ collection: 'destinations', id: destinationId })
+    await payload.update({
+      collection: 'destinations',
+      id: destinationId,
+      data: { spotsAvailable: Math.max(0, ((destination as { spotsTotal?: number }).spotsTotal ?? 0) - used) },
+    })
+  }
 }
 
 function toValidId(v: string | null): string | null {
@@ -50,8 +72,9 @@ export const syncSpotsAfterChange: CollectionAfterChangeHook = async ({ doc, req
   const d = doc as RegistrationDoc
   const tripId = toValidId(d.trip ? (typeof d.trip === 'object' ? d.trip.id : d.trip) : null)
   const programId = toValidId(d.program ? (typeof d.program === 'object' ? d.program.id : d.program) : null)
+  const destinationId = toValidId(d.destination ? (typeof d.destination === 'object' ? d.destination.id : d.destination) : null)
   try {
-    await syncSpots(tripId, programId, req.payload)
+    await syncSpots(tripId, programId, destinationId, req.payload)
   } catch {
     // best-effort
   }
@@ -62,8 +85,9 @@ export const syncSpotsAfterDelete: CollectionAfterDeleteHook = async ({ doc, req
   const d = doc as RegistrationDoc
   const tripId = toValidId(d.trip ? (typeof d.trip === 'object' ? d.trip.id : d.trip) : null)
   const programId = toValidId(d.program ? (typeof d.program === 'object' ? d.program.id : d.program) : null)
+  const destinationId = toValidId(d.destination ? (typeof d.destination === 'object' ? d.destination.id : d.destination) : null)
   try {
-    await syncSpots(tripId, programId, req.payload)
+    await syncSpots(tripId, programId, destinationId, req.payload)
   } catch {
     // best-effort
   }

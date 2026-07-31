@@ -225,6 +225,14 @@ export const Orders: CollectionConfig = {
       },
     },
     {
+      name: 'cancelOrderButton',
+      type: 'ui',
+      admin: {
+        position: 'sidebar',
+        components: { Field: '@/components/admin/CancelOrderButton#CancelOrderButton' },
+      },
+    },
+    {
       name: 'manualCancelRequested',
       type: 'checkbox',
       defaultValue: false,

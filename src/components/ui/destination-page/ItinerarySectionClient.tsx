@@ -68,7 +68,7 @@ interface AccordionProps {
 }
 
 export function ItineraryAccordion({ itinerary }: AccordionProps) {
-  const [open, setOpen] = useState<number | null>(null)
+  const [open, setOpen] = useState<number | null>(itinerary[0]?.day ?? null)
   const listRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {

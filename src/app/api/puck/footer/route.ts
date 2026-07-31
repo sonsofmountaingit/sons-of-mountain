@@ -42,6 +42,7 @@ export async function PATCH(request: Request) {
     ...(follow.facebookFollowers !== undefined && { facebookFollowers: follow.facebookFollowers }),
     ...(follow.instagramUrl !== undefined && { instagramUrl: follow.instagramUrl }),
     ...(follow.instagramFollowers !== undefined && { instagramFollowers: follow.instagramFollowers }),
+    ...(follow.tiktokUrl !== undefined && { tiktokUrl: follow.tiktokUrl }),
     ...(travel.travelSectionHeading !== undefined && { travelSectionHeading: travel.travelSectionHeading }),
     ...(nav.navSectionHeading !== undefined && { navSectionHeading: nav.navSectionHeading }),
     ...(bottom.copyright !== undefined && { copyright: bottom.copyright }),

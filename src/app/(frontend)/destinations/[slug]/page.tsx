@@ -9,6 +9,7 @@ import { buildMetadata } from '@/lib/metadata'
 import { fetchWeather } from '@/lib/weather'
 import { translations, type Language } from '@/lib/translations'
 import { TrackRecentlyViewed } from '@/components/ui/TrackRecentlyViewed'
+import { ViewItemTracker } from '@/components/analytics/ViewItemTracker'
 import { HeroSection } from '@/components/ui/destination-page/HeroSection'
 import { WhySection } from '@/components/ui/destination-page/WhySection'
 import { IsThisForYouSection } from '@/components/ui/destination-page/IsThisForYouSection'
@@ -190,6 +191,7 @@ async function DestinationContent({ params }: Props) {
       />
       <DestinationPageAnimator />
       <TrackRecentlyViewed id={String(destination.id)} />
+      <ViewItemTracker id={String(destination.id)} name={destination.name as string} price={(d.price as number | null) ?? 0} category="destination" currency="EUR" />
       <DestinationBookingController
         month={(d.month as string | null) ?? (d.startDate ? new Date(d.startDate as string).toLocaleDateString('bg-BG', { month: 'long' }) : null)}
         startDate={d.startDate as string | null}

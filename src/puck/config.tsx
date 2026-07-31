@@ -202,7 +202,7 @@ export type PuckBlocks = {
   SocialFeedBlock: StyleProps & { title: string; posts: { platform: string; handle: string; content: string; imageUrl: string; likes: string; url: string; date: string }[]; columns: string }
   FooterBlock: Record<string, never>
   FooterSubscribeBlock: { subscribeHeading: string; subscribeSubtext: string; submitLabel: string; firstNamePlaceholder: string; lastNamePlaceholder: string; emailPlaceholder: string; consentText: string; consentLinkText: string; privacyUrl: string }
-  FooterFollowBlock: { followHeading: string; followSubtext: string; facebookUrl: string; facebookFollowers: string; instagramUrl: string; instagramFollowers: string }
+  FooterFollowBlock: { followHeading: string; followSubtext: string; facebookUrl: string; facebookFollowers: string; instagramUrl: string; instagramFollowers: string; tiktokUrl: string }
   FooterTravelBlock: { travelSectionHeading: string }
   FooterNavBlock: { navSectionHeading: string }
   FooterBottomBlock: { copyright: string; licenseText: string; insuranceText: string; logoUrl: string; termsLabel: string; termsUrl: string; privacyLabel: string; privacyUrl: string; creditPrefix: string; creditName: string; creditUrl: string }
@@ -1363,6 +1363,7 @@ export const puckConfig: Config<PuckBlocks> = {
         facebookFollowers: { type: 'text', label: 'Facebook Followers' },
         instagramUrl: { type: 'text', label: 'Instagram URL' },
         instagramFollowers: { type: 'text', label: 'Instagram Followers' },
+        tiktokUrl: { type: 'text', label: 'TikTok URL' },
       },
       defaultProps: {
         followHeading: 'Последвай ни!',
@@ -1371,6 +1372,7 @@ export const puckConfig: Config<PuckBlocks> = {
         facebookFollowers: '20.2K',
         instagramUrl: 'https://instagram.com/sonsofmountains',
         instagramFollowers: '23.8K',
+        tiktokUrl: 'https://tiktok.com/@sonsofmountains',
       },
       render: (props) => <FooterFollowBlock {...props} />,
     },

@@ -3057,7 +3057,6 @@
       "react",
       "@/lib/cart-store",
       "@/components/shop/CartItem",
-      "@/components/shop/DiscountCodeInput",
       "@/components/shop/VoucherCodeInput",
       "react-hook-form",
       "@hookform/resolvers/zod",
@@ -3069,7 +3068,7 @@
       "@/lib/use-translations",
       "@/lib/translations"
     ],
-    "lines": 506,
+    "lines": 504,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/[tripId]/success/page.tsx": {

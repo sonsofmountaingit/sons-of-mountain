@@ -45,6 +45,7 @@ async function EditorContent() {
           facebookFollowers: f?.facebookFollowers ?? '20.2K',
           instagramUrl: f?.instagramUrl ?? 'https://instagram.com/sonsofmountains',
           instagramFollowers: f?.instagramFollowers ?? '23.8K',
+          tiktokUrl: f?.tiktokUrl ?? 'https://tiktok.com/@sonsofmountains',
         },
       },
       {

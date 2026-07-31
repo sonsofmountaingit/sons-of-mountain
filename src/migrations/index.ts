@@ -21,6 +21,7 @@ import * as migration_20260723_early_bird_spots_remaining from './20260723_early
 import * as migration_20260727_travel_stats_table from './20260727_travel_stats_table'
 import * as migration_20260727b_travel_stats_rels_columns from './20260727b_travel_stats_rels_columns'
 import * as migration_20260729_customers_sessions_table from './20260729_customers_sessions_table'
+import * as migration_20260731_registrations_manual_confirm_paid from './20260731_registrations_manual_confirm_paid'
 
 export const migrations = [
   {
@@ -137,5 +138,10 @@ export const migrations = [
     up: migration_20260729_customers_sessions_table.up,
     down: migration_20260729_customers_sessions_table.down,
     name: '20260729_customers_sessions_table',
+  },
+  {
+    up: migration_20260731_registrations_manual_confirm_paid.up,
+    down: migration_20260731_registrations_manual_confirm_paid.down,
+    name: '20260731_registrations_manual_confirm_paid',
   },
 ]

@@ -4,6 +4,7 @@ import { Suspense } from 'react'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { formatPrice } from '@/lib/currency'
+import { PurchaseTracker } from '@/components/analytics/PurchaseTracker'
 
 export const metadata: Metadata = {
   title: 'Поръчката е потвърдена — Sons of Mountains',
@@ -72,6 +73,20 @@ async function SuccessContent({ searchParams }: { searchParams: Promise<{ sessio
       <p className="text-white/60 max-w-sm mb-10 text-sm">
         {email ? `Изпратихме потвърждение на ${email}.` : 'Проверете имейла си за потвърждение и следващи стъпки.'}
       </p>
+
+      {doc && orderNumber && total != null && (
+        <PurchaseTracker
+          transactionId={orderNumber}
+          value={total}
+          currency={currency}
+          items={(items ?? []).map((item) => ({
+            item_id: String(item.trip?.id ?? item.product?.id ?? item.program?.id ?? item.destination?.id ?? item.bundle?.id ?? item.id ?? orderNumber),
+            item_name: itemTitle(item),
+            price: item.unitPrice ?? 0,
+            quantity: item.quantity ?? item.participantCount ?? 1,
+          }))}
+        />
+      )}
 
       {doc && (
         <div className="w-full max-w-md rounded border border-white/10 bg-white/5 p-6 mb-10 text-left">

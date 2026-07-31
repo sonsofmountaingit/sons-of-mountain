@@ -1,8 +1,9 @@
-import Link from 'next/link'
 import Image from 'next/image'
 import { mediaUrl } from '@/lib/media-url'
+import { SelectItemLink } from '@/components/analytics/SelectItemLink'
 
 interface DestinationCardProps {
+  id?: string
   name: string
   slug: string
   href?: string
@@ -14,9 +15,14 @@ interface DestinationCardProps {
   earlyBirdUntil?: string | null
   earlyBirdSpots?: number | null
   label?: string
+  price?: number | null
+  itemCategory?: 'destination' | 'trip'
+  listId?: string
+  listName?: string
 }
 
 export function DestinationCard({
+  id,
   name,
   slug,
   href,
@@ -28,6 +34,10 @@ export function DestinationCard({
   earlyBirdUntil,
   earlyBirdSpots,
   label,
+  price,
+  itemCategory = 'destination',
+  listId = 'destinations',
+  listName = 'Destinations',
 }: DestinationCardProps) {
   const isSoldOut = spotsAvailable !== undefined && spotsAvailable === 0
   const hasSpots =
@@ -40,8 +50,14 @@ export function DestinationCard({
     : null
 
   return (
-    <Link
+    <SelectItemLink
       href={href ?? `/destinations/${slug}`}
+      itemId={id ?? slug}
+      itemName={name}
+      price={price ?? 0}
+      listId={listId}
+      listName={listName}
+      itemCategory={itemCategory}
       className="group relative w-full sm:w-[280px] aspect-[3/4] rounded-lg overflow-hidden block"
     >
       {mediaUrl(heroImage?.url) && (
@@ -86,6 +102,6 @@ export function DestinationCard({
           </span>
         )}
       </div>
-    </Link>
+    </SelectItemLink>
   )
 }

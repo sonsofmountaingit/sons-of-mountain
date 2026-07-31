@@ -6,6 +6,8 @@ import { LanguageProvider } from '@/lib/language-context'
 import type { Language } from '@/lib/translations'
 import { Navigation } from '@/components/ui/Navigation'
 import { Footer } from '@/components/ui/Footer'
+import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics'
+import { CookieConsentBanner } from '@/components/analytics/CookieConsentBanner'
 import { Toaster } from 'sonner'
 import '../globals.css'
 
@@ -67,6 +69,8 @@ export default async function FrontendLayout({ children }: { children: React.Rea
   return (
     <html lang="bg" className={`${spaceGrotesk.variable} ${dancingScript.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body suppressHydrationWarning>
+        <GoogleAnalytics />
+        <CookieConsentBanner />
         <LanguageProvider initialLanguage={initialLanguage}>
           <Navigation />
           <main className="pt-[72px] md:pt-[88px]">{children}</main>

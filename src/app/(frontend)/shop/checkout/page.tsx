@@ -13,6 +13,7 @@ import { formatPrice } from '@/lib/currency'
 import { useSession } from '@/lib/auth-client'
 import { useTranslations } from '@/lib/use-translations'
 import type { Translations } from '@/lib/translations'
+import { gtagEvent, fireOncePerSession } from '@/lib/gtag'
 
 function makeInfoSchema(requiredMsg: string, invalidEmailMsg: string) {
   return z.object({
@@ -90,7 +91,7 @@ export default function CheckoutPage() {
   const [ridesLoading, setRidesLoading] = useState(false)
   const [selectedRideId, setSelectedRideId] = useState<string | null>(null)
 
-  const { items, subtotal, discountAmount, voucherAmount, total, loyaltyPointsToRedeem, appliedDiscount, appliedVoucher, corporatePeopleCount } = useCartStore()
+  const { items, subtotal, discountAmount, voucherAmount, total, loyaltyPointsToRedeem, appliedDiscount, appliedVoucher, corporatePeopleCount, preferredCurrency } = useCartStore()
 
   const hasRideable = items.some((i) => i.type === 'trip' || i.type === 'program' || i.type === 'destination')
   const tripItem = items.find((i) => i.type === 'trip' || i.type === 'program' || i.type === 'destination')
@@ -100,6 +101,25 @@ export default function CheckoutPage() {
 
   const bookableItem = items.find((i) => i.type === 'trip' || i.type === 'program' || i.type === 'destination')
   const bookableItemType = bookableItem?.type ?? null
+
+  const cartKey = items.map((i) => `${i.id}:${i.variantId ?? ''}:${i.quantity}`).sort().join('|')
+
+  useEffect(() => {
+    if (!items.length) return
+    fireOncePerSession(`som_begin_checkout_${cartKey}`, () => {
+      gtagEvent('begin_checkout', {
+        currency: preferredCurrency,
+        value: total(),
+        items: items.map((i) => ({
+          item_id: i.id,
+          item_name: i.title,
+          price: i.unitPrice,
+          item_category: i.type,
+          quantity: i.quantity,
+        })),
+      })
+    })
+  }, [items, total, preferredCurrency, cartKey])
   const bookableItemId = bookableItem?.tripId ?? bookableItem?.programId ?? bookableItem?.destinationId ?? null
   // Use the actual charged amount (accounts for early-bird pricing mix, quantity) rather than
   // the record's flat regular price, so deposit/installment splits sum to what's really due.
@@ -175,6 +195,19 @@ export default function CheckoutPage() {
     setLoading(true)
     try {
       const info = getValues()
+
+      gtagEvent('add_payment_info', {
+        currency: preferredCurrency,
+        value: total(),
+        payment_type: payInFull ? 'full' : (plan?.mode ?? info.paymentMode ?? 'unknown'),
+        items: items.map((i) => ({
+          item_id: i.id,
+          item_name: i.title,
+          price: i.unitPrice,
+          item_category: i.type,
+          quantity: i.quantity,
+        })),
+      })
 
       const carpoolPayload =
         hasRideable && participationType === 'organizer'

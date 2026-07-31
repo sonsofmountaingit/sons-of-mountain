@@ -1,7 +1,7 @@
-import Link from 'next/link'
 import Image from 'next/image'
 import { AddToCartButton } from './AddToCartButton'
 import { WishlistButton } from './WishlistButton'
+import { SelectItemLink } from '@/components/analytics/SelectItemLink'
 import { formatPrice } from '@/lib/currency'
 import { translations, type Language } from '@/lib/translations'
 
@@ -51,9 +51,18 @@ export function ProductCard({ id, slug, title, price, compareAtPrice, image, sto
 
       <div className="flex flex-1 flex-col gap-3 p-5">
         {category && <p className="text-xs text-white/30 uppercase tracking-widest">{category}</p>}
-        <Link href={`/shop/products/${slug}`} className="text-sm font-semibold text-white hover:text-white/70 transition-colors line-clamp-2">
+        <SelectItemLink
+          href={`/shop/products/${slug}`}
+          itemId={id}
+          itemName={title}
+          price={price}
+          listId="shop-products"
+          listName="Shop Products"
+          itemCategory="product"
+          className="text-sm font-semibold text-white hover:text-white/70 transition-colors line-clamp-2"
+        >
           {title}
-        </Link>
+        </SelectItemLink>
         <div className="mt-auto flex items-center justify-between pt-2">
           <div className="flex items-baseline gap-2">
             <span className="font-bold text-white">{formatPrice(price)}</span>

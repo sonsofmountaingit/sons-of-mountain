@@ -5,6 +5,7 @@ import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { mediaUrl } from '@/lib/media-url'
 import { buildMetadata } from '@/lib/metadata'
+import { ViewItemTracker } from '@/components/analytics/ViewItemTracker'
 import { HeroSection } from '@/components/ui/destination-page/HeroSection'
 import { WhySection } from '@/components/ui/destination-page/WhySection'
 import { IsThisForYouSection } from '@/components/ui/destination-page/IsThisForYouSection'
@@ -165,6 +166,7 @@ async function ProgramContent({ params }: Props) {
 
   return (
     <article>
+      <ViewItemTracker id={String(program.id)} name={program.title as string} price={program.price ?? 0} category="program" currency={(program.currency ?? 'EUR') as string} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

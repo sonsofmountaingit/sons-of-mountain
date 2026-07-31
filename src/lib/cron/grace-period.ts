@@ -5,7 +5,7 @@ import { notifyWaitlist } from '@/lib/stripe-webhooks'
 
 type BasePayload = ReturnType<typeof getPayload> extends Promise<infer T> ? T : never
 
-const BOOKABLE_COLLECTIONS = { trip: 'trips', program: 'programs', destination: 'destinations' } as const
+export const BOOKABLE_COLLECTIONS = { trip: 'trips', program: 'programs', destination: 'destinations' } as const
 
 async function getGracePeriodDays(payload: BasePayload, doc: any, collection: 'orders' | 'registrations'): Promise<number> {
   try {
@@ -30,7 +30,7 @@ async function getGracePeriodDays(payload: BasePayload, doc: any, collection: 'o
   }
 }
 
-async function freeSpotAndNotifyWaitlist(payload: BasePayload, doc: any, collection: 'orders' | 'registrations') {
+export async function freeSpotAndNotifyWaitlist(payload: BasePayload, doc: any, collection: 'orders' | 'registrations') {
   const relId = (rel: any) => (typeof rel === 'string' ? rel : rel?.id)
   const bump = async (bookableCollection: 'trips' | 'programs' | 'destinations', id: string, participantCount: number) => {
     const record = await payload.findByID({ collection: bookableCollection, id }).catch(() => null)

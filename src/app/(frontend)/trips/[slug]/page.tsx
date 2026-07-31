@@ -8,6 +8,7 @@ import { mediaUrl } from '@/lib/media-url'
 import { buildMetadata } from '@/lib/metadata'
 import { translations, type Language } from '@/lib/translations'
 import { TrackRecentlyViewed } from '@/components/ui/TrackRecentlyViewed'
+import { ViewItemTracker } from '@/components/analytics/ViewItemTracker'
 import { HeroSection } from '@/components/ui/destination-page/HeroSection'
 import { WhySection } from '@/components/ui/destination-page/WhySection'
 import { IsThisForYouSection } from '@/components/ui/destination-page/IsThisForYouSection'
@@ -191,6 +192,7 @@ async function TripContent({ params }: Props) {
       />
       <DestinationPageAnimator />
       <TrackRecentlyViewed id={String(trip.id)} />
+      <ViewItemTracker id={String(trip.id)} name={title} price={trip.price ?? 0} category="trip" currency={(trip.currency ?? 'EUR') as string} />
       {(trip.status as string) !== 'archived' && (
         <FloatingBookingBar
           month={trip.startDate ? new Date(trip.startDate as string).toLocaleDateString('bg-BG', { month: 'long' }) : null}
