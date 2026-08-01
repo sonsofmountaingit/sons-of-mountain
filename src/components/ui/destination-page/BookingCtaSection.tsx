@@ -8,6 +8,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { formatPrice } from '@/lib/currency'
 import { WaitlistFormModal, type WaitlistItemType } from '@/components/forms/WaitlistFormModal'
 import { useTranslations } from '@/lib/use-translations'
+import { isBookingDeadlinePassed } from '@/lib/booking-deadline'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -21,6 +22,7 @@ interface TripSummary {
   price: number
   currency: string
   status: string
+  bookingDeadline?: string | null
 }
 
 interface Props {
@@ -75,7 +77,8 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
   const spotsTotal = activeTrip?.spotsTotal ?? 0
   const fillPct = spotsTotal > 0 ? Math.round(((spotsTotal - spotsLeft) / spotsTotal) * 100) : 0
   const isAlmostFull = spotsLeft <= 3 && spotsLeft > 0
-  const isFull = spotsLeft === 0
+  const deadlinePassed = isBookingDeadlinePassed(activeTrip?.bookingDeadline)
+  const isFull = spotsLeft === 0 || deadlinePassed
 
   return (
     <section ref={sectionRef} id="booking" className="relative bg-[#F9FAFB] py-12 sm:py-14 md:py-20 px-4 sm:px-6 overflow-hidden">
@@ -145,7 +148,7 @@ export function BookingCtaSection({ name, trips = [], included = [], notIncluded
                       <path d="M2 7H12M12 7L7 2M12 7L7 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </Link>
-                ) : itemType && itemId ? (
+                ) : !deadlinePassed && itemType && itemId ? (
                   <button
                     onClick={() => setWaitlistOpen(true)}
                     className="flex items-center justify-center h-10 min-h-[40px] px-3 sm:px-4 rounded-full bg-white text-[#111] flex-shrink-0 hover:bg-white/90 transition-colors text-xs font-black tracking-wide uppercase"

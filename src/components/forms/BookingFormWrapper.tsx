@@ -10,6 +10,7 @@ interface Trip {
   price: number
   currency: string
   status: 'active' | 'soldOut' | 'draft'
+  bookingDeadline?: string | null
   tags?: { tag: string }[]
 }
 

@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { CartItem } from '@/lib/cart-store'
 import { getDynamicPrice, getPriceBreakdown } from '@/lib/pricing/dynamic'
+import { isBookingDeadlinePassed } from '@/lib/booking-deadline'
 
 export async function POST(req: NextRequest) {
   try {
@@ -20,6 +21,10 @@ export async function POST(req: NextRequest) {
           validated.push({ ...item, outOfStock: true, warning: `Only ${trip.spotsAvailable} spots left` })
           continue
         }
+        if (isBookingDeadlinePassed((trip as any).bookingDeadline)) {
+          validated.push({ ...item, outOfStock: true, warning: 'Booking deadline has passed' })
+          continue
+        }
         const dynamicPrice = getDynamicPrice(trip.price, trip.spotsTotal, trip.spotsAvailable)
         const breakdown = getPriceBreakdown(item.quantity, dynamicPrice, trip.earlyBirdPrice, trip.earlyBirdUntil, trip.earlyBirdSpotsRemaining)
         validated.push({ ...item, unitPrice: breakdown.totalPrice / item.quantity, priceBreakdown: breakdown, spotsAvailable: trip.spotsAvailable })
@@ -31,8 +36,27 @@ export async function POST(req: NextRequest) {
           validated.push({ ...item, outOfStock: true, warning: `Only ${program.spotsAvailable} spots left` })
           continue
         }
+        if (isBookingDeadlinePassed((program as any).bookingDeadline)) {
+          validated.push({ ...item, outOfStock: true, warning: 'Booking deadline has passed' })
+          continue
+        }
         const breakdown = getPriceBreakdown(item.quantity, program.price, program.earlyBirdPrice, program.earlyBirdUntil, program.earlyBirdSpotsRemaining)
         validated.push({ ...item, unitPrice: breakdown.totalPrice / item.quantity, priceBreakdown: breakdown, spotsAvailable: program.spotsAvailable })
+
+      } else if (item.type === 'destination' && item.destinationId) {
+        const destination = await payload.findByID({ collection: 'destinations', id: item.destinationId }).catch(() => null)
+        if (!destination) { validated.push({ ...item, outOfStock: true, warning: 'Destination not found' }); continue }
+        const spotsAvailable = (destination as any).spotsAvailable
+        if ((destination as any).bookingStatus === 'soldOut' || (destination as any).bookingStatus === 'archived' || (spotsAvailable != null && spotsAvailable < item.quantity)) {
+          validated.push({ ...item, outOfStock: true, warning: `Only ${spotsAvailable ?? 0} spots left` })
+          continue
+        }
+        if (isBookingDeadlinePassed((destination as any).bookingDeadline)) {
+          validated.push({ ...item, outOfStock: true, warning: 'Booking deadline has passed' })
+          continue
+        }
+        const breakdown = getPriceBreakdown(item.quantity, (destination as any).price, (destination as any).earlyBirdPrice, (destination as any).earlyBirdUntil, (destination as any).earlyBirdSpotsRemaining)
+        validated.push({ ...item, unitPrice: breakdown.totalPrice / item.quantity, priceBreakdown: breakdown, spotsAvailable })
 
       } else if (item.type === 'product' && item.productId) {
         const product = await payload.findByID({ collection: 'products', id: item.productId }).catch(() => null)

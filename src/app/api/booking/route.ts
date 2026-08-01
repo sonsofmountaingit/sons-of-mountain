@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { resolvePaymentPlan } from '@/lib/pricing/payment-plan'
 import { sendFlow } from '@/lib/email-flows'
+import { isBookingDeadlinePassed } from '@/lib/booking-deadline'
 
 export async function POST(req: NextRequest) {
   try {
@@ -35,6 +36,9 @@ export async function POST(req: NextRequest) {
     if (bookableCollection && bookableId) {
       const doc = await payload.findByID({ collection: bookableCollection, id: bookableId })
       if (!doc) return NextResponse.json({ error: 'Item not found' }, { status: 404 })
+      if (isBookingDeadlinePassed((doc as any).bookingDeadline)) {
+        return NextResponse.json({ error: 'Booking deadline has passed for this item' }, { status: 400 })
+      }
       totalAmount = ((doc as any).price ?? 0) * (participantCount ?? 1)
       currency = (doc as any).currency ?? 'EUR'
 

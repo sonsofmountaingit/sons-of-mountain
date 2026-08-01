@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { mediaUrl } from '@/lib/media-url'
+import { isBookingDeadlinePassed } from '@/lib/booking-deadline'
 import { buildMetadata } from '@/lib/metadata'
 import { ViewItemTracker } from '@/components/analytics/ViewItemTracker'
 import { HeroSection } from '@/components/ui/destination-page/HeroSection'
@@ -114,8 +115,11 @@ async function ProgramContent({ params }: Props) {
     price: program.price ?? 0,
     currency: (program.currency ?? 'EUR') as string,
     status: (p.status ?? 'active') as string,
+    bookingDeadline: (p.bookingDeadline as string | null) ?? null,
     depositAmount: (p.depositAmount as number | null) ?? null,
   }]
+
+  const bookingClosed = isBookingDeadlinePassed(p.bookingDeadline as string | null)
 
   const siblingCards = siblings.map((s) => ({
     name: s.title,
@@ -172,7 +176,7 @@ async function ProgramContent({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <DestinationPageAnimator />
-      {(program.status as string) !== 'archived' && (
+      {(program.status as string) !== 'archived' && !bookingClosed && (
         <FloatingBookingBar
           month={program.startDate ? new Date(program.startDate as string).toLocaleDateString('bg-BG', { month: 'long' }) : null}
           maxParticipants={p.maxParticipants as number | null}
@@ -205,6 +209,7 @@ async function ProgramContent({ params }: Props) {
         difficulty={difficulty}
         startDate={program.startDate as string | null}
         endDate={program.endDate as string | null}
+        archived={(program.status as string) === 'archived' || bookingClosed}
       />
 
       <WhySection

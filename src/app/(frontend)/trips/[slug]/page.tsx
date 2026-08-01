@@ -5,6 +5,7 @@ import { cookies } from 'next/headers'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { mediaUrl } from '@/lib/media-url'
+import { isBookingDeadlinePassed } from '@/lib/booking-deadline'
 import { buildMetadata } from '@/lib/metadata'
 import { translations, type Language } from '@/lib/translations'
 import { TrackRecentlyViewed } from '@/components/ui/TrackRecentlyViewed'
@@ -154,8 +155,11 @@ async function TripContent({ params }: Props) {
     price: trip.price ?? 0,
     currency: (trip.currency ?? 'EUR') as string,
     status: trip.status as string,
+    bookingDeadline: (trip.bookingDeadline as string | null) ?? null,
     depositAmount: (t.depositAmount as number | null) ?? null,
   }
+
+  const bookingClosed = isBookingDeadlinePassed(trip.bookingDeadline as string | null)
 
   const siblingCards = otherTrips.map((s) => {
     const st = s as Record<string, unknown>
@@ -193,7 +197,7 @@ async function TripContent({ params }: Props) {
       <DestinationPageAnimator />
       <TrackRecentlyViewed id={String(trip.id)} />
       <ViewItemTracker id={String(trip.id)} name={title} price={trip.price ?? 0} category="trip" currency={(trip.currency ?? 'EUR') as string} />
-      {(trip.status as string) !== 'archived' && (
+      {(trip.status as string) !== 'archived' && !bookingClosed && (
         <FloatingBookingBar
           month={trip.startDate ? new Date(trip.startDate as string).toLocaleDateString('bg-BG', { month: 'long' }) : null}
           maxParticipants={t.maxParticipantsPerRegistration as number | null}
@@ -227,7 +231,7 @@ async function TripContent({ params }: Props) {
         endDate={trip.endDate as string}
         durationDays={durationDays}
         difficulty={difficulty}
-        archived={(trip.status as string) === 'archived'}
+        archived={(trip.status as string) === 'archived' || bookingClosed}
         earlyBirdPrice={t.earlyBirdPrice as number | null}
         earlyBirdUntil={t.earlyBirdUntil as string | null}
         earlyBirdSpots={(t.earlyBirdSpotsRemaining ?? t.earlyBirdSpots) as number | null}
@@ -305,6 +309,7 @@ async function TripContent({ params }: Props) {
         earlyBirdUntil={t.earlyBirdUntil as string | null}
         earlyBirdSpots={(t.earlyBirdSpotsRemaining ?? t.earlyBirdSpots) as number | null}
         spotsAvailable={trip.spotsAvailable as number | null}
+        bookingDeadline={trip.bookingDeadline as string | null}
         itemType="trip"
         itemId={String(trip.id)}
         itemTitle={title}

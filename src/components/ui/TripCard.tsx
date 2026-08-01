@@ -1,3 +1,5 @@
+import { isBookingDeadlinePassed } from '@/lib/booking-deadline'
+
 interface TripCardProps {
   startDate: string
   endDate: string
@@ -5,7 +7,8 @@ interface TripCardProps {
   spotsTotal: number
   price: number
   currency: string
-  status: 'active' | 'soldOut' | 'draft'
+  status: 'active' | 'soldOut' | 'draft' | 'archived'
+  bookingDeadline?: string | null
   tags?: string[]
   onBook?: () => void
 }
@@ -18,10 +21,11 @@ export function TripCard({
   price,
   currency,
   status,
+  bookingDeadline,
   tags = [],
   onBook,
 }: TripCardProps) {
-  const isSoldOut = status === 'soldOut' || spotsAvailable === 0
+  const isSoldOut = status === 'soldOut' || status === 'archived' || spotsAvailable === 0 || isBookingDeadlinePassed(bookingDeadline)
   const dateRange = `${new Date(startDate).toLocaleDateString('bg-BG', { day: 'numeric', month: 'long' })} — ${new Date(endDate).toLocaleDateString('bg-BG', { day: 'numeric', month: 'long', year: 'numeric' })}`
 
   return (

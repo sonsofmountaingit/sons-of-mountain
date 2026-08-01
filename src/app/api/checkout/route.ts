@@ -4,6 +4,7 @@ import config from '@payload-config'
 import type { CartItem } from '@/lib/cart-store'
 import { resolvePaymentPlan } from '@/lib/pricing/payment-plan'
 import { getDynamicPrice, getPriceBreakdown } from '@/lib/pricing/dynamic'
+import { isBookingDeadlinePassed } from '@/lib/booking-deadline'
 
 type CheckoutType = 'registration' | 'order' | 'voucher' | 'cart' | 'deposit' | 'bundle'
 
@@ -147,6 +148,11 @@ export async function POST(req: NextRequest) {
             if (spotsAvailable != null && spotsAvailable < item.quantity) {
               return NextResponse.json({
                 error: `Only ${spotsAvailable} spots left for "${item.title}".`,
+              }, { status: 400 })
+            }
+            if (isBookingDeadlinePassed((doc as any)?.bookingDeadline)) {
+              return NextResponse.json({
+                error: `Booking deadline has passed for "${item.title}".`,
               }, { status: 400 })
             }
             const basePrice = (doc as any)?.spotsTotal != null && spotsAvailable != null

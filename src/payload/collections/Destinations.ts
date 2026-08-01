@@ -4,6 +4,7 @@ import { after } from 'next/server'
 import { syncStripeProduct } from '@/lib/stripe-product-sync'
 import { sendRegistrationFormsFor } from '@/lib/send-registration-forms'
 import { paymentPlanFields } from './shared/paymentPlanFields'
+import { bookingDeadlineField } from './shared/bookingDeadlineField'
 
 export const Destinations: CollectionConfig = {
   slug: 'destinations',
@@ -97,6 +98,7 @@ export const Destinations: CollectionConfig = {
       type: 'number',
       admin: { position: 'sidebar', description: 'Deposit amount to reserve a spot' },
     },
+    bookingDeadlineField,
     ...paymentPlanFields,
     {
       name: 'earlyBirdPrice',

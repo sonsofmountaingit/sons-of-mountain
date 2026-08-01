@@ -8,6 +8,7 @@ import { mediaUrl } from '@/lib/media-url'
 import { formatPrice } from '@/lib/currency'
 import { WaitlistFormModal, type WaitlistItemType } from '@/components/forms/WaitlistFormModal'
 import { useTranslations } from '@/lib/use-translations'
+import { isBookingDeadlinePassed } from '@/lib/booking-deadline'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -26,14 +27,16 @@ interface Props {
   earlyBirdUntil?: string | null
   earlyBirdSpots?: number | null
   spotsAvailable?: number | null
+  bookingDeadline?: string | null
   itemType?: WaitlistItemType
   itemId?: string
   itemTitle?: string
 }
 
-export function AdventureCtaSection({ durationDays, maxParticipants, price, currency, priceIncludes, communityPhotos, earlyBirdPrice, earlyBirdUntil, earlyBirdSpots, spotsAvailable, itemType, itemId, itemTitle }: Props) {
+export function AdventureCtaSection({ durationDays, maxParticipants, price, currency, priceIncludes, communityPhotos, earlyBirdPrice, earlyBirdUntil, earlyBirdSpots, spotsAvailable, bookingDeadline, itemType, itemId, itemTitle }: Props) {
   const { t } = useTranslations()
   const [waitlistOpen, setWaitlistOpen] = useState(false)
+  const deadlinePassed = isBookingDeadlinePassed(bookingDeadline)
   const isSoldOut = spotsAvailable != null && spotsAvailable === 0
   const isEarlyBird = !!(
     earlyBirdPrice &&
@@ -121,7 +124,14 @@ export function AdventureCtaSection({ durationDays, maxParticipants, price, curr
             <p className="text-sm text-black/50 leading-relaxed mb-6 sm:mb-8 max-w-sm mx-auto">{priceIncludes}</p>
           )}
           <div ref={ctaRef}>
-          {isSoldOut && itemType && itemId ? (
+          {deadlinePassed ? (
+            <span
+              aria-disabled="true"
+              className="inline-flex items-center gap-3 bg-black/30 text-white/60 font-black text-sm uppercase tracking-widest px-6 sm:px-8 py-3.5 sm:py-4 cursor-not-allowed"
+            >
+              {t.destination_page.book_now}
+            </span>
+          ) : isSoldOut && itemType && itemId ? (
             <button
               onClick={() => setWaitlistOpen(true)}
               className="inline-flex items-center gap-3 bg-black text-white font-black text-sm uppercase tracking-widest px-6 sm:px-8 py-3.5 sm:py-4 hover:bg-black/80 transition-colors"

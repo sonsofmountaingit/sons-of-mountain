@@ -5,6 +5,7 @@ import { cookies } from 'next/headers'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { mediaUrl } from '@/lib/media-url'
+import { isBookingDeadlinePassed } from '@/lib/booking-deadline'
 import { buildMetadata } from '@/lib/metadata'
 import { fetchWeather } from '@/lib/weather'
 import { translations, type Language } from '@/lib/translations'
@@ -144,8 +145,11 @@ async function DestinationContent({ params }: Props) {
     price: (d.price as number | null) ?? 0,
     currency: 'EUR',
     status: (d.bookingStatus as string | null) ?? 'active',
+    bookingDeadline: (d.bookingDeadline as string | null) ?? null,
     depositAmount: (d.depositAmount as number | null) ?? null,
   }
+
+  const bookingClosed = isBookingDeadlinePassed(d.bookingDeadline as string | null)
 
   const siblingCards = siblings.map((s) => ({
     name: s.name,
@@ -209,7 +213,7 @@ async function DestinationContent({ params }: Props) {
         earlyBirdPrice={(d.earlyBirdPrice as number | null)}
         earlyBirdUntil={(d.earlyBirdUntil as string | null)}
         earlyBirdSpots={((d.earlyBirdSpotsRemaining ?? d.earlyBirdSpots) as number | null)}
-        archived={(d.bookingStatus as string | null) === 'archived'}
+        archived={(d.bookingStatus as string | null) === 'archived' || bookingClosed}
       />
 
       <HeroSection
@@ -243,7 +247,7 @@ async function DestinationContent({ params }: Props) {
         depositAmount={(d.depositAmount as number | null)}
         durationDays={durationDays}
         month={(d.month as string | null) ?? null}
-        archived={(d.bookingStatus as string | null) === 'archived'}
+        archived={(d.bookingStatus as string | null) === 'archived' || bookingClosed}
       />
 
       <WhySection

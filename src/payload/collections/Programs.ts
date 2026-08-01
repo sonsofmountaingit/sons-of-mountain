@@ -3,6 +3,7 @@ import { revalidateTag as _revalidateTag } from 'next/cache'
 import { after } from 'next/server'
 import { syncStripeProduct } from '@/lib/stripe-product-sync'
 import { paymentPlanFields } from './shared/paymentPlanFields'
+import { bookingDeadlineField } from './shared/bookingDeadlineField'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const revalidateTag = _revalidateTag
@@ -81,6 +82,7 @@ export const Programs: CollectionConfig = {
       type: 'number',
       admin: { position: 'sidebar', description: 'Deposit amount to reserve a spot' },
     },
+    bookingDeadlineField,
     ...paymentPlanFields,
     {
       name: 'earlyBirdPrice',

@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { motion, AnimatePresence } from 'motion/react'
 import { useTranslations } from '@/lib/use-translations'
+import { isBookingDeadlinePassed } from '@/lib/booking-deadline'
 
 function makeStep1Schema(minCharsMsg: string, invalidEmailMsg: string, invalidPhoneMsg: string) {
   return z.object({
@@ -56,6 +57,7 @@ interface Trip {
   price: number
   currency: string
   status: 'active' | 'soldOut' | 'draft'
+  bookingDeadline?: string | null
   tags: string[]
 }
 
@@ -70,7 +72,7 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
   const [ridesLoading, setRidesLoading] = useState(false)
   const [selectedRideId, setSelectedRideId] = useState<string | null>(null)
 
-  const isSoldOut = trip.status === 'soldOut' || trip.spotsAvailable === 0
+  const isSoldOut = trip.status === 'soldOut' || trip.spotsAvailable === 0 || isBookingDeadlinePassed(trip.bookingDeadline)
   const { t, language } = useTranslations()
 
   const form1 = useForm<Step1Data>({ resolver: zodResolver(makeStep1Schema(t.booking_form.min_chars, t.booking_form.invalid_email, t.booking_form.invalid_phone)) })
