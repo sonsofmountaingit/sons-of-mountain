@@ -233,9 +233,9 @@ export function DestinationCarouselBlock({
         {/* Mobile styles */}
         <style>{`
           @media (max-width: 767px) {
-            .dc-text-panel { position: absolute; top: 140px; bottom: auto; left: 0; right: 0; padding: 0 1.25rem 0.5rem !important; width: 100% !important; max-width: 100vw !important; box-sizing: border-box !important; align-items: center !important; text-align: center !important; justify-content: flex-start !important; overflow: hidden !important; }
+            .dc-text-panel { position: absolute; top: 140px; bottom: auto; left: 0; right: 0; padding: 0 1.25rem 0.5rem !important; width: 100% !important; max-width: 100vw !important; box-sizing: border-box !important; align-items: center !important; text-align: center !important; justify-content: flex-start !important; overflow: visible !important; }
             .dc-text-panel > div { width: 100% !important; max-width: 100% !important; align-items: center !important; }
-            .dc-hero-title { font-size: clamp(1.5rem, 8vw, 2.75rem) !important; line-height: 1 !important; margin-bottom: 0.5rem !important; width: 100% !important; max-width: 100% !important; overflow-wrap: break-word !important; word-break: break-word !important; hyphens: auto !important; }
+            .dc-hero-title { font-size: clamp(1.5rem, 8vw, 2.75rem) !important; line-height: 1.15 !important; margin-top: 5px !important; margin-bottom: 0.5rem !important; width: 100% !important; max-width: 100% !important; overflow-wrap: break-word !important; word-break: break-word !important; hyphens: auto !important; }
             .dc-hero-sub { margin-bottom: 0.75rem !important; max-width: 85vw !important; font-size: 0.75rem !important; }
             .dc-hero-btn { padding: 0.5rem 1rem !important; font-size: 0.65rem !important; gap: 0.375rem !important; align-self: center !important; min-height: 44px !important; display: inline-flex !important; align-items: center !important; }
             .dc-intro-cards { margin-top: 1.25rem !important; width: 100vw !important; max-width: 100vw !important; }
