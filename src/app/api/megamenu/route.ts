@@ -10,14 +10,14 @@ const getMegamenuData = unstable_cache(
     const [bulgariaDests, abroadDests, bulgariaTrips, abroadTrips, individualTrips, bulgariaPrograms, abroadPrograms, individualPrograms] = await Promise.all([
       payload.find({
         collection: 'destinations',
-        where: { type: { equals: 'bulgaria' } },
+        where: { and: [{ type: { equals: 'bulgaria' } }, { bookingStatus: { not_equals: 'archived' } }] },
         limit: 30,
         select: { name: true, slug: true, heroImage: true },
         depth: 1,
       }),
       payload.find({
         collection: 'destinations',
-        where: { type: { equals: 'abroad' } },
+        where: { and: [{ type: { equals: 'abroad' } }, { bookingStatus: { not_equals: 'archived' } }] },
         limit: 30,
         select: { name: true, slug: true, heroImage: true },
         depth: 1,

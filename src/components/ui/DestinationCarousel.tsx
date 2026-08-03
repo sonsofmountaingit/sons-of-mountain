@@ -109,7 +109,7 @@ const getCarouselData = unstable_cache(
             }
           })
       } else {
-        const { docs } = await payload.find({ collection: 'destinations', limit: 50, sort: 'name', depth: 2, draft: true, overrideAccess: true })
+        const { docs } = await payload.find({ collection: 'destinations', where: { bookingStatus: { not_equals: 'archived' } }, limit: 50, sort: 'name', depth: 2, draft: true, overrideAccess: true })
         destinations = docs.map((d) => {
           const doc = d as unknown as DestinationDoc & { heroImage?: { url?: string | null } | null }
           return {

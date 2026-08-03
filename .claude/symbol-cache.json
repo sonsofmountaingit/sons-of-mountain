@@ -203,6 +203,18 @@
     "lines": 59,
     "group": "other"
   },
+  "src/migrations/20260803_footer_tiktok_followers.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 14,
+    "group": "other"
+  },
   "src/migrations/20260716d_testimonials_role.ts": {
     "exports": [
       "up",
@@ -281,9 +293,10 @@
       "./20260727b_travel_stats_rels_columns",
       "./20260729_customers_sessions_table",
       "./20260731_registrations_manual_confirm_paid",
-      "./20260801_booking_deadline"
+      "./20260801_booking_deadline",
+      "./20260803_footer_tiktok_followers"
     ],
-    "lines": 154,
+    "lines": 160,
     "group": "other"
   },
   "src/migrations/20260719b_email_marketing_platform.ts": {
@@ -460,7 +473,7 @@
       "@puckeditor/core",
       "./PuckFooterEditorClient"
     ],
-    "lines": 101,
+    "lines": 102,
     "group": "puck"
   },
   "src/app/(puck)/puck/featured-travels/PuckFeaturedTravelsEditorClient.tsx": {
@@ -1891,7 +1904,7 @@
       "next/cache",
       "@/lib/payload-auth"
     ],
-    "lines": 65,
+    "lines": 66,
     "group": "api"
   },
   "src/app/api/puck/featured-travels/route.ts": {
@@ -4782,7 +4795,7 @@
       "../hooks/revalidate",
       "next/server"
     ],
-    "lines": 278,
+    "lines": 283,
     "group": "globals"
   },
   "src/payload/globals/DestinationCarousel.ts": {
@@ -5119,7 +5132,7 @@
       "payload",
       "@payload-config"
     ],
-    "lines": 811,
+    "lines": 812,
     "group": "payload"
   },
   "src/payload/seeds/full-pages-seed.ts": {
@@ -5809,7 +5822,7 @@
     "imports": [
       "@/lib/use-translations"
     ],
-    "lines": 49,
+    "lines": 52,
     "group": "blocks"
   },
   "src/components/blocks/footer/FooterNavBlock.tsx": {
@@ -6291,7 +6304,7 @@
       "@/components/ui/FooterForm",
       "@/components/ui/ShakingCredit"
     ],
-    "lines": 196,
+    "lines": 199,
     "group": "blocks"
   },
   "src/components/blocks/about/AboutAdventureBlock.tsx": {
@@ -6829,7 +6842,7 @@
     "imports": [
       "react"
     ],
-    "lines": 102,
+    "lines": 109,
     "group": "ui"
   },
   "src/components/ui/Hero.tsx": {
@@ -7484,7 +7497,7 @@
       "./FooterEditButton",
       "@/lib/translations"
     ],
-    "lines": 272,
+    "lines": 274,
     "group": "ui"
   },
   "src/components/ui/Testimonials.tsx": {
@@ -7843,7 +7856,7 @@
       "./FooterForm",
       "./FooterReveal"
     ],
-    "lines": 211,
+    "lines": 214,
     "group": "ui"
   },
   "src/components/ui/IndividualProgramsEditButton.tsx": {
@@ -9337,7 +9350,7 @@
       "@/components/blocks/vouchers/VouchersRedeemBlock",
       "@/components/blocks/vouchers/VouchersMineBlock"
     ],
-    "lines": 2158,
+    "lines": 2160,
     "group": "other"
   },
   "src/puck/puckAI.ts": {

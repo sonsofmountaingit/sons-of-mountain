@@ -20,7 +20,7 @@ const getVoucherOptions = unstable_cache(
     try {
       const payload = await getPayload({ config })
       const [destinations, trips, programs] = await Promise.all([
-        payload.find({ collection: 'destinations', limit: 20, depth: 0, overrideAccess: true }),
+        payload.find({ collection: 'destinations', where: { bookingStatus: { not_equals: 'archived' } }, limit: 20, depth: 0, overrideAccess: true }),
         payload.find({ collection: 'trips', where: { status: { equals: 'active' } }, limit: 20, depth: 1, overrideAccess: true }),
         payload.find({ collection: 'programs', where: { status: { equals: 'active' } }, limit: 20, depth: 0, overrideAccess: true }),
       ])

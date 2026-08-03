@@ -103,6 +103,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260803_footer_tiktok_followers.ts",
+      "label": "migrations/20260803_footer_tiktok_followers.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260716d_testimonials_role.ts",
       "label": "migrations/20260716d_testimonials_role.ts",
       "group": "other",
@@ -4055,6 +4061,10 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260801_booking_deadline.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260803_footer_tiktok_followers.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -8805,6 +8815,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-08-01T08:31:26.010Z",
-  "fileCount": 659
+  "builtAt": "2026-08-03T18:28:58.987Z",
+  "fileCount": 660
 }
