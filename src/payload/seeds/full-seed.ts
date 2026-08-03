@@ -774,6 +774,7 @@ async function seedGlobals(
     followSubtext: 'Ежедневни снимки от планините.',
     facebookFollowers: '8 500',
     instagramFollowers: '12 300',
+    tiktokFollowers: '15.4K',
     copyright: `© ${new Date().getFullYear()} Синовете на Планините. Всички права запазени.`,
   } as any, overrideAccess: true })
   console.log('  global: footer')

@@ -37,6 +37,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260801_booking_deadline.ts",
+      "label": "migrations/20260801_booking_deadline.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260624_add_page_columns.ts",
       "label": "migrations/20260624_add_page_columns.ts",
       "group": "other",
@@ -2131,6 +2137,12 @@
       "size": 6
     },
     {
+      "id": "src/payload/collections/shared/bookingDeadlineField.ts",
+      "label": "shared/bookingDeadlineField.ts",
+      "group": "collections",
+      "size": 10
+    },
+    {
       "id": "src/payload/collections/shared/paymentPlanFields.ts",
       "label": "shared/paymentPlanFields.ts",
       "group": "collections",
@@ -3643,6 +3655,12 @@
       "size": 18
     },
     {
+      "id": "src/lib/booking-deadline.ts",
+      "label": "lib/booking-deadline.ts",
+      "group": "lib",
+      "size": 20
+    },
+    {
       "id": "src/lib/email-logger.ts",
       "label": "lib/email-logger.ts",
       "group": "lib",
@@ -4035,6 +4053,10 @@
       "target": "src/migrations/20260731_registrations_manual_confirm_paid.ts"
     },
     {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260801_booking_deadline.ts"
+    },
+    {
       "source": "src/seed/gallery.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -4387,6 +4409,10 @@
       "target": "src/lib/email-flows.ts"
     },
     {
+      "source": "src/app/api/booking/route.ts",
+      "target": "src/lib/booking-deadline.ts"
+    },
+    {
       "source": "src/app/api/gallery/favorites/count/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -4445,6 +4471,10 @@
     {
       "source": "src/app/api/checkout/route.ts",
       "target": "src/lib/pricing/dynamic.ts"
+    },
+    {
+      "source": "src/app/api/checkout/route.ts",
+      "target": "src/lib/booking-deadline.ts"
     },
     {
       "source": "src/app/api/checkout/route.ts",
@@ -4529,6 +4559,10 @@
     {
       "source": "src/app/api/cart/validate/route.ts",
       "target": "src/lib/pricing/dynamic.ts"
+    },
+    {
+      "source": "src/app/api/cart/validate/route.ts",
+      "target": "src/lib/booking-deadline.ts"
     },
     {
       "source": "src/app/api/cart/abandoned/route.ts",
@@ -5104,6 +5138,10 @@
     },
     {
       "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
+      "target": "src/lib/booking-deadline.ts"
+    },
+    {
+      "source": "src/app/(frontend)/destinations/[slug]/page.tsx",
       "target": "src/lib/metadata.ts"
     },
     {
@@ -5672,6 +5710,10 @@
     },
     {
       "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/lib/booking-deadline.ts"
+    },
+    {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
       "target": "src/lib/metadata.ts"
     },
     {
@@ -5957,6 +5999,10 @@
     {
       "source": "src/app/(frontend)/trips/[slug]/page.tsx",
       "target": "src/lib/media-url.ts"
+    },
+    {
+      "source": "src/app/(frontend)/trips/[slug]/page.tsx",
+      "target": "src/lib/booking-deadline.ts"
     },
     {
       "source": "src/app/(frontend)/trips/[slug]/page.tsx",
@@ -6643,6 +6689,10 @@
       "target": "src/payload/collections/shared/paymentPlanFields.ts"
     },
     {
+      "source": "src/payload/collections/Trips.ts",
+      "target": "src/payload/collections/shared/bookingDeadlineField.ts"
+    },
+    {
       "source": "src/payload/collections/Registrations.ts",
       "target": "src/payload/hooks/syncTripSpots.ts"
     },
@@ -6661,6 +6711,10 @@
     {
       "source": "src/payload/collections/Programs.ts",
       "target": "src/payload/collections/shared/paymentPlanFields.ts"
+    },
+    {
+      "source": "src/payload/collections/Programs.ts",
+      "target": "src/payload/collections/shared/bookingDeadlineField.ts"
     },
     {
       "source": "src/payload/collections/Pages.ts",
@@ -6765,6 +6819,10 @@
     {
       "source": "src/payload/collections/Destinations.ts",
       "target": "src/payload/collections/shared/paymentPlanFields.ts"
+    },
+    {
+      "source": "src/payload/collections/Destinations.ts",
+      "target": "src/payload/collections/shared/bookingDeadlineField.ts"
     },
     {
       "source": "src/components/blocks/FAQBlockRenderer.tsx",
@@ -7695,6 +7753,10 @@
       "target": "src/lib/use-translations.ts"
     },
     {
+      "source": "src/components/ui/destination-page/BookingCtaSection.tsx",
+      "target": "src/lib/booking-deadline.ts"
+    },
+    {
       "source": "src/components/ui/destination-page/AdventureCtaSection.tsx",
       "target": "src/lib/media-url.ts"
     },
@@ -7709,6 +7771,10 @@
     {
       "source": "src/components/ui/destination-page/AdventureCtaSection.tsx",
       "target": "src/lib/use-translations.ts"
+    },
+    {
+      "source": "src/components/ui/destination-page/AdventureCtaSection.tsx",
+      "target": "src/lib/booking-deadline.ts"
     },
     {
       "source": "src/components/ui/destination-page/ReadinessChecklistSection.tsx",
@@ -7769,6 +7835,10 @@
     {
       "source": "src/components/ui/DestinationCarousel.tsx",
       "target": "src/lib/translations.ts"
+    },
+    {
+      "source": "src/components/ui/TripCard.tsx",
+      "target": "src/lib/booking-deadline.ts"
     },
     {
       "source": "src/components/ui/WhyTravelWithUs.tsx",
@@ -8041,6 +8111,10 @@
     {
       "source": "src/components/forms/BookingFormModal.tsx",
       "target": "src/lib/use-translations.ts"
+    },
+    {
+      "source": "src/components/forms/BookingFormModal.tsx",
+      "target": "src/lib/booking-deadline.ts"
     },
     {
       "source": "src/components/forms/WaitlistFormModal.tsx",
@@ -8731,6 +8805,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-08-01T05:06:45.371Z",
-  "fileCount": 656
+  "builtAt": "2026-08-01T08:31:26.010Z",
+  "fileCount": 659
 }

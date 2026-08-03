@@ -16,6 +16,7 @@ type FooterData = {
   tiktokUrl?: string
   facebookFollowers?: string
   instagramFollowers?: string
+  tiktokFollowers?: string
   travelSectionHeading?: string
   navSectionHeading?: string
   travelLinks?: { label: string; href: string }[]
@@ -68,6 +69,7 @@ export function FooterBlockRenderer({ overrides }: Props = {}) {
   const tiktokUrl = d.tiktokUrl ?? 'https://tiktok.com/@sonsofmountains'
   const facebookFollowers = d.facebookFollowers ?? '20.2K'
   const instagramFollowers = d.instagramFollowers ?? '23.8K'
+  const tiktokFollowers = d.tiktokFollowers ?? '15.4K'
   const travelSectionHeading = d.travelSectionHeading ?? 'TRAVEL WITH US'
   const navSectionHeading = d.navSectionHeading ?? 'NAVIGATION'
   const travelLinks = d.travelLinks ?? []
@@ -125,8 +127,9 @@ export function FooterBlockRenderer({ overrides }: Props = {}) {
                   <span style={{ fontSize: '1.5rem', fontWeight: 700 }}>{instagramFollowers}</span>
                 </a>
                 {tiktokUrl && (
-                  <a href={tiktokUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', color: '#ffffff' }}>
+                  <a href={tiktokUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', color: '#ffffff' }}>
                     <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="5" fill="#000000"/><path d="M15.59 5.19a3.62 3.62 0 0 1-2.83-3.19V2h-2.59v10.25a2.17 2.17 0 0 1-2.16 1.88 2.17 2.17 0 0 1-2.17-2.17 2.17 2.17 0 0 1 2.17-2.17c.21 0 .4.03.59.08V7.26a4.75 4.75 0 0 0-.59-.04 4.75 4.75 0 0 0-4.75 4.75A4.75 4.75 0 0 0 8.01 16.72a4.75 4.75 0 0 0 4.75-4.75V6.52a6.12 6.12 0 0 0 3.58 1.14V5.19a3.64 3.64 0 0 1-.75-.05" fill="white"/></svg>
+                    <span style={{ fontSize: '1.5rem', fontWeight: 700 }}>{tiktokFollowers}</span>
                   </a>
                 )}
               </div>

@@ -24,6 +24,7 @@ interface FooterClientProps {
   tiktokUrl?: string
   facebookFollowers: string
   instagramFollowers: string
+  tiktokFollowers?: string
   logoUrl: string | null
   logoColoredUrl: string | null
   copyright: string
@@ -56,6 +57,7 @@ export function FooterClient({
   tiktokUrl,
   facebookFollowers,
   instagramFollowers,
+  tiktokFollowers,
   logoUrl,
   logoColoredUrl,
   copyright,
@@ -136,6 +138,7 @@ export function FooterClient({
               instagramUrl={instagramUrl}
               instagramFollowers={instagramFollowers}
               tiktokUrl={tiktokUrl}
+              tiktokFollowers={tiktokFollowers}
             />
           </div>
 

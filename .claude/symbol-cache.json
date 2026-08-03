@@ -71,6 +71,18 @@
     "lines": 32,
     "group": "other"
   },
+  "src/migrations/20260801_booking_deadline.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 20,
+    "group": "other"
+  },
   "src/migrations/20260624_add_page_columns.ts": {
     "exports": [
       "up",
@@ -268,9 +280,10 @@
       "./20260727_travel_stats_table",
       "./20260727b_travel_stats_rels_columns",
       "./20260729_customers_sessions_table",
-      "./20260731_registrations_manual_confirm_paid"
+      "./20260731_registrations_manual_confirm_paid",
+      "./20260801_booking_deadline"
     ],
-    "lines": 148,
+    "lines": 154,
     "group": "other"
   },
   "src/migrations/20260719b_email_marketing_platform.ts": {
@@ -1280,9 +1293,10 @@
       "payload",
       "@payload-config",
       "@/lib/pricing/payment-plan",
-      "@/lib/email-flows"
+      "@/lib/email-flows",
+      "@/lib/booking-deadline"
     ],
-    "lines": 161,
+    "lines": 165,
     "group": "api"
   },
   "src/app/api/gallery/favorites/count/route.ts": {
@@ -1444,9 +1458,10 @@
       "@payload-config",
       "@/lib/cart-store",
       "@/lib/pricing/payment-plan",
-      "@/lib/pricing/dynamic"
+      "@/lib/pricing/dynamic",
+      "@/lib/booking-deadline"
     ],
-    "lines": 412,
+    "lines": 418,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {
@@ -1689,9 +1704,10 @@
       "payload",
       "@payload-config",
       "@/lib/cart-store",
-      "@/lib/pricing/dynamic"
+      "@/lib/pricing/dynamic",
+      "@/lib/booking-deadline"
     ],
-    "lines": 68,
+    "lines": 92,
     "group": "api"
   },
   "src/app/api/cart/abandoned/route.ts": {
@@ -2829,6 +2845,7 @@
       "next",
       "react",
       "@/lib/media-url",
+      "@/lib/booking-deadline",
       "@/lib/metadata",
       "@/lib/weather",
       "@/lib/translations",
@@ -2852,7 +2869,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/DestinationBookingController"
     ],
-    "lines": 374,
+    "lines": 378,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/SignupClient.tsx": {
@@ -3703,6 +3720,7 @@
       "react",
       "next",
       "@/lib/media-url",
+      "@/lib/booking-deadline",
       "@/lib/metadata",
       "@/components/analytics/ViewItemTracker",
       "@/components/ui/destination-page/HeroSection",
@@ -3722,7 +3740,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 322,
+    "lines": 327,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/page.tsx": {
@@ -4107,6 +4125,7 @@
       "next",
       "react",
       "@/lib/media-url",
+      "@/lib/booking-deadline",
       "@/lib/metadata",
       "@/lib/translations",
       "@/components/ui/TrackRecentlyViewed",
@@ -4129,7 +4148,7 @@
       "@/components/ui/destination-page/DestinationPageAnimator",
       "@/components/ui/destination-page/FloatingBookingBar"
     ],
-    "lines": 363,
+    "lines": 368,
     "group": "frontend"
   },
   "src/app/(frontend)/page.tsx": {
@@ -5189,9 +5208,10 @@
       "next/server",
       "@/lib/stripe-product-sync",
       "@/lib/send-registration-forms",
-      "./shared/paymentPlanFields"
+      "./shared/paymentPlanFields",
+      "./shared/bookingDeadlineField"
     ],
-    "lines": 580,
+    "lines": 582,
     "group": "collections"
   },
   "src/payload/collections/EmailTemplates.ts": {
@@ -5331,9 +5351,10 @@
       "next/cache",
       "next/server",
       "@/lib/stripe-product-sync",
-      "./shared/paymentPlanFields"
+      "./shared/paymentPlanFields",
+      "./shared/bookingDeadlineField"
     ],
-    "lines": 561,
+    "lines": 563,
     "group": "collections"
   },
   "src/payload/collections/Pages.ts": {
@@ -5360,6 +5381,17 @@
       "../blocks/VideoBlock"
     ],
     "lines": 163,
+    "group": "collections"
+  },
+  "src/payload/collections/shared/bookingDeadlineField.ts": {
+    "exports": [
+      "bookingDeadlineField"
+    ],
+    "types": [],
+    "imports": [
+      "payload"
+    ],
+    "lines": 13,
     "group": "collections"
   },
   "src/payload/collections/shared/paymentPlanFields.ts": {
@@ -5671,9 +5703,10 @@
       "next/server",
       "@/lib/stripe-product-sync",
       "@/lib/send-registration-forms",
-      "./shared/paymentPlanFields"
+      "./shared/paymentPlanFields",
+      "./shared/bookingDeadlineField"
     ],
-    "lines": 581,
+    "lines": 583,
     "group": "collections"
   },
   "src/payload/collections/Waitlist.ts": {
@@ -7230,9 +7263,10 @@
       "gsap/ScrollTrigger",
       "@/lib/currency",
       "@/components/forms/WaitlistFormModal",
-      "@/lib/use-translations"
+      "@/lib/use-translations",
+      "@/lib/booking-deadline"
     ],
-    "lines": 262,
+    "lines": 265,
     "group": "ui"
   },
   "src/components/ui/destination-page/AdventureCtaSection.tsx": {
@@ -7248,9 +7282,10 @@
       "@/lib/media-url",
       "@/lib/currency",
       "@/components/forms/WaitlistFormModal",
-      "@/lib/use-translations"
+      "@/lib/use-translations",
+      "@/lib/booking-deadline"
     ],
-    "lines": 190,
+    "lines": 200,
     "group": "ui"
   },
   "src/components/ui/destination-page/ReadinessChecklistSection.tsx": {
@@ -7340,8 +7375,10 @@
       "TripCard"
     ],
     "types": [],
-    "imports": [],
-    "lines": 65,
+    "imports": [
+      "@/lib/booking-deadline"
+    ],
+    "lines": 69,
     "group": "ui"
   },
   "src/components/ui/WhyTravelWithUs.tsx": {
@@ -7847,7 +7884,7 @@
     "imports": [
       "./BookingFormModal"
     ],
-    "lines": 32,
+    "lines": 33,
     "group": "components"
   },
   "src/components/forms/IndividualProgramInquiryForm.tsx": {
@@ -7929,9 +7966,10 @@
       "@hookform/resolvers/zod",
       "zod",
       "motion/react",
-      "@/lib/use-translations"
+      "@/lib/use-translations",
+      "@/lib/booking-deadline"
     ],
-    "lines": 430,
+    "lines": 432,
     "group": "components"
   },
   "src/components/forms/WaitlistFormModal.tsx": {
@@ -8660,6 +8698,15 @@
       "resend"
     ],
     "lines": 14,
+    "group": "lib"
+  },
+  "src/lib/booking-deadline.ts": {
+    "exports": [
+      "isBookingDeadlinePassed"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 5,
     "group": "lib"
   },
   "src/lib/email-logger.ts": {

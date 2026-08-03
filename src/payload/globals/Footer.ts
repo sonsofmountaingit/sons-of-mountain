@@ -62,6 +62,11 @@ export const Footer: GlobalConfig = {
       defaultValue: '23.8K',
     },
     {
+      name: 'tiktokFollowers',
+      type: 'text',
+      defaultValue: '15.4K',
+    },
+    {
       name: 'instagramUrl',
       type: 'text',
       defaultValue: 'https://instagram.com/sonsofmountains',

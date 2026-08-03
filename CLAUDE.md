@@ -9,6 +9,20 @@ Before tracing imports or answering "what uses X / what does Y import":
 
 Graph resolves `@/` and `@payload-config` aliases; covers all source files in `src/`.
 
+# Source of Truth
+
+- Remaining spots live on `destinations.spots_available` / `spotsTotal` — check the destinations table, not orders.
+- Product stock: the static `inStock` product files are authoritative, NOT the DB `stockLevel` column.
+- Trip/product copy not present in `translations.ts` is CMS-stored in Payload — edit it in the admin panel, not in code.
+- Business-rule logic (early-bird pricing, spot availability, installment eligibility) is frequently duplicated across UI components, floating bars, checkout, and server-side webhook recomputation. Before changing any of it, grep the entire repo for every occurrence and list file:line before editing.
+
+# Deployment & Migrations
+
+- Deploys go through CI/CD only. Never scp/rsync files to the server, never run a manual build/restart on prod.
+- For schema changes: write and register a Payload migration in-repo AND apply the equivalent additive-only SQL (ALTER TABLE ... ADD COLUMN / CREATE TABLE IF NOT EXISTS) directly to prod via `ssh sons`, so CI/CD and live state stay in parity. Never DROP/TRUNCATE/destructive ALTER without explicit confirmation.
+- Any migration touching a collection must also add the corresponding `payload_locked_documents_rels` columns, or the admin panel goes blank.
+- Never claim a fix is "done" without evidence: `npx tsc --noEmit` output, a live DB query result, or an actual HTTP/db row. After any logic fix, show the grep sweep confirming no sibling occurrence was missed.
+
 # Engineering Standard
 
 - Work silently; provide only one final response after the task is complete.

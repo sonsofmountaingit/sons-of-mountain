@@ -163,6 +163,7 @@ export async function Footer() {
   const tiktokUrl = (data as any)?.tiktokUrl ?? 'https://tiktok.com/@sonsofmountains'
   const facebookFollowers = (data as any)?.facebookFollowers ?? '20.2K'
   const instagramFollowers = (data as any)?.instagramFollowers ?? '23.8K'
+  const tiktokFollowers = (data as any)?.tiktokFollowers ?? '15.4K'
   const travelSectionHeading = (data as any)?.travelSectionHeading ?? t.footer.travel_section
   const navSectionHeading = (data as any)?.navSectionHeading ?? t.footer.nav_section
   const navLinkSource = (data as any)?.navLinkSource ?? 'auto'
@@ -247,6 +248,7 @@ export async function Footer() {
           tiktokUrl={tiktokUrl}
           facebookFollowers={facebookFollowers}
           instagramFollowers={instagramFollowers}
+          tiktokFollowers={tiktokFollowers}
           logoUrl={logoUrl}
           logoColoredUrl={logoColoredUrl}
           copyright={copyright}
