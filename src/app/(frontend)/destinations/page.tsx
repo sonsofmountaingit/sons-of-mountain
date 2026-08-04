@@ -21,10 +21,9 @@ const getDestinations = unstable_cache(
     const payload = await getPayload({ config })
     const { docs } = await payload.find({
       collection: 'destinations',
-      where: { bookingStatus: { not_equals: 'archived' } },
+      where: { bookingStatus: { not_equals: 'archived' }, _status: { equals: 'published' } },
       limit: 200,
       sort: 'startDate',
-      overrideAccess: true,
     })
     return docs
   },
@@ -103,7 +102,7 @@ async function DestinationsContent({ type }: { type?: string }) {
     const payload = await getPayload({ config })
     const { docs } = await payload.find({
       collection: 'destinations',
-      where: { bookingStatus: { equals: 'archived' } },
+      where: { bookingStatus: { equals: 'archived' }, _status: { equals: 'published' } },
       sort: '-startDate',
       limit: 100,
       overrideAccess: true,

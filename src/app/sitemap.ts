@@ -20,7 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { docs: bundles },
     { docs: photographers },
   ] = await Promise.all([
-    payload.find({ collection: 'destinations', limit: 500, depth: 0 }),
+    payload.find({ collection: 'destinations', where: { _status: { equals: 'published' } }, limit: 500, depth: 0 }),
     payload.find({ collection: 'stories', limit: 500, depth: 0 }),
     payload.find({ collection: 'blog-posts', limit: 500, depth: 0 }),
     payload.find({ collection: 'trips', limit: 500, depth: 0 }),

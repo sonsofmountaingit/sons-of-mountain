@@ -18,7 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
 const getDestinations = unstable_cache(
   async () => {
     const payload = await getPayload({ config })
-    const { docs } = await payload.find({ collection: 'destinations', limit: 50 })
+    const { docs } = await payload.find({ collection: 'destinations', where: { _status: { equals: 'published' } }, limit: 50 })
     return docs
   },
   ['photos-destinations'],

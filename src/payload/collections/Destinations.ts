@@ -13,6 +13,12 @@ export const Destinations: CollectionConfig = {
     defaultColumns: ['name', 'bookingStatus', 'startDate', 'endDate', 'type', 'updatedAt'],
     group: 'Пътувания',
   },
+  access: {
+    read: ({ req }) =>
+      (req.user as { collection?: string } | undefined)?.collection === 'users'
+        ? true
+        : { _status: { equals: 'published' } },
+  },
   versions: {
     drafts: { autosave: { interval: 375 } },
   },

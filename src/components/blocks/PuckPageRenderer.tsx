@@ -204,7 +204,7 @@ async function renderBlock(item: PuckItem, index: number): Promise<React.ReactNo
     case 'DestinationCarouselBlock': {
       const payload = await getPayload({ config })
       const limit = (p.limit as number) ?? 20
-      const { docs: destinations } = await payload.find({ collection: 'destinations', limit, sort: 'name', depth: 1, overrideAccess: true })
+      const { docs: destinations } = await payload.find({ collection: 'destinations', where: { _status: { equals: 'published' } }, limit, sort: 'name', depth: 1, overrideAccess: true })
       return <DestinationCarouselRenderer key={index} block={{ title: (p.title as string) || null, destinations: destinations as Parameters<typeof DestinationCarouselRenderer>[0]['block']['destinations'], ...sp(p) }} />
     }
 

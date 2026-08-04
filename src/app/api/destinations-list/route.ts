@@ -12,6 +12,7 @@ export async function GET(req: NextRequest) {
     const payload = await getPayload({ config })
     const query: any = {
       collection: 'destinations',
+      where: { _status: { equals: 'published' } },
       limit,
       depth,
     }

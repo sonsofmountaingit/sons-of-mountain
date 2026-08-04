@@ -38,7 +38,7 @@ async function getPageData(slug: string) {
     const payload = await getPayload({ config })
     const { docs } = await payload.find({
       collection: 'destinations',
-      where: { slug: { equals: slug } },
+      where: { slug: { equals: slug }, _status: { equals: 'published' } },
       limit: 1,
       depth: 2,
       overrideAccess: true,
@@ -49,7 +49,7 @@ async function getPageData(slug: string) {
     const [siblingsResult, settings, ratingsResult] = await Promise.all([
       payload.find({
         collection: 'destinations',
-        where: { and: [{ slug: { not_equals: slug } }, { type: { equals: destination.type } }] },
+        where: { and: [{ slug: { not_equals: slug } }, { type: { equals: destination.type } }, { _status: { equals: 'published' } }] },
         limit: 3,
         depth: 1,
         overrideAccess: true,

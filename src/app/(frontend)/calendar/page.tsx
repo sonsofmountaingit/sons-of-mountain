@@ -108,7 +108,7 @@ const fetchCalendarData = unstable_cache(
     const [t, p, d] = await Promise.allSettled([
       payload.find({ collection: 'trips', where: { status: { not_equals: 'draft' } }, sort: 'startDate', limit: 500, depth: 2, overrideAccess: true }),
       payload.find({ collection: 'programs', where: { status: { not_equals: 'draft' } }, sort: 'startDate', limit: 500, depth: 2, overrideAccess: true }),
-      payload.find({ collection: 'destinations', where: { startDate: { exists: true } }, sort: 'startDate', limit: 500, depth: 1, overrideAccess: true }),
+      payload.find({ collection: 'destinations', where: { startDate: { exists: true }, _status: { equals: 'published' } }, sort: 'startDate', limit: 500, depth: 1, overrideAccess: true }),
     ])
     if (t.status === 'fulfilled') tripsRes = t.value
     if (p.status === 'fulfilled') programsRes = p.value

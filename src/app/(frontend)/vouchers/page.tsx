@@ -19,7 +19,7 @@ const getVoucherOptions = unstable_cache(
   async () => {
     const payload = await getPayload({ config })
     const [destinations, trips, programs, vouchersGlobal] = await Promise.all([
-      payload.find({ collection: 'destinations', where: { bookingStatus: { not_equals: 'archived' } }, limit: 50, depth: 0 }),
+      payload.find({ collection: 'destinations', where: { bookingStatus: { not_equals: 'archived' }, _status: { equals: 'published' } }, limit: 50, depth: 0 }),
       payload.find({ collection: 'trips', where: { status: { not_equals: 'draft' } }, sort: 'startDate', limit: 100, depth: 0 }),
       payload.find({ collection: 'programs', limit: 100, depth: 0 }),
       payload.findGlobal({ slug: 'vouchers', depth: 0 }),
