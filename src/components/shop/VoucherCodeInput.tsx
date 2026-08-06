@@ -9,7 +9,7 @@ export function VoucherCodeInput() {
   const [code, setCode] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const { setVoucher, setDiscount, appliedVoucher, appliedDiscount, subtotal, corporatePeopleCount } = useCartStore()
+  const { setVoucher, setDiscount, appliedVoucher, appliedDiscount, subtotal, corporatePeopleCount, items } = useCartStore()
   const { t } = useTranslations()
 
   async function apply() {
@@ -19,7 +19,12 @@ export function VoucherCodeInput() {
       const discountRes = await fetch('/api/discount/validate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code, cartTotal: subtotal(), peopleCount: corporatePeopleCount }),
+        body: JSON.stringify({
+          code,
+          cartTotal: subtotal(),
+          peopleCount: corporatePeopleCount,
+          cartItems: items.map((i) => ({ type: i.type, tripId: i.tripId, programId: i.programId, destinationId: i.destinationId })),
+        }),
       })
       const discountData = await discountRes.json()
       if (discountRes.ok && discountData.valid) {

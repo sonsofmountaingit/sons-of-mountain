@@ -8106,7 +8106,7 @@
       "@/lib/currency",
       "@/lib/use-translations"
     ],
-    "lines": 65,
+    "lines": 92,
     "group": "components"
   },
   "src/components/shop/AddToCartButton.tsx": {

@@ -24,6 +24,7 @@ import * as migration_20260729_customers_sessions_table from './20260729_custome
 import * as migration_20260731_registrations_manual_confirm_paid from './20260731_registrations_manual_confirm_paid'
 import * as migration_20260801_booking_deadline from './20260801_booking_deadline'
 import * as migration_20260803_footer_tiktok_followers from './20260803_footer_tiktok_followers'
+import * as migration_20260806_discount_codes_applicable_scope from './20260806_discount_codes_applicable_scope'
 
 export const migrations = [
   {
@@ -155,5 +156,10 @@ export const migrations = [
     up: migration_20260803_footer_tiktok_followers.up,
     down: migration_20260803_footer_tiktok_followers.down,
     name: '20260803_footer_tiktok_followers',
+  },
+  {
+    up: migration_20260806_discount_codes_applicable_scope.up,
+    down: migration_20260806_discount_codes_applicable_scope.down,
+    name: '20260806_discount_codes_applicable_scope',
   },
 ]

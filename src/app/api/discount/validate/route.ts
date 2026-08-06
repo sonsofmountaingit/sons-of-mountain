@@ -22,6 +22,23 @@ export async function POST(req: NextRequest) {
     const discount = result.docs[0]
     if (!discount) return NextResponse.json({ error: 'Invalid or inactive code' }, { status: 404 })
 
+    const scope = discount.applicableTo
+    if (scope && scope !== 'all') {
+      const items: Array<{ type?: string; tripId?: string; programId?: string; destinationId?: string }> = Array.isArray(cartItems) ? cartItems : []
+      const idOf = (rel: unknown) => (typeof rel === 'string' ? rel : (rel as { id?: string } | null | undefined)?.id ?? null)
+      const matchesScope = (() => {
+        if (scope === 'trips') return items.some((i) => i.type === 'trip')
+        if (scope === 'programs') return items.some((i) => i.type === 'program')
+        if (scope === 'destinations') return items.some((i) => i.type === 'destination')
+        if (scope === 'products') return items.some((i) => i.type === 'product')
+        if (scope === 'specific-trip') return items.some((i) => i.type === 'trip' && i.tripId === idOf(discount.specificTrip))
+        if (scope === 'specific-program') return items.some((i) => i.type === 'program' && i.programId === idOf(discount.specificProgram))
+        if (scope === 'specific-destination') return items.some((i) => i.type === 'destination' && i.destinationId === idOf(discount.specificDestination))
+        return true
+      })()
+      if (!matchesScope) return NextResponse.json({ error: 'Code not applicable to items in cart' }, { status: 400 })
+    }
+
     const now = new Date()
     if (discount.startsAt && new Date(discount.startsAt) > now) {
       return NextResponse.json({ error: 'Code not yet active' }, { status: 400 })
