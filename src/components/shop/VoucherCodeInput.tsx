@@ -9,26 +9,53 @@ export function VoucherCodeInput() {
   const [code, setCode] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const { setVoucher, appliedVoucher } = useCartStore()
+  const { setVoucher, setDiscount, appliedVoucher, appliedDiscount, subtotal, corporatePeopleCount } = useCartStore()
   const { t } = useTranslations()
 
   async function apply() {
     setError('')
     setLoading(true)
     try {
-      const res = await fetch('/api/voucher/validate', {
+      const discountRes = await fetch('/api/discount/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code, cartTotal: subtotal(), peopleCount: corporatePeopleCount }),
+      })
+      const discountData = await discountRes.json()
+      if (discountRes.ok && discountData.valid) {
+        setDiscount({
+          id: discountData.id,
+          code: discountData.code,
+          type: discountData.type,
+          value: discountData.value,
+          discountAmount: discountData.discountAmount,
+          applicableTo: 'all',
+        })
+        return
+      }
+
+      const voucherRes = await fetch('/api/voucher/validate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ code }),
       })
-      const data = await res.json()
-      if (!res.ok) { setError(data.error ?? t.shop.discount_invalid); return }
-      setVoucher({ id: data.id, code: data.code, amount: data.amount, currency: data.currency })
+      const voucherData = await voucherRes.json()
+      if (!voucherRes.ok) { setError(voucherData.error ?? discountData.error ?? t.shop.discount_invalid); return }
+      setVoucher({ id: voucherData.id, code: voucherData.code, amount: voucherData.amount, currency: voucherData.currency })
     } catch {
       setError(t.shop.discount_failed)
     } finally {
       setLoading(false)
     }
+  }
+
+  if (appliedDiscount) {
+    return (
+      <div className="flex items-center justify-between rounded border border-green-200 bg-green-50 px-3 py-2 text-sm">
+        <span className="text-green-800 font-medium">{t.shop.discount_applied_prefix} <strong>{appliedDiscount.code}</strong> {t.shop.discount_applied_suffix}</span>
+        <button onClick={() => setDiscount(null)} className="text-green-600 hover:text-green-900 text-xs underline ml-2">{t.shop.discount_remove}</button>
+      </div>
+    )
   }
 
   if (appliedVoucher) {

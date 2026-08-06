@@ -2223,7 +2223,7 @@
       "payload",
       "@payload-config"
     ],
-    "lines": 30,
+    "lines": 31,
     "group": "api"
   },
   "src/app/api/resend/webhook/route.ts": {
@@ -2840,7 +2840,7 @@
       "@/lib/metadata",
       "@/components/analytics/ViewItemListTracker"
     ],
-    "lines": 220,
+    "lines": 219,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/[slug]/page.tsx": {
@@ -5719,7 +5719,7 @@
       "./shared/paymentPlanFields",
       "./shared/bookingDeadlineField"
     ],
-    "lines": 583,
+    "lines": 589,
     "group": "collections"
   },
   "src/payload/collections/Waitlist.ts": {
