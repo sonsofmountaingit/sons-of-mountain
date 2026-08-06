@@ -5,7 +5,7 @@ import config from '@payload-config'
 export async function POST(req: NextRequest) {
   try {
     const { code } = await req.json()
-    if (!code) return NextResponse.json({ error: 'Code required' }, { status: 400 })
+    if (!code) return NextResponse.json({ error: 'Изисква се код' }, { status: 400 })
 
     const payload = await getPayload({ config })
     const result = await payload.find({
@@ -15,13 +15,13 @@ export async function POST(req: NextRequest) {
     })
 
     const voucher = result.docs[0]
-    if (!voucher) return NextResponse.json({ error: 'Invalid or inactive voucher code' }, { status: 404 })
-    if (voucher.status !== 'active') return NextResponse.json({ error: 'Voucher is not active' }, { status: 400 })
+    if (!voucher) return NextResponse.json({ error: 'Невалиден или неактивен код за ваучер' }, { status: 404 })
+    if (voucher.status !== 'active') return NextResponse.json({ error: 'Ваучерът не е активен' }, { status: 400 })
 
     const now = new Date()
     if (voucher.expiresAt && new Date(voucher.expiresAt) < now) {
       await payload.update({ collection: 'gift-vouchers', id: voucher.id, data: { status: 'expired' } })
-      return NextResponse.json({ error: 'Voucher has expired' }, { status: 400 })
+      return NextResponse.json({ error: 'Ваучерът е изтекъл' }, { status: 400 })
     }
 
     return NextResponse.json({

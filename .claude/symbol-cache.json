@@ -95,6 +95,18 @@
     "lines": 106,
     "group": "other"
   },
+  "src/migrations/20260806_discount_codes_applicable_scope.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 26,
+    "group": "other"
+  },
   "src/migrations/20260714c_seo_meta_keywords_versions_tables.ts": {
     "exports": [
       "up",
@@ -294,9 +306,10 @@
       "./20260729_customers_sessions_table",
       "./20260731_registrations_manual_confirm_paid",
       "./20260801_booking_deadline",
-      "./20260803_footer_tiktok_followers"
+      "./20260803_footer_tiktok_followers",
+      "./20260806_discount_codes_applicable_scope"
     ],
-    "lines": 160,
+    "lines": 166,
     "group": "other"
   },
   "src/migrations/20260719b_email_marketing_platform.ts": {
@@ -1500,7 +1513,7 @@
       "payload",
       "@payload-config"
     ],
-    "lines": 74,
+    "lines": 91,
     "group": "api"
   },
   "src/app/api/stock-alerts/subscribe/route.ts": {
@@ -5677,7 +5690,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 150,
+    "lines": 171,
     "group": "collections"
   },
   "src/payload/collections/BlogPosts.ts": {
@@ -8106,7 +8119,7 @@
       "@/lib/currency",
       "@/lib/use-translations"
     ],
-    "lines": 92,
+    "lines": 97,
     "group": "components"
   },
   "src/components/shop/AddToCartButton.tsx": {

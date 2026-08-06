@@ -20,43 +20,46 @@ export async function POST(req: NextRequest) {
     })
 
     const discount = result.docs[0]
-    if (!discount) return NextResponse.json({ error: 'Invalid or inactive code' }, { status: 404 })
+    if (!discount) return NextResponse.json({ error: 'Невалиден или неактивен код' }, { status: 404 })
 
     const scope = discount.applicableTo
     if (scope && scope !== 'all') {
       const items: Array<{ type?: string; tripId?: string; programId?: string; destinationId?: string }> = Array.isArray(cartItems) ? cartItems : []
-      const idOf = (rel: unknown) => (typeof rel === 'string' ? rel : (rel as { id?: string } | null | undefined)?.id ?? null)
+      const idOf = (rel: unknown) => {
+        const id = typeof rel === 'string' || typeof rel === 'number' ? rel : (rel as { id?: string | number } | null | undefined)?.id
+        return id == null ? null : String(id)
+      }
       const matchesScope = (() => {
         if (scope === 'trips') return items.some((i) => i.type === 'trip')
         if (scope === 'programs') return items.some((i) => i.type === 'program')
         if (scope === 'destinations') return items.some((i) => i.type === 'destination')
         if (scope === 'products') return items.some((i) => i.type === 'product')
-        if (scope === 'specific-trip') return items.some((i) => i.type === 'trip' && i.tripId === idOf(discount.specificTrip))
-        if (scope === 'specific-program') return items.some((i) => i.type === 'program' && i.programId === idOf(discount.specificProgram))
-        if (scope === 'specific-destination') return items.some((i) => i.type === 'destination' && i.destinationId === idOf(discount.specificDestination))
+        if (scope === 'specific-trip') return items.some((i) => i.type === 'trip' && String(i.tripId) === idOf(discount.specificTrip))
+        if (scope === 'specific-program') return items.some((i) => i.type === 'program' && String(i.programId) === idOf(discount.specificProgram))
+        if (scope === 'specific-destination') return items.some((i) => i.type === 'destination' && String(i.destinationId) === idOf(discount.specificDestination))
         return true
       })()
-      if (!matchesScope) return NextResponse.json({ error: 'Code not applicable to items in cart' }, { status: 400 })
+      if (!matchesScope) return NextResponse.json({ error: 'Кодът не важи за продуктите в количката' }, { status: 400 })
     }
 
     const now = new Date()
     if (discount.startsAt && new Date(discount.startsAt) > now) {
-      return NextResponse.json({ error: 'Code not yet active' }, { status: 400 })
+      return NextResponse.json({ error: 'Кодът все още не е активен' }, { status: 400 })
     }
     if (discount.expiresAt && new Date(discount.expiresAt) < now) {
-      return NextResponse.json({ error: 'Code has expired' }, { status: 400 })
+      return NextResponse.json({ error: 'Кодът е изтекъл' }, { status: 400 })
     }
     if (discount.maxUses && discount.usedCount >= discount.maxUses) {
-      return NextResponse.json({ error: 'Code usage limit reached' }, { status: 400 })
+      return NextResponse.json({ error: 'Достигнат е лимитът на използване на кода' }, { status: 400 })
     }
     if (discount.minOrderAmount && cartTotal < discount.minOrderAmount) {
-      return NextResponse.json({ error: `Minimum order of €${discount.minOrderAmount} required` }, { status: 400 })
+      return NextResponse.json({ error: `Минимална поръчка от €${discount.minOrderAmount} е необходима` }, { status: 400 })
     }
     if (discount.onePerCustomer && customerId) {
       const alreadyUsed = (discount.usedByCustomers as any[])?.some((u: any) =>
         (typeof u.customer === 'string' ? u.customer : u.customer?.id) === customerId
       )
-      if (alreadyUsed) return NextResponse.json({ error: 'Code already used by this account' }, { status: 400 })
+      if (alreadyUsed) return NextResponse.json({ error: 'Кодът вече е използван от този профил' }, { status: 400 })
     }
 
     let discountAmount = 0

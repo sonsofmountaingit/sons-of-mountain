@@ -49,6 +49,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260806_discount_codes_applicable_scope.ts",
+      "label": "migrations/20260806_discount_codes_applicable_scope.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260714c_seo_meta_keywords_versions_tables.ts",
       "label": "migrations/20260714c_seo_meta_keywords_versions_tables.ts",
       "group": "other",
@@ -4065,6 +4071,10 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260803_footer_tiktok_followers.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260806_discount_codes_applicable_scope.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -8815,6 +8825,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-08-06T15:59:50.262Z",
-  "fileCount": 660
+  "builtAt": "2026-08-06T16:25:44.977Z",
+  "fileCount": 661
 }
