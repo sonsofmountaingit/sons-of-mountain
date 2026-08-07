@@ -282,6 +282,14 @@ export const Programs: CollectionConfig = {
       ],
     },
     {
+      name: 'whyVisit',
+      type: 'group',
+      fields: [
+        { name: 'heading', type: 'text' },
+        { name: 'content', type: 'richText' },
+      ],
+    },
+    {
       name: 'whyVideos',
       type: 'array',
       maxRows: 2,

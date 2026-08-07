@@ -1,4 +1,16 @@
 {
+  "src/migrations/20260807b_programs_free_transfer.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 29,
+    "group": "other"
+  },
   "src/migrations/20260716c_transport_map_link.ts": {
     "exports": [
       "up",
@@ -320,9 +332,10 @@
       "./20260801_booking_deadline",
       "./20260803_footer_tiktok_followers",
       "./20260806_discount_codes_applicable_scope",
-      "./20260807_programs_hero_gallery"
+      "./20260807_programs_hero_gallery",
+      "./20260807b_programs_free_transfer"
     ],
-    "lines": 172,
+    "lines": 178,
     "group": "other"
   },
   "src/migrations/20260719b_email_marketing_platform.ts": {
@@ -3773,13 +3786,15 @@
       "@/components/ui/destination-page/AccommodationsSection",
       "@/components/ui/destination-page/AdventureCtaSection",
       "@/components/ui/destination-page/BookingCtaSection",
+      "@/components/ui/destination-page/FreeTransferSection",
       "@/components/ui/destination-page/FaqSection",
       "@/components/ui/destination-page/OtherDestinationsSection",
       "@/components/ui/destination-page/WhyTravelWithUsSection",
       "@/components/ui/destination-page/DestinationPageAnimator",
-      "@/components/ui/destination-page/FloatingBookingBar"
+      "@/components/ui/destination-page/DestinationBookingController",
+      "@/components/ui/TrackRecentlyViewed"
     ],
-    "lines": 343,
+    "lines": 350,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/page.tsx": {
@@ -5393,7 +5408,7 @@
       "./shared/paymentPlanFields",
       "./shared/bookingDeadlineField"
     ],
-    "lines": 578,
+    "lines": 598,
     "group": "collections"
   },
   "src/payload/collections/Pages.ts": {

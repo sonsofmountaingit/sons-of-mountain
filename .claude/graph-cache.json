@@ -1,6 +1,12 @@
 {
   "nodes": [
     {
+      "id": "src/migrations/20260807b_programs_free_transfer.ts",
+      "label": "migrations/20260807b_programs_free_transfer.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260716c_transport_map_link.ts",
       "label": "migrations/20260716c_transport_map_link.ts",
       "group": "other",
@@ -2884,7 +2890,7 @@
       "id": "src/components/ui/destination-page/FloatingBookingBar.tsx",
       "label": "destination-page/FloatingBookingBar.tsx",
       "group": "ui",
-      "size": 10
+      "size": 8
     },
     {
       "id": "src/components/ui/destination-page/BookingDrawer.tsx",
@@ -2908,7 +2914,7 @@
       "id": "src/components/ui/destination-page/DestinationBookingController.tsx",
       "label": "destination-page/DestinationBookingController.tsx",
       "group": "ui",
-      "size": 6
+      "size": 8
     },
     {
       "id": "src/components/ui/destination-page/GuidesSection.tsx",
@@ -2950,7 +2956,7 @@
       "id": "src/components/ui/destination-page/FreeTransferSection.tsx",
       "label": "destination-page/FreeTransferSection.tsx",
       "group": "ui",
-      "size": 8
+      "size": 10
     },
     {
       "id": "src/components/ui/destination-page/HeroSection.tsx",
@@ -3136,7 +3142,7 @@
       "id": "src/components/ui/TrackRecentlyViewed.tsx",
       "label": "ui/TrackRecentlyViewed.tsx",
       "group": "ui",
-      "size": 8
+      "size": 10
     },
     {
       "id": "src/components/ui/DestinationCarouselEditButton.tsx",
@@ -4085,6 +4091,10 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260807_programs_hero_gallery.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260807b_programs_free_transfer.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -5796,6 +5806,10 @@
     },
     {
       "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/components/ui/destination-page/FreeTransferSection.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
       "target": "src/components/ui/destination-page/FaqSection.tsx"
     },
     {
@@ -5812,7 +5826,11 @@
     },
     {
       "source": "src/app/(frontend)/programs/[slug]/page.tsx",
-      "target": "src/components/ui/destination-page/FloatingBookingBar.tsx"
+      "target": "src/components/ui/destination-page/DestinationBookingController.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/programs/[slug]/page.tsx",
+      "target": "src/components/ui/TrackRecentlyViewed.tsx"
     },
     {
       "source": "src/app/(frontend)/stories/page.tsx",
@@ -8835,6 +8853,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-08-07T09:04:41.438Z",
-  "fileCount": 662
+  "builtAt": "2026-08-07T09:33:56.129Z",
+  "fileCount": 663
 }

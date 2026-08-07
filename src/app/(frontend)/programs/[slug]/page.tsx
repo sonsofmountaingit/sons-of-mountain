@@ -89,6 +89,7 @@ async function ProgramContent({ params }: Props) {
   const heroImage = program.heroImage as { url?: string | null; alt?: string } | null
   const heroGalleryRaw = p.heroGallery as { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null
   const whyImage = p.whyImage as { url?: string | null; alt?: string } | null
+  const whyVisit = p.whyVisit as { heading?: string; content?: Record<string, unknown> | null } | null
   const whyVideosRaw = p.whyVideos as { video: { url?: string | null } | null; thumbnail: { url?: string | null; alt?: string } | null; thumbnailAlt?: string | null; label?: string | null }[] | null
   const whyImagesRaw = p.whyImages as { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null
   const travelImage = p.travelImage as { url?: string | null; alt?: string } | null
@@ -233,8 +234,8 @@ async function ProgramContent({ params }: Props) {
         name={program.title ?? ''}
         whyVideos={whyVideos}
         whyImages={whyImages}
-        heading={p.fitnessSummaryHeading as string | null}
-        content={program.description as Record<string, unknown> | null}
+        heading={whyVisit?.heading}
+        content={whyVisit?.content}
         tripId={String(program.id)}
         tripTitle={program.title as string}
         price={program.price ?? 0}

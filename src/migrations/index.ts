@@ -27,6 +27,7 @@ import * as migration_20260803_footer_tiktok_followers from './20260803_footer_t
 import * as migration_20260806_discount_codes_applicable_scope from './20260806_discount_codes_applicable_scope'
 import * as migration_20260807_programs_hero_gallery from './20260807_programs_hero_gallery'
 import * as migration_20260807b_programs_free_transfer from './20260807b_programs_free_transfer'
+import * as migration_20260807c_programs_why_visit from './20260807c_programs_why_visit'
 
 export const migrations = [
   {
@@ -173,5 +174,10 @@ export const migrations = [
     up: migration_20260807b_programs_free_transfer.up,
     down: migration_20260807b_programs_free_transfer.down,
     name: '20260807b_programs_free_transfer',
+  },
+  {
+    up: migration_20260807c_programs_why_visit.up,
+    down: migration_20260807c_programs_why_visit.down,
+    name: '20260807c_programs_why_visit',
   },
 ]
