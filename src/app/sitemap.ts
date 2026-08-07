@@ -24,7 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     payload.find({ collection: 'stories', limit: 500, depth: 0 }),
     payload.find({ collection: 'blog-posts', limit: 500, depth: 0 }),
     payload.find({ collection: 'trips', limit: 500, depth: 0 }),
-    payload.find({ collection: 'programs', limit: 500, depth: 0 }),
+    payload.find({ collection: 'programs', where: { status: { not_equals: 'draft' } }, limit: 500, depth: 0 }),
     payload.find({ collection: 'gallery-collections', where: { status: { equals: 'published' } }, limit: 500, depth: 0 }),
     payload.find({ collection: 'products', limit: 500, depth: 0 }),
     payload.find({ collection: 'bundles', limit: 500, depth: 0 }),

@@ -18,7 +18,7 @@ export async function GET() {
     ] = await Promise.all([
       payload.find({ collection: 'destinations', where: { _status: { equals: 'published' } }, limit: 200, depth: 0 }),
       payload.find({ collection: 'trips', limit: 200, depth: 0 }),
-      payload.find({ collection: 'programs', limit: 200, depth: 0 }),
+      payload.find({ collection: 'programs', where: { status: { not_equals: 'draft' } }, limit: 200, depth: 0 }),
       payload.find({ collection: 'blog-posts', limit: 100, depth: 0 }),
       payload.find({ collection: 'stories', limit: 100, depth: 0 }),
     ])

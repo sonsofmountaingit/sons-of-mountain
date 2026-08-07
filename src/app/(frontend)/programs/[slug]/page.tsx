@@ -34,7 +34,7 @@ async function getProgramData(slug: string) {
 
     const { docs } = await payload.find({
       collection: 'programs',
-      where: { slug: { equals: slug } },
+      where: { slug: { equals: slug }, status: { not_equals: 'draft' } },
       limit: 1,
       depth: 2,
       overrideAccess: true,
@@ -45,7 +45,7 @@ async function getProgramData(slug: string) {
     const [siblingsResult, settings] = await Promise.all([
       payload.find({
         collection: 'programs',
-        where: { slug: { not_equals: slug } },
+        where: { slug: { not_equals: slug }, status: { not_equals: 'draft' } },
         limit: 3,
         depth: 1,
         overrideAccess: true,
@@ -85,6 +85,7 @@ async function ProgramContent({ params }: Props) {
   const p = program as Record<string, unknown>
 
   const heroImage = program.heroImage as { url?: string | null; alt?: string } | null
+  const heroGalleryRaw = p.heroGallery as { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null
   const whyImage = p.whyImage as { url?: string | null; alt?: string } | null
   const whyVideosRaw = p.whyVideos as { video: { url?: string | null } | null; thumbnail: { url?: string | null; alt?: string } | null; thumbnailAlt?: string | null; label?: string | null }[] | null
   const whyImagesRaw = p.whyImages as { image: { url?: string | null; alt?: string } | null; alt?: string }[] | null
@@ -200,15 +201,26 @@ async function ProgramContent({ params }: Props) {
         subtitle={program.shortDescription}
         heroImage={mediaUrl(heroImage?.url)!}
         heroImageAlt={heroImage?.alt ?? program.title}
+        heroGallery={(heroGalleryRaw ?? [])
+          .filter(g => g.image?.url)
+          .map(g => ({ url: mediaUrl(g.image!.url)!, alt: g.alt ?? g.image?.alt }))}
         location={p.location as string | null}
         tags={(p.tags as { tag: string }[] | null ?? []).map(tag => tag.tag).filter(Boolean)}
         earlyBirdPrice={p.earlyBirdPrice as number | null}
         earlyBirdUntil={p.earlyBirdUntil as string | null}
         earlyBirdSpots={(p.earlyBirdSpotsRemaining ?? p.earlyBirdSpots) as number | null}
         spotsAvailable={program.spotsAvailable as number | null}
+        spotsTotal={program.spotsTotal as number | null}
         difficulty={difficulty}
         startDate={program.startDate as string | null}
         endDate={program.endDate as string | null}
+        tripId={String(program.id)}
+        tripTitle={program.title as string}
+        itemType="program"
+        price={program.price ?? 0}
+        currency={(program.currency ?? 'EUR') as string}
+        depositAmount={p.depositAmount as number | null}
+        durationDays={p.durationDays as number | null}
         archived={(program.status as string) === 'archived' || bookingClosed}
       />
 
@@ -237,27 +249,31 @@ async function ProgramContent({ params }: Props) {
       />
 
       <TravelTransportSection
+        variant="travel"
         travelTitle={p.travelTitle as string | null}
         travelDescription={p.travelDescription as Record<string, unknown> | null}
         travelImage={mediaUrl(travelImage?.url)}
         travelImageAlt={travelImage?.alt}
-        transportTitle={p.transportTitle as string | null}
-        transportDescription={p.transportDescription as Record<string, unknown> | null}
-        transportMapLink={p.transportMapLink as string | null}
-        transportImage={mediaUrl(transportImage?.url)}
-        transportImageAlt={transportImage?.alt}
       />
 
       <ItinerarySection itinerary={itinerary ?? []} />
       <section className="bg-black text-white py-10 sm:py-20">
         <div className="w-full grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 divide-white/10">
           <EquipmentSection items={(equipmentList ?? []).map(e => e.item)} fullWidth={!(readinessChecklist ?? []).length} />
-          <ReadinessChecklistSection categories={readinessChecklist ?? []} />
+          <ReadinessChecklistSection categories={readinessChecklist ?? []} fullWidth={!(equipmentList ?? []).length} />
         </div>
       </section>
       <GuidesSection guides={guides ?? []} />
 
       <AccommodationsSection accommodations={accommodations} eyebrow={accommodationsSectionEyebrow} headline={accommodationsSectionHeadline} subtext={accommodationsSectionSubtext} />
+      <TravelTransportSection
+        variant="transport"
+        transportTitle={p.transportTitle as string | null}
+        transportDescription={p.transportDescription as Record<string, unknown> | null}
+        transportMapLink={p.transportMapLink as string | null}
+        transportImage={mediaUrl(transportImage?.url)}
+        transportImageAlt={transportImage?.alt}
+      />
 
       <AdventureCtaSection
         durationDays={p.durationDays as number | null}

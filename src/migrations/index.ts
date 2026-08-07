@@ -25,6 +25,7 @@ import * as migration_20260731_registrations_manual_confirm_paid from './2026073
 import * as migration_20260801_booking_deadline from './20260801_booking_deadline'
 import * as migration_20260803_footer_tiktok_followers from './20260803_footer_tiktok_followers'
 import * as migration_20260806_discount_codes_applicable_scope from './20260806_discount_codes_applicable_scope'
+import * as migration_20260807_programs_hero_gallery from './20260807_programs_hero_gallery'
 
 export const migrations = [
   {
@@ -161,5 +162,10 @@ export const migrations = [
     up: migration_20260806_discount_codes_applicable_scope.up,
     down: migration_20260806_discount_codes_applicable_scope.down,
     name: '20260806_discount_codes_applicable_scope',
+  },
+  {
+    up: migration_20260807_programs_hero_gallery.up,
+    down: migration_20260807_programs_hero_gallery.down,
+    name: '20260807_programs_hero_gallery',
   },
 ]

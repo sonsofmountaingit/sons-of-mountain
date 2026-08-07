@@ -22,6 +22,12 @@ export const Programs: CollectionConfig = {
     defaultColumns: ['title', 'status', 'startDate', 'endDate', 'type', 'price'],
     group: 'Пътувания',
   },
+  access: {
+    read: ({ req }) =>
+      (req.user as { collection?: string } | undefined)?.collection === 'users'
+        ? true
+        : { status: { not_equals: 'draft' } },
+  },
   fields: [
     // Core identity
     {
@@ -177,6 +183,15 @@ export const Programs: CollectionConfig = {
       name: 'heroImage',
       type: 'upload',
       relationTo: 'media',
+    },
+    {
+      name: 'heroGallery',
+      type: 'array',
+      admin: { description: 'Additional images shown as thumbnails at the bottom-right of the hero.' },
+      fields: [
+        { name: 'image', type: 'upload', relationTo: 'media', required: true },
+        { name: 'alt', type: 'text' },
+      ],
     },
     {
       name: 'previewVideo',
