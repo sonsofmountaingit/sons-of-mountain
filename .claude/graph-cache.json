@@ -109,6 +109,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260807d_programs_intro_text.ts",
+      "label": "migrations/20260807d_programs_intro_text.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260721_email_settings_global.ts",
       "label": "migrations/20260721_email_settings_global.ts",
       "group": "other",
@@ -4105,6 +4111,10 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260807c_programs_why_visit.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260807d_programs_intro_text.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -8863,6 +8873,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-08-07T10:09:53.097Z",
-  "fileCount": 664
+  "builtAt": "2026-08-07T11:24:00.449Z",
+  "fileCount": 665
 }

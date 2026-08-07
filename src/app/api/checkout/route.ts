@@ -42,7 +42,6 @@ export async function POST(req: NextRequest) {
       corporatePeopleCount,
       customerEmail,
       enableBnpl,
-      orderTotal,
       participationType,
       carpool,
       carpoolRideId,
@@ -185,6 +184,63 @@ export async function POST(req: NextRequest) {
         // Item not found — skip validation, Stripe will handle downstream
       }
     }
+    // Server-side discount/voucher/loyalty validation — never trust the client's
+    // discountAmount/voucherAmount/orderTotal (it may not reflect real eligibility).
+    const cartSubtotal = (items as CartItem[]).reduce(
+      (sum, item) => sum + (item.priceBreakdown?.totalPrice ?? item.unitPrice * item.quantity),
+      0,
+    )
+
+    let serverDiscountAmount = 0
+    let validatedDiscountCodeId: string | null = null
+    if (discountCodeId) {
+      const dc = await payload.findByID({ collection: 'discount-codes', id: discountCodeId, depth: 0 }).catch(() => null)
+      if (dc && (dc as any).isActive) {
+        const now = new Date()
+        const startsAt = (dc as any).startsAt ? new Date((dc as any).startsAt) : null
+        const expiresAt = (dc as any).expiresAt ? new Date((dc as any).expiresAt) : null
+        const maxUses = (dc as any).maxUses
+        const usedCount = (dc as any).usedCount ?? 0
+        const minOrderAmount = (dc as any).minOrderAmount
+        const notExpired = (!startsAt || startsAt <= now) && (!expiresAt || expiresAt >= now)
+        const underMaxUses = maxUses == null || usedCount < maxUses
+        const meetsMin = minOrderAmount == null || cartSubtotal >= minOrderAmount
+        if (notExpired && underMaxUses && meetsMin) {
+          const value = (dc as any).value ?? 0
+          serverDiscountAmount = (dc as any).type === 'percent'
+            ? Math.round(cartSubtotal * (value / 100) * 100) / 100
+            : Math.min(value, cartSubtotal)
+          validatedDiscountCodeId = discountCodeId
+        }
+      }
+    }
+
+    let serverVoucherAmount = 0
+    let validatedGiftVoucherId: string | null = null
+    if (giftVoucherId) {
+      const gv = await payload.findByID({ collection: 'gift-vouchers', id: giftVoucherId, depth: 0 }).catch(() => null)
+      if (gv && (gv as any).status === 'active') {
+        const expiresAt = (gv as any).expiresAt ? new Date((gv as any).expiresAt) : null
+        if (!expiresAt || expiresAt >= new Date()) {
+          const afterDiscount = Math.max(0, cartSubtotal - serverDiscountAmount)
+          serverVoucherAmount = Math.min((gv as any).amount ?? 0, afterDiscount)
+          validatedGiftVoucherId = giftVoucherId
+        }
+      }
+    }
+
+    // Validate loyalty point redemption against the customer's actual balance
+    let serverLoyaltyPoints = 0
+    if (loyaltyPointsRedeemed && customerEmail) {
+      const custResult = await payload.find({ collection: 'customers', where: { email: { equals: customerEmail } }, limit: 1, depth: 0 }).catch(() => null)
+      const availablePoints = (custResult?.docs[0] as any)?.loyaltyPoints ?? 0
+      serverLoyaltyPoints = Math.max(0, Math.min(Number(loyaltyPointsRedeemed) || 0, availablePoints))
+    }
+    const loyaltyDiscountAmount = serverLoyaltyPoints / 100
+
+    const totalDeduction = serverDiscountAmount + serverVoucherAmount + loyaltyDiscountAmount
+    const serverTotal = Math.max(0, cartSubtotal - totalDeduction)
+
     // Resolve the authoritative payment plan server-side from the booked item's config —
     // never trust the client for payment mode/amounts, same principle as the price validation above.
     let resolvedPaymentMode: string = paymentMode ?? 'full'
@@ -255,10 +311,10 @@ export async function POST(req: NextRequest) {
         phone: body.phone ?? '',
         customer: linkedCustomerId ?? undefined,
         currency: currency.toUpperCase(),
-        totalAmount: orderTotal ?? 0,
-        discountCode: discountCodeId ?? null,
-        giftVoucher: giftVoucherId ?? null,
-        loyaltyPointsRedeemed: loyaltyPointsRedeemed ?? 0,
+        totalAmount: serverTotal,
+        discountCode: validatedDiscountCodeId ?? null,
+        giftVoucher: validatedGiftVoucherId ?? null,
+        loyaltyPointsRedeemed: serverLoyaltyPoints,
         paymentMode: resolvedPaymentMode,
         installments: resolvedPaymentMode === 'installments' || resolvedPaymentMode === 'deposit' ? resolvedInstallments : undefined,
         depositPaid: undefined,
@@ -360,12 +416,22 @@ export async function POST(req: NextRequest) {
 
     // For deposit/installment plans, charge only the first installment now — the rest is
     // collected later off-session by the balance-charge cron using the saved payment method.
-    const chargeNowLineItems = resolvedInstallments.length > 0
+    // Discount/voucher/loyalty deductions are applied to whatever is charged right now
+    // (first installment or full total) — never to the record's flat/regular price.
+    const firstChargeAmount = resolvedInstallments.length > 0
+      ? Math.max(0, resolvedInstallments[0].amount - totalDeduction)
+      : serverTotal
+
+    const chargeNowLineItems = resolvedInstallments.length > 0 || totalDeduction > 0
       ? [{
           price_data: {
             currency,
-            product_data: { name: `${bookableItem?.title ?? 'Sons of Mountains'} — ${resolvedInstallments[0].label}` },
-            unit_amount: Math.round(resolvedInstallments[0].amount * 100),
+            product_data: {
+              name: resolvedInstallments.length > 0
+                ? `${bookableItem?.title ?? 'Sons of Mountains'} — ${resolvedInstallments[0].label}`
+                : 'Sons of Mountains — Order',
+            },
+            unit_amount: Math.round(firstChargeAmount * 100),
           },
           quantity: 1,
         }]
@@ -400,9 +466,9 @@ export async function POST(req: NextRequest) {
         orderId: orderRecord.id,
         type: 'cart',
         paymentMode: resolvedPaymentMode,
-        discountCodeId: discountCodeId ?? '',
-        giftVoucherId: giftVoucherId ?? '',
-        loyaltyPointsRedeemed: String(loyaltyPointsRedeemed ?? 0),
+        discountCodeId: validatedDiscountCodeId ?? '',
+        giftVoucherId: validatedGiftVoucherId ?? '',
+        loyaltyPointsRedeemed: String(serverLoyaltyPoints),
       },
     }
     const session = await stripe.checkout.sessions.create(sessionParams)

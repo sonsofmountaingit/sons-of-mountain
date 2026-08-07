@@ -215,6 +215,18 @@
     "lines": 23,
     "group": "other"
   },
+  "src/migrations/20260807d_programs_intro_text.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 14,
+    "group": "other"
+  },
   "src/migrations/20260721_email_settings_global.ts": {
     "exports": [
       "up",
@@ -346,9 +358,10 @@
       "./20260806_discount_codes_applicable_scope",
       "./20260807_programs_hero_gallery",
       "./20260807b_programs_free_transfer",
-      "./20260807c_programs_why_visit"
+      "./20260807c_programs_why_visit",
+      "./20260807d_programs_intro_text"
     ],
-    "lines": 184,
+    "lines": 190,
     "group": "other"
   },
   "src/migrations/20260719b_email_marketing_platform.ts": {
@@ -5421,7 +5434,7 @@
       "./shared/paymentPlanFields",
       "./shared/bookingDeadlineField"
     ],
-    "lines": 606,
+    "lines": 611,
     "group": "collections"
   },
   "src/payload/collections/Pages.ts": {
