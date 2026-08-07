@@ -204,6 +204,11 @@ export const Programs: CollectionConfig = {
       type: 'textarea',
     },
     {
+      name: 'introText',
+      type: 'textarea',
+      admin: { description: 'Shown as the subtitle text in the hero section.' },
+    },
+    {
       name: 'description',
       type: 'richText',
     },

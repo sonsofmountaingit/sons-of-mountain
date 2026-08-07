@@ -204,7 +204,7 @@ async function ProgramContent({ params }: Props) {
 
       <HeroSection
         title={program.title ?? ''}
-        subtitle={program.shortDescription}
+        subtitle={(p.introText as string | null) ?? program.shortDescription}
         heroImage={mediaUrl(heroImage?.url)!}
         heroImageAlt={heroImage?.alt ?? program.title}
         heroGallery={(heroGalleryRaw ?? [])

@@ -28,6 +28,7 @@ import * as migration_20260806_discount_codes_applicable_scope from './20260806_
 import * as migration_20260807_programs_hero_gallery from './20260807_programs_hero_gallery'
 import * as migration_20260807b_programs_free_transfer from './20260807b_programs_free_transfer'
 import * as migration_20260807c_programs_why_visit from './20260807c_programs_why_visit'
+import * as migration_20260807d_programs_intro_text from './20260807d_programs_intro_text'
 
 export const migrations = [
   {
@@ -179,5 +180,10 @@ export const migrations = [
     up: migration_20260807c_programs_why_visit.up,
     down: migration_20260807c_programs_why_visit.down,
     name: '20260807c_programs_why_visit',
+  },
+  {
+    up: migration_20260807d_programs_intro_text.up,
+    down: migration_20260807d_programs_intro_text.down,
+    name: '20260807d_programs_intro_text',
   },
 ]

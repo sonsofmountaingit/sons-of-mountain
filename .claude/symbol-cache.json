@@ -155,6 +155,18 @@
     "lines": 16,
     "group": "other"
   },
+  "src/migrations/20260807c_programs_why_visit.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 16,
+    "group": "other"
+  },
   "src/migrations/20260710_free_transfer_peak.ts": {
     "exports": [
       "up",
@@ -333,9 +345,10 @@
       "./20260803_footer_tiktok_followers",
       "./20260806_discount_codes_applicable_scope",
       "./20260807_programs_hero_gallery",
-      "./20260807b_programs_free_transfer"
+      "./20260807b_programs_free_transfer",
+      "./20260807c_programs_why_visit"
     ],
-    "lines": 178,
+    "lines": 184,
     "group": "other"
   },
   "src/migrations/20260719b_email_marketing_platform.ts": {
@@ -3794,7 +3807,7 @@
       "@/components/ui/destination-page/DestinationBookingController",
       "@/components/ui/TrackRecentlyViewed"
     ],
-    "lines": 350,
+    "lines": 351,
     "group": "frontend"
   },
   "src/app/(frontend)/stories/page.tsx": {
@@ -5408,7 +5421,7 @@
       "./shared/paymentPlanFields",
       "./shared/bookingDeadlineField"
     ],
-    "lines": 598,
+    "lines": 606,
     "group": "collections"
   },
   "src/payload/collections/Pages.ts": {
