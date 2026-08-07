@@ -79,6 +79,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260807_programs_hero_gallery.ts",
+      "label": "migrations/20260807_programs_hero_gallery.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260714d_guides_bio_jsonb.ts",
       "label": "migrations/20260714d_guides_bio_jsonb.ts",
       "group": "other",
@@ -4075,6 +4081,10 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260806_discount_codes_applicable_scope.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260807_programs_hero_gallery.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -8825,6 +8835,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-08-06T19:15:37.763Z",
-  "fileCount": 661
+  "builtAt": "2026-08-07T09:04:41.438Z",
+  "fileCount": 662
 }

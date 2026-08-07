@@ -187,7 +187,7 @@ export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuP
                       )}
 
                       {/* Trips row */}
-                      {data && trips.length > 0 && (
+                      {data && activeTab !== 'individual' && trips.length > 0 && (
                         <div>
                           <p className="text-[10px] tracking-widest text-white/25 mb-3">{t.megamenu.trips}</p>
                           <div style={{ overflowX: 'auto', width: '100%', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.2) transparent', paddingBottom: '6px' }}>
@@ -201,7 +201,7 @@ export function ProgramsMegaMenu({ open, onClose, navHeight }: ProgramsMegaMenuP
                       )}
 
                       {/* Programs row */}
-                      {data && programs.length > 0 && (
+                      {data && activeTab !== 'individual' && programs.length > 0 && (
                         <div>
                           <p className="text-[10px] tracking-widest text-white/25 mb-3">{t.megamenu.programs}</p>
                           <div style={{ overflowX: 'auto', width: '100%', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.2) transparent', paddingBottom: '6px' }}>

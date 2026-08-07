@@ -18,11 +18,13 @@ import GuidesSection from '@/components/ui/destination-page/GuidesSection'
 import { AccommodationsSection } from '@/components/ui/destination-page/AccommodationsSection'
 import { AdventureCtaSection } from '@/components/ui/destination-page/AdventureCtaSection'
 import { BookingCtaSection } from '@/components/ui/destination-page/BookingCtaSection'
+import { FreeTransferSection } from '@/components/ui/destination-page/FreeTransferSection'
 import { FaqSection } from '@/components/ui/destination-page/FaqSection'
 import { OtherDestinationsSection } from '@/components/ui/destination-page/OtherDestinationsSection'
 import { WhyTravelWithUsSection } from '@/components/ui/destination-page/WhyTravelWithUsSection'
 import { DestinationPageAnimator } from '@/components/ui/destination-page/DestinationPageAnimator'
-import { FloatingBookingBar } from '@/components/ui/destination-page/FloatingBookingBar'
+import { DestinationBookingController } from '@/components/ui/destination-page/DestinationBookingController'
+import { TrackRecentlyViewed } from '@/components/ui/TrackRecentlyViewed'
 
 export const dynamic = 'force-dynamic'
 
@@ -121,6 +123,7 @@ async function ProgramContent({ params }: Props) {
   }]
 
   const bookingClosed = isBookingDeadlinePassed(p.bookingDeadline as string | null)
+  const soldOut = (program.status as string) === 'soldOut'
 
   const siblingCards = siblings.map((s) => ({
     name: s.title,
@@ -177,24 +180,26 @@ async function ProgramContent({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <DestinationPageAnimator />
-      {(program.status as string) !== 'archived' && !bookingClosed && (
-        <FloatingBookingBar
-          month={program.startDate ? new Date(program.startDate as string).toLocaleDateString('bg-BG', { month: 'long' }) : null}
-          maxParticipants={p.maxParticipants as number | null}
-          durationDays={p.durationDays as number | null}
-          price={program.price ?? 0}
-          currency={(program.currency ?? 'EUR') as string}
-          tripId={String(program.id)}
-          tripTitle={program.title as string}
-          itemType="program"
-          spotsAvailable={program.spotsAvailable as number | null}
-          spotsTotal={program.spotsTotal as number | null}
-          depositAmount={p.depositAmount as number | null}
-          earlyBirdPrice={p.earlyBirdPrice as number | null}
-          earlyBirdUntil={p.earlyBirdUntil as string | null}
-          earlyBirdSpots={(p.earlyBirdSpotsRemaining ?? p.earlyBirdSpots) as number | null}
-        />
-      )}
+      <TrackRecentlyViewed id={String(program.id)} />
+      <DestinationBookingController
+        month={program.startDate ? new Date(program.startDate as string).toLocaleDateString('bg-BG', { month: 'long' }) : null}
+        startDate={program.startDate as string | null}
+        endDate={program.endDate as string | null}
+        maxParticipants={p.maxParticipants as number | null}
+        durationDays={p.durationDays as number | null}
+        price={program.price ?? 0}
+        currency={(program.currency ?? 'EUR') as string}
+        tripId={String(program.id)}
+        tripTitle={program.title as string}
+        itemType="program"
+        spotsAvailable={program.spotsAvailable as number | null}
+        spotsTotal={program.spotsTotal as number | null}
+        depositAmount={p.depositAmount as number | null}
+        earlyBirdPrice={p.earlyBirdPrice as number | null}
+        earlyBirdUntil={p.earlyBirdUntil as string | null}
+        earlyBirdSpots={(p.earlyBirdSpotsRemaining ?? p.earlyBirdSpots) as number | null}
+        archived={(program.status as string) === 'archived' || bookingClosed || soldOut}
+      />
 
       <HeroSection
         title={program.title ?? ''}
@@ -221,7 +226,7 @@ async function ProgramContent({ params }: Props) {
         currency={(program.currency ?? 'EUR') as string}
         depositAmount={p.depositAmount as number | null}
         durationDays={p.durationDays as number | null}
-        archived={(program.status as string) === 'archived' || bookingClosed}
+        archived={(program.status as string) === 'archived' || bookingClosed || soldOut}
       />
 
       <WhySection
@@ -290,6 +295,8 @@ async function ProgramContent({ params }: Props) {
         itemId={String(program.id)}
         itemTitle={program.title ?? ''}
       />
+
+      <FreeTransferSection freeTransfer={p.freeTransfer as Record<string, unknown> | null} />
 
       <BookingCtaSection
         name={program.title ?? ''}
