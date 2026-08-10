@@ -141,7 +141,15 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    const result = Array.from(rows.values()).sort((a, b) => a.title.localeCompare(b.title))
+    // Statistics is derived from the paid records, not from a cached availability
+    // value. This guarantees Total − Taken = Available in the admin at all times;
+    // the scheduled reconciliation keeps the stored availability in sync as well.
+    const result = Array.from(rows.values())
+      .map((row) => ({
+        ...row,
+        spotsAvailable: row.spotsTotal == null ? row.spotsAvailable : Math.max(0, row.spotsTotal - row.spotsTaken),
+      }))
+      .sort((a, b) => a.title.localeCompare(b.title))
     return NextResponse.json({ rows: result })
   } catch (err) {
     console.error('Failed to build travel stats:', err)

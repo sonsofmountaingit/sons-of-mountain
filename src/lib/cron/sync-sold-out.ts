@@ -17,6 +17,7 @@ type Registration = {
   status?: string
   trip?: string | number | { id: string | number } | null
   program?: string | number | { id: string | number } | null
+  destination?: string | number | { id: string | number } | null
   participantCount?: number
 }
 
@@ -25,7 +26,7 @@ function relatedId(value: string | number | { id: string | number } | null | und
   return typeof value === 'object' ? String(value.id) : String(value)
 }
 
-async function bookedSpots(payload: Awaited<ReturnType<typeof getPayload>>, itemType: 'trip' | 'program', itemId: string): Promise<number> {
+async function bookedSpots(payload: Awaited<ReturnType<typeof getPayload>>, itemType: 'trip' | 'program' | 'destination', itemId: string): Promise<number> {
   const [orders, registrations] = await Promise.all([
     payload.find({
       collection: 'orders',
@@ -90,6 +91,24 @@ export async function runSyncSoldOut(): Promise<{ ok: true; updated: number }> {
     const status = hasTravelEnded(p.endDate) ? 'archived' : spotsAvailable === 0 ? 'soldOut' : 'active'
     if (p.spotsAvailable !== spotsAvailable || (program as { status?: string }).status !== status) {
       await payload.update({ collection: 'programs', id: p.id, data: { spotsAvailable, status } })
+      updated++
+    }
+  }
+
+  const { docs: destinations } = await payload.find({
+    collection: 'destinations',
+    where: { bookingStatus: { not_equals: 'archived' } },
+    limit: 500,
+    pagination: false,
+  })
+
+  for (const destination of destinations) {
+    const d = destination as { id: string | number; spotsAvailable?: number; spotsTotal?: number }
+    // Destinations do not have an end-date archive state in this model.
+    const spotsAvailable = Math.max(0, (d.spotsTotal ?? 0) - await bookedSpots(payload, 'destination', String(d.id)))
+    const bookingStatus = spotsAvailable === 0 ? 'soldOut' : 'active'
+    if (d.spotsAvailable !== spotsAvailable || (destination as { bookingStatus?: string }).bookingStatus !== bookingStatus) {
+      await payload.update({ collection: 'destinations', id: d.id, data: { spotsAvailable, bookingStatus } })
       updated++
     }
   }
