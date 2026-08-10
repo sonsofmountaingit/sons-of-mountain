@@ -14,6 +14,7 @@ type Props = {
   recipientEmailPlaceholder?: string
   personalMessageLabel?: string
   scheduleDeliveryLabel?: string
+  sendTodayLabel?: string
   submitButtonPrefix?: string
   submitButtonSuffix?: string
 }
@@ -27,6 +28,8 @@ export function VouchersBuyFormBlock({
   openTypeLabel = 'Any adventure',
   recipientDetailsLabel = 'Recipient details',
   personalMessageLabel = 'Personal message',
+  scheduleDeliveryLabel = 'Schedule delivery',
+  sendTodayLabel = 'Send today after payment confirmation',
   submitButtonPrefix = 'Purchase',
   submitButtonSuffix = 'Voucher',
 }: Props) {
@@ -40,6 +43,7 @@ export function VouchersBuyFormBlock({
       <p className="text-xs tracking-widest text-white/30 uppercase">{forSpecificLabel} · {openTypeLabel}</p>
       <p className="text-xs tracking-widest text-white/30 uppercase">{recipientDetailsLabel}</p>
       <p className="text-xs tracking-widest text-white/30 uppercase">{personalMessageLabel}</p>
+      <p className="text-xs tracking-widest text-white/30 uppercase">{scheduleDeliveryLabel} · {sendTodayLabel}</p>
       <div className="inline-block py-3 px-6 text-xs tracking-widest uppercase border border-white text-white rounded-sm">
         {submitButtonPrefix} €100 {submitButtonSuffix}
       </div>

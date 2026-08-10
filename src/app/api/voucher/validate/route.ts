@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
 
     const voucher = result.docs[0]
     if (!voucher) return NextResponse.json({ error: 'Невалиден или неактивен код за ваучер' }, { status: 404 })
+    if (!voucher.paidAt) return NextResponse.json({ error: 'Плащането за ваучера все още не е потвърдено' }, { status: 400 })
     if (voucher.status !== 'active') return NextResponse.json({ error: 'Ваучерът не е активен' }, { status: 400 })
 
     const now = new Date()
@@ -30,6 +31,9 @@ export async function POST(req: NextRequest) {
       code: voucher.code,
       amount: voucher.amount,
       currency: voucher.currency,
+      forDestination: typeof voucher.forDestination === 'object' ? voucher.forDestination.id : voucher.forDestination ?? null,
+      forTrip: typeof voucher.forTrip === 'object' ? voucher.forTrip.id : voucher.forTrip ?? null,
+      forProgram: typeof voucher.forProgram === 'object' ? voucher.forProgram.id : voucher.forProgram ?? null,
     })
   } catch (err) {
     console.error('Voucher validate error:', err)

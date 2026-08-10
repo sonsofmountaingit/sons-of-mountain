@@ -1,6 +1,72 @@
-import type { CollectionAfterChangeHook } from 'payload'
+import type { BasePayload, CollectionAfterChangeHook } from 'payload'
 import { sendFlow } from '@/lib/email-flows'
 import { upsertSubscriber } from '@/lib/subscriber-upsert'
+import { getResend } from '@/lib/resend'
+import { createEmailLog } from '@/lib/email-logger'
+
+function escapeHtml(value: unknown): string {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+}
+
+export async function sendVoucherEmailFallback(
+  payload: BasePayload,
+  kind: 'recipient' | 'buyer',
+  doc: any,
+  recipientName: string,
+  senderName: string,
+): Promise<void> {
+  const to = kind === 'recipient' ? doc.recipientEmail : (doc.isGift ? doc.senderEmail : doc.recipientEmail)
+  if (!to) return
+
+  const siteUrl = (process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com').replace(/\/$/, '')
+  const code = escapeHtml(doc.code)
+  const amount = escapeHtml(Number(doc.amount).toFixed(2))
+  const recipient = escapeHtml(recipientName)
+  const sender = escapeHtml(senderName)
+  const voucherUrl = `${siteUrl}/vouchers/${encodeURIComponent(doc.code)}`
+  const subject = kind === 'recipient'
+    ? `Получихте подаръчен ваучер от ${senderName}`
+    : `Потвърждение за подаръчен ваучер ${doc.code}`
+  const html = kind === 'recipient'
+    ? `<p>Здравейте, ${recipient}!</p><p>${sender} ви изпрати подаръчен ваучер от Sons of Mountains на стойност <strong>€${amount}</strong>.</p><p>Вашият код: <strong>${code}</strong></p><p>Използвайте го при плащане в магазина или го вижте тук: <a href="${voucherUrl}">${voucherUrl}</a>.</p>`
+    : `<p>Здравейте, ${sender}!</p><p>Плащането за подаръчния ваучер за ${recipient} е потвърдено.</p><p>Код на ваучера: <strong>${code}</strong> · Стойност: <strong>€${amount}</strong></p>`
+
+  const fromEmail = process.env.RESEND_FROM_EMAIL
+  try {
+    const result = await getResend().emails.send({
+      from: fromEmail ? `Sons of Mountains <${fromEmail}>` : 'Sons of Mountains <noreply@sonsofmountains.com>',
+      to,
+      subject,
+      html,
+    })
+    await createEmailLog(payload, {
+      trigger: kind === 'recipient' ? 'gift_voucher_recipient' : 'gift_voucher_buyer',
+      recipient: to,
+      subject,
+      status: 'sent',
+      sentAt: new Date().toISOString(),
+      resendMessageId: result.data?.id,
+      html,
+      context: { voucherId: String(doc.id), voucherCode: doc.code, deliveryType: kind },
+    })
+  } catch (error) {
+    await createEmailLog(payload, {
+      trigger: kind === 'recipient' ? 'gift_voucher_recipient' : 'gift_voucher_buyer',
+      recipient: to,
+      subject,
+      status: 'failed',
+      error: error instanceof Error ? error.message : String(error),
+      html,
+      context: { voucherId: String(doc.id), voucherCode: doc.code, deliveryType: kind },
+    }).catch(() => {})
+    throw error
+  }
+}
 
 function statusChanged(doc: any, previousDoc: any, isNew: boolean, value: string): boolean {
   return doc.status === value && (isNew ? true : previousDoc?.status !== value)
@@ -93,19 +159,38 @@ export const giftVoucherEmailFlows: CollectionAfterChangeHook = async ({ doc, pr
   const recipientName = doc.recipientName ?? 'Adventurer'
 
   if (doc.recipientEmail) {
-    await sendFlow('gift_voucher_recipient', { email: doc.recipientEmail, firstName: recipientName }, {
-      recipientName, senderName, voucherCode: doc.code, voucherAmount: doc.amount, currency: doc.currency,
-      voucherExpiry: doc.expiresAt, voucherMessage: doc.message,
-    }, req.payload).catch(() => {})
+    const deliveryDate = doc.deliveryDate ? new Date(doc.deliveryDate) : null
+    const isScheduledForLater = deliveryDate && deliveryDate.getTime() > Date.now()
+    if (isScheduledForLater) {
+      await createEmailLog(req.payload, {
+        trigger: 'gift_voucher_recipient',
+        recipient: doc.recipientEmail,
+        subject: `Подаръчен ваучер ${doc.code}`,
+        status: 'queued',
+        scheduledFor: deliveryDate.toISOString(),
+        context: { voucherId: String(doc.id), voucherCode: doc.code, deliveryType: 'recipient' },
+      })
+    } else {
+      const result = await sendFlow('gift_voucher_recipient', { email: doc.recipientEmail, firstName: recipientName }, {
+        recipientName, senderName, voucherCode: doc.code, voucherAmount: doc.amount, currency: doc.currency,
+        voucherExpiry: doc.expiresAt, voucherMessage: doc.message,
+      }, req.payload).catch(() => ({ sent: false, reason: 'failed' as const }))
+      // The production DB currently has no configured email flows. A paid voucher
+      // must still deliver its code, so use the transactional fallback unless a
+      // configured flow actually sent or queued the message.
+      if (!result.sent && result.reason !== 'queued') await sendVoucherEmailFallback(req.payload, 'recipient', doc, recipientName, senderName).catch(() => {})
+      await req.payload.update({ collection: 'gift-vouchers', id: doc.id, data: { deliverySentAt: new Date().toISOString() } })
+    }
     await upsertSubscriber(req.payload, { email: doc.recipientEmail, firstName: recipientName, source: 'gift_voucher' })
   }
 
   const buyerEmail = isGift ? doc.senderEmail : doc.recipientEmail
   if (buyerEmail) {
-    await sendFlow('gift_voucher_buyer', { email: buyerEmail, firstName: isGift ? senderName : recipientName }, {
+    const result = await sendFlow('gift_voucher_buyer', { email: buyerEmail, firstName: isGift ? senderName : recipientName }, {
       recipientName, recipientEmail: doc.recipientEmail, voucherCode: doc.code, voucherAmount: doc.amount,
       currency: doc.currency, voucherExpiry: doc.expiresAt, isGift: String(isGift),
-    }, req.payload).catch(() => {})
+    }, req.payload).catch(() => ({ sent: false, reason: 'failed' as const }))
+    if (!result.sent && result.reason !== 'queued') await sendVoucherEmailFallback(req.payload, 'buyer', doc, recipientName, senderName).catch(() => {})
   }
 
   return doc

@@ -57,6 +57,9 @@ export interface AppliedVoucher {
   code: string
   amount: number
   currency: string
+  forDestination?: string | null
+  forTrip?: string | null
+  forProgram?: string | null
 }
 
 interface CartState {

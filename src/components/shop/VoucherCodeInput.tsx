@@ -46,7 +46,27 @@ export function VoucherCodeInput() {
       })
       const voucherData = await voucherRes.json()
       if (!voucherRes.ok) { setError(voucherData.error ?? discountData.error ?? t.shop.discount_invalid); return }
-      setVoucher({ id: voucherData.id, code: voucherData.code, amount: voucherData.amount, currency: voucherData.currency })
+
+      const matchesRestrictedOffering = items.some((item) =>
+        (voucherData.forDestination && item.destinationId === String(voucherData.forDestination)) ||
+        (voucherData.forTrip && item.tripId === String(voucherData.forTrip)) ||
+        (voucherData.forProgram && item.programId === String(voucherData.forProgram)),
+      )
+      const isRestricted = voucherData.forDestination || voucherData.forTrip || voucherData.forProgram
+      if (isRestricted && !matchesRestrictedOffering) {
+        setError('This voucher is valid only for its selected destination, trip, or program.')
+        return
+      }
+
+      setVoucher({
+        id: voucherData.id,
+        code: voucherData.code,
+        amount: voucherData.amount,
+        currency: voucherData.currency,
+        forDestination: voucherData.forDestination,
+        forTrip: voucherData.forTrip,
+        forProgram: voucherData.forProgram,
+      })
     } catch {
       setError(t.shop.discount_failed)
     } finally {

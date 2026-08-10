@@ -127,7 +127,12 @@ export const GiftVouchers: CollectionConfig = {
     {
       name: 'deliveryDate',
       type: 'date',
-      admin: { description: 'Schedule email delivery (leave empty = immediate on payment)' },
+      admin: { description: 'Schedule recipient email delivery (leave empty = send immediately after payment)' },
+    },
+    {
+      name: 'deliverySentAt',
+      type: 'date',
+      admin: { readOnly: true, description: 'Set after the voucher email has been delivered to the recipient' },
     },
     {
       name: 'coverImage',

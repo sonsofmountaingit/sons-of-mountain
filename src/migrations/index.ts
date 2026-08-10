@@ -31,6 +31,7 @@ import * as migration_20260807c_programs_why_visit from './20260807c_programs_wh
 import * as migration_20260807d_programs_intro_text from './20260807d_programs_intro_text'
 import * as migration_20260808_euro_only_currency from './20260808_euro_only_currency'
 import * as migration_20260810_archive_expired_programs from './20260810_archive_expired_programs'
+import * as migration_20260810b_gift_voucher_scheduled_delivery from './20260810b_gift_voucher_scheduled_delivery'
 import * as migration_20260811_customer_profile_fields from './20260811_customer_profile_fields'
 import * as migration_20260812_resend_delivery_tracking from './20260812_resend_delivery_tracking'
 
@@ -199,6 +200,11 @@ export const migrations = [
     up: migration_20260810_archive_expired_programs.up,
     down: migration_20260810_archive_expired_programs.down,
     name: '20260810_archive_expired_programs',
+  },
+  {
+    up: migration_20260810b_gift_voucher_scheduled_delivery.up,
+    down: migration_20260810b_gift_voucher_scheduled_delivery.down,
+    name: '20260810b_gift_voucher_scheduled_delivery',
   },
   {
     up: migration_20260811_customer_profile_fields.up,

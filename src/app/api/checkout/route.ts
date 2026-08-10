@@ -236,14 +236,28 @@ export async function POST(req: NextRequest) {
     let validatedGiftVoucherId: string | null = null
     if (giftVoucherId) {
       const gv = await payload.findByID({ collection: 'gift-vouchers', id: giftVoucherId, depth: 0 }).catch(() => null)
-      if (gv && (gv as any).status === 'active') {
-        const expiresAt = (gv as any).expiresAt ? new Date((gv as any).expiresAt) : null
-        if (!expiresAt || expiresAt >= new Date()) {
-          const afterDiscount = Math.max(0, cartSubtotal - serverDiscountAmount)
-          serverVoucherAmount = Math.min((gv as any).amount ?? 0, afterDiscount)
-          validatedGiftVoucherId = giftVoucherId
-        }
+      if (!gv || !(gv as any).paidAt || (gv as any).status !== 'active') {
+        return NextResponse.json({ error: 'This voucher is invalid or its payment has not been confirmed.' }, { status: 400 })
       }
+
+      const expiresAt = (gv as any).expiresAt ? new Date((gv as any).expiresAt) : null
+      if (expiresAt && expiresAt < new Date()) {
+        return NextResponse.json({ error: 'This voucher has expired.' }, { status: 400 })
+      }
+
+      const matchesRestrictedOffering = (items as CartItem[]).some((item) =>
+        ((gv as any).forDestination && item.destinationId === String((gv as any).forDestination)) ||
+        ((gv as any).forTrip && item.tripId === String((gv as any).forTrip)) ||
+        ((gv as any).forProgram && item.programId === String((gv as any).forProgram)),
+      )
+      const isRestricted = (gv as any).forDestination || (gv as any).forTrip || (gv as any).forProgram
+      if (isRestricted && !matchesRestrictedOffering) {
+        return NextResponse.json({ error: 'This voucher is valid only for its selected destination, trip, or program.' }, { status: 400 })
+      }
+
+      const afterDiscount = Math.max(0, cartSubtotal - serverDiscountAmount)
+      serverVoucherAmount = Math.min((gv as any).amount ?? 0, afterDiscount)
+      validatedGiftVoucherId = giftVoucherId
     }
 
     // Validate loyalty point redemption against the customer's actual balance

@@ -251,7 +251,7 @@ export type PuckBlocks = {
     forMyselfLabel: string; giftSomeoneLabel: string; chooseAmountLabel: string; customAmountLabel: string
     customAmountPlaceholder: string; forSpecificLabel: string; openTypeLabel: string; destinationTypeLabel: string
     tripTypeLabel: string; programTypeLabel: string; recipientDetailsLabel: string; recipientNamePlaceholder: string
-    recipientEmailPlaceholder: string; personalMessageLabel: string; scheduleDeliveryLabel: string
+    recipientEmailPlaceholder: string; personalMessageLabel: string; scheduleDeliveryLabel: string; sendTodayLabel: string
     submitButtonPrefix: string; submitButtonSuffix: string
   }
   VouchersRedeemBlock: { redeemPromptLabel: string; redeemCodePlaceholder: string; redeemButtonLabel: string }
@@ -2056,6 +2056,7 @@ export const puckConfig: Config<PuckBlocks> = {
         recipientEmailPlaceholder: { type: 'text', label: 'Recipient Email Placeholder' },
         personalMessageLabel: { type: 'text', label: 'Personal Message Label', contentEditable: true },
         scheduleDeliveryLabel: { type: 'text', label: 'Schedule Delivery Label' },
+        sendTodayLabel: { type: 'text', label: 'Send Today Label' },
         submitButtonPrefix: { type: 'text', label: 'Submit Button Prefix', contentEditable: true },
         submitButtonSuffix: { type: 'text', label: 'Submit Button Suffix', contentEditable: true },
       },
@@ -2065,7 +2066,7 @@ export const puckConfig: Config<PuckBlocks> = {
         openTypeLabel: 'Any adventure', destinationTypeLabel: 'Destination', tripTypeLabel: 'Trip', programTypeLabel: 'Program',
         recipientDetailsLabel: 'Recipient details', recipientNamePlaceholder: 'Recipient name',
         recipientEmailPlaceholder: 'Recipient email', personalMessageLabel: 'Personal message',
-        scheduleDeliveryLabel: 'Schedule delivery', submitButtonPrefix: 'Purchase', submitButtonSuffix: 'Voucher',
+        scheduleDeliveryLabel: 'Schedule delivery', sendTodayLabel: 'Send today after payment confirmation', submitButtonPrefix: 'Purchase', submitButtonSuffix: 'Voucher',
       },
       render: (props) => <VouchersBuyFormBlock {...props} />,
     },

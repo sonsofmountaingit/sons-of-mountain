@@ -40,7 +40,7 @@ export const VOUCHERS_DEFAULTS = {
   maxAmount: 5000,
   minAmountError: 'Minimum €10',
   maxAmountError: 'Maximum €5000',
-  forSpecificLabel: 'For a specific',
+  forSpecificLabel: 'Избери за:',
   openTypeLabel: 'Any adventure',
   destinationTypeLabel: 'Destination',
   tripTypeLabel: 'Trip',
@@ -58,6 +58,7 @@ export const VOUCHERS_DEFAULTS = {
   giftMessagePlaceholder: 'Write a personal message for the recipient (optional)',
   selfMessagePlaceholder: 'A note for this voucher (optional)',
   scheduleDeliveryLabel: 'Schedule delivery',
+  sendTodayLabel: 'Send today after payment confirmation',
   signedInAsPrefix: 'Signed in as',
   signInPromptText: "You'll be asked to sign in or create an account before checkout.",
   submitLoadingLabel: 'Redirecting...',
@@ -137,6 +138,8 @@ const baseSchema = {
   programId: z.string().optional(),
   message: z.string().optional(),
   deliveryDate: z.string().optional(),
+  senderName: z.string().optional(),
+  senderEmail: z.string().optional(),
 }
 
 const selfSchema = z.object({ ...baseSchema, isGift: z.literal(false) })
@@ -146,6 +149,8 @@ const giftSchema = z.object({
   isGift: z.literal(true),
   recipientName: z.string().min(1),
   recipientEmail: z.string().email(),
+  senderName: z.string().min(1),
+  senderEmail: z.string().email(),
 })
 
 const schema = z.discriminatedUnion('isGift', [selfSchema, giftSchema])
@@ -239,7 +244,7 @@ function BuyTab({
 
   const dynamicSchema = z.discriminatedUnion('isGift', [
     z.object({ ...baseSchema, amount: z.number().min(c.minAmount, c.minAmountError).max(c.maxAmount, c.maxAmountError), isGift: z.literal(false) }),
-    z.object({ ...baseSchema, amount: z.number().min(c.minAmount, c.minAmountError).max(c.maxAmount, c.maxAmountError), isGift: z.literal(true), recipientName: z.string().min(1, c.recipientNameRequiredError), recipientEmail: z.string().email(c.recipientEmailInvalidError) }),
+    z.object({ ...baseSchema, amount: z.number().min(c.minAmount, c.minAmountError).max(c.maxAmount, c.maxAmountError), isGift: z.literal(true), recipientName: z.string().min(1, c.recipientNameRequiredError), recipientEmail: z.string().email(c.recipientEmailInvalidError), senderName: z.string().min(1, c.recipientNameRequiredError), senderEmail: z.string().email(c.recipientEmailInvalidError) }),
   ])
 
   const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<FormData>({
@@ -248,6 +253,7 @@ function BuyTab({
   })
 
   const isGift = watch('isGift')
+  const purchaser = authedUser ?? (session ? { id: session.id, name: session.name ?? '', email: session.email } : null)
   const voucherType = watch('voucherType')
   const amount = watch('amount')
   const tripId = watch('tripId')
@@ -267,11 +273,13 @@ function BuyTab({
     setValue('programId', kind === 'program' ? id : undefined)
   }
 
-  async function proceed(data: FormData, user: { id: string; name: string; email: string }) {
+  async function proceed(data: FormData, user: { id: string; name: string; email: string } | null) {
     setLoading(true)
     try {
-      const recipientName = data.isGift ? data.recipientName : user.name
-      const recipientEmail = data.isGift ? data.recipientEmail : user.email
+      const recipientName = data.isGift ? data.recipientName : user!.name
+      const recipientEmail = data.isGift ? data.recipientEmail : user!.email
+      const senderName = data.isGift ? data.senderName : user!.name
+      const senderEmail = data.isGift ? data.senderEmail : user!.email
 
       const voucherRes = await fetch('/api/voucher', {
         method: 'POST',
@@ -279,14 +287,15 @@ function BuyTab({
         body: JSON.stringify({
           recipientName,
           recipientEmail,
-          senderName: user.name,
-          senderEmail: user.email,
+          senderName,
+          senderEmail,
           amount: data.amount,
           currency: 'EUR',
           message: data.message,
-          forDestination: data.destinationId || undefined,
-          forTrip: data.tripId || undefined,
-          forProgram: data.programId || undefined,
+          deliveryDate: data.isGift ? data.deliveryDate || undefined : undefined,
+          forDestination: data.voucherType === 'destination' ? data.destinationId || undefined : undefined,
+          forTrip: data.voucherType === 'trip' ? data.tripId || undefined : undefined,
+          forProgram: data.voucherType === 'program' ? data.programId || undefined : undefined,
           isGift: data.isGift,
         }),
       })
@@ -311,7 +320,7 @@ function BuyTab({
           description: data.isGift
             ? `${c.giftDescriptionPrefix} ${recipientName}`
             : `${c.selfDescriptionPrefix} ${formatPrice(data.amount)}`,
-          customerEmail: user.email,
+          customerEmail: senderEmail,
           successPath: '/vouchers?tab=mine&success=1',
           cancelPath: '/vouchers',
         }),
@@ -328,7 +337,9 @@ function BuyTab({
 
   async function onSubmit(data: FormData) {
     const user = authedUser ?? (session ? { id: session.id, name: session.name ?? '', email: session.email } : null)
-    if (!user) {
+    // A gift is a guest checkout: purchaser details are collected in this form.
+    // A voucher "for me" remains account-only because it belongs to that account.
+    if (!data.isGift && !user) {
       setPendingSubmit(data)
       setShowAuth(true)
       return
@@ -492,6 +503,9 @@ function BuyTab({
                     <p className="text-xs text-red-400 mt-1">{(errors as any).recipientEmail.message}</p>
                   )}
                 </div>
+                <p className="pt-2 text-xs tracking-widest text-white/30 uppercase">Вашите данни</p>
+                <input {...register('senderName')} placeholder="Вашето име" defaultValue={purchaser?.name ?? ''} className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-sm text-white placeholder-white/20 outline-none focus:border-white/30 transition-colors" />
+                <input {...register('senderEmail')} type="email" placeholder="Вашият имейл" defaultValue={purchaser?.email ?? ''} className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-sm text-white placeholder-white/20 outline-none focus:border-white/30 transition-colors" />
               </>
             )}
 
@@ -506,26 +520,36 @@ function BuyTab({
             {isGift && (
               <div>
                 <label className="text-xs text-white/30 mb-1 block tracking-widest uppercase">{c.scheduleDeliveryLabel}</label>
-                <input
-                  {...register('deliveryDate')}
-                  type="date"
-                  className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-sm text-white outline-none focus:border-white/30 transition-colors"
-                />
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setValue('deliveryDate', undefined)}
+                    className={`shrink-0 rounded-sm border px-3 py-2.5 text-xs transition-colors ${!watch('deliveryDate') ? 'border-white bg-white text-black' : 'border-white/20 text-white/60 hover:border-white/50'}`}
+                  >
+                    {c.sendTodayLabel}
+                  </button>
+                  <input
+                    {...register('deliveryDate')}
+                    type="date"
+                    min={new Date().toISOString().slice(0, 10)}
+                    className="min-w-0 flex-1 bg-white/5 border border-white/10 rounded-sm px-4 py-2.5 text-sm text-white outline-none focus:border-white/30 transition-colors"
+                  />
+                </div>
               </div>
             )}
 
-            {authedUser || session ? (
+            {!isGift && (authedUser || session) ? (
               <div className="flex items-center gap-2 py-2">
                 <div className="w-2 h-2 rounded-full bg-green-400" />
                 <p className="text-xs text-white/40">
                   {c.signedInAsPrefix} <span className="text-white/70">{(authedUser ?? session)?.email}</span>
                 </p>
               </div>
-            ) : (
+            ) : !isGift ? (
               <p className="text-xs text-white/30 pt-1">
                 {c.signInPromptText}
               </p>
-            )}
+            ) : null}
 
             <button
               type="submit"

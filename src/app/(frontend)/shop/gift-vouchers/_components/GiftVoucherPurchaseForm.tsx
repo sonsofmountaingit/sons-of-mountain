@@ -42,33 +42,49 @@ export function GiftVoucherPurchaseForm({ destinations, trips, programs }: Props
   async function onSubmit(data: FormData) {
     setLoading(true)
     try {
+      // Create the voucher first. Stripe's completed-payment webhook marks this
+      // exact record paid, which generates the code and dispatches both emails.
+      const voucherRes = await fetch('/api/voucher', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          recipientName: data.recipientName,
+          recipientEmail: data.recipientEmail,
+          senderName: data.senderName,
+          senderEmail: data.senderEmail,
+          amount: data.amount,
+          currency: 'EUR',
+          message: data.message,
+          deliveryDate: data.deliveryDate || undefined,
+          forDestination: data.voucherType === 'destination' ? data.destinationId || undefined : undefined,
+          forTrip: data.voucherType === 'trip' ? data.tripId || undefined : undefined,
+          forProgram: data.voucherType === 'program' ? data.programId || undefined : undefined,
+          isGift: true,
+        }),
+      })
+      const voucher = await voucherRes.json()
+      if (!voucherRes.ok) {
+        toast.error(voucher.error ?? 'Failed to create voucher')
+        return
+      }
+
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           type: 'voucher',
+          recordId: voucher.voucherId,
           amount: data.amount,
           currency: 'eur',
           description: `Gift Voucher for ${data.recipientName}`,
           customerEmail: data.senderEmail,
           successPath: '/shop/gift-vouchers/success',
           cancelPath: '/shop/gift-vouchers',
-          // Pass gift voucher data as metadata for webhook processing
-          giftVoucherData: {
-            recipientName: data.recipientName,
-            recipientEmail: data.recipientEmail,
-            senderName: data.senderName,
-            senderEmail: data.senderEmail,
-            message: data.message,
-            deliveryDate: data.deliveryDate,
-            forDestination: data.destinationId,
-            forTrip: data.tripId,
-            forProgram: data.programId,
-          },
         }),
       })
       const result = await res.json()
       if (result.url) window.location.href = result.url
+      else toast.error(result.error ?? 'Failed to start checkout')
     } catch {
       toast.error('Failed to start checkout')
     } finally {

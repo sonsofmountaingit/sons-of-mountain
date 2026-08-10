@@ -3,6 +3,7 @@ import { runBalanceCharges } from '@/lib/cron/balance-charge'
 import { runBalanceReminders } from '@/lib/cron/balance-reminders'
 import { runGracePeriodCheck } from '@/lib/cron/grace-period'
 import { reconcileCheckoutPayments } from '@/lib/cron/reconcile-checkout-payments'
+import { runVoucherDelivery } from '@/lib/cron/voucher-delivery'
 
 // Called by system cron or Hetzner scheduled task daily
 // Secure with CRON_SECRET via Bearer token
@@ -19,6 +20,6 @@ export async function POST(req: NextRequest) {
   // Charges must run before grace-period check so today's failures are visible immediately;
   // reminders are independent and run in parallel.
   await runBalanceCharges()
-  await Promise.allSettled([runBalanceReminders(), runGracePeriodCheck()])
+  await Promise.allSettled([runBalanceReminders(), runGracePeriodCheck(), runVoucherDelivery()])
   return NextResponse.json({ ok: true, recovery })
 }
