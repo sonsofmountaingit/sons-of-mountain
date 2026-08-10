@@ -13,24 +13,47 @@ type OrderItem = {
 
 type PaidOrder = { items?: OrderItem[] }
 
+type Registration = {
+  status?: string
+  trip?: string | { id: string } | null
+  program?: string | { id: string } | null
+  participantCount?: number
+}
+
 function relatedId(value: string | { id: string } | null | undefined): string | null {
   if (!value) return null
   return typeof value === 'string' ? value : value.id
 }
 
-async function paidOrderSpots(payload: Awaited<ReturnType<typeof getPayload>>, itemType: 'trip' | 'program', itemId: string): Promise<number> {
-  const { docs } = await payload.find({
-    collection: 'orders',
-    where: { status: { equals: 'paid' } },
-    limit: 0,
-    pagination: false,
-    depth: 0,
-  })
+async function bookedSpots(payload: Awaited<ReturnType<typeof getPayload>>, itemType: 'trip' | 'program', itemId: string): Promise<number> {
+  const [orders, registrations] = await Promise.all([
+    payload.find({
+      collection: 'orders',
+      where: { status: { equals: 'paid' } },
+      limit: 0,
+      pagination: false,
+      depth: 0,
+    }),
+    payload.find({
+      collection: 'registrations',
+      where: { status: { in: ['pending', 'confirmed', 'paid'] } },
+      limit: 0,
+      pagination: false,
+      depth: 0,
+    }),
+  ])
 
-  return (docs as PaidOrder[]).reduce((total, order) => total + (order.items ?? []).reduce((itemTotal, item) => {
+  const orderSpots = (orders.docs as PaidOrder[]).reduce((total, order) => total + (order.items ?? []).reduce((itemTotal, item) => {
     if (item.itemType !== itemType || relatedId(item[itemType]) !== itemId) return itemTotal
     return itemTotal + (item.quantity ?? item.participantCount ?? 1)
   }, 0), 0)
+
+  const registrationSpots = (registrations.docs as Registration[]).reduce((total, registration) => {
+    if (relatedId(registration[itemType]) !== itemId) return total
+    return total + (registration.participantCount ?? 1)
+  }, 0)
+
+  return orderSpots + registrationSpots
 }
 
 export async function runSyncSoldOut(): Promise<{ ok: true; updated: number }> {
@@ -46,7 +69,7 @@ export async function runSyncSoldOut(): Promise<{ ok: true; updated: number }> {
   let updated = 0
   for (const trip of trips) {
     const t = trip as { id: string; spotsAvailable?: number; spotsTotal?: number; endDate?: string | null }
-    const spotsAvailable = Math.max(0, (t.spotsTotal ?? 0) - await paidOrderSpots(payload, 'trip', t.id))
+    const spotsAvailable = Math.max(0, (t.spotsTotal ?? 0) - await bookedSpots(payload, 'trip', t.id))
     const status = hasTravelEnded(t.endDate) ? 'archived' : spotsAvailable === 0 ? 'soldOut' : 'active'
     if (t.spotsAvailable !== spotsAvailable || (trip as { status?: string }).status !== status) {
       await payload.update({ collection: 'trips', id: t.id, data: { spotsAvailable, status } })
@@ -63,7 +86,7 @@ export async function runSyncSoldOut(): Promise<{ ok: true; updated: number }> {
 
   for (const program of programs) {
     const p = program as { id: string; spotsAvailable?: number; spotsTotal?: number; endDate?: string | null }
-    const spotsAvailable = Math.max(0, (p.spotsTotal ?? 0) - await paidOrderSpots(payload, 'program', p.id))
+    const spotsAvailable = Math.max(0, (p.spotsTotal ?? 0) - await bookedSpots(payload, 'program', p.id))
     const status = hasTravelEnded(p.endDate) ? 'archived' : spotsAvailable === 0 ? 'soldOut' : 'active'
     if (p.spotsAvailable !== spotsAvailable || (program as { status?: string }).status !== status) {
       await payload.update({ collection: 'programs', id: p.id, data: { spotsAvailable, status } })
