@@ -49,9 +49,9 @@ export const Vouchers: GlobalConfig = {
     },
     { name: 'customAmountLabel', type: 'text', defaultValue: 'Custom' },
     { name: 'customAmountPlaceholder', type: 'text', defaultValue: 'Enter amount (€)' },
-    { name: 'minAmount', type: 'number', defaultValue: 10 },
+    { name: 'minAmount', type: 'number', defaultValue: 1 },
     { name: 'maxAmount', type: 'number', defaultValue: 5000 },
-    { name: 'minAmountError', type: 'text', defaultValue: 'Minimum €10' },
+    { name: 'minAmountError', type: 'text', defaultValue: 'Minimum €1' },
     { name: 'maxAmountError', type: 'text', defaultValue: 'Maximum €5000' },
 
     // ── Buy tab: voucher type ────────────────────────────────────────────────
