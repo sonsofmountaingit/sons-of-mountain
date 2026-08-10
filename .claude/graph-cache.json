@@ -121,6 +121,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260810_archive_expired_programs.ts",
+      "label": "migrations/20260810_archive_expired_programs.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260723_early_bird_spots_remaining.ts",
       "label": "migrations/20260723_early_bird_spots_remaining.ts",
       "group": "other",
@@ -141,6 +147,12 @@
     {
       "id": "src/migrations/20260716d_testimonials_role.ts",
       "label": "migrations/20260716d_testimonials_role.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
+      "id": "src/migrations/20260808_euro_only_currency.ts",
+      "label": "migrations/20260808_euro_only_currency.ts",
       "group": "other",
       "size": 6
     },
@@ -2071,6 +2083,12 @@
       "size": 6
     },
     {
+      "id": "src/payload/hooks/decrementSpotsOnPaid.ts",
+      "label": "hooks/decrementSpotsOnPaid.ts",
+      "group": "payload",
+      "size": 6
+    },
+    {
       "id": "src/payload/hooks/emailFlowTriggers.ts",
       "label": "hooks/emailFlowTriggers.ts",
       "group": "payload",
@@ -3658,7 +3676,7 @@
       "id": "src/lib/stripe-webhooks.ts",
       "label": "lib/stripe-webhooks.ts",
       "group": "lib",
-      "size": 10
+      "size": 12
     },
     {
       "id": "src/lib/get-default-strings.ts",
@@ -3700,7 +3718,7 @@
       "id": "src/lib/email-logger.ts",
       "label": "lib/email-logger.ts",
       "group": "lib",
-      "size": 8
+      "size": 10
     },
     {
       "id": "src/lib/email-flows.ts",
@@ -3791,6 +3809,12 @@
       "label": "lib/rate-limit.ts",
       "group": "lib",
       "size": 10
+    },
+    {
+      "id": "src/lib/travel-status.ts",
+      "label": "lib/travel-status.ts",
+      "group": "lib",
+      "size": 20
     },
     {
       "id": "src/lib/pricing/payment-plan.ts",
@@ -4115,6 +4139,14 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260807d_programs_intro_text.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260808_euro_only_currency.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260810_archive_expired_programs.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -4473,6 +4505,10 @@
       "target": "src/lib/booking-deadline.ts"
     },
     {
+      "source": "src/app/api/booking/route.ts",
+      "target": "src/lib/travel-status.ts"
+    },
+    {
       "source": "src/app/api/gallery/favorites/count/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -4623,6 +4659,10 @@
     {
       "source": "src/app/api/cart/validate/route.ts",
       "target": "src/lib/booking-deadline.ts"
+    },
+    {
+      "source": "src/app/api/cart/validate/route.ts",
+      "target": "src/lib/travel-status.ts"
     },
     {
       "source": "src/app/api/cart/abandoned/route.ts",
@@ -5089,6 +5129,10 @@
       "target": "src/lib/media-url.ts"
     },
     {
+      "source": "src/app/api/featured-travels-data/route.ts",
+      "target": "src/lib/travel-status.ts"
+    },
+    {
       "source": "src/app/(frontend)/contact/page.tsx",
       "target": "src/payload/payload.config.ts"
     },
@@ -5171,6 +5215,10 @@
     {
       "source": "src/app/(frontend)/calendar/page.tsx",
       "target": "src/lib/metadata.ts"
+    },
+    {
+      "source": "src/app/(frontend)/calendar/page.tsx",
+      "target": "src/lib/travel-status.ts"
     },
     {
       "source": "src/app/(frontend)/destinations/page.tsx",
@@ -6733,6 +6781,10 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/payload/hooks/decrementSpotsOnPaid.ts",
+      "target": "src/lib/stripe-webhooks.ts"
+    },
+    {
       "source": "src/payload/hooks/emailFlowTriggers.ts",
       "target": "src/lib/email-flows.ts"
     },
@@ -6761,6 +6813,10 @@
       "target": "src/payload/collections/shared/bookingDeadlineField.ts"
     },
     {
+      "source": "src/payload/collections/Trips.ts",
+      "target": "src/lib/travel-status.ts"
+    },
+    {
       "source": "src/payload/collections/Registrations.ts",
       "target": "src/payload/hooks/syncTripSpots.ts"
     },
@@ -6783,6 +6839,10 @@
     {
       "source": "src/payload/collections/Programs.ts",
       "target": "src/payload/collections/shared/bookingDeadlineField.ts"
+    },
+    {
+      "source": "src/payload/collections/Programs.ts",
+      "target": "src/lib/travel-status.ts"
     },
     {
       "source": "src/payload/collections/Pages.ts",
@@ -6847,6 +6907,10 @@
     {
       "source": "src/payload/collections/Orders.ts",
       "target": "src/payload/hooks/emailFlowTriggers.ts"
+    },
+    {
+      "source": "src/payload/collections/Orders.ts",
+      "target": "src/payload/hooks/decrementSpotsOnPaid.ts"
     },
     {
       "source": "src/payload/collections/Stories.ts",
@@ -7633,6 +7697,10 @@
       "target": "src/lib/translations.ts"
     },
     {
+      "source": "src/components/ui/FeaturedTravels.tsx",
+      "target": "src/lib/travel-status.ts"
+    },
+    {
       "source": "src/components/ui/GalleryFilterBar.tsx",
       "target": "src/lib/use-translations.ts"
     },
@@ -8330,6 +8398,10 @@
     },
     {
       "source": "src/lib/stripe-webhooks.ts",
+      "target": "src/lib/email-logger.ts"
+    },
+    {
+      "source": "src/lib/stripe-webhooks.ts",
       "target": "src/lib/escape-html.ts"
     },
     {
@@ -8495,6 +8567,10 @@
     {
       "source": "src/lib/cron/sync-sold-out.ts",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/lib/cron/sync-sold-out.ts",
+      "target": "src/lib/travel-status.ts"
     },
     {
       "source": "src/lib/cron/voucher-expiry.ts",
@@ -8873,6 +8949,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-08-07T11:24:00.449Z",
-  "fileCount": 665
+  "builtAt": "2026-08-10T10:37:13.833Z",
+  "fileCount": 669
 }

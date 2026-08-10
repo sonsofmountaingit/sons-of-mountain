@@ -5,6 +5,15 @@ import type { CartItem } from '@/lib/cart-store'
 import { resolvePaymentPlan } from '@/lib/pricing/payment-plan'
 import { getDynamicPrice, getPriceBreakdown } from '@/lib/pricing/dynamic'
 import { isBookingDeadlinePassed } from '@/lib/booking-deadline'
+import { z } from 'zod'
+
+const cartCheckoutContactSchema = z.object({
+  customerEmail: z.string().trim().email(),
+  confirmEmail: z.string().trim().email(),
+}).refine(
+  ({ customerEmail, confirmEmail }) => customerEmail.toLowerCase() === confirmEmail.toLowerCase(),
+  { message: 'Email addresses do not match', path: ['confirmEmail'] },
+)
 
 type CheckoutType = 'registration' | 'order' | 'voucher' | 'cart' | 'deposit' | 'bundle'
 
@@ -121,6 +130,14 @@ export async function POST(req: NextRequest) {
 
     // Multi-item cart checkout
     if (!items?.length) return NextResponse.json({ error: 'Cart is empty' }, { status: 400 })
+
+    const contact = cartCheckoutContactSchema.safeParse({ customerEmail, confirmEmail: body.confirmEmail })
+    if (!contact.success) {
+      return NextResponse.json({ error: 'Please enter matching valid email addresses' }, { status: 400 })
+    }
+    body.customerEmail = contact.data.customerEmail.toLowerCase()
+
+
 
     // Server-side price validation/recomputation for each cart item — never trust the
     // client's unitPrice/priceBreakdown (it may be stale, e.g. cart added before early-bird

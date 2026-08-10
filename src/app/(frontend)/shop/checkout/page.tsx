@@ -15,15 +15,19 @@ import { useTranslations } from '@/lib/use-translations'
 import type { Translations } from '@/lib/translations'
 import { gtagEvent, fireOncePerSession } from '@/lib/gtag'
 
+function normalizeEmail(email: string) {
+  return email.trim().toLowerCase()
+}
+
 function makeInfoSchema(requiredMsg: string, invalidEmailMsg: string, emailsMismatchMsg: string) {
   return z.object({
     firstName: z.string().min(1, requiredMsg),
     lastName: z.string().min(1, requiredMsg),
-    email: z.string().email(invalidEmailMsg),
-    confirmEmail: z.string().email(invalidEmailMsg),
+    email: z.string().trim().email(invalidEmailMsg),
+    confirmEmail: z.string().trim().email(invalidEmailMsg),
     phone: z.string().min(6, requiredMsg),
     paymentMode: z.enum(['full', 'deposit', 'installments']).optional(),
-  }).refine((values) => values.email === values.confirmEmail, {
+  }).refine((values) => normalizeEmail(values.email) === normalizeEmail(values.confirmEmail), {
     message: emailsMismatchMsg,
     path: ['confirmEmail'],
   })
@@ -174,10 +178,13 @@ export default function CheckoutPage() {
       .finally(() => setRidesLoading(false))
   }, [participationType, tripId, programId, destinationIdForRide, hasRideable])
 
-  const { register, handleSubmit, getValues, setValue, formState: { errors } } = useForm<InfoForm>({
+  const { register, handleSubmit, getValues, setValue, watch, trigger, formState: { errors } } = useForm<InfoForm>({
     resolver: zodResolver(makeInfoSchema(t.checkout_page.required, t.checkout_page.invalid_email, emailsMismatchMessage)),
     defaultValues: { paymentMode: 'full' },
   })
+  const email = watch('email')
+  const confirmEmail = watch('confirmEmail')
+  const emailsMatch = Boolean(email && confirmEmail && normalizeEmail(email) === normalizeEmail(confirmEmail))
 
   useEffect(() => {
     if (!sessionData?.user) return
@@ -197,6 +204,13 @@ export default function CheckoutPage() {
   }
 
   async function goToPayment() {
+    // Validate again immediately before creating a payment session. This protects
+    // against stale form state after navigating back from the review step.
+    if (!(await trigger())) {
+      setStep(0)
+      return
+    }
+
     setLoading(true)
     try {
       const info = getValues()
@@ -229,7 +243,8 @@ export default function CheckoutPage() {
           items,
           currency: 'eur',
           orderTotal: total(),
-          customerEmail: info.email,
+          customerEmail: normalizeEmail(info.email),
+          confirmEmail: normalizeEmail(info.confirmEmail),
           firstName: info.firstName,
           lastName: info.lastName,
           phone: info.phone,
@@ -350,7 +365,8 @@ export default function CheckoutPage() {
                       {!ridesLoading && rides.length === 0 && (
                         <p className="text-sm text-white/40">{t.checkout_page.no_shared_rides}</p>
                       )}
-                      {!ridesLoading && !selectedRideId && (
+                      {/* A transport request is needed only when no ride can be joined. */}
+                      {!ridesLoading && rides.length === 0 && (
                         <p className="text-sm text-green-300/80">{t.checkout_page.transport_request_saved}</p>
                       )}
                       {!ridesLoading && rides.map((ride) => {
@@ -410,6 +426,9 @@ export default function CheckoutPage() {
                   onDrop={(event) => { event.preventDefault(); toast.error(typeEmailManuallyMessage) }}
                   className={inputCls}
                 />
+                {confirmEmail && !emailsMatch && !errors.confirmEmail && (
+                  <p className="text-xs text-red-400 mt-1">{emailsMismatchMessage}</p>
+                )}
                 {errors.confirmEmail && <p className="text-xs text-red-400 mt-1">{errors.confirmEmail.message}</p>}
               </div>
               <div>
@@ -474,7 +493,11 @@ export default function CheckoutPage() {
                 </div>
               )}
 
-              <button type="submit" className="w-full rounded bg-white py-3 text-sm font-semibold text-gray-900 hover:bg-white/90">
+              <button
+                type="submit"
+                disabled={!emailsMatch}
+                className="w-full rounded bg-white py-3 text-sm font-semibold text-gray-900 hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-50"
+              >
                 {t.checkout_page.continue_to_review}
               </button>
             </form>

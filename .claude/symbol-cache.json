@@ -239,6 +239,18 @@
     "lines": 54,
     "group": "other"
   },
+  "src/migrations/20260810_archive_expired_programs.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 12,
+    "group": "other"
+  },
   "src/migrations/20260723_early_bird_spots_remaining.ts": {
     "exports": [
       "up",
@@ -285,6 +297,18 @@
       "@payloadcms/db-postgres"
     ],
     "lines": 16,
+    "group": "other"
+  },
+  "src/migrations/20260808_euro_only_currency.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 19,
     "group": "other"
   },
   "src/migrations/20260731_registrations_manual_confirm_paid.ts": {
@@ -359,9 +383,11 @@
       "./20260807_programs_hero_gallery",
       "./20260807b_programs_free_transfer",
       "./20260807c_programs_why_visit",
-      "./20260807d_programs_intro_text"
+      "./20260807d_programs_intro_text",
+      "./20260808_euro_only_currency",
+      "./20260810_archive_expired_programs"
     ],
-    "lines": 190,
+    "lines": 202,
     "group": "other"
   },
   "src/migrations/20260719b_email_marketing_platform.ts": {
@@ -1372,9 +1398,10 @@
       "@payload-config",
       "@/lib/pricing/payment-plan",
       "@/lib/email-flows",
-      "@/lib/booking-deadline"
+      "@/lib/booking-deadline",
+      "@/lib/travel-status"
     ],
-    "lines": 165,
+    "lines": 169,
     "group": "api"
   },
   "src/app/api/gallery/favorites/count/route.ts": {
@@ -1539,7 +1566,7 @@
       "@/lib/pricing/dynamic",
       "@/lib/booking-deadline"
     ],
-    "lines": 418,
+    "lines": 498,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {
@@ -1769,7 +1796,7 @@
       "@payload-config",
       "payload"
     ],
-    "lines": 43,
+    "lines": 58,
     "group": "api"
   },
   "src/app/api/cart/validate/route.ts": {
@@ -1783,9 +1810,10 @@
       "@payload-config",
       "@/lib/cart-store",
       "@/lib/pricing/dynamic",
-      "@/lib/booking-deadline"
+      "@/lib/booking-deadline",
+      "@/lib/travel-status"
     ],
-    "lines": 92,
+    "lines": 101,
     "group": "api"
   },
   "src/app/api/cart/abandoned/route.ts": {
@@ -2745,9 +2773,10 @@
     "imports": [
       "payload",
       "@payload-config",
-      "@/lib/media-url"
+      "@/lib/media-url",
+      "@/lib/travel-status"
     ],
-    "lines": 99,
+    "lines": 102,
     "group": "api"
   },
   "src/app/(frontend)/contact/page.tsx": {
@@ -2883,9 +2912,10 @@
       "react",
       "next/cache",
       "@/components/blocks/calendar/CalendarHeroBlock",
-      "@/lib/metadata"
+      "@/lib/metadata",
+      "@/lib/travel-status"
     ],
-    "lines": 262,
+    "lines": 265,
     "group": "frontend"
   },
   "src/app/(frontend)/destinations/page.tsx": {
@@ -3196,7 +3226,7 @@
       "@/lib/translations",
       "@/lib/gtag"
     ],
-    "lines": 537,
+    "lines": 562,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/[tripId]/success/page.tsx": {
@@ -4742,7 +4772,7 @@
       "next/server",
       "next/cache"
     ],
-    "lines": 106,
+    "lines": 102,
     "group": "globals"
   },
   "src/payload/globals/Vouchers.ts": {
@@ -5233,6 +5263,18 @@
     "lines": 11,
     "group": "payload"
   },
+  "src/payload/hooks/decrementSpotsOnPaid.ts": {
+    "exports": [
+      "decrementSpotsOnPaid"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@/lib/stripe-webhooks"
+    ],
+    "lines": 13,
+    "group": "payload"
+  },
   "src/payload/hooks/emailFlowTriggers.ts": {
     "exports": [
       "registrationEmailFlows",
@@ -5257,7 +5299,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 95,
+    "lines": 135,
     "group": "payload"
   },
   "src/payload/hooks/revalidate.ts": {
@@ -5289,9 +5331,10 @@
       "@/lib/stripe-product-sync",
       "@/lib/send-registration-forms",
       "./shared/paymentPlanFields",
-      "./shared/bookingDeadlineField"
+      "./shared/bookingDeadlineField",
+      "@/lib/travel-status"
     ],
-    "lines": 582,
+    "lines": 583,
     "group": "collections"
   },
   "src/payload/collections/EmailTemplates.ts": {
@@ -5326,7 +5369,7 @@
       "payload",
       "payload"
     ],
-    "lines": 252,
+    "lines": 245,
     "group": "collections"
   },
   "src/payload/collections/CarpoolRides.ts": {
@@ -5374,7 +5417,7 @@
       "../hooks/emailFlowTriggers",
       "../hooks/manualConfirm"
     ],
-    "lines": 329,
+    "lines": 330,
     "group": "collections"
   },
   "src/payload/collections/ProgramInquiries.ts": {
@@ -5432,9 +5475,10 @@
       "next/server",
       "@/lib/stripe-product-sync",
       "./shared/paymentPlanFields",
-      "./shared/bookingDeadlineField"
+      "./shared/bookingDeadlineField",
+      "@/lib/travel-status"
     ],
-    "lines": 611,
+    "lines": 612,
     "group": "collections"
   },
   "src/payload/collections/Pages.ts": {
@@ -5518,9 +5562,10 @@
     "types": [],
     "imports": [
       "payload",
-      "../hooks/emailFlowTriggers"
+      "../hooks/emailFlowTriggers",
+      "../hooks/decrementSpotsOnPaid"
     ],
-    "lines": 588,
+    "lines": 599,
     "group": "collections"
   },
   "src/payload/collections/Stories.ts": {
@@ -5554,7 +5599,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 68,
+    "lines": 69,
     "group": "collections"
   },
   "src/payload/collections/Segments.ts": {
@@ -5661,7 +5706,7 @@
       "payload",
       "../hooks/emailFlowTriggers"
     ],
-    "lines": 159,
+    "lines": 160,
     "group": "collections"
   },
   "src/payload/collections/CustomerRatings.ts": {
@@ -7006,9 +7051,10 @@
       "@/lib/media-url",
       "@/components/blocks/featured-travels/FeaturedTravelsBlock",
       "./FeaturedTravelsEditButton",
-      "@/lib/translations"
+      "@/lib/translations",
+      "@/lib/travel-status"
     ],
-    "lines": 147,
+    "lines": 150,
     "group": "ui"
   },
   "src/components/ui/GalleryFilterBar.tsx": {
@@ -7068,7 +7114,7 @@
       "@/lib/use-translations",
       "@/lib/spots"
     ],
-    "lines": 201,
+    "lines": 197,
     "group": "ui"
   },
   "src/components/ui/destination-page/BookingDrawer.tsx": {
@@ -8686,18 +8732,17 @@
   },
   "src/lib/currency.ts": {
     "exports": [
-      "EUR_TO_BGN",
-      "formatPrice",
-      "formatPriceParts"
+      "formatPrice"
     ],
     "types": [],
     "imports": [],
-    "lines": 14,
+    "lines": 5,
     "group": "lib"
   },
   "src/lib/stripe-webhooks.ts": {
     "exports": [
       "notifyWaitlist",
+      "decrementOrderItemsSpotsAndStock",
       "handleCheckoutCompleted",
       "handleSubscriptionUpsert",
       "handleSubscriptionDeleted",
@@ -8711,13 +8756,14 @@
     "types": [],
     "imports": [
       "stripe",
+      "@/lib/email-logger",
       "payload",
       "next/cache",
       "next/server",
       "@/lib/escape-html",
       "@/lib/ga4-measurement-protocol"
     ],
-    "lines": 1003,
+    "lines": 1046,
     "group": "lib"
   },
   "src/lib/get-default-strings.ts": {
@@ -8912,7 +8958,7 @@
       "Translations"
     ],
     "imports": [],
-    "lines": 2140,
+    "lines": 2142,
     "group": "lib"
   },
   "src/lib/send-registration-forms.ts": {
@@ -8999,6 +9045,16 @@
     "types": [],
     "imports": [],
     "lines": 14,
+    "group": "lib"
+  },
+  "src/lib/travel-status.ts": {
+    "exports": [
+      "hasTravelEnded",
+      "isTravelBookable"
+    ],
+    "types": [],
+    "imports": [],
+    "lines": 25,
     "group": "lib"
   },
   "src/lib/pricing/payment-plan.ts": {
@@ -9199,9 +9255,10 @@
     "types": [],
     "imports": [
       "payload",
-      "@payload-config"
+      "@payload-config",
+      "@/lib/travel-status"
     ],
-    "lines": 40,
+    "lines": 76,
     "group": "lib"
   },
   "src/lib/cron/voucher-expiry.ts": {
