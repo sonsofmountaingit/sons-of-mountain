@@ -1273,7 +1273,7 @@
       "payload",
       "@payload-config"
     ],
-    "lines": 151,
+    "lines": 159,
     "group": "api"
   },
   "src/app/api/waitlist/join/route.ts": {
@@ -9317,7 +9317,7 @@
       "@payload-config",
       "@/lib/travel-status"
     ],
-    "lines": 99,
+    "lines": 118,
     "group": "lib"
   },
   "src/lib/cron/reconcile-checkout-payments.ts": {
