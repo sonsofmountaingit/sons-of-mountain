@@ -427,9 +427,22 @@ async function generateInvoice(
 }
 
 export async function decrementOrderItemsSpotsAndStock(payload: BasePayload, items: any[]) {
+  // Payload relationship fields can be returned as a populated object, a string,
+  // or a numeric database ID (the usual value in an afterChange hook at depth 0).
+  // Normalise every form before loading the related record.
+  const relationId = (value: unknown): string | number | undefined => {
+    if (typeof value === 'string' || typeof value === 'number') return value
+    if (value && typeof value === 'object' && 'id' in value) {
+      const id = (value as { id?: unknown }).id
+      if (typeof id === 'string' || typeof id === 'number') return id
+    }
+    return undefined
+  }
+
   for (const item of items ?? []) {
     if (item.itemType === 'trip' && item.trip) {
-      const tId = typeof item.trip === 'string' ? item.trip : item.trip.id
+      const tId = relationId(item.trip)
+      if (tId == null) continue
       const trip = await payload.findByID({ collection: 'trips', id: tId }).catch(() => null)
       if (trip) {
         const participantCount = item.quantity ?? item.participantCount ?? 1
@@ -437,11 +450,12 @@ export async function decrementOrderItemsSpotsAndStock(payload: BasePayload, ite
         const earlyBirdDecrement = item.earlyBirdCount ?? Math.min(participantCount, (trip as any).earlyBirdSpotsRemaining ?? 0)
         const newEarlyBirdSpots = Math.max(0, ((trip as any).earlyBirdSpotsRemaining ?? 0) - earlyBirdDecrement)
         await payload.update({ collection: 'trips', id: tId, data: { spotsAvailable: newSpots, earlyBirdSpotsRemaining: newEarlyBirdSpots, status: newSpots === 0 ? 'soldOut' : 'active' } })
-        if (newSpots > 0) await notifyWaitlist(payload, 'trip', tId)
+        if (newSpots > 0) await notifyWaitlist(payload, 'trip', String(tId))
       }
     }
     if (item.itemType === 'product' && item.product) {
-      const pId = typeof item.product === 'string' ? item.product : item.product.id
+      const pId = relationId(item.product)
+      if (pId == null) continue
       const product = await payload.findByID({ collection: 'products', id: pId }).catch(() => null)
       if (product) {
         if (item.variantId) {
@@ -455,7 +469,8 @@ export async function decrementOrderItemsSpotsAndStock(payload: BasePayload, ite
       }
     }
     if (item.itemType === 'program' && item.program) {
-      const pgId = typeof item.program === 'string' ? item.program : item.program.id
+      const pgId = relationId(item.program)
+      if (pgId == null) continue
       const program = await payload.findByID({ collection: 'programs', id: pgId }).catch(() => null)
       if (program) {
         const participantCount = item.quantity ?? item.participantCount ?? 1
@@ -466,7 +481,8 @@ export async function decrementOrderItemsSpotsAndStock(payload: BasePayload, ite
       }
     }
     if (item.itemType === 'destination' && item.destination) {
-      const dId = typeof item.destination === 'string' ? item.destination : item.destination.id
+      const dId = relationId(item.destination)
+      if (dId == null) continue
       const destination = await payload.findByID({ collection: 'destinations', id: dId }).catch(() => null)
       if (destination) {
         const participantCount = item.quantity ?? item.participantCount ?? 1
@@ -474,11 +490,12 @@ export async function decrementOrderItemsSpotsAndStock(payload: BasePayload, ite
         const earlyBirdDecrement = item.earlyBirdCount ?? Math.min(participantCount, (destination as any).earlyBirdSpotsRemaining ?? 0)
         const newEarlyBirdSpots = Math.max(0, ((destination as any).earlyBirdSpotsRemaining ?? 0) - earlyBirdDecrement)
         await payload.update({ collection: 'destinations', id: dId, data: { spotsAvailable: newSpots, earlyBirdSpotsRemaining: newEarlyBirdSpots, bookingStatus: newSpots === 0 ? 'soldOut' : 'active' } })
-        if (newSpots > 0) await notifyWaitlist(payload, 'destination', dId)
+        if (newSpots > 0) await notifyWaitlist(payload, 'destination', String(dId))
       }
     }
     if (item.itemType === 'bundle' && item.bundle) {
-      const bId = typeof item.bundle === 'string' ? item.bundle : item.bundle.id
+      const bId = relationId(item.bundle)
+      if (bId == null) continue
       const bundle = await payload.findByID({ collection: 'bundles', id: bId }).catch(() => null)
       if (bundle) {
         await payload.update({ collection: 'bundles', id: bId, data: { usedCount: ((bundle as any).usedCount ?? 0) + 1 } })
