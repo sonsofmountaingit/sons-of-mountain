@@ -69,7 +69,7 @@ export async function runSyncSoldOut(): Promise<{ ok: true; updated: number }> {
   let updated = 0
   for (const trip of trips) {
     const t = trip as { id: string; spotsAvailable?: number; spotsTotal?: number; endDate?: string | null }
-    const spotsAvailable = Math.max(0, (t.spotsTotal ?? 0) - await bookedSpots(payload, 'trip', t.id))
+    const spotsAvailable = Math.max(0, (t.spotsTotal ?? 0) - await bookedSpots(payload, 'trip', String(t.id)))
     const status = hasTravelEnded(t.endDate) ? 'archived' : spotsAvailable === 0 ? 'soldOut' : 'active'
     if (t.spotsAvailable !== spotsAvailable || (trip as { status?: string }).status !== status) {
       await payload.update({ collection: 'trips', id: t.id, data: { spotsAvailable, status } })
@@ -86,7 +86,7 @@ export async function runSyncSoldOut(): Promise<{ ok: true; updated: number }> {
 
   for (const program of programs) {
     const p = program as { id: string; spotsAvailable?: number; spotsTotal?: number; endDate?: string | null }
-    const spotsAvailable = Math.max(0, (p.spotsTotal ?? 0) - await bookedSpots(payload, 'program', p.id))
+    const spotsAvailable = Math.max(0, (p.spotsTotal ?? 0) - await bookedSpots(payload, 'program', String(p.id)))
     const status = hasTravelEnded(p.endDate) ? 'archived' : spotsAvailable === 0 ? 'soldOut' : 'active'
     if (p.spotsAvailable !== spotsAvailable || (program as { status?: string }).status !== status) {
       await payload.update({ collection: 'programs', id: p.id, data: { spotsAvailable, status } })

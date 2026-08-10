@@ -63,7 +63,7 @@ export async function GET(req: NextRequest) {
     }
 
     for (const t of trips.docs as Record<string, unknown>[]) {
-      rows.set(`trip:${t.id}`, {
+      rows.set(`trip:${String(t.id)}`, {
         id: String(t.id),
         kind: 'trip',
         title: String(t.title ?? ''),
@@ -74,7 +74,7 @@ export async function GET(req: NextRequest) {
       })
     }
     for (const p of programs.docs as Record<string, unknown>[]) {
-      rows.set(`program:${p.id}`, {
+      rows.set(`program:${String(p.id)}`, {
         id: String(p.id),
         kind: 'program',
         title: String(p.title ?? ''),
@@ -85,7 +85,7 @@ export async function GET(req: NextRequest) {
       })
     }
     for (const d of destinations.docs as Record<string, unknown>[]) {
-      rows.set(`destination:${d.id}`, {
+      rows.set(`destination:${String(d.id)}`, {
         id: String(d.id),
         kind: 'destination',
         title: String(d.name ?? ''),
