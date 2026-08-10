@@ -23,7 +23,10 @@ interface StatRow {
 }
 
 const ACTIVE_REG_STATUSES = ['pending', 'confirmed', 'paid']
-const ACTIVE_ORDER_STATUSES = ['pending', 'paid', 'partial']
+// A spot is occupied only after payment. Pending Checkout records are deliberately
+// excluded: they may expire or be abandoned and must not make availability disagree
+// with the inventory shown to customers.
+const ACTIVE_ORDER_STATUSES = ['paid']
 
 export async function GET(req: NextRequest) {
   try {

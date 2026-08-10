@@ -4,9 +4,9 @@ import { hasTravelEnded } from '@/lib/travel-status'
 
 type OrderItem = {
   itemType?: string
-  trip?: string | { id: string } | null
-  program?: string | { id: string } | null
-  destination?: string | { id: string } | null
+  trip?: string | number | { id: string | number } | null
+  program?: string | number | { id: string | number } | null
+  destination?: string | number | { id: string | number } | null
   quantity?: number
   participantCount?: number
 }
@@ -15,14 +15,14 @@ type PaidOrder = { items?: OrderItem[] }
 
 type Registration = {
   status?: string
-  trip?: string | { id: string } | null
-  program?: string | { id: string } | null
+  trip?: string | number | { id: string | number } | null
+  program?: string | number | { id: string | number } | null
   participantCount?: number
 }
 
-function relatedId(value: string | { id: string } | null | undefined): string | null {
-  if (!value) return null
-  return typeof value === 'string' ? value : value.id
+function relatedId(value: string | number | { id: string | number } | null | undefined): string | null {
+  if (value == null) return null
+  return typeof value === 'object' ? String(value.id) : String(value)
 }
 
 async function bookedSpots(payload: Awaited<ReturnType<typeof getPayload>>, itemType: 'trip' | 'program', itemId: string): Promise<number> {
