@@ -47,7 +47,8 @@ export const GiftVouchers: CollectionConfig = {
     },
     {
       name: 'currency',
-      type: 'text',
+      type: 'select',
+      options: ['EUR'],
       defaultValue: 'EUR',
     },
     {

@@ -138,7 +138,7 @@ export function ProfileClient({ name: initialName, email }: Props) {
 
         {/* Username */}
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs tracking-widest text-white/50 uppercase">Потребителско име (URL)</label>
+          <label className="text-xs tracking-widest text-white/50 uppercase">Потребителско име (уеб адрес)</label>
           <div className="flex items-center">
             <span className="text-white/30 text-sm px-3 py-3 border border-r-0 border-white/10 rounded-l-sm bg-white/5">
               /photographers/
@@ -166,7 +166,7 @@ export function ProfileClient({ name: initialName, email }: Props) {
 
         {/* Instagram */}
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs tracking-widest text-white/50 uppercase">Instagram</label>
+          <label className="text-xs tracking-widest text-white/50 uppercase">Инстаграм</label>
           <input
             value={instagram}
             onChange={(e) => setInstagram(e.target.value)}

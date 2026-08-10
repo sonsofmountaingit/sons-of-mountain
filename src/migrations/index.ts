@@ -29,6 +29,8 @@ import * as migration_20260807_programs_hero_gallery from './20260807_programs_h
 import * as migration_20260807b_programs_free_transfer from './20260807b_programs_free_transfer'
 import * as migration_20260807c_programs_why_visit from './20260807c_programs_why_visit'
 import * as migration_20260807d_programs_intro_text from './20260807d_programs_intro_text'
+import * as migration_20260808_euro_only_currency from './20260808_euro_only_currency'
+import * as migration_20260810_archive_expired_programs from './20260810_archive_expired_programs'
 
 export const migrations = [
   {
@@ -185,5 +187,15 @@ export const migrations = [
     up: migration_20260807d_programs_intro_text.up,
     down: migration_20260807d_programs_intro_text.down,
     name: '20260807d_programs_intro_text',
+  },
+  {
+    up: migration_20260808_euro_only_currency.up,
+    down: migration_20260808_euro_only_currency.down,
+    name: '20260808_euro_only_currency',
+  },
+  {
+    up: migration_20260810_archive_expired_programs.up,
+    down: migration_20260810_archive_expired_programs.down,
+    name: '20260810_archive_expired_programs',
   },
 ]

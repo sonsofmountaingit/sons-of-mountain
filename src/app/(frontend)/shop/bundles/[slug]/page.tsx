@@ -75,7 +75,7 @@ async function BundleContent({ params }: { params: Promise<{ slug: string }> }) 
     description: (bundle as any).description ?? undefined,
     offers: {
       '@type': 'Offer',
-      priceCurrency: 'BGN',
+      priceCurrency: 'EUR',
       price: (bundle as any).bundlePrice ?? 0,
       availability: 'https://schema.org/InStock',
       seller: { '@type': 'Organization', name: 'Sons of Mountains' },

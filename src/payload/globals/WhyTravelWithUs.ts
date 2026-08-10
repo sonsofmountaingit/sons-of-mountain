@@ -60,11 +60,7 @@ export const WhyTravelWithUs: GlobalConfig = {
           name: 'currency',
           type: 'select',
           defaultValue: 'EUR',
-          options: [
-            { label: 'EUR (€)', value: 'EUR' },
-            { label: 'USD ($)', value: 'USD' },
-            { label: 'BGN (лв.)', value: 'BGN' },
-          ],
+          options: [{ label: 'EUR (€)', value: 'EUR' }],
         },
         { name: 'spotsAvailable', type: 'number' },
         { name: 'difficulty', type: 'number', min: 0, max: 100 },

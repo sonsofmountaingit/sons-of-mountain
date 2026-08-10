@@ -15,13 +15,17 @@ import { useTranslations } from '@/lib/use-translations'
 import type { Translations } from '@/lib/translations'
 import { gtagEvent, fireOncePerSession } from '@/lib/gtag'
 
-function makeInfoSchema(requiredMsg: string, invalidEmailMsg: string) {
+function makeInfoSchema(requiredMsg: string, invalidEmailMsg: string, emailsMismatchMsg: string) {
   return z.object({
     firstName: z.string().min(1, requiredMsg),
     lastName: z.string().min(1, requiredMsg),
     email: z.string().email(invalidEmailMsg),
+    confirmEmail: z.string().email(invalidEmailMsg),
     phone: z.string().min(6, requiredMsg),
     paymentMode: z.enum(['full', 'deposit', 'installments']).optional(),
+  }).refine((values) => values.email === values.confirmEmail, {
+    message: emailsMismatchMsg,
+    path: ['confirmEmail'],
   })
 }
 
@@ -72,6 +76,10 @@ export default function CheckoutPage() {
   const { data: sessionData, isPending: sessionLoading } = useSession()
   const { t, language } = useTranslations()
   const locale = language === 'EN' ? 'en-US' : 'bg-BG'
+  const confirmEmailLabel = language === 'EN' ? 'Confirm email' : 'Потвърдете имейла'
+  const emailsMatchMessage = language === 'EN' ? 'Email addresses match.' : 'Имейл адресите съвпадат.'
+  const emailsMismatchMessage = language === 'EN' ? 'Email addresses do not match.' : 'Имейл адресите не съвпадат.'
+  const typeEmailManuallyMessage = language === 'EN' ? 'Please type your email again manually.' : 'Моля, въведете имейла си отново ръчно.'
   const steps = [t.checkout_page.step_info, t.checkout_page.step_review, t.checkout_page.step_payment]
   const planCopy = getPlanCopy(t)
   const participationTabs = getParticipationTabs(t)
@@ -167,7 +175,7 @@ export default function CheckoutPage() {
   }, [participationType, tripId, programId, destinationIdForRide, hasRideable])
 
   const { register, handleSubmit, getValues, setValue, formState: { errors } } = useForm<InfoForm>({
-    resolver: zodResolver(makeInfoSchema(t.checkout_page.required, t.checkout_page.invalid_email)),
+    resolver: zodResolver(makeInfoSchema(t.checkout_page.required, t.checkout_page.invalid_email, emailsMismatchMessage)),
     defaultValues: { paymentMode: 'full' },
   })
 
@@ -184,9 +192,6 @@ export default function CheckoutPage() {
     if (participationType === 'organizer') {
       if (!vehicleType.trim()) { toast.error(t.checkout_page.enter_vehicle_type); return false }
       if (!departureFrom.trim()) { toast.error(t.checkout_page.enter_departure_place); return false }
-    }
-    if (participationType === 'join' && !selectedRideId) {
-      toast.error(t.checkout_page.select_shared_ride); return false
     }
     return true
   }
@@ -280,7 +285,12 @@ export default function CheckoutPage() {
             <form
               onSubmit={handleSubmit(() => {
                 if (!validateCarpoolFields()) return
+                toast.success(emailsMatchMessage)
                 setStep(1)
+              }, (formErrors) => {
+                if (formErrors.confirmEmail?.message === emailsMismatchMessage) {
+                  toast.error(emailsMismatchMessage)
+                }
               })}
               className="space-y-5"
             >
@@ -340,6 +350,9 @@ export default function CheckoutPage() {
                       {!ridesLoading && rides.length === 0 && (
                         <p className="text-sm text-white/40">{t.checkout_page.no_shared_rides}</p>
                       )}
+                      {!ridesLoading && !selectedRideId && (
+                        <p className="text-sm text-green-300/80">{t.checkout_page.transport_request_saved}</p>
+                      )}
                       {!ridesLoading && rides.map((ride) => {
                         const seats = ride.seatsAvailable - ride.passengersCount
                         const full = seats <= 0
@@ -386,6 +399,18 @@ export default function CheckoutPage() {
                 <label className={labelCls}>{t.checkout_page.email}</label>
                 <input {...register('email')} type="email" className={inputCls} />
                 {errors.email && <p className="text-xs text-red-400 mt-1">{errors.email.message}</p>}
+              </div>
+              <div>
+                <label className={labelCls}>{confirmEmailLabel}</label>
+                <input
+                  {...register('confirmEmail')}
+                  type="email"
+                  autoComplete="off"
+                  onPaste={(event) => { event.preventDefault(); toast.error(typeEmailManuallyMessage) }}
+                  onDrop={(event) => { event.preventDefault(); toast.error(typeEmailManuallyMessage) }}
+                  className={inputCls}
+                />
+                {errors.confirmEmail && <p className="text-xs text-red-400 mt-1">{errors.confirmEmail.message}</p>}
               </div>
               <div>
                 <label className={labelCls}>{t.checkout_page.phone}</label>

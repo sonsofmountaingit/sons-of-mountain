@@ -74,7 +74,7 @@ async function ProductContent({ params }: { params: Promise<{ slug: string }> })
     description: (product as any).description ?? undefined,
     offers: {
       '@type': 'Offer',
-      priceCurrency: 'BGN',
+      priceCurrency: 'EUR',
       price: (product as any).price ?? 0,
       availability: 'https://schema.org/InStock',
       seller: { '@type': 'Organization', name: 'Sons of Mountains' },

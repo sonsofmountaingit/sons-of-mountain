@@ -12,16 +12,31 @@ export async function GET(req: NextRequest) {
 
     const payload = await getPayload({ config })
 
-    const where: Where = { status: { equals: 'open' } }
-    if (tripId) where['trip'] = { equals: tripId }
-    else if (destinationId) where['destination'] = { equals: destinationId }
-    else if (programId) where['program'] = { equals: programId }
+    // Rides should normally be linked to the trip/program/destination in Payload.
+    // Also include admin-created rides with no link yet, so they do not disappear
+    // from checkout simply because the admin has not selected the related trip.
+    const relation = tripId ? 'trip' : destinationId ? 'destination' : programId ? 'program' : null
+    const relationId = tripId ?? destinationId ?? programId
+    const where: Where = relation && relationId
+      ? {
+          and: [
+            { status: { equals: 'open' } },
+            {
+              or: [
+                { [relation]: { equals: relationId } },
+                { [relation]: { exists: false } },
+              ],
+            },
+          ],
+        }
+      : { status: { equals: 'open' } }
 
     const result = await payload.find({
       collection: 'carpool-rides',
       where,
       limit: 50,
       depth: 0,
+      overrideAccess: true,
     })
 
     const rides = result.docs.map((r: any) => ({

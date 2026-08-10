@@ -4,6 +4,7 @@ import config from '@payload-config'
 import type { CartItem } from '@/lib/cart-store'
 import { getDynamicPrice, getPriceBreakdown } from '@/lib/pricing/dynamic'
 import { isBookingDeadlinePassed } from '@/lib/booking-deadline'
+import { isTravelBookable } from '@/lib/travel-status'
 
 export async function POST(req: NextRequest) {
   try {
@@ -17,7 +18,11 @@ export async function POST(req: NextRequest) {
       if (item.type === 'trip' && item.tripId) {
         const trip = await payload.findByID({ collection: 'trips', id: item.tripId }).catch(() => null)
         if (!trip) { validated.push({ ...item, outOfStock: true, warning: 'Trip not found' }); continue }
-        if (trip.status === 'soldOut' || trip.spotsAvailable < item.quantity) {
+        if (!isTravelBookable(trip as any)) {
+          validated.push({ ...item, outOfStock: true, warning: 'This trip is no longer available' })
+          continue
+        }
+        if (trip.spotsAvailable < item.quantity) {
           validated.push({ ...item, outOfStock: true, warning: `Only ${trip.spotsAvailable} spots left` })
           continue
         }
@@ -32,7 +37,11 @@ export async function POST(req: NextRequest) {
       } else if (item.type === 'program' && item.programId) {
         const program = await payload.findByID({ collection: 'programs', id: item.programId }).catch(() => null)
         if (!program) { validated.push({ ...item, outOfStock: true, warning: 'Program not found' }); continue }
-        if (program.status === 'Sold Out' || program.spotsAvailable < item.quantity) {
+        if (!isTravelBookable(program as any)) {
+          validated.push({ ...item, outOfStock: true, warning: 'This program is no longer available' })
+          continue
+        }
+        if (program.spotsAvailable < item.quantity) {
           validated.push({ ...item, outOfStock: true, warning: `Only ${program.spotsAvailable} spots left` })
           continue
         }

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { formatPriceParts } from '@/lib/currency'
+import { formatPrice } from '@/lib/currency'
 import { WaitlistFormModal, type WaitlistItemType } from '@/components/forms/WaitlistFormModal'
 import { useTranslations } from '@/lib/use-translations'
 import { getSpotsLabel, isSpotsLow } from '@/lib/spots'
@@ -98,8 +98,8 @@ export function FloatingBookingBar({
     ? formatDate(startDate)
     : null
 
-  const priceParts = formatPriceParts(price)
-  const earlyBirdParts = earlyBirdPrice != null ? formatPriceParts(earlyBirdPrice) : null
+  const priceDisplay = formatPrice(price)
+  const earlyBirdDisplay = earlyBirdPrice != null ? formatPrice(earlyBirdPrice) : null
 
   return (
     <div
@@ -159,19 +159,15 @@ export function FloatingBookingBar({
           <>
             <div className="w-px h-4 bg-white/15 shrink-0" />
             <span className="flex flex-col items-start leading-tight shrink-0">
-              {isEarlyBird && earlyBirdParts ? (
+              {isEarlyBird && earlyBirdDisplay ? (
                 <>
                   <span className="flex items-baseline gap-1 text-amber-400 font-bold text-[10px] sm:text-xs whitespace-nowrap">
-                    <span>{earlyBirdParts.eur}</span>
-                    <span className="text-white/40 line-through font-normal text-[9px] sm:text-[10px]">{priceParts.eur}</span>
+                    <span>{earlyBirdDisplay}</span>
+                    <span className="text-white/40 line-through font-normal text-[9px] sm:text-[10px]">{priceDisplay}</span>
                   </span>
-                  <span className="text-white/50 font-normal text-[9px] sm:text-[10px] whitespace-nowrap">{earlyBirdParts.bgn}</span>
                 </>
               ) : (
-                <>
-                  <span className="text-white font-bold text-[10px] sm:text-xs whitespace-nowrap">{priceParts.eur}</span>
-                  <span className="text-white/50 font-normal text-[9px] sm:text-[10px] whitespace-nowrap">{priceParts.bgn}</span>
-                </>
+                <span className="text-white font-bold text-[10px] sm:text-xs whitespace-nowrap">{priceDisplay}</span>
               )}
               {earlyBirdSpotsLeft != null && (
                 <span className="hidden sm:inline text-amber-400 font-semibold text-[9px] whitespace-nowrap">{earlyBirdSpotsLeft} {earlyBirdSpotsLeft === 1 ? t.destination_page.early_bird_spot_for : t.destination_page.early_bird_spots_for}</span>

@@ -6,6 +6,7 @@ import { syncStripeProduct } from '@/lib/stripe-product-sync'
 import { sendRegistrationFormsFor } from '@/lib/send-registration-forms'
 import { paymentPlanFields } from './shared/paymentPlanFields'
 import { bookingDeadlineField } from './shared/bookingDeadlineField'
+import { hasTravelEnded } from '@/lib/travel-status'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const revalidateTag = _revalidateTag
@@ -57,7 +58,7 @@ export const Trips: CollectionConfig = {
     {
       name: 'currency',
       type: 'select',
-      options: ['BGN', 'EUR', 'USD'],
+      options: ['EUR'],
       defaultValue: 'EUR',
       required: true,
       admin: { position: 'sidebar' },
@@ -545,7 +546,7 @@ export const Trips: CollectionConfig = {
       ({ data }: { data: Record<string, unknown> }) => {
         const endDate = data.endDate as string | null
         if (!endDate || data.status === 'draft') return data
-        const isPast = new Date(endDate) < new Date()
+        const isPast = hasTravelEnded(endDate)
         if (isPast && data.status !== 'archived') {
           data.status = 'archived'
         } else if (!isPast && data.status === 'archived') {

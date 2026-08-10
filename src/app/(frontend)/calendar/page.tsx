@@ -18,6 +18,7 @@ import { Suspense } from 'react'
 import { unstable_cache } from 'next/cache'
 import { CalendarHeroBlock } from '@/components/blocks/calendar/CalendarHeroBlock'
 import { buildStaticMetadata } from '@/lib/metadata'
+import { hasTravelEnded } from '@/lib/travel-status'
 
 export const dynamic = 'force-dynamic'
 
@@ -120,6 +121,7 @@ const fetchCalendarData = unstable_cache(
 
   for (const trip of tripsRes.docs as TripDoc[]) {
     if (!trip.startDate) continue
+    if (hasTravelEnded(trip.endDate ?? trip.startDate)) trip.status = 'archived'
     const heroImg = trip.heroImage && typeof trip.heroImage === 'object' ? trip.heroImage : null
     items.push({
       id: trip.id,
@@ -143,6 +145,7 @@ const fetchCalendarData = unstable_cache(
 
   for (const prog of programsRes.docs as ProgramDoc[]) {
     if (!prog.startDate) continue
+    if (hasTravelEnded(prog.endDate ?? prog.startDate)) prog.status = 'archived'
     const heroImg = prog.heroImage && typeof prog.heroImage === 'object' ? prog.heroImage : null
     items.push({
       id: prog.id,

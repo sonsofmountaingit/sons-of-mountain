@@ -6,6 +6,7 @@ import { mediaUrl } from '@/lib/media-url'
 import { FeaturedTravelsBlock, type FeaturedTravelItem } from '@/components/blocks/featured-travels/FeaturedTravelsBlock'
 import { FeaturedTravelsEditButton } from './FeaturedTravelsEditButton'
 import { translations, type Language } from '@/lib/translations'
+import { hasTravelEnded } from '@/lib/travel-status'
 
 interface FeaturedTravelsGlobal {
   heading?: string
@@ -85,6 +86,7 @@ const getData = unstable_cache(async () => {
       if (kind === 'trips') {
         const startDate = typeof doc.startDate === 'string' ? doc.startDate : null
         const endDate = typeof doc.endDate === 'string' ? doc.endDate : null
+        if (doc.status === 'archived' || hasTravelEnded(endDate)) return null
         return {
           id: `trip-${doc.id}`,
           kind: 'trip' as const,
@@ -105,6 +107,7 @@ const getData = unstable_cache(async () => {
       if (kind === 'programs') {
         const startDate = typeof doc.startDate === 'string' ? doc.startDate : null
         const endDate = typeof doc.endDate === 'string' ? doc.endDate : null
+        if (doc.status === 'archived' || hasTravelEnded(endDate)) return null
         return {
           id: `program-${doc.id}`,
           kind: 'program' as const,

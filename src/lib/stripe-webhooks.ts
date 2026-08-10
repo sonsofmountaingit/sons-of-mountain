@@ -399,6 +399,67 @@ async function generateInvoice(
   } catch {}
 }
 
+export async function decrementOrderItemsSpotsAndStock(payload: BasePayload, items: any[]) {
+  for (const item of items ?? []) {
+    if (item.itemType === 'trip' && item.trip) {
+      const tId = typeof item.trip === 'string' ? item.trip : item.trip.id
+      const trip = await payload.findByID({ collection: 'trips', id: tId }).catch(() => null)
+      if (trip) {
+        const participantCount = item.quantity ?? item.participantCount ?? 1
+        const newSpots = Math.max(0, (trip as any).spotsAvailable - participantCount)
+        const earlyBirdDecrement = item.earlyBirdCount ?? Math.min(participantCount, (trip as any).earlyBirdSpotsRemaining ?? 0)
+        const newEarlyBirdSpots = Math.max(0, ((trip as any).earlyBirdSpotsRemaining ?? 0) - earlyBirdDecrement)
+        await payload.update({ collection: 'trips', id: tId, data: { spotsAvailable: newSpots, earlyBirdSpotsRemaining: newEarlyBirdSpots, status: newSpots === 0 ? 'soldOut' : 'active' } })
+        if (newSpots > 0) await notifyWaitlist(payload, 'trip', tId)
+      }
+    }
+    if (item.itemType === 'product' && item.product) {
+      const pId = typeof item.product === 'string' ? item.product : item.product.id
+      const product = await payload.findByID({ collection: 'products', id: pId }).catch(() => null)
+      if (product) {
+        if (item.variantId) {
+          const variants = ((product as any).variants ?? []).map((v: any) =>
+            v.id === item.variantId ? { ...v, stock: Math.max(0, v.stock - item.quantity) } : v
+          )
+          await payload.update({ collection: 'products', id: pId, data: { variants } })
+        } else {
+          await payload.update({ collection: 'products', id: pId, data: { stock: Math.max(0, (product as any).stock - item.quantity) } })
+        }
+      }
+    }
+    if (item.itemType === 'program' && item.program) {
+      const pgId = typeof item.program === 'string' ? item.program : item.program.id
+      const program = await payload.findByID({ collection: 'programs', id: pgId }).catch(() => null)
+      if (program) {
+        const participantCount = item.quantity ?? item.participantCount ?? 1
+        const newSpots = Math.max(0, (program as any).spotsAvailable - participantCount)
+        const earlyBirdDecrement = item.earlyBirdCount ?? Math.min(participantCount, (program as any).earlyBirdSpotsRemaining ?? 0)
+        const newEarlyBirdSpots = Math.max(0, ((program as any).earlyBirdSpotsRemaining ?? 0) - earlyBirdDecrement)
+        await payload.update({ collection: 'programs', id: pgId, data: { spotsAvailable: newSpots, earlyBirdSpotsRemaining: newEarlyBirdSpots, status: newSpots === 0 ? 'Sold Out' : 'Active' } })
+      }
+    }
+    if (item.itemType === 'destination' && item.destination) {
+      const dId = typeof item.destination === 'string' ? item.destination : item.destination.id
+      const destination = await payload.findByID({ collection: 'destinations', id: dId }).catch(() => null)
+      if (destination) {
+        const participantCount = item.quantity ?? item.participantCount ?? 1
+        const newSpots = Math.max(0, (destination as any).spotsAvailable - participantCount)
+        const earlyBirdDecrement = item.earlyBirdCount ?? Math.min(participantCount, (destination as any).earlyBirdSpotsRemaining ?? 0)
+        const newEarlyBirdSpots = Math.max(0, ((destination as any).earlyBirdSpotsRemaining ?? 0) - earlyBirdDecrement)
+        await payload.update({ collection: 'destinations', id: dId, data: { spotsAvailable: newSpots, earlyBirdSpotsRemaining: newEarlyBirdSpots, bookingStatus: newSpots === 0 ? 'soldOut' : 'active' } })
+        if (newSpots > 0) await notifyWaitlist(payload, 'destination', dId)
+      }
+    }
+    if (item.itemType === 'bundle' && item.bundle) {
+      const bId = typeof item.bundle === 'string' ? item.bundle : item.bundle.id
+      const bundle = await payload.findByID({ collection: 'bundles', id: bId }).catch(() => null)
+      if (bundle) {
+        await payload.update({ collection: 'bundles', id: bId, data: { usedCount: ((bundle as any).usedCount ?? 0) + 1 } })
+      }
+    }
+  }
+}
+
 export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, payload: BasePayload) {
   const stripe = await getStripe()
   const meta = session.metadata ?? {}
@@ -473,65 +534,8 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
       } catch {}
     }
 
-    // Decrement stock
-    for (const item of ((order as any).items ?? []) as any[]) {
-      if (item.itemType === 'trip' && item.trip) {
-        const tId = typeof item.trip === 'string' ? item.trip : item.trip.id
-        const trip = await payload.findByID({ collection: 'trips', id: tId }).catch(() => null)
-        if (trip) {
-          const participantCount = item.quantity ?? item.participantCount ?? 1
-          const newSpots = Math.max(0, (trip as any).spotsAvailable - participantCount)
-          const earlyBirdDecrement = item.earlyBirdCount ?? Math.min(participantCount, (trip as any).earlyBirdSpotsRemaining ?? 0)
-          const newEarlyBirdSpots = Math.max(0, ((trip as any).earlyBirdSpotsRemaining ?? 0) - earlyBirdDecrement)
-          await payload.update({ collection: 'trips', id: tId, data: { spotsAvailable: newSpots, earlyBirdSpotsRemaining: newEarlyBirdSpots, status: newSpots === 0 ? 'soldOut' : 'active' } })
-          if (newSpots > 0) await notifyWaitlist(payload, 'trip', tId)
-        }
-      }
-      if (item.itemType === 'product' && item.product) {
-        const pId = typeof item.product === 'string' ? item.product : item.product.id
-        const product = await payload.findByID({ collection: 'products', id: pId }).catch(() => null)
-        if (product) {
-          if (item.variantId) {
-            const variants = ((product as any).variants ?? []).map((v: any) =>
-              v.id === item.variantId ? { ...v, stock: Math.max(0, v.stock - item.quantity) } : v
-            )
-            await payload.update({ collection: 'products', id: pId, data: { variants } })
-          } else {
-            await payload.update({ collection: 'products', id: pId, data: { stock: Math.max(0, (product as any).stock - item.quantity) } })
-          }
-        }
-      }
-      if (item.itemType === 'program' && item.program) {
-        const pgId = typeof item.program === 'string' ? item.program : item.program.id
-        const program = await payload.findByID({ collection: 'programs', id: pgId }).catch(() => null)
-        if (program) {
-          const participantCount = item.quantity ?? item.participantCount ?? 1
-          const newSpots = Math.max(0, (program as any).spotsAvailable - participantCount)
-          const earlyBirdDecrement = item.earlyBirdCount ?? Math.min(participantCount, (program as any).earlyBirdSpotsRemaining ?? 0)
-          const newEarlyBirdSpots = Math.max(0, ((program as any).earlyBirdSpotsRemaining ?? 0) - earlyBirdDecrement)
-          await payload.update({ collection: 'programs', id: pgId, data: { spotsAvailable: newSpots, earlyBirdSpotsRemaining: newEarlyBirdSpots, status: newSpots === 0 ? 'Sold Out' : 'Active' } })
-        }
-      }
-      if (item.itemType === 'destination' && item.destination) {
-        const dId = typeof item.destination === 'string' ? item.destination : item.destination.id
-        const destination = await payload.findByID({ collection: 'destinations', id: dId }).catch(() => null)
-        if (destination) {
-          const participantCount = item.quantity ?? item.participantCount ?? 1
-          const newSpots = Math.max(0, (destination as any).spotsAvailable - participantCount)
-          const earlyBirdDecrement = item.earlyBirdCount ?? Math.min(participantCount, (destination as any).earlyBirdSpotsRemaining ?? 0)
-          const newEarlyBirdSpots = Math.max(0, ((destination as any).earlyBirdSpotsRemaining ?? 0) - earlyBirdDecrement)
-          await payload.update({ collection: 'destinations', id: dId, data: { spotsAvailable: newSpots, earlyBirdSpotsRemaining: newEarlyBirdSpots, bookingStatus: newSpots === 0 ? 'soldOut' : 'active' } })
-          if (newSpots > 0) await notifyWaitlist(payload, 'destination', dId)
-        }
-      }
-      if (item.itemType === 'bundle' && item.bundle) {
-        const bId = typeof item.bundle === 'string' ? item.bundle : item.bundle.id
-        const bundle = await payload.findByID({ collection: 'bundles', id: bId }).catch(() => null)
-        if (bundle) {
-          await payload.update({ collection: 'bundles', id: bId, data: { usedCount: ((bundle as any).usedCount ?? 0) + 1 } })
-        }
-      }
-    }
+    // Spots/stock decrement runs in Orders collection afterChange hook (decrementSpotsOnPaid)
+    // so it fires exactly once regardless of which code path marks the order 'paid'.
 
     // Mark discount code used
     if (discountCodeId) {
@@ -746,7 +750,18 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
       } catch {}
     }
   } else if (type === 'order') {
+    const existingOrder = await payload.findByID({ collection: 'orders', id, depth: 2 }).catch(() => null)
+    if (!existingOrder) return
+    if ((existingOrder as any).status === 'paid') return
+    // Spots/stock decrement runs in Orders collection afterChange hook (decrementSpotsOnPaid).
     await payload.update({ collection: 'orders', id, data: { status: 'paid', paidAt: new Date().toISOString(), scaVerified } as any })
+    if ((existingOrder as any).discountCode) {
+      const dcId = typeof (existingOrder as any).discountCode === 'string' ? (existingOrder as any).discountCode : (existingOrder as any).discountCode?.id
+      const dc = await payload.findByID({ collection: 'discount-codes', id: dcId }).catch(() => null)
+      if (dc) {
+        await payload.update({ collection: 'discount-codes', id: dcId, data: { usedCount: ((dc as any).usedCount ?? 0) + 1 } as any })
+      }
+    }
     await generateInvoice(payload, stripe, session, 'orders', id)
   } else if (type === 'voucher') {
     await payload.update({ collection: 'gift-vouchers', id, data: { paidAt: new Date().toISOString(), status: 'active' } })

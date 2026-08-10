@@ -1,6 +1,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { mediaUrl } from '@/lib/media-url'
+import { hasTravelEnded } from '@/lib/travel-status'
 
 const BG_MONTHS = ['Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември']
 
@@ -53,6 +54,7 @@ export async function GET() {
     }
 
     if (kind === 'trips') {
+      if (doc.status === 'archived' || hasTravelEnded(doc.endDate)) return null
       const dest = doc.destination as any
       const image = dest?.heroImage?.url ? mediaUrl(dest.heroImage.url) : null
       return {
@@ -73,6 +75,7 @@ export async function GET() {
     }
 
     if (kind === 'programs') {
+      if (doc.status === 'archived' || hasTravelEnded(doc.endDate)) return null
       const image = doc.heroImage?.url ? mediaUrl(doc.heroImage.url) : null
       return {
         id: doc.id,

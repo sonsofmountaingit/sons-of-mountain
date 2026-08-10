@@ -29,7 +29,7 @@ export function WishlistClient({ wishlist: initial }: { wishlist: unknown[] }) {
   if (items.length === 0) {
     return (
       <div className="py-20 text-center text-white/30">
-        <p className="text-lg">Нямате запазени любими.</p>
+        <p className="text-lg">Нямате запазени любими предложения.</p>
         <Link href="/calendar" className="mt-4 inline-block text-sm underline text-white/50 hover:text-white">
           Разгледай календара
         </Link>

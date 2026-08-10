@@ -2,16 +2,16 @@ import Link from 'next/link'
 
 const CONTENT = {
   media: {
-    heading: 'Share your memories',
-    body: 'Uploading photos and videos is only available for participants in our programs. Register for a destination or trip and after confirmation you can share your moments with the community.',
-    cta1: { label: 'VIEW DESTINATIONS', href: '/destinations' },
-    cta2: { label: 'VIEW PROGRAMS', href: '/calendar' },
+    heading: 'Сподели своите спомени',
+    body: 'Качването на снимки и видеа е достъпно само за участници в нашите програми. Регистрирай се за дестинация или пътуване и след потвърждение ще можеш да споделиш своите моменти с общността.',
+    cta1: { label: 'ВИЖ ДЕСТИНАЦИИТЕ', href: '/destinations' },
+    cta2: { label: 'ВИЖ ПРОГРАМИТЕ', href: '/calendar' },
   },
   ratings: {
-    heading: 'Your experience matters',
-    body: 'Ratings are only available for people who have experienced our adventures. Register for a destination or program — after confirmation you can share your impressions and help others.',
-    cta1: { label: 'VIEW DESTINATIONS', href: '/destinations' },
-    cta2: { label: 'VIEW PROGRAMS', href: '/calendar' },
+    heading: 'Твоето мнение има значение',
+    body: 'Оценките са достъпни само за хора, които са преживели нашите приключения. Регистрирай се за дестинация или програма и след потвърждение ще можеш да споделиш впечатленията си и да помогнеш на другите.',
+    cta1: { label: 'ВИЖ ДЕСТИНАЦИИТЕ', href: '/destinations' },
+    cta2: { label: 'ВИЖ ПРОГРАМИТЕ', href: '/calendar' },
   },
 }
 
@@ -41,9 +41,9 @@ export function NoRegistrationGate({ type }: { type: 'media' | 'ratings' }) {
       </div>
 
       <p className="text-xs text-white/25 mt-8 leading-relaxed">
-        Already have a registration? It may be in &quot;pending confirmation&quot; status.{' '}
+        Вече имаш регистрация? Възможно е тя да е със статус „чака потвърждение“.{' '}
         <Link href="/dashboard/registrations" className="text-white/40 hover:text-white/70 transition-colors underline underline-offset-2">
-          View your registrations
+          Виж своите регистрации
         </Link>
         .
       </p>

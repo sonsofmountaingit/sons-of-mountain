@@ -230,14 +230,7 @@ export const Customers: CollectionConfig = {
     {
       name: 'displayCurrency',
       type: 'select',
-      options: [
-        { label: 'EUR (€)', value: 'eur' },
-        { label: 'USD ($)', value: 'usd' },
-        { label: 'GBP (£)', value: 'gbp' },
-        { label: 'CHF (Fr)', value: 'chf' },
-        { label: 'NOK (kr)', value: 'nok' },
-        { label: 'SEK (kr)', value: 'sek' },
-      ],
+      options: [{ label: 'EUR (€)', value: 'eur' }],
       defaultValue: 'eur',
       admin: { description: 'Preferred display currency (checkout always in EUR)', position: 'sidebar' },
     },

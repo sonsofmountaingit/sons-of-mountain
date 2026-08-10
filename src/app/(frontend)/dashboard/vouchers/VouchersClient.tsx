@@ -18,7 +18,7 @@ const STATUS_MAP: Record<string, { label: string; color: string }> = {
   active: { label: 'Активен', color: 'text-green-400' },
   redeemed: { label: 'Използван', color: 'text-white/30' },
   expired: { label: 'Изтекъл', color: 'text-white/30' },
-  cancelled: { label: 'Cancelled', color: 'text-red-400' },
+  cancelled: { label: 'Отменен', color: 'text-red-400' },
 }
 
 export function VouchersClient({ vouchers }: { vouchers: Voucher[] }) {
@@ -72,7 +72,7 @@ export function VouchersClient({ vouchers }: { vouchers: Voucher[] }) {
       </div>
 
       {vouchers.length === 0 ? (
-        <p className="text-sm text-white/30">You have no vouchers yet.</p>
+        <p className="text-sm text-white/30">Все още нямате ваучери.</p>
       ) : (
         <div ref={listRef} className="flex flex-col gap-3">
           {vouchers.map((v) => {

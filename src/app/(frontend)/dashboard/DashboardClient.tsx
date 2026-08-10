@@ -46,7 +46,7 @@ const STATUS_LABELS: Record<string, string> = {
   pending: 'Чакащ',
   confirmed: 'Потвърден',
   paid: 'Платен',
-  cancelled: 'Cancelled',
+  cancelled: 'Отменен',
   refunded: 'Върнат',
   active: 'Активен',
   redeemed: 'Използван',
@@ -113,13 +113,13 @@ export function DashboardClient({ name, email, registrations, orders, vouchers, 
           </>
         ) : (
           <div className="sm:col-span-2 border border-white/10 rounded-sm p-6">
-            <p className="text-xs tracking-widest text-white/30 uppercase mb-2">Unlock more features</p>
+            <p className="text-xs tracking-widest text-white/30 uppercase mb-2">Отключи още възможности</p>
             <p className="text-sm text-white/60 leading-relaxed mb-4">
-              Register for a destination, trip, or custom program — after confirmation you can upload photos, videos, and leave ratings.
+              Регистрирай се за дестинация, пътуване или персонализирана програма — след потвърждение ще можеш да качваш снимки и видеа и да оставяш оценки.
             </p>
             <div className="flex gap-3 flex-wrap">
-              <a href="/destinations" className="text-xs tracking-widest border border-white/20 text-white/60 hover:text-white hover:border-white/40 transition-colors px-4 py-2 rounded-sm">DESTINATIONS</a>
-              <a href="/calendar" className="text-xs tracking-widest bg-white text-black hover:bg-white/90 transition-colors px-4 py-2 rounded-sm">CALENDAR</a>
+              <a href="/destinations" className="text-xs tracking-widest border border-white/20 text-white/60 hover:text-white hover:border-white/40 transition-colors px-4 py-2 rounded-sm">ДЕСТИНАЦИИ</a>
+              <a href="/calendar" className="text-xs tracking-widest bg-white text-black hover:bg-white/90 transition-colors px-4 py-2 rounded-sm">КАЛЕНДАР</a>
             </div>
           </div>
         )}

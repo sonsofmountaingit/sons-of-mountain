@@ -114,7 +114,7 @@ export function RatingsClient({ initialRatings, destinations, trips }: Props) {
 
       {ratings.length === 0 ? (
         <div className="border border-white/10 rounded-sm py-24 flex flex-col items-center gap-4 text-center">
-          <p className="text-white/30 text-sm tracking-wider">You have no ratings yet.</p>
+          <p className="text-white/30 text-sm tracking-wider">Все още нямате оценки.</p>
           <button
             onClick={() => setModalOpen(true)}
             className="text-xs text-white/50 hover:text-white transition-colors border border-white/15 px-4 py-2 rounded-sm"
@@ -150,7 +150,7 @@ export function RatingsClient({ initialRatings, destinations, trips }: Props) {
 
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-white/40 tracking-widest">DESTINATION</label>
+                <label className="text-xs text-white/40 tracking-widest">ДЕСТИНАЦИЯ</label>
                 <select
                   value={form.destinationId}
                   onChange={(e) => setForm((f) => ({ ...f, destinationId: e.target.value, tripId: '' }))}

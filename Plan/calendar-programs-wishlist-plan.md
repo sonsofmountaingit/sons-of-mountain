@@ -34,7 +34,7 @@ Individual programs are distinct from Destinations (geography) and Trips (group 
 - `spotsTotal` (number, default 12)
 - `spotsAvailable` (number, default 12)
 - `price` (number, required)
-- `currency` (select: BGN/EUR/USD, default EUR)
+- `currency` (select: EUR, default EUR)
 - `depositAmount` (number)
 - `tags` (array of select: Singles Only, Family, Couples, Photography, Yoga, Ski, Sailing)
 - `included` (array: item text — what's included)
@@ -333,6 +333,6 @@ export const metadata: Metadata = {
 - Live availability via WebSocket / SSE
 - "Само 2 места — 3 души гледат" combined urgency message
 - Trip preview drawer (open inline without leaving calendar)
-- Multi-currency toggle (BGN / EUR)
+- EUR-only pricing
 - Gamification: loyalty points per trip booked
 - AI trip suggestions: natural language filter box

@@ -207,7 +207,8 @@ export const Registrations: CollectionConfig = {
     },
     {
       name: 'currency',
-      type: 'text',
+      type: 'select',
+      options: ['EUR'],
       defaultValue: 'EUR',
     },
     {

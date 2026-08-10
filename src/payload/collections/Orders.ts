@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { orderEmailFlows } from '../hooks/emailFlowTriggers'
+import { decrementSpotsOnPaid } from '../hooks/decrementSpotsOnPaid'
 
 export const Orders: CollectionConfig = {
   slug: 'orders',
@@ -20,7 +21,16 @@ export const Orders: CollectionConfig = {
     group: 'Shop',
   },
   hooks: {
-    afterChange: [orderEmailFlows],
+    beforeChange: [
+      ({ data, originalDoc }) => {
+        const items = data.items ?? originalDoc?.items
+        if (data.status === 'paid' && originalDoc?.status !== 'paid' && !(items?.length > 0) && !data.bundle && !originalDoc?.bundle) {
+          throw new Error('Cannot mark an order as paid with no items — add a trip/program/destination/product/bundle line item first.')
+        }
+        return data
+      },
+    ],
+    afterChange: [orderEmailFlows, decrementSpotsOnPaid],
   },
   fields: [
     {
@@ -559,7 +569,8 @@ export const Orders: CollectionConfig = {
     },
     {
       name: 'currency',
-      type: 'text',
+      type: 'select',
+      options: ['EUR'],
       defaultValue: 'EUR',
     },
     {

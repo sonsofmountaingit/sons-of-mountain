@@ -30,7 +30,7 @@ interface Props {
 const STATUS_LABELS: Record<string, string> = {
   pending: 'Чакащо одобрение',
   approved: 'Одобрено',
-  rejected: 'Rejected',
+  rejected: 'Отхвърлено',
 }
 
 const STATUS_COLORS: Record<string, string> = {
@@ -100,13 +100,13 @@ export function MediaClient({ initialMedia, destinations, trips }: Props) {
         } else {
           try {
             const err = JSON.parse(xhr.responseText)
-            reject(new Error(err.error ?? 'Upload failed'))
+            reject(new Error(err.error ?? 'Качването не бе успешно'))
           } catch {
-            reject(new Error('Upload failed'))
+            reject(new Error('Качването не бе успешно'))
           }
         }
       }
-      xhr.onerror = () => reject(new Error('Network error'))
+      xhr.onerror = () => reject(new Error('Грешка в мрежата'))
       xhr.send(fd)
     }).catch((e: Error) => {
       setError(e.message)
@@ -148,7 +148,7 @@ export function MediaClient({ initialMedia, destinations, trips }: Props) {
 
       {media.length === 0 ? (
         <div className="border border-white/10 rounded-sm py-24 flex flex-col items-center gap-4 text-center">
-          <p className="text-white/30 text-sm tracking-wider">You have no uploaded photos или видеа.</p>
+          <p className="text-white/30 text-sm tracking-wider">Все още нямаш качени снимки или видеа.</p>
           <button
             onClick={() => setModalOpen(true)}
             className="text-xs text-white/50 hover:text-white transition-colors border border-white/15 px-4 py-2 rounded-sm"
@@ -239,7 +239,7 @@ export function MediaClient({ initialMedia, destinations, trips }: Props) {
 
             <div className="mt-5 grid grid-cols-2 gap-3">
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-white/40 tracking-widest">DESTINATION</label>
+                <label className="text-xs text-white/40 tracking-widest">ДЕСТИНАЦИЯ</label>
                 <select
                   value={form.destinationId}
                   onChange={(e) => setForm((f) => ({ ...f, destinationId: e.target.value, tripId: '' }))}
@@ -297,7 +297,7 @@ export function MediaClient({ initialMedia, destinations, trips }: Props) {
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs text-white/40 tracking-widest">TITLE</label>
+                  <label className="text-xs text-white/40 tracking-widest">ЗАГЛАВИЕ</label>
                   <input
                     type="text"
                     value={form.seoTitle}

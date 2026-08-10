@@ -93,7 +93,7 @@ export function GalleryDashboardClient() {
 
           {!loading && collections.length === 0 && (
             <div className="border border-white/10 rounded-sm p-10 text-center">
-              <p className="text-white/30 text-sm mb-4">You have no published galleries</p>
+              <p className="text-white/30 text-sm mb-4">Все още нямате публикувани галерии.</p>
               <button onClick={openCreate} className="text-xs tracking-widest text-white/50 hover:text-white transition-colors underline">
                 Създай първата
               </button>
@@ -251,7 +251,7 @@ function CollectionEditor({ collection, onSaved, onCancel }: EditorProps) {
   async function save(e: React.FormEvent) {
     e.preventDefault()
     if (!title.trim()) { setMessage('Заглавието е задължително'); return }
-    if (!slug.trim()) { setMessage('Slug-ът е задължителен'); return }
+    if (!slug.trim()) { setMessage('URL идентификаторът е задължителен'); return }
     if (!coverMediaId) { setMessage('Добави корица'); return }
 
     setSaving(true)
@@ -326,7 +326,7 @@ function CollectionEditor({ collection, onSaved, onCancel }: EditorProps) {
 
         {/* Slug */}
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs tracking-widest text-white/50 uppercase">URL Slug *</label>
+          <label className="text-xs tracking-widest text-white/50 uppercase">URL идентификатор *</label>
           <div className="flex items-center">
             <span className="text-white/30 text-sm px-3 py-3 border border-r-0 border-white/10 rounded-l-sm bg-white/5">/gallery/</span>
             <input

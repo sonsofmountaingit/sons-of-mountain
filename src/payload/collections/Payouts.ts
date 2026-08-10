@@ -34,7 +34,8 @@ export const Payouts: CollectionConfig = {
     },
     {
       name: 'currency',
-      type: 'text',
+      type: 'select',
+      options: ['EUR'],
       defaultValue: 'EUR',
     },
     {

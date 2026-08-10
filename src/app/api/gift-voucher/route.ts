@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
       html: `
         <p><strong>От:</strong> ${buyerName} (${buyerEmail})</p>
         <p><strong>За:</strong> ${recipientName}</p>
-        <p><strong>Стойност:</strong> ${amount} лв.</p>
+        <p><strong>Стойност:</strong> €${amount}</p>
         ${preferredDestinations ? `<p><strong>Предпочитани дестинации:</strong> ${preferredDestinations}</p>` : ''}
         ${message ? `<p><strong>Съобщение:</strong> ${message}</p>` : ''}
       `,
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
       subject: 'Заявката ти за ваучер е получена — Sons of Mountains',
       html: `
         <p>Здравей, ${buyerName}!</p>
-        <p>Получихме заявката ти за подаръчен ваучер на стойност <strong>${amount} лв.</strong></p>
+        <p>Получихме заявката ти за подаръчен ваучер на стойност <strong>€${amount}</strong></p>
         <p>Ще се свържем с теб с банкова информация за плащане.</p>
         <br/>
         <p>С уважение,<br/>Sons of Mountains</p>

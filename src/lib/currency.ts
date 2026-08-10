@@ -1,13 +1,4 @@
-export const EUR_TO_BGN = 1.95583
-
 export function formatPrice(amountEur: number, opts?: { decimals?: number }): string {
   const decimals = opts?.decimals ?? 2
-  const bgn = amountEur * EUR_TO_BGN
-  return `€${amountEur.toFixed(decimals)} | ${bgn.toFixed(decimals)} лв.`
-}
-
-export function formatPriceParts(amountEur: number, opts?: { decimals?: number }): { eur: string; bgn: string } {
-  const decimals = opts?.decimals ?? 2
-  const bgn = amountEur * EUR_TO_BGN
-  return { eur: `€${amountEur.toFixed(decimals)}`, bgn: `${bgn.toFixed(decimals)} лв.` }
+  return `€${amountEur.toFixed(decimals)}`
 }

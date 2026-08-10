@@ -33,7 +33,7 @@ const STATUS_MAP: Record<string, { label: string; color: string }> = {
   pending: { label: 'Чакащ', color: 'text-yellow-400' },
   confirmed: { label: 'Потвърден', color: 'text-blue-400' },
   paid: { label: 'Платен', color: 'text-green-400' },
-  cancelled: { label: 'Cancelled', color: 'text-red-400' },
+  cancelled: { label: 'Отменена', color: 'text-red-400' },
   refunded: { label: 'Върнат', color: 'text-orange-400' },
 }
 
@@ -53,7 +53,7 @@ function NextPayment({ r }: { r: Registration }) {
           <span className="text-xs font-semibold text-white">{formatPrice(r.remainingBalance)}</span>
         </div>
         {r.remainingDueDate && (
-          <p className="text-[11px] text-white/30 mt-1">Date: {new Date(r.remainingDueDate).toLocaleDateString('bg-BG')}</p>
+          <p className="text-[11px] text-white/30 mt-1">Дата: {new Date(r.remainingDueDate).toLocaleDateString('bg-BG')}</p>
         )}
       </div>
     )
@@ -102,7 +102,7 @@ export function RegistrationsClient({ registrations }: { registrations: Registra
       <h1 className="text-2xl font-light tracking-widest mb-10 uppercase">Регистрации</h1>
 
       {registrations.length === 0 ? (
-        <p className="text-sm text-white/30">You have no registrations yet.</p>
+        <p className="text-sm text-white/30">Все още нямате регистрации.</p>
       ) : (
         <div ref={listRef} className="flex flex-col gap-3">
           {registrations.map((r) => {
