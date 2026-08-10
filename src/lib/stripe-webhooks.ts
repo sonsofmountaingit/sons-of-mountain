@@ -244,7 +244,7 @@ function buildOrderConfirmationHtml(p: {
 </div></body></html>`
 }
 
-async function sendOrderConfirmationEmail(payload: BasePayload, orderId: string) {
+export async function sendOrderConfirmationEmail(payload: BasePayload, orderId: string) {
   const order = await payload.findByID({ collection: 'orders', id: orderId, depth: 2 }).catch(() => null)
   if (!order) return
   const o = order as any
@@ -339,7 +339,7 @@ async function sendOrderConfirmationEmail(payload: BasePayload, orderId: string)
   }
 }
 
-async function sendRegistrationConfirmationEmail(payload: BasePayload, registrationId: string) {
+export async function sendRegistrationConfirmationEmail(payload: BasePayload, registrationId: string) {
   const reg = await payload.findByID({ collection: 'registrations', id: registrationId, depth: 2 }).catch(() => null)
   if (!reg) return
   const r = reg as any
@@ -626,11 +626,6 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
     // Generate invoice PDF
     await generateInvoice(payload, stripe, session, 'orders', orderId)
 
-    // Send booking confirmation email
-    await sendOrderConfirmationEmail(payload, orderId).catch((error) => {
-      console.error(`Order confirmation email failed for order ${orderId}:`, error)
-    })
-
     // Update receipt info
     try {
       if (session.payment_intent) {
@@ -710,10 +705,6 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
     }
     await payload.update({ collection: 'registrations', id, data: updateData as any })
     await generateInvoice(payload, stripe, session, 'registrations', id)
-    await sendRegistrationConfirmationEmail(payload, id).catch((error) => {
-      console.error(`Registration confirmation email failed for registration ${id}:`, error)
-    })
-
     {
       const paidReg = await payload.findByID({ collection: 'registrations', id, depth: 2 }).catch(() => null) as any
       if (paidReg) {

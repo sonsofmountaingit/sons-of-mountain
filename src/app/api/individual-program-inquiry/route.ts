@@ -5,6 +5,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { escapeHtml } from '@/lib/escape-html'
 import { isRateLimited } from '@/lib/rate-limit'
+import { createEmailLog } from '@/lib/email-logger'
 
 const schema = z.object({
   name: z.string().trim().min(2).max(100),
@@ -49,10 +50,11 @@ export async function POST(req: NextRequest) {
     })
 
     let emailSent = false
+    const from = `Sons of Mountains — Индивидуални програми <${process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com'}>`
     try {
       const resend = new Resend(process.env.RESEND_API_KEY ?? 'placeholder')
-      await resend.emails.send({
-        from: `Sons of Mountains — Индивидуални програми <${process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com'}>`,
+      const adminResult = await resend.emails.send({
+        from,
         to: process.env.ADMIN_NOTIFICATION_EMAIL ?? 'office@sonsofmountain.com',
         replyTo: email,
         subject: `Ново запитване за индивидуална програма — от ${safeName}`,
@@ -65,8 +67,36 @@ export async function POST(req: NextRequest) {
           </ul>
         `,
       })
+      if (adminResult.error) throw new Error(adminResult.error.message)
+
+      const customerSubject = 'Получихме твоето запитване — Sons of Mountains'
+      const customerResult = await resend.emails.send({
+        from,
+        to: email,
+        replyTo: process.env.ADMIN_NOTIFICATION_EMAIL ?? 'office@sonsofmountain.com',
+        subject: customerSubject,
+        html: `<p>Здравей, ${safeName}!</p><p>Получихме твоето запитване за индивидуална програма. Нашият екип ще го прегледа и ще се свърже с теб съвсем скоро.</p><p>Благодарим ти,<br/>Sons of Mountains</p>`,
+      })
+      if (customerResult.error) throw new Error(customerResult.error.message)
+      await createEmailLog(payload, {
+        trigger: 'individual_program_inquiry_confirmation',
+        recipient: email,
+        subject: customerSubject,
+        status: 'sent',
+        resendMessageId: customerResult.data?.id,
+        sentAt: new Date().toISOString(),
+        context: { programInquiryId: String(doc.id) },
+      })
       emailSent = true
     } catch (emailErr) {
+      await createEmailLog(payload, {
+        trigger: 'individual_program_inquiry_confirmation',
+        recipient: email,
+        subject: 'Получихме твоето запитване — Sons of Mountains',
+        status: 'failed',
+        error: emailErr instanceof Error ? emailErr.message : String(emailErr),
+        context: { programInquiryId: String(doc.id) },
+      }).catch(() => {})
       console.error('Program inquiry email error:', emailErr)
     }
 

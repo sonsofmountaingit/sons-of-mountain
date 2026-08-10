@@ -32,11 +32,9 @@ export const registrationEmailFlows: CollectionAfterChangeHook = async ({ doc, p
 
   if (statusChanged(doc, previousDoc, isNew, 'paid')) {
     await upsertSubscriber(req.payload, { email: doc.email, firstName: doc.firstName, lastName: doc.lastName, source: 'booking' })
-    if (doc.paymentMode === 'deposit') {
-      await sendFlow('registration_paid_deposit', recipient, { ...base, depositAmount: doc.depositPaid, remainingBalance: doc.remainingBalance, remainingDueDate: doc.remainingDueDate, invoiceUrl: doc.invoicePdfUrl }, req.payload).catch(() => {})
-    } else {
-      await sendFlow('registration_paid_full', recipient, { ...base, totalAmount: doc.totalAmount, currency: doc.currency, invoiceUrl: doc.invoicePdfUrl, qrToken: doc.qrToken }, req.payload).catch(() => {})
-    }
+    // The canonical receipt is sent by sendPurchaseConfirmation. Do not also
+    // fire optional paid Email Flows, which would give customers duplicate
+    // purchase confirmations.
   }
 
   if (statusChanged(doc, previousDoc, isNew, 'confirmed')) {
@@ -66,11 +64,9 @@ export const orderEmailFlows: CollectionAfterChangeHook = async ({ doc, previous
 
   if (statusChanged(doc, previousDoc, isNew, 'paid')) {
     await upsertSubscriber(req.payload, { email: doc.email, firstName: doc.firstName, source: 'booking' })
-    if (doc.paymentMode === 'deposit') {
-      await sendFlow('order_paid_deposit', recipient, { orderItems, depositAmount: doc.depositPaid, remainingBalance: doc.remainingBalance, remainingDueDate: doc.remainingDueDate }, req.payload).catch(() => {})
-    } else {
-      await sendFlow('order_paid_full', recipient, { orderItems, orderTotal: doc.totalAmount, currency: doc.currency, invoiceUrl: doc.invoicePdfUrl }, req.payload).catch(() => {})
-    }
+    // The canonical receipt is sent by sendPurchaseConfirmation. Do not also
+    // fire optional paid Email Flows, which would give customers duplicate
+    // purchase confirmations.
   }
 
   if (statusChanged(doc, previousDoc, isNew, 'cancelled')) {

@@ -38,6 +38,14 @@ export const Customers: CollectionConfig = {
   auth: {
     tokenExpiration: 7200,
     verify: false,
+    forgotPassword: {
+      generateEmailSubject: () => 'Смяна на парола — Sons of Mountains',
+      generateEmailHTML: ({ token } = {}) => {
+        const baseURL = (process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000').replace(/\/$/, '')
+        const resetURL = `${baseURL}/reset-password?token=${encodeURIComponent(token ?? '')}`
+        return `<p>Получихме заявка за смяна на паролата ти в Sons of Mountains.</p><p><a href="${resetURL}">Задай нова парола</a></p><p>Ако не си поискал/а тази промяна, можеш да игнорираш този имейл.</p>`
+      },
+    },
     cookies: {
       secure: false,
       sameSite: 'Lax',
@@ -100,6 +108,15 @@ export const Customers: CollectionConfig = {
     {
       name: 'phone',
       type: 'text',
+    },
+    {
+      name: 'dateOfBirth',
+      type: 'date',
+      admin: { date: { pickerAppearance: 'dayOnly' } },
+    },
+    {
+      name: 'address',
+      type: 'textarea',
     },
     {
       name: 'preferredLang',

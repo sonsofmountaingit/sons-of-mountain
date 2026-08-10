@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { orderEmailFlows } from '../hooks/emailFlowTriggers'
 import { decrementSpotsOnPaid } from '../hooks/decrementSpotsOnPaid'
+import { sendPurchaseConfirmation } from '../hooks/purchaseConfirmation'
 
 export const Orders: CollectionConfig = {
   slug: 'orders',
@@ -30,7 +31,7 @@ export const Orders: CollectionConfig = {
         return data
       },
     ],
-    afterChange: [orderEmailFlows, decrementSpotsOnPaid],
+    afterChange: [sendPurchaseConfirmation, orderEmailFlows, decrementSpotsOnPaid],
   },
   fields: [
     {

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { Suspense } from 'react'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
@@ -13,17 +12,18 @@ export const metadata: Metadata = {
   robots: { index: false },
 }
 
-async function ProfileContent() {
+export default async function ProfilePage() {
   const payload = await getPayload({ config })
   const { user } = await payload.auth({ headers: await headers() })
-  if (!user || user.collection !== 'users') redirect('/login?redirect=/dashboard/profile')
-  return <ProfileClient name={(user.name as string) ?? ''} email={user.email as string} />
-}
+  if (!user || user.collection !== 'customers') redirect('/login?redirect=/dashboard/profile')
 
-export default function ProfilePage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen bg-black" />}>
-      <ProfileContent />
-    </Suspense>
-  )
+  const customer = await payload.findByID({ collection: 'customers', id: user.id, depth: 0 })
+  return <ProfileClient initialProfile={{
+    name: customer.name ?? '',
+    email: customer.email,
+    phone: customer.phone ?? '',
+    preferredLang: customer.preferredLang ?? 'BG',
+    dateOfBirth: customer.dateOfBirth ? String(customer.dateOfBirth).slice(0, 10) : '',
+    address: customer.address ?? '',
+  }} />
 }

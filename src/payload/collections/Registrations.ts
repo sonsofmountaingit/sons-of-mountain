@@ -3,6 +3,7 @@ import crypto from 'crypto'
 import { syncSpotsAfterChange, syncSpotsAfterDelete } from '../hooks/syncTripSpots'
 import { registrationEmailFlows } from '../hooks/emailFlowTriggers'
 import { manualConfirmPaidBeforeChange } from '../hooks/manualConfirm'
+import { sendPurchaseConfirmation } from '../hooks/purchaseConfirmation'
 
 export const Registrations: CollectionConfig = {
   slug: 'registrations',
@@ -21,7 +22,7 @@ export const Registrations: CollectionConfig = {
       },
       manualConfirmPaidBeforeChange,
     ],
-    afterChange: [syncSpotsAfterChange, registrationEmailFlows],
+    afterChange: [syncSpotsAfterChange, sendPurchaseConfirmation, registrationEmailFlows],
     afterDelete: [syncSpotsAfterDelete],
   },
   fields: [
