@@ -3700,7 +3700,7 @@
       "id": "src/lib/stripe-webhooks.ts",
       "label": "lib/stripe-webhooks.ts",
       "group": "lib",
-      "size": 14
+      "size": 16
     },
     {
       "id": "src/lib/get-default-strings.ts",
@@ -3929,6 +3929,12 @@
       "label": "cron/sync-sold-out.ts",
       "group": "lib",
       "size": 8
+    },
+    {
+      "id": "src/lib/cron/reconcile-checkout-payments.ts",
+      "label": "cron/reconcile-checkout-payments.ts",
+      "group": "lib",
+      "size": 6
     },
     {
       "id": "src/lib/cron/voucher-expiry.ts",
@@ -5019,6 +5025,10 @@
     {
       "source": "src/app/api/cron/stripe/route.ts",
       "target": "src/lib/cron/grace-period.ts"
+    },
+    {
+      "source": "src/app/api/cron/stripe/route.ts",
+      "target": "src/lib/cron/reconcile-checkout-payments.ts"
     },
     {
       "source": "src/app/api/wishlist/toggle/route.ts",
@@ -8621,6 +8631,18 @@
       "target": "src/lib/travel-status.ts"
     },
     {
+      "source": "src/lib/cron/reconcile-checkout-payments.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/lib/cron/reconcile-checkout-payments.ts",
+      "target": "src/lib/stripe.ts"
+    },
+    {
+      "source": "src/lib/cron/reconcile-checkout-payments.ts",
+      "target": "src/lib/stripe-webhooks.ts"
+    },
+    {
       "source": "src/lib/cron/voucher-expiry.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -8997,6 +9019,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-08-10T11:56:15.337Z",
-  "fileCount": 673
+  "builtAt": "2026-08-10T12:05:56.728Z",
+  "fileCount": 674
 }

@@ -1273,7 +1273,7 @@
       "payload",
       "@payload-config"
     ],
-    "lines": 148,
+    "lines": 151,
     "group": "api"
   },
   "src/app/api/waitlist/join/route.ts": {
@@ -2530,9 +2530,10 @@
       "next/server",
       "@/lib/cron/balance-charge",
       "@/lib/cron/balance-reminders",
-      "@/lib/cron/grace-period"
+      "@/lib/cron/grace-period",
+      "@/lib/cron/reconcile-checkout-payments"
     ],
-    "lines": 20,
+    "lines": 25,
     "group": "api"
   },
   "src/app/api/wishlist/toggle/route.ts": {
@@ -9317,6 +9318,20 @@
       "@/lib/travel-status"
     ],
     "lines": 99,
+    "group": "lib"
+  },
+  "src/lib/cron/reconcile-checkout-payments.ts": {
+    "exports": [
+      "reconcileCheckoutPayments"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "@/lib/stripe",
+      "@/lib/stripe-webhooks"
+    ],
+    "lines": 43,
     "group": "lib"
   },
   "src/lib/cron/voucher-expiry.ts": {
