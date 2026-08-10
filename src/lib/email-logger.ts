@@ -1,6 +1,6 @@
 import type { BasePayload } from 'payload'
 
-export type EmailLogStatus = 'queued' | 'sent' | 'failed' | 'bounced' | 'opened' | 'clicked'
+export type EmailLogStatus = 'queued' | 'sent' | 'delivered' | 'delayed' | 'failed' | 'suppressed' | 'bounced' | 'complained' | 'opened' | 'clicked'
 
 export async function createEmailLog(
   payload: BasePayload,
@@ -15,6 +15,7 @@ export async function createEmailLog(
     resendMessageId?: string
     sentAt?: string
     error?: string
+    html?: string
     context?: Record<string, unknown>
   },
 ): Promise<string> {

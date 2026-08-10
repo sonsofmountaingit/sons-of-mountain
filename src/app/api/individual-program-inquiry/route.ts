@@ -70,12 +70,13 @@ export async function POST(req: NextRequest) {
       if (adminResult.error) throw new Error(adminResult.error.message)
 
       const customerSubject = 'Получихме твоето запитване — Sons of Mountains'
+      const customerHtml = `<p>Здравей, ${safeName}!</p><p>Получихме твоето запитване за индивидуална програма. Нашият екип ще го прегледа и ще се свърже с теб съвсем скоро.</p><p>Благодарим ти,<br/>Sons of Mountains</p>`
       const customerResult = await resend.emails.send({
         from,
         to: email,
         replyTo: process.env.ADMIN_NOTIFICATION_EMAIL ?? 'office@sonsofmountain.com',
         subject: customerSubject,
-        html: `<p>Здравей, ${safeName}!</p><p>Получихме твоето запитване за индивидуална програма. Нашият екип ще го прегледа и ще се свърже с теб съвсем скоро.</p><p>Благодарим ти,<br/>Sons of Mountains</p>`,
+        html: customerHtml,
       })
       if (customerResult.error) throw new Error(customerResult.error.message)
       await createEmailLog(payload, {
@@ -85,6 +86,7 @@ export async function POST(req: NextRequest) {
         status: 'sent',
         resendMessageId: customerResult.data?.id,
         sentAt: new Date().toISOString(),
+        html: customerHtml,
         context: { programInquiryId: String(doc.id) },
       })
       emailSent = true

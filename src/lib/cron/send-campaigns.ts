@@ -95,13 +95,14 @@ export async function runSendCampaigns(): Promise<{ processed: number; total: nu
         for (const r of results.data?.data ?? []) if (r?.id) messageIds.push(r.id)
       }
 
-      for (const lc of logContexts) {
+      for (const [index, lc] of logContexts.entries()) {
         await createEmailLog(payload, {
           campaign: campaign.id,
           trigger: 'campaign',
           recipient: lc.recipient,
           subject: lc.subject,
           status: 'sent',
+          resendMessageId: messageIds[index],
           sentAt: now.toISOString(),
           context: lc.context,
         })

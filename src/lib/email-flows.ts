@@ -120,6 +120,7 @@ export async function sendFlow(
       status: 'sent',
       resendMessageId: result.data?.id,
       sentAt: new Date().toISOString(),
+      html,
       context: fullContext,
     })
 

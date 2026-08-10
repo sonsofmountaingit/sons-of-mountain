@@ -312,6 +312,7 @@ export async function sendOrderConfirmationEmail(payload: BasePayload, orderId: 
     status: 'sent',
     resendMessageId: result.data?.id,
     sentAt: new Date().toISOString(),
+    html,
     context: { orderId: String(orderId) },
   })
 
@@ -355,22 +356,23 @@ export async function sendRegistrationConfirmationEmail(payload: BasePayload, re
 
   const { resend } = await import('@/lib/resend')
   const subject = 'Резервацията е потвърдена — Sons of Mountains'
+  const html = buildOrderConfirmationHtml({
+    firstName: r.firstName ?? '',
+    orderNumber: String(registrationId).slice(-8).toUpperCase(),
+    items: [{ itemType, title, quantity: r.participantCount ?? 1, unitPrice: (r.totalAmount ?? r.amount ?? 0) / (r.participantCount ?? 1), startDate, endDate, location }],
+    total: r.totalAmount ?? r.amount ?? 0,
+    currency: 'EUR',
+    paymentMode: r.paymentMode ?? 'full',
+    depositPaid: r.depositPaid,
+    remainingBalance: r.remainingBalance,
+    remainingDueDate: r.remainingDueDate,
+    nextInstallment,
+  })
   const result = await resend.emails.send({
     from: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
     to: r.email,
     subject,
-    html: buildOrderConfirmationHtml({
-      firstName: r.firstName ?? '',
-      orderNumber: String(registrationId).slice(-8).toUpperCase(),
-      items: [{ itemType, title, quantity: r.participantCount ?? 1, unitPrice: (r.totalAmount ?? r.amount ?? 0) / (r.participantCount ?? 1), startDate, endDate, location }],
-      total: r.totalAmount ?? r.amount ?? 0,
-      currency: 'EUR',
-      paymentMode: r.paymentMode ?? 'full',
-      depositPaid: r.depositPaid,
-      remainingBalance: r.remainingBalance,
-      remainingDueDate: r.remainingDueDate,
-      nextInstallment,
-    }),
+    html,
   })
   if (result.error) throw new Error(`Registration confirmation email failed: ${result.error.message}`)
 
@@ -381,6 +383,7 @@ export async function sendRegistrationConfirmationEmail(payload: BasePayload, re
     status: 'sent',
     resendMessageId: result.data?.id,
     sentAt: new Date().toISOString(),
+    html,
     context: { registrationId },
   })
 }

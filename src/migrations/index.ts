@@ -32,6 +32,7 @@ import * as migration_20260807d_programs_intro_text from './20260807d_programs_i
 import * as migration_20260808_euro_only_currency from './20260808_euro_only_currency'
 import * as migration_20260810_archive_expired_programs from './20260810_archive_expired_programs'
 import * as migration_20260811_customer_profile_fields from './20260811_customer_profile_fields'
+import * as migration_20260812_resend_delivery_tracking from './20260812_resend_delivery_tracking'
 
 export const migrations = [
   {
@@ -203,5 +204,10 @@ export const migrations = [
     up: migration_20260811_customer_profile_fields.up,
     down: migration_20260811_customer_profile_fields.down,
     name: '20260811_customer_profile_fields',
+  },
+  {
+    up: migration_20260812_resend_delivery_tracking.up,
+    down: migration_20260812_resend_delivery_tracking.down,
+    name: '20260812_resend_delivery_tracking',
   },
 ]
