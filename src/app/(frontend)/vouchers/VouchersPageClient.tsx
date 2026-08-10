@@ -58,7 +58,7 @@ export const VOUCHERS_DEFAULTS = {
   giftMessagePlaceholder: 'Write a personal message for the recipient (optional)',
   selfMessagePlaceholder: 'A note for this voucher (optional)',
   scheduleDeliveryLabel: 'Schedule delivery',
-  sendTodayLabel: 'Send today after payment confirmation',
+  sendTodayLabel: 'Прати сега',
   signedInAsPrefix: 'Signed in as',
   signInPromptText: "You'll be asked to sign in or create an account before checkout.",
   submitLoadingLabel: 'Redirecting...',
