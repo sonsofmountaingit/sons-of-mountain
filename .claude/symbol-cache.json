@@ -1564,9 +1564,10 @@
       "@/lib/cart-store",
       "@/lib/pricing/payment-plan",
       "@/lib/pricing/dynamic",
-      "@/lib/booking-deadline"
+      "@/lib/booking-deadline",
+      "zod"
     ],
-    "lines": 498,
+    "lines": 515,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {
@@ -3226,7 +3227,7 @@
       "@/lib/translations",
       "@/lib/gtag"
     ],
-    "lines": 562,
+    "lines": 585,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/[tripId]/success/page.tsx": {
@@ -9258,7 +9259,7 @@
       "@payload-config",
       "@/lib/travel-status"
     ],
-    "lines": 76,
+    "lines": 99,
     "group": "lib"
   },
   "src/lib/cron/voucher-expiry.ts": {
