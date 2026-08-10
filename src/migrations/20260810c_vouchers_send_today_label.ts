@@ -3,9 +3,9 @@ import { MigrateDownArgs, MigrateUpArgs, sql } from '@payloadcms/db-postgres'
 export async function up({ db }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
     ALTER TABLE vouchers
-      ADD COLUMN IF NOT EXISTS send_today_label character varying DEFAULT 'Send today after payment confirmation';
+      ADD COLUMN IF NOT EXISTS send_today_label character varying DEFAULT 'Изпрати сега';
     UPDATE vouchers
-      SET send_today_label = 'Send today after payment confirmation'
+      SET send_today_label = 'Изпрати сега'
       WHERE send_today_label IS NULL;
   `)
 }

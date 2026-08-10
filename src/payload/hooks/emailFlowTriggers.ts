@@ -13,6 +13,25 @@ function escapeHtml(value: unknown): string {
     .replace(/'/g, '&#039;')
 }
 
+type VoucherOffering = { title: string; url: string; type: 'destination' | 'trip' | 'program' | 'all' }
+
+async function resolveVoucherOffering(payload: BasePayload, doc: any, siteUrl: string): Promise<VoucherOffering> {
+  const target = doc.forDestination
+    ? { collection: 'destinations' as const, id: typeof doc.forDestination === 'object' ? doc.forDestination.id : doc.forDestination, type: 'destination' as const }
+    : doc.forTrip
+      ? { collection: 'trips' as const, id: typeof doc.forTrip === 'object' ? doc.forTrip.id : doc.forTrip, type: 'trip' as const }
+      : doc.forProgram
+        ? { collection: 'programs' as const, id: typeof doc.forProgram === 'object' ? doc.forProgram.id : doc.forProgram, type: 'program' as const }
+        : null
+  if (!target) return { title: 'всички приключения на Sons of Mountains', url: siteUrl, type: 'all' }
+
+  const offering = await payload.findByID({ collection: target.collection, id: target.id, depth: 0, overrideAccess: true }).catch(() => null) as any
+  const title = target.type === 'destination' ? offering?.name : offering?.title
+  const slug = offering?.slug
+  if (!title || !slug) return { title: 'всички приключения на Sons of Mountains', url: siteUrl, type: 'all' }
+  return { title, url: `${siteUrl}/${target.type === 'destination' ? 'destinations' : `${target.type}s`}/${slug}`, type: target.type }
+}
+
 export async function sendVoucherEmailFallback(
   payload: BasePayload,
   kind: 'recipient' | 'buyer',
@@ -29,12 +48,18 @@ export async function sendVoucherEmailFallback(
   const recipient = escapeHtml(recipientName)
   const sender = escapeHtml(senderName)
   const voucherUrl = `${siteUrl}/vouchers/${encodeURIComponent(doc.code)}`
+  const offering = await resolveVoucherOffering(payload, doc, siteUrl)
+  const offeringTitle = escapeHtml(offering.title)
+  const offeringUrl = escapeHtml(offering.url)
+  const offeringLine = offering.type === 'all'
+    ? `<p>Ваучерът може да се използва за <a href="${offeringUrl}">${offeringTitle}</a>.</p>`
+    : `<p>Този ваучер е валиден за: <strong>${offeringTitle}</strong>.</p><p><a href="${offeringUrl}">Вижте ${offeringTitle}</a></p>`
   const subject = kind === 'recipient'
     ? `Получихте подаръчен ваучер от ${senderName}`
     : `Потвърждение за подаръчен ваучер ${doc.code}`
   const html = kind === 'recipient'
-    ? `<p>Здравейте, ${recipient}!</p><p>${sender} ви изпрати подаръчен ваучер от Sons of Mountains на стойност <strong>€${amount}</strong>.</p><p>Вашият код: <strong>${code}</strong></p><p>Използвайте го при плащане в магазина или го вижте тук: <a href="${voucherUrl}">${voucherUrl}</a>.</p>`
-    : `<p>Здравейте, ${sender}!</p><p>Плащането за подаръчния ваучер за ${recipient} е потвърдено.</p><p>Код на ваучера: <strong>${code}</strong> · Стойност: <strong>€${amount}</strong></p>`
+    ? `<p>Здравейте, ${recipient}!</p><p>${sender} ви изпрати подаръчен ваучер от Sons of Mountains на стойност <strong>€${amount}</strong>.</p><p>Вашият код: <strong>${code}</strong></p>${offeringLine}<p>Използвайте го при плащане в магазина или го вижте тук: <a href="${voucherUrl}">${voucherUrl}</a>.</p>`
+    : `<p>Здравейте, ${sender}!</p><p>Плащането за подаръчния ваучер за ${recipient} е потвърдено.</p><p>Код на ваучера: <strong>${code}</strong> · Стойност: <strong>€${amount}</strong></p>${offeringLine}`
 
   const fromEmail = process.env.RESEND_FROM_EMAIL
   try {
@@ -52,7 +77,7 @@ export async function sendVoucherEmailFallback(
       sentAt: new Date().toISOString(),
       resendMessageId: result.data?.id,
       html,
-      context: { voucherId: String(doc.id), voucherCode: doc.code, deliveryType: kind },
+      context: { voucherId: String(doc.id), voucherCode: doc.code, deliveryType: kind, offeringTitle: offering.title, offeringUrl: offering.url, offeringType: offering.type },
     })
   } catch (error) {
     await createEmailLog(payload, {
@@ -62,7 +87,7 @@ export async function sendVoucherEmailFallback(
       status: 'failed',
       error: error instanceof Error ? error.message : String(error),
       html,
-      context: { voucherId: String(doc.id), voucherCode: doc.code, deliveryType: kind },
+      context: { voucherId: String(doc.id), voucherCode: doc.code, deliveryType: kind, offeringTitle: offering.title, offeringUrl: offering.url, offeringType: offering.type },
     }).catch(() => {})
     throw error
   }
@@ -157,6 +182,18 @@ export const giftVoucherEmailFlows: CollectionAfterChangeHook = async ({ doc, pr
   const isGift = !!doc.isGift
   const senderName = doc.senderName ?? 'Someone special'
   const recipientName = doc.recipientName ?? 'Adventurer'
+  const siteUrl = (process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://sonsofmountains.com').replace(/\/$/, '')
+  const offering = await resolveVoucherOffering(req.payload, doc, siteUrl)
+  const voucherContext = {
+    voucherCode: doc.code,
+    voucherAmount: doc.amount,
+    currency: doc.currency,
+    voucherExpiry: doc.expiresAt,
+    voucherMessage: doc.message,
+    offeringTitle: offering.title,
+    offeringUrl: offering.url,
+    offeringType: offering.type,
+  }
 
   if (doc.recipientEmail) {
     const deliveryDate = doc.deliveryDate ? new Date(doc.deliveryDate) : null
@@ -172,14 +209,17 @@ export const giftVoucherEmailFlows: CollectionAfterChangeHook = async ({ doc, pr
       })
     } else {
       const result = await sendFlow('gift_voucher_recipient', { email: doc.recipientEmail, firstName: recipientName }, {
-        recipientName, senderName, voucherCode: doc.code, voucherAmount: doc.amount, currency: doc.currency,
-        voucherExpiry: doc.expiresAt, voucherMessage: doc.message,
+        recipientName, senderName, ...voucherContext,
       }, req.payload).catch(() => ({ sent: false, reason: 'failed' as const }))
       // The production DB currently has no configured email flows. A paid voucher
       // must still deliver its code, so use the transactional fallback unless a
       // configured flow actually sent or queued the message.
       if (!result.sent && result.reason !== 'queued') await sendVoucherEmailFallback(req.payload, 'recipient', doc, recipientName, senderName).catch(() => {})
-      await req.payload.update({ collection: 'gift-vouchers', id: doc.id, data: { deliverySentAt: new Date().toISOString() } })
+      // Do not update this voucher inside its own afterChange transaction.
+      // Payload/Postgres holds the row lock until this hook returns; a nested
+      // update deadlocks and can leave paidAt uncommitted. Immediate delivery
+      // does not need deliverySentAt; that field is reserved for cron-delivered
+      // scheduled gifts.
     }
     await upsertSubscriber(req.payload, { email: doc.recipientEmail, firstName: recipientName, source: 'gift_voucher' })
   }
@@ -187,8 +227,7 @@ export const giftVoucherEmailFlows: CollectionAfterChangeHook = async ({ doc, pr
   const buyerEmail = isGift ? doc.senderEmail : doc.recipientEmail
   if (buyerEmail) {
     const result = await sendFlow('gift_voucher_buyer', { email: buyerEmail, firstName: isGift ? senderName : recipientName }, {
-      recipientName, recipientEmail: doc.recipientEmail, voucherCode: doc.code, voucherAmount: doc.amount,
-      currency: doc.currency, voucherExpiry: doc.expiresAt, isGift: String(isGift),
+      recipientName, recipientEmail: doc.recipientEmail, ...voucherContext, isGift: String(isGift),
     }, req.payload).catch(() => ({ sent: false, reason: 'failed' as const }))
     if (!result.sent && result.reason !== 'queued') await sendVoucherEmailFallback(req.payload, 'buyer', doc, recipientName, senderName).catch(() => {})
   }

@@ -74,7 +74,7 @@ export const Vouchers: GlobalConfig = {
     { name: 'giftMessagePlaceholder', type: 'text', defaultValue: 'Write a personal message for the recipient (optional)' },
     { name: 'selfMessagePlaceholder', type: 'text', defaultValue: 'A note for this voucher (optional)' },
     { name: 'scheduleDeliveryLabel', type: 'text', defaultValue: 'Schedule delivery' },
-    { name: 'sendTodayLabel', type: 'text', defaultValue: 'Send today after payment confirmation' },
+    { name: 'sendTodayLabel', type: 'text', defaultValue: 'Изпрати сега' },
 
     // ── Buy tab: signed-in / submit ──────────────────────────────────────────
     { name: 'signedInAsPrefix', type: 'text', defaultValue: 'Signed in as' },

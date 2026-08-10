@@ -2066,7 +2066,7 @@ export const puckConfig: Config<PuckBlocks> = {
         openTypeLabel: 'Any adventure', destinationTypeLabel: 'Destination', tripTypeLabel: 'Trip', programTypeLabel: 'Program',
         recipientDetailsLabel: 'Recipient details', recipientNamePlaceholder: 'Recipient name',
         recipientEmailPlaceholder: 'Recipient email', personalMessageLabel: 'Personal message',
-        scheduleDeliveryLabel: 'Schedule delivery', sendTodayLabel: 'Send today after payment confirmation', submitButtonPrefix: 'Purchase', submitButtonSuffix: 'Voucher',
+        scheduleDeliveryLabel: 'Schedule delivery', sendTodayLabel: 'Изпрати сега', submitButtonPrefix: 'Purchase', submitButtonSuffix: 'Voucher',
       },
       render: (props) => <VouchersBuyFormBlock {...props} />,
     },

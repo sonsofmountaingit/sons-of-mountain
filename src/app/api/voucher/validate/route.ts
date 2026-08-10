@@ -25,15 +25,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Ваучерът е изтекъл' }, { status: 400 })
     }
 
+    // Payload may return an unpopulated relationship as null. `typeof null`
+    // is "object", so guard it before accessing `.id`.
+    const relationId = (relation: unknown) =>
+      relation && typeof relation === 'object' ? (relation as { id?: string | number }).id ?? null : relation ?? null
+
     return NextResponse.json({
       valid: true,
       id: voucher.id,
       code: voucher.code,
       amount: voucher.amount,
       currency: voucher.currency,
-      forDestination: typeof voucher.forDestination === 'object' ? voucher.forDestination.id : voucher.forDestination ?? null,
-      forTrip: typeof voucher.forTrip === 'object' ? voucher.forTrip.id : voucher.forTrip ?? null,
-      forProgram: typeof voucher.forProgram === 'object' ? voucher.forProgram.id : voucher.forProgram ?? null,
+      forDestination: relationId(voucher.forDestination),
+      forTrip: relationId(voucher.forTrip),
+      forProgram: relationId(voucher.forProgram),
     })
   } catch (err) {
     console.error('Voucher validate error:', err)
