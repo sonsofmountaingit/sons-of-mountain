@@ -90,7 +90,7 @@ export async function buildAutoContext(payload: BasePayload): Promise<Record<str
 
   const [upcomingTrips, upcomingPrograms, soldOutTrips, popularTrips] = await Promise.all([
     payload.find({ collection: 'trips', where: { and: [{ status: { equals: 'active' } }, { startDate: { greater_than_equal: now } }] }, sort: 'startDate', limit: 3 }),
-    payload.find({ collection: 'programs', where: { and: [{ status: { equals: 'Active' } }, { startDate: { greater_than_equal: now } }] }, sort: 'startDate', limit: 3 }),
+    payload.find({ collection: 'programs', where: { and: [{ status: { equals: 'active' } }, { startDate: { greater_than_equal: now } }] }, sort: 'startDate', limit: 3 }),
     payload.find({ collection: 'trips', where: { status: { equals: 'soldOut' } }, limit: 10 }),
     payload.find({ collection: 'trips', sort: '-viewCount', limit: 3 }),
   ])

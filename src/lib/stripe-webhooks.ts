@@ -1,4 +1,5 @@
 import type Stripe from 'stripe'
+import { createEmailLog } from '@/lib/email-logger'
 import type { BasePayload } from 'payload'
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { after } from 'next/server'
@@ -296,12 +297,23 @@ async function sendOrderConfirmationEmail(payload: BasePayload, orderId: string)
     nextInstallment,
   })
 
-  await resend.emails.send({
+  const result = await resend.emails.send({
     from,
     to: o.email,
     subject: 'Резервацията е потвърдена — Sons of Mountains',
     html,
-  }).catch(() => {})
+  })
+  if (result.error) throw new Error(`Order confirmation email failed: ${result.error.message}`)
+
+  await createEmailLog(payload, {
+    trigger: 'order_confirmation',
+    recipient: o.email,
+    subject: 'Резервацията е потвърдена — Sons of Mountains',
+    status: 'sent',
+    resendMessageId: result.data?.id,
+    sentAt: new Date().toISOString(),
+    context: { orderId: String(orderId) },
+  })
 
   const settings = await payload.findGlobal({ slug: 'email-settings' }).catch(() => null)
   const adminEmail = (settings as any)?.adminEmail
@@ -342,10 +354,11 @@ async function sendRegistrationConfirmationEmail(payload: BasePayload, registrat
   const nextInstallment = installments.find((row) => row.status === 'pending') ?? null
 
   const { resend } = await import('@/lib/resend')
-  await resend.emails.send({
+  const subject = 'Резервацията е потвърдена — Sons of Mountains'
+  const result = await resend.emails.send({
     from: process.env.RESEND_FROM_EMAIL ?? 'noreply@sonsofmountain.com',
     to: r.email,
-    subject: 'Резервацията е потвърдена — Sons of Mountains',
+    subject,
     html: buildOrderConfirmationHtml({
       firstName: r.firstName ?? '',
       orderNumber: String(registrationId).slice(-8).toUpperCase(),
@@ -358,7 +371,18 @@ async function sendRegistrationConfirmationEmail(payload: BasePayload, registrat
       remainingDueDate: r.remainingDueDate,
       nextInstallment,
     }),
-  }).catch(() => {})
+  })
+  if (result.error) throw new Error(`Registration confirmation email failed: ${result.error.message}`)
+
+  await createEmailLog(payload, {
+    trigger: 'registration_confirmation',
+    recipient: r.email,
+    subject,
+    status: 'sent',
+    resendMessageId: result.data?.id,
+    sentAt: new Date().toISOString(),
+    context: { registrationId },
+  })
 }
 
 async function generateInvoice(
@@ -435,7 +459,7 @@ export async function decrementOrderItemsSpotsAndStock(payload: BasePayload, ite
         const newSpots = Math.max(0, (program as any).spotsAvailable - participantCount)
         const earlyBirdDecrement = item.earlyBirdCount ?? Math.min(participantCount, (program as any).earlyBirdSpotsRemaining ?? 0)
         const newEarlyBirdSpots = Math.max(0, ((program as any).earlyBirdSpotsRemaining ?? 0) - earlyBirdDecrement)
-        await payload.update({ collection: 'programs', id: pgId, data: { spotsAvailable: newSpots, earlyBirdSpotsRemaining: newEarlyBirdSpots, status: newSpots === 0 ? 'Sold Out' : 'Active' } })
+        await payload.update({ collection: 'programs', id: pgId, data: { spotsAvailable: newSpots, earlyBirdSpotsRemaining: newEarlyBirdSpots, status: newSpots === 0 ? 'soldOut' : 'active' } })
       }
     }
     if (item.itemType === 'destination' && item.destination) {
@@ -603,7 +627,9 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
     await generateInvoice(payload, stripe, session, 'orders', orderId)
 
     // Send booking confirmation email
-    await sendOrderConfirmationEmail(payload, orderId).catch(() => {})
+    await sendOrderConfirmationEmail(payload, orderId).catch((error) => {
+      console.error(`Order confirmation email failed for order ${orderId}:`, error)
+    })
 
     // Update receipt info
     try {
@@ -684,7 +710,9 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
     }
     await payload.update({ collection: 'registrations', id, data: updateData as any })
     await generateInvoice(payload, stripe, session, 'registrations', id)
-    await sendRegistrationConfirmationEmail(payload, id).catch(() => {})
+    await sendRegistrationConfirmationEmail(payload, id).catch((error) => {
+      console.error(`Registration confirmation email failed for registration ${id}:`, error)
+    })
 
     {
       const paidReg = await payload.findByID({ collection: 'registrations', id, depth: 2 }).catch(() => null) as any

@@ -8,6 +8,43 @@ type RegistrationDoc = {
   status?: string
 }
 
+type OrderItem = {
+  itemType?: string
+  trip?: string | { id: string } | null
+  program?: string | { id: string } | null
+  destination?: string | { id: string } | null
+  quantity?: number
+  participantCount?: number
+}
+
+type PaidOrderDoc = {
+  items?: OrderItem[]
+}
+
+function relatedId(value: string | { id: string } | null | undefined): string | null {
+  if (!value) return null
+  return typeof value === 'string' ? value : value.id
+}
+
+async function paidOrderSpots(
+  payload: Parameters<CollectionAfterChangeHook>[0]['req']['payload'],
+  itemType: 'trip' | 'program' | 'destination',
+  itemId: string,
+): Promise<number> {
+  const { docs } = await payload.find({
+    collection: 'orders',
+    where: { status: { equals: 'paid' } },
+    limit: 0,
+    pagination: false,
+    depth: 0,
+  })
+
+  return (docs as PaidOrderDoc[]).reduce((total, order) => total + (order.items ?? []).reduce((itemTotal, item) => {
+    if (item.itemType !== itemType || relatedId(item[itemType]) !== itemId) return itemTotal
+    return itemTotal + (item.quantity ?? item.participantCount ?? 1)
+  }, 0), 0)
+}
+
 async function syncSpots(
   tripId: string | null,
   programId: string | null,
@@ -21,7 +58,8 @@ async function syncSpots(
       limit: 0,
       pagination: false,
     })
-    const used = docs.reduce((s, r) => s + ((r as RegistrationDoc).participantCount ?? 1), 0)
+    const registrationSpots = docs.reduce((s, r) => s + ((r as RegistrationDoc).participantCount ?? 1), 0)
+    const used = registrationSpots + await paidOrderSpots(payload, 'trip', tripId)
     const trip = await payload.findByID({ collection: 'trips', id: tripId })
     await payload.update({
       collection: 'trips',
@@ -37,7 +75,8 @@ async function syncSpots(
       limit: 0,
       pagination: false,
     })
-    const used = docs.reduce((s, r) => s + ((r as RegistrationDoc).participantCount ?? 1), 0)
+    const registrationSpots = docs.reduce((s, r) => s + ((r as RegistrationDoc).participantCount ?? 1), 0)
+    const used = registrationSpots + await paidOrderSpots(payload, 'program', programId)
     const program = await payload.findByID({ collection: 'programs', id: programId })
     await payload.update({
       collection: 'programs',
@@ -53,7 +92,8 @@ async function syncSpots(
       limit: 0,
       pagination: false,
     })
-    const used = docs.reduce((s, r) => s + ((r as RegistrationDoc).participantCount ?? 1), 0)
+    const registrationSpots = docs.reduce((s, r) => s + ((r as RegistrationDoc).participantCount ?? 1), 0)
+    const used = registrationSpots + await paidOrderSpots(payload, 'destination', destinationId)
     const destination = await payload.findByID({ collection: 'destinations', id: destinationId })
     await payload.update({
       collection: 'destinations',
