@@ -97,6 +97,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260812_resend_delivery_tracking.ts",
+      "label": "migrations/20260812_resend_delivery_tracking.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260714d_guides_bio_jsonb.ts",
       "label": "migrations/20260714d_guides_bio_jsonb.ts",
       "group": "other",
@@ -201,6 +207,12 @@
     {
       "id": "src/migrations/20260714b_seo_meta_keywords_all_collections.ts",
       "label": "migrations/20260714b_seo_meta_keywords_all_collections.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
+      "id": "src/migrations/20260811_customer_profile_fields.ts",
+      "label": "migrations/20260811_customer_profile_fields.ts",
       "group": "other",
       "size": 6
     },
@@ -675,6 +687,12 @@
     {
       "id": "src/app/api/dashboard/gallery-collections/route.ts",
       "label": "gallery-collections/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/dashboard/profile/route.ts",
+      "label": "profile/route.ts",
       "group": "api",
       "size": 4
     },
@@ -2081,6 +2099,12 @@
       "label": "hooks/manualConfirm.ts",
       "group": "payload",
       "size": 6
+    },
+    {
+      "id": "src/payload/hooks/purchaseConfirmation.ts",
+      "label": "hooks/purchaseConfirmation.ts",
+      "group": "payload",
+      "size": 8
     },
     {
       "id": "src/payload/hooks/decrementSpotsOnPaid.ts",
@@ -3676,7 +3700,7 @@
       "id": "src/lib/stripe-webhooks.ts",
       "label": "lib/stripe-webhooks.ts",
       "group": "lib",
-      "size": 12
+      "size": 14
     },
     {
       "id": "src/lib/get-default-strings.ts",
@@ -3718,7 +3742,7 @@
       "id": "src/lib/email-logger.ts",
       "label": "lib/email-logger.ts",
       "group": "lib",
-      "size": 10
+      "size": 14
     },
     {
       "id": "src/lib/email-flows.ts",
@@ -4147,6 +4171,14 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260810_archive_expired_programs.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260811_customer_profile_fields.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260812_resend_delivery_tracking.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -4597,6 +4629,10 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/dashboard/profile/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
       "source": "src/app/api/subscribe/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -4718,10 +4754,6 @@
     },
     {
       "source": "src/app/api/shop-data/route.ts",
-      "target": "src/payload/payload.config.ts"
-    },
-    {
-      "source": "src/app/api/webhooks/resend/route.ts",
       "target": "src/payload/payload.config.ts"
     },
     {
@@ -5115,6 +5147,10 @@
     {
       "source": "src/app/api/individual-program-inquiry/route.ts",
       "target": "src/lib/rate-limit.ts"
+    },
+    {
+      "source": "src/app/api/individual-program-inquiry/route.ts",
+      "target": "src/lib/email-logger.ts"
     },
     {
       "source": "src/app/api/customer-ratings/route.ts",
@@ -5707,10 +5743,6 @@
     {
       "source": "src/app/(frontend)/dashboard/profile/ProfileClient.tsx",
       "target": "src/lib/auth-client.ts"
-    },
-    {
-      "source": "src/app/(frontend)/dashboard/profile/ProfileClient.tsx",
-      "target": "src/lib/media-url.ts"
     },
     {
       "source": "src/app/(frontend)/dashboard/layout.tsx",
@@ -6781,6 +6813,14 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/payload/hooks/purchaseConfirmation.ts",
+      "target": "src/lib/stripe-webhooks.ts"
+    },
+    {
+      "source": "src/payload/hooks/purchaseConfirmation.ts",
+      "target": "src/lib/email-logger.ts"
+    },
+    {
       "source": "src/payload/hooks/decrementSpotsOnPaid.ts",
       "target": "src/lib/stripe-webhooks.ts"
     },
@@ -6827,6 +6867,10 @@
     {
       "source": "src/payload/collections/Registrations.ts",
       "target": "src/payload/hooks/manualConfirm.ts"
+    },
+    {
+      "source": "src/payload/collections/Registrations.ts",
+      "target": "src/payload/hooks/purchaseConfirmation.ts"
     },
     {
       "source": "src/payload/collections/Programs.ts",
@@ -6911,6 +6955,10 @@
     {
       "source": "src/payload/collections/Orders.ts",
       "target": "src/payload/hooks/decrementSpotsOnPaid.ts"
+    },
+    {
+      "source": "src/payload/collections/Orders.ts",
+      "target": "src/payload/hooks/purchaseConfirmation.ts"
     },
     {
       "source": "src/payload/collections/Stories.ts",
@@ -8949,6 +8997,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-08-10T10:46:11.550Z",
-  "fileCount": 669
+  "builtAt": "2026-08-10T11:56:15.337Z",
+  "fileCount": 673
 }

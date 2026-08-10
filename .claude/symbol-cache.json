@@ -191,6 +191,18 @@
     "lines": 23,
     "group": "other"
   },
+  "src/migrations/20260812_resend_delivery_tracking.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 68,
+    "group": "other"
+  },
   "src/migrations/20260714d_guides_bio_jsonb.ts": {
     "exports": [
       "up",
@@ -385,9 +397,11 @@
       "./20260807c_programs_why_visit",
       "./20260807d_programs_intro_text",
       "./20260808_euro_only_currency",
-      "./20260810_archive_expired_programs"
+      "./20260810_archive_expired_programs",
+      "./20260811_customer_profile_fields",
+      "./20260812_resend_delivery_tracking"
     ],
-    "lines": 202,
+    "lines": 214,
     "group": "other"
   },
   "src/migrations/20260719b_email_marketing_platform.ts": {
@@ -436,6 +450,18 @@
       "@payloadcms/db-postgres"
     ],
     "lines": 50,
+    "group": "other"
+  },
+  "src/migrations/20260811_customer_profile_fields.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 20,
     "group": "other"
   },
   "src/seed/gallery.ts": {
@@ -1644,6 +1670,22 @@
     "lines": 121,
     "group": "api"
   },
+  "src/app/api/dashboard/profile/route.ts": {
+    "exports": [
+      "GET",
+      "PATCH"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "next/headers",
+      "payload",
+      "@payload-config",
+      "zod"
+    ],
+    "lines": 67,
+    "group": "api"
+  },
   "src/app/api/subscribe/route.ts": {
     "exports": [
       "POST"
@@ -1951,11 +1993,9 @@
     ],
     "types": [],
     "imports": [
-      "next/server",
-      "payload",
-      "@payload-config"
+      "next/server"
     ],
-    "lines": 47,
+    "lines": 9,
     "group": "api"
   },
   "src/app/api/webhooks/stripe/route.ts": {
@@ -2328,10 +2368,11 @@
     "imports": [
       "next/server",
       "payload",
+      "@payloadcms/db-postgres",
       "@payload-config",
-      "crypto"
+      "resend"
     ],
-    "lines": 77,
+    "lines": 133,
     "group": "api"
   },
   "src/app/api/cron/review-requests/route.ts": {
@@ -2746,9 +2787,10 @@
       "payload",
       "@payload-config",
       "@/lib/escape-html",
-      "@/lib/rate-limit"
+      "@/lib/rate-limit",
+      "@/lib/email-logger"
     ],
-    "lines": 88,
+    "lines": 120,
     "group": "api"
   },
   "src/app/api/customer-ratings/route.ts": {
@@ -3528,12 +3570,11 @@
     "exports": [
       "dynamic",
       "metadata",
-      "default:function"
+      "default:async"
     ],
     "types": [],
     "imports": [
       "next",
-      "react",
       "next/headers",
       "next/navigation",
       "payload",
@@ -3547,16 +3588,15 @@
     "exports": [
       "ProfileClient"
     ],
-    "types": [],
+    "types": [
+      "CustomerProfile"
+    ],
     "imports": [
       "react",
-      "next/navigation",
       "zod",
-      "gsap",
-      "@/lib/auth-client",
-      "@/lib/media-url"
+      "@/lib/auth-client"
     ],
-    "lines": 200,
+    "lines": 125,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/layout.tsx": {
@@ -5264,6 +5304,19 @@
     "lines": 11,
     "group": "payload"
   },
+  "src/payload/hooks/purchaseConfirmation.ts": {
+    "exports": [
+      "sendPurchaseConfirmation"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@/lib/stripe-webhooks",
+      "@/lib/email-logger"
+    ],
+    "lines": 43,
+    "group": "payload"
+  },
   "src/payload/hooks/decrementSpotsOnPaid.ts": {
     "exports": [
       "decrementSpotsOnPaid"
@@ -5288,7 +5341,7 @@
       "@/lib/email-flows",
       "@/lib/subscriber-upsert"
     ],
-    "lines": 117,
+    "lines": 113,
     "group": "payload"
   },
   "src/payload/hooks/syncTripSpots.ts": {
@@ -5370,7 +5423,7 @@
       "payload",
       "payload"
     ],
-    "lines": 245,
+    "lines": 262,
     "group": "collections"
   },
   "src/payload/collections/CarpoolRides.ts": {
@@ -5392,7 +5445,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 45,
+    "lines": 59,
     "group": "collections"
   },
   "src/payload/collections/StockAlerts.ts": {
@@ -5416,9 +5469,10 @@
       "crypto",
       "../hooks/syncTripSpots",
       "../hooks/emailFlowTriggers",
-      "../hooks/manualConfirm"
+      "../hooks/manualConfirm",
+      "../hooks/purchaseConfirmation"
     ],
-    "lines": 330,
+    "lines": 331,
     "group": "collections"
   },
   "src/payload/collections/ProgramInquiries.ts": {
@@ -5564,9 +5618,10 @@
     "imports": [
       "payload",
       "../hooks/emailFlowTriggers",
-      "../hooks/decrementSpotsOnPaid"
+      "../hooks/decrementSpotsOnPaid",
+      "../hooks/purchaseConfirmation"
     ],
-    "lines": 599,
+    "lines": 600,
     "group": "collections"
   },
   "src/payload/collections/Stories.ts": {
@@ -8743,6 +8798,8 @@
   "src/lib/stripe-webhooks.ts": {
     "exports": [
       "notifyWaitlist",
+      "sendOrderConfirmationEmail",
+      "sendRegistrationConfirmationEmail",
       "decrementOrderItemsSpotsAndStock",
       "handleCheckoutCompleted",
       "handleSubscriptionUpsert",
@@ -8764,7 +8821,7 @@
       "@/lib/escape-html",
       "@/lib/ga4-measurement-protocol"
     ],
-    "lines": 1046,
+    "lines": 1057,
     "group": "lib"
   },
   "src/lib/get-default-strings.ts": {
@@ -8846,7 +8903,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 24,
+    "lines": 25,
     "group": "lib"
   },
   "src/lib/email-flows.ts": {
@@ -8862,7 +8919,7 @@
       "@/lib/email-logger",
       "@/lib/featured-content"
     ],
-    "lines": 155,
+    "lines": 156,
     "group": "lib"
   },
   "src/lib/use-translations.ts": {
@@ -9315,7 +9372,7 @@
       "@/lib/email-logger",
       "@/lib/featured-content"
     ],
-    "lines": 138,
+    "lines": 139,
     "group": "lib"
   },
   "src/puck/customFields.tsx": {
