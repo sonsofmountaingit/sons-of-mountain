@@ -32,6 +32,95 @@ async function resolveVoucherOffering(payload: BasePayload, doc: any, siteUrl: s
   return { title, url: `${siteUrl}/${target.type === 'destination' ? 'destinations' : `${target.type}s`}/${slug}`, type: target.type }
 }
 
+function formatBulgarianDate(value: unknown): string | null {
+  if (!value) return null
+  const date = new Date(String(value))
+  if (Number.isNaN(date.getTime())) return null
+  return new Intl.DateTimeFormat('bg-BG', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Sofia' }).format(date)
+}
+
+/**
+ * Transactional fallback used when an editable Email Flow has not been configured.
+ * It deliberately uses tables and inline styles so the voucher stays legible in Outlook.
+ */
+function voucherEmailHtml({
+  kind,
+  siteUrl,
+  voucherUrl,
+  code,
+  amount,
+  recipient,
+  recipientEmail,
+  sender,
+  message,
+  offeringTitle,
+  offeringUrl,
+  isAllOfferings,
+  deliveryDate,
+}: {
+  kind: 'recipient' | 'buyer'
+  siteUrl: string
+  voucherUrl: string
+  code: string
+  amount: string
+  recipient: string
+  recipientEmail: string
+  sender: string
+  message: string
+  offeringTitle: string
+  offeringUrl: string
+  isAllOfferings: boolean
+  deliveryDate: string | null
+}): string {
+  const isRecipient = kind === 'recipient'
+  const title = isRecipient
+    ? 'ПОДАРЪК ЗА СЛЕДВАЩОТО ТИ ПРИКЛЮЧЕНИЕ'
+    : deliveryDate ? 'ПОДАРЪКЪТ Е НАСРОЧЕН' : 'ПОДАРЪКЪТ Е ИЗПРАТЕН'
+  const intro = isRecipient
+    ? `${sender} ти изпрати подаръчен ваучер от Sons of Mountains.`
+    : `Плащането за подаръчния ваучер за ${recipient} е потвърдено.`
+  const deliveryNotice = !isRecipient
+    ? `<p style="margin:0 0 24px;color:#303a34;font:15px/24px Arial,sans-serif;">${deliveryDate
+      ? `Ваучерът ще бъде изпратен автоматично на ${recipient} (${recipientEmail}) на ${deliveryDate}.`
+      : `Ваучерът беше изпратен автоматично на ${recipient} (${recipientEmail}).`}</p>`
+    : ''
+  const messageBlock = isRecipient && message
+    ? `<p style="margin:0 0 28px;color:#303a34;font:italic 16px/26px Georgia,serif;">„${message}“</p>`
+    : ''
+  const offeringBlock = isAllOfferings
+    ? ''
+    : `<p style="margin:0 0 26px;color:#303a34;font:14px/22px Arial,sans-serif;">Ваучерът е избран за <strong>${offeringTitle}</strong>.</p>`
+  const actionUrl = offeringUrl
+  const actionLabel = 'РАЗГЛЕДАЙ ПРИКЛЮЧЕНИЯТА'
+  const voucherCodeBlock = isRecipient
+    ? `<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:0 0 28px;background:#edf0ea;border:1px solid #d6ddd3;"><tr><td align="center" style="padding:22px 16px;">
+          <p style="margin:0 0 10px;color:#566257;font:700 10px/15px Arial,sans-serif;letter-spacing:1.5px;">ВЪВЕДИ ТОЗИ КОД ПРИ ПЛАЩАНЕ</p>
+          <p style="margin:0;color:#17231e;font:700 21px/28px 'Courier New',monospace;letter-spacing:2px;">${code}</p>
+        </td></tr></table>`
+    : ''
+  const actionBlock = isRecipient
+    ? `<table role="presentation" cellspacing="0" cellpadding="0" border="0"><tr><td align="center" style="border:1px solid #17231e;"><a href="${actionUrl}" style="display:inline-block;padding:14px 23px;color:#17231e;text-decoration:none;font:700 11px/14px Arial,sans-serif;letter-spacing:1.3px;">${actionLabel}</a></td></tr></table>`
+    : ''
+
+  return `<!doctype html>
+<html lang="bg"><body style="margin:0;padding:0;background:#f3f2ee;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f3f2ee;"><tr><td align="center" style="padding:28px 12px;">
+    <table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0" style="width:100%;max-width:600px;background:#fffdf8;">
+      <tr><td style="background:#17231e;padding:26px 32px;text-align:center;"><a href="${siteUrl}" style="color:#ffffff;text-decoration:none;font:700 13px/18px Arial,sans-serif;letter-spacing:3px;">SONS OF MOUNTAINS</a></td></tr>
+      <tr><td><img src="${siteUrl}/media/rila-hero.webp" width="600" alt="Планинско приключение със Sons of Mountains" style="display:block;width:100%;height:auto;border:0;" /></td></tr>
+      <tr><td align="center" style="padding:44px 38px 24px;">
+        <p style="margin:0 0 16px;color:#6f7d70;font:700 11px/16px Arial,sans-serif;letter-spacing:2px;">${title}</p>
+        <h1 style="margin:0 0 20px;color:#17231e;font:700 32px/38px Georgia,serif;">Ваучер на стойност €${amount}</h1>
+        <p style="margin:0 0 24px;color:#303a34;font:16px/26px Arial,sans-serif;">${intro}</p>
+        ${messageBlock}${deliveryNotice}${offeringBlock}
+        ${voucherCodeBlock}${actionBlock}
+      </td></tr>
+      <tr><td align="center" style="padding:26px 32px 34px;border-top:1px solid #e4e5df;"><p style="margin:0;color:#7b827b;font:12px/19px Arial,sans-serif;">SONS OF MOUNTAINS<br/>Пътувай там, където комфортът среща приключението.</p></td></tr>
+    </table>
+  </td></tr></table>
+</body></html>`
+}
+
 export async function sendVoucherEmailFallback(
   payload: BasePayload,
   kind: 'recipient' | 'buyer',
@@ -47,19 +136,17 @@ export async function sendVoucherEmailFallback(
   const amount = escapeHtml(Number(doc.amount).toFixed(2))
   const recipient = escapeHtml(recipientName)
   const sender = escapeHtml(senderName)
+  const message = escapeHtml(doc.message)
   const voucherUrl = `${siteUrl}/vouchers/${encodeURIComponent(doc.code)}`
   const offering = await resolveVoucherOffering(payload, doc, siteUrl)
-  const offeringTitle = escapeHtml(offering.title)
-  const offeringUrl = escapeHtml(offering.url)
-  const offeringLine = offering.type === 'all'
-    ? `<p>Ваучерът може да се използва за <a href="${offeringUrl}">${offeringTitle}</a>.</p>`
-    : `<p>Този ваучер е валиден за: <strong>${offeringTitle}</strong>.</p><p><a href="${offeringUrl}">Вижте ${offeringTitle}</a></p>`
   const subject = kind === 'recipient'
     ? `Получихте подаръчен ваучер от ${senderName}`
     : `Потвърждение за подаръчен ваучер ${doc.code}`
-  const html = kind === 'recipient'
-    ? `<p>Здравейте, ${recipient}!</p><p>${sender} ви изпрати подаръчен ваучер от Sons of Mountains на стойност <strong>€${amount}</strong>.</p><p>Вашият код: <strong>${code}</strong></p>${offeringLine}<p>Използвайте го при плащане в магазина или го вижте тук: <a href="${voucherUrl}">${voucherUrl}</a>.</p>`
-    : `<p>Здравейте, ${sender}!</p><p>Плащането за подаръчния ваучер за ${recipient} е потвърдено.</p><p>Код на ваучера: <strong>${code}</strong> · Стойност: <strong>€${amount}</strong></p>${offeringLine}`
+  const html = voucherEmailHtml({
+    kind, siteUrl, voucherUrl, code, amount, recipient, recipientEmail: escapeHtml(doc.recipientEmail), sender, message,
+    offeringTitle: escapeHtml(offering.title), offeringUrl: escapeHtml(offering.url),
+    isAllOfferings: offering.type === 'all', deliveryDate: formatBulgarianDate(doc.deliveryDate),
+  })
 
   const fromEmail = process.env.RESEND_FROM_EMAIL
   try {
