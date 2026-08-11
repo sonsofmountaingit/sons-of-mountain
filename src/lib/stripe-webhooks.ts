@@ -532,6 +532,7 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
         status: 'paid',
         paidAt: new Date().toISOString(),
         stripePaymentIntentId: (session.payment_intent as string) ?? null,
+        ...(paymentMode === 'deposit' ? { depositPaid: (session.amount_total ?? 0) / 100 } : {}),
         scaVerified,
       } as any,
     })
@@ -747,26 +748,17 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
       }
     }
 
-    if (tripId) {
-      const reg = await payload.findByID({ collection: 'registrations', id }).catch(() => null)
-      const trip = await payload.findByID({ collection: 'trips', id: tripId }).catch(() => null)
-      if (trip && reg) {
-        const participantCount = (reg as any).participantCount ?? 1
-        const newSpots = Math.max(0, (trip as any).spotsAvailable - participantCount)
-        const earlyBirdDecrement = Math.min(participantCount, (trip as any).earlyBirdSpotsRemaining ?? 0)
-        const newEarlyBirdSpots = Math.max(0, ((trip as any).earlyBirdSpotsRemaining ?? 0) - earlyBirdDecrement)
-        await payload.update({ collection: 'trips', id: tripId, data: { spotsAvailable: newSpots, earlyBirdSpotsRemaining: newEarlyBirdSpots, status: newSpots === 0 ? 'soldOut' : 'active' } })
-        if (newSpots > 0) await notifyWaitlist(payload, 'trip', tripId)
-        try {
-          after(() => {
-            try { revalidateTag('trips', 'max') } catch {}
-            try { revalidatePath('/destinations') } catch {}
-          })
-        } catch {
-          try { revalidateTag('trips', 'max') } catch {}
-          try { revalidatePath('/destinations') } catch {}
-        }
-      }
+    // Registrations recalculate availability in their afterChange hook for trips,
+    // destinations, and programs. Do not decrement here: doing both would subtract
+    // a first deposit twice and the old trip-only path missed the other travel types.
+    try {
+      after(() => {
+        try { revalidateTag('trips', 'max') } catch {}
+        try { revalidatePath('/destinations') } catch {}
+      })
+    } catch {
+      try { revalidateTag('trips', 'max') } catch {}
+      try { revalidatePath('/destinations') } catch {}
     }
 
     // Schedule remaining installments if deposit or installments mode

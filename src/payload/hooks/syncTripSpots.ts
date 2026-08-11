@@ -17,6 +17,7 @@ type OrderItem = {
   participantCount?: number
 }
 
+// A paid first installment/deposit reserves the place until cancellation releases it.
 type PaidOrderDoc = {
   items?: OrderItem[]
 }
@@ -33,7 +34,7 @@ async function paidOrderSpots(
 ): Promise<number> {
   const { docs } = await payload.find({
     collection: 'orders',
-    where: { status: { equals: 'paid' } },
+    where: { status: { in: ['paid', 'partial'] } },
     limit: 0,
     pagination: false,
     depth: 0,

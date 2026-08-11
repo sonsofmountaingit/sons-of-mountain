@@ -9,6 +9,26 @@ import { handleCheckoutCompleted } from '@/lib/stripe-webhooks'
  * Checkout orders and completes only sessions Stripe reports as paid. The payment
  * handler and Payload hooks are idempotent, so replaying a session is safe.
  */
+async function reconcilePaidSession(
+  sessionId: string,
+  payload: Awaited<ReturnType<typeof getPayload>>,
+): Promise<boolean> {
+  if (!stripe) throw new Error('Stripe is not configured')
+
+  const session = await stripe.checkout.sessions.retrieve(sessionId)
+  if (session.status !== 'complete' || session.payment_status !== 'paid') return false
+
+  await handleCheckoutCompleted(session, payload)
+  return true
+}
+
+// The success page calls this after Stripe redirects the buyer back. This gives the
+// buyer immediate confirmed order/spot data even if a webhook delivery was delayed.
+export async function reconcileCheckoutSession(sessionId: string): Promise<boolean> {
+  const payload = await getPayload({ config })
+  return reconcilePaidSession(sessionId, payload)
+}
+
 export async function reconcileCheckoutPayments(): Promise<{ checked: number; recovered: number }> {
   if (!stripe) throw new Error('Stripe is not configured')
 
@@ -31,11 +51,7 @@ export async function reconcileCheckoutPayments(): Promise<{ checked: number; re
     const sessionId = order.stripeSessionId as string | undefined
     if (!sessionId) continue
 
-    const session = await stripe.checkout.sessions.retrieve(sessionId)
-    if (session.status !== 'complete' || session.payment_status !== 'paid') continue
-
-    await handleCheckoutCompleted(session, payload)
-    recovered++
+    if (await reconcilePaidSession(sessionId, payload)) recovered++
   }
 
   return { checked: docs.length, recovered }

@@ -5,6 +5,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { formatPrice } from '@/lib/currency'
 import { PurchaseTracker } from '@/components/analytics/PurchaseTracker'
+import { reconcileCheckoutSession } from '@/lib/cron/reconcile-checkout-payments'
 
 export const metadata: Metadata = {
   title: 'Поръчката е потвърдена — Sons of Mountains',
@@ -46,6 +47,13 @@ async function getOrder(sessionId: string) {
 
 async function SuccessContent({ searchParams }: { searchParams: Promise<{ session_id?: string }> }) {
   const { session_id } = await searchParams
+  // Do not wait for asynchronous webhook delivery before showing a completed
+  // purchase: verify the Stripe session and persist its paid state on redirect.
+  if (session_id) {
+    await reconcileCheckoutSession(session_id).catch((error) => {
+      console.error('Failed to reconcile Checkout session on success page:', error)
+    })
+  }
   const result = session_id ? await getOrder(session_id) : null
   const doc = result?.doc
 
