@@ -107,6 +107,18 @@
     "lines": 106,
     "group": "other"
   },
+  "src/migrations/20260810c_vouchers_send_today_label.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 18,
+    "group": "other"
+  },
   "src/migrations/20260806_discount_codes_applicable_scope.ts": {
     "exports": [
       "up",
@@ -237,6 +249,18 @@
       "@payloadcms/db-postgres"
     ],
     "lines": 14,
+    "group": "other"
+  },
+  "src/migrations/20260810b_gift_voucher_scheduled_delivery.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 16,
     "group": "other"
   },
   "src/migrations/20260721_email_settings_global.ts": {
@@ -398,10 +422,12 @@
       "./20260807d_programs_intro_text",
       "./20260808_euro_only_currency",
       "./20260810_archive_expired_programs",
+      "./20260810b_gift_voucher_scheduled_delivery",
+      "./20260810c_vouchers_send_today_label",
       "./20260811_customer_profile_fields",
       "./20260812_resend_delivery_tracking"
     ],
-    "lines": 214,
+    "lines": 226,
     "group": "other"
   },
   "src/migrations/20260719b_email_marketing_platform.ts": {
@@ -1273,7 +1299,7 @@
       "payload",
       "@payload-config"
     ],
-    "lines": 159,
+    "lines": 158,
     "group": "api"
   },
   "src/app/api/waitlist/join/route.ts": {
@@ -1593,7 +1619,7 @@
       "@/lib/booking-deadline",
       "zod"
     ],
-    "lines": 515,
+    "lines": 529,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {
@@ -1798,7 +1824,7 @@
       "payload",
       "@payload-config"
     ],
-    "lines": 39,
+    "lines": 48,
     "group": "api"
   },
   "src/app/api/voucher/route.ts": {
@@ -1812,7 +1838,7 @@
       "payload",
       "@payload-config"
     ],
-    "lines": 93,
+    "lines": 143,
     "group": "api"
   },
   "src/app/api/voucher/mine/route.ts": {
@@ -1968,9 +1994,10 @@
     "imports": [
       "next/server",
       "payload",
-      "@payload-config"
+      "@payload-config",
+      "@/lib/cron/reconcile-checkout-payments"
     ],
-    "lines": 29,
+    "lines": 36,
     "group": "api"
   },
   "src/app/api/shop-data/route.ts": {
@@ -2509,6 +2536,18 @@
     "lines": 11,
     "group": "api"
   },
+  "src/app/api/cron/voucher-delivery/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "@/lib/cron/voucher-delivery"
+    ],
+    "lines": 14,
+    "group": "api"
+  },
   "src/app/api/cron/trip-reminders/route.ts": {
     "exports": [
       "GET"
@@ -2531,9 +2570,10 @@
       "@/lib/cron/balance-charge",
       "@/lib/cron/balance-reminders",
       "@/lib/cron/grace-period",
-      "@/lib/cron/reconcile-checkout-payments"
+      "@/lib/cron/reconcile-checkout-payments",
+      "@/lib/cron/voucher-delivery"
     ],
-    "lines": 25,
+    "lines": 26,
     "group": "api"
   },
   "src/app/api/wishlist/toggle/route.ts": {
@@ -3198,9 +3238,10 @@
       "payload",
       "@payload-config",
       "@/lib/currency",
-      "@/components/analytics/PurchaseTracker"
+      "@/components/analytics/PurchaseTracker",
+      "@/lib/cron/reconcile-checkout-payments"
     ],
-    "lines": 178,
+    "lines": 186,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/gift-vouchers/_components/GiftVoucherPurchaseForm.tsx": {
@@ -3215,7 +3256,7 @@
       "zod",
       "sonner"
     ],
-    "lines": 172,
+    "lines": 188,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/gift-vouchers/page.tsx": {
@@ -4027,7 +4068,7 @@
       "sonner",
       "@/lib/currency"
     ],
-    "lines": 679,
+    "lines": 703,
     "group": "frontend"
   },
   "src/app/(frontend)/vouchers/page.tsx": {
@@ -4827,7 +4868,7 @@
       "next/cache",
       "next/server"
     ],
-    "lines": 121,
+    "lines": 122,
     "group": "globals"
   },
   "src/payload/globals/Shop.ts": {
@@ -5197,7 +5238,7 @@
       "payload",
       "@tiptap/react"
     ],
-    "lines": 87,
+    "lines": 90,
     "group": "payload"
   },
   "src/payload/components/CampaignSendTestButton.tsx": {
@@ -5332,6 +5373,7 @@
   },
   "src/payload/hooks/emailFlowTriggers.ts": {
     "exports": [
+      "sendVoucherEmailFallback",
       "registrationEmailFlows",
       "orderEmailFlows",
       "giftVoucherEmailFlows"
@@ -5340,9 +5382,11 @@
     "imports": [
       "payload",
       "@/lib/email-flows",
-      "@/lib/subscriber-upsert"
+      "@/lib/subscriber-upsert",
+      "@/lib/resend",
+      "@/lib/email-logger"
     ],
-    "lines": 113,
+    "lines": 324,
     "group": "payload"
   },
   "src/payload/hooks/syncTripSpots.ts": {
@@ -5354,7 +5398,7 @@
     "imports": [
       "payload"
     ],
-    "lines": 135,
+    "lines": 136,
     "group": "payload"
   },
   "src/payload/hooks/revalidate.ts": {
@@ -5763,7 +5807,7 @@
       "payload",
       "../hooks/emailFlowTriggers"
     ],
-    "lines": 160,
+    "lines": 165,
     "group": "collections"
   },
   "src/payload/collections/CustomerRatings.ts": {
@@ -6744,7 +6788,7 @@
     ],
     "types": [],
     "imports": [],
-    "lines": 49,
+    "lines": 53,
     "group": "blocks"
   },
   "src/components/blocks/vouchers/VouchersRedeemBlock.tsx": {
@@ -8276,7 +8320,7 @@
       "@/lib/currency",
       "@/lib/use-translations"
     ],
-    "lines": 97,
+    "lines": 117,
     "group": "components"
   },
   "src/components/shop/AddToCartButton.tsx": {
@@ -8822,7 +8866,7 @@
       "@/lib/escape-html",
       "@/lib/ga4-measurement-protocol"
     ],
-    "lines": 1057,
+    "lines": 1049,
     "group": "lib"
   },
   "src/lib/get-default-strings.ts": {
@@ -9003,7 +9047,7 @@
       "@/lib/gtag",
       "react"
     ],
-    "lines": 201,
+    "lines": 204,
     "group": "lib"
   },
   "src/lib/translations.ts": {
@@ -9317,11 +9361,12 @@
       "@payload-config",
       "@/lib/travel-status"
     ],
-    "lines": 118,
+    "lines": 149,
     "group": "lib"
   },
   "src/lib/cron/reconcile-checkout-payments.ts": {
     "exports": [
+      "reconcileCheckoutSession",
       "reconcileCheckoutPayments"
     ],
     "types": [],
@@ -9331,7 +9376,7 @@
       "@/lib/stripe",
       "@/lib/stripe-webhooks"
     ],
-    "lines": 43,
+    "lines": 60,
     "group": "lib"
   },
   "src/lib/cron/voucher-expiry.ts": {
@@ -9388,6 +9433,19 @@
       "@/lib/featured-content"
     ],
     "lines": 139,
+    "group": "lib"
+  },
+  "src/lib/cron/voucher-delivery.ts": {
+    "exports": [
+      "runVoucherDelivery"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config",
+      "@/payload/hooks/emailFlowTriggers"
+    ],
+    "lines": 39,
     "group": "lib"
   },
   "src/puck/customFields.tsx": {
@@ -9547,7 +9605,7 @@
       "@/components/blocks/vouchers/VouchersRedeemBlock",
       "@/components/blocks/vouchers/VouchersMineBlock"
     ],
-    "lines": 2160,
+    "lines": 2161,
     "group": "other"
   },
   "src/puck/puckAI.ts": {

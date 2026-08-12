@@ -55,6 +55,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260810c_vouchers_send_today_label.ts",
+      "label": "migrations/20260810c_vouchers_send_today_label.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260806_discount_codes_applicable_scope.ts",
       "label": "migrations/20260806_discount_codes_applicable_scope.ts",
       "group": "other",
@@ -117,6 +123,12 @@
     {
       "id": "src/migrations/20260807d_programs_intro_text.ts",
       "label": "migrations/20260807d_programs_intro_text.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
+      "id": "src/migrations/20260810b_gift_voucher_scheduled_delivery.ts",
+      "label": "migrations/20260810b_gift_voucher_scheduled_delivery.ts",
       "group": "other",
       "size": 6
     },
@@ -1059,6 +1071,12 @@
     {
       "id": "src/app/api/cron/delayed-emails/route.ts",
       "label": "delayed-emails/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/cron/voucher-delivery/route.ts",
+      "label": "voucher-delivery/route.ts",
       "group": "api",
       "size": 4
     },
@@ -2116,7 +2134,7 @@
       "id": "src/payload/hooks/emailFlowTriggers.ts",
       "label": "hooks/emailFlowTriggers.ts",
       "group": "payload",
-      "size": 10
+      "size": 12
     },
     {
       "id": "src/payload/hooks/syncTripSpots.ts",
@@ -3730,7 +3748,7 @@
       "id": "src/lib/resend.ts",
       "label": "lib/resend.ts",
       "group": "lib",
-      "size": 18
+      "size": 20
     },
     {
       "id": "src/lib/booking-deadline.ts",
@@ -3742,7 +3760,7 @@
       "id": "src/lib/email-logger.ts",
       "label": "lib/email-logger.ts",
       "group": "lib",
-      "size": 14
+      "size": 16
     },
     {
       "id": "src/lib/email-flows.ts",
@@ -3934,7 +3952,7 @@
       "id": "src/lib/cron/reconcile-checkout-payments.ts",
       "label": "cron/reconcile-checkout-payments.ts",
       "group": "lib",
-      "size": 6
+      "size": 10
     },
     {
       "id": "src/lib/cron/voucher-expiry.ts",
@@ -3957,6 +3975,12 @@
     {
       "id": "src/lib/cron/send-campaigns.ts",
       "label": "cron/send-campaigns.ts",
+      "group": "lib",
+      "size": 8
+    },
+    {
+      "id": "src/lib/cron/voucher-delivery.ts",
+      "label": "cron/voucher-delivery.ts",
       "group": "lib",
       "size": 8
     },
@@ -4177,6 +4201,14 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260810_archive_expired_programs.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260810b_gift_voucher_scheduled_delivery.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260810c_vouchers_send_today_label.ts"
     },
     {
       "source": "src/migrations/index.ts",
@@ -4759,6 +4791,10 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/orders/by-session/route.ts",
+      "target": "src/lib/cron/reconcile-checkout-payments.ts"
+    },
+    {
       "source": "src/app/api/shop-data/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -5011,6 +5047,10 @@
       "target": "src/lib/cron/delayed-emails.ts"
     },
     {
+      "source": "src/app/api/cron/voucher-delivery/route.ts",
+      "target": "src/lib/cron/voucher-delivery.ts"
+    },
+    {
       "source": "src/app/api/cron/trip-reminders/route.ts",
       "target": "src/lib/cron/trip-reminders.ts"
     },
@@ -5029,6 +5069,10 @@
     {
       "source": "src/app/api/cron/stripe/route.ts",
       "target": "src/lib/cron/reconcile-checkout-payments.ts"
+    },
+    {
+      "source": "src/app/api/cron/stripe/route.ts",
+      "target": "src/lib/cron/voucher-delivery.ts"
     },
     {
       "source": "src/app/api/wishlist/toggle/route.ts",
@@ -5521,6 +5565,10 @@
     {
       "source": "src/app/(frontend)/shop/success/page.tsx",
       "target": "src/components/analytics/PurchaseTracker.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/shop/success/page.tsx",
+      "target": "src/lib/cron/reconcile-checkout-payments.ts"
     },
     {
       "source": "src/app/(frontend)/shop/gift-vouchers/page.tsx",
@@ -6841,6 +6889,14 @@
     {
       "source": "src/payload/hooks/emailFlowTriggers.ts",
       "target": "src/lib/subscriber-upsert.ts"
+    },
+    {
+      "source": "src/payload/hooks/emailFlowTriggers.ts",
+      "target": "src/lib/resend.ts"
+    },
+    {
+      "source": "src/payload/hooks/emailFlowTriggers.ts",
+      "target": "src/lib/email-logger.ts"
     },
     {
       "source": "src/payload/collections/Trips.ts",
@@ -8735,6 +8791,14 @@
       "target": "src/lib/resend.ts"
     },
     {
+      "source": "src/lib/cron/voucher-delivery.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/lib/cron/voucher-delivery.ts",
+      "target": "src/payload/hooks/emailFlowTriggers.ts"
+    },
+    {
       "source": "src/puck/config.tsx",
       "target": "src/components/blocks/HeroBlockRenderer.tsx"
     },
@@ -9019,6 +9083,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-08-10T12:23:42.213Z",
-  "fileCount": 674
+  "builtAt": "2026-08-12T17:12:27.314Z",
+  "fileCount": 678
 }
