@@ -39,6 +39,14 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    # Database-wide circuit breakers. They protect us even if a future code path
+    # opens a transaction without using the Payload pool configuration.
+    command: >
+      postgres
+      -c idle_in_transaction_session_timeout=30000
+      -c lock_timeout=10000
+      -c log_lock_waits=on
+      -c log_min_duration_statement=1000
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s

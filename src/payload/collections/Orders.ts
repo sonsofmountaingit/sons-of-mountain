@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { orderEmailFlows } from '../hooks/emailFlowTriggers'
 import { decrementSpotsOnPaid } from '../hooks/decrementSpotsOnPaid'
 import { sendPurchaseConfirmation } from '../hooks/purchaseConfirmation'
+import { afterResponse } from '@/lib/after-response'
 
 export const Orders: CollectionConfig = {
   slug: 'orders',
@@ -31,7 +32,14 @@ export const Orders: CollectionConfig = {
         return data
       },
     ],
-    afterChange: [sendPurchaseConfirmation, orderEmailFlows, decrementSpotsOnPaid],
+    afterChange: [
+      sendPurchaseConfirmation,
+      decrementSpotsOnPaid,
+      ({ doc, previousDoc, operation, req }) => {
+        void afterResponse(() => orderEmailFlows({ doc, previousDoc, operation, req } as any))
+        return doc
+      },
+    ],
   },
   fields: [
     {
