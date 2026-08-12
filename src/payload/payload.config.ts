@@ -254,10 +254,6 @@ export default buildConfig({
       max: 8,
       idleTimeoutMillis: 30_000,
       connectionTimeoutMillis: 5_000,
-      // A dropped/abandoned HTTP worker must never pin a transaction indefinitely.
-      // The server setting is the final guard; this client-side timeout also applies
-      // to every connection acquired from Payload's pool.
-      options: '-c idle_in_transaction_session_timeout=30000 -c lock_timeout=10000',
     },
     // Keep Payload's per-operation transactions ON (the default). They were previously disabled
     // to work around connections stuck "idle in transaction", but that was a symptom of an

@@ -4,7 +4,6 @@ import { syncSpotsAfterChange, syncSpotsAfterDelete } from '../hooks/syncTripSpo
 import { registrationEmailFlows } from '../hooks/emailFlowTriggers'
 import { manualConfirmPaidBeforeChange } from '../hooks/manualConfirm'
 import { sendPurchaseConfirmation } from '../hooks/purchaseConfirmation'
-import { afterResponse } from '@/lib/after-response'
 
 export const Registrations: CollectionConfig = {
   slug: 'registrations',
@@ -23,22 +22,8 @@ export const Registrations: CollectionConfig = {
       },
       manualConfirmPaidBeforeChange,
     ],
-    afterChange: [
-      ({ doc, req }) => {
-        void afterResponse(() => syncSpotsAfterChange({ doc, req } as any))
-        return doc
-      },
-      sendPurchaseConfirmation,
-      ({ doc, previousDoc, operation, req }) => {
-        void afterResponse(() => registrationEmailFlows({ doc, previousDoc, operation, req } as any))
-        return doc
-      },
-    ],
-    afterDelete: [
-      ({ doc, req }) => {
-        void afterResponse(() => syncSpotsAfterDelete({ doc, req } as any))
-      },
-    ],
+    afterChange: [syncSpotsAfterChange, sendPurchaseConfirmation, registrationEmailFlows],
+    afterDelete: [syncSpotsAfterDelete],
   },
   fields: [
     {
