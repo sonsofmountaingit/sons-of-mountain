@@ -535,10 +535,6 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
         ...(paymentMode === 'deposit' ? { depositPaid: (session.amount_total ?? 0) / 100 } : {}),
         scaVerified,
       } as any,
-      // Payment completion triggers hooks that send email, update availability,
-      // and synchronize Stripe data. Each side effect keeps its own operation
-      // transaction; do not keep this order row transaction open while they run.
-      disableTransaction: true,
     })
 
     {
@@ -728,12 +724,7 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
     if (paymentModeValue === 'installments') {
       updateData.paymentMode = 'installments'
     }
-    await payload.update({
-      collection: 'registrations',
-      id,
-      data: updateData as any,
-      disableTransaction: true,
-    })
+    await payload.update({ collection: 'registrations', id, data: updateData as any })
     await generateInvoice(payload, stripe, session, 'registrations', id)
     {
       const paidReg = await payload.findByID({ collection: 'registrations', id, depth: 2 }).catch(() => null) as any
@@ -794,12 +785,7 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
     if (!existingOrder) return
     if ((existingOrder as any).status === 'paid') return
     // Spots/stock decrement runs in Orders collection afterChange hook (decrementSpotsOnPaid).
-    await payload.update({
-      collection: 'orders',
-      id,
-      data: { status: 'paid', paidAt: new Date().toISOString(), scaVerified } as any,
-      disableTransaction: true,
-    })
+    await payload.update({ collection: 'orders', id, data: { status: 'paid', paidAt: new Date().toISOString(), scaVerified } as any })
     if ((existingOrder as any).discountCode) {
       const dcId = typeof (existingOrder as any).discountCode === 'string' ? (existingOrder as any).discountCode : (existingOrder as any).discountCode?.id
       const dc = await payload.findByID({ collection: 'discount-codes', id: dcId }).catch(() => null)
