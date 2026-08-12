@@ -244,7 +244,21 @@ function buildOrderConfirmationHtml(p: {
 </div></body></html>`
 }
 
+async function hasSentConfirmation(payload: BasePayload, trigger: 'order_confirmation' | 'registration_confirmation', documentId: string): Promise<boolean> {
+  const result = await payload.find({
+    collection: 'email-logs',
+    where: { and: [{ trigger: { equals: trigger } }, { status: { in: ['sent', 'delivered', 'opened', 'clicked'] } }] },
+    limit: 100,
+    pagination: false,
+    depth: 0,
+  })
+  const contextKey = trigger === 'order_confirmation' ? 'orderId' : 'registrationId'
+  return result.docs.some((log: any) => String(log.context?.[contextKey]) === documentId)
+}
+
 export async function sendOrderConfirmationEmail(payload: BasePayload, orderId: string) {
+  if (await hasSentConfirmation(payload, 'order_confirmation', orderId)) return
+
   const order = await payload.findByID({ collection: 'orders', id: orderId, depth: 2 }).catch(() => null)
   if (!order) return
   const o = order as any
@@ -302,7 +316,7 @@ export async function sendOrderConfirmationEmail(payload: BasePayload, orderId: 
     to: o.email,
     subject: 'Резервацията е потвърдена — Sons of Mountains',
     html,
-  })
+  }, { idempotencyKey: `order-confirmation-${orderId}` })
   if (result.error) throw new Error(`Order confirmation email failed: ${result.error.message}`)
 
   await createEmailLog(payload, {
@@ -336,11 +350,13 @@ export async function sendOrderConfirmationEmail(payload: BasePayload, orderId: 
       to: adminEmail,
       subject: `Нова платена поръчка #${String(orderId).slice(-8).toUpperCase()} — ${o.email}`,
       html: adminHtml,
-    }).catch(() => {})
+    }, { idempotencyKey: `order-admin-notification-${orderId}` }).catch(() => {})
   }
 }
 
 export async function sendRegistrationConfirmationEmail(payload: BasePayload, registrationId: string) {
+  if (await hasSentConfirmation(payload, 'registration_confirmation', registrationId)) return
+
   const reg = await payload.findByID({ collection: 'registrations', id: registrationId, depth: 2 }).catch(() => null)
   if (!reg) return
   const r = reg as any
@@ -373,7 +389,7 @@ export async function sendRegistrationConfirmationEmail(payload: BasePayload, re
     to: r.email,
     subject,
     html,
-  })
+  }, { idempotencyKey: `registration-confirmation-${registrationId}` })
   if (result.error) throw new Error(`Registration confirmation email failed: ${result.error.message}`)
 
   await createEmailLog(payload, {
