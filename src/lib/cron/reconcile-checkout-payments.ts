@@ -41,9 +41,10 @@ export async function reconcileCheckoutPayments(): Promise<{ checked: number; re
         { stripeSessionId: { exists: true } },
       ],
     },
-    limit: 100,
+    limit: 10,
     pagination: false,
     depth: 0,
+    sort: 'createdAt',
   })
 
   let recovered = 0
