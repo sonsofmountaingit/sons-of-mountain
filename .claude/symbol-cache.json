@@ -5353,10 +5353,11 @@
     "types": [],
     "imports": [
       "payload",
+      "@/lib/after-response",
       "@/lib/stripe-webhooks",
       "@/lib/email-logger"
     ],
-    "lines": 43,
+    "lines": 50,
     "group": "payload"
   },
   "src/payload/hooks/decrementSpotsOnPaid.ts": {
@@ -5366,9 +5367,10 @@
     "types": [],
     "imports": [
       "payload",
-      "@/lib/stripe-webhooks"
+      "@/lib/stripe-webhooks",
+      "./syncTripSpots"
     ],
-    "lines": 13,
+    "lines": 16,
     "group": "payload"
   },
   "src/payload/hooks/emailFlowTriggers.ts": {
@@ -5391,14 +5393,18 @@
   },
   "src/payload/hooks/syncTripSpots.ts": {
     "exports": [
+      "syncSpotsForOrderItems",
       "syncSpotsAfterChange",
       "syncSpotsAfterDelete"
     ],
-    "types": [],
-    "imports": [
-      "payload"
+    "types": [
+      "BookableOrderItem"
     ],
-    "lines": 136,
+    "imports": [
+      "payload",
+      "@/lib/travel-status"
+    ],
+    "lines": 175,
     "group": "payload"
   },
   "src/payload/hooks/revalidate.ts": {
@@ -5433,7 +5439,7 @@
       "./shared/bookingDeadlineField",
       "@/lib/travel-status"
     ],
-    "lines": 583,
+    "lines": 579,
     "group": "collections"
   },
   "src/payload/collections/EmailTemplates.ts": {
@@ -5578,7 +5584,7 @@
       "./shared/bookingDeadlineField",
       "@/lib/travel-status"
     ],
-    "lines": 612,
+    "lines": 608,
     "group": "collections"
   },
   "src/payload/collections/Pages.ts": {
@@ -5652,7 +5658,7 @@
       "@payloadcms/richtext-lexical",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 187,
+    "lines": 183,
     "group": "collections"
   },
   "src/payload/collections/Orders.ts": {
@@ -5666,7 +5672,7 @@
       "../hooks/decrementSpotsOnPaid",
       "../hooks/purchaseConfirmation"
     ],
-    "lines": 600,
+    "lines": 606,
     "group": "collections"
   },
   "src/payload/collections/Stories.ts": {
@@ -5749,7 +5755,7 @@
       "next/cache",
       "@/lib/stripe-product-sync"
     ],
-    "lines": 158,
+    "lines": 154,
     "group": "collections"
   },
   "src/payload/collections/Testimonials.ts": {
@@ -5926,13 +5932,12 @@
     "imports": [
       "payload",
       "../hooks/revalidate",
-      "next/server",
       "@/lib/stripe-product-sync",
       "@/lib/send-registration-forms",
       "./shared/paymentPlanFields",
       "./shared/bookingDeadlineField"
     ],
-    "lines": 589,
+    "lines": 584,
     "group": "collections"
   },
   "src/payload/collections/Waitlist.ts": {
@@ -8793,6 +8798,17 @@
     "lines": 31,
     "group": "other"
   },
+  "src/lib/after-response.ts": {
+    "exports": [
+      "afterResponse"
+    ],
+    "types": [],
+    "imports": [
+      "next/server"
+    ],
+    "lines": 14,
+    "group": "lib"
+  },
   "src/lib/email-renderer.ts": {
     "exports": [
       "substituteMergeTags",
@@ -8866,7 +8882,7 @@
       "@/lib/escape-html",
       "@/lib/ga4-measurement-protocol"
     ],
-    "lines": 1049,
+    "lines": 1065,
     "group": "lib"
   },
   "src/lib/get-default-strings.ts": {
@@ -9009,13 +9025,15 @@
   },
   "src/lib/stripe-product-sync.ts": {
     "exports": [
+      "scheduleStripeSync",
       "syncStripeProduct"
     ],
     "types": [],
     "imports": [
-      "payload"
+      "payload",
+      "next/server"
     ],
-    "lines": 63,
+    "lines": 90,
     "group": "lib"
   },
   "src/lib/weather.ts": {
@@ -9184,7 +9202,7 @@
       "PriceBreakdown"
     ],
     "imports": [],
-    "lines": 75,
+    "lines": 69,
     "group": "lib"
   },
   "src/lib/animations.ts": {
@@ -9376,7 +9394,7 @@
       "@/lib/stripe",
       "@/lib/stripe-webhooks"
     ],
-    "lines": 60,
+    "lines": 62,
     "group": "lib"
   },
   "src/lib/cron/voucher-expiry.ts": {

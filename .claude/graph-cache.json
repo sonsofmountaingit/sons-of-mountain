@@ -2140,7 +2140,7 @@
       "id": "src/payload/hooks/syncTripSpots.ts",
       "label": "hooks/syncTripSpots.ts",
       "group": "payload",
-      "size": 6
+      "size": 8
     },
     {
       "id": "src/payload/hooks/revalidate.ts",
@@ -3689,6 +3689,12 @@
       "label": "src/proxy.ts",
       "group": "other",
       "size": 4
+    },
+    {
+      "id": "src/lib/after-response.ts",
+      "label": "lib/after-response.ts",
+      "group": "lib",
+      "size": 6
     },
     {
       "id": "src/lib/email-renderer.ts",
@@ -6872,6 +6878,10 @@
     },
     {
       "source": "src/payload/hooks/purchaseConfirmation.ts",
+      "target": "src/lib/after-response.ts"
+    },
+    {
+      "source": "src/payload/hooks/purchaseConfirmation.ts",
       "target": "src/lib/stripe-webhooks.ts"
     },
     {
@@ -6881,6 +6891,10 @@
     {
       "source": "src/payload/hooks/decrementSpotsOnPaid.ts",
       "target": "src/lib/stripe-webhooks.ts"
+    },
+    {
+      "source": "src/payload/hooks/decrementSpotsOnPaid.ts",
+      "target": "src/payload/hooks/syncTripSpots.ts"
     },
     {
       "source": "src/payload/hooks/emailFlowTriggers.ts",
@@ -6897,6 +6911,10 @@
     {
       "source": "src/payload/hooks/emailFlowTriggers.ts",
       "target": "src/lib/email-logger.ts"
+    },
+    {
+      "source": "src/payload/hooks/syncTripSpots.ts",
+      "target": "src/lib/travel-status.ts"
     },
     {
       "source": "src/payload/collections/Trips.ts",
@@ -9083,6 +9101,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-08-12T17:12:27.314Z",
-  "fileCount": 678
+  "builtAt": "2026-08-13T11:13:05.424Z",
+  "fileCount": 679
 }
