@@ -1,16 +1,10 @@
-export function getDynamicPrice(basePrice: number, spotsTotal: number, spotsAvailable: number): number {
-  if (spotsTotal <= 0) return basePrice
-  const fillRate = (spotsTotal - spotsAvailable) / spotsTotal
-  if (fillRate >= 0.95) return Math.round(basePrice * 1.10 * 100) / 100
-  if (fillRate >= 0.80) return Math.round(basePrice * 1.05 * 100) / 100
+// Capacity must never change the advertised or charged price. Keep this helper as
+// the shared pricing boundary so existing callers always receive the base price.
+export function getDynamicPrice(basePrice: number, _spotsTotal: number, _spotsAvailable: number): number {
   return basePrice
 }
 
-export function getDynamicPriceLabel(spotsTotal: number, spotsAvailable: number): string | null {
-  if (spotsTotal <= 0) return null
-  const fillRate = (spotsTotal - spotsAvailable) / spotsTotal
-  if (fillRate >= 0.95) return 'Almost full'
-  if (fillRate >= 0.80) return 'Filling fast'
+export function getDynamicPriceLabel(_spotsTotal: number, _spotsAvailable: number): string | null {
   return null
 }
 
