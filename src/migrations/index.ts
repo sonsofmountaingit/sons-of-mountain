@@ -35,6 +35,7 @@ import * as migration_20260810b_gift_voucher_scheduled_delivery from './20260810
 import * as migration_20260810c_vouchers_send_today_label from './20260810c_vouchers_send_today_label'
 import * as migration_20260811_customer_profile_fields from './20260811_customer_profile_fields'
 import * as migration_20260812_resend_delivery_tracking from './20260812_resend_delivery_tracking'
+import * as migration_20260813_waitlist_customer_relationship from './20260813_waitlist_customer_relationship'
 
 export const migrations = [
   {
@@ -221,5 +222,10 @@ export const migrations = [
     up: migration_20260812_resend_delivery_tracking.up,
     down: migration_20260812_resend_delivery_tracking.down,
     name: '20260812_resend_delivery_tracking',
+  },
+  {
+    up: migration_20260813_waitlist_customer_relationship.up,
+    down: migration_20260813_waitlist_customer_relationship.down,
+    name: '20260813_waitlist_customer_relationship',
   },
 ]
