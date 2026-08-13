@@ -3,7 +3,7 @@ import { after } from 'next/server'
 import { revalidateTag as _revalidateTag } from 'next/cache'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const revalidateTag = _revalidateTag
-import { syncStripeProduct } from '@/lib/stripe-product-sync'
+import { scheduleStripeSync } from '@/lib/stripe-product-sync'
 
 export const Bundles: CollectionConfig = {
   slug: 'bundles',
@@ -15,12 +15,8 @@ export const Bundles: CollectionConfig = {
   hooks: {
     afterChange: [
       () => { after(() => revalidateTag('bundles', 'max')) },
-      async ({ doc, previousDoc, req }) => {
-        try {
-          after(() => syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'bundles', priceField: 'bundlePrice' }))
-        } catch {
-          await syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'bundles', priceField: 'bundlePrice' })
-        }
+      ({ doc, previousDoc, req }) => {
+        scheduleStripeSync({ doc, previousDoc, payload: req.payload, collection: 'bundles', priceField: 'bundlePrice' })
       },
     ],
     afterDelete: [() => { after(() => revalidateTag('bundles', 'max')) }],

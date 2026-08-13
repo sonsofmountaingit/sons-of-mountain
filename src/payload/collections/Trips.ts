@@ -2,7 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { revalidateCollection, revalidateCollectionDelete } from '../hooks/revalidate'
 import { revalidateTag as _revalidateTag } from 'next/cache'
 import { after } from 'next/server'
-import { syncStripeProduct } from '@/lib/stripe-product-sync'
+import { scheduleStripeSync } from '@/lib/stripe-product-sync'
 import { sendRegistrationFormsFor } from '@/lib/send-registration-forms'
 import { paymentPlanFields } from './shared/paymentPlanFields'
 import { bookingDeadlineField } from './shared/bookingDeadlineField'
@@ -558,12 +558,8 @@ export const Trips: CollectionConfig = {
     afterChange: [
       revalidateCollection('trips', '/trips', ['featured-travels']),
       revalidateFooterTrips,
-      async ({ doc, previousDoc, req }) => {
-        try {
-          after(() => syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'trips', priceField: 'price' }))
-        } catch {
-          await syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'trips', priceField: 'price' })
-        }
+      ({ doc, previousDoc, req }) => {
+        scheduleStripeSync({ doc, previousDoc, payload: req.payload, collection: 'trips', priceField: 'price' })
       },
       async ({ doc, previousDoc, req }) => {
         const peak = doc.freeTransfer?.peak

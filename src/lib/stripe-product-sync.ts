@@ -1,8 +1,35 @@
 import type { BasePayload } from 'payload'
+import { after } from 'next/server'
 
 async function getStripe() {
   const { stripe } = await import('@/lib/stripe')
   return stripe
+}
+
+// Stripe sync makes live network calls (products.create/prices.create/etc). Never let
+// those calls run synchronously inside a collection's afterChange hook: the create/update
+// operation's Payload/Postgres transaction is still open at that point, and awaiting a
+// slow/hanging outbound HTTP call there holds the DB connection "idle in transaction"
+// until Postgres's idle_in_transaction_session_timeout kills it — which starves the
+// connection pool and can crash the whole process (breaking unrelated requests, including
+// the Stripe webhook route itself, leaving paid orders stuck as "pending" forever).
+//
+// next/server's after() defers work until *after* the HTTP response is sent, which is safe,
+// but it only works inside a real request scope and throws synchronously otherwise (cron
+// jobs, seed scripts, admin panel server actions run outside a request, etc). Previously the
+// fallback for that case was to `await` the sync inline — reintroducing the exact hazard
+// after() exists to avoid. Instead, always run the sync detached (fire-and-forget) so the
+// hook returns immediately and the transaction can commit right away; sync failures are
+// logged, never surfaced to the transaction.
+export function scheduleStripeSync(args: SyncArgs) {
+  const run = () => syncStripeProduct(args).catch((e) => {
+    console.error(`Deferred Stripe product sync failed for ${args.collection}/${args.doc?.id}:`, e)
+  })
+  try {
+    after(run)
+  } catch {
+    void run()
+  }
 }
 
 interface SyncArgs {

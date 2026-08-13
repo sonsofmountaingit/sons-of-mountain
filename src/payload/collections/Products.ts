@@ -4,7 +4,7 @@ import { revalidateTag as _revalidateTag } from 'next/cache'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const revalidateTag = _revalidateTag
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import { syncStripeProduct } from '@/lib/stripe-product-sync'
+import { scheduleStripeSync } from '@/lib/stripe-product-sync'
 
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -44,12 +44,8 @@ export const Products: CollectionConfig = {
           } catch {}
         }
       },
-      async ({ doc, previousDoc, req }) => {
-        try {
-          after(() => syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'products' }))
-        } catch {
-          await syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'products' })
-        }
+      ({ doc, previousDoc, req }) => {
+        scheduleStripeSync({ doc, previousDoc, payload: req.payload, collection: 'products' })
       },
     ],
     afterDelete: [() => { after(() => revalidateTag('products', 'max')) }],

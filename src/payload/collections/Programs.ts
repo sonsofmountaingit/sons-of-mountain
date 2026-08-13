@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { revalidateTag as _revalidateTag } from 'next/cache'
 import { after } from 'next/server'
-import { syncStripeProduct } from '@/lib/stripe-product-sync'
+import { scheduleStripeSync } from '@/lib/stripe-product-sync'
 import { paymentPlanFields } from './shared/paymentPlanFields'
 import { bookingDeadlineField } from './shared/bookingDeadlineField'
 import { hasTravelEnded } from '@/lib/travel-status'
@@ -598,12 +598,8 @@ export const Programs: CollectionConfig = {
     ],
     afterChange: [
       revalidatePrograms,
-      async ({ doc, previousDoc, req }) => {
-        try {
-          after(() => syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'programs', priceField: 'price' }))
-        } catch {
-          await syncStripeProduct({ doc, previousDoc, payload: req.payload, collection: 'programs', priceField: 'price' })
-        }
+      ({ doc, previousDoc, req }) => {
+        scheduleStripeSync({ doc, previousDoc, payload: req.payload, collection: 'programs', priceField: 'price' })
       },
     ],
     afterDelete: [revalidateProgramsDelete],
