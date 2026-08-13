@@ -1,0 +1,10 @@
+{
+  "packageManager": "npm",
+  "commands": {
+    "build": [
+      "npm",
+      "run",
+      "build"
+    ]
+  }
+}

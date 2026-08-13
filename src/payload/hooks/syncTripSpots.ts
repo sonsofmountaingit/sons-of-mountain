@@ -1,4 +1,5 @@
 import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'payload'
+import { hasTravelEnded } from '@/lib/travel-status'
 
 type RegistrationDoc = {
   trip?: string | number | { id: string | number } | null
@@ -8,7 +9,7 @@ type RegistrationDoc = {
   status?: string
 }
 
-type OrderItem = {
+export type BookableOrderItem = {
   itemType?: string
   trip?: string | number | { id: string | number } | null
   program?: string | number | { id: string | number } | null
@@ -19,7 +20,7 @@ type OrderItem = {
 
 // A paid first installment/deposit reserves the place until cancellation releases it.
 type PaidOrderDoc = {
-  items?: OrderItem[]
+  items?: BookableOrderItem[]
 }
 
 function relatedId(value: string | number | { id: string | number } | null | undefined): string | null {
@@ -62,10 +63,16 @@ async function syncSpots(
     const registrationSpots = docs.reduce((s, r) => s + ((r as RegistrationDoc).participantCount ?? 1), 0)
     const used = registrationSpots + await paidOrderSpots(payload, 'trip', tripId)
     const trip = await payload.findByID({ collection: 'trips', id: tripId })
+    const spotsAvailable = Math.max(0, ((trip as { spotsTotal?: number }).spotsTotal ?? 0) - used)
     await payload.update({
       collection: 'trips',
       id: tripId,
-      data: { spotsAvailable: Math.max(0, ((trip as { spotsTotal?: number }).spotsTotal ?? 0) - used) },
+      data: {
+        spotsAvailable,
+        status: hasTravelEnded((trip as { endDate?: string | null }).endDate)
+          ? 'archived'
+          : spotsAvailable === 0 ? 'soldOut' : 'active',
+      },
     })
   }
 
@@ -79,10 +86,16 @@ async function syncSpots(
     const registrationSpots = docs.reduce((s, r) => s + ((r as RegistrationDoc).participantCount ?? 1), 0)
     const used = registrationSpots + await paidOrderSpots(payload, 'program', programId)
     const program = await payload.findByID({ collection: 'programs', id: programId })
+    const spotsAvailable = Math.max(0, ((program as { spotsTotal?: number }).spotsTotal ?? 0) - used)
     await payload.update({
       collection: 'programs',
       id: programId,
-      data: { spotsAvailable: Math.max(0, ((program as { spotsTotal?: number }).spotsTotal ?? 0) - used) },
+      data: {
+        spotsAvailable,
+        status: hasTravelEnded((program as { endDate?: string | null }).endDate)
+          ? 'archived'
+          : spotsAvailable === 0 ? 'soldOut' : 'active',
+      },
     })
   }
 
@@ -96,10 +109,11 @@ async function syncSpots(
     const registrationSpots = docs.reduce((s, r) => s + ((r as RegistrationDoc).participantCount ?? 1), 0)
     const used = registrationSpots + await paidOrderSpots(payload, 'destination', destinationId)
     const destination = await payload.findByID({ collection: 'destinations', id: destinationId })
+    const spotsAvailable = Math.max(0, ((destination as { spotsTotal?: number }).spotsTotal ?? 0) - used)
     await payload.update({
       collection: 'destinations',
       id: destinationId,
-      data: { spotsAvailable: Math.max(0, ((destination as { spotsTotal?: number }).spotsTotal ?? 0) - used) },
+      data: { spotsAvailable, bookingStatus: spotsAvailable === 0 ? 'soldOut' : 'active' },
     })
   }
 }
@@ -107,6 +121,31 @@ async function syncSpots(
 function toValidId(v: string | null): string | null {
   if (!v) return null
   return Number.isNaN(Number(v)) ? null : v
+}
+
+// Orders and registrations use different hooks, but availability must always be
+// derived from the same paid/confirmed records rather than decremented from a stale
+// cached count. This also repairs a capacity change made after earlier sales.
+export async function syncSpotsForOrderItems(
+  items: BookableOrderItem[],
+  payload: Parameters<CollectionAfterChangeHook>[0]['req']['payload'],
+) {
+  const tripIds = new Set<string>()
+  const programIds = new Set<string>()
+  const destinationIds = new Set<string>()
+
+  for (const item of items) {
+    const id = item[item.itemType as 'trip' | 'program' | 'destination']
+    const validId = toValidId(id != null ? String(typeof id === 'object' ? id.id : id) : null)
+    if (!validId) continue
+    if (item.itemType === 'trip') tripIds.add(validId)
+    if (item.itemType === 'program') programIds.add(validId)
+    if (item.itemType === 'destination') destinationIds.add(validId)
+  }
+
+  for (const id of tripIds) await syncSpots(id, null, null, payload)
+  for (const id of programIds) await syncSpots(null, id, null, payload)
+  for (const id of destinationIds) await syncSpots(null, null, id, payload)
 }
 
 export const syncSpotsAfterChange: CollectionAfterChangeHook = async ({ doc, req }) => {

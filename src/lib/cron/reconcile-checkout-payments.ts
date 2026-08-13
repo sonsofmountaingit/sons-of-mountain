@@ -37,11 +37,13 @@ export async function reconcileCheckoutPayments(): Promise<{ checked: number; re
     collection: 'orders',
     where: {
       and: [
-        { status: { equals: 'pending' } },
+        { status: { not_equals: 'paid' } },
         { stripeSessionId: { exists: true } },
       ],
     },
-    limit: 10,
+    // Reconcile every unpaid Checkout order, not merely the first ten. Otherwise a
+    // successful payment can remain pending indefinitely when older rows fill the batch.
+    limit: 0,
     pagination: false,
     depth: 0,
     sort: 'createdAt',

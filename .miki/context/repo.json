@@ -1,0 +1,31 @@
+{
+  "branch": "main",
+  "changedFiles": [],
+  "commands": {
+    "build": "next build",
+    "dev": "next dev",
+    "graph": "bun scripts/graph.ts",
+    "graph:changed": "bun scripts/graph.ts --changed --out graph-changed.html",
+    "graph:focus": "bun scripts/graph.ts --focus",
+    "migrate": "tsx scripts/migrate.ts",
+    "payload": "payload",
+    "seed": "bun src/data/seed/index.ts",
+    "seed:calendar": "bun src/payload/seeds/calendar-seed.ts",
+    "seed:destinations": "bun src/payload/seeds/destinations.ts",
+    "seed:docker": "tsx --tsconfig tsconfig.json src/payload/seeds/full-seed.ts",
+    "seed:full": "bun src/payload/seeds/full-seed.ts",
+    "seed:full-pages": "bun src/payload/seeds/full-pages-seed.ts",
+    "seed:pages": "bun src/data/seed/pages.ts",
+    "start": "next start",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:ui": "playwright test --ui"
+  },
+  "manifests": [
+    "package.json",
+    "package-lock.json"
+  ],
+  "packageManager": "npm",
+  "repositoryCommit": "51b685062ba4a00b592b0444680a2ee962166b05",
+  "status": []
+}

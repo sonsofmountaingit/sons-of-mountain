@@ -24,6 +24,12 @@ export const Orders: CollectionConfig = {
   hooks: {
     beforeChange: [
       ({ data, originalDoc }) => {
+        // Payment state is monotonic. A delayed admin/client save must never overwrite
+        // a Stripe-confirmed payment with the stale pending value it originally read.
+        if (originalDoc?.status === 'paid' && data.status && data.status !== 'paid') {
+          data.status = 'paid'
+        }
+
         const items = data.items ?? originalDoc?.items
         if (data.status === 'paid' && originalDoc?.status !== 'paid' && !(items?.length > 0) && !data.bundle && !originalDoc?.bundle) {
           throw new Error('Cannot mark an order as paid with no items — add a trip/program/destination/product/bundle line item first.')
