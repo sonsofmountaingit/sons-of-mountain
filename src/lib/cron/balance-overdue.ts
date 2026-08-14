@@ -15,6 +15,7 @@ export async function runBalanceOverdue() {
         { remainingBalance: { greater_than: 0 } },
         { remainingDueDate: { less_than: now } },
         { reminderSent1d: { equals: true } },
+        { balanceChargeStatus: { not_equals: 'overdue' } },
       ],
     } as any,
     limit: 500,
@@ -26,5 +27,6 @@ export async function runBalanceOverdue() {
       remainingBalance: reg.remainingBalance,
       remainingDueDate: reg.remainingDueDate,
     }, payload)
+    await payload.update({ collection: 'registrations', id: reg.id, data: { balanceChargeStatus: 'overdue' } as any })
   }
 }

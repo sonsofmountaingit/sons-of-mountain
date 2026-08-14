@@ -62,8 +62,13 @@ export async function freeSpotAndNotifyWaitlist(payload: BasePayload, doc: any, 
 }
 
 async function cancelAndFreeSpot(payload: BasePayload, doc: any, collection: 'orders' | 'registrations') {
-  await payload.update({ collection, id: doc.id, data: { status: 'cancelled' } as any })
-  await freeSpotAndNotifyWaitlist(payload, doc, collection)
+  // Only release a spot after the cancellation is durably stored. This prevents a
+  // stale/manual flag from repeatedly increasing availability on later cron runs.
+  const cancelled = await payload.update({ collection, id: doc.id, data: { status: 'cancelled', manualCancelRequested: false } as any })
+  if ((cancelled as any).status !== 'cancelled') {
+    throw new Error(`Unable to cancel ${collection} ${doc.id}; spot was not released.`)
+  }
+  await freeSpotAndNotifyWaitlist(payload, cancelled, collection)
 }
 
 // Run daily — sends overdue notices for failed installments, then auto-cancels once the

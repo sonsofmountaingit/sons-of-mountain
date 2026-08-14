@@ -95,6 +95,32 @@ jobs:
           sleep 5
           docker ps --filter "name=sons-of-mountains-app" --filter "status=running" --format '{{.Names}}' | grep -q . \
             || { echo "app container not running after deploy, skipping image cleanup"; exit 1; }
+          # Payment recovery is a webhook fallback. Keep it frequent enough to
+          # recover missed events without running the daily payment maintenance
+          # workload every minute.
+          cat >/etc/systemd/system/som-payment-recovery.timer <<'UNIT'
+          [Unit]
+          Description=Reconcile Sons of Mountains Stripe Checkout payments
+
+          [Timer]
+          OnBootSec=5min
+          OnUnitActiveSec=15min
+          Persistent=true
+
+          [Install]
+          WantedBy=timers.target
+          UNIT
+          cat >/etc/systemd/system/som-cron.service <<'UNIT'
+          [Unit]
+          Description=Run Sons of Mountains scheduled jobs
+
+          [Service]
+          Type=oneshot
+          EnvironmentFile=/opt/sons-of-mountains/.env.production
+          ExecStart=/bin/sh -c 'curl -fsS -H "Authorization: Bearer $CRON_SECRET" http://localhost:3000/api/cron/send-registration-forms; curl -fsS -H "Authorization: Bearer $CRON_SECRET" http://localhost:3000/api/cron/send-campaigns; curl -fsS -H "Authorization: Bearer $CRON_SECRET" http://localhost:3000/api/cron/abandoned-cart; curl -fsS -H "Authorization: Bearer $CRON_SECRET" http://localhost:3000/api/cron/sync-sold-out; curl -fsS -X POST -H "Authorization: Bearer $CRON_SECRET" http://localhost:3000/api/cron/payment-maintenance'
+          UNIT
+          systemctl daemon-reload
+          systemctl restart som-payment-recovery.timer som-cron.timer
           docker image prune -af --filter "label!=keep"
           echo "Deployed: $GIT_SHA"
           REMOTE
