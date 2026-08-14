@@ -26,7 +26,11 @@ export const Orders: CollectionConfig = {
       ({ data, originalDoc }) => {
         // Payment state is monotonic. A delayed admin/client save must never overwrite
         // a Stripe-confirmed payment with the stale pending value it originally read.
-        if (originalDoc?.status === 'paid' && data.status && data.status !== 'paid') {
+        // A delayed client save must not turn a confirmed payment back into a
+        // pending/partial order. Cancellation and refunds are intentional terminal
+        // transitions and must be allowed, otherwise the grace job repeatedly frees
+        // the same spots while the order incorrectly remains paid.
+        if (originalDoc?.status === 'paid' && data.status && !['paid', 'cancelled', 'refunded'].includes(data.status)) {
           data.status = 'paid'
         }
 
@@ -584,6 +588,11 @@ export const Orders: CollectionConfig = {
       name: 'paidAt',
       type: 'date',
       admin: { readOnly: true },
+    },
+    {
+      name: 'spotsDecrementedAt',
+      type: 'date',
+      admin: { readOnly: true, description: 'Internal idempotency marker: travel spots were decremented for this paid order.' },
     },
     {
       name: 'carpoolRide',

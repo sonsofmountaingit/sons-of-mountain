@@ -36,6 +36,7 @@ import * as migration_20260810c_vouchers_send_today_label from './20260810c_vouc
 import * as migration_20260811_customer_profile_fields from './20260811_customer_profile_fields'
 import * as migration_20260812_resend_delivery_tracking from './20260812_resend_delivery_tracking'
 import * as migration_20260813_waitlist_customer_relationship from './20260813_waitlist_customer_relationship'
+import * as migration_20260814_order_spot_decrement_marker from './20260814_order_spot_decrement_marker'
 
 export const migrations = [
   {
@@ -227,5 +228,10 @@ export const migrations = [
     up: migration_20260813_waitlist_customer_relationship.up,
     down: migration_20260813_waitlist_customer_relationship.down,
     name: '20260813_waitlist_customer_relationship',
+  },
+  {
+    up: migration_20260814_order_spot_decrement_marker.up,
+    down: migration_20260814_order_spot_decrement_marker.down,
+    name: '20260814_order_spot_decrement_marker',
   },
 ]
