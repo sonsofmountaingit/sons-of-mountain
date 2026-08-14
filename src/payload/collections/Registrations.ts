@@ -1,9 +1,10 @@
 import type { CollectionConfig } from 'payload'
 import crypto from 'crypto'
-import { syncSpotsAfterChange, syncSpotsAfterDelete } from '../hooks/syncTripSpots'
 import { registrationEmailFlows } from '../hooks/emailFlowTriggers'
 import { manualConfirmPaidBeforeChange } from '../hooks/manualConfirm'
 import { sendPurchaseConfirmation } from '../hooks/purchaseConfirmation'
+import { afterResponse } from '@/lib/after-response'
+import { decrementRegistrationSpots } from '@/lib/stripe-webhooks'
 
 export const Registrations: CollectionConfig = {
   slug: 'registrations',
@@ -22,8 +23,18 @@ export const Registrations: CollectionConfig = {
       },
       manualConfirmPaidBeforeChange,
     ],
-    afterChange: [syncSpotsAfterChange, sendPurchaseConfirmation, registrationEmailFlows],
-    afterDelete: [syncSpotsAfterDelete],
+    afterChange: [
+      sendPurchaseConfirmation,
+      registrationEmailFlows,
+      ({ doc, previousDoc, operation, req }) => {
+        const wasPaid = operation !== 'create' && previousDoc?.status === 'paid'
+        if (doc.status !== 'paid' || wasPaid) return doc
+        afterResponse(async () => {
+          await decrementRegistrationSpots(req.payload, doc)
+        })
+        return doc
+      },
+    ],
   },
   fields: [
     {

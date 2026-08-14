@@ -22,9 +22,9 @@ interface StatRow {
   occupants: Occupant[]
 }
 
-const ACTIVE_REG_STATUSES = ['pending', 'confirmed', 'paid']
-// A paid first deposit/installment reserves the place; only unpaid Checkout records
-// are excluded because they may expire or be abandoned.
+// Statistics reflects the event-driven availability model: a paid order or a
+// manually confirmed paid registration occupies spots. Pending records do not.
+const ACTIVE_REG_STATUSES = ['paid']
 const ACTIVE_ORDER_STATUSES = ['paid', 'partial']
 
 export async function GET(req: NextRequest) {
@@ -140,14 +140,10 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    // Statistics is derived from the paid records, not from a cached availability
-    // value. This guarantees Total − Taken = Available in the admin at all times;
-    // the scheduled reconciliation keeps the stored availability in sync as well.
+    // `spotsAvailable` is the stored, administrator-controlled balance. The
+    // occupant list and Taken column are based only on paid records and must not
+    // silently replace a manual availability adjustment.
     const result = Array.from(rows.values())
-      .map((row) => ({
-        ...row,
-        spotsAvailable: row.spotsTotal == null ? row.spotsAvailable : Math.max(0, row.spotsTotal - row.spotsTaken),
-      }))
       .sort((a, b) => a.title.localeCompare(b.title))
     return NextResponse.json({ rows: result })
   } catch (err) {

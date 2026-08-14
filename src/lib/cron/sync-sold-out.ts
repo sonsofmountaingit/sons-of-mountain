@@ -123,26 +123,5 @@ export async function runSyncSoldOut(): Promise<{ ok: true; updated: number }> {
     }
   }
 
-  const { docs: destinations } = await payload.find({
-    collection: 'destinations',
-    where: { bookingStatus: { not_equals: 'archived' } },
-    limit: 500,
-    pagination: false,
-  })
-
-  for (const destination of destinations) {
-    const d = destination as { id: string | number; spotsAvailable?: number; spotsTotal?: number; earlyBirdSpots?: number | null; earlyBirdSpotsRemaining?: number | null }
-    // Destinations do not have an end-date archive state in this model.
-    const spotsAvailable = Math.max(0, (d.spotsTotal ?? 0) - await bookedSpots(payload, 'destination', String(d.id)))
-    const earlyBirdSpotsRemaining = d.earlyBirdSpots == null
-      ? null
-      : Math.max(0, d.earlyBirdSpots - await bookedEarlyBirdSpots(payload, 'destination', String(d.id)))
-    const bookingStatus = spotsAvailable === 0 ? 'soldOut' : 'active'
-    if (d.spotsAvailable !== spotsAvailable || d.earlyBirdSpotsRemaining !== earlyBirdSpotsRemaining || (destination as { bookingStatus?: string }).bookingStatus !== bookingStatus) {
-      await payload.update({ collection: 'destinations', id: d.id, data: { spotsAvailable, earlyBirdSpotsRemaining, bookingStatus } })
-      updated++
-    }
-  }
-
   return { ok: true, updated }
 }

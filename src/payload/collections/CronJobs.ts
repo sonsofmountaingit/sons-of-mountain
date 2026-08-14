@@ -12,7 +12,7 @@ const JOBS = [
   { label: 'Abandoned Cart Nudges (1h / 24h, existing)', value: 'abandoned-cart' },
   { label: 'Scheduled Campaign Sends', value: 'send-campaigns' },
   { label: 'Send Registration Forms (free transfer peak windows)', value: 'send-registration-forms' },
-  { label: 'Sync availability (archive ended trips/programs; mark sold out at 0 spots)', value: 'sync-sold-out' },
+  { label: 'Sync trips/programs availability (archive ended; mark sold out at 0 spots)', value: 'sync-sold-out' },
 ]
 
 export const CronJobs: CollectionConfig = {

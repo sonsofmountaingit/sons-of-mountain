@@ -142,7 +142,10 @@ export const Destinations: CollectionConfig = {
       name: 'spotsAvailable',
       type: 'number',
       defaultValue: 12,
-      admin: { position: 'sidebar' },
+      admin: {
+        position: 'sidebar',
+        description: 'Available places. Update manually when needed; Stripe-paid orders and active registrations adjust it automatically.',
+      },
     },
     {
       name: 'maxParticipantsPerRegistration',

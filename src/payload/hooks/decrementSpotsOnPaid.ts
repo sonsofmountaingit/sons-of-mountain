@@ -1,7 +1,6 @@
 import type { CollectionAfterChangeHook } from 'payload'
 import { afterResponse } from '@/lib/after-response'
 import { decrementOrderItemsSpotsAndStock } from '@/lib/stripe-webhooks'
-import { syncSpotsForOrderItems } from './syncTripSpots'
 
 // A paid-order mutation holds a Payload transaction until its afterChange hooks
 // finish. Updating stock and recalculating availability performs further database
@@ -14,7 +13,6 @@ export const decrementSpotsOnPaid: CollectionAfterChangeHook = ({ doc, previousD
   const items = doc.items ?? []
   afterResponse(async () => {
     await decrementOrderItemsSpotsAndStock(req.payload, items)
-    await syncSpotsForOrderItems(items, req.payload)
   })
 
   return doc

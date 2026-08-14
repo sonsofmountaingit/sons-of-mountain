@@ -442,6 +442,40 @@ async function generateInvoice(
   } catch {}
 }
 
+export async function decrementRegistrationSpots(
+  payload: BasePayload,
+  registration: { trip?: unknown; program?: unknown; destination?: unknown; participantCount?: number },
+) {
+  const relationId = (value: unknown): string | number | undefined => {
+    if (typeof value === 'string' || typeof value === 'number') return value
+    if (value && typeof value === 'object' && 'id' in value) {
+      const id = (value as { id?: unknown }).id
+      if (typeof id === 'string' || typeof id === 'number') return id
+    }
+    return undefined
+  }
+
+  const participantCount = registration.participantCount ?? 1
+  const bookable = registration.trip
+    ? { collection: 'trips' as const, id: relationId(registration.trip), statusField: 'status' }
+    : registration.program
+      ? { collection: 'programs' as const, id: relationId(registration.program), statusField: 'status' }
+      : registration.destination
+        ? { collection: 'destinations' as const, id: relationId(registration.destination), statusField: 'bookingStatus' }
+        : null
+
+  if (!bookable?.id) return
+  const record = await payload.findByID({ collection: bookable.collection, id: bookable.id }).catch(() => null)
+  if (!record) return
+
+  const spotsAvailable = Math.max(0, ((record as any).spotsAvailable ?? 0) - participantCount)
+  await payload.update({
+    collection: bookable.collection,
+    id: bookable.id,
+    data: { spotsAvailable, [bookable.statusField]: spotsAvailable === 0 ? 'soldOut' : 'active' } as any,
+  })
+}
+
 export async function decrementOrderItemsSpotsAndStock(payload: BasePayload, items: any[]) {
   // Payload relationship fields can be returned as a populated object, a string,
   // or a numeric database ID (the usual value in an afterChange hook at depth 0).

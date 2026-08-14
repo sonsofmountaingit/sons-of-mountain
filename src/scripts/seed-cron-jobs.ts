@@ -13,7 +13,7 @@ const JOBS: { job: string; label: string; intervalMinutes: number }[] = [
   { job: 'abandoned-cart', label: 'Abandoned Cart Nudges (1h / 24h, existing)', intervalMinutes: 30 },
   { job: 'send-campaigns', label: 'Scheduled Campaign Sends', intervalMinutes: 15 },
   { job: 'send-registration-forms', label: 'Send Registration Forms (free transfer peak windows)', intervalMinutes: 1440 },
-  { job: 'sync-sold-out', label: 'Sync Sold Out (trips/programs at 0 spots)', intervalMinutes: 60 },
+  { job: 'sync-sold-out', label: 'Sync availability (trips/programs)', intervalMinutes: 60 },
 ]
 
 async function main() {

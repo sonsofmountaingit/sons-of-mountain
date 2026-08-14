@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-
 import { headers } from 'next/headers'
+import { freeSpotAndNotifyWaitlist } from '@/lib/cron/grace-period'
 
 export async function POST(req: NextRequest) {
   try {
@@ -40,11 +40,12 @@ export async function POST(req: NextRequest) {
 
     const refund = await stripe.refunds.create(refundParams)
 
-    await payload.update({
+    const updated = await payload.update({
       collection,
       id: docId,
       data: { status: 'refunded', stripeRefundId: refund.id, refundAmount: refund.amount / 100 } as any,
     })
+    await freeSpotAndNotifyWaitlist(payload, updated, collection)
 
     return NextResponse.json({ refundId: refund.id, amount: refund.amount / 100 })
   } catch (err) {
