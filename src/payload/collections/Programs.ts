@@ -9,11 +9,11 @@ import { hasTravelEnded } from '@/lib/travel-status'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const revalidateTag = _revalidateTag
 const revalidatePrograms = ({ doc }: { doc: unknown }) => {
-  try { after(() => { revalidateTag('programs', 'max'); revalidateTag('megamenu', 'max'); revalidateTag('featured-travels', 'max') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('programs', 'max'); revalidateTag('megamenu', 'max'); revalidateTag('featured-travels', 'max'); revalidateTag('destination-carousel', 'max') }) } catch { /* noop */ }
   return doc
 }
 const revalidateProgramsDelete = () => {
-  try { after(() => { revalidateTag('programs', 'max'); revalidateTag('megamenu', 'max'); revalidateTag('featured-travels', 'max') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('programs', 'max'); revalidateTag('megamenu', 'max'); revalidateTag('featured-travels', 'max'); revalidateTag('destination-carousel', 'max') }) } catch { /* noop */ }
 }
 
 export const Programs: CollectionConfig = {

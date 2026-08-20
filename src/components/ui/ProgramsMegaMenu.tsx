@@ -306,7 +306,7 @@ function ContentCard({ item, index, onClose, locale, t }: { item: ContentItem; i
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           {item.spotsAvailable > 0 && (
             <span className="absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/80 text-white backdrop-blur-sm">
-              {item.spotsAvailable} {t.megamenu.spots}
+              {item.spotsAvailable} {item.spotsAvailable === 1 ? (t.megamenu.spot ?? 'място') : t.megamenu.spots}
             </span>
           )}
           {item.spotsAvailable === 0 && (

@@ -110,7 +110,7 @@ const getData = unstable_cache(
     }
   },
   ['why-travel-with-us'],
-  { tags: ['why-travel-with-us'], revalidate: false },
+  { tags: ['why-travel-with-us', 'trips'], revalidate: false },
 )
 
 export async function WhyTravelWithUs() {

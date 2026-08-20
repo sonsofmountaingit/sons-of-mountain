@@ -101,7 +101,7 @@ const getCarouselData = unstable_cache(
                 ? { url: d.heroImage.url ? mediaUrl(d.heroImage.url) : null }
                 : null,
               month: d.month,
-              availableSpots: d.availableSpots ?? d.spotsAvailable ?? null,
+              availableSpots: d.spotsAvailable ?? d.availableSpots ?? null,
               price: d.price ?? null,
               overrideTitle: row.overrideTitle ?? undefined,
               overrideDescription: row.overrideDescription ?? undefined,
@@ -121,7 +121,7 @@ const getCarouselData = unstable_cache(
               ? { url: doc.heroImage.url ? mediaUrl(doc.heroImage.url) : null }
               : null,
             month: doc.month,
-            availableSpots: doc.availableSpots ?? null,
+            availableSpots: (doc as any).spotsAvailable ?? doc.availableSpots ?? null,
             price: doc.price ?? null,
           }
         })
@@ -134,7 +134,7 @@ const getCarouselData = unstable_cache(
     }
   },
   ['destination-carousel-data'],
-  { tags: ['destination-carousel', 'destinations'], revalidate: false },
+  { tags: ['destination-carousel', 'destinations', 'trips', 'programs'], revalidate: false },
 )
 
 export async function DestinationCarousel() {

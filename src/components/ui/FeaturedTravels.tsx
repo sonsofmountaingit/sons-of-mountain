@@ -78,7 +78,7 @@ const getData = unstable_cache(async () => {
           durationDays: null,
           price: numOrNull(doc.price),
           currency: 'EUR',
-          spotsAvailable: numOrNull(doc.availableSpots),
+          spotsAvailable: numOrNull(doc.spotsAvailable ?? doc.availableSpots),
           fitnessDifficulty: difficultyFromRatings(doc.fitnessRatings),
           href: `/destinations/${doc.slug}`,
         }

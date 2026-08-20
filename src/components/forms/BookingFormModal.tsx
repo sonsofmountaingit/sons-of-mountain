@@ -156,7 +156,7 @@ export function BookingFormModal({ trip }: { trip: Trip }) {
           {isSoldOut ? (
             <span className="flex-shrink-0 px-2.5 py-1 text-xs font-medium bg-white/10 text-white/40 rounded-full">{t.booking_form.no_spots}</span>
           ) : (
-            <span className="flex-shrink-0 px-2.5 py-1 text-xs font-semibold bg-white text-black rounded-full">{t.booking_form.only_spots_prefix} {trip.spotsAvailable} {t.booking_form.only_spots_suffix}</span>
+            <span className="flex-shrink-0 px-2.5 py-1 text-xs font-semibold bg-white text-black rounded-full">{t.booking_form.only_spots_prefix} {trip.spotsAvailable} {trip.spotsAvailable === 1 ? (t.booking_form.only_spots_suffix_singular ?? 'МЯСТО') : t.booking_form.only_spots_suffix}</span>
           )}
         </div>
         {trip.tags.length > 0 && (

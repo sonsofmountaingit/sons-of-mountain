@@ -565,7 +565,7 @@ export const Destinations: CollectionConfig = {
       },
     ],
     afterChange: [
-      revalidateCollection('destinations', '/destinations', ['featured-travels']),
+      revalidateCollection('destinations', '/destinations', ['featured-travels', 'destination-carousel']),
       ({ doc, previousDoc, req }) => {
         scheduleStripeSync({ doc, previousDoc, payload: req.payload, collection: 'destinations', priceField: 'price' })
       },
@@ -581,6 +581,6 @@ export const Destinations: CollectionConfig = {
         }
       },
     ],
-    afterDelete: [revalidateCollectionDelete('destinations', '/destinations', ['featured-travels'])],
+    afterDelete: [revalidateCollectionDelete('destinations', '/destinations', ['featured-travels', 'destination-carousel'])],
   },
 }

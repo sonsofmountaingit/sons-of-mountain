@@ -144,7 +144,7 @@ function CompareDrawer({ items, onClose }: { items: CalendarItem[]; onClose: () 
             <div key={item.id} className="border border-zinc-200 rounded-xl p-3 sm:p-4 space-y-2">
               <p className="font-semibold text-sm text-zinc-800 truncate">{item.title}</p>
               <p className="text-[11px] text-zinc-500">{new Date(item.startDate).toLocaleDateString(locale)} — {new Date(item.endDate).toLocaleDateString(locale)}</p>
-              <p className="text-[11px] text-zinc-500">{item.spotsAvailable > 0 ? `${item.spotsAvailable} ${t.destination_page.spots_word_lower}` : t.destination_page.sold_out}</p>
+              <p className="text-[11px] text-zinc-500">{item.spotsAvailable > 0 ? `${item.spotsAvailable} ${item.spotsAvailable === 1 ? (t.destination_page.spot_word_lower ?? 'място') : t.destination_page.spots_word_lower}` : t.destination_page.sold_out}</p>
               {item.tags.length > 0 && (
                 <div className="flex flex-wrap gap-1">
                   {item.tags.slice(0, 3).map((t) => (

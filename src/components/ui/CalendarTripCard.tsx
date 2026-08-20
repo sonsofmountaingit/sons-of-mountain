@@ -263,15 +263,16 @@ export function CalendarTripCard({ item, isWishlisted, loggedIn, onWishlistToggl
   } else if (soldOut) {
     spotsBadge = <span className={`${badgeBase} text-white`} style={{ background: '#F45B26' }}>{t.destination_page.no_spots}</span>
   } else if (item.spotsAvailable <= 3) {
+    const count = spotsCount > 0 ? spotsCount : item.spotsAvailable
     spotsBadge = (
       <span ref={spotsRef} className={`${badgeBase} text-white`} style={{ background: '#F45B26' }}>
-        {spotsCount > 0 ? spotsCount : item.spotsAvailable} {t.destination_page.spots}
+        {count} {count === 1 ? (t.destination_page.spot ?? 'МЯСТО') : t.destination_page.spots}
       </span>
     )
   } else if (item.spotsAvailable <= 8) {
-    spotsBadge = <span className={`${badgeBase} text-white`} style={{ background: '#F45B26' }}>{item.spotsAvailable} {t.destination_page.spots}</span>
+    spotsBadge = <span className={`${badgeBase} text-white`} style={{ background: '#F45B26' }}>{item.spotsAvailable} {item.spotsAvailable === 1 ? (t.destination_page.spot ?? 'МЯСТО') : t.destination_page.spots}</span>
   } else {
-    spotsBadge = <span className={`${badgeBase}`} style={{ background: '#F45B2625', color: '#F45B26' }}>{item.spotsAvailable} {t.destination_page.spots}</span>
+    spotsBadge = <span className={`${badgeBase}`} style={{ background: '#F45B2625', color: '#F45B26' }}>{item.spotsAvailable} {item.spotsAvailable === 1 ? (t.destination_page.spot ?? 'МЯСТО') : t.destination_page.spots}</span>
   }
 
   return (

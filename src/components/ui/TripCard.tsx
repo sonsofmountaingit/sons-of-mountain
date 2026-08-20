@@ -38,7 +38,7 @@ export function TripCard({
           </span>
         ) : (
           <span className="flex-shrink-0 px-2.5 py-1 text-xs font-semibold bg-white text-black rounded-full">
-            САМО {spotsAvailable} МЕСТА
+            САМО {spotsAvailable} {spotsAvailable === 1 ? 'МЯСТО' : 'МЕСТА'}
           </span>
         )}
       </div>

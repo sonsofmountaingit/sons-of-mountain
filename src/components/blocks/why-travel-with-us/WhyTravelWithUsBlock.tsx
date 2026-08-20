@@ -171,7 +171,7 @@ function TripVideoCard({
               background: 'rgba(255,255,255,0.18)', borderRadius: 4,
               padding: '2px 6px', textTransform: 'uppercase', letterSpacing: '0.05em',
             }}>
-              {card.spotsAvailable} {t.why_travel.spots}
+              {card.spotsAvailable} {card.spotsAvailable === 1 ? (t.why_travel.spot ?? 'място') : t.why_travel.spots}
             </span>
           )}
         </div>

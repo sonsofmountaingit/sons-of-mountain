@@ -242,8 +242,8 @@ export function HeroSection({
                 ) : urgentSpots ? (
                   <span className="flex items-center gap-1.5 sm:gap-2 bg-orange-600/90 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-widest px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs">
                     <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                    <span className="hidden sm:inline">{t.destination_page.only_spots} {spotsAvailable} {t.destination_page.spots_word_lower}</span>
-                    <span className="sm:hidden">{spotsAvailable} {t.destination_page.spots_word_lower}</span>
+                    <span className="hidden sm:inline">{t.destination_page.only_spots} {spotsAvailable} {spotsAvailable === 1 ? (t.destination_page.spot_word_lower ?? 'място') : t.destination_page.spots_word_lower}</span>
+                    <span className="sm:hidden">{spotsAvailable} {spotsAvailable === 1 ? (t.destination_page.spot_word_lower ?? 'място') : t.destination_page.spots_word_lower}</span>
                   </span>
                 ) : null}
                 {earlyBirdSpotsLeft != null && (

@@ -98,7 +98,7 @@ export function DestinationCard({
         )}
         {hasSpots && (
           <span className="inline-block px-2 py-0.5 text-xs font-medium bg-white text-black rounded-full">
-            САМО {spotsAvailable} МЕСТА
+            САМО {spotsAvailable} {spotsAvailable === 1 ? 'МЯСТО' : 'МЕСТА'}
           </span>
         )}
       </div>

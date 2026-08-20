@@ -94,7 +94,7 @@ function PinModal({ state, onClose, t, locale }: { state: ModalState; onClose: (
           <div style={{ fontSize: 11, color: '#6b7280', marginBottom: 12 }}>{new Date(item.startDate).toLocaleDateString(locale)} — {new Date(item.endDate).toLocaleDateString(locale)}</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
             <div style={{ fontSize: 13, fontWeight: 600, color: item.spotsAvailable > 0 ? '#86efac' : '#f87171' }}>
-              {item.spotsAvailable > 0 ? `${item.spotsAvailable} / ${item.spotsTotal} ${t.calendar_map.spots}` : t.calendar_map.no_spots}
+              {item.spotsAvailable > 0 ? `${item.spotsAvailable} / ${item.spotsTotal} ${item.spotsTotal === 1 ? (t.calendar_map.spot ?? 'място') : t.calendar_map.spots}` : t.calendar_map.no_spots}
             </div>
             {pd.count > 0 && <><span style={{ color: '#374151' }}>·</span><div style={{ fontSize: 11, color: '#6b7280' }}>{pd.count} {t.calendar_map.registered}</div></>}
           </div>

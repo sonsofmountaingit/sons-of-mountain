@@ -111,7 +111,7 @@ function ProgramCard({ program }: { program: Record<string, unknown> }) {
         </div>
         {spotsAvailable !== null && spotsAvailable <= 5 && status === 'active' && (
           <div className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
-            {spotsAvailable} места
+            {spotsAvailable} {spotsAvailable === 1 ? 'място' : 'места'}
           </div>
         )}
       </div>

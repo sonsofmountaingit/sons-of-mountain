@@ -11,11 +11,11 @@ import { hasTravelEnded } from '@/lib/travel-status'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const revalidateTag = _revalidateTag
 const revalidateFooterTrips = ({ doc }: { doc: unknown }) => {
-  try { after(() => { revalidateTag('trips', 'max'); revalidateTag('megamenu', 'max') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('trips', 'max'); revalidateTag('megamenu', 'max'); revalidateTag('destination-carousel', 'max'); revalidateTag('why-travel-with-us', 'max') }) } catch { /* noop */ }
   return doc
 }
 const revalidateFooterTripsDelete = () => {
-  try { after(() => { revalidateTag('trips', 'max'); revalidateTag('megamenu', 'max') }) } catch { /* noop */ }
+  try { after(() => { revalidateTag('trips', 'max'); revalidateTag('megamenu', 'max'); revalidateTag('destination-carousel', 'max'); revalidateTag('why-travel-with-us', 'max') }) } catch { /* noop */ }
 }
 
 export const Trips: CollectionConfig = {
@@ -556,7 +556,7 @@ export const Trips: CollectionConfig = {
       },
     ],
     afterChange: [
-      revalidateCollection('trips', '/trips', ['featured-travels']),
+      revalidateCollection('trips', '/trips', ['featured-travels', 'destination-carousel', 'why-travel-with-us']),
       revalidateFooterTrips,
       ({ doc, previousDoc, req }) => {
         scheduleStripeSync({ doc, previousDoc, payload: req.payload, collection: 'trips', priceField: 'price' })
@@ -573,6 +573,6 @@ export const Trips: CollectionConfig = {
         }
       },
     ],
-    afterDelete: [revalidateCollectionDelete('trips', '/trips', ['featured-travels']), revalidateFooterTripsDelete],
+    afterDelete: [revalidateCollectionDelete('trips', '/trips', ['featured-travels', 'destination-carousel', 'why-travel-with-us']), revalidateFooterTripsDelete],
   },
 }

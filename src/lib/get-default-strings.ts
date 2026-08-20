@@ -56,6 +56,7 @@ export function getDefaultStrings(lang: Language = 'BG') {
       allDestinations: t.destinations.all_destinations,
       explore: t.destinations.explore,
       destinationDetails: t.destinations.destination_details,
+      spotWord: t.destination_page.spot_word,
       spotsWord: t.destination_page.spots_word,
     },
 

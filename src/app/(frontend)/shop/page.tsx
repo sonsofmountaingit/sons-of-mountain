@@ -258,7 +258,7 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
                       <span className="text-xl font-bold text-white">{formatPrice(program.price)}</span>
                     </div>
                     {!soldOut && typeof program.spotsAvailable === 'number' && (
-                      <p className="text-xs text-white/20 mt-1">{program.spotsAvailable} {t.shop.spots_left}</p>
+                      <p className="text-xs text-white/20 mt-1">{program.spotsAvailable} {program.spotsAvailable === 1 ? (t.shop.spot_left ?? 'свободно място') : t.shop.spots_left}</p>
                     )}
                   </Link>
                 )
@@ -303,7 +303,7 @@ async function ShopPageInner({ searchParams }: { searchParams: Promise<{ categor
                       </span>
                       <span className="text-xl font-bold text-white">{formatPrice(trip.price)}</span>
                     </div>
-                    {!soldOut && <p className="text-xs text-white/20 mt-1">{trip.spotsAvailable} {t.shop.spots_left}</p>}
+                    {!soldOut && <p className="text-xs text-white/20 mt-1">{trip.spotsAvailable} {trip.spotsAvailable === 1 ? (t.shop.spot_left ?? 'свободно място') : t.shop.spots_left}</p>}
                   </Link>
                 )
               })}
