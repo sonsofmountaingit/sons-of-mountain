@@ -37,11 +37,15 @@ export async function freeSpotAndNotifyWaitlist(payload: BasePayload, doc: any, 
     if (!record) return
     const newSpots = ((record as any).spotsAvailable ?? 0) + participantCount
     const statusField = bookableCollection === 'destinations' ? 'bookingStatus' : 'status'
-    const activeValue = bookableCollection === 'programs' ? 'active' : 'active'
+    const activeValue = 'active'
     await payload.update({
       collection: bookableCollection,
       id,
-      data: { spotsAvailable: newSpots, [statusField]: activeValue } as any,
+      data: {
+        spotsAvailable: newSpots,
+        ...(bookableCollection === 'destinations' ? { availableSpots: newSpots } : {}),
+        [statusField]: activeValue,
+      } as any,
     })
     await notifyWaitlist(payload, bookableCollection === 'trips' ? 'trip' : bookableCollection === 'programs' ? 'program' : 'destination', id)
   }

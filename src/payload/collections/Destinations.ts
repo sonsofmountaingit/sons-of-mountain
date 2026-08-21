@@ -553,6 +553,11 @@ export const Destinations: CollectionConfig = {
   hooks: {
     beforeChange: [
       ({ data }: { data: Record<string, unknown> }) => {
+        if (data.spotsAvailable !== undefined) {
+          data.availableSpots = data.spotsAvailable
+        } else if (data.availableSpots !== undefined && data.spotsAvailable === undefined) {
+          data.spotsAvailable = data.availableSpots
+        }
         const endDate = data.endDate as string | null
         if (!endDate) return data
         const isPast = new Date(endDate) < new Date()

@@ -472,7 +472,11 @@ export async function decrementRegistrationSpots(
   await payload.update({
     collection: bookable.collection,
     id: bookable.id,
-    data: { spotsAvailable, [bookable.statusField]: spotsAvailable === 0 ? 'soldOut' : 'active' } as any,
+    data: {
+      spotsAvailable,
+      ...(bookable.collection === 'destinations' ? { availableSpots: spotsAvailable } : {}),
+      [bookable.statusField]: spotsAvailable === 0 ? 'soldOut' : 'active',
+    } as any,
   })
 }
 
@@ -539,7 +543,16 @@ export async function decrementOrderItemsSpotsAndStock(payload: BasePayload, ite
         const newSpots = Math.max(0, (destination as any).spotsAvailable - participantCount)
         const earlyBirdDecrement = item.earlyBirdCount ?? Math.min(participantCount, (destination as any).earlyBirdSpotsRemaining ?? 0)
         const newEarlyBirdSpots = Math.max(0, ((destination as any).earlyBirdSpotsRemaining ?? 0) - earlyBirdDecrement)
-        await payload.update({ collection: 'destinations', id: dId, data: { spotsAvailable: newSpots, earlyBirdSpotsRemaining: newEarlyBirdSpots, bookingStatus: newSpots === 0 ? 'soldOut' : 'active' } })
+        await payload.update({
+          collection: 'destinations',
+          id: dId,
+          data: {
+            spotsAvailable: newSpots,
+            availableSpots: newSpots,
+            earlyBirdSpotsRemaining: newEarlyBirdSpots,
+            bookingStatus: newSpots === 0 ? 'soldOut' : 'active',
+          },
+        })
         if (newSpots > 0) await notifyWaitlist(payload, 'destination', String(dId))
       }
     }

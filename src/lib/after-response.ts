@@ -2,12 +2,26 @@ import { after } from 'next/server'
 
 /**
  * Defers external side effects until after the request response and its Payload
- * transaction have completed. This must be used for provider calls from hooks:
- * a provider can accept a request even when the surrounding database transaction
- * later rolls back.
+ * transaction have completed. Uses Next.js after() when available inside a
+ * request lifecycle, and safely falls back to asynchronous execution (setImmediate)
+ * if called outside request context or if after() throws.
  */
 export function afterResponse(work: () => Promise<void>): void {
-  after(() => work().catch((error) => {
-    console.error('Post-response side effect failed:', error)
-  }))
+  try {
+    after(async () => {
+      try {
+        await work()
+      } catch (error) {
+        console.error('Post-response side effect failed:', error)
+      }
+    })
+  } catch {
+    setImmediate(async () => {
+      try {
+        await work()
+      } catch (error) {
+        console.error('Post-response side effect failed:', error)
+      }
+    })
+  }
 }

@@ -18,6 +18,7 @@ interface Destination {
   month?: string
   spotsLabel?: string
   availableSpots?: number
+  spotsAvailable?: number
   price?: number
   overrideTitle?: string
   overrideDescription?: string
@@ -86,9 +87,9 @@ function DestCard({
               {dest.price} €
             </span>
           )}
-          {dest.availableSpots != null && (
-            <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${dest.availableSpots <= 3 ? 'bg-red-500/80 text-white' : 'bg-white/15 text-white/90'}`}>
-              {dest.availableSpots} {dest.availableSpots === 1 ? spotWord : spotsWord}
+          {(dest.spotsAvailable ?? dest.availableSpots) != null && (
+            <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${(dest.spotsAvailable ?? dest.availableSpots)! <= 3 ? 'bg-red-500/80 text-white' : 'bg-white/15 text-white/90'}`}>
+              {dest.spotsAvailable ?? dest.availableSpots} {(dest.spotsAvailable ?? dest.availableSpots) === 1 ? spotWord : spotsWord}
             </span>
           )}
         </div>
@@ -265,13 +266,13 @@ export function DestinationCarouselBlock({
                 {heroTitle}
               </h1>
 
-              {activeDest && (activeDest.month || activeDest.price != null || activeDest.availableSpots != null) && (
+              {activeDest && (activeDest.month || activeDest.price != null || (activeDest.spotsAvailable ?? activeDest.availableSpots) != null) && (
                 <p className="text-sm text-white/55 mb-3 flex items-center gap-3 dc-hero-sub">
                   {activeDest.month && <span>{activeDest.month}</span>}
                   {activeDest.price != null && <span>{activeDest.price} €</span>}
-                  {activeDest.availableSpots != null && (
-                    <span className={activeDest.availableSpots <= 3 ? 'text-red-400' : ''}>
-                      {activeDest.availableSpots} {activeDest.availableSpots === 1 ? strings.destinations.spotWord : strings.destinations.spotsWord}
+                  {(activeDest.spotsAvailable ?? activeDest.availableSpots) != null && (
+                    <span className={(activeDest.spotsAvailable ?? activeDest.availableSpots)! <= 3 ? 'text-red-400' : ''}>
+                      {activeDest.spotsAvailable ?? activeDest.availableSpots} {(activeDest.spotsAvailable ?? activeDest.availableSpots) === 1 ? strings.destinations.spotWord : strings.destinations.spotsWord}
                     </span>
                   )}
                 </p>
