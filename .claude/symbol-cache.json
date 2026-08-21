@@ -203,6 +203,18 @@
     "lines": 23,
     "group": "other"
   },
+  "src/migrations/20260813_waitlist_customer_relationship.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 40,
+    "group": "other"
+  },
   "src/migrations/20260812_resend_delivery_tracking.ts": {
     "exports": [
       "up",
@@ -425,9 +437,11 @@
       "./20260810b_gift_voucher_scheduled_delivery",
       "./20260810c_vouchers_send_today_label",
       "./20260811_customer_profile_fields",
-      "./20260812_resend_delivery_tracking"
+      "./20260812_resend_delivery_tracking",
+      "./20260813_waitlist_customer_relationship",
+      "./20260814_order_spot_decrement_marker"
     ],
-    "lines": 226,
+    "lines": 238,
     "group": "other"
   },
   "src/migrations/20260719b_email_marketing_platform.ts": {
@@ -440,6 +454,18 @@
       "@payloadcms/db-postgres"
     ],
     "lines": 59,
+    "group": "other"
+  },
+  "src/migrations/20260814_order_spot_decrement_marker.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 16,
     "group": "other"
   },
   "src/migrations/20260720b_email_marketing_tables.ts": {
@@ -1299,7 +1325,7 @@
       "payload",
       "@payload-config"
     ],
-    "lines": 158,
+    "lines": 154,
     "group": "api"
   },
   "src/app/api/waitlist/join/route.ts": {
@@ -2414,6 +2440,22 @@
     "lines": 11,
     "group": "api"
   },
+  "src/app/api/cron/payment-maintenance/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "@/lib/cron/balance-charge",
+      "@/lib/cron/balance-overdue",
+      "@/lib/cron/balance-reminders",
+      "@/lib/cron/grace-period",
+      "@/lib/cron/voucher-delivery"
+    ],
+    "lines": 24,
+    "group": "api"
+  },
   "src/app/api/cron/voucher-expiry/route.ts": {
     "exports": [
       "GET"
@@ -2567,13 +2609,9 @@
     "types": [],
     "imports": [
       "next/server",
-      "@/lib/cron/balance-charge",
-      "@/lib/cron/balance-reminders",
-      "@/lib/cron/grace-period",
-      "@/lib/cron/reconcile-checkout-payments",
-      "@/lib/cron/voucher-delivery"
+      "@/lib/cron/reconcile-checkout-payments"
     ],
-    "lines": 26,
+    "lines": 14,
     "group": "api"
   },
   "src/app/api/wishlist/toggle/route.ts": {
@@ -2782,9 +2820,10 @@
       "next/server",
       "payload",
       "@payload-config",
-      "next/headers"
+      "next/headers",
+      "@/lib/cron/grace-period"
     ],
-    "lines": 54,
+    "lines": 55,
     "group": "api"
   },
   "src/app/api/stripe/billing-portal/route.ts": {
@@ -5367,10 +5406,9 @@
     "types": [],
     "imports": [
       "payload",
-      "@/lib/stripe-webhooks",
-      "./syncTripSpots"
+      "@/lib/stripe-webhooks"
     ],
-    "lines": 16,
+    "lines": 26,
     "group": "payload"
   },
   "src/payload/hooks/emailFlowTriggers.ts": {
@@ -5392,19 +5430,10 @@
     "group": "payload"
   },
   "src/payload/hooks/syncTripSpots.ts": {
-    "exports": [
-      "syncSpotsForOrderItems",
-      "syncSpotsAfterChange",
-      "syncSpotsAfterDelete"
-    ],
-    "types": [
-      "BookableOrderItem"
-    ],
-    "imports": [
-      "payload",
-      "@/lib/travel-status"
-    ],
-    "lines": 175,
+    "exports": [],
+    "types": [],
+    "imports": [],
+    "lines": 4,
     "group": "payload"
   },
   "src/payload/hooks/revalidate.ts": {
@@ -5518,12 +5547,13 @@
     "imports": [
       "payload",
       "crypto",
-      "../hooks/syncTripSpots",
       "../hooks/emailFlowTriggers",
       "../hooks/manualConfirm",
-      "../hooks/purchaseConfirmation"
+      "../hooks/purchaseConfirmation",
+      "@/lib/after-response",
+      "@/lib/stripe-webhooks"
     ],
-    "lines": 331,
+    "lines": 342,
     "group": "collections"
   },
   "src/payload/collections/ProgramInquiries.ts": {
@@ -5672,7 +5702,7 @@
       "../hooks/decrementSpotsOnPaid",
       "../hooks/purchaseConfirmation"
     ],
-    "lines": 606,
+    "lines": 615,
     "group": "collections"
   },
   "src/payload/collections/Stories.ts": {
@@ -5937,7 +5967,7 @@
       "./shared/paymentPlanFields",
       "./shared/bookingDeadlineField"
     ],
-    "lines": 584,
+    "lines": 592,
     "group": "collections"
   },
   "src/payload/collections/Waitlist.ts": {
@@ -6128,7 +6158,7 @@
       "@/lib/language-context",
       "@/lib/get-default-strings"
     ],
-    "lines": 423,
+    "lines": 428,
     "group": "blocks"
   },
   "src/components/blocks/contact/ContactGuidesBlock.tsx": {
@@ -8045,7 +8075,7 @@
       "sonner",
       "@/lib/use-translations"
     ],
-    "lines": 399,
+    "lines": 400,
     "group": "ui"
   },
   "src/components/ui/TermsAndConditionsEditButton.tsx": {
@@ -8806,7 +8836,7 @@
     "imports": [
       "next/server"
     ],
-    "lines": 14,
+    "lines": 28,
     "group": "lib"
   },
   "src/lib/email-renderer.ts": {
@@ -8861,6 +8891,7 @@
       "notifyWaitlist",
       "sendOrderConfirmationEmail",
       "sendRegistrationConfirmationEmail",
+      "decrementRegistrationSpots",
       "decrementOrderItemsSpotsAndStock",
       "handleCheckoutCompleted",
       "handleSubscriptionUpsert",
@@ -8882,7 +8913,7 @@
       "@/lib/escape-html",
       "@/lib/ga4-measurement-protocol"
     ],
-    "lines": 1065,
+    "lines": 1112,
     "group": "lib"
   },
   "src/lib/get-default-strings.ts": {
@@ -8893,7 +8924,7 @@
     "imports": [
       "./translations"
     ],
-    "lines": 284,
+    "lines": 285,
     "group": "lib"
   },
   "src/lib/escape-html.ts": {
@@ -9079,7 +9110,7 @@
       "Translations"
     ],
     "imports": [],
-    "lines": 2142,
+    "lines": 2156,
     "group": "lib"
   },
   "src/lib/send-registration-forms.ts": {
@@ -9112,11 +9143,14 @@
   "src/lib/spots.ts": {
     "exports": [
       "getSpotsLabel",
-      "isSpotsLow"
+      "isSpotsLow",
+      "getSpotWord",
+      "getSpotWordUpper",
+      "formatSpots"
     ],
     "types": [],
     "imports": [],
-    "lines": 16,
+    "lines": 49,
     "group": "lib"
   },
   "src/lib/metadata.ts": {
@@ -9311,7 +9345,7 @@
       "@payload-config",
       "@/lib/email-flows"
     ],
-    "lines": 31,
+    "lines": 33,
     "group": "lib"
   },
   "src/lib/cron/subscription-renewal.ts": {
@@ -9353,7 +9387,7 @@
       "@/lib/escape-html",
       "@/lib/stripe-webhooks"
     ],
-    "lines": 130,
+    "lines": 139,
     "group": "lib"
   },
   "src/lib/cron/send-registration-forms.ts": {
@@ -9379,7 +9413,7 @@
       "@payload-config",
       "@/lib/travel-status"
     ],
-    "lines": 149,
+    "lines": 148,
     "group": "lib"
   },
   "src/lib/cron/reconcile-checkout-payments.ts": {

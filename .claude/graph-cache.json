@@ -103,6 +103,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260813_waitlist_customer_relationship.ts",
+      "label": "migrations/20260813_waitlist_customer_relationship.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260812_resend_delivery_tracking.ts",
       "label": "migrations/20260812_resend_delivery_tracking.ts",
       "group": "other",
@@ -201,6 +207,12 @@
     {
       "id": "src/migrations/20260719b_email_marketing_platform.ts",
       "label": "migrations/20260719b_email_marketing_platform.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
+      "id": "src/migrations/20260814_order_spot_decrement_marker.ts",
+      "label": "migrations/20260814_order_spot_decrement_marker.ts",
       "group": "other",
       "size": 6
     },
@@ -1011,6 +1023,12 @@
     {
       "id": "src/app/api/cron/review-requests/route.ts",
       "label": "review-requests/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/cron/payment-maintenance/route.ts",
+      "label": "payment-maintenance/route.ts",
       "group": "api",
       "size": 4
     },
@@ -2140,7 +2158,7 @@
       "id": "src/payload/hooks/syncTripSpots.ts",
       "label": "hooks/syncTripSpots.ts",
       "group": "payload",
-      "size": 8
+      "size": 4
     },
     {
       "id": "src/payload/hooks/revalidate.ts",
@@ -3694,7 +3712,7 @@
       "id": "src/lib/after-response.ts",
       "label": "lib/after-response.ts",
       "group": "lib",
-      "size": 6
+      "size": 8
     },
     {
       "id": "src/lib/email-renderer.ts",
@@ -3724,7 +3742,7 @@
       "id": "src/lib/stripe-webhooks.ts",
       "label": "lib/stripe-webhooks.ts",
       "group": "lib",
-      "size": 16
+      "size": 18
     },
     {
       "id": "src/lib/get-default-strings.ts",
@@ -3922,7 +3940,7 @@
       "id": "src/lib/cron/balance-overdue.ts",
       "label": "cron/balance-overdue.ts",
       "group": "lib",
-      "size": 8
+      "size": 10
     },
     {
       "id": "src/lib/cron/subscription-renewal.ts",
@@ -3940,7 +3958,7 @@
       "id": "src/lib/cron/grace-period.ts",
       "label": "cron/grace-period.ts",
       "group": "lib",
-      "size": 8
+      "size": 10
     },
     {
       "id": "src/lib/cron/send-registration-forms.ts",
@@ -4223,6 +4241,14 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260812_resend_delivery_tracking.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260813_waitlist_customer_relationship.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260814_order_spot_decrement_marker.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -5009,6 +5035,26 @@
       "target": "src/lib/cron/review-requests.ts"
     },
     {
+      "source": "src/app/api/cron/payment-maintenance/route.ts",
+      "target": "src/lib/cron/balance-charge.ts"
+    },
+    {
+      "source": "src/app/api/cron/payment-maintenance/route.ts",
+      "target": "src/lib/cron/balance-overdue.ts"
+    },
+    {
+      "source": "src/app/api/cron/payment-maintenance/route.ts",
+      "target": "src/lib/cron/balance-reminders.ts"
+    },
+    {
+      "source": "src/app/api/cron/payment-maintenance/route.ts",
+      "target": "src/lib/cron/grace-period.ts"
+    },
+    {
+      "source": "src/app/api/cron/payment-maintenance/route.ts",
+      "target": "src/lib/cron/voucher-delivery.ts"
+    },
+    {
       "source": "src/app/api/cron/voucher-expiry/route.ts",
       "target": "src/lib/cron/voucher-expiry.ts"
     },
@@ -5062,23 +5108,7 @@
     },
     {
       "source": "src/app/api/cron/stripe/route.ts",
-      "target": "src/lib/cron/balance-charge.ts"
-    },
-    {
-      "source": "src/app/api/cron/stripe/route.ts",
-      "target": "src/lib/cron/balance-reminders.ts"
-    },
-    {
-      "source": "src/app/api/cron/stripe/route.ts",
-      "target": "src/lib/cron/grace-period.ts"
-    },
-    {
-      "source": "src/app/api/cron/stripe/route.ts",
       "target": "src/lib/cron/reconcile-checkout-payments.ts"
-    },
-    {
-      "source": "src/app/api/cron/stripe/route.ts",
-      "target": "src/lib/cron/voucher-delivery.ts"
     },
     {
       "source": "src/app/api/wishlist/toggle/route.ts",
@@ -5183,6 +5213,10 @@
     {
       "source": "src/app/api/stripe/refund/route.ts",
       "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/stripe/refund/route.ts",
+      "target": "src/lib/cron/grace-period.ts"
     },
     {
       "source": "src/app/api/stripe/refund/route.ts",
@@ -6893,10 +6927,6 @@
       "target": "src/lib/stripe-webhooks.ts"
     },
     {
-      "source": "src/payload/hooks/decrementSpotsOnPaid.ts",
-      "target": "src/payload/hooks/syncTripSpots.ts"
-    },
-    {
       "source": "src/payload/hooks/emailFlowTriggers.ts",
       "target": "src/lib/email-flows.ts"
     },
@@ -6911,10 +6941,6 @@
     {
       "source": "src/payload/hooks/emailFlowTriggers.ts",
       "target": "src/lib/email-logger.ts"
-    },
-    {
-      "source": "src/payload/hooks/syncTripSpots.ts",
-      "target": "src/lib/travel-status.ts"
     },
     {
       "source": "src/payload/collections/Trips.ts",
@@ -6942,10 +6968,6 @@
     },
     {
       "source": "src/payload/collections/Registrations.ts",
-      "target": "src/payload/hooks/syncTripSpots.ts"
-    },
-    {
-      "source": "src/payload/collections/Registrations.ts",
       "target": "src/payload/hooks/emailFlowTriggers.ts"
     },
     {
@@ -6955,6 +6977,14 @@
     {
       "source": "src/payload/collections/Registrations.ts",
       "target": "src/payload/hooks/purchaseConfirmation.ts"
+    },
+    {
+      "source": "src/payload/collections/Registrations.ts",
+      "target": "src/lib/after-response.ts"
+    },
+    {
+      "source": "src/payload/collections/Registrations.ts",
+      "target": "src/lib/stripe-webhooks.ts"
     },
     {
       "source": "src/payload/collections/Programs.ts",
@@ -9101,6 +9131,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-08-13T11:13:05.424Z",
-  "fileCount": 679
+  "builtAt": "2026-08-21T09:25:07.742Z",
+  "fileCount": 682
 }
