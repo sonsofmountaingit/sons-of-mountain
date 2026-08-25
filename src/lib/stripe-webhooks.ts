@@ -1063,16 +1063,131 @@ export async function handleInvoiceFinalized(invoice: Stripe.Invoice, payload: B
 }
 
 export async function handlePaymentIntentSucceeded(pi: Stripe.PaymentIntent, payload: BasePayload) {
-  // Handle balance charge completion (deposit → remaining)
-  if (!pi.metadata?.balanceForCollection || !pi.metadata?.balanceForId) return
+  // Handle balance charge completion (deposit → remaining, or installment)
+  const balanceCollection = pi.metadata?.balanceForCollection as ('orders' | 'registrations' | undefined)
+  const balanceId = pi.metadata?.balanceForId
+  if (!balanceCollection || !balanceId) return
+
   try {
-    const collection = pi.metadata.balanceForCollection as 'orders' | 'registrations'
-    await payload.update({
-      collection,
-      id: pi.metadata.balanceForId,
-      data: { remainingBalance: 0, status: 'paid', balanceChargeStatus: 'succeeded', balancePaymentIntentId: pi.id } as any,
-    })
-  } catch {}
+    const doc = await payload.findByID({ collection: balanceCollection, id: balanceId, depth: 2 }).catch(() => null) as any
+    if (!doc) return
+
+    const installmentIndexStr = pi.metadata.installmentIndex
+    let updatedRemaining = 0
+    let allCharged = true
+    let installmentLabel = 'Остатък'
+    let paidAmount = (pi.amount_received || pi.amount || 0) / 100
+
+    if (installmentIndexStr != null && doc.installments?.length) {
+      const idx = parseInt(installmentIndexStr, 10)
+      const installments = [...doc.installments]
+      if (installments[idx]) {
+        installmentLabel = installments[idx].label || `Вноска ${idx + 1}`
+        installments[idx] = {
+          ...installments[idx],
+          status: 'charged',
+          paymentIntentId: pi.id,
+          chargeAttemptedAt: new Date().toISOString(),
+        }
+      }
+      allCharged = installments.every((r) => r.status === 'charged')
+      updatedRemaining = installments.filter((r) => r.status !== 'charged').reduce((sum, r) => sum + (Number(r.amount) || 0), 0)
+
+      await payload.update({
+        collection: balanceCollection,
+        id: balanceId,
+        data: {
+          installments,
+          remainingBalance: updatedRemaining,
+          status: 'paid',
+          balanceChargeStatus: allCharged ? 'succeeded' : 'pending',
+          balancePaymentIntentId: pi.id,
+        } as any,
+      })
+    } else {
+      await payload.update({
+        collection: balanceCollection,
+        id: balanceId,
+        data: {
+          remainingBalance: 0,
+          status: 'paid',
+          balanceChargeStatus: 'succeeded',
+          balancePaymentIntentId: pi.id,
+        } as any,
+      })
+    }
+
+    // Send confirmation email directly to customer via Resend
+    if (doc.email) {
+      try {
+        const { getResend, FROM } = await import('@/lib/resend')
+        const itemTitle = balanceCollection === 'registrations'
+          ? (doc.trip?.title ?? doc.program?.title ?? doc.destination?.name ?? 'Sons of Mountains Adventure')
+          : (((doc.items ?? []) as any[]).map((i) => i.trip?.title ?? i.program?.title ?? i.destination?.name ?? i.product?.title ?? i.bundle?.title).filter(Boolean).join(', ') || 'Sons of Mountains Adventure')
+
+        const safeName = escapeHtml(doc.firstName || '') || 'приключенецо'
+        const safeItemTitle = escapeHtml(itemTitle)
+        const safeOrderNumber = escapeHtml(String(balanceId))
+        const resend = getResend()
+
+        await resend.emails.send({
+          from: FROM,
+          to: doc.email,
+          subject: `Потвърдено плащане на ${installmentLabel} (€${paidAmount.toFixed(2)}) — Резервация #${safeOrderNumber} | Sons of Mountains`,
+          html: `<!DOCTYPE html>
+<html>
+<body style="margin:0;padding:0;background:#0a0a0a;font-family:'Helvetica Neue',Arial,sans-serif;color:#f0f0f0;">
+  <div style="max-width:560px;margin:0 auto;padding:40px 20px;">
+    <div style="text-align:center;margin-bottom:32px;">
+      <p style="color:#888;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin:0 0 10px 0;">Sons of Mountains</p>
+      <h1 style="color:#ffffff;font-size:24px;font-weight:300;margin:0;">Плащането е получено успешно!</h1>
+    </div>
+    <div style="background:#121212;border:1px solid #262626;border-radius:8px;padding:28px 24px;margin-bottom:24px;">
+      <p style="color:#cccccc;font-size:15px;line-height:1.6;margin:0 0 20px 0;">
+        Здравей, <strong>${safeName}</strong>!<br/>
+        Получихме успешно плащането на <strong>${escapeHtml(installmentLabel)}</strong> за <strong>${safeItemTitle}</strong>.
+      </p>
+      <div style="background:#1a1a1a;border:1px solid #333333;border-radius:6px;padding:18px;margin-bottom:20px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px;border-bottom:1px solid #292929;padding-bottom:10px;">
+          <span style="color:#888;font-size:13px;">Номер на поръчка:</span>
+          <span style="color:#fff;font-size:13px;font-family:monospace;font-weight:600;">#${safeOrderNumber}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px;border-bottom:1px solid #292929;padding-bottom:10px;">
+          <span style="color:#888;font-size:13px;">Платена сума:</span>
+          <span style="color:#5cd65c;font-size:14px;font-weight:700;">€${paidAmount.toFixed(2)} EUR</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding-top:4px;">
+          <span style="color:#888;font-size:13px;">Оставащ баланс:</span>
+          <span style="color:#fff;font-size:14px;font-weight:600;">€${updatedRemaining.toFixed(2)} EUR</span>
+        </div>
+      </div>
+      <p style="color:#777;font-size:12px;margin:0;">
+        Твоето място в приключението е гарантирано. Благодарим ти, че пътуваш с нас!
+      </p>
+    </div>
+    <div style="text-align:center;color:#555;font-size:12px;">
+      <p style="margin:0;">Sons of Mountains &middot; Adventure awaits</p>
+    </div>
+  </div>
+</body>
+</html>`,
+        })
+
+        await createEmailLog(payload, {
+          trigger: 'order_paid_balance',
+          recipient: doc.email,
+          subject: `Потвърдено плащане на ${installmentLabel} (€${paidAmount.toFixed(2)}) — Резервация #${safeOrderNumber}`,
+          status: 'sent',
+          sentAt: new Date().toISOString(),
+          context: { [balanceCollection === 'orders' ? 'orderId' : 'registrationId']: balanceId },
+        })
+      } catch (err) {
+        console.error('[stripe-webhooks] Failed to send balance receipt email:', err)
+      }
+    }
+  } catch (err) {
+    console.error('[stripe-webhooks] handlePaymentIntentSucceeded error:', err)
+  }
 }
 
 export async function handlePaymentIntentFailed(pi: Stripe.PaymentIntent, payload: BasePayload) {

@@ -25,7 +25,7 @@ const getPagesMeta = unstable_cache(
         draft: false,
         overrideAccess: true,
       })
-      return docs as Array<{
+      return docs as unknown as Array<{
         title: string
         slug: string
         meta?: {
