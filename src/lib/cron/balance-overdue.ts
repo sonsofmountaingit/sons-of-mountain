@@ -117,7 +117,7 @@ export async function runBalanceOverdue() {
           { paymentMode: { in: ['deposit', 'installments'] } },
           { remainingBalance: { greater_than: 0 } },
           { remainingDueDate: { less_than: now } },
-          { balanceChargeStatus: { not_equals: 'overdue' } },
+          { reminderSent1d: { not_equals: true } },
         ],
       } as any,
       limit: 100,
@@ -211,7 +211,7 @@ export async function runBalanceOverdue() {
         collection,
         id: doc.id,
         data: {
-          balanceChargeStatus: 'overdue',
+          reminderSent1d: true,
           stripePaymentLinkId: paymentUrl.startsWith('http') ? paymentUrl : undefined,
         } as any,
       })
