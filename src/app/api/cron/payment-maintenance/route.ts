@@ -18,6 +18,19 @@ export async function POST(req: NextRequest) {
     runGracePeriodCheck(),
     runVoucherDelivery(),
   ])
+  for (const r of results) {
+    if (r.status === 'rejected') {
+      console.error('[payment-maintenance] Job failed:', r.reason)
+    }
+  }
   const failed = results.filter((result) => result.status === 'rejected').length
-  return NextResponse.json({ ok: failed === 0, failed })
+  return NextResponse.json({
+    ok: failed === 0,
+    failed,
+    details: results.map((r, i) => ({
+      name: ['runBalanceOverdue', 'runBalanceReminders', 'runGracePeriodCheck', 'runVoucherDelivery'][i],
+      status: r.status,
+      reason: r.status === 'rejected' ? String(r.reason?.message || r.reason) : undefined,
+    })),
+  })
 }
