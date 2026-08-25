@@ -106,28 +106,29 @@ function buildOverdueHtml(opts: {
 export async function runBalanceOverdue() {
   const payload = await getPayload({ config })
   const { stripe } = await import('@/lib/stripe')
-  const now = new Date().toISOString()
+  const now = new Date()
 
   for (const collection of ['orders', 'registrations'] as const) {
-    const docs = await payload.find({
+    const depositDocs = await payload.find({
       collection,
       where: {
         and: [
-          { status: { not_in: ['cancelled', 'refunded'] } },
-          { paymentMode: { in: ['deposit', 'installments'] } },
+          { paymentMode: { equals: 'deposit' } },
           { remainingBalance: { greater_than: 0 } },
-          { remainingDueDate: { less_than: now } },
-          { reminderSent1d: { not_equals: true } },
         ],
-      } as any,
+      },
       limit: 100,
       depth: 2,
     })
 
-    for (const doc of docs.docs as any[]) {
+    for (const doc of depositDocs.docs as any[]) {
+      if (doc.status === 'cancelled' || doc.status === 'refunded') continue
+      if (!doc.remainingDueDate || new Date(doc.remainingDueDate) >= now) continue
+      if (doc.reminderSent1d) continue // already notified
       if (!doc.email) continue
+
       const itemTitle = getDocItemTitle(doc, collection)
-      const dueDate = doc.remainingDueDate ? new Date(doc.remainingDueDate) : new Date()
+      const dueDate = new Date(doc.remainingDueDate)
       const dueDateStr = dueDate.toLocaleDateString('bg-BG', { day: 'numeric', month: 'long', year: 'numeric' })
 
       let paymentUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/shop`

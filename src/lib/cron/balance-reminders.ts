@@ -199,13 +199,12 @@ export async function runBalanceReminders() {
   const now = new Date()
 
   for (const collection of ['orders', 'registrations'] as const) {
-    // 2-tier deposit flow: query active/paid orders that still have a remaining balance due
+    // 2-tier deposit flow: query orders/registrations with remaining balance
     const depositDocs = await payload.find({
       collection,
       where: {
         and: [
           { paymentMode: { equals: 'deposit' } },
-          { status: { not_in: ['cancelled', 'refunded'] } },
           { remainingBalance: { greater_than: 0 } },
         ],
       },
@@ -214,6 +213,7 @@ export async function runBalanceReminders() {
     })
 
     for (const doc of depositDocs.docs as any[]) {
+      if (doc.status === 'cancelled' || doc.status === 'refunded') continue
       if (!doc.remainingDueDate || !doc.email) continue
       const dueDate = new Date(doc.remainingDueDate)
       const daysUntilDue = Math.round((dueDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
@@ -300,16 +300,14 @@ export async function runBalanceReminders() {
     const installmentDocs = await payload.find({
       collection,
       where: {
-        and: [
-          { paymentMode: { equals: 'installments' } },
-          { status: { not_in: ['cancelled', 'refunded'] } },
-        ],
+        paymentMode: { equals: 'installments' },
       },
       limit: 100,
       depth: 2,
     })
 
     for (const doc of installmentDocs.docs as any[]) {
+      if (doc.status === 'cancelled' || doc.status === 'refunded') continue
       if (!doc.email) continue
       const installments = (doc.installments ?? []) as any[]
       if (installments.length === 0) continue
