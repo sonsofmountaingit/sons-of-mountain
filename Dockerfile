@@ -57,6 +57,7 @@ COPY --from=builder /app/public ./public
 # tracing; copy it explicitly so production rate limiting is available.
 COPY --from=deps-prod /app/node_modules/redis ./node_modules/redis
 COPY --from=deps-prod /app/node_modules/@redis ./node_modules/@redis
+COPY --from=deps-prod /app/node_modules/cluster-key-slot ./node_modules/cluster-key-slot
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
