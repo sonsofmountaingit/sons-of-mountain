@@ -53,6 +53,10 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
+# Redis is used by runtime route handlers but may be omitted by standalone
+# tracing; copy it explicitly so production rate limiting is available.
+COPY --from=deps-prod /app/node_modules/redis ./node_modules/redis
+COPY --from=deps-prod /app/node_modules/@redis ./node_modules/@redis
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
