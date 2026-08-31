@@ -311,7 +311,7 @@ function BuyTab({
 
       const checkoutRes = await fetch('/api/checkout', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Idempotency-Key': crypto.randomUUID() },
         body: JSON.stringify({
           type: 'voucher',
           recordId: voucherId,

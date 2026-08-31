@@ -70,7 +70,7 @@ export function GiftVoucherPurchaseForm({ destinations, trips, programs }: Props
 
       const res = await fetch('/api/checkout', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Idempotency-Key': crypto.randomUUID() },
         body: JSON.stringify({
           type: 'voucher',
           recordId: voucher.voucherId,

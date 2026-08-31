@@ -4,6 +4,7 @@ import { runBalanceOverdue } from '@/lib/cron/balance-overdue'
 import { runBalanceReminders } from '@/lib/cron/balance-reminders'
 import { runGracePeriodCheck } from '@/lib/cron/grace-period'
 import { runVoucherDelivery } from '@/lib/cron/voucher-delivery'
+import { expirePendingOrders } from '@/lib/cron/expire-pending-orders'
 
 // Daily due-date maintenance. Keep this separate from Stripe webhook recovery.
 export async function POST(req: NextRequest) {
@@ -13,6 +14,7 @@ export async function POST(req: NextRequest) {
 
   await runBalanceCharges()
   const results = await Promise.allSettled([
+    expirePendingOrders(),
     runBalanceOverdue(),
     runBalanceReminders(),
     runGracePeriodCheck(),
@@ -28,7 +30,7 @@ export async function POST(req: NextRequest) {
     ok: failed === 0,
     failed,
     details: results.map((r, i) => ({
-      name: ['runBalanceOverdue', 'runBalanceReminders', 'runGracePeriodCheck', 'runVoucherDelivery'][i],
+      name: ['expirePendingOrders', 'runBalanceOverdue', 'runBalanceReminders', 'runGracePeriodCheck', 'runVoucherDelivery'][i],
       status: r.status,
       reason: r.status === 'rejected' ? String(r.reason?.message || r.reason) : undefined,
     })),

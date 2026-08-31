@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
   if (!stripe) return NextResponse.json({ error: 'Stripe not configured' }, { status: 500 })
 
   const signature = req.headers.get('stripe-signature')
-  const secret = process.env.STRIPE_WEBHOOK_SECRET
+  const secret = process.env.STRIPE_WEBHOOK_SECRET ?? process.env.STRIPE_WEBHOOKS_ENDPOINT_SECRET
   if (!signature || !secret) return NextResponse.json({ error: 'Missing signature or secret' }, { status: 400 })
 
   const rawBody = await req.text()
@@ -29,6 +29,13 @@ export async function POST(req: NextRequest) {
     event = stripe.webhooks.constructEvent(rawBody, signature, secret)
   } catch {
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
+  }
+
+  const expectedLiveMode = process.env.STRIPE_LIVEMODE
+    ? process.env.STRIPE_LIVEMODE === 'true'
+    : process.env.NODE_ENV === 'production'
+  if (event.livemode !== expectedLiveMode) {
+    return NextResponse.json({ error: 'Invalid Stripe mode' }, { status: 400 })
   }
 
   const payload = await getPayload({ config })

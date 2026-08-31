@@ -73,18 +73,18 @@ export const signIn = {
 }
 
 export const signUp = {
-  email: async ({ email, password, name }: { email: string; password: string; name?: string }) => {
+  email: async ({ email, password, name, captchaToken }: { email: string; password: string; name?: string; captchaToken?: string }) => {
     const res = await fetch('/api/customers', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, name }),
+      body: JSON.stringify({ email, password, name, captchaToken }),
     })
     if (!res.ok) {
       return { error: { message: await parseError(res) } }
     }
-    const loginRes = await signIn.email({ email, password })
-    return loginRes
+    const data = await res.json()
+    return { data }
   },
 }
 

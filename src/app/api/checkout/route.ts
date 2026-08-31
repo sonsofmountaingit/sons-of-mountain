@@ -6,6 +6,8 @@ import { resolvePaymentPlan } from '@/lib/pricing/payment-plan'
 import { getDynamicPrice, getPriceBreakdown } from '@/lib/pricing/dynamic'
 import { isBookingDeadlinePassed } from '@/lib/booking-deadline'
 import { z } from 'zod'
+import { claimIdempotencyKey, enforceRateLimit, getClientIp, getIdempotencyValue, setIdempotencyValue } from '@/lib/security/rate-limit'
+import { verifyTurnstile } from '@/lib/security/turnstile'
 
 const cartCheckoutContactSchema = z.object({
   customerEmail: z.string().trim().email(),
@@ -31,6 +33,23 @@ export async function POST(req: NextRequest) {
     const { stripe: stripeClient } = await import('@/lib/stripe')
     const stripe = stripeClient!
     const body = await req.json()
+    // New clients send an idempotency key. Generate a request-scoped fallback
+    // for legacy clients so existing integrations continue to work; only the
+    // explicit key can deduplicate a retry across requests.
+    const suppliedIdempotencyKey = req.headers.get('idempotency-key')?.trim()
+    if (suppliedIdempotencyKey && suppliedIdempotencyKey.length > 128) {
+      return NextResponse.json({ error: 'Invalid Idempotency-Key' }, { status: 400 })
+    }
+    const idempotencyKey = suppliedIdempotencyKey || crypto.randomUUID()
+    const cachedCheckoutUrl = await getIdempotencyValue(idempotencyKey)
+    if (cachedCheckoutUrl && cachedCheckoutUrl !== '__processing__') return NextResponse.json({ url: cachedCheckoutUrl })
+    if (cachedCheckoutUrl === '__processing__' || !await claimIdempotencyKey(idempotencyKey)) {
+      return NextResponse.json({ error: 'This checkout request is already being processed.' }, { status: 409 })
+    }
+    const requestLimit = await enforceRateLimit(`checkout:ip:${getClientIp(req)}`, 20, 3600)
+    if (!requestLimit.allowed) {
+      return NextResponse.json({ error: 'Too many checkout attempts. Please try again later.' }, { status: 429, headers: { 'Retry-After': String(requestLimit.retryAfterSeconds) } })
+    }
     const {
       type = 'cart' as CheckoutType,
       recordId,
@@ -54,13 +73,34 @@ export async function POST(req: NextRequest) {
       participationType,
       carpool,
       carpoolRideId,
+      captchaToken,
     } = body
 
     const base = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
     const payload = await getPayload({ config })
 
     const { user: authUser } = await payload.auth({ headers: req.headers }).catch(() => ({ user: null }))
-    const linkedCustomerId = authUser?.collection === 'customers' ? authUser.id : null
+    if (!authUser && type === 'cart' && !await verifyTurnstile(captchaToken, req)) {
+      return NextResponse.json({ error: 'Please complete the security check.' }, { status: 400 })
+    }
+    if (typeof customerEmail === 'string' && customerEmail.trim()) {
+      const emailLimit = await enforceRateLimit(`checkout:email:${customerEmail.trim().toLowerCase()}`, 10, 3600)
+      if (!emailLimit.allowed) {
+        return NextResponse.json({ error: 'Too many checkout attempts. Please try again later.' }, { status: 429, headers: { 'Retry-After': String(emailLimit.retryAfterSeconds) } })
+      }
+    }
+    let linkedCustomerId = authUser?.collection === 'customers' ? authUser.id : null
+    if (!linkedCustomerId && customerEmail) {
+      const existingCust = await payload.find({
+        collection: 'customers',
+        where: { email: { equals: customerEmail } },
+        limit: 1,
+        depth: 0,
+      }).catch(() => null)
+      if (existingCust?.docs?.[0]) {
+        linkedCustomerId = existingCust.docs[0].id
+      }
+    }
 
     const shopSettings = await payload.findGlobal({ slug: 'shop', depth: 0 }).catch(() => null)
     const bnplMin = (shopSettings as any)?.bnplMinOrderAmount ?? 100
@@ -118,13 +158,14 @@ export async function POST(req: NextRequest) {
         payment_intent_data: { setup_future_usage: 'off_session' },
         metadata: { recordId: id, type, tripId: tripId ?? '', paymentMode: resolvedPaymentModeLegacy },
         customer_email: customerEmail,
-      })
+      }, { idempotencyKey: `checkout:${idempotencyKey}` })
 
       await payload.update({
         collection,
         id,
         data: { stripeSessionId: session.id, customer: linkedCustomerId ?? undefined } as any,
       }).catch(() => null)
+      if (session.url) await setIdempotencyValue(idempotencyKey, session.url)
       return NextResponse.json({ url: session.url })
     }
 
@@ -516,9 +557,10 @@ export async function POST(req: NextRequest) {
         loyaltyPointsRedeemed: String(serverLoyaltyPoints),
       },
     }
-    const session = await stripe.checkout.sessions.create(sessionParams)
+    const session = await stripe.checkout.sessions.create(sessionParams, { idempotencyKey: `checkout:${idempotencyKey}` })
 
     await payload.update({ collection: 'orders', id: orderRecord.id, data: { stripeSessionId: session.id } })
+    if (session.url) await setIdempotencyValue(idempotencyKey, session.url)
 
     return NextResponse.json({ url: session.url })
   } catch (err) {

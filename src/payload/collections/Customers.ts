@@ -1,10 +1,9 @@
-import type { CollectionConfig, CollectionAfterChangeHook } from 'payload'
+import type { BasePayload, CollectionConfig, CollectionAfterChangeHook } from 'payload'
 import { APIError } from 'payload'
 
-const linkGuestRecordsToCustomer: CollectionAfterChangeHook = async ({ doc, operation, req }) => {
-  if (operation !== 'create') return doc
-  const email = doc.email as string | undefined
-  if (!email) return doc
+export async function linkGuestRecordsToCustomer(payload: BasePayload, customerId: string | number, rawEmail: string) {
+  const email = rawEmail.trim().toLowerCase()
+  if (!email) return
 
   const collections = [
     { slug: 'orders', emailField: 'email' },
@@ -14,7 +13,7 @@ const linkGuestRecordsToCustomer: CollectionAfterChangeHook = async ({ doc, oper
 
   for (const { slug, emailField } of collections) {
     try {
-      await req.payload.update({
+      await payload.update({
         collection: slug,
         where: {
           and: [
@@ -22,14 +21,19 @@ const linkGuestRecordsToCustomer: CollectionAfterChangeHook = async ({ doc, oper
             { customer: { exists: false } },
           ],
         },
-        data: { customer: doc.id },
-        req,
+        data: { customer: customerId },
       })
     } catch {
       // best-effort linkage; do not block customer creation
     }
   }
 
+}
+
+const linkGuestRecordsAfterVerification: CollectionAfterChangeHook = async ({ doc, operation, previousDoc, req }) => {
+  if (operation === 'update' && previousDoc?._verified !== true && doc._verified === true && typeof doc.email === 'string') {
+    await linkGuestRecordsToCustomer(req.payload, doc.id, doc.email)
+  }
   return doc
 }
 
@@ -37,7 +41,14 @@ export const Customers: CollectionConfig = {
   slug: 'customers',
   auth: {
     tokenExpiration: 7200,
-    verify: false,
+    verify: {
+      generateEmailSubject: () => 'Потвърди имейла си — Sons of Mountains',
+      generateEmailHTML: ({ token }) => {
+        const baseURL = (process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000').replace(/\/$/, '')
+        const verifyURL = `${baseURL}/api/auth/verify?token=${encodeURIComponent(token ?? '')}`
+        return `<p>Благодарим ти за регистрацията в Sons of Mountains.</p><p><a href="${verifyURL}">Потвърди имейл адреса си</a></p>`
+      },
+    },
     forgotPassword: {
       generateEmailSubject: () => 'Смяна на парола — Sons of Mountains',
       generateEmailHTML: ({ token } = {}) => {
@@ -47,7 +58,7 @@ export const Customers: CollectionConfig = {
       },
     },
     cookies: {
-      secure: false,
+      secure: process.env.NODE_ENV === 'production',
       sameSite: 'Lax',
     },
   },
@@ -57,7 +68,9 @@ export const Customers: CollectionConfig = {
     group: 'Клиенти',
   },
   access: {
-    create: () => true,
+    // Customer creation is performed by /api/auth/signup after CAPTCHA and
+    // rate-limit checks. Admin/local API operations use overrideAccess.
+    create: ({ req }) => req.user?.collection === 'users',
     read: ({ req }) => {
       if (req.user?.collection === 'users') return true
       if (req.user?.collection === 'customers') return { id: { equals: req.user.id } }
@@ -74,12 +87,15 @@ export const Customers: CollectionConfig = {
   hooks: {
     beforeLogin: [
       async ({ user }) => {
+        if ((user as any)._verified !== true) {
+          throw new APIError('Моля, потвърди имейла си преди вход.', 403, undefined, true)
+        }
         if (user.status !== 'active') {
           throw new APIError('Този акаунт е блокиран или спрян.', 403, undefined, true)
         }
       },
     ],
-    afterChange: [linkGuestRecordsToCustomer],
+    afterChange: [linkGuestRecordsAfterVerification],
   },
   fields: [
     {

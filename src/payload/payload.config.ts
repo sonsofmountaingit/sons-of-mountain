@@ -174,15 +174,6 @@ export default buildConfig({
       rest: false,
       sync: isPayloadCLI ? [] : [
         {
-          collection: 'customers',
-          stripeResourceType: 'customers',
-          stripeResourceTypeSingular: 'customer',
-          fields: [
-            { fieldPath: 'name', stripeProperty: 'name' },
-            { fieldPath: 'email', stripeProperty: 'email' },
-          ],
-        },
-        {
           collection: 'products',
           stripeResourceType: 'products',
           stripeResourceTypeSingular: 'product',

@@ -3754,7 +3754,7 @@
       "id": "src/lib/escape-html.ts",
       "label": "lib/escape-html.ts",
       "group": "lib",
-      "size": 14
+      "size": 18
     },
     {
       "id": "src/lib/ga4-measurement-protocol.ts",
@@ -3784,7 +3784,7 @@
       "id": "src/lib/email-logger.ts",
       "label": "lib/email-logger.ts",
       "group": "lib",
-      "size": 16
+      "size": 20
     },
     {
       "id": "src/lib/email-flows.ts",
@@ -8668,6 +8668,18 @@
     },
     {
       "source": "src/lib/cron/balance-reminders.ts",
+      "target": "src/lib/escape-html.ts"
+    },
+    {
+      "source": "src/lib/cron/balance-reminders.ts",
+      "target": "src/lib/resend.ts"
+    },
+    {
+      "source": "src/lib/cron/balance-reminders.ts",
+      "target": "src/lib/email-logger.ts"
+    },
+    {
+      "source": "src/lib/cron/balance-reminders.ts",
       "target": "src/lib/stripe.ts"
     },
     {
@@ -8685,6 +8697,22 @@
     {
       "source": "src/lib/cron/balance-overdue.ts",
       "target": "src/lib/email-flows.ts"
+    },
+    {
+      "source": "src/lib/cron/balance-overdue.ts",
+      "target": "src/lib/escape-html.ts"
+    },
+    {
+      "source": "src/lib/cron/balance-overdue.ts",
+      "target": "src/lib/resend.ts"
+    },
+    {
+      "source": "src/lib/cron/balance-overdue.ts",
+      "target": "src/lib/email-logger.ts"
+    },
+    {
+      "source": "src/lib/cron/balance-overdue.ts",
+      "target": "src/lib/stripe.ts"
     },
     {
       "source": "src/lib/cron/subscription-renewal.ts",
@@ -9131,6 +9159,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-08-21T09:25:07.742Z",
+  "builtAt": "2026-08-25T16:38:04.316Z",
   "fileCount": 682
 }

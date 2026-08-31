@@ -584,6 +584,9 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
   } catch {}
 
   if (type === 'cart' && orderId) {
+    // A signed webhook is necessary but not sufficient: never fulfil a Checkout
+    // Session that has not actually settled (for example, a pending bank debit).
+    if (session.payment_status !== 'paid' && session.payment_status !== 'no_payment_required') return
     const order = await payload.findByID({ collection: 'orders', id: orderId, depth: 2 }).catch(() => null)
     if (!order) return
     if ((order as any).status === 'paid') return

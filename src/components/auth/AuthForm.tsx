@@ -18,7 +18,7 @@ interface AuthFormProps<T extends FieldValues> {
   defaultValues: DefaultValues<T>
   fields: Field<T>[]
   submitLabel: string
-  onSubmit: (values: T) => Promise<{ error?: string }>
+  onSubmit: (values: T) => Promise<{ error?: string; success?: string }>
   footer?: React.ReactNode
 }
 
@@ -63,6 +63,9 @@ export function AuthForm<T extends FieldValues>({
     if (result.error) {
       setError('root', { message: result.error })
     }
+    if (result.success) {
+      setError('root', { type: 'success', message: result.success })
+    }
   }
 
   function onFocus(e: React.FocusEvent<HTMLInputElement>) {
@@ -94,7 +97,7 @@ export function AuthForm<T extends FieldValues>({
         ))}
 
         {errors.root && (
-          <p className="text-sm text-red-400 text-center">{errors.root.message}</p>
+          <p className={`text-sm text-center ${errors.root.type === 'success' ? 'text-emerald-400' : 'text-red-400'}`}>{errors.root.message}</p>
         )}
 
         <button

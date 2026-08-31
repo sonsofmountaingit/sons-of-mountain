@@ -2,8 +2,10 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { z } from 'zod'
 import { AuthForm } from '@/components/auth/AuthForm'
+import { Turnstile } from '@/components/auth/Turnstile'
 import { signUp } from '@/lib/auth-client'
 
 const schema = z.object({
@@ -14,11 +16,12 @@ const schema = z.object({
 
 export function SignupClient() {
   const router = useRouter()
+  const [captchaToken, setCaptchaToken] = useState('')
 
   async function onSubmit(values: z.infer<typeof schema>) {
-    const result = await signUp.email({ name: values.name, email: values.email, password: values.password })
+    const result = await signUp.email({ name: values.name, email: values.email, password: values.password, captchaToken })
     if (result.error) return { error: result.error.message ?? 'Грешка при регистрация' }
-    router.push('/dashboard')
+    router.push('/verify-email')
     return {}
   }
 
@@ -34,9 +37,12 @@ export function SignupClient() {
       submitLabel="РЕГИСТРАЦИЯ"
       onSubmit={onSubmit}
       footer={
-        <span className="text-xs text-white/40">
-          Вече имаш акаунт? <Link href="/login" className="text-white/60 hover:text-white transition-colors">Влез</Link>
-        </span>
+        <>
+          <Turnstile onToken={setCaptchaToken} />
+          <span className="text-xs text-white/40">
+            Вече имаш акаунт? <Link href="/login" className="text-white/60 hover:text-white transition-colors">Влез</Link>
+          </span>
+        </>
       }
     />
   )

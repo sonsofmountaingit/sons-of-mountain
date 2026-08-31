@@ -2453,7 +2453,7 @@
       "@/lib/cron/grace-period",
       "@/lib/cron/voucher-delivery"
     ],
-    "lines": 24,
+    "lines": 37,
     "group": "api"
   },
   "src/app/api/cron/voucher-expiry/route.ts": {
@@ -8913,7 +8913,7 @@
       "@/lib/escape-html",
       "@/lib/ga4-measurement-protocol"
     ],
-    "lines": 1112,
+    "lines": 1227,
     "group": "lib"
   },
   "src/lib/get-default-strings.ts": {
@@ -9167,7 +9167,7 @@
       "payload",
       "@payload-config"
     ],
-    "lines": 112,
+    "lines": 172,
     "group": "lib"
   },
   "src/lib/media-url.ts": {
@@ -9317,9 +9317,12 @@
     "imports": [
       "payload",
       "@payload-config",
-      "@/lib/email-flows"
+      "@/lib/email-flows",
+      "@/lib/escape-html",
+      "@/lib/resend",
+      "@/lib/email-logger"
     ],
-    "lines": 166,
+    "lines": 403,
     "group": "lib"
   },
   "src/lib/cron/review-requests.ts": {
@@ -9343,9 +9346,12 @@
     "imports": [
       "payload",
       "@payload-config",
-      "@/lib/email-flows"
+      "@/lib/email-flows",
+      "@/lib/escape-html",
+      "@/lib/resend",
+      "@/lib/email-logger"
     ],
-    "lines": 33,
+    "lines": 223,
     "group": "lib"
   },
   "src/lib/cron/subscription-renewal.ts": {
