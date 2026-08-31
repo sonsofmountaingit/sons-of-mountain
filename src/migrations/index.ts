@@ -38,6 +38,7 @@ import * as migration_20260812_resend_delivery_tracking from './20260812_resend_
 import * as migration_20260813_waitlist_customer_relationship from './20260813_waitlist_customer_relationship'
 import * as migration_20260814_order_spot_decrement_marker from './20260814_order_spot_decrement_marker'
 import * as migration_20260831_customer_email_verification from './20260831_customer_email_verification'
+import * as migration_20260831b_customer_verification_column_name from './20260831b_customer_verification_column_name'
 
 export const migrations = [
   {
@@ -239,5 +240,10 @@ export const migrations = [
     up: migration_20260831_customer_email_verification.up,
     down: migration_20260831_customer_email_verification.down,
     name: '20260831_customer_email_verification',
+  },
+  {
+    up: migration_20260831b_customer_verification_column_name.up,
+    down: migration_20260831b_customer_verification_column_name.down,
+    name: '20260831b_customer_verification_column_name',
   },
 ]
