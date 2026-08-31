@@ -3,13 +3,11 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { z } from 'zod'
 import { enforceRateLimit, getClientIp } from '@/lib/security/rate-limit'
-import { verifyTurnstile } from '@/lib/security/turnstile'
 
 const signupSchema = z.object({
   name: z.string().trim().min(2).max(120),
   email: z.string().trim().toLowerCase().email().max(254),
   password: z.string().min(8).max(128),
-  captchaToken: z.string().optional(),
 })
 
 const GENERIC_RESPONSE = {
@@ -34,10 +32,6 @@ export async function POST(request: NextRequest) {
         status: 202,
         headers: { 'Retry-After': String(Math.max(ipLimit.retryAfterSeconds, emailLimit.retryAfterSeconds)) },
       })
-    }
-
-    if (!await verifyTurnstile(input.captchaToken, request)) {
-      return NextResponse.json({ error: 'Please complete the security check.' }, { status: 400 })
     }
 
     const payload = await getPayload({ config })

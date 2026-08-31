@@ -57,7 +57,7 @@ export function useSession(): SessionState {
 
 export const signIn = {
   email: async ({ email, password }: { email: string; password: string }) => {
-    const res = await fetch('/api/customers/login', {
+    const res = await fetch('/api/auth/login', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -73,12 +73,12 @@ export const signIn = {
 }
 
 export const signUp = {
-  email: async ({ email, password, name, captchaToken }: { email: string; password: string; name?: string; captchaToken?: string }) => {
+  email: async ({ email, password, name }: { email: string; password: string; name?: string }) => {
     const res = await fetch('/api/customers', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, name, captchaToken }),
+      body: JSON.stringify({ email, password, name }),
     })
     if (!res.ok) {
       return { error: { message: await parseError(res) } }
@@ -94,7 +94,7 @@ export async function signOut() {
 }
 
 export async function forgotPassword({ email }: { email: string; redirectTo?: string }) {
-  const res = await fetch('/api/customers/forgot-password', {
+  const res = await fetch('/api/auth/forgot-password', {
     method: 'POST',
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },

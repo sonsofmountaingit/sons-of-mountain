@@ -7,7 +7,6 @@ import { getDynamicPrice, getPriceBreakdown } from '@/lib/pricing/dynamic'
 import { isBookingDeadlinePassed } from '@/lib/booking-deadline'
 import { z } from 'zod'
 import { claimIdempotencyKey, enforceRateLimit, getClientIp, getIdempotencyValue, setIdempotencyValue } from '@/lib/security/rate-limit'
-import { verifyTurnstile } from '@/lib/security/turnstile'
 
 const cartCheckoutContactSchema = z.object({
   customerEmail: z.string().trim().email(),
@@ -73,16 +72,12 @@ export async function POST(req: NextRequest) {
       participationType,
       carpool,
       carpoolRideId,
-      captchaToken,
     } = body
 
     const base = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
     const payload = await getPayload({ config })
 
     const { user: authUser } = await payload.auth({ headers: req.headers }).catch(() => ({ user: null }))
-    if (!authUser && type === 'cart' && !await verifyTurnstile(captchaToken, req)) {
-      return NextResponse.json({ error: 'Please complete the security check.' }, { status: 400 })
-    }
     if (typeof customerEmail === 'string' && customerEmail.trim()) {
       const emailLimit = await enforceRateLimit(`checkout:email:${customerEmail.trim().toLowerCase()}`, 10, 3600)
       if (!emailLimit.allowed) {

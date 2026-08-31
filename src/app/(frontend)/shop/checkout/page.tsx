@@ -14,7 +14,6 @@ import { useSession } from '@/lib/auth-client'
 import { useTranslations } from '@/lib/use-translations'
 import type { Translations } from '@/lib/translations'
 import { gtagEvent, fireOncePerSession } from '@/lib/gtag'
-import { Turnstile } from '@/components/auth/Turnstile'
 
 function normalizeEmail(email: string) {
   return email.trim().toLowerCase()
@@ -90,7 +89,6 @@ export default function CheckoutPage() {
   const participationTabs = getParticipationTabs(t)
   const [step, setStep] = useState(0)
   const [loading, setLoading] = useState(false)
-  const [captchaToken, setCaptchaToken] = useState('')
   const [participationType, setParticipationType] = useState<ParticipationType>('solo')
 
   // Organizer fields
@@ -257,7 +255,6 @@ export default function CheckoutPage() {
           giftVoucherId: appliedVoucher?.id ?? null,
           enableBnpl: true,
           ...carpoolPayload,
-          captchaToken,
         }),
       })
       const data = await res.json()
@@ -526,7 +523,6 @@ export default function CheckoutPage() {
             <div className="space-y-6">
               <h2 className="text-xl font-semibold text-white">{t.checkout_page.payment_title}</h2>
               <p className="text-sm text-white/50">{t.checkout_page.stripe_redirect_notice}</p>
-              {!sessionData?.user && <Turnstile onToken={setCaptchaToken} />}
               <div className="flex gap-3">
                 <button onClick={() => setStep(1)} className="rounded border border-white/20 px-6 py-3 text-sm font-medium text-white hover:bg-white/5">{t.checkout_page.back}</button>
                 <button

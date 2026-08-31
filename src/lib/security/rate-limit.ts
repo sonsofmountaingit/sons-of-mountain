@@ -1,4 +1,4 @@
-import { Redis } from '@upstash/redis'
+import { createClient, type RedisClientType } from 'redis'
 
 export type RateLimitResult = {
   allowed: boolean
@@ -6,66 +6,47 @@ export type RateLimitResult = {
   retryAfterSeconds: number
 }
 
-let redis: Redis | null | undefined
+type RedisClient = RedisClientType
+let clientPromise: Promise<RedisClient> | null = null
 
-function getRedis(): Redis | null {
-  if (redis !== undefined) return redis
-  if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
-    redis = null
-    return redis
-  }
-  redis = Redis.fromEnv()
-  return redis
+function getRedisClient(): Promise<RedisClient> {
+  if (clientPromise) return clientPromise
+  const url = process.env.REDIS_URL
+    ?? (process.env.NODE_ENV === 'production' ? 'redis://redis:6379' : 'redis://localhost:6381')
+  const client = createClient({ url }) as RedisClient
+  client.on('error', () => undefined)
+  clientPromise = client.connect().then(() => client)
+  return clientPromise
 }
 
 export function getClientIp(request: Request): string {
-  // The edge/proxy must overwrite these headers. Never accept arbitrary client
-  // supplied forwarding headers without a trusted proxy in front of the app.
   return request.headers.get('x-real-ip')?.trim()
     || request.headers.get('cf-connecting-ip')?.trim()
     || request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
     || 'unknown'
 }
 
+export async function enforceRateLimit(key: string, limit: number, windowSeconds: number): Promise<RateLimitResult> {
+  const client = await getRedisClient()
+  const redisKey = `som:rl:${key}`
+  const count = await client.incr(redisKey)
+  if (count === 1) await client.expire(redisKey, windowSeconds)
+  const allowed = count <= limit
+  return { allowed, remaining: Math.max(0, limit - count), retryAfterSeconds: allowed ? 0 : windowSeconds }
+}
+
 export async function getIdempotencyValue(key: string): Promise<string | null> {
-  const store = getRedis()
-  if (!store) return null
-  return await store.get<string>(`som:idempotency:${key}`)
+  const client = await getRedisClient()
+  return client.get(`som:idempotency:${key}`)
 }
 
 export async function claimIdempotencyKey(key: string, ttlSeconds = 300): Promise<boolean> {
-  const store = getRedis()
-  if (!store) return true
-  const result = await store.set(`som:idempotency:${key}`, '__processing__', { nx: true, ex: ttlSeconds })
+  const client = await getRedisClient()
+  const result = await client.set(`som:idempotency:${key}`, '__processing__', { NX: true, EX: ttlSeconds })
   return result === 'OK'
 }
 
 export async function setIdempotencyValue(key: string, value: string, ttlSeconds = 86400): Promise<void> {
-  const store = getRedis()
-  if (!store) return
-  await store.set(`som:idempotency:${key}`, value, { ex: ttlSeconds })
-}
-
-export async function enforceRateLimit(
-  key: string,
-  limit: number,
-  windowSeconds: number,
-): Promise<RateLimitResult> {
-  const store = getRedis()
-  if (!store) {
-    if (process.env.NODE_ENV === 'production') {
-      throw new Error('Rate limiting is not configured')
-    }
-    return { allowed: true, remaining: limit, retryAfterSeconds: 0 }
-  }
-
-  const redisKey = `som:rl:${key}`
-  const count = await store.incr(redisKey)
-  if (count === 1) await store.expire(redisKey, windowSeconds)
-  const allowed = count <= limit
-  return {
-    allowed,
-    remaining: Math.max(0, limit - count),
-    retryAfterSeconds: allowed ? 0 : windowSeconds,
-  }
+  const client = await getRedisClient()
+  await client.set(`som:idempotency:${key}`, value, { EX: ttlSeconds })
 }

@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { z } from 'zod'
 import { AuthForm } from './AuthForm'
-import { Turnstile } from './Turnstile'
 import { signIn, signUp } from '@/lib/auth-client'
 
 interface Props {
@@ -25,7 +24,6 @@ const signupSchema = z.object({
 
 export function AuthModal({ onSuccess, onClose }: Props) {
   const [mode, setMode] = useState<'login' | 'signup'>('login')
-  const [captchaToken, setCaptchaToken] = useState('')
   const backdropRef = useRef<HTMLDivElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
 
@@ -51,7 +49,7 @@ export function AuthModal({ onSuccess, onClose }: Props) {
   }
 
   async function onSignup(values: z.infer<typeof signupSchema>) {
-    const result = await signUp.email({ name: values.name, email: values.email, password: values.password, captchaToken })
+    const result = await signUp.email({ name: values.name, email: values.email, password: values.password })
     if (result.error) return { error: result.error.message ?? 'Регистрацията неуспешна' }
     return { success: 'Провери имейла си, за да активираш профила.' }
   }
@@ -114,7 +112,6 @@ export function AuthModal({ onSuccess, onClose }: Props) {
             ]}
             submitLabel="СЪЗДАЙ ПРОФИЛ"
             onSubmit={onSignup}
-            footer={<Turnstile onToken={setCaptchaToken} />}
           />
         )}
       </div>
