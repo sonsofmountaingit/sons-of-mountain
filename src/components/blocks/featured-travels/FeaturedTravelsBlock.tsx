@@ -209,20 +209,25 @@ function Row3({ items, strings }: { items: FeaturedTravelItem[]; strings: String
           </div>
         ))}
       </div>
-      {/* desktop: original */}
-      <div className="hidden md:flex gap-1 h-[580px]">
-        <div className="flex-1 flex flex-col gap-1">
-          {rest.slice(0, 2).map((item) => (
-            <div key={item.id} className="flex-1 relative">
-              <Card item={item} strings={strings} />
-            </div>
-          ))}
-          {rest.length === 0 && <div className="flex-1 bg-zinc-100" />}
-        </div>
-        <div className="flex-[2] relative">
+      {/* desktop: use the full row when there is no left-hand stack, rather than rendering an empty placeholder */}
+      {rest.length === 0 ? (
+        <div className="hidden md:block h-[380px] relative">
           {last && <Card item={last} strings={strings} />}
         </div>
-      </div>
+      ) : (
+        <div className="hidden md:flex gap-1 h-[580px]">
+          <div className="flex-1 flex flex-col gap-1">
+            {rest.slice(0, 2).map((item) => (
+              <div key={item.id} className="flex-1 relative">
+                <Card item={item} strings={strings} />
+              </div>
+            ))}
+          </div>
+          <div className="flex-[2] relative">
+            {last && <Card item={last} strings={strings} />}
+          </div>
+        </div>
+      )}
     </>
   )
 }
