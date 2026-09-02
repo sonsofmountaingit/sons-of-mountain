@@ -175,6 +175,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260902_installment_attempts.ts",
+      "label": "migrations/20260902_installment_attempts.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260528_add_missing_tables.ts",
       "label": "migrations/20260528_add_missing_tables.ts",
       "group": "other",
@@ -4365,6 +4371,10 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260902_checkout_promotion_reservations.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260902_installment_attempts.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -9387,6 +9397,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-09-02T16:03:29.228Z",
-  "fileCount": 698
+  "builtAt": "2026-09-02T17:18:53.867Z",
+  "fileCount": 699
 }

@@ -43,6 +43,8 @@ import * as migration_20260902_order_checkout_state from './20260902_order_check
 import * as migration_20260902_stripe_webhook_events from './20260902_stripe_webhook_events'
 import * as migration_20260902_checkout_promotion_reservations from './20260902_checkout_promotion_reservations'
 import * as migration_20260902_installment_attempts from './20260902_installment_attempts'
+import * as migration_20260902_abandoned_carts_customer from './20260902_abandoned_carts_customer'
+import * as migration_20260902_favorites_customer from './20260902_favorites_customer'
 
 export const migrations = [
   {
@@ -269,5 +271,15 @@ export const migrations = [
     up: migration_20260902_installment_attempts.up,
     down: migration_20260902_installment_attempts.down,
     name: '20260902_installment_attempts',
+  },
+  {
+    up: migration_20260902_abandoned_carts_customer.up,
+    down: migration_20260902_abandoned_carts_customer.down,
+    name: '20260902_abandoned_carts_customer',
+  },
+  {
+    up: migration_20260902_favorites_customer.up,
+    down: migration_20260902_favorites_customer.down,
+    name: '20260902_favorites_customer',
   },
 ]

@@ -347,6 +347,18 @@
     "lines": 29,
     "group": "other"
   },
+  "src/migrations/20260902_installment_attempts.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 16,
+    "group": "other"
+  },
   "src/migrations/20260528_add_missing_tables.ts": {
     "exports": [
       "up",
@@ -480,9 +492,10 @@
       "./20260831b_customer_verification_column_name",
       "./20260902_order_checkout_state",
       "./20260902_stripe_webhook_events",
-      "./20260902_checkout_promotion_reservations"
+      "./20260902_checkout_promotion_reservations",
+      "./20260902_installment_attempts"
     ],
-    "lines": 268,
+    "lines": 274,
     "group": "other"
   },
   "src/migrations/20260719b_email_marketing_platform.ts": {
