@@ -31,6 +31,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260902_stripe_webhook_events.ts",
+      "label": "migrations/20260902_stripe_webhook_events.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260718_about_hero_image_position.ts",
       "label": "migrations/20260718_about_hero_image_position.ts",
       "group": "other",
@@ -93,6 +99,12 @@
     {
       "id": "src/migrations/20260710_free_transfer_peak.ts",
       "label": "migrations/20260710_free_transfer_peak.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
+      "id": "src/migrations/20260902_order_checkout_state.ts",
+      "label": "migrations/20260902_order_checkout_state.ts",
       "group": "other",
       "size": 6
     },
@@ -213,6 +225,12 @@
     {
       "id": "src/migrations/20260719b_email_marketing_platform.ts",
       "label": "migrations/20260719b_email_marketing_platform.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
+      "id": "src/migrations/20260902_checkout_promotion_reservations.ts",
+      "label": "migrations/20260902_checkout_promotion_reservations.ts",
       "group": "other",
       "size": 6
     },
@@ -633,6 +651,12 @@
     {
       "id": "src/app/api/auth/forgot-password/route.ts",
       "label": "forgot-password/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/auth/captcha-challenge/route.ts",
+      "label": "captcha-challenge/route.ts",
       "group": "api",
       "size": 4
     },
@@ -3439,10 +3463,22 @@
       "size": 6
     },
     {
+      "id": "src/components/auth/SignupSecurity.tsx",
+      "label": "auth/SignupSecurity.tsx",
+      "group": "components",
+      "size": 8
+    },
+    {
       "id": "src/components/auth/AuthForm.tsx",
       "label": "auth/AuthForm.tsx",
       "group": "components",
       "size": 14
+    },
+    {
+      "id": "src/components/auth/Altcha.tsx",
+      "label": "auth/Altcha.tsx",
+      "group": "components",
+      "size": 6
     },
     {
       "id": "src/components/shop/WishlistButton.tsx",
@@ -3778,13 +3814,19 @@
       "id": "src/lib/stripe-webhooks.ts",
       "label": "lib/stripe-webhooks.ts",
       "group": "lib",
-      "size": 18
+      "size": 20
+    },
+    {
+      "id": "src/lib/security/altcha.ts",
+      "label": "security/altcha.ts",
+      "group": "lib",
+      "size": 8
     },
     {
       "id": "src/lib/security/rate-limit.ts",
       "label": "security/rate-limit.ts",
       "group": "lib",
-      "size": 12
+      "size": 16
     },
     {
       "id": "src/lib/get-default-strings.ts",
@@ -3855,6 +3897,12 @@
     {
       "id": "src/lib/stripe-product-sync.ts",
       "label": "lib/stripe-product-sync.ts",
+      "group": "lib",
+      "size": 14
+    },
+    {
+      "id": "src/lib/checkout-promotions.ts",
+      "label": "lib/checkout-promotions.ts",
       "group": "lib",
       "size": 14
     },
@@ -3964,7 +4012,7 @@
       "id": "src/lib/cron/delayed-emails.ts",
       "label": "cron/delayed-emails.ts",
       "group": "lib",
-      "size": 8
+      "size": 10
     },
     {
       "id": "src/lib/cron/balance-reminders.ts",
@@ -4305,6 +4353,18 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260831b_customer_verification_column_name.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260902_order_checkout_state.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260902_stripe_webhook_events.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260902_checkout_promotion_reservations.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -4663,8 +4723,24 @@
       "target": "src/lib/security/rate-limit.ts"
     },
     {
+      "source": "src/app/api/auth/signup/route.ts",
+      "target": "src/lib/security/altcha.ts"
+    },
+    {
+      "source": "src/app/api/auth/forgot-password/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
       "source": "src/app/api/auth/forgot-password/route.ts",
       "target": "src/lib/security/rate-limit.ts"
+    },
+    {
+      "source": "src/app/api/auth/captcha-challenge/route.ts",
+      "target": "src/lib/security/altcha.ts"
+    },
+    {
+      "source": "src/app/api/auth/login/route.ts",
+      "target": "src/payload/payload.config.ts"
     },
     {
       "source": "src/app/api/auth/login/route.ts",
@@ -4757,6 +4833,10 @@
     {
       "source": "src/app/api/checkout/route.ts",
       "target": "src/lib/security/rate-limit.ts"
+    },
+    {
+      "source": "src/app/api/checkout/route.ts",
+      "target": "src/lib/checkout-promotions.ts"
     },
     {
       "source": "src/app/api/checkout/route.ts",
@@ -5120,6 +5200,14 @@
     },
     {
       "source": "src/app/api/cron/payment-maintenance/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/cron/payment-maintenance/route.ts",
+      "target": "src/lib/checkout-promotions.ts"
+    },
+    {
+      "source": "src/app/api/cron/payment-maintenance/route.ts",
       "target": "src/lib/cron/balance-charge.ts"
     },
     {
@@ -5141,6 +5229,10 @@
     {
       "source": "src/app/api/cron/payment-maintenance/route.ts",
       "target": "src/lib/cron/expire-pending-orders.ts"
+    },
+    {
+      "source": "src/app/api/cron/payment-maintenance/route.ts",
+      "target": "src/lib/cron/delayed-emails.ts"
     },
     {
       "source": "src/app/api/cron/voucher-expiry/route.ts",
@@ -5557,6 +5649,10 @@
     {
       "source": "src/app/(frontend)/signup/SignupClient.tsx",
       "target": "src/components/auth/AuthForm.tsx"
+    },
+    {
+      "source": "src/app/(frontend)/signup/SignupClient.tsx",
+      "target": "src/components/auth/SignupSecurity.tsx"
     },
     {
       "source": "src/app/(frontend)/signup/SignupClient.tsx",
@@ -7013,6 +7109,10 @@
     {
       "source": "src/payload/hooks/decrementSpotsOnPaid.ts",
       "target": "src/lib/stripe-webhooks.ts"
+    },
+    {
+      "source": "src/payload/hooks/decrementSpotsOnPaid.ts",
+      "target": "src/lib/security/rate-limit.ts"
     },
     {
       "source": "src/payload/hooks/emailFlowTriggers.ts",
@@ -8512,7 +8612,15 @@
     },
     {
       "source": "src/components/auth/AuthModal.tsx",
+      "target": "src/components/auth/SignupSecurity.tsx"
+    },
+    {
+      "source": "src/components/auth/AuthModal.tsx",
       "target": "src/lib/auth-client.ts"
+    },
+    {
+      "source": "src/components/auth/SignupSecurity.tsx",
+      "target": "src/components/auth/Altcha.tsx"
     },
     {
       "source": "src/components/shop/StockAlertButton.tsx",
@@ -8660,6 +8768,14 @@
     },
     {
       "source": "src/lib/stripe-webhooks.ts",
+      "target": "src/lib/checkout-promotions.ts"
+    },
+    {
+      "source": "src/lib/stripe-webhooks.ts",
+      "target": "src/lib/security/rate-limit.ts"
+    },
+    {
+      "source": "src/lib/stripe-webhooks.ts",
       "target": "src/lib/stripe.ts"
     },
     {
@@ -8744,6 +8860,10 @@
     },
     {
       "source": "src/lib/cron/delayed-emails.ts",
+      "target": "src/lib/stripe-webhooks.ts"
+    },
+    {
+      "source": "src/lib/cron/delayed-emails.ts",
       "target": "src/lib/resend.ts"
     },
     {
@@ -8807,6 +8927,18 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/lib/cron/expire-pending-orders.ts",
+      "target": "src/lib/stripe.ts"
+    },
+    {
+      "source": "src/lib/cron/expire-pending-orders.ts",
+      "target": "src/lib/stripe-webhooks.ts"
+    },
+    {
+      "source": "src/lib/cron/expire-pending-orders.ts",
+      "target": "src/lib/checkout-promotions.ts"
+    },
+    {
       "source": "src/lib/cron/subscription-renewal.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -8865,6 +8997,10 @@
     {
       "source": "src/lib/cron/reconcile-checkout-payments.ts",
       "target": "src/lib/stripe-webhooks.ts"
+    },
+    {
+      "source": "src/lib/cron/reconcile-checkout-payments.ts",
+      "target": "src/lib/checkout-promotions.ts"
     },
     {
       "source": "src/lib/cron/voucher-expiry.ts",
@@ -9251,6 +9387,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-08-31T09:04:48.758Z",
-  "fileCount": 690
+  "builtAt": "2026-09-02T16:03:29.228Z",
+  "fileCount": 698
 }

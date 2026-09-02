@@ -42,6 +42,7 @@ import * as migration_20260831b_customer_verification_column_name from './202608
 import * as migration_20260902_order_checkout_state from './20260902_order_checkout_state'
 import * as migration_20260902_stripe_webhook_events from './20260902_stripe_webhook_events'
 import * as migration_20260902_checkout_promotion_reservations from './20260902_checkout_promotion_reservations'
+import * as migration_20260902_installment_attempts from './20260902_installment_attempts'
 
 export const migrations = [
   {
@@ -263,5 +264,10 @@ export const migrations = [
     up: migration_20260902_checkout_promotion_reservations.up,
     down: migration_20260902_checkout_promotion_reservations.down,
     name: '20260902_checkout_promotion_reservations',
+  },
+  {
+    up: migration_20260902_installment_attempts.up,
+    down: migration_20260902_installment_attempts.down,
+    name: '20260902_installment_attempts',
   },
 ]

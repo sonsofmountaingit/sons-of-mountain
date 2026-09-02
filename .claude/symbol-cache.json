@@ -59,6 +59,18 @@
     "lines": 38,
     "group": "other"
   },
+  "src/migrations/20260902_stripe_webhook_events.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 28,
+    "group": "other"
+  },
   "src/migrations/20260718_about_hero_image_position.ts": {
     "exports": [
       "up",
@@ -189,6 +201,18 @@
       "@payloadcms/db-postgres"
     ],
     "lines": 18,
+    "group": "other"
+  },
+  "src/migrations/20260902_order_checkout_state.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 59,
     "group": "other"
   },
   "src/migrations/20260807_programs_hero_gallery.ts": {
@@ -453,9 +477,12 @@
       "./20260813_waitlist_customer_relationship",
       "./20260814_order_spot_decrement_marker",
       "./20260831_customer_email_verification",
-      "./20260831b_customer_verification_column_name"
+      "./20260831b_customer_verification_column_name",
+      "./20260902_order_checkout_state",
+      "./20260902_stripe_webhook_events",
+      "./20260902_checkout_promotion_reservations"
     ],
-    "lines": 250,
+    "lines": 268,
     "group": "other"
   },
   "src/migrations/20260719b_email_marketing_platform.ts": {
@@ -468,6 +495,18 @@
       "@payloadcms/db-postgres"
     ],
     "lines": 59,
+    "group": "other"
+  },
+  "src/migrations/20260902_checkout_promotion_reservations.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 35,
     "group": "other"
   },
   "src/migrations/20260814_order_spot_decrement_marker.ts": {
@@ -1515,9 +1554,10 @@
       "payload",
       "@payload-config",
       "zod",
-      "@/lib/security/rate-limit"
+      "@/lib/security/rate-limit",
+      "@/lib/security/altcha"
     ],
-    "lines": 63,
+    "lines": 81,
     "group": "api"
   },
   "src/app/api/auth/forgot-password/route.ts": {
@@ -1527,9 +1567,24 @@
     "types": [],
     "imports": [
       "next/server",
+      "payload",
+      "@payload-config",
+      "zod",
       "@/lib/security/rate-limit"
     ],
-    "lines": 30,
+    "lines": 39,
+    "group": "api"
+  },
+  "src/app/api/auth/captcha-challenge/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "@/lib/security/altcha"
+    ],
+    "lines": 12,
     "group": "api"
   },
   "src/app/api/auth/login/route.ts": {
@@ -1539,9 +1594,12 @@
     "types": [],
     "imports": [
       "next/server",
+      "payload",
+      "@payload-config",
+      "zod",
       "@/lib/security/rate-limit"
     ],
-    "lines": 31,
+    "lines": 56,
     "group": "api"
   },
   "src/app/api/booking/route.ts": {
@@ -1723,9 +1781,10 @@
       "@/lib/pricing/dynamic",
       "@/lib/booking-deadline",
       "zod",
-      "@/lib/security/rate-limit"
+      "@/lib/security/rate-limit",
+      "@/lib/checkout-promotions"
     ],
-    "lines": 566,
+    "lines": 774,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {
@@ -2139,11 +2198,12 @@
     "imports": [
       "next/server",
       "payload",
+      "@payloadcms/db-postgres",
       "@payload-config",
       "stripe",
       "@/lib/stripe"
     ],
-    "lines": 78,
+    "lines": 134,
     "group": "api"
   },
   "src/app/api/puck/home/route.ts": {
@@ -2527,14 +2587,18 @@
     "types": [],
     "imports": [
       "next/server",
+      "payload",
+      "@payload-config",
+      "@/lib/checkout-promotions",
       "@/lib/cron/balance-charge",
       "@/lib/cron/balance-overdue",
       "@/lib/cron/balance-reminders",
       "@/lib/cron/grace-period",
       "@/lib/cron/voucher-delivery",
-      "@/lib/cron/expire-pending-orders"
+      "@/lib/cron/expire-pending-orders",
+      "@/lib/cron/delayed-emails"
     ],
-    "lines": 39,
+    "lines": 47,
     "group": "api"
   },
   "src/app/api/cron/voucher-expiry/route.ts": {
@@ -3195,9 +3259,10 @@
       "react",
       "zod",
       "@/components/auth/AuthForm",
+      "@/components/auth/SignupSecurity",
       "@/lib/auth-client"
     ],
-    "lines": 45,
+    "lines": 56,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/page.tsx": {
@@ -3362,7 +3427,7 @@
       "@/components/analytics/PurchaseTracker",
       "@/lib/cron/reconcile-checkout-payments"
     ],
-    "lines": 186,
+    "lines": 191,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/gift-vouchers/_components/GiftVoucherPurchaseForm.tsx": {
@@ -3482,7 +3547,7 @@
       "react",
       "@/lib/currency"
     ],
-    "lines": 186,
+    "lines": 205,
     "group": "frontend"
   },
   "src/app/(frontend)/shop/orders/page.tsx": {
@@ -3819,7 +3884,7 @@
       "gsap",
       "@/lib/currency"
     ],
-    "lines": 118,
+    "lines": 119,
     "group": "frontend"
   },
   "src/app/(frontend)/dashboard/orders/page.tsx": {
@@ -4590,9 +4655,11 @@
     "types": [],
     "imports": [
       "next/og",
-      "next/server"
+      "next/server",
+      "node:fs/promises",
+      "node:path"
     ],
-    "lines": 73,
+    "lines": 101,
     "group": "app"
   },
   "src/app/(payload)/admin/[[...segments]]/page.tsx": {
@@ -5488,9 +5555,10 @@
     "types": [],
     "imports": [
       "payload",
-      "@/lib/stripe-webhooks"
+      "@/lib/stripe-webhooks",
+      "@/lib/security/rate-limit"
     ],
-    "lines": 26,
+    "lines": 32,
     "group": "payload"
   },
   "src/payload/hooks/emailFlowTriggers.ts": {
@@ -5785,7 +5853,7 @@
       "../hooks/decrementSpotsOnPaid",
       "../hooks/purchaseConfirmation"
     ],
-    "lines": 615,
+    "lines": 697,
     "group": "collections"
   },
   "src/payload/collections/Stories.ts": {
@@ -8345,9 +8413,24 @@
       "gsap",
       "zod",
       "./AuthForm",
+      "./SignupSecurity",
       "@/lib/auth-client"
     ],
-    "lines": 121,
+    "lines": 132,
+    "group": "components"
+  },
+  "src/components/auth/SignupSecurity.tsx": {
+    "exports": [
+      "SignupSecurity"
+    ],
+    "types": [
+      "SignupSecurityHandle"
+    ],
+    "imports": [
+      "react",
+      "./Altcha"
+    ],
+    "lines": 38,
     "group": "components"
   },
   "src/components/auth/AuthForm.tsx": {
@@ -8362,7 +8445,18 @@
       "zod",
       "gsap"
     ],
-    "lines": 121,
+    "lines": 127,
+    "group": "components"
+  },
+  "src/components/auth/Altcha.tsx": {
+    "exports": [
+      "Altcha"
+    ],
+    "types": [],
+    "imports": [
+      "react"
+    ],
+    "lines": 41,
     "group": "components"
   },
   "src/components/shop/WishlistButton.tsx": {
@@ -8394,7 +8488,7 @@
     ],
     "types": [],
     "imports": [],
-    "lines": 17,
+    "lines": 18,
     "group": "components"
   },
   "src/components/shop/CartItem.tsx": {
@@ -8976,6 +9070,7 @@
       "sendRegistrationConfirmationEmail",
       "decrementRegistrationSpots",
       "decrementOrderItemsSpotsAndStock",
+      "handleCheckoutAsyncPaymentFailed",
       "handleCheckoutCompleted",
       "handleSubscriptionUpsert",
       "handleSubscriptionDeleted",
@@ -8994,9 +9089,23 @@
       "next/cache",
       "next/server",
       "@/lib/escape-html",
-      "@/lib/ga4-measurement-protocol"
+      "@/lib/ga4-measurement-protocol",
+      "@/lib/checkout-promotions",
+      "@/lib/security/rate-limit"
     ],
-    "lines": 1230,
+    "lines": 1387,
+    "group": "lib"
+  },
+  "src/lib/security/altcha.ts": {
+    "exports": [
+      "createCaptchaChallenge",
+      "verifyCaptchaPayload"
+    ],
+    "types": [],
+    "imports": [
+      "altcha-lib/v1"
+    ],
+    "lines": 25,
     "group": "lib"
   },
   "src/lib/security/rate-limit.ts": {
@@ -9005,7 +9114,8 @@
       "enforceRateLimit",
       "getIdempotencyValue",
       "claimIdempotencyKey",
-      "setIdempotencyValue"
+      "completeIdempotencyKey",
+      "releaseIdempotencyKey"
     ],
     "types": [
       "RateLimitResult"
@@ -9013,7 +9123,7 @@
     "imports": [
       "redis"
     ],
-    "lines": 53,
+    "lines": 65,
     "group": "lib"
   },
   "src/lib/get-default-strings.ts": {
@@ -9165,6 +9275,21 @@
       "next/server"
     ],
     "lines": 90,
+    "group": "lib"
+  },
+  "src/lib/checkout-promotions.ts": {
+    "exports": [
+      "reserveCheckoutPromotions",
+      "releaseCheckoutPromotions",
+      "consumeCheckoutPromotions",
+      "releaseCancelledCheckoutPromotions"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 146,
     "group": "lib"
   },
   "src/lib/weather.ts": {
@@ -9368,7 +9493,7 @@
     "imports": [
       "react"
     ],
-    "lines": 123,
+    "lines": 130,
     "group": "lib"
   },
   "src/lib/cron/balance-charge.ts": {
@@ -9380,7 +9505,7 @@
       "payload",
       "@payload-config"
     ],
-    "lines": 125,
+    "lines": 143,
     "group": "lib"
   },
   "src/lib/cron/trip-reminders.ts": {
@@ -9398,15 +9523,17 @@
   },
   "src/lib/cron/delayed-emails.ts": {
     "exports": [
-      "runDelayedEmails"
+      "runDelayedEmails",
+      "retryFailedOrderConfirmations"
     ],
     "types": [],
     "imports": [
       "payload",
       "@payload-config",
-      "@/lib/email-renderer"
+      "@/lib/email-renderer",
+      "@/lib/stripe-webhooks"
     ],
-    "lines": 60,
+    "lines": 92,
     "group": "lib"
   },
   "src/lib/cron/balance-reminders.ts": {
@@ -9461,9 +9588,12 @@
     "types": [],
     "imports": [
       "payload",
-      "@payload-config"
+      "@payload-config",
+      "@/lib/stripe",
+      "@/lib/stripe-webhooks",
+      "@/lib/checkout-promotions"
     ],
-    "lines": 40,
+    "lines": 74,
     "group": "lib"
   },
   "src/lib/cron/subscription-renewal.ts": {
@@ -9544,9 +9674,10 @@
       "payload",
       "@payload-config",
       "@/lib/stripe",
-      "@/lib/stripe-webhooks"
+      "@/lib/stripe-webhooks",
+      "@/lib/checkout-promotions"
     ],
-    "lines": 62,
+    "lines": 82,
     "group": "lib"
   },
   "src/lib/cron/voucher-expiry.ts": {
