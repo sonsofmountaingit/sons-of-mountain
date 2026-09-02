@@ -311,6 +311,18 @@
     "lines": 60,
     "group": "other"
   },
+  "src/migrations/20260831_customer_email_verification.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 29,
+    "group": "other"
+  },
   "src/migrations/20260528_add_missing_tables.ts": {
     "exports": [
       "up",
@@ -439,9 +451,11 @@
       "./20260811_customer_profile_fields",
       "./20260812_resend_delivery_tracking",
       "./20260813_waitlist_customer_relationship",
-      "./20260814_order_spot_decrement_marker"
+      "./20260814_order_spot_decrement_marker",
+      "./20260831_customer_email_verification",
+      "./20260831b_customer_verification_column_name"
     ],
-    "lines": 238,
+    "lines": 250,
     "group": "other"
   },
   "src/migrations/20260719b_email_marketing_platform.ts": {
@@ -502,6 +516,18 @@
       "@payloadcms/db-postgres"
     ],
     "lines": 50,
+    "group": "other"
+  },
+  "src/migrations/20260831b_customer_verification_column_name.ts": {
+    "exports": [
+      "up",
+      "down"
+    ],
+    "types": [],
+    "imports": [
+      "@payloadcms/db-postgres"
+    ],
+    "lines": 19,
     "group": "other"
   },
   "src/migrations/20260811_customer_profile_fields.ts": {
@@ -1465,6 +1491,59 @@
     "lines": 73,
     "group": "api"
   },
+  "src/app/api/auth/verify/route.ts": {
+    "exports": [
+      "GET"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "@/payload/collections/Customers"
+    ],
+    "lines": 30,
+    "group": "api"
+  },
+  "src/app/api/auth/signup/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "payload",
+      "@payload-config",
+      "zod",
+      "@/lib/security/rate-limit"
+    ],
+    "lines": 63,
+    "group": "api"
+  },
+  "src/app/api/auth/forgot-password/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "@/lib/security/rate-limit"
+    ],
+    "lines": 30,
+    "group": "api"
+  },
+  "src/app/api/auth/login/route.ts": {
+    "exports": [
+      "POST"
+    ],
+    "types": [],
+    "imports": [
+      "next/server",
+      "@/lib/security/rate-limit"
+    ],
+    "lines": 31,
+    "group": "api"
+  },
   "src/app/api/booking/route.ts": {
     "exports": [
       "POST"
@@ -1643,9 +1722,10 @@
       "@/lib/pricing/payment-plan",
       "@/lib/pricing/dynamic",
       "@/lib/booking-deadline",
-      "zod"
+      "zod",
+      "@/lib/security/rate-limit"
     ],
-    "lines": 529,
+    "lines": 566,
     "group": "api"
   },
   "src/app/api/calendar-participants/route.ts": {
@@ -2063,7 +2143,7 @@
       "stripe",
       "@/lib/stripe"
     ],
-    "lines": 71,
+    "lines": 78,
     "group": "api"
   },
   "src/app/api/puck/home/route.ts": {
@@ -2451,9 +2531,10 @@
       "@/lib/cron/balance-overdue",
       "@/lib/cron/balance-reminders",
       "@/lib/cron/grace-period",
-      "@/lib/cron/voucher-delivery"
+      "@/lib/cron/voucher-delivery",
+      "@/lib/cron/expire-pending-orders"
     ],
-    "lines": 37,
+    "lines": 39,
     "group": "api"
   },
   "src/app/api/cron/voucher-expiry/route.ts": {
@@ -3111,11 +3192,12 @@
     "imports": [
       "next/link",
       "next/navigation",
+      "react",
       "zod",
       "@/components/auth/AuthForm",
       "@/lib/auth-client"
     ],
-    "lines": 44,
+    "lines": 45,
     "group": "frontend"
   },
   "src/app/(frontend)/signup/page.tsx": {
@@ -3910,7 +3992,7 @@
       "next",
       "next/navigation"
     ],
-    "lines": 22,
+    "lines": 23,
     "group": "frontend"
   },
   "src/app/(frontend)/programs/page.tsx": {
@@ -5263,7 +5345,7 @@
       "./globals/Vouchers",
       "./globals/EmailSettings"
     ],
-    "lines": 288,
+    "lines": 279,
     "group": "payload"
   },
   "src/payload/components/MailyEditor.tsx": {
@@ -5496,6 +5578,7 @@
   },
   "src/payload/collections/Customers.ts": {
     "exports": [
+      "linkGuestRecordsToCustomer",
       "Customers"
     ],
     "types": [],
@@ -5503,7 +5586,7 @@
       "payload",
       "payload"
     ],
-    "lines": 262,
+    "lines": 278,
     "group": "collections"
   },
   "src/payload/collections/CarpoolRides.ts": {
@@ -6140,7 +6223,7 @@
       "@/lib/language-context",
       "@/lib/get-default-strings"
     ],
-    "lines": 269,
+    "lines": 274,
     "group": "blocks"
   },
   "src/components/blocks/destination-carousel/DestinationCarouselBlock.tsx": {
@@ -8264,7 +8347,7 @@
       "./AuthForm",
       "@/lib/auth-client"
     ],
-    "lines": 123,
+    "lines": 121,
     "group": "components"
   },
   "src/components/auth/AuthForm.tsx": {
@@ -8279,7 +8362,7 @@
       "zod",
       "gsap"
     ],
-    "lines": 118,
+    "lines": 121,
     "group": "components"
   },
   "src/components/shop/WishlistButton.tsx": {
@@ -8825,7 +8908,7 @@
     "imports": [
       "next/server"
     ],
-    "lines": 31,
+    "lines": 34,
     "group": "other"
   },
   "src/lib/after-response.ts": {
@@ -8913,7 +8996,24 @@
       "@/lib/escape-html",
       "@/lib/ga4-measurement-protocol"
     ],
-    "lines": 1227,
+    "lines": 1230,
+    "group": "lib"
+  },
+  "src/lib/security/rate-limit.ts": {
+    "exports": [
+      "getClientIp",
+      "enforceRateLimit",
+      "getIdempotencyValue",
+      "claimIdempotencyKey",
+      "setIdempotencyValue"
+    ],
+    "types": [
+      "RateLimitResult"
+    ],
+    "imports": [
+      "redis"
+    ],
+    "lines": 53,
     "group": "lib"
   },
   "src/lib/get-default-strings.ts": {
@@ -9352,6 +9452,18 @@
       "@/lib/email-logger"
     ],
     "lines": 223,
+    "group": "lib"
+  },
+  "src/lib/cron/expire-pending-orders.ts": {
+    "exports": [
+      "expirePendingOrders"
+    ],
+    "types": [],
+    "imports": [
+      "payload",
+      "@payload-config"
+    ],
+    "lines": 40,
     "group": "lib"
   },
   "src/lib/cron/subscription-renewal.ts": {

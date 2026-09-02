@@ -157,6 +157,12 @@
       "size": 6
     },
     {
+      "id": "src/migrations/20260831_customer_email_verification.ts",
+      "label": "migrations/20260831_customer_email_verification.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
       "id": "src/migrations/20260528_add_missing_tables.ts",
       "label": "migrations/20260528_add_missing_tables.ts",
       "group": "other",
@@ -231,6 +237,12 @@
     {
       "id": "src/migrations/20260714b_seo_meta_keywords_all_collections.ts",
       "label": "migrations/20260714b_seo_meta_keywords_all_collections.ts",
+      "group": "other",
+      "size": 6
+    },
+    {
+      "id": "src/migrations/20260831b_customer_verification_column_name.ts",
+      "label": "migrations/20260831b_customer_verification_column_name.ts",
       "group": "other",
       "size": 6
     },
@@ -603,6 +615,30 @@
     {
       "id": "src/app/api/ical/[itemId]/route.ts",
       "label": "[itemId]/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/auth/verify/route.ts",
+      "label": "verify/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/auth/signup/route.ts",
+      "label": "signup/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/auth/forgot-password/route.ts",
+      "label": "forgot-password/route.ts",
+      "group": "api",
+      "size": 4
+    },
+    {
+      "id": "src/app/api/auth/login/route.ts",
+      "label": "login/route.ts",
       "group": "api",
       "size": 4
     },
@@ -2188,7 +2224,7 @@
       "id": "src/payload/collections/Customers.ts",
       "label": "collections/Customers.ts",
       "group": "collections",
-      "size": 6
+      "size": 8
     },
     {
       "id": "src/payload/collections/CarpoolRides.ts",
@@ -3745,6 +3781,12 @@
       "size": 18
     },
     {
+      "id": "src/lib/security/rate-limit.ts",
+      "label": "security/rate-limit.ts",
+      "group": "lib",
+      "size": 12
+    },
+    {
       "id": "src/lib/get-default-strings.ts",
       "label": "lib/get-default-strings.ts",
       "group": "lib",
@@ -3941,6 +3983,12 @@
       "label": "cron/balance-overdue.ts",
       "group": "lib",
       "size": 10
+    },
+    {
+      "id": "src/lib/cron/expire-pending-orders.ts",
+      "label": "cron/expire-pending-orders.ts",
+      "group": "lib",
+      "size": 6
     },
     {
       "id": "src/lib/cron/subscription-renewal.ts",
@@ -4249,6 +4297,14 @@
     {
       "source": "src/migrations/index.ts",
       "target": "src/migrations/20260814_order_spot_decrement_marker.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260831_customer_email_verification.ts"
+    },
+    {
+      "source": "src/migrations/index.ts",
+      "target": "src/migrations/20260831b_customer_verification_column_name.ts"
     },
     {
       "source": "src/seed/gallery.ts",
@@ -4591,6 +4647,30 @@
       "target": "src/payload/payload.config.ts"
     },
     {
+      "source": "src/app/api/auth/verify/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/auth/verify/route.ts",
+      "target": "src/payload/collections/Customers.ts"
+    },
+    {
+      "source": "src/app/api/auth/signup/route.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
+      "source": "src/app/api/auth/signup/route.ts",
+      "target": "src/lib/security/rate-limit.ts"
+    },
+    {
+      "source": "src/app/api/auth/forgot-password/route.ts",
+      "target": "src/lib/security/rate-limit.ts"
+    },
+    {
+      "source": "src/app/api/auth/login/route.ts",
+      "target": "src/lib/security/rate-limit.ts"
+    },
+    {
       "source": "src/app/api/booking/route.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -4673,6 +4753,10 @@
     {
       "source": "src/app/api/checkout/route.ts",
       "target": "src/lib/booking-deadline.ts"
+    },
+    {
+      "source": "src/app/api/checkout/route.ts",
+      "target": "src/lib/security/rate-limit.ts"
     },
     {
       "source": "src/app/api/checkout/route.ts",
@@ -5053,6 +5137,10 @@
     {
       "source": "src/app/api/cron/payment-maintenance/route.ts",
       "target": "src/lib/cron/voucher-delivery.ts"
+    },
+    {
+      "source": "src/app/api/cron/payment-maintenance/route.ts",
+      "target": "src/lib/cron/expire-pending-orders.ts"
     },
     {
       "source": "src/app/api/cron/voucher-expiry/route.ts",
@@ -8715,6 +8803,10 @@
       "target": "src/lib/stripe.ts"
     },
     {
+      "source": "src/lib/cron/expire-pending-orders.ts",
+      "target": "src/payload/payload.config.ts"
+    },
+    {
       "source": "src/lib/cron/subscription-renewal.ts",
       "target": "src/payload/payload.config.ts"
     },
@@ -9159,6 +9251,6 @@
       "target": "src/payload/payload.config.ts"
     }
   ],
-  "builtAt": "2026-08-25T16:38:04.316Z",
-  "fileCount": 682
+  "builtAt": "2026-08-31T09:04:48.758Z",
+  "fileCount": 690
 }
