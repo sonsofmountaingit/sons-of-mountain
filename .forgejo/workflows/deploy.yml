@@ -14,6 +14,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies and typecheck
+        run: |
+          npm ci --legacy-peer-deps
+          npx tsc --noEmit --pretty false
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
@@ -50,6 +61,7 @@ jobs:
           provenance: false
           tags: |
             git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:migrator
+            git.amabel.world/${{ secrets.FORGEJO_USERNAME }}/sons-of-mountains:migrator-${{ github.sha }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -78,26 +90,40 @@ jobs:
             FORGEJO_TOKEN="$FORGEJO_TOKEN" \
             FORGEJO_USERNAME="$FORGEJO_USERNAME" \
             GIT_SHA="$GIT_SHA" \
+            APP_IMAGE="git.amabel.world/${FORGEJO_USERNAME}/sons-of-mountains:${GIT_SHA}" \
+            MIGRATOR_IMAGE="git.amabel.world/${FORGEJO_USERNAME}/sons-of-mountains:migrator-${GIT_SHA}" \
             bash << 'REMOTE'
           set -euo pipefail
           echo "$FORGEJO_TOKEN" | docker login git.amabel.world \
             -u "$FORGEJO_USERNAME" --password-stdin
-          docker pull "git.amabel.world/${FORGEJO_USERNAME}/sons-of-mountains:latest"
-          docker pull "git.amabel.world/${FORGEJO_USERNAME}/sons-of-mountains:migrator"
+          docker pull "$APP_IMAGE"
+          docker pull "$MIGRATOR_IMAGE"
           cd /opt/sons-of-mountains
           docker compose -f docker-compose.prod.yml up -d postgres redis
           sleep 5
           docker compose -f docker-compose.prod.yml up \
             --force-recreate --no-deps --no-build \
             --exit-code-from migrate migrate
+          docker exec sons-of-mountains-postgres-1 psql -U postgres -d sonsofmountains -v ON_ERROR_STOP=1 -P pager=off -c "SELECT to_regclass('public.stripe_webhook_events'), to_regclass('public.checkout_promotion_reservations'); SELECT COUNT(*) FROM information_schema.columns WHERE table_name = 'orders' AND column_name IN ('payment_status', 'fulfillment_status', 'checkout_correlation_id');" | grep -E 'stripe_webhook_events|checkout_promotion_reservations|3'
           docker compose -f docker-compose.prod.yml up -d \
             --force-recreate --no-deps --no-build app
           sleep 5
           docker ps --filter "name=sons-of-mountains-app" --filter "status=running" --format '{{.Names}}' | grep -q . \
             || { echo "app container not running after deploy, skipping image cleanup"; exit 1; }
+          test "$(docker inspect -f '{{.Config.Image}}' sons-of-mountains-app-1)" = "$APP_IMAGE" \
+            || { echo "running app image does not match deployed commit"; exit 1; }
           # Payment recovery is a webhook fallback. Keep it frequent enough to
           # recover missed events without running the daily payment maintenance
           # workload every minute.
+          cat >/etc/systemd/system/som-payment-recovery.service <<'UNIT'
+          [Unit]
+          Description=Reconcile Sons of Mountains Stripe Checkout payments
+
+          [Service]
+          Type=oneshot
+          EnvironmentFile=/opt/sons-of-mountains/.env.production
+          ExecStart=/bin/sh -c 'curl -fsS -X POST -H "Authorization: Bearer $CRON_SECRET" http://localhost:3000/api/cron/stripe'
+          UNIT
           cat >/etc/systemd/system/som-payment-recovery.timer <<'UNIT'
           [Unit]
           Description=Reconcile Sons of Mountains Stripe Checkout payments

@@ -46,7 +46,7 @@ export async function runBalanceCharges() {
             balanceForCollection: collection,
             balanceForId: doc.id,
           },
-        })
+        }, { idempotencyKey: `balance:${collection}:${doc.id}` })
 
         await payload.update({
           collection,
@@ -92,9 +92,21 @@ export async function runBalanceCharges() {
       let mutated = false
       for (let i = 0; i < installments.length; i++) {
         const row = installments[i]
-        if (row.status !== 'pending') continue
+        if (!['pending', 'failed'].includes(row.status)) continue
         if (!row.dueDate || new Date(row.dueDate) > now) continue
+        if ((row.attempts ?? 0) >= 3) continue
+        if (row.status === 'failed' && row.firstFailedAt && Date.now() - new Date(row.firstFailedAt).getTime() < 24 * 60 * 60 * 1000) continue
 
+        const attempt = (row.attempts ?? 0) + 1
+        if (row.paymentIntentId) {
+          const existingPaymentIntent = await stripe.paymentIntents.retrieve(row.paymentIntentId).catch(() => null)
+          if (existingPaymentIntent?.status === 'succeeded') {
+            installments[i] = { ...row, status: 'charged', paymentIntentId: existingPaymentIntent.id, chargeAttemptedAt: row.chargeAttemptedAt ?? now.toISOString() }
+            mutated = true
+            continue
+          }
+          if (existingPaymentIntent && ['processing', 'requires_action', 'requires_confirmation'].includes(existingPaymentIntent.status)) continue
+        }
         try {
           const pi = await stripe.paymentIntents.create({
             amount: Math.round(row.amount * 100),
@@ -108,10 +120,16 @@ export async function runBalanceCharges() {
               balanceForId: doc.id,
               installmentIndex: String(i),
             },
-          })
-          installments[i] = { ...row, status: 'charged', paymentIntentId: pi.id, chargeAttemptedAt: now.toISOString() }
+          }, { idempotencyKey: `balance:${collection}:${doc.id}:installment:${i}:attempt:${attempt}` })
+          installments[i] = {
+            ...row,
+            status: pi.status === 'succeeded' ? 'charged' : 'pending',
+            attempts: attempt,
+            paymentIntentId: pi.id,
+            chargeAttemptedAt: now.toISOString(),
+          }
         } catch {
-          installments[i] = { ...row, status: 'failed', chargeAttemptedAt: now.toISOString(), firstFailedAt: row.firstFailedAt ?? now.toISOString() }
+          installments[i] = { ...row, status: 'failed', attempts: attempt, chargeAttemptedAt: now.toISOString(), firstFailedAt: row.firstFailedAt ?? now.toISOString() }
         }
         mutated = true
       }

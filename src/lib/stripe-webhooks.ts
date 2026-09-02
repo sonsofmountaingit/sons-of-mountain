@@ -5,6 +5,8 @@ import { revalidatePath, revalidateTag } from 'next/cache'
 import { after } from 'next/server'
 import { escapeHtml } from '@/lib/escape-html'
 import { sendGa4Refund, sendGa4Purchase } from '@/lib/ga4-measurement-protocol'
+import { consumeCheckoutPromotions } from '@/lib/checkout-promotions'
+import { claimIdempotencyKey, releaseIdempotencyKey } from '@/lib/security/rate-limit'
 
 function ga4ItemTitle(item: any): string {
   return (
@@ -22,29 +24,28 @@ async function getStripe() {
   return stripe!
 }
 
-async function creditLoyaltyPoints(payload: BasePayload, customerId: string | null | undefined, amountEur: number) {
-  if (!customerId) return
-  try {
-    const shopSettings = await payload.findGlobal({ slug: 'shop' }).catch(() => null)
-    const rate = (shopSettings as any)?.loyaltyPointsPerEur ?? 1
-    const pointsToAdd = Math.floor(amountEur * rate)
-    if (pointsToAdd <= 0) return
-    const cust = await payload.findByID({ collection: 'customers', id: customerId }).catch(() => null)
-    if (!cust) return
-    const newPoints = ((cust as any).loyaltyPoints ?? 0) + pointsToAdd
-    const tier = newPoints >= 5000 ? 'platinum' : newPoints >= 1500 ? 'gold' : newPoints >= 500 ? 'silver' : 'bronze'
-    const oldTier = (cust as any).loyaltyTier ?? 'bronze'
-    await payload.update({ collection: 'customers', id: customerId, data: { loyaltyPoints: newPoints, loyaltyTier: tier } })
-    if (tier !== oldTier) {
-      const { sendFlow } = await import('@/lib/email-flows')
-      await sendFlow('loyalty_tier_upgrade', { email: (cust as any).email, firstName: (cust as any).firstName }, {
-        loyaltyTier: tier,
-        previousTier: oldTier,
-        loyaltyPoints: newPoints,
-        loyaltyTierLabel: tier.charAt(0).toUpperCase() + tier.slice(1),
-      }, payload).catch(() => {})
-    }
-  } catch {}
+async function creditLoyaltyPoints(payload: BasePayload, customerId: string | null | undefined, amountEur: number): Promise<boolean> {
+  if (!customerId) return false
+  const shopSettings = await payload.findGlobal({ slug: 'shop' }).catch(() => null)
+  const rate = (shopSettings as any)?.loyaltyPointsPerEur ?? 1
+  const pointsToAdd = Math.floor(amountEur * rate)
+  if (pointsToAdd <= 0) return false
+  const cust = await payload.findByID({ collection: 'customers', id: customerId }).catch(() => null)
+  if (!cust) return false
+  const newPoints = ((cust as any).loyaltyPoints ?? 0) + pointsToAdd
+  const tier = newPoints >= 5000 ? 'platinum' : newPoints >= 1500 ? 'gold' : newPoints >= 500 ? 'silver' : 'bronze'
+  const oldTier = (cust as any).loyaltyTier ?? 'bronze'
+  await payload.update({ collection: 'customers', id: customerId, data: { loyaltyPoints: newPoints, loyaltyTier: tier } })
+  if (tier !== oldTier) {
+    const { sendFlow } = await import('@/lib/email-flows')
+    await sendFlow('loyalty_tier_upgrade', { email: (cust as any).email, firstName: (cust as any).firstName }, {
+      loyaltyTier: tier,
+      previousTier: oldTier,
+      loyaltyPoints: newPoints,
+      loyaltyTierLabel: tier.charAt(0).toUpperCase() + tier.slice(1),
+    }, payload).catch(() => {})
+  }
+  return true
 }
 
 export async function notifyWaitlist(payload: BasePayload, itemType: string, itemId: string) {
@@ -411,9 +412,22 @@ async function generateInvoice(
   collection: 'orders' | 'registrations',
   docId: string,
 ) {
+  const stripeCustomerId = session.customer as string | null
+  if (!stripeCustomerId) return
   try {
-    const stripeCustomerId = session.customer as string | null
-    if (!stripeCustomerId) return
+    const existingInvoices = await stripe.invoices.list({ customer: stripeCustomerId, limit: 100 })
+    const existing = existingInvoices.data.find((invoice) =>
+      invoice.metadata?.payloadCollection === collection && invoice.metadata?.payloadId === docId,
+    )
+    if (existing) {
+      await payload.update({
+        collection,
+        id: docId,
+        data: { invoiceId: existing.id, invoicePdfUrl: existing.invoice_pdf ?? undefined } as any,
+      })
+      return
+    }
+
     const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 100 })
     const inv = await stripe.invoices.create({
       customer: stripeCustomerId,
@@ -439,7 +453,10 @@ async function generateInvoice(
         invoicePdfUrl: finalized.invoice_pdf ?? undefined,
       } as any,
     })
-  } catch {}
+  } catch (error) {
+    console.error(`[stripe-webhooks] Invoice generation failed for ${collection} ${docId}:`, error)
+    throw error
+  }
 }
 
 export async function decrementRegistrationSpots(
@@ -480,7 +497,7 @@ export async function decrementRegistrationSpots(
   })
 }
 
-export async function decrementOrderItemsSpotsAndStock(payload: BasePayload, items: any[]) {
+async function decrementOrderItemsSpotsAndStockUnlocked(payload: BasePayload, items: any[]) {
   // Payload relationship fields can be returned as a populated object, a string,
   // or a numeric database ID (the usual value in an afterChange hook at depth 0).
   // Normalise every form before loading the related record.
@@ -496,10 +513,11 @@ export async function decrementOrderItemsSpotsAndStock(payload: BasePayload, ite
   for (const item of items ?? []) {
     if (item.itemType === 'trip' && item.trip) {
       const tId = relationId(item.trip)
-      if (tId == null) continue
-      const trip = await payload.findByID({ collection: 'trips', id: tId }).catch(() => null)
-      if (trip) {
+      if (tId == null) throw new Error(`Trip reference is missing for order item`)
+      const trip = await payload.findByID({ collection: 'trips', id: tId })
+      {
         const participantCount = item.quantity ?? item.participantCount ?? 1
+        if (!Number.isFinite(Number((trip as any).spotsAvailable)) || Number((trip as any).spotsAvailable) < participantCount) throw new Error(`Not enough spots remain for trip ${tId}`)
         const newSpots = Math.max(0, (trip as any).spotsAvailable - participantCount)
         const earlyBirdDecrement = item.earlyBirdCount ?? Math.min(participantCount, (trip as any).earlyBirdSpotsRemaining ?? 0)
         const newEarlyBirdSpots = Math.max(0, ((trip as any).earlyBirdSpotsRemaining ?? 0) - earlyBirdDecrement)
@@ -509,25 +527,33 @@ export async function decrementOrderItemsSpotsAndStock(payload: BasePayload, ite
     }
     if (item.itemType === 'product' && item.product) {
       const pId = relationId(item.product)
-      if (pId == null) continue
-      const product = await payload.findByID({ collection: 'products', id: pId }).catch(() => null)
-      if (product) {
+      if (pId == null) throw new Error(`Product reference is missing for order item`)
+      const product = await payload.findByID({ collection: 'products', id: pId })
+      {
+        const quantity = item.quantity ?? item.participantCount ?? 1
         if (item.variantId) {
-          const variants = ((product as any).variants ?? []).map((v: any) =>
-            v.id === item.variantId ? { ...v, stock: Math.max(0, v.stock - item.quantity) } : v
-          )
+          let matchedVariant = false
+          const variants = ((product as any).variants ?? []).map((v: any) => {
+            if (v.id !== item.variantId) return v
+            matchedVariant = true
+            if (!Number.isFinite(Number(v.stock)) || Number(v.stock) < quantity) throw new Error(`Not enough stock remains for product variant ${item.variantId}`)
+            return { ...v, stock: Math.max(0, v.stock - quantity) }
+          })
+          if (!matchedVariant) throw new Error(`Variant ${item.variantId} was not found for product ${pId}`)
           await payload.update({ collection: 'products', id: pId, data: { variants } })
         } else {
-          await payload.update({ collection: 'products', id: pId, data: { stock: Math.max(0, (product as any).stock - item.quantity) } })
+          if (!Number.isFinite(Number((product as any).stock)) || Number((product as any).stock) < quantity) throw new Error(`Not enough stock remains for product ${pId}`)
+          await payload.update({ collection: 'products', id: pId, data: { stock: Math.max(0, (product as any).stock - quantity) } })
         }
       }
     }
     if (item.itemType === 'program' && item.program) {
       const pgId = relationId(item.program)
-      if (pgId == null) continue
-      const program = await payload.findByID({ collection: 'programs', id: pgId }).catch(() => null)
-      if (program) {
+      if (pgId == null) throw new Error(`Program reference is missing for order item`)
+      const program = await payload.findByID({ collection: 'programs', id: pgId })
+      {
         const participantCount = item.quantity ?? item.participantCount ?? 1
+        if (!Number.isFinite(Number((program as any).spotsAvailable)) || Number((program as any).spotsAvailable) < participantCount) throw new Error(`Not enough spots remain for program ${pgId}`)
         const newSpots = Math.max(0, (program as any).spotsAvailable - participantCount)
         const earlyBirdDecrement = item.earlyBirdCount ?? Math.min(participantCount, (program as any).earlyBirdSpotsRemaining ?? 0)
         const newEarlyBirdSpots = Math.max(0, ((program as any).earlyBirdSpotsRemaining ?? 0) - earlyBirdDecrement)
@@ -536,10 +562,11 @@ export async function decrementOrderItemsSpotsAndStock(payload: BasePayload, ite
     }
     if (item.itemType === 'destination' && item.destination) {
       const dId = relationId(item.destination)
-      if (dId == null) continue
-      const destination = await payload.findByID({ collection: 'destinations', id: dId }).catch(() => null)
-      if (destination) {
+      if (dId == null) throw new Error(`Destination reference is missing for order item`)
+      const destination = await payload.findByID({ collection: 'destinations', id: dId })
+      {
         const participantCount = item.quantity ?? item.participantCount ?? 1
+        if (!Number.isFinite(Number((destination as any).spotsAvailable)) || Number((destination as any).spotsAvailable) < participantCount) throw new Error(`Not enough spots remain for destination ${dId}`)
         const newSpots = Math.max(0, (destination as any).spotsAvailable - participantCount)
         const earlyBirdDecrement = item.earlyBirdCount ?? Math.min(participantCount, (destination as any).earlyBirdSpotsRemaining ?? 0)
         const newEarlyBirdSpots = Math.max(0, ((destination as any).earlyBirdSpotsRemaining ?? 0) - earlyBirdDecrement)
@@ -558,19 +585,57 @@ export async function decrementOrderItemsSpotsAndStock(payload: BasePayload, ite
     }
     if (item.itemType === 'bundle' && item.bundle) {
       const bId = relationId(item.bundle)
-      if (bId == null) continue
-      const bundle = await payload.findByID({ collection: 'bundles', id: bId }).catch(() => null)
-      if (bundle) {
-        await payload.update({ collection: 'bundles', id: bId, data: { usedCount: ((bundle as any).usedCount ?? 0) + 1 } })
-      }
+      if (bId == null) throw new Error(`Bundle reference is missing for order item`)
+      const bundle = await payload.findByID({ collection: 'bundles', id: bId })
+      await payload.update({ collection: 'bundles', id: bId, data: { usedCount: ((bundle as any).usedCount ?? 0) + 1 } })
     }
   }
+}
+
+export async function decrementOrderItemsSpotsAndStock(payload: BasePayload, items: any[]) {
+  // ponytail: one global inventory lock keeps read-modify-write stock updates correct;
+  // replace with per-resource locks if checkout throughput ever requires it.
+  const lockKey = 'inventory-decrement:global'
+  const lockToken = await claimIdempotencyKey(lockKey, 60)
+  if (!lockToken) throw new Error('Inventory is currently being updated; retry fulfillment')
+  try {
+    await decrementOrderItemsSpotsAndStockUnlocked(payload, items)
+  } finally {
+    await releaseIdempotencyKey(lockKey, lockToken).catch(() => undefined)
+  }
+}
+
+export async function handleCheckoutAsyncPaymentFailed(session: Stripe.Checkout.Session, payload: BasePayload) {
+  const orderId = session.metadata?.orderId
+  if (!orderId) return
+  const order = await payload.findByID({ collection: 'orders', id: orderId, depth: 0 }).catch(() => null) as any
+  if (!order || order.status === 'paid') return
+  await payload.update({
+    collection: 'orders',
+    id: orderId,
+    data: {
+      status: 'cancelled',
+      paymentStatus: 'failed',
+      fulfillmentStatus: 'failed',
+      checkoutFailureReason: 'Stripe asynchronous payment failed',
+    } as any,
+    overrideAccess: true,
+  })
+  const { releaseCheckoutPromotions } = await import('@/lib/checkout-promotions')
+  await releaseCheckoutPromotions(payload, orderId)
 }
 
 export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, payload: BasePayload) {
   const stripe = await getStripe()
   const meta = session.metadata ?? {}
   const { orderId, type, tripId, recordId, paymentMode, discountCodeId, giftVoucherId, loyaltyPointsRedeemed } = meta
+
+  // Stripe is the payment source of truth for every checkout type, including
+  // legitimate zero-total discount and voucher sales.
+  if (!['paid', 'no_payment_required'].includes(session.payment_status)) return
+  if (session.payment_status === 'no_payment_required' && session.amount_total !== 0) {
+    throw new Error(`Stripe reported no payment required with a non-zero amount for session ${session.id}`)
+  }
 
   // Detect 3DS
   let scaVerified = false
@@ -588,20 +653,39 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
     // Session that has not actually settled (for example, a pending bank debit).
     if (session.payment_status !== 'paid' && session.payment_status !== 'no_payment_required') return
     const order = await payload.findByID({ collection: 'orders', id: orderId, depth: 2 }).catch(() => null)
-    if (!order) return
-    if ((order as any).status === 'paid') return
+    if (!order) throw new Error(`Order ${orderId} was not found for Stripe Checkout session`)
+    if (['cancelled', 'refunded'].includes((order as any).status)) {
+      throw new Error(`Stripe completed a session for ${order.status} order ${orderId}`)
+    }
+    if (session.payment_status === 'no_payment_required' && session.amount_total !== 0) {
+      throw new Error(`Stripe reported no payment required with a non-zero amount for order ${orderId}`)
+    }
+    if (Number((order as any).totalAmount ?? 0) === 0 && session.payment_status !== 'no_payment_required') {
+      throw new Error(`Zero-total order ${orderId} was completed with an unexpected payment status`)
+    }
+    if ((order as any).status === 'paid' && (order as any).fulfillmentStatus === 'completed') return
 
     await payload.update({
       collection: 'orders',
       id: orderId,
       data: {
         status: 'paid',
+        paymentStatus: session.payment_status === 'no_payment_required'
+          ? 'no_payment_required'
+          : paymentMode === 'deposit' || paymentMode === 'installments' ? 'partially_paid' : 'paid',
         paidAt: new Date().toISOString(),
         stripePaymentIntentId: (session.payment_intent as string) ?? null,
         ...(paymentMode === 'deposit' ? { depositPaid: (session.amount_total ?? 0) / 100 } : {}),
+        ...(paymentMode === 'installments' ? {
+          depositPaid: (session.amount_total ?? 0) / 100,
+          remainingBalance: ((order as any).installments ?? []).slice(1).reduce((sum: number, installment: any) => sum + (Number(installment.amount) || 0), 0),
+        } : {}),
         scaVerified,
+        fulfillmentStatus: 'processing',
+        fulfillmentAttempts: Number((order as any).fulfillmentAttempts ?? 0) + 1,
       } as any,
     })
+    const promotionConsumption = await consumeCheckoutPromotions(payload, orderId)
 
     {
       const orderNumber = String(orderId).slice(-8).toUpperCase()
@@ -649,7 +733,7 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
     // so it fires exactly once regardless of which code path marks the order 'paid'.
 
     // Mark discount code used
-    if (discountCodeId) {
+    if (discountCodeId && (!promotionConsumption.hadReservation || promotionConsumption.consumedNow)) {
       const dc = await payload.findByID({ collection: 'discount-codes', id: discountCodeId }).catch(() => null)
       if (dc) {
         const customerId = typeof (order as any).customer === 'string' ? (order as any).customer : (order as any).customer?.id
@@ -657,7 +741,11 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
           collection: 'discount-codes',
           id: discountCodeId,
           data: {
-            usedCount: ((dc as any).usedCount ?? 0) + 1,
+            // Reservation rows are the source of truth for new checkouts. Keep the
+            // legacy counter unchanged here so consumed reservations are not counted twice.
+            usedCount: promotionConsumption.hadReservation
+              ? (dc as any).usedCount ?? 0
+              : ((dc as any).usedCount ?? 0) + 1,
             usedByCustomers: customerId
               ? [...((dc as any).usedByCustomers ?? []), { customer: customerId, usedAt: new Date().toISOString() }]
               : (dc as any).usedByCustomers,
@@ -688,27 +776,44 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
     // Mark gift voucher redeemed
     if (giftVoucherId) {
       const customerId = typeof (order as any).customer === 'string' ? (order as any).customer : (order as any).customer?.id
-      await payload.update({
-        collection: 'gift-vouchers',
-        id: giftVoucherId,
-        data: { status: 'redeemed', redeemedAt: new Date().toISOString(), redeemedByCustomerId: customerId ?? '' },
-      }).catch(() => {})
+      const voucher = await payload.findByID({ collection: 'gift-vouchers', id: giftVoucherId })
+      if ((voucher as any).status !== 'redeemed') {
+        await payload.update({
+          collection: 'gift-vouchers',
+          id: giftVoucherId,
+          data: { status: 'redeemed', redeemedAt: new Date().toISOString(), redeemedByCustomerId: customerId ?? '' },
+        })
+      }
     }
 
     // Deduct loyalty points
     const pointsRedeemed = parseInt(loyaltyPointsRedeemed ?? '0', 10)
     const customerId = typeof (order as any).customer === 'string' ? (order as any).customer : (order as any).customer?.id
-    if (pointsRedeemed > 0 && customerId) {
+    if (pointsRedeemed > 0 && customerId && !(order as any).loyaltyPointsDeductedAt) {
       const cust = await payload.findByID({ collection: 'customers', id: customerId }).catch(() => null)
       if (cust) {
         const newPoints = Math.max(0, ((cust as any).loyaltyPoints ?? 0) - pointsRedeemed)
         await payload.update({ collection: 'customers', id: customerId, data: { loyaltyPoints: newPoints } })
+        await payload.update({
+          collection: 'orders',
+          id: orderId,
+          data: { loyaltyPointsDeductedAt: new Date().toISOString() } as any,
+        })
       }
     }
 
-    // Credit loyalty points earned
+    // Credit loyalty points earned once. A zero-total promotion sale correctly earns
+    // zero points and does not need a marker.
     const amountTotal = (session.amount_total ?? 0) / 100
-    await creditLoyaltyPoints(payload, customerId, amountTotal)
+    if (amountTotal > 0 && customerId && !(order as any).loyaltyPointsCreditedAt) {
+      if (await creditLoyaltyPoints(payload, customerId, amountTotal)) {
+        await payload.update({
+          collection: 'orders',
+          id: orderId,
+          data: { loyaltyPointsCreditedAt: new Date().toISOString() } as any,
+        })
+      }
+    }
 
     // Generate invoice PDF
     await generateInvoice(payload, stripe, session, 'orders', orderId)
@@ -727,7 +832,10 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
         })
         await payload.update({ collection: 'orders', id: orderId, data: { receiptSentAt: new Date().toISOString() } as any })
       }
-    } catch {}
+    } catch (error) {
+      console.error(`[stripe-webhooks] Receipt update failed for order ${orderId}:`, error)
+      throw error
+    }
 
     // Schedule remaining installments if deposit or installments mode
     if ((paymentMode === 'deposit' || paymentMode === 'installments') && session.payment_intent && session.customer) {
@@ -750,7 +858,10 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
             data: updateData as any,
           })
         }
-      } catch {}
+      } catch (error) {
+        console.error(`[stripe-webhooks] Installment setup failed for order ${orderId}:`, error)
+        throw error
+      }
     }
 
     try {
@@ -764,6 +875,11 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
       try { revalidateTag('trips', 'max') } catch {}
       try { revalidatePath('/shop') } catch {}
     }
+    await payload.update({
+      collection: 'orders',
+      id: orderId,
+      data: { fulfillmentStatus: 'completed', fulfillmentFailureReason: null } as any,
+    })
     return
   }
 
@@ -849,9 +965,17 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session, 
   } else if (type === 'order') {
     const existingOrder = await payload.findByID({ collection: 'orders', id, depth: 2 }).catch(() => null)
     if (!existingOrder) return
+    if (session.payment_status === 'no_payment_required' && Number((existingOrder as any).totalAmount ?? 0) !== 0) {
+      throw new Error(`Non-zero legacy order ${id} completed without payment`)
+    }
     if ((existingOrder as any).status === 'paid') return
     // Spots/stock decrement runs in Orders collection afterChange hook (decrementSpotsOnPaid).
-    await payload.update({ collection: 'orders', id, data: { status: 'paid', paidAt: new Date().toISOString(), scaVerified } as any })
+    await payload.update({ collection: 'orders', id, data: {
+      status: 'paid',
+      paymentStatus: session.payment_status === 'no_payment_required' ? 'no_payment_required' : 'paid',
+      paidAt: new Date().toISOString(),
+      scaVerified,
+    } as any })
     if ((existingOrder as any).discountCode) {
       const dcId = typeof (existingOrder as any).discountCode === 'string' ? (existingOrder as any).discountCode : (existingOrder as any).discountCode?.id
       const dc = await payload.findByID({ collection: 'discount-codes', id: dcId }).catch(() => null)
@@ -1014,7 +1138,10 @@ export async function handleChargeRefunded(charge: Stripe.Charge, payload: BaseP
         }],
       })
     }
-  } catch {}
+  } catch (err) {
+    console.error('[stripe-webhooks] handlePaymentIntentFailed error:', err)
+    throw err
+  }
 }
 
 export async function handleInvoicePaymentFailed(invoice: Stripe.Invoice, payload: BasePayload) {
@@ -1073,7 +1200,7 @@ export async function handlePaymentIntentSucceeded(pi: Stripe.PaymentIntent, pay
 
   try {
     const doc = await payload.findByID({ collection: balanceCollection, id: balanceId, depth: 2 }).catch(() => null) as any
-    if (!doc) return
+    if (!doc) throw new Error(`Balance payment target ${balanceCollection}/${balanceId} was not found`)
 
     const installmentIndexStr = pi.metadata.installmentIndex
     let updatedRemaining = 0
@@ -1084,8 +1211,17 @@ export async function handlePaymentIntentSucceeded(pi: Stripe.PaymentIntent, pay
     if (installmentIndexStr != null && doc.installments?.length) {
       const idx = parseInt(installmentIndexStr, 10)
       const installments = [...doc.installments]
+      if (idx < 0 || idx >= installments.length || !installments[idx]) {
+        throw new Error(`Installment ${installmentIndexStr} was not found for ${balanceCollection}/${balanceId}`)
+      }
       if (installments[idx]) {
         installmentLabel = installments[idx].label || `Вноска ${idx + 1}`
+        const expectedAmount = Math.round(Number(installments[idx].amount) * 100)
+        if (pi.currency !== 'eur') throw new Error(`Unexpected installment currency for ${balanceCollection}/${balanceId}/${idx}`)
+        const receivedAmount = pi.amount_received ?? pi.amount ?? 0
+        if (!Number.isFinite(expectedAmount) || receivedAmount !== expectedAmount) {
+          throw new Error(`Installment amount mismatch for ${balanceCollection}/${balanceId}/${idx}`)
+        }
         installments[idx] = {
           ...installments[idx],
           status: 'charged',
@@ -1103,8 +1239,12 @@ export async function handlePaymentIntentSucceeded(pi: Stripe.PaymentIntent, pay
           installments,
           remainingBalance: updatedRemaining,
           status: 'paid',
+          paymentStatus: allCharged ? 'paid' : 'partially_paid',
           balanceChargeStatus: allCharged ? 'succeeded' : 'pending',
-          balancePaymentIntentId: pi.id,
+          // Keep the saved payment method pointer for the next installment;
+          // the installment row stores the PaymentIntent that was charged.
+          balancePaymentIntentId: doc.balancePaymentIntentId,
+          ...(allCharged ? { balancePaymentIntentId: pi.id } : {}),
         } as any,
       })
     } else {
@@ -1114,6 +1254,7 @@ export async function handlePaymentIntentSucceeded(pi: Stripe.PaymentIntent, pay
         data: {
           remainingBalance: 0,
           status: 'paid',
+          paymentStatus: 'paid',
           balanceChargeStatus: 'succeeded',
           balancePaymentIntentId: pi.id,
         } as any,
@@ -1174,7 +1315,7 @@ export async function handlePaymentIntentSucceeded(pi: Stripe.PaymentIntent, pay
   </div>
 </body>
 </html>`,
-        })
+        }, { idempotencyKey: `balance-confirmation-${balanceCollection}-${balanceId}-${pi.id}` })
 
         await createEmailLog(payload, {
           trigger: 'order_paid_balance',
@@ -1190,6 +1331,7 @@ export async function handlePaymentIntentSucceeded(pi: Stripe.PaymentIntent, pay
     }
   } catch (err) {
     console.error('[stripe-webhooks] handlePaymentIntentSucceeded error:', err)
+    throw err
   }
 }
 
@@ -1201,9 +1343,24 @@ export async function handlePaymentIntentFailed(pi: Stripe.PaymentIntent, payloa
     await payload.update({ collection, id: pi.metadata.balanceForId, data: { balanceChargeStatus: 'failed' } as any })
 
     // Generate retry payment link
-    const doc = await payload.findByID({ collection, id: pi.metadata.balanceForId }).catch(() => null)
-    if (!doc) return
-    const remainingAmount = (doc as any).remainingBalance ?? 0
+    const doc = await payload.findByID({ collection, id: pi.metadata.balanceForId }).catch(() => null) as any
+    if (!doc) throw new Error(`Balance payment target ${collection}/${pi.metadata.balanceForId} was not found`)
+    const installmentIndex = pi.metadata.installmentIndex
+    if (installmentIndex != null && Array.isArray(doc.installments)) {
+      const index = Number(installmentIndex)
+      if (!Number.isInteger(index) || !doc.installments[index]) throw new Error(`Installment ${installmentIndex} was not found for ${collection}/${pi.metadata.balanceForId}`)
+      const installments = [...doc.installments]
+      const row = installments[index]
+      installments[index] = {
+        ...row,
+        status: 'failed',
+        paymentIntentId: pi.id,
+        chargeAttemptedAt: new Date().toISOString(),
+        firstFailedAt: row.firstFailedAt ?? new Date().toISOString(),
+      }
+      await payload.update({ collection, id: pi.metadata.balanceForId, data: { installments } as any })
+    }
+    const remainingAmount = doc.remainingBalance ?? 0
     const retryLink = await stripe.paymentLinks.create({
       line_items: [{
         price_data: {
@@ -1214,7 +1371,7 @@ export async function handlePaymentIntentFailed(pi: Stripe.PaymentIntent, payloa
         quantity: 1,
       }],
       metadata: { balanceForCollection: collection, balanceForId: pi.metadata.balanceForId },
-    } as any).catch(() => null)
+    } as any, { idempotencyKey: `balance-retry-link-${collection}-${pi.metadata.balanceForId}-${pi.id}` }).catch(() => null)
 
     const { sendFlow } = await import('@/lib/email-flows')
     const email = (doc as any).email

@@ -40,13 +40,25 @@ export async function getIdempotencyValue(key: string): Promise<string | null> {
   return client.get(`som:idempotency:${key}`)
 }
 
-export async function claimIdempotencyKey(key: string, ttlSeconds = 300): Promise<boolean> {
+export async function claimIdempotencyKey(key: string, ttlSeconds = 300): Promise<string | null> {
   const client = await getRedisClient()
-  const result = await client.set(`som:idempotency:${key}`, '__processing__', { NX: true, EX: ttlSeconds })
-  return result === 'OK'
+  const token = crypto.randomUUID()
+  const result = await client.set(`som:idempotency:${key}`, JSON.stringify({ status: 'processing', token }), { NX: true, EX: ttlSeconds })
+  return result === 'OK' ? token : null
 }
 
-export async function setIdempotencyValue(key: string, value: string, ttlSeconds = 86400): Promise<void> {
+export async function completeIdempotencyKey(key: string, token: string, value: string, ttlSeconds = 86400): Promise<void> {
   const client = await getRedisClient()
-  await client.set(`som:idempotency:${key}`, value, { EX: ttlSeconds })
+  await client.eval(
+    `if redis.call('get', KEYS[1]) == ARGV[1] then redis.call('set', KEYS[1], ARGV[2], 'EX', ARGV[3]) return 1 end return 0`,
+    { keys: [`som:idempotency:${key}`], arguments: [JSON.stringify({ status: 'processing', token }), value, String(ttlSeconds)] },
+  )
+}
+
+export async function releaseIdempotencyKey(key: string, token: string): Promise<void> {
+  const client = await getRedisClient()
+  await client.eval(
+    `if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end`,
+    { keys: [`som:idempotency:${key}`], arguments: [JSON.stringify({ status: 'processing', token })] },
+  )
 }

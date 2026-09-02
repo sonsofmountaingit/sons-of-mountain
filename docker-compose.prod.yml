@@ -1,6 +1,6 @@
 services:
   migrate:
-    image: git.amabel.world/stanchito/sons-of-mountains:migrator
+    image: ${MIGRATOR_IMAGE:-git.amabel.world/stanchito/sons-of-mountains:migrator}
     env_file: .env.production
     environment:
       - NODE_ENV=production
@@ -12,7 +12,7 @@ services:
     restart: "no"
 
   app:
-    image: git.amabel.world/stanchito/sons-of-mountains:latest
+    image: ${APP_IMAGE:-git.amabel.world/stanchito/sons-of-mountains:latest}
     env_file: .env.production
     environment:
       - NODE_ENV=production

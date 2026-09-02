@@ -64,7 +64,7 @@ async function OrderDetailContent({ id }: { id: string }) {
       <div className="grid gap-8 md:grid-cols-3 mb-8">
         <div className="rounded-lg border bg-white p-6">
           <p className="text-sm font-semibold text-gray-600 mb-2">Status</p>
-          <OrderStatusBadge status={order.status} />
+          <OrderStatusBadge status={order.paymentStatus === 'partially_paid' ? 'partially_paid' : order.status} />
         </div>
 
         <div className="rounded-lg border bg-white p-6">
@@ -118,11 +118,11 @@ async function OrderDetailContent({ id }: { id: string }) {
           <div className="grid gap-4 md:grid-cols-2">
             <div>
               <p className="text-sm font-semibold text-blue-700 mb-1">Deposit Paid</p>
-              <p className="text-lg font-semibold">{formatPrice(order.depositAmount ?? 0)}</p>
+              <p className="text-lg font-semibold">{formatPrice(order.depositPaid ?? 0)}</p>
             </div>
             <div>
               <p className="text-sm font-semibold text-blue-700 mb-1">Remaining Balance</p>
-              <p className="text-lg font-semibold">{formatPrice((order.totalAmount ?? 0) - (order.depositAmount ?? 0))}</p>
+              <p className="text-lg font-semibold">{formatPrice(order.remainingBalance ?? 0)}</p>
             </div>
             {order.remainingDueDate && (
               <div className="md:col-span-2">
@@ -136,6 +136,25 @@ async function OrderDetailContent({ id }: { id: string }) {
                 </p>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {order.paymentMode === 'installments' && order.installments?.length > 0 && (
+        <div className="rounded-lg border border-blue-200 bg-blue-50 p-6 mb-8">
+          <h2 className="text-xl font-bold mb-4 text-blue-900">Installment Payments</h2>
+          <div className="space-y-3">
+            {order.installments.map((installment: any, index: number) => (
+              <div key={index} className="flex items-center justify-between border-b border-blue-200 pb-3 last:border-b-0 last:pb-0">
+                <div>
+                  <p className="font-semibold text-blue-900">{installment.label}</p>
+                  <p className="text-sm text-blue-700">
+                    {installment.status === 'charged' ? 'Paid' : installment.status === 'failed' ? 'Payment failed' : `Due ${new Date(installment.dueDate).toLocaleDateString('en-GB')}`}
+                  </p>
+                </div>
+                <p className="font-semibold text-blue-900">{formatPrice(installment.amount)}</p>
+              </div>
+            ))}
           </div>
         </div>
       )}

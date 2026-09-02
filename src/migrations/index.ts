@@ -39,6 +39,9 @@ import * as migration_20260813_waitlist_customer_relationship from './20260813_w
 import * as migration_20260814_order_spot_decrement_marker from './20260814_order_spot_decrement_marker'
 import * as migration_20260831_customer_email_verification from './20260831_customer_email_verification'
 import * as migration_20260831b_customer_verification_column_name from './20260831b_customer_verification_column_name'
+import * as migration_20260902_order_checkout_state from './20260902_order_checkout_state'
+import * as migration_20260902_stripe_webhook_events from './20260902_stripe_webhook_events'
+import * as migration_20260902_checkout_promotion_reservations from './20260902_checkout_promotion_reservations'
 
 export const migrations = [
   {
@@ -245,5 +248,20 @@ export const migrations = [
     up: migration_20260831b_customer_verification_column_name.up,
     down: migration_20260831b_customer_verification_column_name.down,
     name: '20260831b_customer_verification_column_name',
+  },
+  {
+    up: migration_20260902_order_checkout_state.up,
+    down: migration_20260902_order_checkout_state.down,
+    name: '20260902_order_checkout_state',
+  },
+  {
+    up: migration_20260902_stripe_webhook_events.up,
+    down: migration_20260902_stripe_webhook_events.down,
+    name: '20260902_stripe_webhook_events',
+  },
+  {
+    up: migration_20260902_checkout_promotion_reservations.up,
+    down: migration_20260902_checkout_promotion_reservations.down,
+    name: '20260902_checkout_promotion_reservations',
   },
 ]

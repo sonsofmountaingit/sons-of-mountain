@@ -2,6 +2,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { stripe } from '@/lib/stripe'
 import { handleCheckoutCompleted } from '@/lib/stripe-webhooks'
+import { releaseCancelledCheckoutPromotions } from '@/lib/checkout-promotions'
 
 /**
  * Safety net for an interrupted or unavailable Stripe webhook delivery.
@@ -16,7 +17,7 @@ async function reconcilePaidSession(
   if (!stripe) throw new Error('Stripe is not configured')
 
   const session = await stripe.checkout.sessions.retrieve(sessionId)
-  if (session.status !== 'complete' || session.payment_status !== 'paid') return false
+  if (session.status !== 'complete' || !['paid', 'no_payment_required'].includes(session.payment_status)) return false
 
   await handleCheckoutCompleted(session, payload)
   return true
@@ -29,16 +30,22 @@ export async function reconcileCheckoutSession(sessionId: string): Promise<boole
   return reconcilePaidSession(sessionId, payload)
 }
 
-export async function reconcileCheckoutPayments(): Promise<{ checked: number; recovered: number }> {
+export async function reconcileCheckoutPayments(): Promise<{ checked: number; recovered: number; failed: number }> {
   if (!stripe) throw new Error('Stripe is not configured')
 
   const payload = await getPayload({ config })
+  await releaseCancelledCheckoutPromotions(payload)
   const { docs } = await payload.find({
     collection: 'orders',
     where: {
       and: [
-        { status: { not_equals: 'paid' } },
         { stripeSessionId: { exists: true } },
+        {
+          or: [
+            { status: { not_equals: 'paid' } },
+            { fulfillmentStatus: { not_equals: 'completed' } },
+          ],
+        },
       ],
     },
     // Reconcile every unpaid Checkout order, not merely the first ten. Otherwise a
@@ -50,12 +57,25 @@ export async function reconcileCheckoutPayments(): Promise<{ checked: number; re
   })
 
   let recovered = 0
+  let failed = 0
   for (const order of docs as any[]) {
     const sessionId = order.stripeSessionId as string | undefined
     if (!sessionId) continue
 
-    if (await reconcilePaidSession(sessionId, payload)) recovered++
+    try {
+      if (await reconcilePaidSession(sessionId, payload)) recovered++
+    } catch (error) {
+      failed++
+      const message = error instanceof Error ? error.message : String(error)
+      await payload.update({
+        collection: 'orders',
+        id: order.id,
+        data: { fulfillmentStatus: 'failed', fulfillmentFailureReason: message.slice(0, 2000) } as any,
+        overrideAccess: true,
+      }).catch(() => undefined)
+      console.error(`[checkout-recovery] Failed order ${order.id}:`, error)
+    }
   }
 
-  return { checked: docs.length, recovered }
+  return { checked: docs.length, recovered, failed }
 }

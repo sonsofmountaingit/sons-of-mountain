@@ -6,7 +6,26 @@ import { resolvePaymentPlan } from '@/lib/pricing/payment-plan'
 import { getDynamicPrice, getPriceBreakdown } from '@/lib/pricing/dynamic'
 import { isBookingDeadlinePassed } from '@/lib/booking-deadline'
 import { z } from 'zod'
-import { claimIdempotencyKey, enforceRateLimit, getClientIp, getIdempotencyValue, setIdempotencyValue } from '@/lib/security/rate-limit'
+import { claimIdempotencyKey, completeIdempotencyKey, enforceRateLimit, getClientIp, getIdempotencyValue, releaseIdempotencyKey } from '@/lib/security/rate-limit'
+import { releaseCheckoutPromotions, reserveCheckoutPromotions } from '@/lib/checkout-promotions'
+
+const cartItemSchema = z.object({
+  id: z.string().max(200),
+  type: z.enum(['trip', 'product', 'program', 'destination', 'gift-voucher', 'bundle']),
+  title: z.string().trim().min(1).max(500),
+  unitPrice: z.number().finite().nonnegative(),
+  quantity: z.number().int().min(1).max(100),
+  tripId: z.string().max(100).optional(),
+  productId: z.string().max(100).optional(),
+  programId: z.string().max(100).optional(),
+  destinationId: z.string().max(100).optional(),
+  bundleId: z.string().max(100).optional(),
+  voucherId: z.string().max(100).optional(),
+  variantId: z.string().max(200).optional(),
+}).passthrough().superRefine((item, ctx) => {
+  const idByType = { trip: item.tripId, product: item.productId, program: item.programId, destination: item.destinationId, bundle: item.bundleId, 'gift-voucher': item.voucherId }
+  if (!idByType[item.type]) ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Missing item reference' })
+})
 
 const cartCheckoutContactSchema = z.object({
   customerEmail: z.string().trim().email(),
@@ -18,6 +37,12 @@ const cartCheckoutContactSchema = z.object({
 
 type CheckoutType = 'registration' | 'order' | 'voucher' | 'cart' | 'deposit' | 'bundle'
 
+class CheckoutError extends Error {
+  constructor(message: string, readonly status = 500) {
+    super(message)
+  }
+}
+
 const COLLECTION_MAP: Record<string, 'registrations' | 'orders' | 'gift-vouchers'> = {
   registration: 'registrations',
   order: 'orders',
@@ -28,9 +53,19 @@ const COLLECTION_MAP: Record<string, 'registrations' | 'orders' | 'gift-vouchers
 }
 
 export async function POST(req: NextRequest) {
+  let idempotencyKey = ''
+  let checkoutCorrelationId = ''
+  let lockToken: string | null = null
+  let lockCompleted = false
+  let createdOrderId: string | number | null = null
+  let createdCarpoolRideId: string | number | null = null
+  let joinedCarpoolRideId: string | number | null = null
+  let joinedCarpoolPassenger: { name: string; email: string; phone: string } | null = null
+  let stripeSessionCreated = false
   try {
     const { stripe: stripeClient } = await import('@/lib/stripe')
-    const stripe = stripeClient!
+    if (!stripeClient) return NextResponse.json({ error: 'Payments are temporarily unavailable' }, { status: 503 })
+    const stripe = stripeClient
     const body = await req.json()
     // New clients send an idempotency key. Generate a request-scoped fallback
     // for legacy clients so existing integrations continue to work; only the
@@ -39,10 +74,12 @@ export async function POST(req: NextRequest) {
     if (suppliedIdempotencyKey && suppliedIdempotencyKey.length > 128) {
       return NextResponse.json({ error: 'Invalid Idempotency-Key' }, { status: 400 })
     }
-    const idempotencyKey = suppliedIdempotencyKey || crypto.randomUUID()
+    idempotencyKey = suppliedIdempotencyKey || crypto.randomUUID()
+    checkoutCorrelationId = crypto.randomUUID()
     const cachedCheckoutUrl = await getIdempotencyValue(idempotencyKey)
-    if (cachedCheckoutUrl && cachedCheckoutUrl !== '__processing__') return NextResponse.json({ url: cachedCheckoutUrl })
-    if (cachedCheckoutUrl === '__processing__' || !await claimIdempotencyKey(idempotencyKey)) {
+    if (cachedCheckoutUrl && cachedCheckoutUrl !== '__processing__' && !cachedCheckoutUrl.includes('"status":"processing"')) return NextResponse.json({ url: cachedCheckoutUrl })
+    lockToken = await claimIdempotencyKey(idempotencyKey)
+    if (cachedCheckoutUrl === '__processing__' || !lockToken) {
       return NextResponse.json({ error: 'This checkout request is already being processed.' }, { status: 409 })
     }
     const requestLimit = await enforceRateLimit(`checkout:ip:${getClientIp(req)}`, 20, 3600)
@@ -74,7 +111,10 @@ export async function POST(req: NextRequest) {
       carpoolRideId,
     } = body
 
-    const base = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
+    const base = (process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000').replace(/\/$/, '')
+    if (!process.env.NEXT_PUBLIC_SERVER_URL && process.env.NODE_ENV === 'production') {
+      return NextResponse.json({ error: 'Checkout is temporarily unavailable', reference: checkoutCorrelationId }, { status: 503 })
+    }
     const payload = await getPayload({ config })
 
     const { user: authUser } = await payload.auth({ headers: req.headers }).catch(() => ({ user: null }))
@@ -160,12 +200,18 @@ export async function POST(req: NextRequest) {
         id,
         data: { stripeSessionId: session.id, customer: linkedCustomerId ?? undefined } as any,
       }).catch(() => null)
-      if (session.url) await setIdempotencyValue(idempotencyKey, session.url)
+      if (session.url && lockToken) {
+        await completeIdempotencyKey(idempotencyKey, lockToken, session.url)
+        lockCompleted = true
+      }
       return NextResponse.json({ url: session.url })
     }
 
     // Multi-item cart checkout
-    if (!items?.length) return NextResponse.json({ error: 'Cart is empty' }, { status: 400 })
+    if (!Array.isArray(items) || !items.length) return NextResponse.json({ error: 'Cart is empty' }, { status: 400 })
+    const parsedItems = z.array(cartItemSchema).max(100).safeParse(items)
+    if (!parsedItems.success) return NextResponse.json({ error: 'Invalid cart contents' }, { status: 400 })
+    items.splice(0, items.length, ...parsedItems.data as CartItem[])
 
     const contact = cartCheckoutContactSchema.safeParse({ customerEmail, confirmEmail: body.confirmEmail })
     if (!contact.success) {
@@ -187,15 +233,17 @@ export async function POST(req: NextRequest) {
         }
         const col = collectionMap[item.type]
         const docId = item.tripId ?? item.productId ?? item.programId ?? item.destinationId ?? item.bundleId
-        if (col && docId && !Number.isNaN(Number(docId))) {
-          const doc = await payload.findByID({ collection: col as any, id: docId, overrideAccess: true, depth: 0 }).catch(() => null)
-          if (!doc) {
-            return NextResponse.json({
-              error: `"${item.title}" вече не е достъпен. Моля, премахнете го от количката и опитайте отново.`,
-            }, { status: 400 })
-          }
+        if (!col || !docId || Number.isNaN(Number(docId))) {
+          return NextResponse.json({ error: `Invalid reference for "${item.title}".` }, { status: 400 })
+        }
+        const doc = await payload.findByID({ collection: col as any, id: docId, overrideAccess: true, depth: 0 }).catch(() => null)
+        if (!doc) {
+          return NextResponse.json({
+            error: `"${item.title}" вече не е достъпен. Моля, премахнете го от количката и опитайте отново.`,
+          }, { status: 400 })
+        }
 
-          if (bookableCollectionMap[item.type]) {
+        if (bookableCollectionMap[item.type]) {
             const spotsAvailable = (doc as any)?.spotsAvailable
             if (spotsAvailable != null && spotsAvailable < item.quantity) {
               return NextResponse.json({
@@ -210,6 +258,9 @@ export async function POST(req: NextRequest) {
             const basePrice = (doc as any)?.spotsTotal != null && spotsAvailable != null
               ? getDynamicPrice((doc as any).price, (doc as any).spotsTotal, spotsAvailable)
               : (doc as any)?.price
+            if (typeof basePrice !== 'number' || !Number.isFinite(basePrice) || basePrice < 0) {
+              return NextResponse.json({ error: `Price is unavailable for "${item.title}".` }, { status: 400 })
+            }
             const breakdown = getPriceBreakdown(
               item.quantity,
               basePrice,
@@ -226,15 +277,18 @@ export async function POST(req: NextRequest) {
             (doc as any)?.price ??
             (doc as any)?.bundlePrice ??
             (doc as any)?.pricePerPerson
-          const priceMatchesRegular = expectedPrice != null && Math.abs(item.unitPrice - expectedPrice) <= 0.01
-          if (expectedPrice != null && !priceMatchesRegular) {
+          if (typeof expectedPrice !== 'number' || !Number.isFinite(expectedPrice)) {
+            return NextResponse.json({ error: `Price is unavailable for "${item.title}".` }, { status: 400 })
+          }
+          const priceMatchesRegular = Math.abs(item.unitPrice - expectedPrice) <= 0.01
+          if (!priceMatchesRegular) {
             return NextResponse.json({
               error: `Price mismatch for "${item.title}": expected €${expectedPrice.toFixed(2)}, got €${item.unitPrice.toFixed(2)}`,
             }, { status: 400 })
           }
-        }
-      } catch {
-        // Item not found — skip validation, Stripe will handle downstream
+      } catch (error) {
+        console.error(`[checkout] Price validation failed (${checkoutCorrelationId}):`, error)
+        return NextResponse.json({ error: 'Could not validate cart items', reference: checkoutCorrelationId }, { status: 500 })
       }
     }
     // Server-side discount/voucher/loyalty validation — never trust the client's
@@ -249,6 +303,26 @@ export async function POST(req: NextRequest) {
     if (discountCodeId) {
       const dc = await payload.findByID({ collection: 'discount-codes', id: discountCodeId, depth: 0 }).catch(() => null)
       if (dc && (dc as any).isActive) {
+        const scope = (dc as any).applicableTo
+        const idOf = (rel: unknown) => {
+          const id = typeof rel === 'string' || typeof rel === 'number' ? rel : (rel as { id?: string | number } | null | undefined)?.id
+          return id == null ? null : String(id)
+        }
+        const scopeMatches = scope === 'all' || !scope ||
+          (scope === 'trips' && (items as CartItem[]).some((item) => item.type === 'trip')) ||
+          (scope === 'products' && (items as CartItem[]).some((item) => item.type === 'product')) ||
+          (scope === 'programs' && (items as CartItem[]).some((item) => item.type === 'program')) ||
+          (scope === 'destinations' && (items as CartItem[]).some((item) => item.type === 'destination')) ||
+          (scope === 'specific-trip' && (items as CartItem[]).some((item) => item.type === 'trip' && idOf(item.tripId) === idOf((dc as any).specificTrip))) ||
+          (scope === 'specific-program' && (items as CartItem[]).some((item) => item.type === 'program' && idOf(item.programId) === idOf((dc as any).specificProgram))) ||
+          (scope === 'specific-destination' && (items as CartItem[]).some((item) => item.type === 'destination' && idOf(item.destinationId) === idOf((dc as any).specificDestination)))
+        if (!scopeMatches) return NextResponse.json({ error: 'Discount code does not apply to the items in this cart.' }, { status: 400 })
+
+        const discountType = (dc as any).type
+        const discountValue = Number((dc as any).value ?? 0)
+        if (!Number.isFinite(discountValue) || discountValue < 0 || (discountType === 'percent' && discountValue > 100)) {
+          return NextResponse.json({ error: 'Invalid discount configuration.' }, { status: 400 })
+        }
         const now = new Date()
         const startsAt = (dc as any).startsAt ? new Date((dc as any).startsAt) : null
         const expiresAt = (dc as any).expiresAt ? new Date((dc as any).expiresAt) : null
@@ -259,8 +333,8 @@ export async function POST(req: NextRequest) {
         const underMaxUses = maxUses == null || usedCount < maxUses
         const meetsMin = minOrderAmount == null || cartSubtotal >= minOrderAmount
         if (notExpired && underMaxUses && meetsMin) {
-          const value = (dc as any).value ?? 0
-          serverDiscountAmount = (dc as any).type === 'percent'
+          const value = discountValue
+          serverDiscountAmount = discountType === 'percent'
             ? Math.round(cartSubtotal * (value / 100) * 100) / 100
             : Math.min(value, cartSubtotal)
           validatedDiscountCodeId = discountCodeId
@@ -306,10 +380,17 @@ export async function POST(req: NextRequest) {
     const loyaltyDiscountAmount = serverLoyaltyPoints / 100
 
     const totalDeduction = serverDiscountAmount + serverVoucherAmount + loyaltyDiscountAmount
+    if (![cartSubtotal, serverDiscountAmount, serverVoucherAmount, loyaltyDiscountAmount, totalDeduction].every(Number.isFinite)) {
+      return NextResponse.json({ error: 'Could not calculate checkout total', reference: checkoutCorrelationId }, { status: 400 })
+    }
     const serverTotal = Math.max(0, cartSubtotal - totalDeduction)
+    const isZeroTotal = Math.round(serverTotal * 100) === 0
 
     // Resolve the authoritative payment plan server-side from the booked item's config —
     // never trust the client for payment mode/amounts, same principle as the price validation above.
+    if (paymentMode && !['full', 'deposit', 'installments'].includes(paymentMode)) {
+      return NextResponse.json({ error: 'Invalid payment mode' }, { status: 400 })
+    }
     let resolvedPaymentMode: string = paymentMode ?? 'full'
     let resolvedInstallments: Array<{ label: string; amount: number; dueDate: string }> = []
     const bookableItem = (items as CartItem[]).find((i) => i.type === 'trip' || i.type === 'program' || i.type === 'destination')
@@ -339,6 +420,24 @@ export async function POST(req: NextRequest) {
         }
       }
     }
+    // A fully discounted or fully voucher-funded sale is complete after Stripe
+    // confirms no payment is required. It must never schedule future installments.
+    if (isZeroTotal) {
+      resolvedPaymentMode = 'full'
+      resolvedInstallments = []
+    } else if (resolvedInstallments.length > 0) {
+      const scheduleTotal = resolvedInstallments.reduce((sum, installment) => sum + installment.amount, 0)
+      if (!Number.isFinite(scheduleTotal) || scheduleTotal <= 0) {
+        return NextResponse.json({ error: 'Invalid payment schedule', reference: checkoutCorrelationId }, { status: 400 })
+      }
+      const adjusted = resolvedInstallments.map((installment) => ({
+        ...installment,
+        amount: Math.round((installment.amount / scheduleTotal) * serverTotal * 100) / 100,
+      }))
+      const roundedTotal = adjusted.reduce((sum, installment) => sum + installment.amount, 0)
+      adjusted[adjusted.length - 1].amount = Math.round((adjusted[adjusted.length - 1].amount + serverTotal - roundedTotal) * 100) / 100
+      resolvedInstallments = adjusted
+    }
     // Build line items — use stored Stripe Price IDs where available
     const lineItems: any[] = await Promise.all((items as CartItem[]).map(async (item) => {
       let stripePriceId: string | null = null
@@ -367,6 +466,15 @@ export async function POST(req: NextRequest) {
         quantity: item.quantity,
       }
     }))
+    const freePaymentMethodCount = [validatedDiscountCodeId, validatedGiftVoucherId, serverLoyaltyPoints > 0 ? 'loyalty' : null].filter(Boolean).length
+    const freePaymentMethod = freePaymentMethodCount > 1
+      ? 'mixed'
+      : validatedGiftVoucherId
+        ? 'gift_voucher'
+        : serverLoyaltyPoints > 0
+          ? 'loyalty'
+          : 'discount'
+
     // Create pending order record
     const orderRecord = await payload.create({
       collection: 'orders',
@@ -378,7 +486,14 @@ export async function POST(req: NextRequest) {
         phone: body.phone ?? '',
         customer: linkedCustomerId ?? undefined,
         currency: currency.toUpperCase(),
+        subtotal: cartSubtotal,
         totalAmount: serverTotal,
+        discountAmount: serverDiscountAmount,
+        voucherAmountApplied: serverVoucherAmount,
+        loyaltyDiscountAmount,
+        paymentMethod: isZeroTotal ? freePaymentMethod : 'card',
+        paymentStatus: 'pending',
+        checkoutCorrelationId,
         discountCode: validatedDiscountCodeId ?? null,
         giftVoucher: validatedGiftVoucherId ?? null,
         loyaltyPointsRedeemed: serverLoyaltyPoints,
@@ -410,6 +525,15 @@ export async function POST(req: NextRequest) {
         }}),
         participationType: participationType ?? 'solo',
       },
+    })
+    createdOrderId = orderRecord.id
+    await reserveCheckoutPromotions(payload, {
+      orderId: orderRecord.id,
+      customerId: linkedCustomerId,
+      customerEmail,
+      discountCodeId: validatedDiscountCodeId,
+      giftVoucherId: validatedGiftVoucherId,
+      voucherAmount: serverVoucherAmount,
     })
 
     // Handle carpool: create ride (organizer) or add passenger (join)
@@ -444,6 +568,7 @@ export async function POST(req: NextRequest) {
           } as any,
         })
         resolvedCarpoolRideId = String(ride.id)
+        createdCarpoolRideId = ride.id
         await payload.update({
           collection: 'orders',
           id: orderRecord.id,
@@ -452,7 +577,7 @@ export async function POST(req: NextRequest) {
         })
       } catch (e) {
         console.error('Failed to create carpool ride:', e instanceof Error ? e.stack ?? e.message : e)
-        return NextResponse.json({ error: 'Could not save the shared ride. Please try again.' }, { status: 500 })
+        throw new CheckoutError('Could not save the shared ride. Please try again.')
       }
     } else if (participationType === 'join' && carpoolRideId) {
       try {
@@ -460,7 +585,7 @@ export async function POST(req: NextRequest) {
         const passengers = existing.passengers ?? []
         const seatsAvailable = Number(existing.seatsAvailable) || 0
         if (existing.status !== 'open' || passengers.length >= seatsAvailable) {
-          return NextResponse.json({ error: 'This shared ride is no longer available.' }, { status: 400 })
+          throw new CheckoutError('This shared ride is no longer available.', 400)
         }
         await payload.update({
           collection: 'carpool-rides',
@@ -475,6 +600,12 @@ export async function POST(req: NextRequest) {
           overrideAccess: true,
         })
         resolvedCarpoolRideId = String(carpoolRideId)
+        joinedCarpoolRideId = carpoolRideId
+        joinedCarpoolPassenger = {
+          name: `${body.firstName ?? ''} ${body.lastName ?? ''}`.trim(),
+          email: customerEmail ?? '',
+          phone: body.phone ?? '',
+        }
         await payload.update({
           collection: 'orders',
           id: orderRecord.id,
@@ -483,7 +614,7 @@ export async function POST(req: NextRequest) {
         })
       } catch (e) {
         console.error('Failed to add carpool passenger:', e instanceof Error ? e.stack ?? e.message : e)
-        return NextResponse.json({ error: 'Could not join the shared ride. Please try again.' }, { status: 500 })
+        throw new CheckoutError('Could not join the shared ride. Please try again.')
       }
     }
     const paymentMethods: any[] = ['card']
@@ -500,9 +631,8 @@ export async function POST(req: NextRequest) {
     // Discount/voucher/loyalty deductions are applied to whatever is charged right now
     // (first installment or full total) — never to the record's flat/regular price.
     const firstChargeAmount = resolvedInstallments.length > 0
-      ? Math.max(0, resolvedInstallments[0].amount - totalDeduction)
+      ? resolvedInstallments[0].amount
       : serverTotal
-
     const chargeNowLineItems = resolvedInstallments.length > 0 || totalDeduction > 0
       ? [{
           price_data: {
@@ -533,33 +663,111 @@ export async function POST(req: NextRequest) {
 
     const sessionParams: any = {
       mode: 'payment',
-      payment_method_types: paymentMethods,
+      ...(isZeroTotal
+        ? { payment_method_collection: 'if_required' }
+        : { payment_method_types: paymentMethods }),
       line_items: chargeNowLineItems,
       success_url: `${base}/shop/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${base}/shop/cancel`,
       customer_email: stripeCustomerId ? undefined : customerEmail,
       customer: stripeCustomerId,
-      payment_intent_data: {
-        setup_future_usage: stripeCustomerId || resolvedInstallments.length > 1 ? 'off_session' : undefined,
-        metadata: { orderId: orderRecord.id },
-      },
+      ...(isZeroTotal ? {} : {
+        payment_intent_data: {
+          setup_future_usage: stripeCustomerId || resolvedInstallments.length > 1 ? 'off_session' : undefined,
+          metadata: { orderId: orderRecord.id },
+        },
+      }),
       metadata: {
         orderId: orderRecord.id,
+        totalAmount: String(serverTotal),
         type: 'cart',
         paymentMode: resolvedPaymentMode,
         discountCodeId: validatedDiscountCodeId ?? '',
         giftVoucherId: validatedGiftVoucherId ?? '',
         loyaltyPointsRedeemed: String(serverLoyaltyPoints),
+        checkoutCorrelationId,
       },
     }
     const session = await stripe.checkout.sessions.create(sessionParams, { idempotencyKey: `checkout:${idempotencyKey}` })
+    stripeSessionCreated = true
+
+    const expectedLiveMode = process.env.STRIPE_LIVEMODE
+      ? process.env.STRIPE_LIVEMODE === 'true'
+      : process.env.NODE_ENV === 'production'
+    if (session.livemode !== expectedLiveMode || session.amount_total !== Math.round(firstChargeAmount * 100)) {
+      console.error('[checkout] Stripe session verification failed', {
+        checkoutCorrelationId,
+        orderId: orderRecord.id,
+        stripeSessionId: session.id,
+        expectedLiveMode,
+        actualLiveMode: session.livemode,
+        expectedAmount: Math.round(firstChargeAmount * 100),
+        actualAmount: session.amount_total,
+      })
+      throw new Error('Stripe Checkout session verification failed')
+    }
 
     await payload.update({ collection: 'orders', id: orderRecord.id, data: { stripeSessionId: session.id } })
-    if (session.url) await setIdempotencyValue(idempotencyKey, session.url)
+    if (session.url && lockToken) {
+      await completeIdempotencyKey(idempotencyKey, lockToken, session.url)
+      lockCompleted = true
+    }
 
     return NextResponse.json({ url: session.url })
   } catch (err) {
-    console.error('[checkout] CAUGHT ERROR:', err)
-    return NextResponse.json({ error: 'Internal error' }, { status: 500 })
+    console.error('[checkout] CAUGHT ERROR:', {
+      checkoutCorrelationId,
+      orderId: createdOrderId,
+      stripeSessionCreated,
+      error: err instanceof Error ? err.message : String(err),
+    })
+    if (createdOrderId && !stripeSessionCreated) {
+      const payload = await getPayload({ config }).catch(() => null)
+      await releaseCheckoutPromotions(payload!, createdOrderId).catch(() => undefined)
+      if (createdCarpoolRideId && payload) {
+        await payload.update({
+          collection: 'carpool-rides',
+          id: createdCarpoolRideId,
+          data: { status: 'closed' } as any,
+          overrideAccess: true,
+        }).catch(() => undefined)
+      }
+      if (joinedCarpoolRideId && joinedCarpoolPassenger && payload) {
+        const ride = await payload.findByID({ collection: 'carpool-rides', id: joinedCarpoolRideId, overrideAccess: true, depth: 0 }).catch(() => null) as any
+        if (ride) {
+          const passengers = [...(ride.passengers ?? [])]
+          const passengerIndex = passengers.map((passenger) => `${passenger.name}|${passenger.email}|${passenger.phone}`).lastIndexOf(
+            `${joinedCarpoolPassenger.name}|${joinedCarpoolPassenger.email}|${joinedCarpoolPassenger.phone}`,
+          )
+          if (passengerIndex >= 0) {
+            passengers.splice(passengerIndex, 1)
+            await payload.update({
+              collection: 'carpool-rides',
+              id: joinedCarpoolRideId,
+              data: { passengers } as any,
+              overrideAccess: true,
+            }).catch(() => undefined)
+          }
+        }
+      }
+      await payload?.update({
+        collection: 'orders',
+        id: createdOrderId,
+        data: {
+          status: 'cancelled',
+          paymentStatus: 'failed',
+          checkoutFailureReason: err instanceof Error ? err.message.slice(0, 500) : 'Checkout failed',
+        } as any,
+        overrideAccess: true,
+      }).catch(() => undefined)
+    }
+    if (err instanceof CheckoutError) {
+      return NextResponse.json({ error: err.message, reference: checkoutCorrelationId || undefined }, { status: err.status })
+    }
+    return NextResponse.json({ error: 'Internal error', reference: checkoutCorrelationId || undefined }, { status: 500 })
+  } finally {
+    if (lockToken && !lockCompleted) {
+      await releaseIdempotencyKey(idempotencyKey, lockToken).catch(() => undefined)
+    }
   }
 }

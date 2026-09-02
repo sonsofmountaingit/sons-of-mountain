@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
+import { sql } from '@payloadcms/db-postgres'
 import config from '@payload-config'
 import type Stripe from 'stripe'
 import { stripe } from '@/lib/stripe'
 import {
   handleCheckoutCompleted,
+  handleCheckoutAsyncPaymentFailed,
   handleSubscriptionUpsert,
   handleSubscriptionDeleted,
   handleChargeRefunded,
@@ -39,10 +41,41 @@ export async function POST(req: NextRequest) {
   }
 
   const payload = await getPayload({ config })
+  const eventObject = event.data.object as { metadata?: Record<string, string> }
+  const orderId = eventObject.metadata?.orderId ?? null
+  const existingEvent = await payload.db.drizzle.execute(sql`
+    SELECT "id", "status" FROM "stripe_webhook_events"
+    WHERE "stripe_event_id" = ${event.id}
+    LIMIT 1
+  `)
+  const existingRow = (existingEvent as any).rows?.[0]
+  if (existingRow?.status === 'processed') return NextResponse.json({ received: true, duplicate: true })
+  if (existingRow?.status === 'processing') return NextResponse.json({ error: 'Event is already being processed' }, { status: 409 })
 
-  switch (event.type) {
+  if (existingRow) {
+    await payload.db.drizzle.execute(sql`
+      UPDATE "stripe_webhook_events"
+      SET "status" = 'processing', "attempts" = "attempts" + 1, "last_error" = NULL
+      WHERE "id" = ${existingRow.id}
+    `)
+  } else {
+    const inserted = await payload.db.drizzle.execute(sql`
+      INSERT INTO "stripe_webhook_events" ("stripe_event_id", "event_type", "status", "order_id")
+      VALUES (${event.id}, ${event.type}, 'processing', ${orderId})
+      ON CONFLICT ("stripe_event_id") DO NOTHING
+      RETURNING "id"
+    `)
+    if (!(inserted as any).rows?.length) return NextResponse.json({ received: true, duplicate: true })
+  }
+
+  try {
+    switch (event.type) {
     case 'checkout.session.completed':
+    case 'checkout.session.async_payment_succeeded':
       await handleCheckoutCompleted(event.data.object as Stripe.Checkout.Session, payload)
+      break
+    case 'checkout.session.async_payment_failed':
+      await handleCheckoutAsyncPaymentFailed(event.data.object as Stripe.Checkout.Session, payload)
       break
     case 'customer.subscription.created':
     case 'customer.subscription.updated':
@@ -69,9 +102,32 @@ export async function POST(req: NextRequest) {
     case 'payment_intent.payment_failed':
       await handlePaymentIntentFailed(event.data.object as Stripe.PaymentIntent, payload)
       break
-    default:
-      break
+      default:
+        break
+    }
+  } catch (error) {
+    const failureMessage = error instanceof Error ? error.message.slice(0, 2000) : String(error).slice(0, 2000)
+    await payload.db.drizzle.execute(sql`
+      UPDATE "stripe_webhook_events"
+      SET "status" = 'failed', "last_error" = ${failureMessage}
+      WHERE "stripe_event_id" = ${event.id}
+    `).catch(() => undefined)
+    if (orderId) {
+      await payload.update({
+        collection: 'orders',
+        id: orderId,
+        data: { fulfillmentStatus: 'failed', fulfillmentFailureReason: failureMessage } as any,
+        overrideAccess: true,
+      }).catch(() => undefined)
+    }
+    console.error('[stripe-webhook] processing failed', { eventId: event.id, eventType: event.type, orderId, error })
+    return NextResponse.json({ error: 'Webhook processing failed' }, { status: 500 })
   }
 
+  await payload.db.drizzle.execute(sql`
+    UPDATE "stripe_webhook_events"
+    SET "status" = 'processed', "processed_at" = now(), "last_error" = NULL
+    WHERE "stripe_event_id" = ${event.id}
+  `)
   return NextResponse.json({ received: true })
 }

@@ -1,6 +1,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { renderEmail, type EmailTemplateDoc, type EmailSettingsDoc } from '@/lib/email-renderer'
+import { sendOrderConfirmationEmail } from '@/lib/stripe-webhooks'
 
 type EmailFlowDoc = {
   id: string
@@ -56,4 +57,35 @@ export async function runDelayedEmails() {
       }).catch(() => {})
     }
   }
+}
+
+export async function retryFailedOrderConfirmations() {
+  const payload = await getPayload({ config })
+  const cutoff = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
+  const logs = await payload.find({
+    collection: 'email-logs',
+    where: {
+      and: [
+        { trigger: { equals: 'order_confirmation' } },
+        { status: { equals: 'failed' } },
+        { createdAt: { greater_than: cutoff } },
+      ],
+    },
+    limit: 100,
+    pagination: false,
+    depth: 0,
+  })
+
+  let retried = 0
+  for (const log of logs.docs as any[]) {
+    const orderId = log.context?.orderId
+    if (!orderId) continue
+    try {
+      await sendOrderConfirmationEmail(payload, String(orderId))
+      retried++
+    } catch (error) {
+      console.error(`[email-recovery] Order confirmation retry failed for ${orderId}:`, error)
+    }
+  }
+  return { checked: logs.docs.length, retried }
 }

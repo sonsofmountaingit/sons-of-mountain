@@ -18,8 +18,10 @@ interface AuthFormProps<T extends FieldValues> {
   defaultValues: DefaultValues<T>
   fields: Field<T>[]
   submitLabel: string
-  onSubmit: (values: T) => Promise<{ error?: string; success?: string }>
+  onSubmit: (values: T, extra: Record<string, unknown>) => Promise<{ error?: string; success?: string }>
   footer?: React.ReactNode
+  extra?: React.ReactNode
+  getExtraData?: () => Record<string, unknown>
 }
 
 export function AuthForm<T extends FieldValues>({
@@ -29,6 +31,8 @@ export function AuthForm<T extends FieldValues>({
   submitLabel,
   onSubmit,
   footer,
+  extra,
+  getExtraData,
 }: AuthFormProps<T>) {
   const containerRef = useRef<HTMLDivElement>(null)
   const btnRef = useRef<HTMLButtonElement>(null)
@@ -59,7 +63,7 @@ export function AuthForm<T extends FieldValues>({
 
   async function submit(values: T) {
     gsap.to(btnRef.current, { scale: 0.97, duration: 0.1, yoyo: true, repeat: 1 })
-    const result = await onSubmit(values)
+    const result = await onSubmit(values, getExtraData?.() ?? {})
     if (result.error) {
       setError('root', { message: result.error })
     }
@@ -99,6 +103,8 @@ export function AuthForm<T extends FieldValues>({
         {errors.root && (
           <p className={`text-sm text-center ${errors.root.type === 'success' ? 'text-emerald-400' : 'text-red-400'}`}>{errors.root.message}</p>
         )}
+
+        {extra}
 
         <button
           ref={btnRef}

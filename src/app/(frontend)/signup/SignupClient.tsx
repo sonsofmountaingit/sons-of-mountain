@@ -2,9 +2,10 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useRef } from 'react'
 import { z } from 'zod'
 import { AuthForm } from '@/components/auth/AuthForm'
+import { SignupSecurity, type SignupSecurityHandle } from '@/components/auth/SignupSecurity'
 import { signUp } from '@/lib/auth-client'
 
 const schema = z.object({
@@ -15,9 +16,17 @@ const schema = z.object({
 
 export function SignupClient() {
   const router = useRouter()
+  const securityRef = useRef<SignupSecurityHandle>(null)
 
-  async function onSubmit(values: z.infer<typeof schema>) {
-    const result = await signUp.email({ name: values.name, email: values.email, password: values.password })
+  async function onSubmit(values: z.infer<typeof schema>, extra: Record<string, unknown>) {
+    const result = await signUp.email({
+      name: values.name,
+      email: values.email,
+      password: values.password,
+      captchaPayload: extra.captchaPayload as string,
+      website: extra.website as string,
+      formRenderedAt: extra.formRenderedAt as number,
+    })
     if (result.error) return { error: result.error.message ?? 'Грешка при регистрация' }
     router.push('/verify-email')
     return {}
@@ -34,6 +43,8 @@ export function SignupClient() {
       ]}
       submitLabel="РЕГИСТРАЦИЯ"
       onSubmit={onSubmit}
+      extra={<SignupSecurity ref={securityRef} />}
+      getExtraData={() => securityRef.current?.getFields() ?? { captchaPayload: '', website: '', formRenderedAt: Date.now() }}
       footer={
         <span className="text-xs text-white/40">
           Вече имаш акаунт? <Link href="/login" className="text-white/60 hover:text-white transition-colors">Влез</Link>

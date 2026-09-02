@@ -63,6 +63,7 @@ async function SuccessContent({ searchParams }: { searchParams: Promise<{ sessio
   const currency = doc?.currency ?? 'EUR'
   const email = doc?.email
   const paymentMode = doc?.paymentMode
+  const paymentStatus = doc?.paymentStatus
   const depositPaid = doc?.depositPaid
   const remainingBalance = doc?.remainingBalance
   const remainingDueDate = doc?.remainingDueDate
@@ -147,6 +148,10 @@ async function SuccessContent({ searchParams }: { searchParams: Promise<{ sessio
               )}
             </div>
           )}
+          {paymentMode === 'installments' && paymentStatus === 'partially_paid' && (
+            <p className="mt-4 text-xs text-amber-300">Първото плащане е получено. Останалите вноски ще бъдат изтеглени по график.</p>
+          )}
+
           {paymentMode === 'installments' && nextInstallment && (
             <div className="mt-4 rounded border border-white/10 bg-white/5 p-4">
               <p className="text-xs uppercase tracking-widest text-white/40 mb-1">Следваща вноска</p>

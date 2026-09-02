@@ -14,6 +14,7 @@ interface Installment {
 interface Order {
   id: string
   status: string
+  paymentStatus?: string | null
   totalAmount: number
   currency: string
   createdAt: string
@@ -103,7 +104,7 @@ export function OrdersClient({ orders }: { orders: Order[] }) {
                   )}
                 </div>
                 <div className="text-right">
-                  <p className="text-xs tracking-widest text-white/50">{o.status}</p>
+                  <p className="text-xs tracking-widest text-white/50">{o.paymentStatus === 'partially_paid' ? 'Частично платена' : o.paymentStatus === 'no_payment_required' ? 'Потвърдена' : o.status}</p>
                   <p className="text-sm text-white/60 mt-1">{formatPrice(o.totalAmount)} {o.currency !== 'EUR' ? o.currency : ''}</p>
                 </div>
               </div>

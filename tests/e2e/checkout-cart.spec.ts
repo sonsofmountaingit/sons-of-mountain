@@ -60,6 +60,30 @@ test.describe('Cart Checkout', () => {
     expect(page.url()).toContain('/shop/success')
   })
 
+  test('checkout rejects a client price tamper before creating Stripe session', async ({ request }) => {
+    const res = await request.post('/api/checkout', {
+      headers: { 'Idempotency-Key': `e2e-price-tamper-${Date.now()}` },
+      data: {
+        type: 'cart',
+        items: [{
+          id: String(product.id),
+          type: 'product',
+          title: product.title,
+          productId: String(product.id),
+          unitPrice: 0.01,
+          quantity: 1,
+        }],
+        customerEmail: 'checkout-tamper@test.com',
+        confirmEmail: 'checkout-tamper@test.com',
+        firstName: 'Checkout',
+        lastName: 'Tamper',
+        phone: '+359000000000',
+      },
+    })
+    expect(res.status()).toBe(400)
+    expect((await res.json()).error).toContain('Price mismatch')
+  })
+
   test('discount code (percent) reduces total', async ({ request }) => {
     const dc = await createDiscountCode('percent', 10)
     const res = await request.post('/api/discount/validate', {

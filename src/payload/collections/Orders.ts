@@ -13,7 +13,9 @@ export const Orders: CollectionConfig = {
       'lastName',
       'itemSummary',
       'status',
+      'paymentStatus',
       'paymentMode',
+      'fulfillmentStatus',
       'totalAmount',
       'nextPaymentAmount',
       'nextPaymentDue',
@@ -116,6 +118,65 @@ export const Orders: CollectionConfig = {
       },
     },
     {
+      name: 'paymentStatus',
+      type: 'select',
+      options: [
+        { label: 'Pending', value: 'pending' },
+        { label: 'Partially paid', value: 'partially_paid' },
+        { label: 'Paid', value: 'paid' },
+        { label: 'No payment required', value: 'no_payment_required' },
+        { label: 'Failed', value: 'failed' },
+        { label: 'Refunded', value: 'refunded' },
+      ],
+      defaultValue: 'pending',
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'paymentMethod',
+      type: 'select',
+      options: [
+        { label: 'Card', value: 'card' },
+        { label: 'Discount', value: 'discount' },
+        { label: 'Gift voucher', value: 'gift_voucher' },
+        { label: 'Loyalty points', value: 'loyalty' },
+        { label: 'Mixed', value: 'mixed' },
+      ],
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'checkoutCorrelationId',
+      type: 'text',
+      admin: { readOnly: true, position: 'sidebar' },
+    },
+    {
+      name: 'checkoutFailureReason',
+      type: 'textarea',
+      admin: { readOnly: true, position: 'sidebar' },
+    },
+    {
+      name: 'fulfillmentStatus',
+      type: 'select',
+      options: [
+        { label: 'Pending', value: 'pending' },
+        { label: 'Processing', value: 'processing' },
+        { label: 'Completed', value: 'completed' },
+        { label: 'Failed', value: 'failed' },
+      ],
+      defaultValue: 'pending',
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'fulfillmentAttempts',
+      type: 'number',
+      defaultValue: 0,
+      admin: { readOnly: true, position: 'sidebar' },
+    },
+    {
+      name: 'fulfillmentFailureReason',
+      type: 'textarea',
+      admin: { readOnly: true, position: 'sidebar' },
+    },
+    {
       name: 'status',
       type: 'select',
       options: [
@@ -184,6 +245,7 @@ export const Orders: CollectionConfig = {
         { name: 'paymentIntentId', type: 'text', admin: { readOnly: true } },
         { name: 'chargeAttemptedAt', type: 'date', admin: { readOnly: true } },
         { name: 'firstFailedAt', type: 'date', admin: { readOnly: true } },
+        { name: 'attempts', type: 'number', defaultValue: 0, admin: { readOnly: true } },
         { name: 'overdueNoticeSent', type: 'checkbox', defaultValue: false, admin: { readOnly: true } },
         { name: 'remindersSent', type: 'array', admin: { readOnly: true }, fields: [{ name: 'daysBefore', type: 'number' }] },
       ],
@@ -409,7 +471,17 @@ export const Orders: CollectionConfig = {
       admin: { readOnly: true },
     },
     {
+      name: 'subtotal',
+      type: 'number',
+      admin: { readOnly: true },
+    },
+    {
       name: 'discountAmount',
+      type: 'number',
+      admin: { readOnly: true },
+    },
+    {
+      name: 'loyaltyDiscountAmount',
       type: 'number',
       admin: { readOnly: true },
     },
@@ -428,6 +500,16 @@ export const Orders: CollectionConfig = {
       name: 'loyaltyPointsRedeemed',
       type: 'number',
       defaultValue: 0,
+      admin: { readOnly: true },
+    },
+    {
+      name: 'loyaltyPointsDeductedAt',
+      type: 'date',
+      admin: { readOnly: true },
+    },
+    {
+      name: 'loyaltyPointsCreditedAt',
+      type: 'date',
       admin: { readOnly: true },
     },
     {
